@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryPreviewRequestInput to CreateInvoiceQuickPayRequestInput
+# CreateDeliveryPreviewRequest to CreateInvoiceQuickPayRequest
 
+- [CreateDeliveryPreviewRequest](CreateDeliveryPreviewRequest.md)
 - [CreateDeliveryPreviewRequestInput](CreateDeliveryPreviewRequestInput.md)
 - [CreateDeliveryProfileRequest](CreateDeliveryProfileRequest.md)
 - [CreateDeliveryProfileRequestInput](CreateDeliveryProfileRequestInput.md)
@@ -101,5 +102,4 @@
 - [CreateInvoicePaymentTermRequest](CreateInvoicePaymentTermRequest.md)
 - [CreateInvoicePaymentTermRequestInput](CreateInvoicePaymentTermRequestInput.md)
 - [CreateInvoiceQuickPayRequest](CreateInvoiceQuickPayRequest.md)
-- [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
 

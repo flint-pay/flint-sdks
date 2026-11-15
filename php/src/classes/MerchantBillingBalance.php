@@ -7,9 +7,12 @@ namespace Flint;
  * @property-read string $merchant_billing_balance_id
  * @property-read string $observed_at
  * @property-read MoneyValue $outstanding_money
+ * @property-read ?string $past_due_at
+ * @property-read MoneyValue $past_due_money
+ * @property-read ?string $payout_hold_at
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantBillingBalance extends Model {
-    /** @param array{'available_credit_money': mixed, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed, ...}|object $values */
+    /** @param array{'available_credit_money': mixed, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed, 'past_due_at'?: string, 'past_due_money': mixed, 'payout_hold_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalance')); }
     /** Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -36,4 +39,19 @@ final class MerchantBillingBalance extends Model {
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
+    /** Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due. Format: date-time.
+     * @return ?string
+     */
+    public function getPastDueAt(): ?string { return $this->get('past_due_at'); }
+    public function hasPastDueAt(): bool { return $this->has('past_due_at'); }
+    /** Amount that is past its due date and still unpaid. Zero when nothing is past due. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
+     */
+    public function getPastDueMoney(): MoneyValue { return $this->get('past_due_money'); }
+    public function hasPastDueMoney(): bool { return $this->has('past_due_money'); }
+    /** Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. Format: date-time.
+     * @return ?string
+     */
+    public function getPayoutHoldAt(): ?string { return $this->get('payout_hold_at'); }
+    public function hasPayoutHoldAt(): bool { return $this->has('payout_hold_at'); }
 }

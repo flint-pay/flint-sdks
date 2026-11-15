@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PaymentSourceAchDebitSummary to DeliveryRecipientResource
+# OrderSettlementAmounts to OrderCustomFieldAnswersItemDropdown
 
+- [OrderSettlementAmounts](OrderSettlementAmounts.md)
+- [ExpandedOrderSummary](ExpandedOrderSummary.md)
 - [PaymentSourceAchDebitSummary](PaymentSourceAchDebitSummary.md)
 - [PaymentSourceCardPresentDetails](PaymentSourceCardPresentDetails.md)
 - [PaymentSourceCardSummary](PaymentSourceCardSummary.md)
@@ -100,6 +102,4 @@
 - [OrderCustomFieldAnswersItemText](OrderCustomFieldAnswersItemText.md)
 - [OrderCustomFieldAnswersItemTextarea](OrderCustomFieldAnswersItemTextarea.md)
 - [OrderCustomFieldAnswersItemDropdown](OrderCustomFieldAnswersItemDropdown.md)
-- [OrderCustomFieldAnswersItemCheckbox](OrderCustomFieldAnswersItemCheckbox.md)
-- [DeliveryRecipientResource](DeliveryRecipientResource.md)
 

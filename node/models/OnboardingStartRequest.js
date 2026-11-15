@@ -1,7 +1,7 @@
-import { d1009 as c0 } from '../descriptors/data/50.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d1009 as d1009 } from '../descriptors/data/50.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d1010 as c0 } from '../descriptors/data/50.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d1010 as d1010 } from '../descriptors/data/50.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1009;
+const read = d1010;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["OnboardingStartRequest"]:c0()}); }
 export { codec as _validate };

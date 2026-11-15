@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# OrderTaxExemptionCoverageAllStates to BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariant
+# OrderTaxCallbackEvaluation to BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantTax
 
+- [OrderTaxCallbackEvaluation](OrderTaxCallbackEvaluation.md)
+- [DeliveryChargeTaxCalculationRequest](DeliveryChargeTaxCalculationRequest.md)
 - [OrderTaxExemptionCoverageAllStates](OrderTaxExemptionCoverageAllStates.md)
 - [OrderTaxExemptionCoverageStates](OrderTaxExemptionCoverageStates.md)
 - [OrderTaxExemption](OrderTaxExemption.md)
@@ -100,6 +102,4 @@
 - [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemUnitPriceMoney](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemUnitPriceMoney.md)
 - [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItem](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItem.md)
 - [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantTax](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantTax.md)
-- [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney.md)
-- [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariant](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariant.md)
 

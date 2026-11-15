@@ -1,7 +1,7 @@
-import { d8002 as c0, d8003 as c1, d8004 as c2 } from '../descriptors/data/386.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d8003 as d8003 } from '../descriptors/data/386.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d8005 as c0, d8006 as c1, d8007 as c2 } from '../descriptors/data/386.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d8006 as d8006 } from '../descriptors/data/386.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8003;
+const read = d8006;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ResolvePaymentLinkLineItemModifierRequest"]:c0(),["ResolvePaymentLinkLineItemModifiers"]:c1(),["ResolvePaymentLinkTextModifierRequest"]:c2()}); }
 export { codec as _validate };

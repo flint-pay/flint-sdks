@@ -11,9 +11,9 @@ namespace Flint;
  * @property-read PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass $setup_payment_source
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayOrderRequestSetupInput extends Model {
-    /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_return_url'?: string, 'setup_payment_source': PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_return_url'?: string, 'setup_payment_source'?: PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestSetupInput')); }
-    /** Save a payment method on an order with no balance, without charging it. Value enum: "setup".
+    /** Save a payment method on an order with no balance, without charging it. Send setup_payment_source to start; omit it to continue the same setup attempt after the buyer finishes its pending action. Value enum: "setup".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
@@ -25,7 +25,7 @@ final class PayOrderRequestSetupInput extends Model {
      */
     public function getBuyerContact(): array|object { return $this->get('buyer_contact'); }
     public function hasBuyerContact(): bool { return $this->has('buyer_contact'); }
-    /** How to complete the authentication step. Flint's API returns a Stripe client secret only for client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's authentication page receives what it needs to run the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with cancellation_reason payment_returned. The Stripe secret can also confirm the payment with another card, so use it only with handleNextAction. Reader credentials do not support url; omit client_action_type or send stripe for reader payments. Defaults to stripe for a new confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value enum: "url", "stripe".
+    /** How to complete the authentication step. Flint's API returns a Stripe client secret only for client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's authentication page receives what it needs to run the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with cancellation_reason payment_returned. The Stripe secret can also confirm the payment with another card, so use it only with handleNextAction. Reader credentials do not support url; omit client_action_type or send stripe for reader payments. Defaults to url for a new confirmation; omission on a continuation keeps the existing type. Default: "url". Value enum: "url", "stripe".
      * @return string
      * @throws SdkError When client_action_type is omitted; use hasClientActionType() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class PayOrderRequestSetupInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** The one-time token for the payment method to save. Nothing is charged. The `stripe_payment_method` variant of `PaymentSourceCredential`.
+    /** The credential for the payment method to save. Nothing is charged. Required to start a setup. Omit it only to continue a setup attempt in requires_action with a pending setup step; continuation reuses that attempt. If no setup exists, omission returns 400 INVALID_REQUEST with detail REQUIRED and param setup_payment_source. A terminal or replaced setup returns 409 ACTION_NOT_ALLOWED naming the attempt and its status. The `stripe_payment_method` variant of `PaymentSourceCredential`.
      * @return PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_payment_source is omitted; use hasSetupPaymentSource() or valueOrDefault().
      */

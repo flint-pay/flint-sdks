@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# TaxCalculationCallbackListResponse to ExpandedOrderSummary
+# SubscriptionPlanListResponse to PricingAmounts
 
+- [SubscriptionPlanListResponse](SubscriptionPlanListResponse.md)
+- [SubscriptionListResponse](SubscriptionListResponse.md)
 - [TaxCalculationCallbackListResponse](TaxCalculationCallbackListResponse.md)
 - [TaxRegistrationListResponse](TaxRegistrationListResponse.md)
 - [TestClockListResponse](TestClockListResponse.md)
@@ -100,6 +102,4 @@
 - [CheckoutBuyerContact](CheckoutBuyerContact.md)
 - [DeferredPromotion](DeferredPromotion.md)
 - [PricingAmounts](PricingAmounts.md)
-- [OrderSettlementAmounts](OrderSettlementAmounts.md)
-- [ExpandedOrderSummary](ExpandedOrderSummary.md)
 

@@ -1,8 +1,8 @@
-import { d448 as c0 } from '../descriptors/data/26.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d6156 as c1, d6158 as c2 } from '../descriptors/data/281.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d448 as d448 } from '../descriptors/data/26.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d449 as c0 } from '../descriptors/data/26.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d6158 as c1, d6160 as c2 } from '../descriptors/data/281.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d449 as d449 } from '../descriptors/data/26.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d448;
+const read = d449;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CustomerTaxExemptionCoverageAllStatesRequest"]:c0(),["SharedCodec492"]:c1(),["SharedCodec494"]:c2()}); }
 export { codec as _validate };

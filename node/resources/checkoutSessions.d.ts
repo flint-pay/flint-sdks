@@ -56,7 +56,6 @@ export type {
     CheckoutSessionListResponse,
     CheckoutSessionsUpdateParams,
     ClientOptions,
-    CloseCheckoutSessionRequestInput,
     CheckoutSessionPlatformFee,
     CheckoutRedirects,
     CheckoutSubscriptionTerms,
@@ -75,6 +74,19 @@ export type {
 } from '../declarations/types-6.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type {
+    CloseCheckoutSessionRequestInput,
+    ConfirmCheckoutSessionCustomerVerificationRequestInput,
+    CreateCheckoutSessionDiscountInput,
+    CreateCheckoutSessionOrderInput,
+    CreateCheckoutSessionQuickPayInput,
+    CreateCheckoutSessionInvoiceInput,
+    CreateCheckoutSessionCustomerVerificationRequestInput,
+    CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
+    CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
+    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
+    ConfirmCheckoutSessionCustomerVerificationRequest
+} from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type {
@@ -205,18 +217,6 @@ export type {
     SubscriptionGiftRecipientRequestInput,
     SubscriptionGiftRecipientRequest
 } from '../declarations/types-61.js';
-export type {
-    ConfirmCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionDiscountInput,
-    CreateCheckoutSessionOrderInput,
-    CreateCheckoutSessionQuickPayInput,
-    CreateCheckoutSessionInvoiceInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
-    CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
-    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
-    ConfirmCheckoutSessionCustomerVerificationRequest
-} from '../declarations/types-7.js';
 export type {
     CreateCheckoutSessionRequestInput,
     CreateCheckoutSessionSubscriptionPlanInput,

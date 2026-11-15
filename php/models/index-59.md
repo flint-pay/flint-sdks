@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryRevocationCreatedInstalledMerchantsEventData to DisputeWonInstalledMerchantsEventDataObject
+# DeliveryRevocationCreatedInstalledMerchantsEventDataObjectTargetDeliveryMethodRevision to DisputeWonMerchantEventRequest
 
+- [DeliveryRevocationCreatedInstalledMerchantsEventDataObjectTargetDeliveryMethodRevision](DeliveryRevocationCreatedInstalledMerchantsEventDataObjectTargetDeliveryMethodRevision.md)
+- [DeliveryRevocationCreatedInstalledMerchantsEventDataObject](DeliveryRevocationCreatedInstalledMerchantsEventDataObject.md)
 - [DeliveryRevocationCreatedInstalledMerchantsEventData](DeliveryRevocationCreatedInstalledMerchantsEventData.md)
 - [DeliveryRevocationCreatedInstalledMerchantsEventSource](DeliveryRevocationCreatedInstalledMerchantsEventSource.md)
 - [DeliveryRevocationCreatedInstalledMerchantsEvent](DeliveryRevocationCreatedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [DisputeWonMerchantEventDataObject](DisputeWonMerchantEventDataObject.md)
 - [DisputeWonMerchantEventData](DisputeWonMerchantEventData.md)
 - [DisputeWonMerchantEventRequest](DisputeWonMerchantEventRequest.md)
-- [DisputeWonMerchantEvent](DisputeWonMerchantEvent.md)
-- [DisputeWonInstalledMerchantsEventDataObject](DisputeWonInstalledMerchantsEventDataObject.md)
 

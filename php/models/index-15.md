@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentDueInputCustomerDefaultInput to LookupGiftCardRequestInput
+# InvoicePaymentDueDateInput to LookupEmailPreferencesRequestInput
 
+- [InvoicePaymentDueDateInput](InvoicePaymentDueDateInput.md)
 - [InvoicePaymentDueInputCustomerDefaultInput](InvoicePaymentDueInputCustomerDefaultInput.md)
 - [InvoicePaymentDueInputDateInput](InvoicePaymentDueInputDateInput.md)
 - [InvoicePaymentDueInputMerchantDefaultInput](InvoicePaymentDueInputMerchantDefaultInput.md)
@@ -101,5 +102,4 @@
 - [LocationListResponseInput](LocationListResponseInput.md)
 - [LocationResponseInput](LocationResponseInput.md)
 - [LookupEmailPreferencesRequestInput](LookupEmailPreferencesRequestInput.md)
-- [LookupGiftCardRequestInput](LookupGiftCardRequestInput.md)
 

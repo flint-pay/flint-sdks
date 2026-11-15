@@ -1,7 +1,7 @@
-import { d8734 as c0, d8735 as c1, d8749 as c2 } from '../descriptors/data/431.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d8749 as d8749 } from '../descriptors/data/431.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d8737 as c0, d8738 as c1, d8752 as c2 } from '../descriptors/data/431.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d8752 as d8752 } from '../descriptors/data/431.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8749;
+const read = d8752;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1555"]:c0(),["SharedCodec1556"]:c1(),["SubscriptionBillingStartRequest"]:c2()}); }
 export { codec as _validate };

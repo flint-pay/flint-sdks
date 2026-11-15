@@ -1,16 +1,16 @@
-import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
 import type {
-    CreateDeliverySelectionChoiceRequest,
-    CreateDeliverySelectionChoiceRequestInput,
-    CreateDeliveryFulfillmentDetails,
-    CreateDeliveryFulfillmentDetailsInput
-} from './types-8.js';
-import type {
+    DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequest,
     DeliverySelectionRecipientRequestInput,
     DeliveryZoneConfigurationRequest,
     DeliveryZoneConfigurationRequestInput
 } from './types-22.js';
+import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
+import type {
+    CreateDeliverySelectionChoiceRequest,
+    CreateDeliveryFulfillmentDetails,
+    CreateDeliveryFulfillmentDetailsInput
+} from './types-8.js';
 import type { MetadataMap, MetadataRequestInput } from './types-38.js';
 import type { Sandbox } from './types-59.js';
 import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } from './types-24.js';
@@ -47,6 +47,28 @@ import type {
 import type { CreateModifierRequestInput } from './types-10.js';
 import type { TextModifierConfigRequestInput } from './types-65.js';
 import type { InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-30.js';
+/**
+ * The delivery option to select for one choice group when creating a delivery selection, with
+ * optional delivery instructions.
+ */
+export type CreateDeliverySelectionChoiceRequestInput = {
+    /**
+     * ID of the choice group in the quote to select for. minLength: 1. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
+    "delivery_choice_group_id": string;
+    /**
+     * ID of an unexpired option in this choice group's options. minLength: 1. Example:
+     * "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
+     */
+    "delivery_option_id": string;
+    /**
+     * Delivery window choice and buyer instructions for this option. Buyer input for a selected
+     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+     * `instructions`.
+     */
+    "input"?: DeliverySelectionInstructionsRequestInput;
+};
 /** The request body for: Create delivery selection. */
 export type CreateDeliverySelectionRequest = {
     /**
@@ -3559,9 +3581,3 @@ export type CreateInventoryAdjustmentQuantityRequestInput = ({
      */
     "source_system"?: InventorySourceSystemRequestInput;
 });
-/** The request body for: Create inventory adjustment. */
-export type CreateInventoryAdjustmentRequest = ((CreateInventoryAdjustmentQuantityRequest)
-    | (CreateInventoryAdjustmentConditionChangeRequest)
-    | (CreateInventoryAdjustmentCountedRequest)
-    | (CreateInventoryAdjustmentCorrectionRequest)
-    | (Record<string, unknown>));

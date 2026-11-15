@@ -802,8 +802,9 @@ export type CustomerAccessLink = ({
      */
     "sent"?: boolean;
     /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
     "url"?: string;
 })
@@ -835,8 +836,9 @@ export type CustomerAccessLinkEmailed = ({
      */
     "sent": boolean;
     /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
     "url"?: string;
 })
@@ -899,19 +901,15 @@ export type CustomerAccessLinkReturned = ({
      */
     "sent"?: boolean;
     /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The single-use bearer URL, present only with link delivery. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
-    "url": string;
+    "url"?: string;
 })
     & (({
     /** Value enum: "link". */
     "delivery": unknown;
-    /**
-     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
-     * "https://example.com/receipt".
-     */
-    "url": string;
     /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at": string;
     /** The returned link opens the customer's account. Value enum: "customer_account". */

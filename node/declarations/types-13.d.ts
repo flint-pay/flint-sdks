@@ -2837,13 +2837,6 @@ export type CreateSubscriptionPlanRequest = {
      */
     "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
     /**
-     * Quantities to offer. Send `[]` or `[1]`; both store `[1]`, and any other list is refused.
-     * Omit it to store `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment`
-     * on a plan line item instead. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum:
-     * 1. maximum: 1.
-     */
-    "quantity_options"?: Array<number>;
-    /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
      * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
@@ -2989,13 +2982,6 @@ export type CreateSubscriptionPlanRequestInput = {
      * switch to and the billing timing for that change.
      */
     "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
-    /**
-     * Quantities to offer. Send `[]` or `[1]`; both store `[1]`, and any other list is refused.
-     * Omit it to store `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment`
-     * on a plan line item instead. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum:
-     * 1. maximum: 1.
-     */
-    "quantity_options"?: Array<number>;
     /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Must be above zero and in the plan's currency. Omit for no setup
@@ -3189,12 +3175,6 @@ export type CreateSubscriptionPreviewRequestPlanChange = ({
     /** Selects the plan change preview. Value enum: "plan_change". */
     "mode": "plan_change" | (string & {});
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * ID of the subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -3237,12 +3217,6 @@ export type CreateSubscriptionPreviewRequestPlanChangeInput = ({
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
     /** Selects the plan change preview. Value enum: "plan_change". */
     "mode": "plan_change";
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * ID of the subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
@@ -3319,7 +3293,7 @@ export type CreateSubscriptionPreviewRequestPromotionApplyInput = {
     "subscription_id": string;
 };
 /** The `quantity_change` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestQuantityChange = ({
+export type CreateSubscriptionPreviewRequestQuantityChange = {
     /**
      * Charge the prorated difference now while keeping the period and anchor. Value enum:
      * "prorated_now".
@@ -3329,43 +3303,20 @@ export type CreateSubscriptionPreviewRequestQuantityChange = ({
     "expected_version"?: number;
     /**
      * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
      * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
      */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequest>;
+    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
     /** The kind of subscription pricing estimate to create. Value enum: "quantity_change". */
     "mode": "quantity_change" | (string & {});
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * The subscription whose quantities will change. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
     "subscription_id": string;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-})
-    | (Record<string, unknown>));
+};
 /** The `quantity_change` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestQuantityChangeInput = ({
+export type CreateSubscriptionPreviewRequestQuantityChangeInput = {
     /**
      * Charge the prorated difference now while keeping the period and anchor. Value enum:
      * "prorated_now".
@@ -3375,37 +3326,15 @@ export type CreateSubscriptionPreviewRequestQuantityChangeInput = ({
     "expected_version"?: number;
     /**
      * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
      * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
      */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequestInput>;
+    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
     /** The kind of subscription pricing estimate to create. Value enum: "quantity_change". */
     "mode": "quantity_change";
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * The subscription whose quantities will change. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
     "subscription_id": string;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-}));
+};

@@ -41,10 +41,10 @@ import type {
     CreateDeliveryRevocationTargetDeliveryMethodRevisionInput,
     CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
     CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput,
-    CreateDeliveryRevocationTargetLocationGeographyInput,
-    CreateDeliverySelectionChoiceRequestInput
+    CreateDeliveryRevocationTargetLocationGeographyInput
 } from './types-8.js';
 import type {
+    CreateDeliverySelectionChoiceRequestInput,
     CreateDeliverySelectionRequestInput,
     CreateDeliveryZoneRequestInput,
     CreateDemoSessionRequestInput,

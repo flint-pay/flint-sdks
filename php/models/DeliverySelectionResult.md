@@ -337,13 +337,13 @@ Field definitions: [shared fields](OrderResponse.md#orderresponsedatasubscriptio
 anyOf ExpandedSubscriptionPlanSummary: A subscription plan's summary fields, including name, billing interval, currency, and status, returned when the plan is expanded..
 
 - Required: `billing_interval`, `billing_interval_count`, `currency`, `name`, `status`, `subscription_plan_id`.
-- Optional: `billing_interval_options`, `created_at`, `description`, `line_items`, `quantity_options`, `setup_fee_money`, `trial_period_days`, `updated_at`.
+- Optional: `billing_interval_options`, `created_at`, `description`, `line_items`, `setup_fee_money`, `trial_period_days`, `updated_at`.
 
 ### DeliverySelectionResult.order.subscription_plan variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `quantity_options`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
+- Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
 - Value shape: null. Plan summary included when `expand` names `subscription_plan`; `null` when expanded and this order does not bill a subscription plan. 
 
 ### DeliverySelectionResult.order.subscription_plan variant 1.line_items[]

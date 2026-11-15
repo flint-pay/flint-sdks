@@ -11,14 +11,13 @@ namespace Flint;
  * @property-read int|null $delivery_interval_count
  * @property-read string|null $effective_at
  * @property-read string $mode
- * @property-read int $quantity
  * @property-read MoneyValue $recurring_subtotal_money
  * @property-read SubscriptionRenewalEstimate $renewal
  * @property-read string $subscription_id
  * @property-read string $subscription_plan_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPreviewResponseDataPlanChange extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_starts': string, 'credit_adjustment_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, 'subscription_plan_id': string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_starts': string, 'credit_adjustment_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'mode': string, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, 'subscription_plan_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewResponseDataPlanChange')); }
     /** Unit of the billing period the subscription would have after the change. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -65,11 +64,6 @@ final class SubscriptionPreviewResponseDataPlanChange extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * @return int
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The recurring charge for one billing period's items on the new plan, including modifiers and quantities, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

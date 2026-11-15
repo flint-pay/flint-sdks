@@ -22,7 +22,7 @@ namespace Flint;
  * @property-read string $secret_key
  * Presence-aware input; omitted fields throw when accessed. */
 final class APIKeyWithSecretInput extends Model {
-    /** @param array{'access': string, 'api_key_id': string, 'created_at': string|\DateTimeInterface, 'created_by'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'expires_at'?: string|\DateTimeInterface, 'key_prefix': string, 'last_used_at'?: string|\DateTimeInterface, 'merchant_id': string, 'name': string, 'partner_app_install_id': string|null, 'revoked_at'?: string|\DateTimeInterface, 'sandbox_id'?: string, 'scopes': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, 'secret_key': string, ...}|object $values */
+    /** @param array{'access': string, 'api_key_id': string, 'created_at': string|\DateTimeInterface, 'created_by'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'expires_at'?: string|\DateTimeInterface, 'key_prefix': string, 'last_used_at'?: string|\DateTimeInterface, 'merchant_id': string, 'name': string, 'partner_app_install_id': string|null, 'revoked_at'?: string|\DateTimeInterface, 'sandbox_id'?: string, 'scopes': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, 'secret_key'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('APIKeyWithSecretInput')); }
     /** Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Value enum: "full", "read_only", "restricted".
      * @return string
@@ -126,7 +126,7 @@ final class APIKeyWithSecretInput extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** One-time secret returned only when the API key is created.
+    /** One-time secret returned only when the API key is created. Returned only to the credential that created it, and omitted when another credential replays the request.
      * @return string
      * @throws SdkError When secret_key is omitted; use hasSecretKey() or valueOrDefault().
      */

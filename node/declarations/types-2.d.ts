@@ -689,6 +689,30 @@ export type BuyerEmailChangeRequest = {
      */
     "status": "pending" | "confirmed" | "canceled" | "expired" | (string & {});
 };
+/** A page of `BuyerEmailChangeRequest` objects. */
+export type BuyerEmailChangeRequestListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BuyerEmailChangeRequest}. Nested child of Customer. A request to change this customer's
+     * sign-in email. Only one request can be pending per customer.
+     */
+    "data": Array<BuyerEmailChangeRequest>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `BuyerEmailChangeRequest` data. */
 export type BuyerEmailChangeRequestResponse = {
     /**
@@ -1107,14 +1131,6 @@ export type BuyerExpandedSubscriptionPlanSummary = {
     "line_items"?: Array<BuyerSubscriptionPlanLineItem>;
     /** Name of the plan. Buyers see it at checkout and on their subscription. */
     "name": string;
-    /**
-     * Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending
-     * order. Flint accepts only a subscription quantity of 1, so you can set this list only to
-     * `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line
-     * item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10.
-     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
     /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented
@@ -3141,10 +3157,12 @@ export type BuyerOrderPaymentAttempt = {
      */
     "payment_intents": Array<BuyerPaymentAttemptPaymentIntent>;
     /**
-     * Set when the pay request sent save_payment_method: true and the attempt paid without saving
-     * the payment method. A card typed into checkout and saved has no entry here; read
-     * payment_method_save on the checkout session for a card waiting for confirmation. What became
-     * of the buyer's save_payment_method. The payment does not depend on it.
+     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
+     * true and the attempt paid without saving the payment method. A merchant save has no entry
+     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
+     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
+     * card waiting for confirmation. What became of the buyer's save_payment_method. The payment
+     * does not depend on it.
      */
     "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
     /**
@@ -3592,13 +3610,3 @@ export type BuyerPauseCapability = {
 };
 /** Whether buyers may pause their own subscriptions. Send at least one field. minProperties: 1. */
 export type BuyerPauseCapabilityInput = BuyerPauseCapability;
-/** The return resolutions the buyer can pay now. */
-export type BuyerPayBalanceActionOptions = {
-    /**
-     * Payable resolutions in creation order. Read each amount with GET
-     * /v1/me/return-resolutions/{return_resolution_id}, then create its checkout session with POST
-     * /v1/me/checkout-sessions and type return_resolution. minItems: 1. [] (Value): string.
-     * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_ids": Array<string>;
-};

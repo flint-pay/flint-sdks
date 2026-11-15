@@ -1034,10 +1034,12 @@ export type OrderPaymentAttempt = {
      */
     "payment_intents": Array<PaymentAttemptPaymentIntent>;
     /**
-     * Set when the pay request sent save_payment_method: true and the attempt paid without saving
-     * the payment method. A card typed into checkout and saved has no entry here; read
-     * payment_method_save on the checkout session for a card waiting for confirmation. What became
-     * of the buyer's save_payment_method. The payment does not depend on it.
+     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
+     * true and the attempt paid without saving the payment method. A merchant save has no entry
+     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
+     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
+     * card waiting for confirmation. What became of the buyer's save_payment_method. The payment
+     * does not depend on it.
      */
     "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
     /**

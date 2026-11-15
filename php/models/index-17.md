@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# OnboardingAdvanceRequestInput to OrderPaymentAttemptResponseInput
+# OAuthTokenResponseInput to OrderPaymentAttemptPaymentMethodSaveInput
 
+- [OAuthTokenResponseInput](OAuthTokenResponseInput.md)
 - [OnboardingAdvanceRequestInput](OnboardingAdvanceRequestInput.md)
 - [OnboardingProfileInput](OnboardingProfileInput.md)
 - [OnboardingProfileRequestInput](OnboardingProfileRequestInput.md)
@@ -101,5 +102,4 @@
 - [OrderPaymentAttemptInput](OrderPaymentAttemptInput.md)
 - [OrderPaymentAttemptListResponseInput](OrderPaymentAttemptListResponseInput.md)
 - [OrderPaymentAttemptPaymentMethodSaveInput](OrderPaymentAttemptPaymentMethodSaveInput.md)
-- [OrderPaymentAttemptResponseInput](OrderPaymentAttemptResponseInput.md)
 

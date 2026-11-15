@@ -19,7 +19,6 @@ Response model.
 | `interval` | Required | string | The subscription billing interval after the quantity change. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `interval_count` | Required | integer | The number of interval units in each billing period. Format: `int32`. |
 | `mode` | Required | string | The kind of subscription pricing estimate. Values: `"quantity_change"`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The full-period recurring item subtotal after the quantity change, before discounts, tax, or shipping. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated charge for this quantity change, including proration, unused-time credit, discounts, and tax. Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. `renewal`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-4renewal). |
 | `subscription_id` | Required | string | The subscription whose quantities were estimated. |

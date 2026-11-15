@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# InventoryLevelUpdatedInstalledMerchantsEventData to InventoryReservationReleasedMerchantEventRequest
+# InventoryLevelUpdatedMerchantEvent to InventoryReservationReleasedMerchantEventDataObject
 
+- [InventoryLevelUpdatedMerchantEvent](InventoryLevelUpdatedMerchantEvent.md)
+- [InventoryLevelUpdatedInstalledMerchantsEventDataObject](InventoryLevelUpdatedInstalledMerchantsEventDataObject.md)
 - [InventoryLevelUpdatedInstalledMerchantsEventData](InventoryLevelUpdatedInstalledMerchantsEventData.md)
 - [InventoryLevelUpdatedInstalledMerchantsEventSource](InventoryLevelUpdatedInstalledMerchantsEventSource.md)
 - [InventoryLevelUpdatedInstalledMerchantsEvent](InventoryLevelUpdatedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [InventoryReservationReleasedMerchantEventDataObjectOwnerMerchant](InventoryReservationReleasedMerchantEventDataObjectOwnerMerchant.md)
 - [InventoryReservationReleasedMerchantEventDataObjectOwnerOrder](InventoryReservationReleasedMerchantEventDataObjectOwnerOrder.md)
 - [InventoryReservationReleasedMerchantEventDataObject](InventoryReservationReleasedMerchantEventDataObject.md)
-- [InventoryReservationReleasedMerchantEventData](InventoryReservationReleasedMerchantEventData.md)
-- [InventoryReservationReleasedMerchantEventRequest](InventoryReservationReleasedMerchantEventRequest.md)
 

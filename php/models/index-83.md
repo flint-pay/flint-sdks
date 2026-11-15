@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPausedInstalledMerchantsEventData to SubscriptionPaymentRetrySucceededMerchantEventDataObject
+# SubscriptionPausedMerchantEvent to SubscriptionPaymentRetryFailedInstalledMerchantsEventSource
 
+- [SubscriptionPausedMerchantEvent](SubscriptionPausedMerchantEvent.md)
+- [SubscriptionPausedInstalledMerchantsEventDataObject](SubscriptionPausedInstalledMerchantsEventDataObject.md)
 - [SubscriptionPausedInstalledMerchantsEventData](SubscriptionPausedInstalledMerchantsEventData.md)
 - [SubscriptionPausedInstalledMerchantsEventSource](SubscriptionPausedInstalledMerchantsEventSource.md)
 - [SubscriptionPausedInstalledMerchantsEvent](SubscriptionPausedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [SubscriptionPaymentRetryFailedInstalledMerchantsEventDataObject](SubscriptionPaymentRetryFailedInstalledMerchantsEventDataObject.md)
 - [SubscriptionPaymentRetryFailedInstalledMerchantsEventData](SubscriptionPaymentRetryFailedInstalledMerchantsEventData.md)
 - [SubscriptionPaymentRetryFailedInstalledMerchantsEventSource](SubscriptionPaymentRetryFailedInstalledMerchantsEventSource.md)
-- [SubscriptionPaymentRetryFailedInstalledMerchantsEvent](SubscriptionPaymentRetryFailedInstalledMerchantsEvent.md)
-- [SubscriptionPaymentRetrySucceededMerchantEventDataObject](SubscriptionPaymentRetrySucceededMerchantEventDataObject.md)
 

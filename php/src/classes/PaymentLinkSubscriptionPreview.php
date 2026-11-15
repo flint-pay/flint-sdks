@@ -11,13 +11,12 @@ namespace Flint;
  * @property-read list<PaymentLinkSubscriptionPreviewLineItemsItem> $line_items
  * @property-read ?Image $plan_image
  * @property-read string $plan_name
- * @property-read list<int> $quantity_options
  * @property-read MoneyValue $recurring_total_money
  * @property-read ?MoneyValue $setup_fee_money
  * @property-read ?int $trial_period_days
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkSubscriptionPreview extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'line_items': list<object{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': mixed}>, 'plan_image'?: mixed, 'plan_name': string, 'quantity_options': list<int>, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'line_items': list<object{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': mixed}>, 'plan_image'?: mixed, 'plan_name': string, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSubscriptionPreview')); }
     /** Unit of the billing period the plan charges on by default. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -64,11 +63,6 @@ final class PaymentLinkSubscriptionPreview extends Model {
      */
     public function getPlanName(): string { return $this->get('plan_name'); }
     public function hasPlanName(): bool { return $this->has('plan_name'); }
-    /** Quantities the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `quantity_options`. maxItems: 10. uniqueItems: true. [] (Value): integer. Format: int32. minimum: 1. maximum: 100.
-     * @return list<int>
-     */
-    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
-    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** Recurring total for one billing interval, including line quantities and resolved modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

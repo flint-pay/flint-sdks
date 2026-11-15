@@ -1,7 +1,7 @@
-import { d7037 as c0 } from '../descriptors/data/331.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d7037 as d7037 } from '../descriptors/data/331.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7039 as c0 } from '../descriptors/data/331.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d7039 as d7039 } from '../descriptors/data/331.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7037;
+const read = d7039;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InventoryCountObservationRequest"]:c0()}); }
 export { codec as _validate };

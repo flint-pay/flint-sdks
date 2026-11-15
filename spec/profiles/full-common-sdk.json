@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/4e727e1e3027cc354518aee1332545b9b968f05f/sdk-config.schema.json",
-  "version": "8.0.0-beta.3",
+  "version": "8.0.0",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -3822,7 +3822,7 @@
       },
       "example": {
         "body": {
-          "quantity": 1
+          "payment_method_id": "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV"
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
@@ -6387,7 +6387,9 @@
       },
       "example": {
         "body": {
-          "quantity": 1
+          "metadata": {
+            "source": "sdk-example"
+          }
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
@@ -6468,7 +6470,8 @@
       },
       "example": {
         "body": {
-          "quantity": 1
+          "variant_id": "var_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+          "expected_version": 1
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "subscription_line_item_id": "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV"

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentClientActionInput to PaymentMethodUpdatedMerchantEventInput
+# PaymentAttemptPaymentIntentInput to PaymentMethodUpdatedInstalledMerchantsEventInput
 
+- [PaymentAttemptPaymentIntentInput](PaymentAttemptPaymentIntentInput.md)
 - [PaymentClientActionInput](PaymentClientActionInput.md)
 - [PaymentClientActionStripeInput](PaymentClientActionStripeInput.md)
 - [PaymentClientActionURLInput](PaymentClientActionURLInput.md)
@@ -101,5 +102,4 @@
 - [PaymentMethodListResponseInput](PaymentMethodListResponseInput.md)
 - [PaymentMethodResponseInput](PaymentMethodResponseInput.md)
 - [PaymentMethodUpdatedInstalledMerchantsEventInput](PaymentMethodUpdatedInstalledMerchantsEventInput.md)
-- [PaymentMethodUpdatedMerchantEventInput](PaymentMethodUpdatedMerchantEventInput.md)
 

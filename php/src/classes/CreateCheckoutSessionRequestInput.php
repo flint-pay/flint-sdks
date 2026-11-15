@@ -187,7 +187,7 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** The billing interval, quantity, and gift recipient for a `subscription_plan` session. Other types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval and a quantity of 1. The billing interval must be one the plan offers in `billing_interval_options`, and the quantity one of its `quantity_options`. Subscription choices for a checkout session: billing interval, interval count, line quantities, and gift recipient.
+    /** The billing interval, line quantities, and gift recipient for a `subscription_plan` session. Other types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval and line quantities. The billing interval must be one the plan offers in `billing_interval_options`. Subscription choices for a checkout session: billing interval, interval count, line quantities, and gift recipient.
      * @return CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subscription_terms is omitted; use hasSubscriptionTerms() or valueOrDefault().
      */

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# UpdateDeliveryProfileRequestInput to WebhookEndpointInput
+# UpdateDeliveryMethodRequestInput to WebhookDeliveryResponseInput
 
+- [UpdateDeliveryMethodRequestInput](UpdateDeliveryMethodRequestInput.md)
 - [UpdateDeliveryProfileRequestInput](UpdateDeliveryProfileRequestInput.md)
 - [UpdateDeliveryRateCallbackRequestInput](UpdateDeliveryRateCallbackRequestInput.md)
 - [UpdateDeliveryZoneRequestInput](UpdateDeliveryZoneRequestInput.md)
@@ -101,5 +102,4 @@
 - [WebhookDeliveryListResponseInput](WebhookDeliveryListResponseInput.md)
 - [WebhookDeliveryProfileInput](WebhookDeliveryProfileInput.md)
 - [WebhookDeliveryResponseInput](WebhookDeliveryResponseInput.md)
-- [WebhookEndpointInput](WebhookEndpointInput.md)
 

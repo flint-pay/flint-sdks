@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionChargeEstimate to MerchantBillingInvoice
+# ErrorDetail to MerchantBillingBalance
 
+- [ErrorDetail](ErrorDetail.md)
+- [SubscriptionPreviewError](SubscriptionPreviewError.md)
 - [SubscriptionChargeEstimate](SubscriptionChargeEstimate.md)
 - [SubscriptionPreviewResponseDataCreate](SubscriptionPreviewResponseDataCreate.md)
 - [SubscriptionPreviewResponseDataDeliveryOptions](SubscriptionPreviewResponseDataDeliveryOptions.md)
@@ -100,6 +102,4 @@
 - [MerchantReadiness](MerchantReadiness.md)
 - [Merchant](Merchant.md)
 - [MerchantBillingBalance](MerchantBillingBalance.md)
-- [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
-- [MerchantBillingInvoice](MerchantBillingInvoice.md)
 

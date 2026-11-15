@@ -457,13 +457,13 @@ export interface SubscriptionsResource {
  * for the rest of the current period, less unused paid item credit, while keeping the billing
  * period and anchor; the resulting interval must stay unchanged. With billing_starts now, charges
  * a new period and credits unused paid item time after promotions; the plan changes only when
- * payment succeeds. If the credit exceeds the new item charge, choose next_renewal. Omit interval
- * and quantity to keep their current values; the target plan must offer them. Contract terms and
- * existing recurring promotions are preserved. Requires Idempotency-Key; retry with the same key
- * to recover the same result. Returns status 200 for a decline, with a closed unpaid order, failed
- * order_payment_attempt, and unchanged subscription. Inspect
- * order_payment_attempt.last_payment_error and update the subscription payment method before
- * trying again. Send expected_version to reject a concurrent change. After a confirmed
+ * payment succeeds. If the credit exceeds the new item charge, choose next_renewal. Omit the
+ * interval pair to keep the current interval when the target plan offers it, otherwise use the
+ * target default. Contract terms and existing recurring promotions are preserved. Requires
+ * Idempotency-Key; retry with the same key to recover the same result. Returns status 200 for a
+ * decline, with a closed unpaid order, failed order_payment_attempt, and unchanged subscription.
+ * Inspect order_payment_attempt.last_payment_error and update the subscription payment method
+ * before trying again. Send expected_version to reject a concurrent change. After a confirmed
  * CONCURRENT_MODIFICATION with billing_starts now, refresh the subscription and send a new
  * Idempotency-Key.
  *
@@ -479,20 +479,19 @@ export interface SubscriptionsResource {
  */
     changePlan(subscription_id: InputValue<string>, params: SubscriptionsChangePlanParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionPlanChangeResult, SubscriptionPlanChangeResultResponse>>;
     /**
- * Changes the subscription quantity multiplier, existing line quantities, or both, with the chosen
- * billing timing. billing_starts is required: prorated_now charges now, next_renewal changes
- * quantities immediately without charging, and period_end schedules them for the next billing
- * boundary in scheduled_plan_change. Cancel pending quantities with PATCH scheduled_plan_change:
- * null. A pending change locks quantity edits with plan_change_scheduled. Keeps the current
- * billing period, next billing date, anchor and completed cycles. Omitted quantities stay
- * unchanged. Send quantity or 1 to 50 distinct line_items. With prorated_now, a shipping line
- * cannot be changed, and quantity cannot be supplied when any subscription line ships. Physical
- * quantities can use next_renewal or period_end. Digital line quantities can be changed on a
- * subscription with other lines that ship; its shipping lines stay unchanged and this charge
- * creates no shipment or shipping charge. Quantities that do not charge can still be updated with
- * subscription PATCH or the line-item routes. Requires Idempotency-Key; retry with the same key to
- * recover the original outcome. Returns 200 on decline with a closed unpaid order, failed
- * order_payment_attempt, and unchanged subscription. Inspect
+ * Changes existing subscription line quantities with the chosen billing timing. billing_starts is
+ * required: prorated_now charges now, next_renewal changes quantities immediately without
+ * charging, and period_end schedules them for the next billing boundary in scheduled_plan_change.
+ * Cancel pending quantities with PATCH scheduled_plan_change: null. A pending change locks
+ * quantity edits with plan_change_scheduled. Keeps the current billing period, next billing date,
+ * anchor and completed cycles. Omitted quantities stay unchanged. Send 1 to 50 distinct
+ * line_items, each with an existing subscription_line_item_id and its new quantity. With
+ * prorated_now, a shipping line cannot be changed. Physical quantities can use next_renewal or
+ * period_end. Digital line quantities can be changed on a subscription with other lines that ship;
+ * its shipping lines stay unchanged and this charge creates no shipment or shipping charge. Use
+ * next_renewal to change quantities without charging now. Requires Idempotency-Key; retry with the
+ * same key to recover the original outcome. Returns 200 on decline with a closed unpaid order,
+ * failed order_payment_attempt, and unchanged subscription. Inspect
  * order_payment_attempt.last_payment_error before trying again. The order and
  * order_payment_attempt are null when the net charge is zero. Send expected_version to reject a
  * concurrent change. If the outcome remains uncertain, retrieve the subscription and its orders;
@@ -507,7 +506,8 @@ export interface SubscriptionsResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.changeQuantity("sub_01KEZF7C00BVRE8YDBXQB74BBM", {billing_starts:
- * "prorated_now", expected_version: 1, quantity: 1}, { idempotencyKey: idempotencyKey })
+ * "prorated_now", expected_version: 1, line_items: [{quantity: 2, subscription_line_item_id:
+ * "sli_01KEZF7C00VQ081BX7W2T96R71"}]}, { idempotencyKey: idempotencyKey })
  */
     changeQuantity(subscription_id: InputValue<string>, params: SubscriptionsChangeQuantityParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionQuantityChangeResult, SubscriptionQuantityChangeResultResponse>>;
     /**
@@ -807,14 +807,14 @@ export interface SubscriptionsResource {
     skipCycle(subscription_id: InputValue<string>, params?: SubscriptionsSkipCycleParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
  * Updates metadata, external_reference_id, payment_method_id, delivery, billing interval,
- * quantity, cancel_at_period_end: false to undo a scheduled cancellation, or
- * scheduled_plan_change: null to keep the current plan. Send billing_interval and
- * billing_interval_count together. A billing_schedule update must be the only mutable field.
- * Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to
- * reject concurrent changes. Schedule a cancellation with `client.subscriptions.cancel`, change
- * the plan with /change-plan, and manage lines through the line-items collection. A card whose
- * setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once
- * setup finishes, send a new request with a new idempotency key.
+ * cancel_at_period_end: false to undo a scheduled cancellation, or scheduled_plan_change: null to
+ * keep the current plan. Send billing_interval and billing_interval_count together. A
+ * billing_schedule update must be the only mutable field. Delivery and cadence changes apply to
+ * future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a
+ * cancellation with `client.subscriptions.cancel`, change the plan with /change-plan, and manage
+ * lines through the line-items collection. A card whose setup hasn't finished fails with
+ * `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request
+ * with a new idempotency key.
  *
  * `PATCH /v1/subscriptions/{subscription_id}`
  * @param subscription_id Flint subscription ID.
@@ -823,13 +823,14 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.update("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey:
- * idempotencyKey })
+ * client.subscriptions.update("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {metadata: {source:
+ * "sdk-example"}}, { idempotencyKey: idempotencyKey })
  */
     update(subscription_id: InputValue<string>, params: SubscriptionsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
- * Updates a subscription line for future renewals. Send expected_version to reject a concurrent
- * change. Already-created orders keep their lines.
+ * Swaps a subscription line variant for future renewals while keeping its quantity. Use
+ * change-quantity to change line quantities. Send expected_version to reject a concurrent change.
+ * Already-created orders keep their lines.
  *
  * `PATCH /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
  * @param subscription_id Subscription ID.
@@ -840,7 +841,8 @@ export interface SubscriptionsResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.updateLineItem("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey: idempotencyKey })
+ * "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {expected_version: 1, variant_id:
+ * "var_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey })
  */
     updateLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: SubscriptionsUpdateLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
 }

@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.3` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.3` or `flintpay/flint:8.0.0-beta.3`. The API date is `2026-09-07`; this beta pins Flint `main` at `323766dba32c7945254bbcc0ff23b160f4076b18`. Stable releases will pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` or `8.0.0-beta.3` to the `8.0.0` candidate. The breaking changes have no deprecated aliases or compatibility overloads. Version 8.0.0 has not been released from this preparation. The API date is `2026-09-07`; the candidate pins Flint `f811ffc6cb584c5b280a5c9f561075e77a1bc664`. Stable releases must pin the backend commit serving production after all required area breaks have landed.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,40 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in the 8.0.0 candidate since beta.3
+
+The baseline is `8.0.0-beta.3`, pinned to Flint `323766dba32c7945254bbcc0ff23b160f4076b18`. The generator and API date are unchanged. All 720 selected methods remain. Review these changes before moving a consumer to stable 8.0.0:
+
+### Payment confirmation and actions
+
+Use `client.paymentIntents.confirm(paymentIntentId, params, { checkoutToken })` for a checkout session's own payment legs. Omit `payment_source` after authentication to continue the same payment; a recovery credential can only continue the legs held by its recovery attempt. Other sessions' legs and standalone payments return 404 to checkout credentials. Do not send `save_payment_method`, even as false, or `buyer_ip_address` with a checkout credential. Save a checkout card through order pay instead. Merchant confirms keep `payments.payment_intents.write`; invoice and subscription merchant refusals use `managed_by_owner`, name the owner, and supply `collect_invoice` or `create_subscription_payment_retry` in `remediation.next_actions`.
+
+Both payment-source and client-action unions already exist in beta.3. Continue to send `payment_source: { credential_type: "payment_method", payment_method_id }`, `stripe_confirmation_token` with `stripe.confirmation_token`, `stripe_payment_method` with `stripe.payment_method`, or the reader member where supported. Do not restore the retired top-level credential fields or the old `token` member. Continue creating order legs with `paymentIntents.create({ order_id, ... })`; there is no nested order create method. An order fence is `expected_order_version` from the latest order read.
+
+A new confirmation defaults to a URL action. Branch on `client_action.type`, open `client_action.url` for `url`, and use `client_action.stripe` only for `stripe`. Expiry is on the containing pending action. Send `client_action_type: "stripe"` explicitly when using the Stripe action flow; readers require Stripe actions. Omission during continuation preserves the type already chosen. Continue a zero-balance card setup through `orders.pay(orderId, { action: "setup" }, options)` without resending `setup_payment_source`; starting a setup still needs that source.
+
+Invoice payment intents now include `invoice_schedule_entry_id` when they collect an installment. On invoice collection's `PAYMENT_ATTEMPT_ACTIVE`, read the named payment intent from the error facts. Cancel an eligible invoice payment with `paymentIntents.cancel`; processing or settled payments are refused. Invoice `collect` still returns `invoice_payment_attempt`. `invoices.listPaymentAttempts`, `getPaymentAttempt`, and `cancelPaymentAttempt`, the `invoice_payment_attempt.*` events, order `action: "resume"`, `order_payment_attempt_id`, and `is_resumable` remain. Their parked retirements are not included in this candidate.
+
+### Persisted versions
+
+Order versions are counters, not timestamps. New orders start at 1, and owned-state writes advance the persisted counter. Pass the latest returned order `version` as `expected_version`; use `expected_order_version` for an order-owned payment-intent create. After a declined or failed payment, use the order returned by pay or read again before retrying. Never derive a fence from `updated_at`, whose wall-clock value can be shared by several writes. Compare versions only for the same resource. Payment-intent versions continue to cover their owned state; expanded resources, external observations, and order-derived `supported_actions` can change independently.
+
+### Subscription line quantities
+
+Remove subscription and plan `quantity` multipliers and `quantity_options`, including checkout `subscription_terms.quantity`, returned checkout terms, and payment-link previews. Use line quantities instead: a multiplier of 3 over a line quantity of 2 becomes a line quantity of 6. Signup and plan-change overrides use `subscription_plan_line_item_id`; existing subscription quantity changes use `subscription_line_item_id`. Send 1 to 50 distinct `line_items` with quantities 1 to 9,999; omitted lines stay unchanged. Buyers can change only adjustable lines within their frozen bounds. Use `changeQuantity` rather than a subscription line PATCH to change a quantity. Keep the route's `billing_starts` choice and saved idempotency key. Even a legacy `quantity: 1` now returns `400 UNKNOWN_FIELD`. This pin contains FLI-737 `a1b67aa2ff`, also the Flint snapshot recorded by flint-cli #120 for CLI 0.20.0.
+
+### Replay omissions and recovery
+
+One-time API keys, customer session secrets, partner app secrets, access-link URLs, upload URLs, and merchant-account-session launch fields are optional because another credential's replay withholds them. Check presence before reading them. A replay by another credential also requires the read scopes for the result. Legacy records without a known sender can return `IDEMPOTENCY_RECOVERY_REQUIRED`; follow the read in `remediation.next_actions` to establish the outcome before deciding whether to retry. Never create a new payment solely because its response is uncertain.
+
+Refund creation now uses the public idempotency record: a duplicate in progress returns `IDEMPOTENCY_KEY_IN_PROGRESS`, and a completed same-key retry returns the first response rather than a later resource state. Gift-card and inventory keys follow the caller's public namespace and operation; partner installs have separate namespaces on the routes already migrated. Review the API migration notes for [replay access](https://developers.withflintpay.com/changelog/2026-11-14-idempotent-replays-respect-the-reader), [gift-card keys](https://developers.withflintpay.com/changelog/2026-11-15-gift-card-keys-follow-the-caller-and-operation), and [inventory keys](https://developers.withflintpay.com/changelog/2026-11-15-inventory-idempotency).
+
+### Other generated model changes
+
+`me.listEmailChangeRequests` now uses `BuyerEmailChangeRequestListResponse` and buyer email-change items instead of the merchant `EmailChangeRequestListResponse`. In PHP, update any response-class checks or constructed fixtures to the new class. In Node, use `CreateSubscriptionPreviewRequestQuantityChange` instead of the removed `CreateMeSubscriptionPreviewRequestQuantityChange` alias. PHP no longer exposes `getQuantity` or `getQuantityOptions` on the affected subscription, plan, preview, checkout-term, and webhook snapshot models; read each line's quantity instead.
+
+Constructed merchant billing balances require `past_due_money` (zero when nothing is past due), and readiness requirements require `upcoming_due` (an empty list when none are scheduled). Handle optional `past_due_at`, `payout_hold_at`, and `upcoming_due_at` timestamps. Generated GET and webhook models include these declarations where their resource projection does. The beta.3 comparison contains 287 breaking, 652 review, and 33 additive findings, including the subscription getter removals, optional replay fields, checkout authentication, and these model changes.
 
 ## Changes in 8.0.0-beta.3
 

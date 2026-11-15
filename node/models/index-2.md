@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# BuyerCreateReturnResolutionPreviewRequest to BuyerReturnPreviewResolution
+# BuyerCreateReturnResolutionPreviewRequest to BuyerReturnPreviewEligibility
 
 - [BuyerCreateReturnResolutionPreviewRequest](BuyerCreateReturnResolutionPreviewRequest.md)
 - [BuyerCreateReturnResolutionPreviewRequestInput](BuyerCreateReturnResolutionPreviewRequestInput.md)
@@ -17,6 +17,7 @@
 - [BuyerDeliveryFulfillmentDetails](BuyerDeliveryFulfillmentDetails.md)
 - [BuyerDigitalFulfillmentDetails](BuyerDigitalFulfillmentDetails.md)
 - [BuyerEmailChangeRequest](BuyerEmailChangeRequest.md)
+- [BuyerEmailChangeRequestListResponse](BuyerEmailChangeRequestListResponse.md)
 - [BuyerEmailChangeRequestResponse](BuyerEmailChangeRequestResponse.md)
 - [BuyerErrorRemediation](BuyerErrorRemediation.md)
 - [BuyerExpandedOrderSummary](BuyerExpandedOrderSummary.md)
@@ -101,5 +102,4 @@
 - [BuyerReturnPolicyEvaluationLineItem](BuyerReturnPolicyEvaluationLineItem.md)
 - [BuyerReturnPreview](BuyerReturnPreview.md)
 - [BuyerReturnPreviewEligibility](BuyerReturnPreviewEligibility.md)
-- [BuyerReturnPreviewResolution](BuyerReturnPreviewResolution.md)
 

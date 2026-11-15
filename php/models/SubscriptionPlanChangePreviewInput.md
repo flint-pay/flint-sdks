@@ -17,7 +17,6 @@ Request input.
 | `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Required | string or null | When the plan is expected to take effect. Null when no billing time is scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `mode` | Required | string | The preview kind. Every plan change preview has the same value. Values: `"plan_change"`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The recurring charge for one billing period's items on the new plan, including modifiers and quantities, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `renewal` | Required | [SubscriptionRenewalEstimateInput](../models/SubscriptionRenewalEstimateInput.md#subscriptionrenewalestimateinput) | Estimate of the charge the change produces: item subtotal, discounts (including any credit for unused time), shipping, tax, and total. Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. |
 | `subscription_id` | Required | string | ID of the subscription the change was previewed for. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |

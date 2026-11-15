@@ -1,3 +1,14 @@
+import type {
+    CloseCheckoutSessionRequest,
+    CheckoutRedirects,
+    CheckoutRedirectsRequestInput,
+    CheckoutTipConfig,
+    CheckoutTipConfigRequestInput,
+    CheckoutQuickPayItemRequest,
+    CheckoutTaxConfig,
+    CheckoutQuickPayItemRequestInput,
+    CheckoutTaxConfigRequestInput
+} from './types-6.js';
 import type { ResponseMeta } from './types-54.js';
 import type { Invoice } from './types-31.js';
 import type { InvoicePaymentAttempt } from './types-32.js';
@@ -23,21 +34,9 @@ import type {
     CreateCheckoutSessionSavePaymentMethodVerificationRequest,
     CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest,
     CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput,
-    CreateCheckoutSessionReturnResolution,
-    CreateCheckoutSessionSubscriptionPlan
+    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput
 } from './types-8.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
-import type {
-    CheckoutRedirects,
-    CheckoutRedirectsRequestInput,
-    CheckoutTipConfig,
-    CheckoutTipConfigRequestInput,
-    CheckoutTaxConfig,
-    CheckoutQuickPayItemRequestInput,
-    CheckoutTaxConfigRequestInput,
-    CheckoutSubscriptionTermsRequest
-} from './types-6.js';
 import type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
@@ -49,12 +48,13 @@ import type {
     CheckoutLegalConfigRequestInput,
     CheckoutPaymentConfigRequestInput,
     CheckoutPrefillRequestInput,
-    CheckoutPromotionConfigRequestInput,
-    CheckoutQuickPayItemRequest
+    CheckoutPromotionConfigRequestInput
 } from './types-5.js';
 import type { LegalSettings } from './types-35.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-49.js';
 import type { ThemeConfig, ThemeConfigRequestInput } from './types-65.js';
+/** The request body for: Close checkout session. */
+export type CloseCheckoutSessionRequestInput = CloseCheckoutSessionRequest;
 /** An optional version fence for permanently closing the gift card. */
 export type CloseGiftCardRequest = {
     /**
@@ -293,8 +293,8 @@ export type ConfirmPaymentIntentRequest = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe" | (string & {});
@@ -334,8 +334,11 @@ export type ConfirmPaymentIntentRequest = ({
      * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
      * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
      * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. A continuation keeps the original save choice. Order pay keeps its
-     * separate on-session checkout card-saving behavior. Default: false.
+     * covers the saved card. A continuation keeps the original save choice. Checkout credentials
+     * cannot send this field, even as false. To save a card with order pay, send
+     * save_payment_method on POST /v1/orders/{order_id}/pay, which supports merchant off_session
+     * saves and checkout on_session saves; the credential determines which rules apply. Default:
+     * false.
      */
     "save_payment_method"?: boolean;
 });
@@ -354,8 +357,8 @@ export type ConfirmPaymentIntentRequestInput = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe";
@@ -395,8 +398,11 @@ export type ConfirmPaymentIntentRequestInput = ({
      * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
      * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
      * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. A continuation keeps the original save choice. Order pay keeps its
-     * separate on-session checkout card-saving behavior. Default: false.
+     * covers the saved card. A continuation keeps the original save choice. Checkout credentials
+     * cannot send this field, even as false. To save a card with order pay, send
+     * save_payment_method on POST /v1/orders/{order_id}/pay, which supports merchant off_session
+     * saves and checkout on_session saves; the credential determines which rules apply. Default:
+     * false.
      */
     "save_payment_method"?: boolean;
 });
@@ -3868,244 +3874,3 @@ export type CreateCheckoutSessionQuickPayInput = ({
     & ({
     "return_url"?: never;
 })));
-/** The request body for: Create checkout session. */
-export type CreateCheckoutSessionRequest = ({
-    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-    "buyer_fields"?: CheckoutBuyerFields;
-    /**
-     * Custom text for this session's checkout: an order summary message and a shipping address
-     * label. Custom checkout text you supply when creating a checkout session: an order summary
-     * message and a shipping address label.
-     */
-    "custom_text"?: CheckoutCustomTextConfig;
-    /**
-     * Existing customer to link to the order Flint creates. Not allowed with type: order: the
-     * session uses the order's customer, so set customer_id on the order first. minLength: 1.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use
-     * settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise
-     * no methods are assigned. Empty arrays and null are rejected. minItems: 1. maxItems: 25.
-     * uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_ids"?: Array<string>;
-    /**
-     * Promotions to apply to the order Flint creates, using your account promotion settings. Only
-     * for quick_pay and subscription_plan. A ranking loss returns a promotion_declined warning; an
-     * unredeemable promotion fails the request. Read the result on order.discounts, or
-     * order.deferred_promotions for a trial. minItems: 1. maxItems: 10. [] (Value): {@link
-     * CreateCheckoutSessionDiscount}. A promotion to apply to the order Flint creates for a
-     * checkout session.
-     */
-    "discounts"?: Array<CreateCheckoutSessionDiscount>;
-    /**
-     * Seconds the session stays open, from 60 to 86,400. Omit it to use
-     * settings.checkout.default_expires_in_seconds, or 24 hours. Format: int64. minimum: 60.
-     * maximum: 86400.
-     */
-    "expires_in_seconds"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Merchant-created cart holds this session may adopt during delivery selection. Only with
-     * type: order and a merchant credential. At most 100 unique IDs; exceeding the cap returns
-     * INVALID_REQUEST with param inventory_reservation_ids. Immutable after creation. Buyer quotes
-     * credit still-eligible bound holds and buyer selections adopt matching units without
-     * supplying IDs. Merchant delivery requests that omit IDs also use this binding; explicit IDs,
-     * including an empty array, replace it for that request. First adopter wins when sessions
-     * share a hold. Unused units remain held until released or expired. Unknown or ineligible IDs
-     * at creation return 404. Invalidated or otherwise ended sessions cannot use the binding, and
-     * replacement sessions never inherit it. maxItems: 100. uniqueItems: true. [] (Value): string.
-     * minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_ids"?: Array<string>;
-    /**
-     * The open invoice whose balance due now this checkout collects. An open session for the
-     * invoice's current collection is reused and returned with 200. Required when type is invoice,
-     * and not allowed otherwise. minLength: 1. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: string;
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. Only with type invoice. minLength: 1. Example:
-     * "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * The terms and policy links this session shows the buyer, and whether the buyer must accept
-     * the terms. Legal settings you supply when creating a checkout session: whether buyers must
-     * accept terms, and links to the terms, refund policy, shipping policy, and contract.
-     */
-    "legal"?: LegalSettings;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The order to collect. It must be open and not collected by an invoice or a return
-     * resolution. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * Origin of the page where you render this headless checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
-     * result. Required when the session offers affirm. It can't contain credentials, a query
-     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "payment_return_url"?: string;
-    /**
-     * Payment settings for this session: the payment options it offers and a note shown with them.
-     * Omit `enabled_payment_options` to use the merchant's
-     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
-     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
-     * payment options and a note shown with payment.
-     */
-    "payments"?: CheckoutPaymentConfig;
-    /**
-     * A platform fee your partner app charges on the payment the session collects, checked once
-     * against the order total when the session is created. Each payment the session creates
-     * carries its own fee, lowered to the cap for its amount. Only a partner app install token can
-     * send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A
-     * subscription_plan checkout session, or an order whose payment starts or renews a
-     * subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because
-     * Flint's billing creates the renewals. amount_money must be above zero, in the payment's
-     * currency, at most the platform fee cap the merchant approved for this amount, and below the
-     * amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with
-     * maximum_money when the cap or the amount bounds it. Without an approved cap in this currency
-     * it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner
-     * app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
-     * platform_fees and the reason the app's platform status gives. Test mode never checks the
-     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
-     * at confirm or capture, so the payment never fails because of it. Part of the request
-     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
-     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
-     * no share of it.
-     */
-    "platform_fee"?: PlatformFeeRequest;
-    /**
-     * Contact details and addresses to fill in for the buyer, who can change them. For a customer
-     * with saved addresses, Flint fills in any address you leave out, and reads include it. With
-     * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's
-     * tax location. Not changed by what the buyer types; for that, read buyer_contact.
-     * customer_prefill is what the checkout credential reads from the customer record.
-     */
-    "prefill"?: CheckoutPrefillRequest;
-    /**
-     * Whether automatic promotions apply to this session and whether the buyer can enter promotion
-     * codes. Promotion settings for a checkout: whether automatic promotions apply and whether the
-     * buyer can apply promotion codes.
-     */
-    "promotion_config"?: CheckoutPromotionConfig;
-    /**
-     * The one named amount to collect. Flint creates the order from it. Required when `type` is
-     * `quick_pay`. A single custom item to charge on a checkout session, supplied as
-     * `quick_pay_item`: a name, an amount, and optional tax settings.
-     */
-    "quick_pay_item"?: CheckoutQuickPayItemRequest;
-    /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url.
-     */
-    "redirects"?: CheckoutRedirects;
-    /**
-     * Expected checkout session for an atomic replacement. Allowed only with type: order. The
-     * named session must belong to the same merchant, environment, and order. Active payment work
-     * fails with `OPERATION_IN_PROGRESS`. minLength: 1. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     */
-    "replace_checkout_session_id"?: string;
-    /**
-     * The return resolution whose buyer balance this checkout collects. Required when type is
-     * return_resolution, and not allowed otherwise. The resolution must have a buyer payment
-     * pending on its replacement order. An open session with the same surface is reused and
-     * returned with 200. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id"?: string;
-    /**
-     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
-     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
-     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
-     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
-     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
-     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
-     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
-     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
-     * or payment_return_url on headless checkout; keep them consistent when sending both. Only
-     * with type return_resolution or invoice. Format: uri. minLength: 1. maxLength: 2048. Example:
-     * "https://example.com/receipt".
-     */
-    "return_url"?: string;
-    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
-    "subscription_plan_id"?: string;
-    /**
-     * The billing interval, quantity, and gift recipient for a `subscription_plan` session. Other
-     * types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval
-     * and a quantity of 1. The billing interval must be one the plan offers in
-     * `billing_interval_options`, and the quantity one of its `quantity_options`. Subscription
-     * choices for a checkout session: billing interval, interval count, line quantities, and gift
-     * recipient.
-     */
-    "subscription_terms"?: CheckoutSubscriptionTermsRequest;
-    /**
-     * Defaults to hosted when omitted. Use headless for a merchant-owned presentation. Default:
-     * "hosted". Value enum: "hosted", "headless".
-     */
-    "surface"?: "hosted" | "headless" | (string & {});
-    /**
-     * Automatic tax settings for the order Flint creates from quick_pay_item or
-     * subscription_plan_id. With order_id, set tax on the order; sending tax returns
-     * INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and
-     * status. Whether tax is collected for a checkout session or payment link.
-     */
-    "tax"?: CheckoutTaxConfig;
-    /**
-     * The title and colors for this session's checkout. Fields you omit come from your branding
-     * settings. Colors and title to apply to a checkout session's page.
-     */
-    "theme"?: ThemeConfig;
-    /**
-     * Tip options for this session. Fields you omit follow your tipping settings. Tip settings for
-     * a checkout: whether tips are enabled, the percent or fixed amount options, the default tip,
-     * and custom tips.
-     */
-    "tip"?: CheckoutTipConfig;
-    /**
-     * What the checkout collects payment for. order: an order you created; send order_id.
-     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
-     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
-     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
-     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
-     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
-     * checkouts.checkout_sessions.write; return_resolution needs
-     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
-     * "order", "quick_pay", "subscription_plan", "return_resolution", "invoice".
-     */
-    "type": "order" | "quick_pay" | "subscription_plan" | "return_resolution" | "invoice" | (string & {});
-})
-    & ((Exclude<CreateCheckoutSessionOrder & object, readonly unknown[]>)
-    | (Exclude<CreateCheckoutSessionQuickPay & object, readonly unknown[]>)
-    | (Exclude<CreateCheckoutSessionSubscriptionPlan & object, readonly unknown[]>)
-    | (Exclude<CreateCheckoutSessionReturnResolution & object, readonly unknown[]>)
-    | (Exclude<CreateCheckoutSessionInvoice & object, readonly unknown[]>)
-    | (Record<string, unknown>));

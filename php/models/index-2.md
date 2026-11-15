@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerExpandedPackageSummaryInput to BuyerSubscriptionInput
+# BuyerExpandedOrderSummaryInput to BuyerSkipCapabilityInput
 
+- [BuyerExpandedOrderSummaryInput](BuyerExpandedOrderSummaryInput.md)
 - [BuyerExpandedPackageSummaryInput](BuyerExpandedPackageSummaryInput.md)
 - [BuyerExpandedPaymentIntentSummaryInput](BuyerExpandedPaymentIntentSummaryInput.md)
 - [BuyerExpandedShipmentSummaryInput](BuyerExpandedShipmentSummaryInput.md)
@@ -101,5 +102,4 @@
 - [BuyerShipmentListResponseInput](BuyerShipmentListResponseInput.md)
 - [BuyerShipmentResponseInput](BuyerShipmentResponseInput.md)
 - [BuyerSkipCapabilityInput](BuyerSkipCapabilityInput.md)
-- [BuyerSubscriptionInput](BuyerSubscriptionInput.md)
 

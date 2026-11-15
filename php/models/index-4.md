@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CheckoutSavedPaymentDetailsSettingsRequestInput to CreateDeliveryFulfillmentDetailsInput
+# CheckoutSavedPaymentDetailsSettingsInput to CreateCustomerVerificationRequestInput
 
+- [CheckoutSavedPaymentDetailsSettingsInput](CheckoutSavedPaymentDetailsSettingsInput.md)
 - [CheckoutSavedPaymentDetailsSettingsRequestInput](CheckoutSavedPaymentDetailsSettingsRequestInput.md)
 - [CheckoutSessionInput](CheckoutSessionInput.md)
 - [CheckoutSessionClosedInstalledMerchantsEventInput](CheckoutSessionClosedInstalledMerchantsEventInput.md)
@@ -101,5 +102,4 @@
 - [CreateCustomerSessionRequestInput](CreateCustomerSessionRequestInput.md)
 - [CreateCustomerTaxExemptionRequestInput](CreateCustomerTaxExemptionRequestInput.md)
 - [CreateCustomerVerificationRequestInput](CreateCustomerVerificationRequestInput.md)
-- [CreateDeliveryFulfillmentDetailsInput](CreateDeliveryFulfillmentDetailsInput.md)
 

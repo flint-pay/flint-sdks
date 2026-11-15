@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PlatformFeeResponseInput to PromotionScheduleInput
+# PlatformFeeRequestInput to PromotionRuleValueRequestInput
 
+- [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
 - [PlatformFeeResponseInput](PlatformFeeResponseInput.md)
 - [PlatformFeeSucceededEventInput](PlatformFeeSucceededEventInput.md)
 - [PlatformFeeUpdatedEventInput](PlatformFeeUpdatedEventInput.md)
@@ -101,5 +102,4 @@
 - [PromotionRuleRequestInput](PromotionRuleRequestInput.md)
 - [PromotionRuleValueInput](PromotionRuleValueInput.md)
 - [PromotionRuleValueRequestInput](PromotionRuleValueRequestInput.md)
-- [PromotionScheduleInput](PromotionScheduleInput.md)
 

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# SelectableOrderPaymentIntentInput to SubscriptionEndAfterInput
+# SelectableErrorResourceInput to SubscriptionDunningExhaustedMerchantEventInput
 
+- [SelectableErrorResourceInput](SelectableErrorResourceInput.md)
 - [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
 - [SelectedProductOptionInput](SelectedProductOptionInput.md)
 - [SellerTaxAttestationRequestInput](SellerTaxAttestationRequestInput.md)
@@ -101,5 +102,4 @@
 - [SubscriptionDeliveryUpdatedMerchantEventInput](SubscriptionDeliveryUpdatedMerchantEventInput.md)
 - [SubscriptionDunningExhaustedInstalledMerchantsEventInput](SubscriptionDunningExhaustedInstalledMerchantsEventInput.md)
 - [SubscriptionDunningExhaustedMerchantEventInput](SubscriptionDunningExhaustedMerchantEventInput.md)
-- [SubscriptionEndAfterInput](SubscriptionEndAfterInput.md)
 

@@ -1,4 +1,8 @@
 import type {
+    CreateInventoryAdjustmentConditionChangeRequest,
+    CreateInventoryAdjustmentCorrectionRequest,
+    CreateInventoryAdjustmentCountedRequest,
+    CreateInventoryAdjustmentQuantityRequest,
     CreateInventoryAdjustmentConditionChangeRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput,
     CreateInventoryAdjustmentCountedRequestInput,
@@ -57,11 +61,11 @@ import type {
     ManualDiscountRequestInput
 } from './types-35.js';
 import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6.js';
+import type { CreateSubscriptionPreviewRequestQuantityChange } from './types-13.js';
 import type {
     SubscriptionServiceLocationRequest,
     SubscriptionSwapPreviewRequest,
     SubscriptionSwapPreviewRequestInput,
-    SubscriptionQuantityChangeLineItemRequest,
     SubscriptionQuantityChangeLineItemRequestInput
 } from './types-63.js';
 import type {
@@ -72,6 +76,12 @@ import type {
 import type { MerchantSignupOwner, MerchantSignupOwnerRequestInput } from './types-37.js';
 import type { TextModifierConfigRequest } from './types-65.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
+/** The request body for: Create inventory adjustment. */
+export type CreateInventoryAdjustmentRequest = ((CreateInventoryAdjustmentQuantityRequest)
+    | (CreateInventoryAdjustmentConditionChangeRequest)
+    | (CreateInventoryAdjustmentCountedRequest)
+    | (CreateInventoryAdjustmentCorrectionRequest)
+    | (Record<string, unknown>));
 /** The request body for: Create inventory adjustment. */
 export type CreateInventoryAdjustmentRequestInput = ((CreateInventoryAdjustmentQuantityRequestInput)
     | (CreateInventoryAdjustmentConditionChangeRequestInput)
@@ -1949,7 +1959,7 @@ export type CreateMeCheckoutSessionReturnResolutionInput = ({
 export type CreateMeSubscriptionPreviewRequest = ((CreateMeSubscriptionPreviewRequestDeliveryOptions)
     | (CreateMeSubscriptionPreviewRequestNextRenewal)
     | (CreateMeSubscriptionPreviewRequestPlanChange)
-    | (CreateMeSubscriptionPreviewRequestQuantityChange)
+    | (CreateSubscriptionPreviewRequestQuantityChange)
     | (Record<string, unknown>));
 /** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestDeliveryOptions = {
@@ -2059,12 +2069,6 @@ export type CreateMeSubscriptionPreviewRequestPlanChange = ({
     /** The subscription change to preview. Value enum: "plan_change". */
     "mode": "plan_change" | (string & {});
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The buyer's subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -2091,12 +2095,6 @@ export type CreateMeSubscriptionPreviewRequestPlanChangeInput = ({
     /** The subscription change to preview. Value enum: "plan_change". */
     "mode": "plan_change";
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The buyer's subscription to preview a plan change for. minLength: 1. pattern:
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
@@ -2107,33 +2105,6 @@ export type CreateMeSubscriptionPreviewRequestPlanChangeInput = ({
      */
     "subscription_plan_id": string;
 });
-/** The `quantity_change` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestQuantityChange = {
-    /**
-     * When the quantity change is billed. Previews price only prorated_now; period_end changes are
-     * billed at the next renewal. Value enum: "prorated_now".
-     */
-    "billing_starts": "prorated_now" | (string & {});
-    /**
-     * Reject the preview if the subscription version has changed. Send the same value to
-     * change-quantity. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The frozen adjustable subscription line and its quantity, within min_quantity and
-     * max_quantity. Omitted lines keep their quantities. minItems: 1. maxItems: 50. [] (Value):
-     * {@link SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription
-     * line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-    /** The subscription change to preview. Value enum: "quantity_change". */
-    "mode": "quantity_change" | (string & {});
-    /**
-     * The buyer's subscription to preview a quantity change for. minLength: 1. pattern:
-     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
-     */
-    "subscription_id": string;
-};
 /** The `quantity_change` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestQuantityChangeInput = {
     /**

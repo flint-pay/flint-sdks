@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CreateInvoiceRequest to CreatePriceListPricesRequestInput
+# CreateInvoiceQuickPayRequestInput to CreatePriceListPricesRequestInput
 
+- [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
 - [CreateInvoiceRequest](CreateInvoiceRequest.md)
 - [CreateInvoiceRequestInput](CreateInvoiceRequestInput.md)
 - [CreateInvoiceRequestOrder](CreateInvoiceRequestOrder.md)
@@ -26,7 +27,6 @@
 - [CreateMeSubscriptionPreviewRequestNextRenewalInput](CreateMeSubscriptionPreviewRequestNextRenewalInput.md)
 - [CreateMeSubscriptionPreviewRequestPlanChange](CreateMeSubscriptionPreviewRequestPlanChange.md)
 - [CreateMeSubscriptionPreviewRequestPlanChangeInput](CreateMeSubscriptionPreviewRequestPlanChangeInput.md)
-- [CreateMeSubscriptionPreviewRequestQuantityChange](CreateMeSubscriptionPreviewRequestQuantityChange.md)
 - [CreateMeSubscriptionPreviewRequestQuantityChangeInput](CreateMeSubscriptionPreviewRequestQuantityChangeInput.md)
 - [CreateModifierGroupRequest](CreateModifierGroupRequest.md)
 - [CreateModifierGroupRequestInput](CreateModifierGroupRequestInput.md)

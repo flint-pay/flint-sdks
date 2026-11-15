@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryQuoteResponse to APIRequestLogDetailResponse
+# DeliveryProfileResponse to APIKeyResponse
 
+- [DeliveryProfileResponse](DeliveryProfileResponse.md)
 - [DeliveryQuoteResponse](DeliveryQuoteResponse.md)
 - [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
 - [DeliveryRateCallbackTestDeliveryResponse](DeliveryRateCallbackTestDeliveryResponse.md)
@@ -101,5 +102,4 @@
 - [OAuthTokenResponse](OAuthTokenResponse.md)
 - [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
 - [APIKeyResponse](APIKeyResponse.md)
-- [APIRequestLogDetailResponse](APIRequestLogDetailResponse.md)
 

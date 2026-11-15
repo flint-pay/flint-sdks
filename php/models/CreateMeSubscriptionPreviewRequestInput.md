@@ -15,7 +15,6 @@ Request input.
 | `swap` | Conditional | [SubscriptionSwapPreviewRequestInput](../models/SubscriptionSwapPreviewRequestInput.md#subscriptionswappreviewrequestinput) | A proposed variant swap for one line item. The preview prices the next renewal as if the swap were saved, using the same checks and current price as a buyer line item update. Nothing is saved. Can't be combined with `delivery`. A proposed item swap for a buyer renewal preview: the subscription line item and the variant to price in its place. |
 | `billing_interval` | Conditional | string | Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Conditional | integer | Required when billing_interval is sent; billing_interval is required when this field is sent. minimum: `1`. maximum: `365`. |
-| `quantity` | Conditional | integer | Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Conditional | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `billing_starts` | Conditional | string | When the quantity change is billed. Previews price only prorated_now; period_end changes are billed at the next renewal. Values: `"prorated_now"`. |
 | `expected_version` | Conditional | integer | Reject the preview if the subscription version has changed. Send the same value to change-quantity. Format: `uint64`. minimum: `1`. |
@@ -26,7 +25,7 @@ Request input.
 oneOf with mode: "delivery_options": The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Optional: `destination`.
-- Undeclared: `delivery`, `swap`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
+- Undeclared: `delivery`, `swap`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
 - Constraints for `mode`: Selects the delivery options preview. Values: `"delivery_options"`.
 - Constraints for `subscription_id`: ID of the subscription to list delivery methods for.
 
@@ -36,7 +35,7 @@ oneOf with mode: "next_renewal": The `next_renewal` variant of `CreateMeSubscrip
 
 - Condition: not (present(`swap`, `delivery`)).
 - Optional: `delivery`, `swap`.
-- Undeclared: `destination`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
+- Undeclared: `destination`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
 - Constraints for `mode`: Selects the next renewal preview. Values: `"next_renewal"`.
 - Constraints for `subscription_id`: ID of the subscription to preview the next renewal for.
 
@@ -45,7 +44,7 @@ oneOf with mode: "next_renewal": The `next_renewal` variant of `CreateMeSubscrip
 oneOf with mode: "plan_change": The `plan_change` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Required: `subscription_plan_id`.
-- Optional: `billing_interval`, `billing_interval_count`, `quantity`.
+- Optional: `billing_interval`, `billing_interval_count`.
 - Undeclared: `destination`, `delivery`, `swap`, `billing_starts`, `expected_version`, `line_items`.
 - Constraints for `mode`: The subscription change to preview. Values: `"plan_change"`.
 - Constraints for `subscription_id`: The buyer's subscription to preview a plan change for.
@@ -56,7 +55,7 @@ oneOf with mode: "quantity_change": The `quantity_change` variant of `CreateMeSu
 
 - Required: `billing_starts`, `line_items`.
 - Optional: `expected_version`.
-- Undeclared: `destination`, `delivery`, `swap`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`.
+- Undeclared: `destination`, `delivery`, `swap`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`.
 - Constraints for `mode`: The subscription change to preview. Values: `"quantity_change"`.
 - Constraints for `subscription_id`: The buyer's subscription to preview a quantity change for.
 

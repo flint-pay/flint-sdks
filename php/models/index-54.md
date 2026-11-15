@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PartnerAppPlatformApprovedEventRequest to BalanceUpdatedInstalledMerchantsEventDataObject
+# PartnerAppPlatformApprovedEventDataObject to BalanceUpdatedMerchantEventRequest
 
+- [PartnerAppPlatformApprovedEventDataObject](PartnerAppPlatformApprovedEventDataObject.md)
+- [PartnerAppPlatformApprovedEventData](PartnerAppPlatformApprovedEventData.md)
 - [PartnerAppPlatformApprovedEventRequest](PartnerAppPlatformApprovedEventRequest.md)
 - [PartnerAppPlatformLimitedEventDataObject](PartnerAppPlatformLimitedEventDataObject.md)
 - [PartnerAppPlatformLimitedEventData](PartnerAppPlatformLimitedEventData.md)
@@ -100,6 +102,4 @@
 - [BalanceUpdatedMerchantEventDataObject](BalanceUpdatedMerchantEventDataObject.md)
 - [BalanceUpdatedMerchantEventData](BalanceUpdatedMerchantEventData.md)
 - [BalanceUpdatedMerchantEventRequest](BalanceUpdatedMerchantEventRequest.md)
-- [BalanceUpdatedMerchantEvent](BalanceUpdatedMerchantEvent.md)
-- [BalanceUpdatedInstalledMerchantsEventDataObject](BalanceUpdatedInstalledMerchantsEventDataObject.md)
 

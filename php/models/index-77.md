@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PaymentReviewClosedInstalledMerchantsEventData to PayoutSettingsUpdatedMerchantEventDataObject
+# PaymentReviewClosedMerchantEvent to PayoutDestinationUpdatedInstalledMerchantsEventSource
 
+- [PaymentReviewClosedMerchantEvent](PaymentReviewClosedMerchantEvent.md)
+- [PaymentReviewClosedInstalledMerchantsEventDataObject](PaymentReviewClosedInstalledMerchantsEventDataObject.md)
 - [PaymentReviewClosedInstalledMerchantsEventData](PaymentReviewClosedInstalledMerchantsEventData.md)
 - [PaymentReviewClosedInstalledMerchantsEventSource](PaymentReviewClosedInstalledMerchantsEventSource.md)
 - [PaymentReviewClosedInstalledMerchantsEvent](PaymentReviewClosedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [PayoutDestinationUpdatedInstalledMerchantsEventDataObject](PayoutDestinationUpdatedInstalledMerchantsEventDataObject.md)
 - [PayoutDestinationUpdatedInstalledMerchantsEventData](PayoutDestinationUpdatedInstalledMerchantsEventData.md)
 - [PayoutDestinationUpdatedInstalledMerchantsEventSource](PayoutDestinationUpdatedInstalledMerchantsEventSource.md)
-- [PayoutDestinationUpdatedInstalledMerchantsEvent](PayoutDestinationUpdatedInstalledMerchantsEvent.md)
-- [PayoutSettingsUpdatedMerchantEventDataObject](PayoutSettingsUpdatedMerchantEventDataObject.md)
 

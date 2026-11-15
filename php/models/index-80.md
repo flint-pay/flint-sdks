@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ReaderArchivedMerchantEventData to ReturnReopenedInstalledMerchantsEventDataObject
+# PromotionCodeUpdatedInstalledMerchantsEvent to ReturnReopenedMerchantEventRequest
 
+- [PromotionCodeUpdatedInstalledMerchantsEvent](PromotionCodeUpdatedInstalledMerchantsEvent.md)
+- [ReaderArchivedMerchantEventDataObject](ReaderArchivedMerchantEventDataObject.md)
 - [ReaderArchivedMerchantEventData](ReaderArchivedMerchantEventData.md)
 - [ReaderArchivedMerchantEventRequest](ReaderArchivedMerchantEventRequest.md)
 - [ReaderArchivedMerchantEvent](ReaderArchivedMerchantEvent.md)
@@ -100,6 +102,4 @@
 - [ReturnReopenedMerchantEventDataObject](ReturnReopenedMerchantEventDataObject.md)
 - [ReturnReopenedMerchantEventData](ReturnReopenedMerchantEventData.md)
 - [ReturnReopenedMerchantEventRequest](ReturnReopenedMerchantEventRequest.md)
-- [ReturnReopenedMerchantEvent](ReturnReopenedMerchantEvent.md)
-- [ReturnReopenedInstalledMerchantsEventDataObject](ReturnReopenedInstalledMerchantsEventDataObject.md)
 

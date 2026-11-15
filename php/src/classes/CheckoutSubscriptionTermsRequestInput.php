@@ -6,10 +6,9 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null $gift_recipient
  * @property-read list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
- * @property-read int $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSubscriptionTermsRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null, 'line_items'?: list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'quantity'?: int}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null, 'line_items'?: list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTermsRequestInput')); }
     /** Unit of the billing period the buyer chose from `subscription_terms.billing_interval_options`. Send it with `billing_interval_count`; omit both to keep the interval the session already has. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -35,10 +34,4 @@ final class CheckoutSubscriptionTermsRequestInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
 }

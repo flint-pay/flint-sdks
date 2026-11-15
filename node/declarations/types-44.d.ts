@@ -97,8 +97,11 @@ export type PartnerAppUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object,
  */
 export type PartnerAppWithRotatedSecret = (Exclude<PartnerApp & object, readonly unknown[]>)
     & ({
-    /** Newly issued client secret, returned only once after rotation. */
-    "client_secret": string;
+    /**
+     * Newly issued client secret, returned only once after rotation. Returned only to the
+     * credential that created it, and omitted when another credential replays the request.
+     */
+    "client_secret"?: string;
 });
 /**
  * A partner app returned with a one-time client secret when create or PATCH issues one. An
@@ -108,9 +111,10 @@ export type PartnerAppWithSecret = (Exclude<PartnerApp & object, readonly unknow
     & ({
     /**
      * One-time client secret returned when issued by create or PATCH. Null when this response did
-     * not issue a secret, including when secret authentication was already enabled.
+     * not issue a secret, including when secret authentication was already enabled. Returned only
+     * to the credential that created it, and omitted when another credential replays the request.
      */
-    "client_secret": string | null;
+    "client_secret"?: string | null;
 });
 /** A response containing `PartnerAppWithSecret` data. */
 export type PartnerAppWithSecretResponse = {
@@ -926,8 +930,8 @@ export type PayOrderRequestConfirmPaymentIntents = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe" | (string & {});
@@ -973,28 +977,46 @@ export type PayOrderRequestConfirmPaymentIntents = ({
      */
     "payment_return_url"?: string;
     /**
-     * The buyer's choice to save the card they typed for faster checkout at this merchant. Send
-     * true only from the checkout session's own credential, when the session's
-     * can_save_payment_method is true, for one newly collected card sent as
-     * stripe.confirmation_token created with setup_future_usage on_session. The card is saved with
-     * usage on_session once the payment succeeds, for the customer the checkout acts for: the
-     * customer the merchant created the session for, or the customer whose email the buyer
-     * confirmed in it. When save_payment_method_requires_verification is true, buyer_contact.email
-     * is required. The card is kept pending for the customer with that email, creating one if
-     * needed, and opens nothing until confirmed on the receipt within 24 hours. Without
-     * save_payment_method_phone, payment_method_save.email_confirmation_required is true and an
-     * emailed code confirms the save with purpose confirm_saved_payment_method and channel email.
-     * The code goes only to the email given with the payment. Subscription signup and setup still
-     * require email verification before collection when the email belongs to an existing customer.
-     * A checkout the buyer bound by a texted code saves the card with that number. A checkout
-     * whose buyer confirmed the customer's email can also send save_payment_method_phone, to save
-     * the card with a number the buyer confirms by text after paying. A checkout can send the
-     * buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm,
-     * in stripe.confirmation_token created with no setup_future_usage, pays without the save, and
-     * the payment attempt's payment_method_save reports not_saved with reason
+     * Saves the card this payment collects. The credential determines how it is saved. With an API
+     * key, partner token, or Dashboard session, saves the card for the order's customer with usage
+     * off_session, so you can charge it later without the buyer. Send true only when the buyer
+     * agreed to that on your page. Requires customer_id on the order and exactly one newly
+     * collected card, Apple Pay, or Google Pay credential:
+     * payment_source.stripe.confirmation_token created with setup_future_usage off_session, or
+     * payment_source.stripe.payment_method (credential_type stripe_payment_method). For
+     * confirm_payment_intents, send the credential in
+     * payment_intents[i].payment_source.stripe.confirmation_token or
+     * payment_intents[i].payment_source.stripe.payment_method. Other selected payments may use
+     * saved payment methods. API keys and partner tokens also need payments.payment_methods.write.
+     * Flint saves the card once the payment is approved, including an authorization awaiting
+     * capture, sends payment_method.activated, and sets payment_source.card.payment_method_id on
+     * the payment intent. If the bank asks the buyer to authenticate, that one authentication also
+     * covers the saved card. A resume keeps the choice the attempt started with. With the checkout
+     * session's own credential, records the buyer's choice to save the card they typed for faster
+     * checkout at this merchant. Send true only from the checkout session's own credential, when
+     * the session's can_save_payment_method is true, for one newly collected card sent as
+     * payment_source.stripe.confirmation_token, or
+     * payment_intents[i].payment_source.stripe.confirmation_token for a selected payment, created
+     * with setup_future_usage on_session. The card is saved with usage on_session once the payment
+     * succeeds, for the customer the checkout acts for: the customer the merchant created the
+     * session for, or the customer whose email the buyer confirmed in it. When
+     * save_payment_method_requires_verification is true, buyer_contact.email is required. The card
+     * is kept pending for the customer with that email, creating one if needed, and opens nothing
+     * until confirmed on the receipt within 24 hours. Without save_payment_method_phone,
+     * payment_method_save.email_confirmation_required is true and an emailed code confirms the
+     * save with purpose confirm_saved_payment_method and channel email. The code goes only to the
+     * email given with the payment. Subscription signup and setup still require email verification
+     * before collection when the email belongs to an existing customer. A checkout the buyer bound
+     * by a texted code saves the card with that number. A checkout whose buyer confirmed the
+     * customer's email can also send save_payment_method_phone, to save the card with a number the
+     * buyer confirms by text after paying. A checkout can send the buyer's choice with every
+     * payment button: Apple Pay, Google Pay, a bank account, or Affirm, in
+     * payment_source.stripe.confirmation_token created with no setup_future_usage, pays without
+     * the save, and the payment attempt's payment_method_save reports not_saved with reason
      * payment_method_not_saveable. The session's save_payment_method_types lists what is saved.
-     * Send false or omit it when the buyer does not choose to save; stripe.confirmation_token must
-     * then have no setup_future_usage. Default: false.
+     * Send false or omit it when the buyer does not choose to save;
+     * payment_source.stripe.confirmation_token must then have no setup_future_usage, except for a
+     * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
     /**
@@ -1062,8 +1084,8 @@ export type PayOrderRequestConfirmPaymentIntentsInput = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe";
@@ -1109,28 +1131,46 @@ export type PayOrderRequestConfirmPaymentIntentsInput = ({
      */
     "payment_return_url"?: string;
     /**
-     * The buyer's choice to save the card they typed for faster checkout at this merchant. Send
-     * true only from the checkout session's own credential, when the session's
-     * can_save_payment_method is true, for one newly collected card sent as
-     * stripe.confirmation_token created with setup_future_usage on_session. The card is saved with
-     * usage on_session once the payment succeeds, for the customer the checkout acts for: the
-     * customer the merchant created the session for, or the customer whose email the buyer
-     * confirmed in it. When save_payment_method_requires_verification is true, buyer_contact.email
-     * is required. The card is kept pending for the customer with that email, creating one if
-     * needed, and opens nothing until confirmed on the receipt within 24 hours. Without
-     * save_payment_method_phone, payment_method_save.email_confirmation_required is true and an
-     * emailed code confirms the save with purpose confirm_saved_payment_method and channel email.
-     * The code goes only to the email given with the payment. Subscription signup and setup still
-     * require email verification before collection when the email belongs to an existing customer.
-     * A checkout the buyer bound by a texted code saves the card with that number. A checkout
-     * whose buyer confirmed the customer's email can also send save_payment_method_phone, to save
-     * the card with a number the buyer confirms by text after paying. A checkout can send the
-     * buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm,
-     * in stripe.confirmation_token created with no setup_future_usage, pays without the save, and
-     * the payment attempt's payment_method_save reports not_saved with reason
+     * Saves the card this payment collects. The credential determines how it is saved. With an API
+     * key, partner token, or Dashboard session, saves the card for the order's customer with usage
+     * off_session, so you can charge it later without the buyer. Send true only when the buyer
+     * agreed to that on your page. Requires customer_id on the order and exactly one newly
+     * collected card, Apple Pay, or Google Pay credential:
+     * payment_source.stripe.confirmation_token created with setup_future_usage off_session, or
+     * payment_source.stripe.payment_method (credential_type stripe_payment_method). For
+     * confirm_payment_intents, send the credential in
+     * payment_intents[i].payment_source.stripe.confirmation_token or
+     * payment_intents[i].payment_source.stripe.payment_method. Other selected payments may use
+     * saved payment methods. API keys and partner tokens also need payments.payment_methods.write.
+     * Flint saves the card once the payment is approved, including an authorization awaiting
+     * capture, sends payment_method.activated, and sets payment_source.card.payment_method_id on
+     * the payment intent. If the bank asks the buyer to authenticate, that one authentication also
+     * covers the saved card. A resume keeps the choice the attempt started with. With the checkout
+     * session's own credential, records the buyer's choice to save the card they typed for faster
+     * checkout at this merchant. Send true only from the checkout session's own credential, when
+     * the session's can_save_payment_method is true, for one newly collected card sent as
+     * payment_source.stripe.confirmation_token, or
+     * payment_intents[i].payment_source.stripe.confirmation_token for a selected payment, created
+     * with setup_future_usage on_session. The card is saved with usage on_session once the payment
+     * succeeds, for the customer the checkout acts for: the customer the merchant created the
+     * session for, or the customer whose email the buyer confirmed in it. When
+     * save_payment_method_requires_verification is true, buyer_contact.email is required. The card
+     * is kept pending for the customer with that email, creating one if needed, and opens nothing
+     * until confirmed on the receipt within 24 hours. Without save_payment_method_phone,
+     * payment_method_save.email_confirmation_required is true and an emailed code confirms the
+     * save with purpose confirm_saved_payment_method and channel email. The code goes only to the
+     * email given with the payment. Subscription signup and setup still require email verification
+     * before collection when the email belongs to an existing customer. A checkout the buyer bound
+     * by a texted code saves the card with that number. A checkout whose buyer confirmed the
+     * customer's email can also send save_payment_method_phone, to save the card with a number the
+     * buyer confirms by text after paying. A checkout can send the buyer's choice with every
+     * payment button: Apple Pay, Google Pay, a bank account, or Affirm, in
+     * payment_source.stripe.confirmation_token created with no setup_future_usage, pays without
+     * the save, and the payment attempt's payment_method_save reports not_saved with reason
      * payment_method_not_saveable. The session's save_payment_method_types lists what is saved.
-     * Send false or omit it when the buyer does not choose to save; stripe.confirmation_token must
-     * then have no setup_future_usage. Default: false.
+     * Send false or omit it when the buyer does not choose to save;
+     * payment_source.stripe.confirmation_token must then have no setup_future_usage, except for a
+     * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
     /**
@@ -1203,8 +1243,8 @@ export type PayOrderRequestPay = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe" | (string & {});
@@ -1271,28 +1311,46 @@ export type PayOrderRequestPay = ({
      */
     "platform_fee"?: PlatformFeeRequest;
     /**
-     * The buyer's choice to save the card they typed for faster checkout at this merchant. Send
-     * true only from the checkout session's own credential, when the session's
-     * can_save_payment_method is true, for one newly collected card sent as
-     * stripe.confirmation_token created with setup_future_usage on_session. The card is saved with
-     * usage on_session once the payment succeeds, for the customer the checkout acts for: the
-     * customer the merchant created the session for, or the customer whose email the buyer
-     * confirmed in it. When save_payment_method_requires_verification is true, buyer_contact.email
-     * is required. The card is kept pending for the customer with that email, creating one if
-     * needed, and opens nothing until confirmed on the receipt within 24 hours. Without
-     * save_payment_method_phone, payment_method_save.email_confirmation_required is true and an
-     * emailed code confirms the save with purpose confirm_saved_payment_method and channel email.
-     * The code goes only to the email given with the payment. Subscription signup and setup still
-     * require email verification before collection when the email belongs to an existing customer.
-     * A checkout the buyer bound by a texted code saves the card with that number. A checkout
-     * whose buyer confirmed the customer's email can also send save_payment_method_phone, to save
-     * the card with a number the buyer confirms by text after paying. A checkout can send the
-     * buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm,
-     * in stripe.confirmation_token created with no setup_future_usage, pays without the save, and
-     * the payment attempt's payment_method_save reports not_saved with reason
+     * Saves the card this payment collects. The credential determines how it is saved. With an API
+     * key, partner token, or Dashboard session, saves the card for the order's customer with usage
+     * off_session, so you can charge it later without the buyer. Send true only when the buyer
+     * agreed to that on your page. Requires customer_id on the order and exactly one newly
+     * collected card, Apple Pay, or Google Pay credential:
+     * payment_source.stripe.confirmation_token created with setup_future_usage off_session, or
+     * payment_source.stripe.payment_method (credential_type stripe_payment_method). For
+     * confirm_payment_intents, send the credential in
+     * payment_intents[i].payment_source.stripe.confirmation_token or
+     * payment_intents[i].payment_source.stripe.payment_method. Other selected payments may use
+     * saved payment methods. API keys and partner tokens also need payments.payment_methods.write.
+     * Flint saves the card once the payment is approved, including an authorization awaiting
+     * capture, sends payment_method.activated, and sets payment_source.card.payment_method_id on
+     * the payment intent. If the bank asks the buyer to authenticate, that one authentication also
+     * covers the saved card. A resume keeps the choice the attempt started with. With the checkout
+     * session's own credential, records the buyer's choice to save the card they typed for faster
+     * checkout at this merchant. Send true only from the checkout session's own credential, when
+     * the session's can_save_payment_method is true, for one newly collected card sent as
+     * payment_source.stripe.confirmation_token, or
+     * payment_intents[i].payment_source.stripe.confirmation_token for a selected payment, created
+     * with setup_future_usage on_session. The card is saved with usage on_session once the payment
+     * succeeds, for the customer the checkout acts for: the customer the merchant created the
+     * session for, or the customer whose email the buyer confirmed in it. When
+     * save_payment_method_requires_verification is true, buyer_contact.email is required. The card
+     * is kept pending for the customer with that email, creating one if needed, and opens nothing
+     * until confirmed on the receipt within 24 hours. Without save_payment_method_phone,
+     * payment_method_save.email_confirmation_required is true and an emailed code confirms the
+     * save with purpose confirm_saved_payment_method and channel email. The code goes only to the
+     * email given with the payment. Subscription signup and setup still require email verification
+     * before collection when the email belongs to an existing customer. A checkout the buyer bound
+     * by a texted code saves the card with that number. A checkout whose buyer confirmed the
+     * customer's email can also send save_payment_method_phone, to save the card with a number the
+     * buyer confirms by text after paying. A checkout can send the buyer's choice with every
+     * payment button: Apple Pay, Google Pay, a bank account, or Affirm, in
+     * payment_source.stripe.confirmation_token created with no setup_future_usage, pays without
+     * the save, and the payment attempt's payment_method_save reports not_saved with reason
      * payment_method_not_saveable. The session's save_payment_method_types lists what is saved.
-     * Send false or omit it when the buyer does not choose to save; stripe.confirmation_token must
-     * then have no setup_future_usage. Default: false.
+     * Send false or omit it when the buyer does not choose to save;
+     * payment_source.stripe.confirmation_token must then have no setup_future_usage, except for a
+     * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
     /**
@@ -1382,8 +1440,8 @@ export type PayOrderRequestPayInput = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe";
@@ -1450,28 +1508,46 @@ export type PayOrderRequestPayInput = ({
      */
     "platform_fee"?: PlatformFeeRequestInput;
     /**
-     * The buyer's choice to save the card they typed for faster checkout at this merchant. Send
-     * true only from the checkout session's own credential, when the session's
-     * can_save_payment_method is true, for one newly collected card sent as
-     * stripe.confirmation_token created with setup_future_usage on_session. The card is saved with
-     * usage on_session once the payment succeeds, for the customer the checkout acts for: the
-     * customer the merchant created the session for, or the customer whose email the buyer
-     * confirmed in it. When save_payment_method_requires_verification is true, buyer_contact.email
-     * is required. The card is kept pending for the customer with that email, creating one if
-     * needed, and opens nothing until confirmed on the receipt within 24 hours. Without
-     * save_payment_method_phone, payment_method_save.email_confirmation_required is true and an
-     * emailed code confirms the save with purpose confirm_saved_payment_method and channel email.
-     * The code goes only to the email given with the payment. Subscription signup and setup still
-     * require email verification before collection when the email belongs to an existing customer.
-     * A checkout the buyer bound by a texted code saves the card with that number. A checkout
-     * whose buyer confirmed the customer's email can also send save_payment_method_phone, to save
-     * the card with a number the buyer confirms by text after paying. A checkout can send the
-     * buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm,
-     * in stripe.confirmation_token created with no setup_future_usage, pays without the save, and
-     * the payment attempt's payment_method_save reports not_saved with reason
+     * Saves the card this payment collects. The credential determines how it is saved. With an API
+     * key, partner token, or Dashboard session, saves the card for the order's customer with usage
+     * off_session, so you can charge it later without the buyer. Send true only when the buyer
+     * agreed to that on your page. Requires customer_id on the order and exactly one newly
+     * collected card, Apple Pay, or Google Pay credential:
+     * payment_source.stripe.confirmation_token created with setup_future_usage off_session, or
+     * payment_source.stripe.payment_method (credential_type stripe_payment_method). For
+     * confirm_payment_intents, send the credential in
+     * payment_intents[i].payment_source.stripe.confirmation_token or
+     * payment_intents[i].payment_source.stripe.payment_method. Other selected payments may use
+     * saved payment methods. API keys and partner tokens also need payments.payment_methods.write.
+     * Flint saves the card once the payment is approved, including an authorization awaiting
+     * capture, sends payment_method.activated, and sets payment_source.card.payment_method_id on
+     * the payment intent. If the bank asks the buyer to authenticate, that one authentication also
+     * covers the saved card. A resume keeps the choice the attempt started with. With the checkout
+     * session's own credential, records the buyer's choice to save the card they typed for faster
+     * checkout at this merchant. Send true only from the checkout session's own credential, when
+     * the session's can_save_payment_method is true, for one newly collected card sent as
+     * payment_source.stripe.confirmation_token, or
+     * payment_intents[i].payment_source.stripe.confirmation_token for a selected payment, created
+     * with setup_future_usage on_session. The card is saved with usage on_session once the payment
+     * succeeds, for the customer the checkout acts for: the customer the merchant created the
+     * session for, or the customer whose email the buyer confirmed in it. When
+     * save_payment_method_requires_verification is true, buyer_contact.email is required. The card
+     * is kept pending for the customer with that email, creating one if needed, and opens nothing
+     * until confirmed on the receipt within 24 hours. Without save_payment_method_phone,
+     * payment_method_save.email_confirmation_required is true and an emailed code confirms the
+     * save with purpose confirm_saved_payment_method and channel email. The code goes only to the
+     * email given with the payment. Subscription signup and setup still require email verification
+     * before collection when the email belongs to an existing customer. A checkout the buyer bound
+     * by a texted code saves the card with that number. A checkout whose buyer confirmed the
+     * customer's email can also send save_payment_method_phone, to save the card with a number the
+     * buyer confirms by text after paying. A checkout can send the buyer's choice with every
+     * payment button: Apple Pay, Google Pay, a bank account, or Affirm, in
+     * payment_source.stripe.confirmation_token created with no setup_future_usage, pays without
+     * the save, and the payment attempt's payment_method_save reports not_saved with reason
      * payment_method_not_saveable. The session's save_payment_method_types lists what is saved.
-     * Send false or omit it when the buyer does not choose to save; stripe.confirmation_token must
-     * then have no setup_future_usage. Default: false.
+     * Send false or omit it when the buyer does not choose to save;
+     * payment_source.stripe.confirmation_token must then have no setup_future_usage, except for a
+     * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
     /**
@@ -1549,8 +1625,8 @@ export type PayOrderRequestResume = {
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe" | (string & {});
@@ -1613,8 +1689,8 @@ export type PayOrderRequestResumeInput = {
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe";
@@ -1645,7 +1721,9 @@ export type PayOrderRequestResumeInput = {
 /** The `setup` variant of `PayOrderRequest`. */
 export type PayOrderRequestSetup = ({
     /**
-     * Save a payment method on an order with no balance, without charging it. Value enum: "setup".
+     * Save a payment method on an order with no balance, without charging it. Send
+     * setup_payment_source to start; omit it to continue the same setup attempt after the buyer
+     * finishes its pending action. Value enum: "setup".
      */
     "action": "setup" | (string & {});
     /**
@@ -1676,8 +1754,8 @@ export type PayOrderRequestSetup = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe" | (string & {});
@@ -1711,15 +1789,21 @@ export type PayOrderRequestSetup = ({
      */
     "payment_return_url"?: string;
     /**
-     * The one-time token for the payment method to save. Nothing is charged. The
+     * The credential for the payment method to save. Nothing is charged. Required to start a
+     * setup. Omit it only to continue a setup attempt in requires_action with a pending setup
+     * step; continuation reuses that attempt. If no setup exists, omission returns 400
+     * INVALID_REQUEST with detail REQUIRED and param setup_payment_source. A terminal or replaced
+     * setup returns 409 ACTION_NOT_ALLOWED naming the attempt and its status. The
      * `stripe_payment_method` variant of `PaymentSourceCredential`.
      */
-    "setup_payment_source": PaymentSourceCredentialStripePaymentMethod;
+    "setup_payment_source"?: PaymentSourceCredentialStripePaymentMethod;
 });
 /** The `setup` variant of `PayOrderRequest`. */
 export type PayOrderRequestSetupInput = ({
     /**
-     * Save a payment method on an order with no balance, without charging it. Value enum: "setup".
+     * Save a payment method on an order with no balance, without charging it. Send
+     * setup_payment_source to start; omit it to continue the same setup attempt after the buyer
+     * finishes its pending action. Value enum: "setup".
      */
     "action": "setup";
     /**
@@ -1750,8 +1834,8 @@ export type PayOrderRequestSetupInput = ({
      * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
      * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
      * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
+     * omit client_action_type or send stripe for reader payments. Defaults to url for a new
+     * confirmation; omission on a continuation keeps the existing type. Default: "url". Value
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe";
@@ -1785,10 +1869,14 @@ export type PayOrderRequestSetupInput = ({
      */
     "payment_return_url"?: string;
     /**
-     * The one-time token for the payment method to save. Nothing is charged. The
+     * The credential for the payment method to save. Nothing is charged. Required to start a
+     * setup. Omit it only to continue a setup attempt in requires_action with a pending setup
+     * step; continuation reuses that attempt. If no setup exists, omission returns 400
+     * INVALID_REQUEST with detail REQUIRED and param setup_payment_source. A terminal or replaced
+     * setup returns 409 ACTION_NOT_ALLOWED naming the attempt and its status. The
      * `stripe_payment_method` variant of `PaymentSourceCredential`.
      */
-    "setup_payment_source": PaymentSourceCredentialStripePaymentMethodInput;
+    "setup_payment_source"?: PaymentSourceCredentialStripePaymentMethodInput;
 });
 /** A response containing `PayOrderResult` data. */
 export type PayOrderResponse = {
@@ -2331,6 +2419,10 @@ export type PaymentIntent = {
      */
     "invoice_id"?: string;
     /**
+     * The invoice installment this payment collects. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
      * Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@link
      * PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error
      * code, a message, the failure time, and remediation. anyOf[2] (Value): null.
@@ -2555,9 +2647,11 @@ export type PaymentIntent = {
      * payments list only cancel; subscription payments list none. Order edit payments list confirm
      * while awaiting payment details or action. A listed action can still be refused due to an
      * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. Always
-     * empty for buyer credentials. New actions may be added. [] enum: "confirm", "capture",
-     * "cancel". [] (Value): string. Value enum: "confirm", "capture", "cancel".
+     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
+     * merchant list is credential-independent. Checkout credentials receive that list filtered to
+     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
+     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
+     * string. Value enum: "confirm", "capture", "cancel".
      */
     "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /**

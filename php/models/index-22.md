@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PromotionSchedulePatchInput to ReportSucceededEventInput
+# PromotionScheduleInput to ReportSucceededInput
 
+- [PromotionScheduleInput](PromotionScheduleInput.md)
 - [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
 - [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
 - [PromotionSettingsInput](PromotionSettingsInput.md)
@@ -101,5 +102,4 @@
 - [ReportPendingInput](ReportPendingInput.md)
 - [ReportResponseInput](ReportResponseInput.md)
 - [ReportSucceededInput](ReportSucceededInput.md)
-- [ReportSucceededEventInput](ReportSucceededEventInput.md)
 

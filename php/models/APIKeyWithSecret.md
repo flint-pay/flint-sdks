@@ -27,7 +27,7 @@ Response model.
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. Active and expired keys can be revoked; revoked keys accept none. Items values: `"revoke"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: `uint64`. minimum: `1`. |
-| `secret_key` | Required | string | One-time secret returned only when the API key is created. |
+| `secret_key` | Optional | string | One-time secret returned only when the API key is created. Returned only to the credential that created it, and omitted when another credential replays the request. |
 
 ### APIKeyWithSecret.created_by
 

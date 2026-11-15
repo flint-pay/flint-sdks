@@ -12,6 +12,7 @@ import type {
     BuyerCustomerSession,
     BuyerCustomerSessionResponse,
     BuyerEmailChangeRequest,
+    BuyerEmailChangeRequestListResponse,
     BuyerEmailChangeRequestResponse,
     BuyerFlintWalletCardListResponse,
     BuyerFlintWalletStoreSetup,
@@ -61,10 +62,10 @@ import type {
     BuyerShipment,
     BuyerShipmentListResponse,
     BuyerShipmentResponse,
-    BuyerSubscription,
-    BuyerSubscriptionListResponse
+    BuyerSubscription
 } from '../declarations/types-3.js';
 import type {
+    BuyerSubscriptionListResponse,
     BuyerSubscriptionPaymentRetry,
     BuyerSubscriptionPaymentRetryListResponse,
     BuyerSubscriptionPaymentRetryResponse,
@@ -87,7 +88,6 @@ import type {
     CustomerEmailPreferences,
     CustomerEmailPreferencesResponse
 } from '../declarations/types-15.js';
-import type { EmailChangeRequest, EmailChangeRequestListResponse } from '../declarations/types-24.js';
 import type {
     MeCancelReturnParams,
     MeCancelSubscriptionParams,
@@ -347,9 +347,9 @@ export type {
     BuyerRememberedBuyerListResponse,
     BuyerReturnListResponse,
     BuyerShipmentListResponse,
-    BuyerSubscriptionListResponse,
     BuyerRememberedBuyer,
     BuyerRememberedBuyerResponse,
+    BuyerPayBalanceActionOptions,
     BuyerRetryPaymentActionOptions,
     BuyerReturnCompletionBlocker,
     BuyerReturnHandoffRequirement,
@@ -392,6 +392,7 @@ export type {
     BuyerSubscriptionPaymentRetryResponse,
     BuyerSubscriptionPreviewResponse,
     BuyerSubscriptionPaymentRetryListResponse,
+    BuyerSubscriptionListResponse,
     BuyerTicketListResponse,
     BuyerTicket,
     BuyerSubscriptionRenewalResult,
@@ -431,6 +432,7 @@ export type {
     BuyerPackageResponse,
     BuyerCreditNoteListResponse,
     BuyerCustomerDeletionRequestListResponse,
+    BuyerEmailChangeRequestListResponse,
     BuyerFlintWalletCardListResponse,
     BuyerFulfillmentEventListResponse,
     BuyerFulfillmentEvent,
@@ -444,7 +446,6 @@ export type {
     BuyerCustomerSession,
     BuyerCustomerSessionResponse,
     BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions,
     BuyerOrderLineItemModifier,
     BuyerExpandedSubscriptionPlanSummary,
     BuyerOrderPaymentAttempt,
@@ -507,14 +508,6 @@ export type {
     SubscriptionSwapPreviewRequest
 } from '../declarations/types-63.js';
 export type { SubscriptionPlanChangePreview, SubscriptionPlanSwapVariant } from '../declarations/types-62.js';
-export type {
-    EmailChangeRequestListResponse,
-    EmailChangeRequest,
-    ErrorResourceReference,
-    ErrorRemediation,
-    DocumentTaxID,
-    ExpandedCustomerSummary
-} from '../declarations/types-24.js';
 export type {
     OrderActivityListResponse,
     OrderActivity,
@@ -807,6 +800,7 @@ export type {
 export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-19.js';
 export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-18.js';
 export type { LegalSettings, LineItemInventorySnapshot, LineItemInventoryDemand } from '../declarations/types-35.js';
+export type { ErrorResourceReference, ErrorRemediation, DocumentTaxID, ExpandedCustomerSummary } from '../declarations/types-24.js';
 export type { CreateEmailChangeRequestInput, CreateEmailChangeRequest } from '../declarations/types-9.js';
 export type { CreateReturnEligibilityPreviewRequestInput } from '../declarations/types-12.js';
 export type {
@@ -1041,13 +1035,13 @@ export interface MeResource {
  * plan only when payment succeeds; prorated_now charges the difference for the rest of the current
  * period, keeps the period and anchor, and requires an unchanged interval; next_renewal changes
  * the plan immediately without charging and keeps the current period and next billing date. Omit
- * interval and quantity to keep their current values; the target plan must offer them. Requires a
- * full buyer session and Idempotency-Key. Send expected_version to reject a concurrent change.
- * Retry with the same key to recover the same result. Returns 200 including on decline, with the
- * unchanged subscription, a closed unpaid order, and a failed order_payment_attempt. Inspect
- * order_payment_attempt.last_payment_error before trying again. The order and
- * order_payment_attempt are null when billing starts at the next renewal. When the store cannot
- * accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason
+ * the interval pair to keep the current interval when the target plan offers it, otherwise use the
+ * target default. Requires a full buyer session and Idempotency-Key. Send expected_version to
+ * reject a concurrent change. Retry with the same key to recover the same result. Returns 200
+ * including on decline, with the unchanged subscription, a closed unpaid order, and a failed
+ * order_payment_attempt. Inspect order_payment_attempt.last_payment_error before trying again. The
+ * order and order_payment_attempt are null when billing starts at the next renewal. When the store
+ * cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason
  * processing_restricted. Changes billed at a future renewal remain available. A closed store is
  * read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status.
  * Receipts and order history remain readable.
@@ -1728,15 +1722,15 @@ export interface MeResource {
  * @example
  * client.me.listEmailChangeRequests()
  */
-    listEmailChangeRequests(params?: MeListEmailChangeRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<EmailChangeRequestListResponse, EmailChangeRequestListResponse>>;
+    listEmailChangeRequests(params?: MeListEmailChangeRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<WithResponseInfo<BuyerEmailChangeRequestListResponse, BuyerEmailChangeRequestListResponse>>;
     /** Iterate pages lazily.
      * @see https://developers.withflintpay.com/docs/api/customer-account#listMeEmailChangeRequests
      */
-    listEmailChangeRequestsPages(params?: MeListEmailChangeRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<EmailChangeRequestListResponse, EmailChangeRequestListResponse>>;
+    listEmailChangeRequestsPages(params?: MeListEmailChangeRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<WithResponseInfo<BuyerEmailChangeRequestListResponse, BuyerEmailChangeRequestListResponse>>;
     /** Iterate items lazily.
      * @see https://developers.withflintpay.com/docs/api/customer-account#listMeEmailChangeRequests
      */
-    listEmailChangeRequestsItems(params?: MeListEmailChangeRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<EmailChangeRequest>;
+    listEmailChangeRequestsItems(params?: MeListEmailChangeRequestsParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<BuyerEmailChangeRequest>;
     /**
  * Returns the current buyer's usable wallet cards in newest-first order. Each flint_wallet_card_id
  * is an opaque per-store handle. store_payment_method_id is null until this store holds a copy.
@@ -2352,13 +2346,13 @@ export interface MeResource {
  */
     updateEmailPreferences(params: MeUpdateEmailPreferencesParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<CustomerEmailPreferences, CustomerEmailPreferencesResponse>>;
     /**
- * Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery,
- * billing interval and quantity when the matching buyer action is available. Send billing_interval
- * and billing_interval_count together. Mixed changes commit atomically. A scoped card-update
- * session may send only payment_method_id and expected_version. Send expected_version to reject
- * concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and
- * reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key.
- * A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason
+ * Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery
+ * and billing interval when the matching buyer action is available. Send billing_interval and
+ * billing_interval_count together. Mixed changes commit atomically. A scoped card-update session
+ * may send only payment_method_id and expected_version. Send expected_version to reject concurrent
+ * changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason
+ * `status_not_reached`. Once setup finishes, send a new request with a new idempotency key. A
+ * closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason
  * terminal_status. Receipts and order history remain readable.
  *
  * `PATCH /v1/me/subscriptions/{subscription_id}`
@@ -2368,8 +2362,8 @@ export interface MeResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.me.updateSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey:
- * idempotencyKey })
+ * client.me.updateSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {payment_method_id:
+ * "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey })
  */
     updateSubscription(subscription_id: InputValue<string>, params: MeUpdateSubscriptionParams, options?: RequestOptions<"customer">): Promise<WithResponseInfo<BuyerSubscription, BuyerSubscriptionResponse>>;
     /**

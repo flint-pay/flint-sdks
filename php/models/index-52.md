@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnResolutionAdjustment to MerchantBillingEntry
+# MerchantBillingInvoiceLineItem to BuyerGiftCardTransaction
 
+- [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
+- [MerchantBillingInvoice](MerchantBillingInvoice.md)
 - [BuyerReturnResolutionAdjustment](BuyerReturnResolutionAdjustment.md)
 - [BuyerReturnResolutionExecutionBlocker](BuyerReturnResolutionExecutionBlocker.md)
 - [BuyerReturnResolution](BuyerReturnResolution.md)
@@ -100,6 +102,4 @@
 - [BuyerFlintWalletCard](BuyerFlintWalletCard.md)
 - [BuyerFulfillmentEvent](BuyerFulfillmentEvent.md)
 - [BuyerGiftCardTransaction](BuyerGiftCardTransaction.md)
-- [OrderActivity](OrderActivity.md)
-- [MerchantBillingEntry](MerchantBillingEntry.md)
 

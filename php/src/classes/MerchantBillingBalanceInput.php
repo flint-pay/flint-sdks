@@ -7,9 +7,12 @@ namespace Flint;
  * @property-read string $merchant_billing_balance_id
  * @property-read string|\DateTimeInterface $observed_at
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $outstanding_money
+ * @property-read string|\DateTimeInterface $past_due_at
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $past_due_money
+ * @property-read string|\DateTimeInterface $payout_hold_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantBillingBalanceInput extends Model {
-    /** @param array{'available_credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string|\DateTimeInterface, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'available_credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string|\DateTimeInterface, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'past_due_at'?: string|\DateTimeInterface, 'past_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payout_hold_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalanceInput')); }
     /** Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application lowers both amounts and records a credit_applied entry. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -41,4 +44,22 @@ final class MerchantBillingBalanceInput extends Model {
      */
     public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
+    /** Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When past_due_at is omitted; use hasPastDueAt() or valueOrDefault().
+     */
+    public function getPastDueAt(): string|\DateTimeInterface { return $this->get('past_due_at'); }
+    public function hasPastDueAt(): bool { return $this->has('past_due_at'); }
+    /** Amount that is past its due date and still unpaid. Zero when nothing is past due. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When past_due_money is omitted; use hasPastDueMoney() or valueOrDefault().
+     */
+    public function getPastDueMoney(): mixed { return $this->get('past_due_money'); }
+    public function hasPastDueMoney(): bool { return $this->has('past_due_money'); }
+    /** Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When payout_hold_at is omitted; use hasPayoutHoldAt() or valueOrDefault().
+     */
+    public function getPayoutHoldAt(): string|\DateTimeInterface { return $this->get('payout_hold_at'); }
+    public function hasPayoutHoldAt(): bool { return $this->has('payout_hold_at'); }
 }

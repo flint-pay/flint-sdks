@@ -11,12 +11,12 @@ Schema defaults are metadata; clients do not apply them. Field definitions apply
 ## Index
 
 - [AcceptFulfillmentRequestInput to BuyerCreateReturnRequestInput](models/index-1.md)
-- [BuyerCreateReturnResolutionPreviewRequest to BuyerReturnPreviewResolution](models/index-2.md)
-- [BuyerReturnPreviewResponse to CategoryUpdatedInstalledMerchantsEvent](models/index-3.md)
-- [CategoryUpdatedMerchantEvent to CompleteReturnRequest](models/index-4.md)
-- [CompleteReturnRequestInput to CreateDeliveryPreviewRequest](models/index-5.md)
-- [CreateDeliveryPreviewRequestInput to CreateInvoiceQuickPayRequestInput](models/index-6.md)
-- [CreateInvoiceRequest to CreatePriceListPricesRequestInput](models/index-7.md)
+- [BuyerCreateReturnResolutionPreviewRequest to BuyerReturnPreviewEligibility](models/index-2.md)
+- [BuyerReturnPreviewResolution to CategoryResponse](models/index-3.md)
+- [CategoryUpdatedInstalledMerchantsEvent to CompleteFulfillmentRequestInput](models/index-4.md)
+- [CompleteReturnRequest to CreateDeliveryPickupLocationsPreviewRequestInput](models/index-5.md)
+- [CreateDeliveryPreviewRequest to CreateInvoiceQuickPayRequest](models/index-6.md)
+- [CreateInvoiceQuickPayRequestInput to CreatePriceListPricesRequestInput](models/index-7.md)
 - [CreatePriceListPricesResponse to CreateSubscriptionDeliveryMigrationRequest](models/index-8.md)
 - [CreateSubscriptionDeliveryMigrationRequestInput to CustomerCreatedMerchantEvent](models/index-9.md)
 - [CustomerDeletedInstalledMerchantsEvent to DeliveryEstimateRule](models/index-10.md)

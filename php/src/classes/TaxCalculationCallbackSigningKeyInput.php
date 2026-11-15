@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $tax_calculation_callback_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class TaxCalculationCallbackSigningKeyInput extends Model {
-    /** @param array{'key_id': string, 'secret': string, 'tax_calculation_callback_id': string, ...}|object $values */
+    /** @param array{'key_id': string, 'secret'?: string, 'tax_calculation_callback_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxCalculationCallbackSigningKeyInput')); }
     /** ID of the new HMAC signing key. Example: "cbkey_00112233445566778899aabb".
      * @return string
@@ -15,7 +15,7 @@ final class TaxCalculationCallbackSigningKeyInput extends Model {
      */
     public function getKeyId(): string { return $this->get('key_id'); }
     public function hasKeyId(): bool { return $this->has('key_id'); }
-    /** New HMAC shared secret. Returned only by this response.
+    /** New HMAC shared secret. Returned only by this response. Returned only to the credential that created it, and omitted when another credential replays the request.
      * @return string
      * @throws SdkError When secret is omitted; use hasSecret() or valueOrDefault().
      */

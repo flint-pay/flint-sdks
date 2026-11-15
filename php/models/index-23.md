@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# RepriceDiscountsRequestInput to ReturnReceiptCreatedMerchantEventInput
+# ReportSucceededEventInput to ReturnReceiptCreatedInstalledMerchantsEventInput
 
+- [ReportSucceededEventInput](ReportSucceededEventInput.md)
 - [RepriceDiscountsRequestInput](RepriceDiscountsRequestInput.md)
 - [ResendWebhookDeliveryRequestInput](ResendWebhookDeliveryRequestInput.md)
 - [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
@@ -101,5 +102,4 @@
 - [ReturnReasonSummaryInput](ReturnReasonSummaryInput.md)
 - [ReturnReceiptInput](ReturnReceiptInput.md)
 - [ReturnReceiptCreatedInstalledMerchantsEventInput](ReturnReceiptCreatedInstalledMerchantsEventInput.md)
-- [ReturnReceiptCreatedMerchantEventInput](ReturnReceiptCreatedMerchantEventInput.md)
 

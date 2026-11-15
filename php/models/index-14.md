@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InventoryTransferDepartedMerchantEventInput to InvoicePaymentDueDateInput
+# InventoryTransferDepartedInstalledMerchantsEventInput to InvoicePaymentDueInput
 
+- [InventoryTransferDepartedInstalledMerchantsEventInput](InventoryTransferDepartedInstalledMerchantsEventInput.md)
 - [InventoryTransferDepartedMerchantEventInput](InventoryTransferDepartedMerchantEventInput.md)
 - [InventoryTransferLineInput](InventoryTransferLineInput.md)
 - [InventoryTransferLineRequestInput](InventoryTransferLineRequestInput.md)
@@ -101,5 +102,4 @@
 - [InvoicePaymentAttemptSucceededInstalledMerchantsEventInput](InvoicePaymentAttemptSucceededInstalledMerchantsEventInput.md)
 - [InvoicePaymentAttemptSucceededMerchantEventInput](InvoicePaymentAttemptSucceededMerchantEventInput.md)
 - [InvoicePaymentDueInput](InvoicePaymentDueInput.md)
-- [InvoicePaymentDueDateInput](InvoicePaymentDueDateInput.md)
 

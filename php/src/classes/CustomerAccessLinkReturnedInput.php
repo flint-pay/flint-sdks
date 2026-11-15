@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerAccessLinkReturnedInput extends Model {
-    /** @param array{'delivery': string, 'expires_at': string|\DateTimeInterface, 'purpose': string, 'recipient_email'?: string, 'return_url': string|null, 'sent'?: bool, 'url': string, ...}|object $values */
+    /** @param array{'delivery': string, 'expires_at': string|\DateTimeInterface, 'purpose': string, 'recipient_email'?: string, 'return_url': string|null, 'sent'?: bool, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccessLinkReturnedInput')); }
     /** Whether the credential was returned or emailed. Value enum: "link".
      * @return string
@@ -49,7 +49,7 @@ final class CustomerAccessLinkReturnedInput extends Model {
      */
     public function getSent(): bool { return $this->get('sent'); }
     public function hasSent(): bool { return $this->has('sent'); }
-    /** The single-use bearer URL, present only with link delivery. Format: uri. Example: "https://example.com/receipt".
+    /** The single-use bearer URL, present only with link delivery. Returned only to the credential that created it, and omitted when another credential replays the request. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

@@ -1576,10 +1576,6 @@ export type UpdateSubscriptionLineItemRequest = {
      */
     "expected_version"?: number;
     /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity"?: number;
-    /**
      * ID of the catalog variant to swap the line to. The line keeps its quantity unless `quantity`
      * is also sent, and is priced from the variant's catalog price for the subscription's
      * customer. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
@@ -2934,11 +2930,6 @@ export type UpdateSubscriptionPlanRequest = ({
      */
     "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
     /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 1. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 1.
-     */
-    "quantity_options"?: Array<number>;
-    /**
      * New one-time fee charged with the first payment of a new subscription, except one that
      * continues an imported paid period. Must be above zero and in the plan's currency. Omit to
      * keep it; send `null` to remove it. Monetary amount represented as integer minor units plus
@@ -3107,11 +3098,6 @@ export type UpdateSubscriptionPlanRequestInput = ({
      */
     "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
     /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 1. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 1.
-     */
-    "quantity_options"?: Array<number>;
-    /**
      * New one-time fee charged with the first payment of a new subscription, except one that
      * continues an imported paid period. Must be above zero and in the plan's currency. Omit to
      * keep it; send `null` to remove it. Monetary amount represented as integer minor units plus
@@ -3226,11 +3212,6 @@ export type UpdateSubscriptionRequest = ({
      */
     "payment_method_id"?: string;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
      * unchanged. Schedule or replace through change-plan.
      */
@@ -3332,11 +3313,6 @@ export type UpdateSubscriptionRequestInput = ({
      * minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      */
     "payment_method_id"?: string;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
      * unchanged. Schedule or replace through change-plan.

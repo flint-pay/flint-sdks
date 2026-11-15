@@ -65,7 +65,12 @@ export type {
     ResponseWarning,
     RetryReturnResolutionRequestInput
 } from '../declarations/types-54.js';
-export type { CancelReturnResolutionResponse, CategoryReference, CheckoutBuyerContact } from '../declarations/types-5.js';
+export type {
+    CancelReturnResolutionResponse,
+    CancelReturnResolutionRequestInput,
+    CategoryReference,
+    CheckoutBuyerContact
+} from '../declarations/types-5.js';
 export type { ConfirmReturnResolutionResponse, ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
 export type {
     CreateReturnResolutionResponse,
@@ -104,7 +109,6 @@ export type {
     UpdateReturnResolutionLineItemRequest
 } from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { CancelReturnResolutionRequestInput, CancelReturnRequestInput } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, MoneyValueInput, NextAction } from '../declarations/types-39.js';
@@ -124,6 +128,7 @@ export type { PricingAmounts } from '../declarations/types-49.js';
 export type { OrderSettlementAmounts } from '../declarations/types-41.js';
 export type { SplitReversalReference } from '../declarations/types-60.js';
 export type { OrderGiftCardAllocation } from '../declarations/types-40.js';
+export type { CancelReturnRequestInput } from '../declarations/types-4.js';
 export { makeCancelReturnRequest, makeCancelReturnResolutionRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-71.js';
 export {
     makeCreateReturnResolutionRequest,

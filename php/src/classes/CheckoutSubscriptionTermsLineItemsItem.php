@@ -33,7 +33,7 @@ final class CheckoutSubscriptionTermsLineItemsItem extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** The line quantity, before the subscription quantity multiplier. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+    /** The line quantity is the seat count. Nothing multiplies it. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
      * @return int
      */
     public function getQuantity(): int { return $this->get('quantity'); }

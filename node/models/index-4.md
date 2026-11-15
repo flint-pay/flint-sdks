@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CategoryUpdatedMerchantEvent to CompleteReturnRequest
+# CategoryUpdatedInstalledMerchantsEvent to CompleteFulfillmentRequestInput
 
+- [CategoryUpdatedInstalledMerchantsEvent](CategoryUpdatedInstalledMerchantsEvent.md)
 - [CategoryUpdatedMerchantEvent](CategoryUpdatedMerchantEvent.md)
 - [ChangeMeSubscriptionPlanRequest](ChangeMeSubscriptionPlanRequest.md)
 - [ChangeMeSubscriptionPlanRequestInput](ChangeMeSubscriptionPlanRequestInput.md)
@@ -101,5 +102,4 @@
 - [CommitInventoryReservationRequest](CommitInventoryReservationRequest.md)
 - [CommitInventoryReservationRequestInput](CommitInventoryReservationRequestInput.md)
 - [CompleteFulfillmentRequestInput](CompleteFulfillmentRequestInput.md)
-- [CompleteReturnRequest](CompleteReturnRequest.md)
 

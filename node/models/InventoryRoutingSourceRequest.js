@@ -1,7 +1,7 @@
-import { d6555 as c0, d6552 as c1, d6553 as c2, d6554 as c3 } from '../descriptors/data/302.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
-import { d6555 as d6555 } from '../descriptors/data/302.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6557 as c0, d6554 as c1, d6555 as c2, d6556 as c3 } from '../descriptors/data/302.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
+import { d6557 as d6557 } from '../descriptors/data/302.js?sdk=513933eb08321b1bd31a508ce821abc4e8f5336e7471bda2d4342f2bcff1eef8';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6555;
+const read = d6557;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InventoryRoutingSourceRequest"]:c0(),["SharedCodec834"]:c1(),["SharedCodec835"]:c2(),["SharedCodec836"]:c3()}); }
 export { codec as _validate };

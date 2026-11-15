@@ -43,7 +43,7 @@ final class CustomerAccessLinkResponseDataEmail extends Model {
      */
     public function getSent(): bool { return $this->get('sent'); }
     public function hasSent(): bool { return $this->has('sent'); }
-    /** The single-use bearer URL, present only with link delivery. Format: uri.
+    /** The single-use bearer URL, present only with link delivery. Returned only to the credential that created it, and omitted when another credential replays the request. Format: uri.
      * @return ?string
      */
     public function getUrl(): ?string { return $this->get('url'); }

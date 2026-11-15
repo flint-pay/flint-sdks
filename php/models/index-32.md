@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# GiftCardTransactionListResponse to SubscriptionListResponse
+# GiftCardListResponse to SubscriptionPaymentRetryListResponse
 
+- [GiftCardListResponse](GiftCardListResponse.md)
 - [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
 - [InventoryAdjustmentListResponse](InventoryAdjustmentListResponse.md)
 - [InventoryAllocationPolicyListResponse](InventoryAllocationPolicyListResponse.md)
@@ -23,6 +24,7 @@
 - [LocationListResponse](LocationListResponse.md)
 - [BuyerCreditNoteListResponse](BuyerCreditNoteListResponse.md)
 - [BuyerCustomerDeletionRequestListResponse](BuyerCustomerDeletionRequestListResponse.md)
+- [BuyerEmailChangeRequestListResponse](BuyerEmailChangeRequestListResponse.md)
 - [BuyerFlintWalletCardListResponse](BuyerFlintWalletCardListResponse.md)
 - [BuyerFulfillmentEventListResponse](BuyerFulfillmentEventListResponse.md)
 - [BuyerFulfillmentListResponse](BuyerFulfillmentListResponse.md)
@@ -100,6 +102,4 @@
 - [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
 - [SubscriptionOfferListResponse](SubscriptionOfferListResponse.md)
 - [SubscriptionPaymentRetryListResponse](SubscriptionPaymentRetryListResponse.md)
-- [SubscriptionPlanListResponse](SubscriptionPlanListResponse.md)
-- [SubscriptionListResponse](SubscriptionListResponse.md)
 

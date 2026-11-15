@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DecideReturnRequestInput to DeliveryPendingCallerRateRequestInput
+# DecideReturnInspectionLineItemResponseInput to DeliveryOptionProjectionInput
 
+- [DecideReturnInspectionLineItemResponseInput](DecideReturnInspectionLineItemResponseInput.md)
 - [DecideReturnRequestInput](DecideReturnRequestInput.md)
 - [DecideReturnResponseInput](DecideReturnResponseInput.md)
 - [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryMethodUpdatedInstalledMerchantsEventInput](DeliveryMethodUpdatedInstalledMerchantsEventInput.md)
 - [DeliveryMethodUpdatedMerchantEventInput](DeliveryMethodUpdatedMerchantEventInput.md)
 - [DeliveryOptionProjectionInput](DeliveryOptionProjectionInput.md)
-- [DeliveryPendingCallerRateRequestInput](DeliveryPendingCallerRateRequestInput.md)
 

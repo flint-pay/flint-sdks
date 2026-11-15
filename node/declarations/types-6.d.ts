@@ -1,5 +1,5 @@
-import type { MoneyValueInput, MoneyValue } from './types-39.js';
-import type { OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-41.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { OrderLineItemTax, OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-41.js';
 import type { BuyerRefund } from './types-3.js';
 import type {
     CheckoutBuyerContact,
@@ -33,6 +33,7 @@ import type { ResponseMeta } from './types-54.js';
 import type { Address } from './types-0.js';
 import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
 import type {
+    CloseCheckoutSessionRequestInput,
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionCustomerVerificationRequestInput
 } from './types-7.js';
@@ -47,6 +48,21 @@ import type {
 import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-62.js';
 import type { AuthMode } from './types-1.js';
 import type { Credentials } from './types-14.js';
+/**
+ * A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an
+ * amount, and optional tax settings.
+ */
+export type CheckoutQuickPayItemRequest = {
+    /**
+     * Amount the buyer pays for the item. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Name shown for the item. minLength: 1. */
+    "name": string;
+    /** Tax settings for the item. A line item's tax category and whether it is taxable. */
+    "tax"?: OrderLineItemTax;
+};
 /**
  * A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an
  * amount, and optional tax settings.
@@ -2371,8 +2387,8 @@ export type CheckoutSubscriptionTerms = {
      * maximum: 9999. [].min_quantity (Required): integer. Minimum buyer quantity, defaulting to 1.
      * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
      * maximum: 9999. [].name (Required): string. The captured line name. [].quantity (Required):
-     * integer. The line quantity, before the subscription quantity multiplier. Whole-number
-     * quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * integer. The line quantity is the seat count. Nothing multiplies it. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
      * [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were
      * captured. Absent when an older snapshot did not record its plan line ID. pattern:
      * ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
@@ -2395,7 +2411,7 @@ export type CheckoutSubscriptionTerms = {
         /** The captured line name. */
         "name": string;
         /**
-         * The line quantity, before the subscription quantity multiplier. Whole-number quantity;
+         * The line quantity is the seat count. Nothing multiplies it. Whole-number quantity;
          * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
          */
         "quantity": number;
@@ -2413,14 +2429,6 @@ export type CheckoutSubscriptionTerms = {
     }>;
     /** Plan name shown to the buyer. */
     "plan_name": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Quantities the plan offered when the session was created, in ascending order. The same
-     * values as the plan's `quantity_options`. Flint accepts only a subscription quantity of 1.
-     * minItems: 1. [] (Value): integer. Format: int32.
-     */
-    "quantity_options": Array<number>;
     /**
      * Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when
      * no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's
@@ -2478,11 +2486,6 @@ export type CheckoutSubscriptionTermsRequest = ({
      * in the target subscription plan.
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
 });
 /**
  * Subscription choices for a checkout session: billing interval, interval count, line quantities,
@@ -2516,11 +2519,6 @@ export type CheckoutSubscriptionTermsRequestInput = ({
      * line in the target subscription plan.
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
 });
 /**
  * The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send
@@ -2740,5 +2738,3 @@ export type CloseCheckoutSessionRequest = {
      */
     "reason_message"?: string;
 };
-/** The request body for: Close checkout session. */
-export type CloseCheckoutSessionRequestInput = CloseCheckoutSessionRequest;

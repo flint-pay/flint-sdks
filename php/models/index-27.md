@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# SubscriptionUpcomingDeliveryHoldInput to UpdateDeliveryMethodRequestInput
+# SubscriptionTrialEndingMerchantEventInput to UpdateDeliveryLocationSetRequestInput
 
+- [SubscriptionTrialEndingMerchantEventInput](SubscriptionTrialEndingMerchantEventInput.md)
 - [SubscriptionUpcomingDeliveryHoldInput](SubscriptionUpcomingDeliveryHoldInput.md)
 - [SubscriptionUpdatedInstalledMerchantsEventInput](SubscriptionUpdatedInstalledMerchantsEventInput.md)
 - [SubscriptionUpdatedMerchantEventInput](SubscriptionUpdatedMerchantEventInput.md)
@@ -101,5 +102,4 @@
 - [UpdateCustomerTaxExemptionRequestInput](UpdateCustomerTaxExemptionRequestInput.md)
 - [UpdateDeliveryFulfillmentDetailsInput](UpdateDeliveryFulfillmentDetailsInput.md)
 - [UpdateDeliveryLocationSetRequestInput](UpdateDeliveryLocationSetRequestInput.md)
-- [UpdateDeliveryMethodRequestInput](UpdateDeliveryMethodRequestInput.md)
 
