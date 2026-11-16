@@ -1004,8 +1004,7 @@ final class Codec
                     if ($closest === null || $level > $closest[0]) {
                         $closest = [$level, $error];
                         $branch = $s[$keyword][$index];
-                        $shape =
-                            $branch['label'] ?? ($branch['reference'] ?? 'shape ' . ($index + 1));
+                        $shape = $branch['label'] ?? 'shape ' . ($index + 1);
                     }
                 }
                 if ($closest !== null) {

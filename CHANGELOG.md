@@ -2,9 +2,9 @@
 
 ## 8.0.0-beta.5
 
-Version `8.0.0-beta.5` updates both SDKs to Flint `475bb52b73efe6cd2451263b60cfae5043bec2c6`, API date `2026-09-07`, and generator `d2e00485c76bb57170320343bf5a7ad9911ee533`. This prerelease publishes to npm `next`; `latest` stays `7.0.0`.
+Version `8.0.0-beta.5` updates both SDKs to Flint `475bb52b73efe6cd2451263b60cfae5043bec2c6`, API date `2026-09-07`, and generator `012c3fff28a34a64d36cfe8e87fb1cb1dc68a85d`. This prerelease publishes to npm `next`; `latest` stays `7.0.0`.
 
-Checkout and order responses now accept fields omitted for checkout credentials, including checkout client references, custom field answers, supported actions, and order review IDs. Order decoding no longer requires the retired `buyer_actions` field. Webhook previous attributes decode nullable prior values correctly in Node and PHP, including signed catalog events. The API date stays the same. Handle optional fields before reading them. PHP webhook `getPreviousAttributes()` now returns a generated model instead of an array; use its field getters and presence checks.
+Checkout and order responses now accept fields omitted for checkout credentials, including checkout client references, custom field answers, supported actions, and order review IDs. Order decoding no longer requires the retired `buyer_actions` field. Webhook previous attributes decode nullable prior values correctly in Node and PHP, including signed catalog events. Validation errors now use public model names rather than internal `SharedCodec` identifiers. The API date stays the same. Handle optional fields before reading them. PHP webhook `getPreviousAttributes()` now returns a generated model instead of an array; use its field getters and presence checks.
 
 ## 8.0.0-beta.4
 

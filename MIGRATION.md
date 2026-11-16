@@ -1140,6 +1140,8 @@ Compare your production call sites against the generated reference and run your 
 
 ## Changes in 8.0.0-beta.5
 
+Validation errors now name public models, such as `InitialGiftCardFunding`, rather than internal `SharedCodec` identifiers. Error codes and field paths stay the same.
+
 Checkout credential responses omit merchant-only members. Checkout session and order models now make those members optional, so generated clients accept the buyer projection. Check a field before reading it when using checkout credentials. Webhook previous attributes now accept null for previously absent values in Node and PHP. In PHP, `getPreviousAttributes()` returns a generated model instead of an array. Replace array access with the corresponding getter, such as `getName()`, and use `hasName()` to distinguish an absent key from a previous null value. Error `current_resource` alternatives also follow the refreshed contract; inspect the resource discriminator before using variant fields. The API date remains `2026-09-07`.
 
 ## Changes in 8.0.0-beta.4
