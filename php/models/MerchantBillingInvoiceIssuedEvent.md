@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributes). |
 
 ### MerchantBillingInvoiceIssuedEvent.data fields 1.object
 
@@ -41,4 +41,168 @@ Field definitions: [shared fields](MerchantBillingInvoice.md#merchantbillinginvo
 ### MerchantBillingInvoiceIssuedEvent.data fields 1.object.line_items[]
 
 Field definitions: [MerchantBillingInvoiceResponse.data.line_items[]](../models/MerchantBillingInvoiceResponse.md#merchantbillinginvoiceresponsedataline_items).
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](MerchantBillingInvoiceIssuedEventDataPreviousAttributes.md#merchantbillinginvoiceissuedeventdatapreviousattributes).
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.created_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.created_at variant 1
+
+anyOf variant 1: When Flint created the invoice..
+
+- Value shape: string. When Flint created the invoice. When Flint created the invoice. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When Flint created the invoice. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.due_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.due_at variant 1
+
+anyOf variant 1: When payment of the invoice is due..
+
+- Value shape: string. When payment of the invoice is due. When payment of the invoice is due. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.due_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When payment of the invoice is due. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.invoice_number
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.invoice_number variant 1
+
+anyOf variant 1: Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001}, sequential per billing account; existing numbers are retained..
+
+- Value shape: string. Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001}, sequential per billing account; existing numbers are retained. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.invoice_number variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001}, sequential per billing account; existing numbers are retained. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.issued_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.issued_at variant 1
+
+anyOf variant 1: When Flint issued the invoice..
+
+- Value shape: string. When Flint issued the invoice. When Flint issued the invoice. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.issued_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When Flint issued the invoice. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1
+
+anyOf variant 1: Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money..
+
+- Value shape: Array of [MerchantBillingInvoiceLineItem](../models/MerchantBillingInvoiceLineItem.md#merchantbillinginvoicelineitem). Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1
+
+Field definitions: [MerchantBillingInvoiceResponse.data.line_items[]](../models/MerchantBillingInvoiceResponse.md#merchantbillinginvoiceresponsedataline_items).
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.merchant_billing_invoice_id
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.merchant_billing_invoice_id variant 1
+
+anyOf variant 1: Stable identifier of the invoice..
+
+- Value shape: string. Stable identifier of the invoice. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.merchant_billing_invoice_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of the invoice. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.paid_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.paid_at variant 1
+
+anyOf variant 1: When the invoice was paid. Removed if a reversed collection reopens it..
+
+- Value shape: string. When the invoice was paid. Removed if a reversed collection reopens it. When the invoice was paid. Removed if a reversed collection reopens it. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.paid_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the invoice was paid. Removed if a reversed collection reopens it. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.period_end_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.period_end_at variant 1
+
+anyOf variant 1: Exclusive invoice billing period end as an RFC 3339 UTC instant..
+
+- Value shape: string. Exclusive invoice billing period end as an RFC 3339 UTC instant. Exclusive invoice billing period end as an RFC 3339 UTC instant. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.period_end_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Exclusive invoice billing period end as an RFC 3339 UTC instant. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.period_start_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.period_start_at variant 1
+
+anyOf variant 1: Inclusive invoice billing period start as an RFC 3339 UTC instant..
+
+- Value shape: string. Inclusive invoice billing period start as an RFC 3339 UTC instant. Inclusive invoice billing period start as an RFC 3339 UTC instant. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.period_start_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Inclusive invoice billing period start as an RFC 3339 UTC instant. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.status
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.status variant 1
+
+anyOf variant 1: Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it..
+
+- Value shape: string. Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Values: `"open"`, `"paid"`, `"written_off"`.
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.updated_at
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.updated_at variant 1
+
+anyOf variant 1: When the invoice last changed..
+
+- Value shape: string. When the invoice last changed. When the invoice last changed. Format: `date-time`. 
+
+### MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the invoice last changed. 
 

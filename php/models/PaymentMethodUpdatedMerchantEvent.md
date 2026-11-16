@@ -33,3 +33,7 @@ Field definitions: [shared fields](PaymentMethodActivatedMerchantEvent.md#paymen
 
 Field definitions: [PaymentMethodActivatedMerchantEvent.data fields 1.object](../models/PaymentMethodActivatedMerchantEvent.md#paymentmethodactivatedmerchanteventdata-fields-1object).
 
+### PaymentMethodUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes](../models/PaymentMethodActivatedMerchantEvent.md#paymentmethodactivatedmerchanteventdata-fields-1previous_attributes).
+

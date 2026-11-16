@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/partnerApps.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import r0 from '../descriptors/resources/partnerApps.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import settings from '../descriptors/settings.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["acceptPartnerAppPlatformTerms"]:r0,["createPartnerApp"]:r0,["createPartnerAppCredential"]:r0,["deletePartnerApp"]:r0,["deletePartnerAppCredential"]:r0,["getPartnerApp"]:r0,["getPartnerAppCredential"]:r0,["getPartnerAppInstall"]:r0,["listPartnerAppCredentials"]:r0,["listPartnerAppInstalls"]:r0,["listPartnerApps"]:r0,["revokePartnerAppEnvironmentGrant"]:r0,["revokePartnerAppInstall"]:r0,["rotatePartnerAppSecret"]:r0,["updatePartnerApp"]:r0});
 export class Client {

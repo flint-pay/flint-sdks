@@ -33,3 +33,7 @@ Field definitions: [shared fields](ModifierSetArchivedMerchantEvent.md#modifiers
 
 Field definitions: [ModifierSetArchivedMerchantEvent.data fields 1.object](../models/ModifierSetArchivedMerchantEvent.md#modifiersetarchivedmerchanteventdata-fields-1object).
 
+### ModifierSetUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes](../models/ModifierSetArchivedMerchantEvent.md#modifiersetarchivedmerchanteventdata-fields-1previous_attributes).
+

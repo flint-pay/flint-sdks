@@ -33,3 +33,7 @@ Field definitions: [shared fields](ReaderArchivedMerchantEvent.md#readerarchived
 
 Field definitions: [ReaderArchivedMerchantEvent.data fields 1.object](../models/ReaderArchivedMerchantEvent.md#readerarchivedmerchanteventdata-fields-1object).
 
+### ReaderUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [ReaderArchivedMerchantEvent.data fields 1.previous_attributes](../models/ReaderArchivedMerchantEvent.md#readerarchivedmerchanteventdata-fields-1previous_attributes).
+

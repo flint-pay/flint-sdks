@@ -33,3 +33,7 @@ Field definitions: [shared fields](PaymentReviewClosedMerchantEvent.md#paymentre
 
 Field definitions: [PaymentReviewClosedMerchantEvent.data fields 1.object](../models/PaymentReviewClosedMerchantEvent.md#paymentreviewclosedmerchanteventdata-fields-1object).
 
+### PaymentReviewOpenedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes](../models/PaymentReviewClosedMerchantEvent.md#paymentreviewclosedmerchanteventdata-fields-1previous_attributes).
+

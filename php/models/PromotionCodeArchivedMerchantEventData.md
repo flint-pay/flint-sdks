@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | [PromotionCodeArchivedMerchantEventDataObject](../models/PromotionCodeArchivedMerchantEventDataObject.md#promotioncodearchivedmerchanteventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. `object`: [field definitions](../models/PromotionCodeArchivedMerchantEventData.md#promotioncodearchivedmerchanteventdataobject-fields-1). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | [PromotionCodeArchivedMerchantEventDataPreviousAttributes](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### PromotionCodeArchivedMerchantEventData.object fields 1
 

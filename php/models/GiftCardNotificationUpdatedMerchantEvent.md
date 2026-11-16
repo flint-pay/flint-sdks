@@ -27,9 +27,58 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](GiftCardNotificationCreatedMerchantEvent.md#giftcardnotificationcreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/GiftCardNotificationCreatedMerchantEvent.md#giftcardnotificationcreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/GiftCardNotificationUpdatedMerchantEvent.md#giftcardnotificationupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### GiftCardNotificationUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [GiftCardNotificationCreatedMerchantEvent.data fields 1.object](../models/GiftCardNotificationCreatedMerchantEvent.md#giftcardnotificationcreatedmerchanteventdata-fields-1object).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributes).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.gift_card_id
+
+Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.gift_card_id](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesgift_card_id).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.gift_card_notification_id
+
+Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.gift_card_notification_id](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesgift_card_notification_id).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.resend_of_notification_id
+
+Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.resend_of_notification_id](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesresend_of_notification_id).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.sent_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.status](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesstatus).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.status_reason
+
+Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.status_reason](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesstatus_reason).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.supported_actions](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributessupported_actions).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [GiftCardUpdatedMerchantEventDataPreviousAttributes.version](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributesversion).
 

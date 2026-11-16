@@ -1149,7 +1149,55 @@ export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
                 | "other"
                 | (string & {});
         };
-        "previous_attributes"?: Partial<BalanceTransaction>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "available_at"?: ((string) | (null));
+            "balance_transaction_id"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "fee_money"?: ((MoneyValue) | (null));
+            "merchant_id"?: ((string) | (null));
+            "net_money"?: ((MoneyValue) | (null));
+            "occurred_at"?: ((string) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "payout_id"?: ((string) | (null));
+            "related_balance_transaction_ids"?: ((Array<string>) | (null));
+            "related_resource"?: ((ResourceReference) | (null));
+            "status"?: (("pending" | "available" | (string & {})) | (null));
+            "type"?: (("payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
+                | "other"
+                | (string & {}))
+                | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "balance_transaction.updated";
@@ -1202,7 +1250,55 @@ export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
                 | "other"
                 | (string & {});
         };
-        "previous_attributes"?: Partial<BalanceTransaction>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "available_at"?: ((string) | (null));
+            "balance_transaction_id"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "fee_money"?: ((MoneyValue) | (null));
+            "merchant_id"?: ((string) | (null));
+            "net_money"?: ((MoneyValue) | (null));
+            "occurred_at"?: ((string) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "payout_id"?: ((string) | (null));
+            "related_balance_transaction_ids"?: ((Array<string>) | (null));
+            "related_resource"?: ((ResourceReference) | (null));
+            "status"?: (("pending" | "available" | (string & {})) | (null));
+            "type"?: (("payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
+                | "other"
+                | (string & {}))
+                | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "balance_transaction.updated";
@@ -1284,7 +1380,124 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.amount_money (Optional): {@link
+     * MoneyValue} or null. Signed gross amount of this balance movement, before any fee.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Signed gross amount
+     * of this balance movement, before any fee. previous_attributes.amount_money.anyOf[2] (Value):
+     * null. previous_attributes.available_at (Optional): string or null. When the funds become, or
+     * became, available to pay out. Present on pending transactions as the expected time; status
+     * says whether they are available now. previous_attributes.available_at.anyOf[1] (Value):
+     * string. When the funds become, or became, available to pay out. Present on pending
+     * transactions as the expected time; status says whether they are available now. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.available_at.anyOf[2]
+     * (Value): null. previous_attributes.balance_transaction_id (Optional): string or null. Stable
+     * identifier of this balance transaction. previous_attributes.balance_transaction_id.anyOf[1]
+     * (Value): string. Stable identifier of this balance transaction. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". previous_attributes.balance_transaction_id.anyOf[2]
+     * (Value): null. previous_attributes.currency (Optional): string or null. ISO 4217 currency
+     * code. previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.description
+     * (Optional): string or null. Short text describing the movement, from Flint or your
+     * processor. Use it for display, not for matching. previous_attributes.description.anyOf[1]
+     * (Value): string. Short text describing the movement, from Flint or your processor. Use it
+     * for display, not for matching. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.fee_money (Optional): {@link MoneyValue} or null. Fee deducted from this
+     * balance movement. On payments, this is processing_fee_money plus every add-on fee in
+     * add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the
+     * payment intent carries the breakdown. On disputes and dispute reversals, this includes the
+     * processor's dispute fee charged to your balance or actually returned to it. Charges are
+     * positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount
+     * of -5700. A won dispute does not by itself return the fee.
+     * previous_attributes.fee_money.anyOf[1] (Value): {@link MoneyValue}. Fee deducted from this
+     * balance movement. On payments, this is processing_fee_money plus every add-on fee in
+     * add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the
+     * payment intent carries the breakdown. On disputes and dispute reversals, this includes the
+     * processor's dispute fee charged to your balance or actually returned to it. Charges are
+     * positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount
+     * of -5700. A won dispute does not by itself return the fee.
+     * previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Merchant whose balance this transaction moved.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant whose balance this
+     * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.net_money
+     * (Optional): {@link MoneyValue} or null. Signed net effect on your Flint balance:
+     * amount_money minus fee_money in the same currency. previous_attributes.net_money.anyOf[1]
+     * (Value): {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
+     * fee_money in the same currency. previous_attributes.net_money.anyOf[2] (Value): null.
+     * previous_attributes.occurred_at (Optional): string or null. When the balance movement
+     * happened. previous_attributes.occurred_at.anyOf[1] (Value): string. When the balance
+     * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.occurred_at.anyOf[2] (Value): null. previous_attributes.order
+     * (Optional): {@link ExpandedOrderSummary} or null or null. The order, inlined when you
+     * request expand=order. null when expanded and the transaction has no order_id. Present only
+     * when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. The order,
+     * inlined when you request expand=order. null when expanded and the transaction has no
+     * order_id. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. previous_attributes.order_id.anyOf[1]
+     * (Value): string. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payout_id (Optional): string or null. The payout that carried this
+     * balance transaction to your bank. Set once, when that payout's contents are prepared, and
+     * never changed afterward, including if the payout later fails or is reversed. Absent until
+     * then, and on transactions no payout carries. previous_attributes.payout_id.anyOf[1] (Value):
+     * string. The payout that carried this balance transaction to your bank. Set once, when that
+     * payout's contents are prepared, and never changed afterward, including if the payout later
+     * fails or is reversed. Absent until then, and on transactions no payout carries. Example:
+     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.payout_id.anyOf[2] (Value): null.
+     * previous_attributes.related_balance_transaction_ids (Optional): Array of string or null.
+     * Earlier balance transactions this one is linked to, including the exact payment principal a
+     * refund returns, the payout transaction that a payout_failure, payout_cancellation, or
+     * payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses.
+     * Empty when there are none. previous_attributes.related_balance_transaction_ids.anyOf[1]
+     * (Value): Array of string. Earlier balance transactions this one is linked to, including the
+     * exact payment principal a refund returns, the payout transaction that a payout_failure,
+     * payout_cancellation, or payout_reversal returns, or the collection a
+     * merchant_billing_collection_reversal reverses. Empty when there are none.
+     * previous_attributes.related_balance_transaction_ids.anyOf[1][] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     * previous_attributes.related_balance_transaction_ids.anyOf[2] (Value): null.
+     * previous_attributes.related_resource (Optional): {@link ResourceReference} or null. The
+     * Flint resource behind this movement: a payment_intent, payment_split, refund, dispute,
+     * payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when
+     * the movement has none. previous_attributes.related_resource.anyOf[1] (Value): {@link
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+     * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+     * platform_fee_payout. Absent when the movement has none.
+     * previous_attributes.related_resource.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the funds can be paid out yet: pending until they become
+     * available, then available. Only these two values appear, and the change to available sends
+     * balance_transaction.updated. Value enum: "pending", "available".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the funds can be paid out yet:
+     * pending until they become available, then available. Only these two values appear, and the
+     * change to available sends balance_transaction.updated. Value enum: "pending", "available".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of balance movement. Unmapped movement types are returned as other.
+     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
+     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal",
+     * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+     * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+     * "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal",
+     * "other". previous_attributes.type.anyOf[1] (Value): string. Kind of balance movement.
+     * Unmapped movement types are returned as other. Value enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other". previous_attributes.type.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -1488,9 +1701,301 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Signed gross amount of this balance movement, before any fee.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Signed gross amount of this balance
+         * movement, before any fee. amount_money.anyOf[2] (Value): null. available_at (Optional):
+         * string or null. When the funds become, or became, available to pay out. Present on
+         * pending transactions as the expected time; status says whether they are available now.
+         * available_at.anyOf[1] (Value): string. When the funds become, or became, available to
+         * pay out. Present on pending transactions as the expected time; status says whether they
+         * are available now. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * available_at.anyOf[2] (Value): null. balance_transaction_id (Optional): string or null.
+         * Stable identifier of this balance transaction. balance_transaction_id.anyOf[1] (Value):
+         * string. Stable identifier of this balance transaction. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". balance_transaction_id.anyOf[2] (Value): null.
+         * currency (Optional): string or null. ISO 4217 currency code. currency.anyOf[1] (Value):
+         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD". currency.anyOf[2] (Value): null. description (Optional): string or null.
+         * Short text describing the movement, from Flint or your processor. Use it for display,
+         * not for matching. description.anyOf[1] (Value): string. Short text describing the
+         * movement, from Flint or your processor. Use it for display, not for matching.
+         * description.anyOf[2] (Value): null. fee_money (Optional): {@link MoneyValue} or null.
+         * Fee deducted from this balance movement. On payments, this is processing_fee_money plus
+         * every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app
+         * charged a platform fee; the payment intent carries the breakdown. On disputes and
+         * dispute reversals, this includes the processor's dispute fee charged to your balance or
+         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
+         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
+         * return the fee. fee_money.anyOf[1] (Value): {@link MoneyValue}. Fee deducted from this
+         * balance movement. On payments, this is processing_fee_money plus every add-on fee in
+         * add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee;
+         * the payment intent carries the breakdown. On disputes and dispute reversals, this
+         * includes the processor's dispute fee charged to your balance or actually returned to it.
+         * Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500
+         * has a net amount of -5700. A won dispute does not by itself return the fee.
+         * fee_money.anyOf[2] (Value): null. merchant_id (Optional): string or null. Merchant whose
+         * balance this transaction moved. merchant_id.anyOf[1] (Value): string. Merchant whose
+         * balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. net_money (Optional): {@link MoneyValue} or null.
+         * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+         * currency. net_money.anyOf[1] (Value): {@link MoneyValue}. Signed net effect on your
+         * Flint balance: amount_money minus fee_money in the same currency. net_money.anyOf[2]
+         * (Value): null. occurred_at (Optional): string or null. When the balance movement
+         * happened. occurred_at.anyOf[1] (Value): string. When the balance movement happened.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". occurred_at.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummary} or null or null. The order, inlined when
+         * you request expand=order. null when expanded and the transaction has no order_id.
+         * Present only when `expand` includes `order`; `null` when expanded and there is no
+         * related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. The order,
+         * inlined when you request expand=order. null when expanded and the transaction has no
+         * order_id. Present only when `expand` includes `order`; `null` when expanded and there is
+         * no related order. order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+         * order's summary fields, including status, payment and refund status, and pricing and
+         * settlement amounts, returned when the order is expanded. order.anyOf[1].anyOf[2]
+         * (Value): null. order.anyOf[2] (Value): null. order_id (Optional): string or null. The
+         * Flint order this movement relates to, such as the order a payment was for. Absent when
+         * the movement isn't tied to an order. order_id.anyOf[1] (Value): string. The Flint order
+         * this movement relates to, such as the order a payment was for. Absent when the movement
+         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2]
+         * (Value): null. payout_id (Optional): string or null. The payout that carried this
+         * balance transaction to your bank. Set once, when that payout's contents are prepared,
+         * and never changed afterward, including if the payout later fails or is reversed. Absent
+         * until then, and on transactions no payout carries. payout_id.anyOf[1] (Value): string.
+         * The payout that carried this balance transaction to your bank. Set once, when that
+         * payout's contents are prepared, and never changed afterward, including if the payout
+         * later fails or is reversed. Absent until then, and on transactions no payout carries.
+         * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". payout_id.anyOf[2] (Value): null.
+         * related_balance_transaction_ids (Optional): Array of string or null. Earlier balance
+         * transactions this one is linked to, including the exact payment principal a refund
+         * returns, the payout transaction that a payout_failure, payout_cancellation, or
+         * payout_reversal returns, or the collection a merchant_billing_collection_reversal
+         * reverses. Empty when there are none. related_balance_transaction_ids.anyOf[1] (Value):
+         * Array of string. Earlier balance transactions this one is linked to, including the exact
+         * payment principal a refund returns, the payout transaction that a payout_failure,
+         * payout_cancellation, or payout_reversal returns, or the collection a
+         * merchant_billing_collection_reversal reverses. Empty when there are none.
+         * related_balance_transaction_ids.anyOf[1][] (Value): string. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_balance_transaction_ids.anyOf[2] (Value):
+         * null. related_resource (Optional): {@link ResourceReference} or null. The Flint resource
+         * behind this movement: a payment_intent, payment_split, refund, dispute, payout,
+         * payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the
+         * movement has none. related_resource.anyOf[1] (Value): {@link ResourceReference}. The
+         * Flint resource behind this movement: a payment_intent, payment_split, refund, dispute,
+         * payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent
+         * when the movement has none. related_resource.anyOf[2] (Value): null. status (Optional):
+         * string or null. Whether the funds can be paid out yet: pending until they become
+         * available, then available. Only these two values appear, and the change to available
+         * sends balance_transaction.updated. Value enum: "pending", "available". status.anyOf[1]
+         * (Value): string. Whether the funds can be paid out yet: pending until they become
+         * available, then available. Only these two values appear, and the change to available
+         * sends balance_transaction.updated. Value enum: "pending", "available". status.anyOf[2]
+         * (Value): null. type (Optional): string or null. Kind of balance movement. Unmapped
+         * movement types are returned as other. Value enum: "payment", "refund", "dispute",
+         * "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+         * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+         * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+         * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+         * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+         * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other". type.anyOf[1] (Value): string. Kind of
+         * balance movement. Unmapped movement types are returned as other. Value enum: "payment",
+         * "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+         * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+         * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+         * "merchant_billing_collection", "merchant_billing_collection_reversal",
+         * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+         * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+         * "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other". type.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<BalanceTransaction>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Signed gross amount of this balance movement, before any fee. anyOf[1] (Value):
+             * {@link MoneyValue}. Signed gross amount of this balance movement, before any fee.
+             * anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * When the funds become, or became, available to pay out. Present on pending
+             * transactions as the expected time; status says whether they are available now.
+             * anyOf[1] (Value): string. When the funds become, or became, available to pay out.
+             * Present on pending transactions as the expected time; status says whether they are
+             * available now. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "available_at"?: ((string) | (null));
+            /**
+             * Stable identifier of this balance transaction. anyOf[1] (Value): string. Stable
+             * identifier of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             * anyOf[2] (Value): null.
+             */
+            "balance_transaction_id"?: ((string) | (null));
+            /**
+             * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength:
+             * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Short text describing the movement, from Flint or your processor. Use it for
+             * display, not for matching. anyOf[1] (Value): string. Short text describing the
+             * movement, from Flint or your processor. Use it for display, not for matching.
+             * anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Fee deducted from this balance movement. On payments, this is processing_fee_money
+             * plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner
+             * app charged a platform fee; the payment intent carries the breakdown. On disputes
+             * and dispute reversals, this includes the processor's dispute fee charged to your
+             * balance or actually returned to it. Charges are positive; returned fees are
+             * negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won
+             * dispute does not by itself return the fee. anyOf[1] (Value): {@link MoneyValue}. Fee
+             * deducted from this balance movement. On payments, this is processing_fee_money plus
+             * every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app
+             * charged a platform fee; the payment intent carries the breakdown. On disputes and
+             * dispute reversals, this includes the processor's dispute fee charged to your balance
+             * or actually returned to it. Charges are positive; returned fees are negative. A
+             * dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does
+             * not by itself return the fee. anyOf[2] (Value): null.
+             */
+            "fee_money"?: ((MoneyValue) | (null));
+            /**
+             * Merchant whose balance this transaction moved. anyOf[1] (Value): string. Merchant
+             * whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+             * currency. anyOf[1] (Value): {@link MoneyValue}. Signed net effect on your Flint
+             * balance: amount_money minus fee_money in the same currency. anyOf[2] (Value): null.
+             */
+            "net_money"?: ((MoneyValue) | (null));
+            /**
+             * When the balance movement happened. anyOf[1] (Value): string. When the balance
+             * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
+             */
+            "occurred_at"?: ((string) | (null));
+            /**
+             * The order, inlined when you request expand=order. null when expanded and the
+             * transaction has no order_id. Present only when `expand` includes `order`; `null`
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
+             * null when expanded and the transaction has no order_id. Present only when `expand`
+             * includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The Flint order this movement relates to, such as the order a payment was for.
+             * Absent when the movement isn't tied to an order. anyOf[1] (Value): string. The Flint
+             * order this movement relates to, such as the order a payment was for. Absent when the
+             * movement isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2]
+             * (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * The payout that carried this balance transaction to your bank. Set once, when that
+             * payout's contents are prepared, and never changed afterward, including if the payout
+             * later fails or is reversed. Absent until then, and on transactions no payout
+             * carries. anyOf[1] (Value): string. The payout that carried this balance transaction
+             * to your bank. Set once, when that payout's contents are prepared, and never changed
+             * afterward, including if the payout later fails or is reversed. Absent until then,
+             * and on transactions no payout carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+             * anyOf[2] (Value): null.
+             */
+            "payout_id"?: ((string) | (null));
+            /**
+             * Earlier balance transactions this one is linked to, including the exact payment
+             * principal a refund returns, the payout transaction that a payout_failure,
+             * payout_cancellation, or payout_reversal returns, or the collection a
+             * merchant_billing_collection_reversal reverses. Empty when there are none. anyOf[1]
+             * (Value): Array of string. Earlier balance transactions this one is linked to,
+             * including the exact payment principal a refund returns, the payout transaction that
+             * a payout_failure, payout_cancellation, or payout_reversal returns, or the collection
+             * a merchant_billing_collection_reversal reverses. Empty when there are none.
+             * anyOf[1][] (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". anyOf[2]
+             * (Value): null.
+             */
+            "related_balance_transaction_ids"?: ((Array<string>) | (null));
+            /**
+             * The Flint resource behind this movement: a payment_intent, payment_split, refund,
+             * dispute, payout, payout_destination, merchant_billing_invoice, or
+             * platform_fee_payout. Absent when the movement has none. anyOf[1] (Value): {@link
+             * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+             * payment_split, refund, dispute, payout, payout_destination,
+             * merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none.
+             * anyOf[2] (Value): null.
+             */
+            "related_resource"?: ((ResourceReference) | (null));
+            /**
+             * Whether the funds can be paid out yet: pending until they become available, then
+             * available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available". anyOf[1] (Value):
+             * string. Whether the funds can be paid out yet: pending until they become available,
+             * then available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "available" | (string & {})) | (null));
+            /**
+             * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other". anyOf[1] (Value): string. Kind of
+             * balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other". anyOf[2] (Value): null.
+             */
+            "type"?: (("payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
+                | "other"
+                | (string & {}))
+                | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1598,7 +2103,124 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.amount_money (Optional): {@link
+     * MoneyValue} or null. Signed gross amount of this balance movement, before any fee.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Signed gross amount
+     * of this balance movement, before any fee. previous_attributes.amount_money.anyOf[2] (Value):
+     * null. previous_attributes.available_at (Optional): string or null. When the funds become, or
+     * became, available to pay out. Present on pending transactions as the expected time; status
+     * says whether they are available now. previous_attributes.available_at.anyOf[1] (Value):
+     * string. When the funds become, or became, available to pay out. Present on pending
+     * transactions as the expected time; status says whether they are available now. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.available_at.anyOf[2]
+     * (Value): null. previous_attributes.balance_transaction_id (Optional): string or null. Stable
+     * identifier of this balance transaction. previous_attributes.balance_transaction_id.anyOf[1]
+     * (Value): string. Stable identifier of this balance transaction. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". previous_attributes.balance_transaction_id.anyOf[2]
+     * (Value): null. previous_attributes.currency (Optional): string or null. ISO 4217 currency
+     * code. previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.description
+     * (Optional): string or null. Short text describing the movement, from Flint or your
+     * processor. Use it for display, not for matching. previous_attributes.description.anyOf[1]
+     * (Value): string. Short text describing the movement, from Flint or your processor. Use it
+     * for display, not for matching. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.fee_money (Optional): {@link MoneyValue} or null. Fee deducted from this
+     * balance movement. On payments, this is processing_fee_money plus every add-on fee in
+     * add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the
+     * payment intent carries the breakdown. On disputes and dispute reversals, this includes the
+     * processor's dispute fee charged to your balance or actually returned to it. Charges are
+     * positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount
+     * of -5700. A won dispute does not by itself return the fee.
+     * previous_attributes.fee_money.anyOf[1] (Value): {@link MoneyValue}. Fee deducted from this
+     * balance movement. On payments, this is processing_fee_money plus every add-on fee in
+     * add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the
+     * payment intent carries the breakdown. On disputes and dispute reversals, this includes the
+     * processor's dispute fee charged to your balance or actually returned to it. Charges are
+     * positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount
+     * of -5700. A won dispute does not by itself return the fee.
+     * previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Merchant whose balance this transaction moved.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant whose balance this
+     * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.net_money
+     * (Optional): {@link MoneyValue} or null. Signed net effect on your Flint balance:
+     * amount_money minus fee_money in the same currency. previous_attributes.net_money.anyOf[1]
+     * (Value): {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
+     * fee_money in the same currency. previous_attributes.net_money.anyOf[2] (Value): null.
+     * previous_attributes.occurred_at (Optional): string or null. When the balance movement
+     * happened. previous_attributes.occurred_at.anyOf[1] (Value): string. When the balance
+     * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.occurred_at.anyOf[2] (Value): null. previous_attributes.order
+     * (Optional): {@link ExpandedOrderSummary} or null or null. The order, inlined when you
+     * request expand=order. null when expanded and the transaction has no order_id. Present only
+     * when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. The order,
+     * inlined when you request expand=order. null when expanded and the transaction has no
+     * order_id. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. previous_attributes.order_id.anyOf[1]
+     * (Value): string. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payout_id (Optional): string or null. The payout that carried this
+     * balance transaction to your bank. Set once, when that payout's contents are prepared, and
+     * never changed afterward, including if the payout later fails or is reversed. Absent until
+     * then, and on transactions no payout carries. previous_attributes.payout_id.anyOf[1] (Value):
+     * string. The payout that carried this balance transaction to your bank. Set once, when that
+     * payout's contents are prepared, and never changed afterward, including if the payout later
+     * fails or is reversed. Absent until then, and on transactions no payout carries. Example:
+     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.payout_id.anyOf[2] (Value): null.
+     * previous_attributes.related_balance_transaction_ids (Optional): Array of string or null.
+     * Earlier balance transactions this one is linked to, including the exact payment principal a
+     * refund returns, the payout transaction that a payout_failure, payout_cancellation, or
+     * payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses.
+     * Empty when there are none. previous_attributes.related_balance_transaction_ids.anyOf[1]
+     * (Value): Array of string. Earlier balance transactions this one is linked to, including the
+     * exact payment principal a refund returns, the payout transaction that a payout_failure,
+     * payout_cancellation, or payout_reversal returns, or the collection a
+     * merchant_billing_collection_reversal reverses. Empty when there are none.
+     * previous_attributes.related_balance_transaction_ids.anyOf[1][] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     * previous_attributes.related_balance_transaction_ids.anyOf[2] (Value): null.
+     * previous_attributes.related_resource (Optional): {@link ResourceReference} or null. The
+     * Flint resource behind this movement: a payment_intent, payment_split, refund, dispute,
+     * payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when
+     * the movement has none. previous_attributes.related_resource.anyOf[1] (Value): {@link
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+     * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+     * platform_fee_payout. Absent when the movement has none.
+     * previous_attributes.related_resource.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the funds can be paid out yet: pending until they become
+     * available, then available. Only these two values appear, and the change to available sends
+     * balance_transaction.updated. Value enum: "pending", "available".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the funds can be paid out yet:
+     * pending until they become available, then available. Only these two values appear, and the
+     * change to available sends balance_transaction.updated. Value enum: "pending", "available".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of balance movement. Unmapped movement types are returned as other.
+     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
+     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal",
+     * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+     * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+     * "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal",
+     * "other". previous_attributes.type.anyOf[1] (Value): string. Kind of balance movement.
+     * Unmapped movement types are returned as other. Value enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other". previous_attributes.type.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -1802,9 +2424,301 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Signed gross amount of this balance movement, before any fee.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Signed gross amount of this balance
+         * movement, before any fee. amount_money.anyOf[2] (Value): null. available_at (Optional):
+         * string or null. When the funds become, or became, available to pay out. Present on
+         * pending transactions as the expected time; status says whether they are available now.
+         * available_at.anyOf[1] (Value): string. When the funds become, or became, available to
+         * pay out. Present on pending transactions as the expected time; status says whether they
+         * are available now. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * available_at.anyOf[2] (Value): null. balance_transaction_id (Optional): string or null.
+         * Stable identifier of this balance transaction. balance_transaction_id.anyOf[1] (Value):
+         * string. Stable identifier of this balance transaction. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". balance_transaction_id.anyOf[2] (Value): null.
+         * currency (Optional): string or null. ISO 4217 currency code. currency.anyOf[1] (Value):
+         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD". currency.anyOf[2] (Value): null. description (Optional): string or null.
+         * Short text describing the movement, from Flint or your processor. Use it for display,
+         * not for matching. description.anyOf[1] (Value): string. Short text describing the
+         * movement, from Flint or your processor. Use it for display, not for matching.
+         * description.anyOf[2] (Value): null. fee_money (Optional): {@link MoneyValue} or null.
+         * Fee deducted from this balance movement. On payments, this is processing_fee_money plus
+         * every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app
+         * charged a platform fee; the payment intent carries the breakdown. On disputes and
+         * dispute reversals, this includes the processor's dispute fee charged to your balance or
+         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
+         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
+         * return the fee. fee_money.anyOf[1] (Value): {@link MoneyValue}. Fee deducted from this
+         * balance movement. On payments, this is processing_fee_money plus every add-on fee in
+         * add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee;
+         * the payment intent carries the breakdown. On disputes and dispute reversals, this
+         * includes the processor's dispute fee charged to your balance or actually returned to it.
+         * Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500
+         * has a net amount of -5700. A won dispute does not by itself return the fee.
+         * fee_money.anyOf[2] (Value): null. merchant_id (Optional): string or null. Merchant whose
+         * balance this transaction moved. merchant_id.anyOf[1] (Value): string. Merchant whose
+         * balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. net_money (Optional): {@link MoneyValue} or null.
+         * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+         * currency. net_money.anyOf[1] (Value): {@link MoneyValue}. Signed net effect on your
+         * Flint balance: amount_money minus fee_money in the same currency. net_money.anyOf[2]
+         * (Value): null. occurred_at (Optional): string or null. When the balance movement
+         * happened. occurred_at.anyOf[1] (Value): string. When the balance movement happened.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". occurred_at.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummary} or null or null. The order, inlined when
+         * you request expand=order. null when expanded and the transaction has no order_id.
+         * Present only when `expand` includes `order`; `null` when expanded and there is no
+         * related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. The order,
+         * inlined when you request expand=order. null when expanded and the transaction has no
+         * order_id. Present only when `expand` includes `order`; `null` when expanded and there is
+         * no related order. order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+         * order's summary fields, including status, payment and refund status, and pricing and
+         * settlement amounts, returned when the order is expanded. order.anyOf[1].anyOf[2]
+         * (Value): null. order.anyOf[2] (Value): null. order_id (Optional): string or null. The
+         * Flint order this movement relates to, such as the order a payment was for. Absent when
+         * the movement isn't tied to an order. order_id.anyOf[1] (Value): string. The Flint order
+         * this movement relates to, such as the order a payment was for. Absent when the movement
+         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2]
+         * (Value): null. payout_id (Optional): string or null. The payout that carried this
+         * balance transaction to your bank. Set once, when that payout's contents are prepared,
+         * and never changed afterward, including if the payout later fails or is reversed. Absent
+         * until then, and on transactions no payout carries. payout_id.anyOf[1] (Value): string.
+         * The payout that carried this balance transaction to your bank. Set once, when that
+         * payout's contents are prepared, and never changed afterward, including if the payout
+         * later fails or is reversed. Absent until then, and on transactions no payout carries.
+         * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". payout_id.anyOf[2] (Value): null.
+         * related_balance_transaction_ids (Optional): Array of string or null. Earlier balance
+         * transactions this one is linked to, including the exact payment principal a refund
+         * returns, the payout transaction that a payout_failure, payout_cancellation, or
+         * payout_reversal returns, or the collection a merchant_billing_collection_reversal
+         * reverses. Empty when there are none. related_balance_transaction_ids.anyOf[1] (Value):
+         * Array of string. Earlier balance transactions this one is linked to, including the exact
+         * payment principal a refund returns, the payout transaction that a payout_failure,
+         * payout_cancellation, or payout_reversal returns, or the collection a
+         * merchant_billing_collection_reversal reverses. Empty when there are none.
+         * related_balance_transaction_ids.anyOf[1][] (Value): string. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_balance_transaction_ids.anyOf[2] (Value):
+         * null. related_resource (Optional): {@link ResourceReference} or null. The Flint resource
+         * behind this movement: a payment_intent, payment_split, refund, dispute, payout,
+         * payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the
+         * movement has none. related_resource.anyOf[1] (Value): {@link ResourceReference}. The
+         * Flint resource behind this movement: a payment_intent, payment_split, refund, dispute,
+         * payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent
+         * when the movement has none. related_resource.anyOf[2] (Value): null. status (Optional):
+         * string or null. Whether the funds can be paid out yet: pending until they become
+         * available, then available. Only these two values appear, and the change to available
+         * sends balance_transaction.updated. Value enum: "pending", "available". status.anyOf[1]
+         * (Value): string. Whether the funds can be paid out yet: pending until they become
+         * available, then available. Only these two values appear, and the change to available
+         * sends balance_transaction.updated. Value enum: "pending", "available". status.anyOf[2]
+         * (Value): null. type (Optional): string or null. Kind of balance movement. Unmapped
+         * movement types are returned as other. Value enum: "payment", "refund", "dispute",
+         * "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+         * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+         * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+         * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+         * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+         * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other". type.anyOf[1] (Value): string. Kind of
+         * balance movement. Unmapped movement types are returned as other. Value enum: "payment",
+         * "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+         * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+         * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+         * "merchant_billing_collection", "merchant_billing_collection_reversal",
+         * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+         * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+         * "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other". type.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<BalanceTransaction>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Signed gross amount of this balance movement, before any fee. anyOf[1] (Value):
+             * {@link MoneyValue}. Signed gross amount of this balance movement, before any fee.
+             * anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * When the funds become, or became, available to pay out. Present on pending
+             * transactions as the expected time; status says whether they are available now.
+             * anyOf[1] (Value): string. When the funds become, or became, available to pay out.
+             * Present on pending transactions as the expected time; status says whether they are
+             * available now. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "available_at"?: ((string) | (null));
+            /**
+             * Stable identifier of this balance transaction. anyOf[1] (Value): string. Stable
+             * identifier of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             * anyOf[2] (Value): null.
+             */
+            "balance_transaction_id"?: ((string) | (null));
+            /**
+             * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength:
+             * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Short text describing the movement, from Flint or your processor. Use it for
+             * display, not for matching. anyOf[1] (Value): string. Short text describing the
+             * movement, from Flint or your processor. Use it for display, not for matching.
+             * anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Fee deducted from this balance movement. On payments, this is processing_fee_money
+             * plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner
+             * app charged a platform fee; the payment intent carries the breakdown. On disputes
+             * and dispute reversals, this includes the processor's dispute fee charged to your
+             * balance or actually returned to it. Charges are positive; returned fees are
+             * negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won
+             * dispute does not by itself return the fee. anyOf[1] (Value): {@link MoneyValue}. Fee
+             * deducted from this balance movement. On payments, this is processing_fee_money plus
+             * every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app
+             * charged a platform fee; the payment intent carries the breakdown. On disputes and
+             * dispute reversals, this includes the processor's dispute fee charged to your balance
+             * or actually returned to it. Charges are positive; returned fees are negative. A
+             * dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does
+             * not by itself return the fee. anyOf[2] (Value): null.
+             */
+            "fee_money"?: ((MoneyValue) | (null));
+            /**
+             * Merchant whose balance this transaction moved. anyOf[1] (Value): string. Merchant
+             * whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+             * currency. anyOf[1] (Value): {@link MoneyValue}. Signed net effect on your Flint
+             * balance: amount_money minus fee_money in the same currency. anyOf[2] (Value): null.
+             */
+            "net_money"?: ((MoneyValue) | (null));
+            /**
+             * When the balance movement happened. anyOf[1] (Value): string. When the balance
+             * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
+             */
+            "occurred_at"?: ((string) | (null));
+            /**
+             * The order, inlined when you request expand=order. null when expanded and the
+             * transaction has no order_id. Present only when `expand` includes `order`; `null`
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
+             * null when expanded and the transaction has no order_id. Present only when `expand`
+             * includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The Flint order this movement relates to, such as the order a payment was for.
+             * Absent when the movement isn't tied to an order. anyOf[1] (Value): string. The Flint
+             * order this movement relates to, such as the order a payment was for. Absent when the
+             * movement isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2]
+             * (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * The payout that carried this balance transaction to your bank. Set once, when that
+             * payout's contents are prepared, and never changed afterward, including if the payout
+             * later fails or is reversed. Absent until then, and on transactions no payout
+             * carries. anyOf[1] (Value): string. The payout that carried this balance transaction
+             * to your bank. Set once, when that payout's contents are prepared, and never changed
+             * afterward, including if the payout later fails or is reversed. Absent until then,
+             * and on transactions no payout carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+             * anyOf[2] (Value): null.
+             */
+            "payout_id"?: ((string) | (null));
+            /**
+             * Earlier balance transactions this one is linked to, including the exact payment
+             * principal a refund returns, the payout transaction that a payout_failure,
+             * payout_cancellation, or payout_reversal returns, or the collection a
+             * merchant_billing_collection_reversal reverses. Empty when there are none. anyOf[1]
+             * (Value): Array of string. Earlier balance transactions this one is linked to,
+             * including the exact payment principal a refund returns, the payout transaction that
+             * a payout_failure, payout_cancellation, or payout_reversal returns, or the collection
+             * a merchant_billing_collection_reversal reverses. Empty when there are none.
+             * anyOf[1][] (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". anyOf[2]
+             * (Value): null.
+             */
+            "related_balance_transaction_ids"?: ((Array<string>) | (null));
+            /**
+             * The Flint resource behind this movement: a payment_intent, payment_split, refund,
+             * dispute, payout, payout_destination, merchant_billing_invoice, or
+             * platform_fee_payout. Absent when the movement has none. anyOf[1] (Value): {@link
+             * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+             * payment_split, refund, dispute, payout, payout_destination,
+             * merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none.
+             * anyOf[2] (Value): null.
+             */
+            "related_resource"?: ((ResourceReference) | (null));
+            /**
+             * Whether the funds can be paid out yet: pending until they become available, then
+             * available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available". anyOf[1] (Value):
+             * string. Whether the funds can be paid out yet: pending until they become available,
+             * then available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "available" | (string & {})) | (null));
+            /**
+             * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other". anyOf[1] (Value): string. Kind of
+             * balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other". anyOf[2] (Value): null.
+             */
+            "type"?: (("payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
+                | "other"
+                | (string & {}))
+                | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2064,7 +2978,22 @@ export type BalanceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "pending_money": MoneyValue;
             "reserve_money": MoneyValue;
         };
-        "previous_attributes"?: Partial<Balance>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            "available_money"?: ((MoneyValue) | (null));
+            "balance_id"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "held_money"?: ((MoneyValue) | (null));
+            "merchant_id"?: ((string) | (null));
+            "observed_at"?: ((string) | (null));
+            "payouts_enabled"?: ((boolean) | (null));
+            "pending_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            "pending_money"?: ((MoneyValue) | (null));
+            "reserve_money"?: ((MoneyValue) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "balance.updated";
@@ -2085,7 +3014,22 @@ export type BalanceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "pending_money": MoneyValue;
             "reserve_money": MoneyValue;
         };
-        "previous_attributes"?: Partial<Balance>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            "available_money"?: ((MoneyValue) | (null));
+            "balance_id"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "held_money"?: ((MoneyValue) | (null));
+            "merchant_id"?: ((string) | (null));
+            "observed_at"?: ((string) | (null));
+            "payouts_enabled"?: ((boolean) | (null));
+            "pending_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            "pending_money"?: ((MoneyValue) | (null));
+            "reserve_money"?: ((MoneyValue) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "balance.updated";
@@ -2147,6 +3091,79 @@ export type BalanceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.available_by_source_type (Optional): Map of {@link MoneyValue} or null.
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name.
+     * previous_attributes.available_by_source_type.anyOf[1] (Value): Map of {@link MoneyValue}.
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name.
+     * previous_attributes.available_by_source_type.anyOf[1].* (Value): {@link MoneyValue}. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * previous_attributes.available_by_source_type.anyOf[2] (Value): null.
+     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Signed amount
+     * available for payouts after active payout holds are deducted. Separate from pending_money,
+     * reserve_money, and held_money. previous_attributes.available_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Signed amount available for payouts after active payout holds are deducted.
+     * Separate from pending_money, reserve_money, and held_money.
+     * previous_attributes.available_money.anyOf[2] (Value): null. previous_attributes.balance_id
+     * (Optional): string or null. Stable identifier of this currency's balance.
+     * previous_attributes.balance_id.anyOf[1] (Value): string. Stable identifier of this
+     * currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
+     * previous_attributes.balance_id.anyOf[2] (Value): null. previous_attributes.currency
+     * (Optional): string or null. ISO 4217 currency code. previous_attributes.currency.anyOf[1]
+     * (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD". previous_attributes.currency.anyOf[2] (Value): null.
+     * previous_attributes.held_money (Optional): {@link MoneyValue} or null. Funds set aside for
+     * payouts you created that haven't been debited from your balance yet. They aren't payable and
+     * aren't included in `available_money`. previous_attributes.held_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Funds set aside for payouts you created that haven't been debited from
+     * your balance yet. They aren't payable and aren't included in `available_money`.
+     * previous_attributes.held_money.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Merchant whose balance this is.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant whose balance this is.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
+     * null. previous_attributes.observed_at (Optional): string or null. When Flint observed these
+     * amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their
+     * observation time; a fresh provider read uses the time of that read.
+     * previous_attributes.observed_at.anyOf[1] (Value): string. When Flint observed these amounts,
+     * as an RFC 3339 UTC instant at second precision. Stored balances retain their observation
+     * time; a fresh provider read uses the time of that read. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.observed_at.anyOf[2] (Value): null.
+     * previous_attributes.payouts_enabled (Optional): boolean or null. Whether payouts are ready
+     * for this balance currency, including an active default payout destination and account
+     * readiness. While it is false, payments can still succeed, and their funds wait in your
+     * balance. previous_attributes.payouts_enabled.anyOf[1] (Value): boolean. Whether payouts are
+     * ready for this balance currency, including an active default payout destination and account
+     * readiness. While it is false, payments can still succeed, and their funds wait in your
+     * balance. previous_attributes.payouts_enabled.anyOf[2] (Value): null.
+     * previous_attributes.pending_by_source_type (Optional): Map of {@link MoneyValue} or null.
+     * Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use
+     * card and bank_account. When supplied as a complete breakdown, entries sum to pending_money.
+     * These amounts are separate from available_by_source_type.
+     * previous_attributes.pending_by_source_type.anyOf[1] (Value): Map of {@link MoneyValue}.
+     * Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use
+     * card and bank_account. When supplied as a complete breakdown, entries sum to pending_money.
+     * These amounts are separate from available_by_source_type.
+     * previous_attributes.pending_by_source_type.anyOf[1].* (Value): {@link MoneyValue}. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * previous_attributes.pending_by_source_type.anyOf[2] (Value): null.
+     * previous_attributes.pending_money (Optional): {@link MoneyValue} or null. Signed amount
+     * awaiting availability. Separate from available_money; pending_by_source_type breaks down
+     * this amount when source details are supplied. previous_attributes.pending_money.anyOf[1]
+     * (Value): {@link MoneyValue}. Signed amount awaiting availability. Separate from
+     * available_money; pending_by_source_type breaks down this amount when source details are
+     * supplied. previous_attributes.pending_money.anyOf[2] (Value): null.
+     * previous_attributes.reserve_money (Optional): {@link MoneyValue} or null. Amount held in
+     * reserve. It doesn't overlap available_money or held_money.
+     * previous_attributes.reserve_money.anyOf[1] (Value): {@link MoneyValue}. Amount held in
+     * reserve. It doesn't overlap available_money or held_money.
+     * previous_attributes.reserve_money.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2260,9 +3277,170 @@ export type BalanceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_by_source_type (Optional): Map of
+         * {@link MoneyValue} or null. Signed available amounts grouped by balance source type.
+         * Keys are an open set; US accounts use card and bank_account. When supplied as a complete
+         * breakdown, entries sum to available_money. Active payout holds reduce both
+         * available_money and one source entry by the same amount. A payout with no recorded
+         * source type uses card. A hold whose source is absent from the map uses the largest
+         * source amount, with ties broken by source name. available_by_source_type.anyOf[1]
+         * (Value): Map of {@link MoneyValue}. Signed available amounts grouped by balance source
+         * type. Keys are an open set; US accounts use card and bank_account. When supplied as a
+         * complete breakdown, entries sum to available_money. Active payout holds reduce both
+         * available_money and one source entry by the same amount. A payout with no recorded
+         * source type uses card. A hold whose source is absent from the map uses the largest
+         * source amount, with ties broken by source name. available_by_source_type.anyOf[1].*
+         * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. available_by_source_type.anyOf[2] (Value): null.
+         * available_money (Optional): {@link MoneyValue} or null. Signed amount available for
+         * payouts after active payout holds are deducted. Separate from pending_money,
+         * reserve_money, and held_money. available_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Signed amount available for payouts after active payout holds are deducted. Separate
+         * from pending_money, reserve_money, and held_money. available_money.anyOf[2] (Value):
+         * null. balance_id (Optional): string or null. Stable identifier of this currency's
+         * balance. balance_id.anyOf[1] (Value): string. Stable identifier of this currency's
+         * balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ". balance_id.anyOf[2] (Value): null.
+         * currency (Optional): string or null. ISO 4217 currency code. currency.anyOf[1] (Value):
+         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD". currency.anyOf[2] (Value): null. held_money (Optional): {@link
+         * MoneyValue} or null. Funds set aside for payouts you created that haven't been debited
+         * from your balance yet. They aren't payable and aren't included in `available_money`.
+         * held_money.anyOf[1] (Value): {@link MoneyValue}. Funds set aside for payouts you created
+         * that haven't been debited from your balance yet. They aren't payable and aren't included
+         * in `available_money`. held_money.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant whose balance this is. merchant_id.anyOf[1] (Value): string. Merchant
+         * whose balance this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. observed_at (Optional): string or null. When Flint observed these
+         * amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their
+         * observation time; a fresh provider read uses the time of that read. observed_at.anyOf[1]
+         * (Value): string. When Flint observed these amounts, as an RFC 3339 UTC instant at second
+         * precision. Stored balances retain their observation time; a fresh provider read uses the
+         * time of that read. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * observed_at.anyOf[2] (Value): null. payouts_enabled (Optional): boolean or null. Whether
+         * payouts are ready for this balance currency, including an active default payout
+         * destination and account readiness. While it is false, payments can still succeed, and
+         * their funds wait in your balance. payouts_enabled.anyOf[1] (Value): boolean. Whether
+         * payouts are ready for this balance currency, including an active default payout
+         * destination and account readiness. While it is false, payments can still succeed, and
+         * their funds wait in your balance. payouts_enabled.anyOf[2] (Value): null.
+         * pending_by_source_type (Optional): Map of {@link MoneyValue} or null. Signed pending
+         * amounts grouped by balance source type. Keys are an open set; US accounts use card and
+         * bank_account. When supplied as a complete breakdown, entries sum to pending_money. These
+         * amounts are separate from available_by_source_type. pending_by_source_type.anyOf[1]
+         * (Value): Map of {@link MoneyValue}. Signed pending amounts grouped by balance source
+         * type. Keys are an open set; US accounts use card and bank_account. When supplied as a
+         * complete breakdown, entries sum to pending_money. These amounts are separate from
+         * available_by_source_type. pending_by_source_type.anyOf[1].* (Value): {@link MoneyValue}.
+         * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+         * code. pending_by_source_type.anyOf[2] (Value): null. pending_money (Optional): {@link
+         * MoneyValue} or null. Signed amount awaiting availability. Separate from available_money;
+         * pending_by_source_type breaks down this amount when source details are supplied.
+         * pending_money.anyOf[1] (Value): {@link MoneyValue}. Signed amount awaiting availability.
+         * Separate from available_money; pending_by_source_type breaks down this amount when
+         * source details are supplied. pending_money.anyOf[2] (Value): null. reserve_money
+         * (Optional): {@link MoneyValue} or null. Amount held in reserve. It doesn't overlap
+         * available_money or held_money. reserve_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Amount held in reserve. It doesn't overlap available_money or held_money.
+         * reserve_money.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<Balance>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Signed available amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to available_money. Active payout holds reduce both available_money and one
+             * source entry by the same amount. A payout with no recorded source type uses card. A
+             * hold whose source is absent from the map uses the largest source amount, with ties
+             * broken by source name. anyOf[1] (Value): Map of {@link MoneyValue}. Signed available
+             * amounts grouped by balance source type. Keys are an open set; US accounts use card
+             * and bank_account. When supplied as a complete breakdown, entries sum to
+             * available_money. Active payout holds reduce both available_money and one source
+             * entry by the same amount. A payout with no recorded source type uses card. A hold
+             * whose source is absent from the map uses the largest source amount, with ties broken
+             * by source name. anyOf[1].* (Value): {@link MoneyValue}. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+             * null.
+             */
+            "available_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            /**
+             * Signed amount available for payouts after active payout holds are deducted. Separate
+             * from pending_money, reserve_money, and held_money. anyOf[1] (Value): {@link
+             * MoneyValue}. Signed amount available for payouts after active payout holds are
+             * deducted. Separate from pending_money, reserve_money, and held_money. anyOf[2]
+             * (Value): null.
+             */
+            "available_money"?: ((MoneyValue) | (null));
+            /**
+             * Stable identifier of this currency's balance. anyOf[1] (Value): string. Stable
+             * identifier of this currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
+             * anyOf[2] (Value): null.
+             */
+            "balance_id"?: ((string) | (null));
+            /**
+             * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength:
+             * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Funds set aside for payouts you created that haven't been debited from your balance
+             * yet. They aren't payable and aren't included in `available_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Funds set aside for payouts you created that haven't been
+             * debited from your balance yet. They aren't payable and aren't included in
+             * `available_money`. anyOf[2] (Value): null.
+             */
+            "held_money"?: ((MoneyValue) | (null));
+            /**
+             * Merchant whose balance this is. anyOf[1] (Value): string. Merchant whose balance
+             * this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * When Flint observed these amounts, as an RFC 3339 UTC instant at second precision.
+             * Stored balances retain their observation time; a fresh provider read uses the time
+             * of that read. anyOf[1] (Value): string. When Flint observed these amounts, as an RFC
+             * 3339 UTC instant at second precision. Stored balances retain their observation time;
+             * a fresh provider read uses the time of that read. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "observed_at"?: ((string) | (null));
+            /**
+             * Whether payouts are ready for this balance currency, including an active default
+             * payout destination and account readiness. While it is false, payments can still
+             * succeed, and their funds wait in your balance. anyOf[1] (Value): boolean. Whether
+             * payouts are ready for this balance currency, including an active default payout
+             * destination and account readiness. While it is false, payments can still succeed,
+             * and their funds wait in your balance. anyOf[2] (Value): null.
+             */
+            "payouts_enabled"?: ((boolean) | (null));
+            /**
+             * Signed pending amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to pending_money. These amounts are separate from available_by_source_type.
+             * anyOf[1] (Value): Map of {@link MoneyValue}. Signed pending amounts grouped by
+             * balance source type. Keys are an open set; US accounts use card and bank_account.
+             * When supplied as a complete breakdown, entries sum to pending_money. These amounts
+             * are separate from available_by_source_type. anyOf[1].* (Value): {@link MoneyValue}.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code. anyOf[2] (Value): null.
+             */
+            "pending_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            /**
+             * Signed amount awaiting availability. Separate from available_money;
+             * pending_by_source_type breaks down this amount when source details are supplied.
+             * anyOf[1] (Value): {@link MoneyValue}. Signed amount awaiting availability. Separate
+             * from available_money; pending_by_source_type breaks down this amount when source
+             * details are supplied. anyOf[2] (Value): null.
+             */
+            "pending_money"?: ((MoneyValue) | (null));
+            /**
+             * Amount held in reserve. It doesn't overlap available_money or held_money. anyOf[1]
+             * (Value): {@link MoneyValue}. Amount held in reserve. It doesn't overlap
+             * available_money or held_money. anyOf[2] (Value): null.
+             */
+            "reserve_money"?: ((MoneyValue) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2350,6 +3528,79 @@ export type BalanceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.available_by_source_type (Optional): Map of {@link MoneyValue} or null.
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name.
+     * previous_attributes.available_by_source_type.anyOf[1] (Value): Map of {@link MoneyValue}.
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name.
+     * previous_attributes.available_by_source_type.anyOf[1].* (Value): {@link MoneyValue}. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * previous_attributes.available_by_source_type.anyOf[2] (Value): null.
+     * previous_attributes.available_money (Optional): {@link MoneyValue} or null. Signed amount
+     * available for payouts after active payout holds are deducted. Separate from pending_money,
+     * reserve_money, and held_money. previous_attributes.available_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Signed amount available for payouts after active payout holds are deducted.
+     * Separate from pending_money, reserve_money, and held_money.
+     * previous_attributes.available_money.anyOf[2] (Value): null. previous_attributes.balance_id
+     * (Optional): string or null. Stable identifier of this currency's balance.
+     * previous_attributes.balance_id.anyOf[1] (Value): string. Stable identifier of this
+     * currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
+     * previous_attributes.balance_id.anyOf[2] (Value): null. previous_attributes.currency
+     * (Optional): string or null. ISO 4217 currency code. previous_attributes.currency.anyOf[1]
+     * (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD". previous_attributes.currency.anyOf[2] (Value): null.
+     * previous_attributes.held_money (Optional): {@link MoneyValue} or null. Funds set aside for
+     * payouts you created that haven't been debited from your balance yet. They aren't payable and
+     * aren't included in `available_money`. previous_attributes.held_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Funds set aside for payouts you created that haven't been debited from
+     * your balance yet. They aren't payable and aren't included in `available_money`.
+     * previous_attributes.held_money.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Merchant whose balance this is.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant whose balance this is.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
+     * null. previous_attributes.observed_at (Optional): string or null. When Flint observed these
+     * amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their
+     * observation time; a fresh provider read uses the time of that read.
+     * previous_attributes.observed_at.anyOf[1] (Value): string. When Flint observed these amounts,
+     * as an RFC 3339 UTC instant at second precision. Stored balances retain their observation
+     * time; a fresh provider read uses the time of that read. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.observed_at.anyOf[2] (Value): null.
+     * previous_attributes.payouts_enabled (Optional): boolean or null. Whether payouts are ready
+     * for this balance currency, including an active default payout destination and account
+     * readiness. While it is false, payments can still succeed, and their funds wait in your
+     * balance. previous_attributes.payouts_enabled.anyOf[1] (Value): boolean. Whether payouts are
+     * ready for this balance currency, including an active default payout destination and account
+     * readiness. While it is false, payments can still succeed, and their funds wait in your
+     * balance. previous_attributes.payouts_enabled.anyOf[2] (Value): null.
+     * previous_attributes.pending_by_source_type (Optional): Map of {@link MoneyValue} or null.
+     * Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use
+     * card and bank_account. When supplied as a complete breakdown, entries sum to pending_money.
+     * These amounts are separate from available_by_source_type.
+     * previous_attributes.pending_by_source_type.anyOf[1] (Value): Map of {@link MoneyValue}.
+     * Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use
+     * card and bank_account. When supplied as a complete breakdown, entries sum to pending_money.
+     * These amounts are separate from available_by_source_type.
+     * previous_attributes.pending_by_source_type.anyOf[1].* (Value): {@link MoneyValue}. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * previous_attributes.pending_by_source_type.anyOf[2] (Value): null.
+     * previous_attributes.pending_money (Optional): {@link MoneyValue} or null. Signed amount
+     * awaiting availability. Separate from available_money; pending_by_source_type breaks down
+     * this amount when source details are supplied. previous_attributes.pending_money.anyOf[1]
+     * (Value): {@link MoneyValue}. Signed amount awaiting availability. Separate from
+     * available_money; pending_by_source_type breaks down this amount when source details are
+     * supplied. previous_attributes.pending_money.anyOf[2] (Value): null.
+     * previous_attributes.reserve_money (Optional): {@link MoneyValue} or null. Amount held in
+     * reserve. It doesn't overlap available_money or held_money.
+     * previous_attributes.reserve_money.anyOf[1] (Value): {@link MoneyValue}. Amount held in
+     * reserve. It doesn't overlap available_money or held_money.
+     * previous_attributes.reserve_money.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2463,9 +3714,170 @@ export type BalanceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_by_source_type (Optional): Map of
+         * {@link MoneyValue} or null. Signed available amounts grouped by balance source type.
+         * Keys are an open set; US accounts use card and bank_account. When supplied as a complete
+         * breakdown, entries sum to available_money. Active payout holds reduce both
+         * available_money and one source entry by the same amount. A payout with no recorded
+         * source type uses card. A hold whose source is absent from the map uses the largest
+         * source amount, with ties broken by source name. available_by_source_type.anyOf[1]
+         * (Value): Map of {@link MoneyValue}. Signed available amounts grouped by balance source
+         * type. Keys are an open set; US accounts use card and bank_account. When supplied as a
+         * complete breakdown, entries sum to available_money. Active payout holds reduce both
+         * available_money and one source entry by the same amount. A payout with no recorded
+         * source type uses card. A hold whose source is absent from the map uses the largest
+         * source amount, with ties broken by source name. available_by_source_type.anyOf[1].*
+         * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. available_by_source_type.anyOf[2] (Value): null.
+         * available_money (Optional): {@link MoneyValue} or null. Signed amount available for
+         * payouts after active payout holds are deducted. Separate from pending_money,
+         * reserve_money, and held_money. available_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Signed amount available for payouts after active payout holds are deducted. Separate
+         * from pending_money, reserve_money, and held_money. available_money.anyOf[2] (Value):
+         * null. balance_id (Optional): string or null. Stable identifier of this currency's
+         * balance. balance_id.anyOf[1] (Value): string. Stable identifier of this currency's
+         * balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ". balance_id.anyOf[2] (Value): null.
+         * currency (Optional): string or null. ISO 4217 currency code. currency.anyOf[1] (Value):
+         * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+         * Example: "USD". currency.anyOf[2] (Value): null. held_money (Optional): {@link
+         * MoneyValue} or null. Funds set aside for payouts you created that haven't been debited
+         * from your balance yet. They aren't payable and aren't included in `available_money`.
+         * held_money.anyOf[1] (Value): {@link MoneyValue}. Funds set aside for payouts you created
+         * that haven't been debited from your balance yet. They aren't payable and aren't included
+         * in `available_money`. held_money.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant whose balance this is. merchant_id.anyOf[1] (Value): string. Merchant
+         * whose balance this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. observed_at (Optional): string or null. When Flint observed these
+         * amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their
+         * observation time; a fresh provider read uses the time of that read. observed_at.anyOf[1]
+         * (Value): string. When Flint observed these amounts, as an RFC 3339 UTC instant at second
+         * precision. Stored balances retain their observation time; a fresh provider read uses the
+         * time of that read. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * observed_at.anyOf[2] (Value): null. payouts_enabled (Optional): boolean or null. Whether
+         * payouts are ready for this balance currency, including an active default payout
+         * destination and account readiness. While it is false, payments can still succeed, and
+         * their funds wait in your balance. payouts_enabled.anyOf[1] (Value): boolean. Whether
+         * payouts are ready for this balance currency, including an active default payout
+         * destination and account readiness. While it is false, payments can still succeed, and
+         * their funds wait in your balance. payouts_enabled.anyOf[2] (Value): null.
+         * pending_by_source_type (Optional): Map of {@link MoneyValue} or null. Signed pending
+         * amounts grouped by balance source type. Keys are an open set; US accounts use card and
+         * bank_account. When supplied as a complete breakdown, entries sum to pending_money. These
+         * amounts are separate from available_by_source_type. pending_by_source_type.anyOf[1]
+         * (Value): Map of {@link MoneyValue}. Signed pending amounts grouped by balance source
+         * type. Keys are an open set; US accounts use card and bank_account. When supplied as a
+         * complete breakdown, entries sum to pending_money. These amounts are separate from
+         * available_by_source_type. pending_by_source_type.anyOf[1].* (Value): {@link MoneyValue}.
+         * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+         * code. pending_by_source_type.anyOf[2] (Value): null. pending_money (Optional): {@link
+         * MoneyValue} or null. Signed amount awaiting availability. Separate from available_money;
+         * pending_by_source_type breaks down this amount when source details are supplied.
+         * pending_money.anyOf[1] (Value): {@link MoneyValue}. Signed amount awaiting availability.
+         * Separate from available_money; pending_by_source_type breaks down this amount when
+         * source details are supplied. pending_money.anyOf[2] (Value): null. reserve_money
+         * (Optional): {@link MoneyValue} or null. Amount held in reserve. It doesn't overlap
+         * available_money or held_money. reserve_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Amount held in reserve. It doesn't overlap available_money or held_money.
+         * reserve_money.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<Balance>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Signed available amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to available_money. Active payout holds reduce both available_money and one
+             * source entry by the same amount. A payout with no recorded source type uses card. A
+             * hold whose source is absent from the map uses the largest source amount, with ties
+             * broken by source name. anyOf[1] (Value): Map of {@link MoneyValue}. Signed available
+             * amounts grouped by balance source type. Keys are an open set; US accounts use card
+             * and bank_account. When supplied as a complete breakdown, entries sum to
+             * available_money. Active payout holds reduce both available_money and one source
+             * entry by the same amount. A payout with no recorded source type uses card. A hold
+             * whose source is absent from the map uses the largest source amount, with ties broken
+             * by source name. anyOf[1].* (Value): {@link MoneyValue}. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+             * null.
+             */
+            "available_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            /**
+             * Signed amount available for payouts after active payout holds are deducted. Separate
+             * from pending_money, reserve_money, and held_money. anyOf[1] (Value): {@link
+             * MoneyValue}. Signed amount available for payouts after active payout holds are
+             * deducted. Separate from pending_money, reserve_money, and held_money. anyOf[2]
+             * (Value): null.
+             */
+            "available_money"?: ((MoneyValue) | (null));
+            /**
+             * Stable identifier of this currency's balance. anyOf[1] (Value): string. Stable
+             * identifier of this currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
+             * anyOf[2] (Value): null.
+             */
+            "balance_id"?: ((string) | (null));
+            /**
+             * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength:
+             * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Funds set aside for payouts you created that haven't been debited from your balance
+             * yet. They aren't payable and aren't included in `available_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Funds set aside for payouts you created that haven't been
+             * debited from your balance yet. They aren't payable and aren't included in
+             * `available_money`. anyOf[2] (Value): null.
+             */
+            "held_money"?: ((MoneyValue) | (null));
+            /**
+             * Merchant whose balance this is. anyOf[1] (Value): string. Merchant whose balance
+             * this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * When Flint observed these amounts, as an RFC 3339 UTC instant at second precision.
+             * Stored balances retain their observation time; a fresh provider read uses the time
+             * of that read. anyOf[1] (Value): string. When Flint observed these amounts, as an RFC
+             * 3339 UTC instant at second precision. Stored balances retain their observation time;
+             * a fresh provider read uses the time of that read. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "observed_at"?: ((string) | (null));
+            /**
+             * Whether payouts are ready for this balance currency, including an active default
+             * payout destination and account readiness. While it is false, payments can still
+             * succeed, and their funds wait in your balance. anyOf[1] (Value): boolean. Whether
+             * payouts are ready for this balance currency, including an active default payout
+             * destination and account readiness. While it is false, payments can still succeed,
+             * and their funds wait in your balance. anyOf[2] (Value): null.
+             */
+            "payouts_enabled"?: ((boolean) | (null));
+            /**
+             * Signed pending amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to pending_money. These amounts are separate from available_by_source_type.
+             * anyOf[1] (Value): Map of {@link MoneyValue}. Signed pending amounts grouped by
+             * balance source type. Keys are an open set; US accounts use card and bank_account.
+             * When supplied as a complete breakdown, entries sum to pending_money. These amounts
+             * are separate from available_by_source_type. anyOf[1].* (Value): {@link MoneyValue}.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code. anyOf[2] (Value): null.
+             */
+            "pending_by_source_type"?: ((Record<string, MoneyValue>) | (null));
+            /**
+             * Signed amount awaiting availability. Separate from available_money;
+             * pending_by_source_type breaks down this amount when source details are supplied.
+             * anyOf[1] (Value): {@link MoneyValue}. Signed amount awaiting availability. Separate
+             * from available_money; pending_by_source_type breaks down this amount when source
+             * details are supplied. anyOf[2] (Value): null.
+             */
+            "pending_money"?: ((MoneyValue) | (null));
+            /**
+             * Amount held in reserve. It doesn't overlap available_money or held_money. anyOf[1]
+             * (Value): {@link MoneyValue}. Amount held in reserve. It doesn't overlap
+             * available_money or held_money. anyOf[2] (Value): null.
+             */
+            "reserve_money"?: ((MoneyValue) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2537,8 +3949,8 @@ export type BrandingSettingsRequest = {
     "corner_radius"?: number;
     /**
      * Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Send
-     * null to clear it. pattern: ^#[0-9a-fA-F]{6}$. Value enum: "instrument_sans", "system_sans",
-     * "system_serif", "monospace", null.
+     * null to clear it. Value enum: "instrument_sans", "system_sans", "system_serif", "monospace",
+     * null.
      */
     "font_family"?: "instrument_sans" | "system_sans" | "system_serif" | "monospace" | null | (string & {}) | null;
     /**
@@ -2574,8 +3986,8 @@ export type BrandingSettingsRequestInput = {
     "corner_radius"?: number;
     /**
      * Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Send
-     * null to clear it. pattern: ^#[0-9a-fA-F]{6}$. Value enum: "instrument_sans", "system_sans",
-     * "system_serif", "monospace", null.
+     * null to clear it. Value enum: "instrument_sans", "system_sans", "system_serif", "monospace",
+     * null.
      */
     "font_family"?: "instrument_sans" | "system_sans" | "system_serif" | "monospace" | null;
     /**
@@ -2695,7 +4107,31 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     & ({
     "data"?: {
         "object": WebhookBundle;
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "bundle_id"?: ((string) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "component_count"?: ((number) | (null));
+            "components"?: ((Array<BundleComponent>) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.archived";
@@ -2704,7 +4140,31 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     & ({
     "data"?: {
         "object": WebhookBundle;
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "bundle_id"?: ((string) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "component_count"?: ((number) | (null));
+            "components"?: ((Array<BundleComponent>) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.archived";
@@ -2731,7 +4191,96 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.barcode (Optional): string or null. Barcode
+     * assigned to this sellable item. previous_attributes.barcode.anyOf[1] (Value): string.
+     * Barcode assigned to this sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.bundle_id (Optional): string or null. Stable identifier of the bundle.
+     * previous_attributes.bundle_id.anyOf[1] (Value): string. Stable identifier of the bundle.
+     * Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". previous_attributes.bundle_id.anyOf[2] (Value):
+     * null. previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null.
+     * previous_attributes.component_count (Optional): integer or null. Number of components in the
+     * bundle. previous_attributes.component_count.anyOf[1] (Value): integer. Number of components
+     * in the bundle. Format: int32. previous_attributes.component_count.anyOf[2] (Value): null.
+     * previous_attributes.components (Optional): Array of {@link BundleComponent} or null. The
+     * bundle's components in position order, on every bundle response including list rows. [] only
+     * when the bundle has no components. previous_attributes.components.anyOf[1] (Value): Array of
+     * {@link BundleComponent}. The bundle's components in position order, on every bundle response
+     * including list rows. [] only when the bundle has no components.
+     * previous_attributes.components.anyOf[1][] (Value): {@link BundleComponent}. An item included
+     * in a bundle. previous_attributes.components.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the bundle shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * bundle shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the bundle
+     * can be sold now: it is `active`, has at least one component, every component's variant and
+     * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+     * isn't considered. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean.
+     * Whether the bundle can be sold now: it is `active`, has at least one component, every
+     * component's variant and product are `active`, and `delivery_configuration_status` isn't
+     * `action_required`. Stock isn't considered.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the bundle. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the bundle. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null.
+     * Price charged for one unit, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Price charged for
+     * one unit, in the currency's smallest unit. previous_attributes.unit_price_money.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When this resource
+     * last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value):
+     * string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Current resource version. Send it
+     * as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2742,9 +4291,216 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. bundle_id (Optional): string or
+         * null. Stable identifier of the bundle. bundle_id.anyOf[1] (Value): string. Stable
+         * identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". bundle_id.anyOf[2]
+         * (Value): null. categories (Optional): Array of {@link CategoryReference} or null. Always
+         * present. Empty collections are returned as []. categories.anyOf[1] (Value): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories.anyOf[1][] (Value): {@link CategoryReference}. A reference to a product
+         * category by ID, handle, and name. categories.anyOf[2] (Value): null. component_count
+         * (Optional): integer or null. Number of components in the bundle.
+         * component_count.anyOf[1] (Value): integer. Number of components in the bundle. Format:
+         * int32. component_count.anyOf[2] (Value): null. components (Optional): Array of {@link
+         * BundleComponent} or null. The bundle's components in position order, on every bundle
+         * response including list rows. [] only when the bundle has no components.
+         * components.anyOf[1] (Value): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components.anyOf[1][] (Value): {@link BundleComponent}. An item
+         * included in a bundle. components.anyOf[2] (Value): null. created_at (Optional): string
+         * or null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_status (Optional): string or null. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. description (Optional): string or
+         * null. Description of the bundle shown to buyers. description.anyOf[1] (Value): string.
+         * Description of the bundle shown to buyers. description.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. images
+         * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource,
+         * in display order. The first image is primary. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. Images attached to this resource, in display order. The first image is
+         * primary. images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. images.anyOf[2] (Value):
+         * null. is_available_for_sale (Optional): boolean or null. Whether the bundle can be sold
+         * now: it is `active`, has at least one component, every component's variant and product
+         * are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't
+         * considered. is_available_for_sale.anyOf[1] (Value): boolean. Whether the bundle can be
+         * sold now: it is `active`, has at least one component, every component's variant and
+         * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+         * isn't considered. is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional):
+         * string or null. Identifier of the merchant that owns this resource. merchant_id.anyOf[1]
+         * (Value): string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the bundle. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Bundle name shown to buyers. name.anyOf[1] (Value): string.
+         * Bundle name shown to buyers. name.anyOf[2] (Value): null. sku (Optional): string or
+         * null. Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Bundle lifecycle status. Archived bundles remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+         * edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Price charged for one unit, in
+         * the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Price charged for one unit, in the currency's smallest unit. unit_price_money.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this resource last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * Stable identifier of the bundle. anyOf[1] (Value): string. Stable identifier of the
+             * bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value): null.
+             */
+            "bundle_id"?: ((string) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * Number of components in the bundle. anyOf[1] (Value): integer. Number of components
+             * in the bundle. Format: int32. anyOf[2] (Value): null.
+             */
+            "component_count"?: ((number) | (null));
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. anyOf[1] (Value): Array of {@link
+             * BundleComponent}. The bundle's components in position order, on every bundle
+             * response including list rows. [] only when the bundle has no components. anyOf[1][]
+             * (Value): {@link BundleComponent}. An item included in a bundle. anyOf[2] (Value):
+             * null.
+             */
+            "components"?: ((Array<BundleComponent>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[1] (Value): string. Delivery readiness aggregated across the
+             * bundle's components. A bundle with no components reports `not_applicable`. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the bundle shown to buyers. anyOf[1] (Value): string. Description of
+             * the bundle shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[1] (Value): boolean. Whether the bundle can be sold now: it is `active`, has
+             * at least one component, every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the bundle. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * bundle. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Bundle
+             * lifecycle status. Archived bundles remain readable and cannot be edited. Value enum:
+             * "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
+             * {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+             * anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2797,7 +4553,96 @@ export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.barcode (Optional): string or null. Barcode
+     * assigned to this sellable item. previous_attributes.barcode.anyOf[1] (Value): string.
+     * Barcode assigned to this sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.bundle_id (Optional): string or null. Stable identifier of the bundle.
+     * previous_attributes.bundle_id.anyOf[1] (Value): string. Stable identifier of the bundle.
+     * Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". previous_attributes.bundle_id.anyOf[2] (Value):
+     * null. previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null.
+     * previous_attributes.component_count (Optional): integer or null. Number of components in the
+     * bundle. previous_attributes.component_count.anyOf[1] (Value): integer. Number of components
+     * in the bundle. Format: int32. previous_attributes.component_count.anyOf[2] (Value): null.
+     * previous_attributes.components (Optional): Array of {@link BundleComponent} or null. The
+     * bundle's components in position order, on every bundle response including list rows. [] only
+     * when the bundle has no components. previous_attributes.components.anyOf[1] (Value): Array of
+     * {@link BundleComponent}. The bundle's components in position order, on every bundle response
+     * including list rows. [] only when the bundle has no components.
+     * previous_attributes.components.anyOf[1][] (Value): {@link BundleComponent}. An item included
+     * in a bundle. previous_attributes.components.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the bundle shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * bundle shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the bundle
+     * can be sold now: it is `active`, has at least one component, every component's variant and
+     * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+     * isn't considered. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean.
+     * Whether the bundle can be sold now: it is `active`, has at least one component, every
+     * component's variant and product are `active`, and `delivery_configuration_status` isn't
+     * `action_required`. Stock isn't considered.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the bundle. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the bundle. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null.
+     * Price charged for one unit, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Price charged for
+     * one unit, in the currency's smallest unit. previous_attributes.unit_price_money.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When this resource
+     * last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value):
+     * string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Current resource version. Send it
+     * as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2808,9 +4653,216 @@ export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. bundle_id (Optional): string or
+         * null. Stable identifier of the bundle. bundle_id.anyOf[1] (Value): string. Stable
+         * identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". bundle_id.anyOf[2]
+         * (Value): null. categories (Optional): Array of {@link CategoryReference} or null. Always
+         * present. Empty collections are returned as []. categories.anyOf[1] (Value): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories.anyOf[1][] (Value): {@link CategoryReference}. A reference to a product
+         * category by ID, handle, and name. categories.anyOf[2] (Value): null. component_count
+         * (Optional): integer or null. Number of components in the bundle.
+         * component_count.anyOf[1] (Value): integer. Number of components in the bundle. Format:
+         * int32. component_count.anyOf[2] (Value): null. components (Optional): Array of {@link
+         * BundleComponent} or null. The bundle's components in position order, on every bundle
+         * response including list rows. [] only when the bundle has no components.
+         * components.anyOf[1] (Value): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components.anyOf[1][] (Value): {@link BundleComponent}. An item
+         * included in a bundle. components.anyOf[2] (Value): null. created_at (Optional): string
+         * or null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_status (Optional): string or null. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. description (Optional): string or
+         * null. Description of the bundle shown to buyers. description.anyOf[1] (Value): string.
+         * Description of the bundle shown to buyers. description.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. images
+         * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource,
+         * in display order. The first image is primary. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. Images attached to this resource, in display order. The first image is
+         * primary. images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. images.anyOf[2] (Value):
+         * null. is_available_for_sale (Optional): boolean or null. Whether the bundle can be sold
+         * now: it is `active`, has at least one component, every component's variant and product
+         * are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't
+         * considered. is_available_for_sale.anyOf[1] (Value): boolean. Whether the bundle can be
+         * sold now: it is `active`, has at least one component, every component's variant and
+         * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+         * isn't considered. is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional):
+         * string or null. Identifier of the merchant that owns this resource. merchant_id.anyOf[1]
+         * (Value): string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the bundle. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Bundle name shown to buyers. name.anyOf[1] (Value): string.
+         * Bundle name shown to buyers. name.anyOf[2] (Value): null. sku (Optional): string or
+         * null. Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Bundle lifecycle status. Archived bundles remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+         * edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Price charged for one unit, in
+         * the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Price charged for one unit, in the currency's smallest unit. unit_price_money.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this resource last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * Stable identifier of the bundle. anyOf[1] (Value): string. Stable identifier of the
+             * bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value): null.
+             */
+            "bundle_id"?: ((string) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * Number of components in the bundle. anyOf[1] (Value): integer. Number of components
+             * in the bundle. Format: int32. anyOf[2] (Value): null.
+             */
+            "component_count"?: ((number) | (null));
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. anyOf[1] (Value): Array of {@link
+             * BundleComponent}. The bundle's components in position order, on every bundle
+             * response including list rows. [] only when the bundle has no components. anyOf[1][]
+             * (Value): {@link BundleComponent}. An item included in a bundle. anyOf[2] (Value):
+             * null.
+             */
+            "components"?: ((Array<BundleComponent>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[1] (Value): string. Delivery readiness aggregated across the
+             * bundle's components. A bundle with no components reports `not_applicable`. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the bundle shown to buyers. anyOf[1] (Value): string. Description of
+             * the bundle shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[1] (Value): boolean. Whether the bundle can be sold now: it is `active`, has
+             * at least one component, every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the bundle. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * bundle. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Bundle
+             * lifecycle status. Archived bundles remain readable and cannot be edited. Value enum:
+             * "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
+             * {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+             * anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3058,7 +5110,31 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     & ({
     "data"?: {
         "object": WebhookBundle;
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "bundle_id"?: ((string) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "component_count"?: ((number) | (null));
+            "components"?: ((Array<BundleComponent>) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.updated";
@@ -3067,7 +5143,31 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     & ({
     "data"?: {
         "object": WebhookBundle;
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "bundle_id"?: ((string) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "component_count"?: ((number) | (null));
+            "components"?: ((Array<BundleComponent>) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.updated";
@@ -3094,7 +5194,96 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.barcode (Optional): string or null. Barcode
+     * assigned to this sellable item. previous_attributes.barcode.anyOf[1] (Value): string.
+     * Barcode assigned to this sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.bundle_id (Optional): string or null. Stable identifier of the bundle.
+     * previous_attributes.bundle_id.anyOf[1] (Value): string. Stable identifier of the bundle.
+     * Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". previous_attributes.bundle_id.anyOf[2] (Value):
+     * null. previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null.
+     * previous_attributes.component_count (Optional): integer or null. Number of components in the
+     * bundle. previous_attributes.component_count.anyOf[1] (Value): integer. Number of components
+     * in the bundle. Format: int32. previous_attributes.component_count.anyOf[2] (Value): null.
+     * previous_attributes.components (Optional): Array of {@link BundleComponent} or null. The
+     * bundle's components in position order, on every bundle response including list rows. [] only
+     * when the bundle has no components. previous_attributes.components.anyOf[1] (Value): Array of
+     * {@link BundleComponent}. The bundle's components in position order, on every bundle response
+     * including list rows. [] only when the bundle has no components.
+     * previous_attributes.components.anyOf[1][] (Value): {@link BundleComponent}. An item included
+     * in a bundle. previous_attributes.components.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the bundle shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * bundle shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the bundle
+     * can be sold now: it is `active`, has at least one component, every component's variant and
+     * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+     * isn't considered. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean.
+     * Whether the bundle can be sold now: it is `active`, has at least one component, every
+     * component's variant and product are `active`, and `delivery_configuration_status` isn't
+     * `action_required`. Stock isn't considered.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the bundle. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the bundle. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null.
+     * Price charged for one unit, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Price charged for
+     * one unit, in the currency's smallest unit. previous_attributes.unit_price_money.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When this resource
+     * last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value):
+     * string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Current resource version. Send it
+     * as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3105,9 +5294,216 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. bundle_id (Optional): string or
+         * null. Stable identifier of the bundle. bundle_id.anyOf[1] (Value): string. Stable
+         * identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". bundle_id.anyOf[2]
+         * (Value): null. categories (Optional): Array of {@link CategoryReference} or null. Always
+         * present. Empty collections are returned as []. categories.anyOf[1] (Value): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories.anyOf[1][] (Value): {@link CategoryReference}. A reference to a product
+         * category by ID, handle, and name. categories.anyOf[2] (Value): null. component_count
+         * (Optional): integer or null. Number of components in the bundle.
+         * component_count.anyOf[1] (Value): integer. Number of components in the bundle. Format:
+         * int32. component_count.anyOf[2] (Value): null. components (Optional): Array of {@link
+         * BundleComponent} or null. The bundle's components in position order, on every bundle
+         * response including list rows. [] only when the bundle has no components.
+         * components.anyOf[1] (Value): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components.anyOf[1][] (Value): {@link BundleComponent}. An item
+         * included in a bundle. components.anyOf[2] (Value): null. created_at (Optional): string
+         * or null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_status (Optional): string or null. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. description (Optional): string or
+         * null. Description of the bundle shown to buyers. description.anyOf[1] (Value): string.
+         * Description of the bundle shown to buyers. description.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. images
+         * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource,
+         * in display order. The first image is primary. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. Images attached to this resource, in display order. The first image is
+         * primary. images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. images.anyOf[2] (Value):
+         * null. is_available_for_sale (Optional): boolean or null. Whether the bundle can be sold
+         * now: it is `active`, has at least one component, every component's variant and product
+         * are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't
+         * considered. is_available_for_sale.anyOf[1] (Value): boolean. Whether the bundle can be
+         * sold now: it is `active`, has at least one component, every component's variant and
+         * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+         * isn't considered. is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional):
+         * string or null. Identifier of the merchant that owns this resource. merchant_id.anyOf[1]
+         * (Value): string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the bundle. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Bundle name shown to buyers. name.anyOf[1] (Value): string.
+         * Bundle name shown to buyers. name.anyOf[2] (Value): null. sku (Optional): string or
+         * null. Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Bundle lifecycle status. Archived bundles remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+         * edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Price charged for one unit, in
+         * the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Price charged for one unit, in the currency's smallest unit. unit_price_money.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this resource last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * Stable identifier of the bundle. anyOf[1] (Value): string. Stable identifier of the
+             * bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value): null.
+             */
+            "bundle_id"?: ((string) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * Number of components in the bundle. anyOf[1] (Value): integer. Number of components
+             * in the bundle. Format: int32. anyOf[2] (Value): null.
+             */
+            "component_count"?: ((number) | (null));
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. anyOf[1] (Value): Array of {@link
+             * BundleComponent}. The bundle's components in position order, on every bundle
+             * response including list rows. [] only when the bundle has no components. anyOf[1][]
+             * (Value): {@link BundleComponent}. An item included in a bundle. anyOf[2] (Value):
+             * null.
+             */
+            "components"?: ((Array<BundleComponent>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[1] (Value): string. Delivery readiness aggregated across the
+             * bundle's components. A bundle with no components reports `not_applicable`. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the bundle shown to buyers. anyOf[1] (Value): string. Description of
+             * the bundle shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[1] (Value): boolean. Whether the bundle can be sold now: it is `active`, has
+             * at least one component, every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the bundle. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * bundle. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Bundle
+             * lifecycle status. Archived bundles remain readable and cannot be edited. Value enum:
+             * "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
+             * {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+             * anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3160,7 +5556,96 @@ export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.barcode (Optional): string or null. Barcode
+     * assigned to this sellable item. previous_attributes.barcode.anyOf[1] (Value): string.
+     * Barcode assigned to this sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.bundle_id (Optional): string or null. Stable identifier of the bundle.
+     * previous_attributes.bundle_id.anyOf[1] (Value): string. Stable identifier of the bundle.
+     * Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". previous_attributes.bundle_id.anyOf[2] (Value):
+     * null. previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null.
+     * previous_attributes.component_count (Optional): integer or null. Number of components in the
+     * bundle. previous_attributes.component_count.anyOf[1] (Value): integer. Number of components
+     * in the bundle. Format: int32. previous_attributes.component_count.anyOf[2] (Value): null.
+     * previous_attributes.components (Optional): Array of {@link BundleComponent} or null. The
+     * bundle's components in position order, on every bundle response including list rows. [] only
+     * when the bundle has no components. previous_attributes.components.anyOf[1] (Value): Array of
+     * {@link BundleComponent}. The bundle's components in position order, on every bundle response
+     * including list rows. [] only when the bundle has no components.
+     * previous_attributes.components.anyOf[1][] (Value): {@link BundleComponent}. An item included
+     * in a bundle. previous_attributes.components.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the bundle shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * bundle shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the bundle
+     * can be sold now: it is `active`, has at least one component, every component's variant and
+     * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+     * isn't considered. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean.
+     * Whether the bundle can be sold now: it is `active`, has at least one component, every
+     * component's variant and product are `active`, and `delivery_configuration_status` isn't
+     * `action_required`. Stock isn't considered.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the bundle. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the bundle. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null.
+     * Price charged for one unit, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Price charged for
+     * one unit, in the currency's smallest unit. previous_attributes.unit_price_money.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When this resource
+     * last changed, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value):
+     * string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Current resource version. Send it
+     * as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3171,9 +5656,216 @@ export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. bundle_id (Optional): string or
+         * null. Stable identifier of the bundle. bundle_id.anyOf[1] (Value): string. Stable
+         * identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". bundle_id.anyOf[2]
+         * (Value): null. categories (Optional): Array of {@link CategoryReference} or null. Always
+         * present. Empty collections are returned as []. categories.anyOf[1] (Value): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories.anyOf[1][] (Value): {@link CategoryReference}. A reference to a product
+         * category by ID, handle, and name. categories.anyOf[2] (Value): null. component_count
+         * (Optional): integer or null. Number of components in the bundle.
+         * component_count.anyOf[1] (Value): integer. Number of components in the bundle. Format:
+         * int32. component_count.anyOf[2] (Value): null. components (Optional): Array of {@link
+         * BundleComponent} or null. The bundle's components in position order, on every bundle
+         * response including list rows. [] only when the bundle has no components.
+         * components.anyOf[1] (Value): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components.anyOf[1][] (Value): {@link BundleComponent}. An item
+         * included in a bundle. components.anyOf[2] (Value): null. created_at (Optional): string
+         * or null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_status (Optional): string or null. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the bundle's components. A bundle with no components reports `not_applicable`.
+         * Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. description (Optional): string or
+         * null. Description of the bundle shown to buyers. description.anyOf[1] (Value): string.
+         * Description of the bundle shown to buyers. description.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. images
+         * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource,
+         * in display order. The first image is primary. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. Images attached to this resource, in display order. The first image is
+         * primary. images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. images.anyOf[2] (Value):
+         * null. is_available_for_sale (Optional): boolean or null. Whether the bundle can be sold
+         * now: it is `active`, has at least one component, every component's variant and product
+         * are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't
+         * considered. is_available_for_sale.anyOf[1] (Value): boolean. Whether the bundle can be
+         * sold now: it is `active`, has at least one component, every component's variant and
+         * product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock
+         * isn't considered. is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional):
+         * string or null. Identifier of the merchant that owns this resource. merchant_id.anyOf[1]
+         * (Value): string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the bundle. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Bundle name shown to buyers. name.anyOf[1] (Value): string.
+         * Bundle name shown to buyers. name.anyOf[2] (Value): null. sku (Optional): string or
+         * null. Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Bundle lifecycle status. Archived bundles remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+         * edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Price charged for one unit, in
+         * the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link MoneyValue}.
+         * Price charged for one unit, in the currency's smallest unit. unit_price_money.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this resource last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookBundle>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * Stable identifier of the bundle. anyOf[1] (Value): string. Stable identifier of the
+             * bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value): null.
+             */
+            "bundle_id"?: ((string) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * Number of components in the bundle. anyOf[1] (Value): integer. Number of components
+             * in the bundle. Format: int32. anyOf[2] (Value): null.
+             */
+            "component_count"?: ((number) | (null));
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. anyOf[1] (Value): Array of {@link
+             * BundleComponent}. The bundle's components in position order, on every bundle
+             * response including list rows. [] only when the bundle has no components. anyOf[1][]
+             * (Value): {@link BundleComponent}. An item included in a bundle. anyOf[2] (Value):
+             * null.
+             */
+            "components"?: ((Array<BundleComponent>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[1] (Value): string. Delivery readiness aggregated across the
+             * bundle's components. A bundle with no components reports `not_applicable`. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the bundle shown to buyers. anyOf[1] (Value): string. Description of
+             * the bundle shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[1] (Value): boolean. Whether the bundle can be sold now: it is `active`, has
+             * at least one component, every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             * anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the bundle. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * bundle. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Bundle
+             * lifecycle status. Archived bundles remain readable and cannot be edited. Value enum:
+             * "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
+             * {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+             * anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

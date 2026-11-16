@@ -12,12 +12,12 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $subscription_id
  * @property-read string $subscription_plan_id
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * @property-read string $terms_type
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedSubscriptionSummary extends Model {
-    /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer_id': string, 'next_billing_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'supported_actions': list<string>, 'terms_type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer_id': string, 'next_billing_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'supported_actions'?: list<string>, 'terms_type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionSummary')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
      * @return int
@@ -69,10 +69,10 @@ final class ExpandedSubscriptionSummary extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Merchant lifecycle actions accepted by the subscription's current state. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
-     * @return list<string>
+    /** Merchant lifecycle actions accepted by the subscription's current state. Always present with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
      * @return string

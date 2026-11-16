@@ -25,11 +25,152 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributes). |
 
 ### EnvironmentGrantRevokedEvent.data fields 1.object
 
 Field definitions: [EnvironmentGrantCreatedEvent.data fields 1.object](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1object).
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](EnvironmentGrantRevokedEventDataPreviousAttributes.md#environmentgrantrevokedeventdatapreviousattributes).
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.environment_grant_id
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.environment_grant_id variant 1
+
+anyOf variant 1: Unique identifier for this environment grant, prefixed `egrt_`..
+
+- Value shape: string. Unique identifier for this environment grant, prefixed `egrt_`. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.environment_grant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this environment grant, prefixed `egrt_`. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_permissions
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_permissions variant 1
+
+anyOf variant 1: The app’s permissions this grant holds, from the app’s current manifest. Their permission IDs are the code exchange's scope..
+
+- Value shape: Array of [PartnerAppPermissionManifestEntry](../models/PartnerAppPermissionManifestEntry.md#partnerapppermissionmanifestentry). The app’s permissions this grant holds, from the app’s current manifest. Their permission IDs are the code exchange's scope. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_permissions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The app’s permissions this grant holds, from the app’s current manifest. Their permission IDs are the code exchange's scope. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_permissions variant 1.[] fields 1
+
+Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/PartnerAppResponse.md#partnerappresponsedatapermission_manifest).
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_scopes
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_scopes variant 1
+
+anyOf variant 1: The Flint API scopes the grant allows: the union of the required scopes of its granted permissions. Narrowed at once when the app removes scopes from a permission..
+
+- Value shape: Array of string. The Flint API scopes the grant allows: the union of the required scopes of its granted permissions. Narrowed at once when the app removes scopes from a permission. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.granted_scopes variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The Flint API scopes the grant allows: the union of the required scopes of its granted permissions. Narrowed at once when the app removes scopes from a permission. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.mode
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.mode variant 1
+
+anyOf variant 1: Environment used for this resource or request..
+
+- Value shape: string. Environment used for this resource or request. Values: `"test"`, `"live"`.
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.mode variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Environment used for this resource or request. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.partner_app_install_id
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.partner_app_install_id variant 1
+
+anyOf variant 1: ID of the install this grant belongs to..
+
+- Value shape: string. ID of the install this grant belongs to. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.partner_app_install_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the install this grant belongs to. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.revoked_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.revoked_by_user_id
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.revoked_by_user_id variant 1
+
+anyOf variant 1: ID of the user who revoked the grant, or the install it belongs to. Omitted when the grant isn't revoked or no user performed the revoke..
+
+- Value shape: string. ID of the user who revoked the grant, or the install it belongs to. Omitted when the grant isn't revoked or no user performed the revoke. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.revoked_by_user_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the user who revoked the grant, or the install it belongs to. Omitted when the grant isn't revoked or no user performed the revoke. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.sandbox_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.sandbox_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributessandbox_id).
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.status
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.status variant 1
+
+anyOf variant 1: Where the grant is in its lifecycle. Only an active grant gives the app access to its environment..
+
+- Value shape: string. Where the grant is in its lifecycle. Only an active grant gives the app access to its environment. Values: `"pending_exchange"`, `"active"`, `"revoked"`.
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where the grant is in its lifecycle. Only an active grant gives the app access to its environment. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.supported_actions
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.supported_actions variant 1
+
+anyOf variant 1: Lifecycle actions Flint accepts now. Revoke is accepted for pending and active grants and returns the current grant when it is already revoked..
+
+- Value shape: Array of string. Lifecycle actions Flint accepts now. Revoke is accepted for pending and active grants and returns the current grant when it is already revoked. Items values: `"revoke"`.
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.supported_actions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Lifecycle actions Flint accepts now. Revoke is accepted for pending and active grants and returns the current grant when it is already revoked. 
+
+### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
 ### EnvironmentGrantRevokedEvent.source fields 1
 

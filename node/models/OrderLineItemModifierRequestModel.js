@@ -1,12 +1,12 @@
-import { d5941 as c0 } from '../descriptors/data/268.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7745 as c1 } from '../descriptors/data/371.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6609 as c2, d6610 as c3, d6611 as c4, d6612 as c5, d6613 as c6 } from '../descriptors/data/305.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5872 as c7 } from '../descriptors/data/263.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7745 as d7745 } from '../descriptors/data/371.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6744 as c0 } from '../descriptors/data/300.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8548 as c1 } from '../descriptors/data/403.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7412 as c2, d7413 as c3, d7414 as c4, d7415 as c5, d7416 as c6 } from '../descriptors/data/337.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6675 as c7 } from '../descriptors/data/295.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8548 as d8548 } from '../descriptors/data/403.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7745;
+const read = d8548;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MetadataRequest"]:c0(),["OrderLineItemModifierRequestModel"]:c1(),["SharedCodec327"]:c2(),["SharedCodec328"]:c3(),["SharedCodec329"]:c4(),["SharedCodec330"]:c5(),["SharedCodec331"]:c6(),["TextModifierRequest"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MetadataRequest"]:c0(),["OrderLineItemModifierRequestModel"]:c1(),["SharedCodec417"]:c2(),["SharedCodec418"]:c3(),["SharedCodec419"]:c4(),["SharedCodec420"]:c5(),["SharedCodec421"]:c6(),["TextModifierRequest"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderLineItemModifierRequestModel(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

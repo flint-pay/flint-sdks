@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributes). |
 
 ### ModifierGroupArchivedInstalledMerchantsEvent.data.object
 
@@ -39,6 +39,289 @@ Field definitions: [shared fields](ModifierGroup.md#modifiergroup).
 ### ModifierGroupArchivedInstalledMerchantsEvent.data.object.metadata
 
 Field definitions: [CreateOrderLineItem.metadata](../models/CreateOrderLineItem.md#createorderlineitemmetadata).
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `allow_quantities` | Optional | boolean or null | Whether buyers can select more than one unit of a list modifier. `allow_quantities`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesallow_quantities). |
+| `created_at` | Optional | string or null | When the modifier group was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributescreated_at). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `max_quantity` | Optional | integer or null | Maximum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. `max_quantity`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmax_quantity). |
+| `max_selected` | Optional | integer or null | Maximum number of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set can override this value. `max_selected`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmax_selected). |
+| `max_total_quantity` | Optional | integer or null | Maximum combined whole-number quantity across selected list modifiers; fractional quantities are not supported. `max_total_quantity`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmax_total_quantity). |
+| `merchant_id` | Optional | string or null | Identifier of the merchant that owns this modifier group. `merchant_id`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmerchant_id). |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. `metadata`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmetadata). |
+| `min_quantity` | Optional | integer or null | Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. `min_quantity`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmin_quantity). |
+| `min_selected` | Optional | integer or null | Minimum number of distinct modifiers buyers must select from a list group. Omit it to require no selections. A modifier set can override this value. `min_selected`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmin_selected). |
+| `modifier_group_id` | Optional | string or null | Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. `modifier_group_id`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmodifier_group_id). |
+| `modifier_group_type` | Optional | string or null | Whether buyers choose from a list of modifiers or enter text. On create, inferred as text when text configuration is supplied, otherwise list. Values: `"list"`, `"text"`. `modifier_group_type`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmodifier_group_type). |
+| `modifiers` | Optional | Array of [Modifier](../models/Modifier.md#modifier) or null | Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. `modifiers`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesmodifiers). |
+| `name` | Optional | string or null | Name of the modifier group shown to buyers. `name`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesname). |
+| `show_on_fulfillment` | Optional | boolean or null | Whether selections from this group appear in fulfillment details unless overridden for a modifier set. `show_on_fulfillment`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesshow_on_fulfillment). |
+| `show_on_receipt` | Optional | boolean or null | Whether selections from this group appear on buyer receipts unless overridden for a modifier set. `show_on_receipt`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesshow_on_receipt). |
+| `status` | Optional | string or null | Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesstatus). |
+| `text` | Optional | [TextModifierConfig](../models/TextModifierConfig.md#textmodifierconfig) or null | Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. |
+| `updated_at` | Optional | string or null | When the modifier group or its modifiers last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesupdated_at). |
+| `version` | Optional | integer or null | Version of the modifier group and its modifiers. `version`: [declared alternatives](../models/ModifierGroupArchivedInstalledMerchantsEvent.md#modifiergrouparchivedinstalledmerchantseventdataprevious_attributesversion). |
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.allow_quantities
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.allow_quantities variant 1
+
+anyOf variant 1: Whether buyers can select more than one unit of a list modifier..
+
+- Value shape: boolean. Whether buyers can select more than one unit of a list modifier. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.allow_quantities variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether buyers can select more than one unit of a list modifier. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.created_at
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.created_at variant 1
+
+anyOf variant 1: When the modifier group was created, as an RFC3339 timestamp..
+
+- Value shape: string. When the modifier group was created, as an RFC3339 timestamp. When the modifier group was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the modifier group was created, as an RFC3339 timestamp. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.external_reference_id
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id).
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_quantity
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_quantity variant 1
+
+anyOf variant 1: Maximum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported..
+
+- Value shape: integer. Maximum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Maximum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Format: `int64`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Maximum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_selected
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_selected variant 1
+
+anyOf variant 1: Maximum number of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set can override this value..
+
+- Value shape: integer. Maximum number of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set can override this value. Maximum number of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set can override this value. Format: `int32`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_selected variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Maximum number of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set can override this value. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_total_quantity
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_total_quantity variant 1
+
+anyOf variant 1: Maximum combined whole-number quantity across selected list modifiers; fractional quantities are not supported..
+
+- Value shape: integer. Maximum combined whole-number quantity across selected list modifiers; fractional quantities are not supported. Maximum combined whole-number quantity across selected list modifiers; fractional quantities are not supported. Format: `int64`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.max_total_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Maximum combined whole-number quantity across selected list modifiers; fractional quantities are not supported. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.merchant_id
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.merchant_id variant 1
+
+anyOf variant 1: Identifier of the merchant that owns this modifier group..
+
+- Value shape: string. Identifier of the merchant that owns this modifier group. Identifier of the merchant that owns this modifier group. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.merchant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the merchant that owns this modifier group. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.metadata
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.metadata variant 1
+
+anyOf MetadataMap: Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API..
+
+- Value shape: Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: maxLength: `4096`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.metadata variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.min_quantity
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.min_quantity variant 1
+
+anyOf variant 1: Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported..
+
+- Value shape: integer. Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Format: `int64`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.min_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.min_selected
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.min_selected variant 1
+
+anyOf variant 1: Minimum number of distinct modifiers buyers must select from a list group. Omit it to require no selections. A modifier set can override this value..
+
+- Value shape: integer. Minimum number of distinct modifiers buyers must select from a list group. Omit it to require no selections. A modifier set can override this value. Minimum number of distinct modifiers buyers must select from a list group. Omit it to require no selections. A modifier set can override this value. Format: `int32`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.min_selected variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Minimum number of distinct modifiers buyers must select from a list group. Omit it to require no selections. A modifier set can override this value. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_group_id
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_group_id variant 1
+
+anyOf variant 1: Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it..
+
+- Value shape: string. Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_group_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_group_type
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_group_type variant 1
+
+anyOf variant 1: Whether buyers choose from a list of modifiers or enter text. On create, inferred as text when text configuration is supplied, otherwise list..
+
+- Value shape: string. Whether buyers choose from a list of modifiers or enter text. On create, inferred as text when text configuration is supplied, otherwise list. Values: `"list"`, `"text"`.
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_group_type variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether buyers choose from a list of modifiers or enter text. On create, inferred as text when text configuration is supplied, otherwise list. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifiers
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifiers variant 1
+
+anyOf variant 1: Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices..
+
+- Value shape: Array of [Modifier](../models/Modifier.md#modifier). Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.modifiers variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Choices in a list group. Only active modifiers whose set override's available is not false are offered to buyers. Text groups do not have choices. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.name
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.name variant 1
+
+anyOf variant 1: Name of the modifier group shown to buyers..
+
+- Value shape: string. Name of the modifier group shown to buyers. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name of the modifier group shown to buyers. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.show_on_fulfillment
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.show_on_fulfillment variant 1
+
+anyOf variant 1: Whether selections from this group appear in fulfillment details unless overridden for a modifier set..
+
+- Value shape: boolean. Whether selections from this group appear in fulfillment details unless overridden for a modifier set. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.show_on_fulfillment variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether selections from this group appear in fulfillment details unless overridden for a modifier set. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.show_on_receipt
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.show_on_receipt variant 1
+
+anyOf variant 1: Whether selections from this group appear on buyer receipts unless overridden for a modifier set..
+
+- Value shape: boolean. Whether selections from this group appear on buyer receipts unless overridden for a modifier set. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.show_on_receipt variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether selections from this group appear on buyer receipts unless overridden for a modifier set. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.status
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited..
+
+- Value shape: string. Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`.
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at variant 1
+
+anyOf variant 1: When the modifier group or its modifiers last changed, as an RFC3339 timestamp..
+
+- Value shape: string. When the modifier group or its modifiers last changed, as an RFC3339 timestamp. When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the modifier group or its modifiers last changed, as an RFC3339 timestamp. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.version
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.version variant 1
+
+anyOf variant 1: Version of the modifier group and its modifiers..
+
+- Value shape: integer. Version of the modifier group and its modifiers. Version of the modifier group and its modifiers. Format: `uint64`. minimum: `1`. 
+
+### ModifierGroupArchivedInstalledMerchantsEvent.data.previous_attributes.version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Version of the modifier group and its modifiers. 
 
 ### ModifierGroupArchivedInstalledMerchantsEvent.source
 

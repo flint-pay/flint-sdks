@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](ReturnResolutionCreatedMerchantEvent.md#returnresolutioncreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](ReturnResolutionUpdatedMerchantEvent.md#returnresolutionupdatedmerchanteventdata-fields-1).
 
 ### ReturnResolutionUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [ReturnResolutionCreatedMerchantEvent.data fields 1.object](../models/ReturnResolutionCreatedMerchantEvent.md#returnresolutioncreatedmerchanteventdata-fields-1object).
+
+### ReturnResolutionUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [ReturnResolutionUpdatedMerchantEvent.data fields 1.previous_attributes](../models/ReturnResolutionUpdatedMerchantEvent.md#returnresolutionupdatedmerchanteventdata-fields-1previous_attributes).
 
 ### ReturnResolutionUpdatedInstalledMerchantsEvent.source fields 1
 

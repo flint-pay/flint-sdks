@@ -31,6 +31,10 @@ Field definitions: [shared fields](DeliveryRateCallbackActivatedMerchantEvent.md
 
 Field definitions: [DeliveryRateCallbackActivatedMerchantEvent.data fields 1.object](../models/DeliveryRateCallbackActivatedMerchantEvent.md#deliveryratecallbackactivatedmerchanteventdata-fields-1object).
 
+### DeliveryRateCallbackDeactivatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [DeliveryRateCallbackActivatedMerchantEvent.data fields 1.previous_attributes](../models/DeliveryRateCallbackActivatedMerchantEvent.md#deliveryratecallbackactivatedmerchanteventdata-fields-1previous_attributes).
+
 ### DeliveryRateCallbackDeactivatedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

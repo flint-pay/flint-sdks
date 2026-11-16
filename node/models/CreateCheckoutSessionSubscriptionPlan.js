@@ -1,19 +1,18 @@
-import { d6041 as c0, d6039 as c20, d6040 as c21 } from '../descriptors/data/274.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6153 as c1, d6154 as c6, d6148 as c7, d6155 as c8, d6156 as c9, d6157 as c10, d6158 as c11, d6152 as c16, d6142 as c17, d6143 as c18, d6144 as c19, d6150 as c22, d6151 as c23, d6145 as c26, d6146 as c27, d6147 as c28 } from '../descriptors/data/280.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5970 as c2, d5971 as c3, d5972 as c4, d5973 as c5 } from '../descriptors/data/269.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5977 as c12 } from '../descriptors/data/270.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d215 as c13 } from '../descriptors/data/10.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5941 as c14 } from '../descriptors/data/268.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5814 as c15 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6160 as c24, d6161 as c25, d6162 as c34 } from '../descriptors/data/281.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5994 as c29, d5995 as c30, d5996 as c31 } from '../descriptors/data/271.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6006 as c32, d6007 as c33 } from '../descriptors/data/272.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6020 as c35 } from '../descriptors/data/273.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d215 as d215 } from '../descriptors/data/10.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6844 as c0, d6842 as c20, d6843 as c21 } from '../descriptors/data/306.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6956 as c1, d6957 as c6, d6951 as c7, d6958 as c8, d6959 as c9, d6960 as c10, d6961 as c11, d6955 as c16, d6945 as c17, d6946 as c18, d6947 as c19, d6953 as c22, d6954 as c23, d6963 as c24, d6948 as c26, d6949 as c27, d6950 as c28 } from '../descriptors/data/312.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6773 as c2, d6774 as c3, d6775 as c4, d6776 as c5, d6780 as c12 } from '../descriptors/data/301.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d215 as c13 } from '../descriptors/data/10.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6744 as c14 } from '../descriptors/data/300.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6617 as c15 } from '../descriptors/data/291.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6964 as c25, d6965 as c34 } from '../descriptors/data/313.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6797 as c29, d6798 as c30, d6799 as c31 } from '../descriptors/data/303.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6810 as c32, d6814 as c33 } from '../descriptors/data/304.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6823 as c35 } from '../descriptors/data/305.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d215 as d215 } from '../descriptors/data/10.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d215;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CheckoutBuyerFieldsRequest"]:c1(),["CheckoutCustomTextWriteConfig"]:c2(),["CheckoutLegalConfigRequest"]:c3(),["CheckoutPaymentConfigRequest"]:c4(),["CheckoutPrefillRequest"]:c5(),["CheckoutPromotionConfigRequest"]:c6(),["CheckoutRedirectsRequest"]:c7(),["CheckoutSubscriptionTermsRequest"]:c8(),["CheckoutTaxCalculationRequest"]:c9(),["CheckoutTaxConfigRequest"]:c10(),["CheckoutTipConfigRequest"]:c11(),["CreateCheckoutSessionDiscount"]:c12(),["CreateCheckoutSessionSubscriptionPlan"]:c13(),["MetadataRequest"]:c14(),["MoneyValue"]:c15(),["PlatformFeeRequest"]:c16(),["PromotionRefInputPromotionCode"]:c17(),["PromotionRefInputPromotionID"]:c18(),["PromotionRefRequest"]:c19(),["SharedCodec0"]:c20(),["SharedCodec1"]:c21(),["SharedCodec145"]:c22(),["SharedCodec146"]:c23(),["SharedCodec169"]:c24(),["SharedCodec170"]:c25(),["SharedCodec194"]:c26(),["SharedCodec195"]:c27(),["SharedCodec196"]:c28(),["SharedCodec197"]:c29(),["SharedCodec198"]:c30(),["SharedCodec199"]:c31(),["SharedCodec209"]:c32(),["SharedCodec210"]:c33(),["SubscriptionPlanChangeLineItemRequest"]:c34(),["ThemeConfigRequest"]:c35()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CheckoutBuyerFieldsRequest"]:c1(),["CheckoutCustomTextWriteConfig"]:c2(),["CheckoutLegalConfigRequest"]:c3(),["CheckoutPaymentConfigRequest"]:c4(),["CheckoutPrefillRequest"]:c5(),["CheckoutPromotionConfigRequest"]:c6(),["CheckoutRedirectsRequest"]:c7(),["CheckoutSubscriptionTermsRequest"]:c8(),["CheckoutTaxCalculationRequest"]:c9(),["CheckoutTaxConfigRequest"]:c10(),["CheckoutTipConfigRequest"]:c11(),["CreateCheckoutSessionDiscount"]:c12(),["CreateCheckoutSessionSubscriptionPlan"]:c13(),["MetadataRequest"]:c14(),["MoneyValue"]:c15(),["PlatformFeeRequest"]:c16(),["PromotionRefInputPromotionCode"]:c17(),["PromotionRefInputPromotionID"]:c18(),["PromotionRefRequest"]:c19(),["SharedCodec0"]:c20(),["SharedCodec1"]:c21(),["SharedCodec188"]:c22(),["SharedCodec189"]:c23(),["SharedCodec259"]:c24(),["SharedCodec260"]:c25(),["SharedCodec284"]:c26(),["SharedCodec285"]:c27(),["SharedCodec286"]:c28(),["SharedCodec287"]:c29(),["SharedCodec288"]:c30(),["SharedCodec289"]:c31(),["SharedCodec299"]:c32(),["SharedCodec300"]:c33(),["SubscriptionPlanChangeLineItemRequest"]:c34(),["ThemeConfigRequest"]:c35()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateCheckoutSessionSubscriptionPlan(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

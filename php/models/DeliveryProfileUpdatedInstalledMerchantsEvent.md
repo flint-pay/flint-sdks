@@ -31,6 +31,10 @@ Field definitions: [shared fields](DeliveryProfileArchivedMerchantEvent.md#deliv
 
 Field definitions: [DeliveryProfileArchivedMerchantEvent.data fields 1.object](../models/DeliveryProfileArchivedMerchantEvent.md#deliveryprofilearchivedmerchanteventdata-fields-1object).
 
+### DeliveryProfileUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [DeliveryProfileArchivedMerchantEvent.data fields 1.previous_attributes](../models/DeliveryProfileArchivedMerchantEvent.md#deliveryprofilearchivedmerchanteventdata-fields-1previous_attributes).
+
 ### DeliveryProfileUpdatedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

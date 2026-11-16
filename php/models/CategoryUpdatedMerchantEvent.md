@@ -27,9 +27,74 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](CategoryCreatedMerchantEvent.md#categorycreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/CategoryCreatedMerchantEvent.md#categorycreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/CategoryUpdatedMerchantEvent.md#categoryupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### CategoryUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [CategoryCreatedMerchantEvent.data fields 1.object](../models/CategoryCreatedMerchantEvent.md#categorycreatedmerchanteventdata-fields-1object).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributes).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.assigned_bundle_count
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.assigned_bundle_count](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesassigned_bundle_count).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.assigned_product_count
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.assigned_product_count](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesassigned_product_count).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.category_id
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.category_id](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributescategory_id).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.created_at](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescreated_at).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.description
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.description](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesdescription).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.handle
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.handle](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributeshandle).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.merchant_id](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmerchant_id).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.metadata](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmetadata).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.name](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesname).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.status](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesstatus).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.targeting_reference_count
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.targeting_reference_count](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributestargeting_reference_count).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [BundleArchivedMerchantEventDataPreviousAttributes.updated_at](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesupdated_at).
+
+### CategoryUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.version](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesversion).
 

@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InventoryReservationActionRequiredMerchantEvent.md#inventoryreservationactionrequiredmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InventoryReservationActionRequiredMerchantEvent.md#inventoryreservationactionrequiredmerchanteventdata-fields-1previous_attributes). |
 
 ### InventoryReservationActionRequiredMerchantEvent.data fields 1.object
 
@@ -53,4 +53,58 @@ Field definitions: [InventoryReservationResponse.data.lines[]](../models/Invento
 ### InventoryReservationActionRequiredMerchantEvent.data fields 1.object.owner
 
 Declared alternatives: [InventoryReservationResponse.data.owner](../models/InventoryReservationResponse.md#inventoryreservationresponsedataowner).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributes).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.closed_reason
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.closed_reason](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesclosed_reason).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.expires_at
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.expires_at](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesexpires_at).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [InventoryCountAppliedMerchantEventDataPreviousAttributes.idempotency_key](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesidempotency_key).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.inventory_reservation_id
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_reservation_id](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_reservation_id).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.lines
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.lines](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributeslines).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.replacement_inventory_reservation_id
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.replacement_inventory_reservation_id](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesreplacement_inventory_reservation_id).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.source_inventory_reservation_id
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.source_inventory_reservation_id](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributessource_inventory_reservation_id).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.status](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesstatus).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.supported_actions](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributessupported_actions).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.version](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesversion).
 

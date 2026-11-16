@@ -1841,7 +1841,22 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_count_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "location_id"?: ((string) | (null));
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_count.applied";
@@ -1862,7 +1877,22 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_count_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "location_id"?: ((string) | (null));
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_count.applied";
@@ -1912,6 +1942,58 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
+     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
+     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
+     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
+     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
+     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
+     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+     * item's line in an inventory count, with the quantities Flint expected, the quantities
+     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
+     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
+     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
+     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null.
+     * previous_attributes.observation_provenance (Optional): {@link
+     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
+     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
+     * canceled, and applied once every line has an observation. Empty after the count is applied
+     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
+     * and applied once every line has an observation. Empty after the count is applied or
+     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "apply", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1996,9 +2078,132 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
+         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
+         * string. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
+         * Unique identifier for this inventory count, prefixed `invc_`.
+         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
+         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
+         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
+         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+         * item's line in an inventory count, with the quantities Flint expected, the quantities
+         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
+         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
+         * string. ID of the Location whose stock is counted. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
+         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
+         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
+         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
+         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
+         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Actions that can change this count now. A draft can be
+         * canceled, and applied once every line has an observation. Empty after the count is
+         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
+         * Array of string. Actions that can change this count now. A draft can be canceled, and
+         * applied once every line has an observation. Empty after the count is applied or
+         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
+         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "applied_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             */
+            "inventory_count_id"?: ((string) | (null));
+            /**
+             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
+             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
+             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
+             * count, with the quantities Flint expected, the quantities counted, and the variance
+             * applied. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            /**
+             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
+             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Source system, actor, and time reported with the count's observations. anyOf[1]
+             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
+             * reported with the count's observations. anyOf[2] (Value): null.
+             */
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            /**
+             * Whether the count is still open. Applying or canceling a `draft` count ends it.
+             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
+             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
+             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can change this count now. A draft can be canceled, and applied once
+             * every line has an observation. Empty after the count is applied or canceled. []
+             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
+             * this count now. A draft can be canceled, and applied once every line has an
+             * observation. Empty after the count is applied or canceled. [] enum: "apply",
+             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
+             * (Value): null.
+             */
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2074,6 +2279,58 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
+     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
+     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
+     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
+     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
+     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
+     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+     * item's line in an inventory count, with the quantities Flint expected, the quantities
+     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
+     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
+     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
+     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null.
+     * previous_attributes.observation_provenance (Optional): {@link
+     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
+     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
+     * canceled, and applied once every line has an observation. Empty after the count is applied
+     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
+     * and applied once every line has an observation. Empty after the count is applied or
+     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "apply", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2158,9 +2415,132 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
+         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
+         * string. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
+         * Unique identifier for this inventory count, prefixed `invc_`.
+         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
+         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
+         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
+         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+         * item's line in an inventory count, with the quantities Flint expected, the quantities
+         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
+         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
+         * string. ID of the Location whose stock is counted. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
+         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
+         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
+         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
+         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
+         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Actions that can change this count now. A draft can be
+         * canceled, and applied once every line has an observation. Empty after the count is
+         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
+         * Array of string. Actions that can change this count now. A draft can be canceled, and
+         * applied once every line has an observation. Empty after the count is applied or
+         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
+         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "applied_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             */
+            "inventory_count_id"?: ((string) | (null));
+            /**
+             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
+             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
+             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
+             * count, with the quantities Flint expected, the quantities counted, and the variance
+             * applied. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            /**
+             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
+             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Source system, actor, and time reported with the count's observations. anyOf[1]
+             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
+             * reported with the count's observations. anyOf[2] (Value): null.
+             */
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            /**
+             * Whether the count is still open. Applying or canceling a `draft` count ends it.
+             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
+             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
+             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can change this count now. A draft can be canceled, and applied once
+             * every line has an observation. Empty after the count is applied or canceled. []
+             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
+             * this count now. A draft can be canceled, and applied once every line has an
+             * observation. Empty after the count is applied or canceled. [] enum: "apply",
+             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
+             * (Value): null.
+             */
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

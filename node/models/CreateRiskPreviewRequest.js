@@ -1,12 +1,12 @@
-import { d363 as c0 } from '../descriptors/data/22.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5814 as c1 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d8586 as c2, d8587 as c3, d8588 as c4, d8589 as c5, d8590 as c6, d8591 as c7, d8593 as c10, d8594 as c11, d8595 as c12, d8596 as c13, d8584 as c16, d8585 as c17 } from '../descriptors/data/423.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d8580 as c8, d8581 as c9, d8582 as c14, d8583 as c15 } from '../descriptors/data/422.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d363 as d363 } from '../descriptors/data/22.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d363 as c0 } from '../descriptors/data/22.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6617 as c1 } from '../descriptors/data/291.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d9389 as c2, d9390 as c3, d9391 as c4, d9392 as c5, d9393 as c6, d9394 as c7, d9396 as c10, d9397 as c11, d9398 as c12, d9399 as c13, d9387 as c16, d9388 as c17 } from '../descriptors/data/455.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d9383 as c8, d9384 as c9, d9385 as c14, d9386 as c15 } from '../descriptors/data/454.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d363 as d363 } from '../descriptors/data/22.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d363;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskPreviewRequest"]:c0(),["MoneyValue"]:c1(),["RiskPredicateNodeComparisonRequest"]:c2(),["RiskPredicateNodeInListRequest"]:c3(),["RiskPredicateNodeInRequest"]:c4(),["RiskPredicateNodeIsMissingRequest"]:c5(),["RiskPredicateNodeMoneyComparisonRequest"]:c6(),["RiskPredicateNodeRequest"]:c7(),["SharedCodec407"]:c8(),["SharedCodec408"]:c9(),["SharedCodec409"]:c10(),["SharedCodec410"]:c11(),["SharedCodec411"]:c12(),["SharedCodec412"]:c13(),["SharedCodec413"]:c14(),["SharedCodec414"]:c15(),["SharedCodec415"]:c16(),["SharedCodec416"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskPreviewRequest"]:c0(),["MoneyValue"]:c1(),["RiskPredicateNodeComparisonRequest"]:c2(),["RiskPredicateNodeInListRequest"]:c3(),["RiskPredicateNodeInRequest"]:c4(),["RiskPredicateNodeIsMissingRequest"]:c5(),["RiskPredicateNodeMoneyComparisonRequest"]:c6(),["RiskPredicateNodeRequest"]:c7(),["SharedCodec497"]:c8(),["SharedCodec498"]:c9(),["SharedCodec499"]:c10(),["SharedCodec500"]:c11(),["SharedCodec501"]:c12(),["SharedCodec502"]:c13(),["SharedCodec503"]:c14(),["SharedCodec504"]:c15(),["SharedCodec505"]:c16(),["SharedCodec506"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateRiskPreviewRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

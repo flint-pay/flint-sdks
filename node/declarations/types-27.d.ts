@@ -459,7 +459,23 @@ export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCardNotification>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "delivery"?: ((GiftCardNotificationDelivery) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardPurchaseRecipient) | (null));
+            "resend_of_notification_id"?: ((string) | (null));
+            "sent_at"?: ((string) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "gift_card_notification.updated";
@@ -481,7 +497,23 @@ export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCardNotification>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "delivery"?: ((GiftCardNotificationDelivery) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardPurchaseRecipient) | (null));
+            "resend_of_notification_id"?: ((string) | (null));
+            "sent_at"?: ((string) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "gift_card_notification.updated";
@@ -534,7 +566,67 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
      * (Optional): object. Previous values of changed top-level fields in data.object, at this
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
+     * previous state, including synthetic test events. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivery
+     * (Optional): {@link GiftCardNotificationDelivery} or null. Included on notification
+     * retrieval. Contains the most recent sending attempts and delivery events, newest first. A
+     * failed attempt describes the send call; use notification.status to determine whether
+     * acceptance remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
+     * sending attempts and delivery events, newest first. A failed attempt describes the send
+     * call; use notification.status to determine whether acceptance remains unconfirmed.
+     * previous_attributes.delivery.anyOf[2] (Value): null. previous_attributes.gift_card_id
+     * (Optional): string or null. ID of the gift card the notification is about.
+     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_notification_id (Optional): string or null. Unique identifier
+     * for this gift card notification, prefixed `gcn_`.
+     * previous_attributes.gift_card_notification_id.anyOf[1] (Value): string. Unique identifier
+     * for this gift card notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+     * previous_attributes.gift_card_notification_id.anyOf[2] (Value): null.
+     * previous_attributes.recipient (Optional): {@link GiftCardPurchaseRecipient} or null. Who the
+     * notification is sent to. previous_attributes.recipient.anyOf[1] (Value): {@link
+     * GiftCardPurchaseRecipient}. Who the notification is sent to.
+     * previous_attributes.recipient.anyOf[2] (Value): null.
+     * previous_attributes.resend_of_notification_id (Optional): string or null. ID of the earlier
+     * notification this one sends again. previous_attributes.resend_of_notification_id.anyOf[1]
+     * (Value): string. ID of the earlier notification this one sends again. Example:
+     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". previous_attributes.resend_of_notification_id.anyOf[2]
+     * (Value): null. previous_attributes.sent_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.sent_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.sent_at.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where sending the notification stands.
+     * Read `delivery` for the attempts and email events behind it. Value enum: "scheduled",
+     * "pending", "sent", "failed", "unconfirmed", "canceled". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.status_reason (Optional): string or null or null. Why the
+     * notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. previous_attributes.status_reason.anyOf[1] (Value): string or
+     * null. Why the notification has its current status. credential_rotated means code rotation
+     * canceled an unsent notification for the previous code. Null when no reason applies. Value
+     * enum: "credential_rotated", null. previous_attributes.status_reason.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -631,9 +723,146 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivery (Optional):
+         * {@link GiftCardNotificationDelivery} or null. Included on notification retrieval.
+         * Contains the most recent sending attempts and delivery events, newest first. A failed
+         * attempt describes the send call; use notification.status to determine whether acceptance
+         * remains unconfirmed. delivery.anyOf[1] (Value): {@link GiftCardNotificationDelivery}.
+         * Included on notification retrieval. Contains the most recent sending attempts and
+         * delivery events, newest first. A failed attempt describes the send call; use
+         * notification.status to determine whether acceptance remains unconfirmed.
+         * delivery.anyOf[2] (Value): null. gift_card_id (Optional): string or null. ID of the gift
+         * card the notification is about. gift_card_id.anyOf[1] (Value): string. ID of the gift
+         * card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_id.anyOf[2] (Value): null. gift_card_notification_id (Optional): string or
+         * null. Unique identifier for this gift card notification, prefixed `gcn_`.
+         * gift_card_notification_id.anyOf[1] (Value): string. Unique identifier for this gift card
+         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+         * gift_card_notification_id.anyOf[2] (Value): null. recipient (Optional): {@link
+         * GiftCardPurchaseRecipient} or null. Who the notification is sent to. recipient.anyOf[1]
+         * (Value): {@link GiftCardPurchaseRecipient}. Who the notification is sent to.
+         * recipient.anyOf[2] (Value): null. resend_of_notification_id (Optional): string or null.
+         * ID of the earlier notification this one sends again. resend_of_notification_id.anyOf[1]
+         * (Value): string. ID of the earlier notification this one sends again. Example:
+         * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". resend_of_notification_id.anyOf[2] (Value): null.
+         * sent_at (Optional): string or null. RFC3339 timestamp. sent_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". sent_at.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where sending the notification stands.
+         * Read `delivery` for the attempts and email events behind it. Value enum: "scheduled",
+         * "pending", "sent", "failed", "unconfirmed", "canceled". status.anyOf[1] (Value): string.
+         * Where sending the notification stands. Read `delivery` for the attempts and email events
+         * behind it. Value enum: "scheduled", "pending", "sent", "failed", "unconfirmed",
+         * "canceled". status.anyOf[2] (Value): null. status_reason (Optional): string or null or
+         * null. Why the notification has its current status. credential_rotated means code
+         * rotation canceled an unsent notification for the previous code. Null when no reason
+         * applies. Value enum: "credential_rotated", null. status_reason.anyOf[1] (Value): string
+         * or null. Why the notification has its current status. credential_rotated means code
+         * rotation canceled an unsent notification for the previous code. Null when no reason
+         * applies. Value enum: "credential_rotated", null. status_reason.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions accepted for
+         * this notification's stored state, independent of the caller's credentials. Empty when
+         * none are available. [] enum: "cancel". supported_actions.anyOf[1] (Value): Array of
+         * string. Lifecycle actions accepted for this notification's stored state, independent of
+         * the caller's credentials. Empty when none are available. [] enum: "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCardNotification>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. anyOf[1]
+             * (Value): {@link GiftCardNotificationDelivery}. Included on notification retrieval.
+             * Contains the most recent sending attempts and delivery events, newest first. A
+             * failed attempt describes the send call; use notification.status to determine whether
+             * acceptance remains unconfirmed. anyOf[2] (Value): null.
+             */
+            "delivery"?: ((GiftCardNotificationDelivery) | (null));
+            /**
+             * ID of the gift card the notification is about. anyOf[1] (Value): string. ID of the
+             * gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card notification, prefixed `gcn_`. anyOf[1]
+             * (Value): string. Unique identifier for this gift card notification, prefixed `gcn_`.
+             * Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". anyOf[2] (Value): null.
+             */
+            "gift_card_notification_id"?: ((string) | (null));
+            /**
+             * Who the notification is sent to. anyOf[1] (Value): {@link
+             * GiftCardPurchaseRecipient}. Who the notification is sent to. anyOf[2] (Value): null.
+             */
+            "recipient"?: ((GiftCardPurchaseRecipient) | (null));
+            /**
+             * ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of
+             * the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". anyOf[2] (Value): null.
+             */
+            "resend_of_notification_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "sent_at"?: ((string) | (null));
+            /**
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled". anyOf[1] (Value): string. Where sending the notification
+             * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+             * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            /**
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null. anyOf[1] (Value): string or null. Why the
+             * notification has its current status. credential_rotated means code rotation canceled
+             * an unsent notification for the previous code. Null when no reason applies. Value
+             * enum: "credential_rotated", null. anyOf[2] (Value): null.
+             */
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". anyOf[1]
+             * (Value): Array of string. Lifecycle actions accepted for this notification's stored
+             * state, independent of the caller's credentials. Empty when none are available. []
+             * enum: "cancel". anyOf[1][] (Value): string. Value enum: "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -712,7 +941,67 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
      * (Optional): object. Previous values of changed top-level fields in data.object, at this
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
+     * previous state, including synthetic test events. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivery
+     * (Optional): {@link GiftCardNotificationDelivery} or null. Included on notification
+     * retrieval. Contains the most recent sending attempts and delivery events, newest first. A
+     * failed attempt describes the send call; use notification.status to determine whether
+     * acceptance remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * GiftCardNotificationDelivery}. Included on notification retrieval. Contains the most recent
+     * sending attempts and delivery events, newest first. A failed attempt describes the send
+     * call; use notification.status to determine whether acceptance remains unconfirmed.
+     * previous_attributes.delivery.anyOf[2] (Value): null. previous_attributes.gift_card_id
+     * (Optional): string or null. ID of the gift card the notification is about.
+     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the
+     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_notification_id (Optional): string or null. Unique identifier
+     * for this gift card notification, prefixed `gcn_`.
+     * previous_attributes.gift_card_notification_id.anyOf[1] (Value): string. Unique identifier
+     * for this gift card notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+     * previous_attributes.gift_card_notification_id.anyOf[2] (Value): null.
+     * previous_attributes.recipient (Optional): {@link GiftCardPurchaseRecipient} or null. Who the
+     * notification is sent to. previous_attributes.recipient.anyOf[1] (Value): {@link
+     * GiftCardPurchaseRecipient}. Who the notification is sent to.
+     * previous_attributes.recipient.anyOf[2] (Value): null.
+     * previous_attributes.resend_of_notification_id (Optional): string or null. ID of the earlier
+     * notification this one sends again. previous_attributes.resend_of_notification_id.anyOf[1]
+     * (Value): string. ID of the earlier notification this one sends again. Example:
+     * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". previous_attributes.resend_of_notification_id.anyOf[2]
+     * (Value): null. previous_attributes.sent_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.sent_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.sent_at.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where sending the notification stands.
+     * Read `delivery` for the attempts and email events behind it. Value enum: "scheduled",
+     * "pending", "sent", "failed", "unconfirmed", "canceled". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.status_reason (Optional): string or null or null. Why the
+     * notification has its current status. credential_rotated means code rotation canceled an
+     * unsent notification for the previous code. Null when no reason applies. Value enum:
+     * "credential_rotated", null. previous_attributes.status_reason.anyOf[1] (Value): string or
+     * null. Why the notification has its current status. credential_rotated means code rotation
+     * canceled an unsent notification for the previous code. Null when no reason applies. Value
+     * enum: "credential_rotated", null. previous_attributes.status_reason.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for this notification's stored state, independent of the caller's credentials.
+     * Empty when none are available. [] enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -809,9 +1098,146 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivery (Optional):
+         * {@link GiftCardNotificationDelivery} or null. Included on notification retrieval.
+         * Contains the most recent sending attempts and delivery events, newest first. A failed
+         * attempt describes the send call; use notification.status to determine whether acceptance
+         * remains unconfirmed. delivery.anyOf[1] (Value): {@link GiftCardNotificationDelivery}.
+         * Included on notification retrieval. Contains the most recent sending attempts and
+         * delivery events, newest first. A failed attempt describes the send call; use
+         * notification.status to determine whether acceptance remains unconfirmed.
+         * delivery.anyOf[2] (Value): null. gift_card_id (Optional): string or null. ID of the gift
+         * card the notification is about. gift_card_id.anyOf[1] (Value): string. ID of the gift
+         * card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+         * gift_card_id.anyOf[2] (Value): null. gift_card_notification_id (Optional): string or
+         * null. Unique identifier for this gift card notification, prefixed `gcn_`.
+         * gift_card_notification_id.anyOf[1] (Value): string. Unique identifier for this gift card
+         * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
+         * gift_card_notification_id.anyOf[2] (Value): null. recipient (Optional): {@link
+         * GiftCardPurchaseRecipient} or null. Who the notification is sent to. recipient.anyOf[1]
+         * (Value): {@link GiftCardPurchaseRecipient}. Who the notification is sent to.
+         * recipient.anyOf[2] (Value): null. resend_of_notification_id (Optional): string or null.
+         * ID of the earlier notification this one sends again. resend_of_notification_id.anyOf[1]
+         * (Value): string. ID of the earlier notification this one sends again. Example:
+         * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". resend_of_notification_id.anyOf[2] (Value): null.
+         * sent_at (Optional): string or null. RFC3339 timestamp. sent_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". sent_at.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where sending the notification stands.
+         * Read `delivery` for the attempts and email events behind it. Value enum: "scheduled",
+         * "pending", "sent", "failed", "unconfirmed", "canceled". status.anyOf[1] (Value): string.
+         * Where sending the notification stands. Read `delivery` for the attempts and email events
+         * behind it. Value enum: "scheduled", "pending", "sent", "failed", "unconfirmed",
+         * "canceled". status.anyOf[2] (Value): null. status_reason (Optional): string or null or
+         * null. Why the notification has its current status. credential_rotated means code
+         * rotation canceled an unsent notification for the previous code. Null when no reason
+         * applies. Value enum: "credential_rotated", null. status_reason.anyOf[1] (Value): string
+         * or null. Why the notification has its current status. credential_rotated means code
+         * rotation canceled an unsent notification for the previous code. Null when no reason
+         * applies. Value enum: "credential_rotated", null. status_reason.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions accepted for
+         * this notification's stored state, independent of the caller's credentials. Empty when
+         * none are available. [] enum: "cancel". supported_actions.anyOf[1] (Value): Array of
+         * string. Lifecycle actions accepted for this notification's stored state, independent of
+         * the caller's credentials. Empty when none are available. [] enum: "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCardNotification>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Included on notification retrieval. Contains the most recent sending attempts and
+             * delivery events, newest first. A failed attempt describes the send call; use
+             * notification.status to determine whether acceptance remains unconfirmed. anyOf[1]
+             * (Value): {@link GiftCardNotificationDelivery}. Included on notification retrieval.
+             * Contains the most recent sending attempts and delivery events, newest first. A
+             * failed attempt describes the send call; use notification.status to determine whether
+             * acceptance remains unconfirmed. anyOf[2] (Value): null.
+             */
+            "delivery"?: ((GiftCardNotificationDelivery) | (null));
+            /**
+             * ID of the gift card the notification is about. anyOf[1] (Value): string. ID of the
+             * gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card notification, prefixed `gcn_`. anyOf[1]
+             * (Value): string. Unique identifier for this gift card notification, prefixed `gcn_`.
+             * Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". anyOf[2] (Value): null.
+             */
+            "gift_card_notification_id"?: ((string) | (null));
+            /**
+             * Who the notification is sent to. anyOf[1] (Value): {@link
+             * GiftCardPurchaseRecipient}. Who the notification is sent to. anyOf[2] (Value): null.
+             */
+            "recipient"?: ((GiftCardPurchaseRecipient) | (null));
+            /**
+             * ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of
+             * the earlier notification this one sends again. Example:
+             * "ntf_01KEZF7C00X0DP9KT950FYXHQ1". anyOf[2] (Value): null.
+             */
+            "resend_of_notification_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "sent_at"?: ((string) | (null));
+            /**
+             * Where sending the notification stands. Read `delivery` for the attempts and email
+             * events behind it. Value enum: "scheduled", "pending", "sent", "failed",
+             * "unconfirmed", "canceled". anyOf[1] (Value): string. Where sending the notification
+             * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+             * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            /**
+             * Why the notification has its current status. credential_rotated means code rotation
+             * canceled an unsent notification for the previous code. Null when no reason applies.
+             * Value enum: "credential_rotated", null. anyOf[1] (Value): string or null. Why the
+             * notification has its current status. credential_rotated means code rotation canceled
+             * an unsent notification for the previous code. Null when no reason applies. Value
+             * enum: "credential_rotated", null. anyOf[2] (Value): null.
+             */
+            "status_reason"?: (("credential_rotated" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions accepted for this notification's stored state, independent of the
+             * caller's credentials. Empty when none are available. [] enum: "cancel". anyOf[1]
+             * (Value): Array of string. Lifecycle actions accepted for this notification's stored
+             * state, independent of the caller's credentials. Empty when none are available. []
+             * enum: "cancel". anyOf[1][] (Value): string. Value enum: "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1998,7 +2424,30 @@ export type GiftCardRedemptionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCardRedemption>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "capture_mode"?: (("automatic" | "manual" | (string & {})) | (null));
+            "captured_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_redemption_id"?: ((string) | (null));
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "order_id"?: ((string | null) | (null) | (unknown));
+            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValue) | (null));
+            "remaining_refundable_money"?: ((MoneyValue) | (null));
+            "requested_money"?: ((MoneyValue) | (null));
+            "reserved_money"?: ((MoneyValue) | (null));
+            "sale_reference"?: ((string | null) | (null) | (unknown));
+            "source_type"?: (("external" | "flint_order" | (string & {})) | (null));
+            "status"?: (("reserved" | "succeeded" | "canceled" | "expired" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"capture" | "cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "gift_card_redemption.updated";
@@ -2027,7 +2476,30 @@ export type GiftCardRedemptionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCardRedemption>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "capture_mode"?: (("automatic" | "manual" | (string & {})) | (null));
+            "captured_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_redemption_id"?: ((string) | (null));
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "order_id"?: ((string | null) | (null) | (unknown));
+            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValue) | (null));
+            "remaining_refundable_money"?: ((MoneyValue) | (null));
+            "requested_money"?: ((MoneyValue) | (null));
+            "reserved_money"?: ((MoneyValue) | (null));
+            "sale_reference"?: ((string | null) | (null) | (unknown));
+            "source_type"?: (("external" | "flint_order" | (string & {})) | (null));
+            "status"?: (("reserved" | "succeeded" | "canceled" | "expired" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"capture" | "cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "gift_card_redemption.updated";
@@ -2097,6 +2569,103 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.capture_mode (Optional): string or null. Whether the redemption spends
+     * the value now or reserves it to capture later. Value enum: "automatic", "manual".
+     * previous_attributes.capture_mode.anyOf[1] (Value): string. Whether the redemption spends the
+     * value now or reserves it to capture later. Value enum: "automatic", "manual".
+     * previous_attributes.capture_mode.anyOf[2] (Value): null. previous_attributes.captured_money
+     * (Optional): {@link MoneyValue} or null. The value captured from the card so far.
+     * previous_attributes.captured_money.anyOf[1] (Value): {@link MoneyValue}. The value captured
+     * from the card so far. previous_attributes.captured_money.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null or null. When an uncaptured
+     * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
+     * immediately. previous_attributes.expires_at.anyOf[1] (Value): string or null. When an
+     * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which
+     * posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expires_at.anyOf[2] (Value): null. previous_attributes.gift_card_id
+     * (Optional): string or null. ID of the gift card the value is spent from.
+     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the value is
+     * spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_redemption_id (Optional): string or null. Unique identifier
+     * for this gift card redemption, prefixed `gcr_`.
+     * previous_attributes.gift_card_redemption_id.anyOf[1] (Value): string. Unique identifier for
+     * this gift card redemption, prefixed `gcr_`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
+     * previous_attributes.gift_card_redemption_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null or null. Your Idempotency-Key
+     * for the command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key
+     * for the command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null or null. ID of the Flint order the redemption pays for. `null`
+     * when `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string or
+     * null. ID of the Flint order the redemption pays for. `null` when `source_type` is
+     * `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.order_payment_attempt_id (Optional): string or null or
+     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
+     * `null` when `source_type` is `external`.
+     * previous_attributes.order_payment_attempt_id.anyOf[1] (Value): string or null. The order
+     * payment attempt the redemption belongs to. Set for source_type flint_order. `null` when
+     * `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+     * previous_attributes.order_payment_attempt_id.anyOf[2] (Value): null.
+     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Total refunded
+     * against this redemption across all refunds. Each refund lists its share in
+     * `tender_allocations`. previous_attributes.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Total refunded against this redemption across all refunds. Each refund lists
+     * its share in `tender_allocations`. previous_attributes.refunded_money.anyOf[2] (Value):
+     * null. previous_attributes.remaining_refundable_money (Optional): {@link MoneyValue} or null.
+     * Captured value not yet refunded. A refund allocation to this redemption can be at most this
+     * amount. Zero while the redemption is reserved, canceled, or expired.
+     * previous_attributes.remaining_refundable_money.anyOf[1] (Value): {@link MoneyValue}.
+     * Captured value not yet refunded. A refund allocation to this redemption can be at most this
+     * amount. Zero while the redemption is reserved, canceled, or expired.
+     * previous_attributes.remaining_refundable_money.anyOf[2] (Value): null.
+     * previous_attributes.requested_money (Optional): {@link MoneyValue} or null. The amount
+     * requested when the redemption was created. previous_attributes.requested_money.anyOf[1]
+     * (Value): {@link MoneyValue}. The amount requested when the redemption was created.
+     * previous_attributes.requested_money.anyOf[2] (Value): null.
+     * previous_attributes.reserved_money (Optional): {@link MoneyValue} or null. The value held on
+     * the card for this redemption while it is reserved.
+     * previous_attributes.reserved_money.anyOf[1] (Value): {@link MoneyValue}. The value held on
+     * the card for this redemption while it is reserved.
+     * previous_attributes.reserved_money.anyOf[2] (Value): null.
+     * previous_attributes.sale_reference (Optional): string or null or null. Your reference for
+     * the sale the redemption pays for. Set for source_type external. `null` when `source_type` is
+     * `flint_order`. previous_attributes.sale_reference.anyOf[1] (Value): string or null. Your
+     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * `source_type` is `flint_order`. maxLength: 255. previous_attributes.sale_reference.anyOf[2]
+     * (Value): null. previous_attributes.source_type (Optional): string or null. What the
+     * redemption pays for: a sale you record, or a Flint order's payment. Value enum: "external",
+     * "flint_order". previous_attributes.source_type.anyOf[1] (Value): string. What the redemption
+     * pays for: a sale you record, or a Flint order's payment. Value enum: "external",
+     * "flint_order". previous_attributes.source_type.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Lifecycle actions accepted for the stored redemption,
+     * independent of the caller's credentials. capture is available only before expires_at; cancel
+     * remains available until the reservation is resolved. Reservations for Flint orders are
+     * resolved through their payment attempt and list no actions. [] enum: "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for the stored redemption, independent of the caller's credentials. capture is
+     * available only before expires_at; cancel remains available until the reservation is
+     * resolved. Reservations for Flint orders are resolved through their payment attempt and list
+     * no actions. [] enum: "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2247,9 +2816,226 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. capture_mode (Optional): string or null. Whether
+         * the redemption spends the value now or reserves it to capture later. Value enum:
+         * "automatic", "manual". capture_mode.anyOf[1] (Value): string. Whether the redemption
+         * spends the value now or reserves it to capture later. Value enum: "automatic", "manual".
+         * capture_mode.anyOf[2] (Value): null. captured_money (Optional): {@link MoneyValue} or
+         * null. The value captured from the card so far. captured_money.anyOf[1] (Value): {@link
+         * MoneyValue}. The value captured from the card so far. captured_money.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. expires_at (Optional): string or null or null. When
+         * an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`,
+         * which posts immediately. expires_at.anyOf[1] (Value): string or null. When an uncaptured
+         * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
+         * immediately. Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2]
+         * (Value): null. gift_card_id (Optional): string or null. ID of the gift card the value is
+         * spent from. gift_card_id.anyOf[1] (Value): string. ID of the gift card the value is
+         * spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value):
+         * null. gift_card_redemption_id (Optional): string or null. Unique identifier for this
+         * gift card redemption, prefixed `gcr_`. gift_card_redemption_id.anyOf[1] (Value): string.
+         * Unique identifier for this gift card redemption, prefixed `gcr_`. Example:
+         * "gcr_01KEZF7C002YD2G2J734RRZTWT". gift_card_redemption_id.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null or null. ID
+         * of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+         * order_id.anyOf[1] (Value): string or null. ID of the Flint order the redemption pays
+         * for. `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null or
+         * null. The order payment attempt the redemption belongs to. Set for source_type
+         * flint_order. `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1]
+         * (Value): string or null. The order payment attempt the redemption belongs to. Set for
+         * source_type flint_order. `null` when `source_type` is `external`. Example:
+         * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". order_payment_attempt_id.anyOf[2] (Value): null.
+         * refunded_money (Optional): {@link MoneyValue} or null. Total refunded against this
+         * redemption across all refunds. Each refund lists its share in `tender_allocations`.
+         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded against this
+         * redemption across all refunds. Each refund lists its share in `tender_allocations`.
+         * refunded_money.anyOf[2] (Value): null. remaining_refundable_money (Optional): {@link
+         * MoneyValue} or null. Captured value not yet refunded. A refund allocation to this
+         * redemption can be at most this amount. Zero while the redemption is reserved, canceled,
+         * or expired. remaining_refundable_money.anyOf[1] (Value): {@link MoneyValue}. Captured
+         * value not yet refunded. A refund allocation to this redemption can be at most this
+         * amount. Zero while the redemption is reserved, canceled, or expired.
+         * remaining_refundable_money.anyOf[2] (Value): null. requested_money (Optional): {@link
+         * MoneyValue} or null. The amount requested when the redemption was created.
+         * requested_money.anyOf[1] (Value): {@link MoneyValue}. The amount requested when the
+         * redemption was created. requested_money.anyOf[2] (Value): null. reserved_money
+         * (Optional): {@link MoneyValue} or null. The value held on the card for this redemption
+         * while it is reserved. reserved_money.anyOf[1] (Value): {@link MoneyValue}. The value
+         * held on the card for this redemption while it is reserved. reserved_money.anyOf[2]
+         * (Value): null. sale_reference (Optional): string or null or null. Your reference for the
+         * sale the redemption pays for. Set for source_type external. `null` when `source_type` is
+         * `flint_order`. sale_reference.anyOf[1] (Value): string or null. Your reference for the
+         * sale the redemption pays for. Set for source_type external. `null` when `source_type` is
+         * `flint_order`. maxLength: 255. sale_reference.anyOf[2] (Value): null. source_type
+         * (Optional): string or null. What the redemption pays for: a sale you record, or a Flint
+         * order's payment. Value enum: "external", "flint_order". source_type.anyOf[1] (Value):
+         * string. What the redemption pays for: a sale you record, or a Flint order's payment.
+         * Value enum: "external", "flint_order". source_type.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the redemption is in its lifecycle. Value enum:
+         * "reserved", "succeeded", "canceled", "expired". status.anyOf[1] (Value): string. Where
+         * the redemption is in its lifecycle. Value enum: "reserved", "succeeded", "canceled",
+         * "expired". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
+         * or null. Lifecycle actions accepted for the stored redemption, independent of the
+         * caller's credentials. capture is available only before expires_at; cancel remains
+         * available until the reservation is resolved. Reservations for Flint orders are resolved
+         * through their payment attempt and list no actions. [] enum: "capture", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions accepted for the
+         * stored redemption, independent of the caller's credentials. capture is available only
+         * before expires_at; cancel remains available until the reservation is resolved.
+         * Reservations for Flint orders are resolved through their payment attempt and list no
+         * actions. [] enum: "capture", "cancel". supported_actions.anyOf[1][] (Value): string.
+         * Value enum: "capture", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCardRedemption>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Whether the redemption spends the value now or reserves it to capture later. Value
+             * enum: "automatic", "manual". anyOf[1] (Value): string. Whether the redemption spends
+             * the value now or reserves it to capture later. Value enum: "automatic", "manual".
+             * anyOf[2] (Value): null.
+             */
+            "capture_mode"?: (("automatic" | "manual" | (string & {})) | (null));
+            /**
+             * The value captured from the card so far. anyOf[1] (Value): {@link MoneyValue}. The
+             * value captured from the card so far. anyOf[2] (Value): null.
+             */
+            "captured_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * When an uncaptured manual reservation expires. `null` when `capture_mode` is
+             * `automatic`, which posts immediately. anyOf[1] (Value): string or null. When an
+             * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`,
+             * which posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the gift card the value is spent from. anyOf[1] (Value): string. ID of the
+             * gift card the value is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card redemption, prefixed `gcr_`. anyOf[1] (Value):
+             * string. Unique identifier for this gift card redemption, prefixed `gcr_`. Example:
+             * "gcr_01KEZF7C002YD2G2J734RRZTWT". anyOf[2] (Value): null.
+             */
+            "gift_card_redemption_id"?: ((string) | (null));
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent. anyOf[1] (Value): string or null. Your
+             * Idempotency-Key for the command that created this record. `null` when Flint created
+             * it or no key was sent. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the Flint order the redemption pays for. `null` when `source_type` is
+             * `external`. anyOf[1] (Value): string or null. ID of the Flint order the redemption
+             * pays for. `null` when `source_type` is `external`. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * The order payment attempt the redemption belongs to. Set for source_type
+             * flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string or
+             * null. The order payment attempt the redemption belongs to. Set for source_type
+             * flint_order. `null` when `source_type` is `external`. Example:
+             * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
+             */
+            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Total refunded against this redemption across all refunds. Each refund lists its
+             * share in `tender_allocations`. anyOf[1] (Value): {@link MoneyValue}. Total refunded
+             * against this redemption across all refunds. Each refund lists its share in
+             * `tender_allocations`. anyOf[2] (Value): null.
+             */
+            "refunded_money"?: ((MoneyValue) | (null));
+            /**
+             * Captured value not yet refunded. A refund allocation to this redemption can be at
+             * most this amount. Zero while the redemption is reserved, canceled, or expired.
+             * anyOf[1] (Value): {@link MoneyValue}. Captured value not yet refunded. A refund
+             * allocation to this redemption can be at most this amount. Zero while the redemption
+             * is reserved, canceled, or expired. anyOf[2] (Value): null.
+             */
+            "remaining_refundable_money"?: ((MoneyValue) | (null));
+            /**
+             * The amount requested when the redemption was created. anyOf[1] (Value): {@link
+             * MoneyValue}. The amount requested when the redemption was created. anyOf[2] (Value):
+             * null.
+             */
+            "requested_money"?: ((MoneyValue) | (null));
+            /**
+             * The value held on the card for this redemption while it is reserved. anyOf[1]
+             * (Value): {@link MoneyValue}. The value held on the card for this redemption while it
+             * is reserved. anyOf[2] (Value): null.
+             */
+            "reserved_money"?: ((MoneyValue) | (null));
+            /**
+             * Your reference for the sale the redemption pays for. Set for source_type external.
+             * `null` when `source_type` is `flint_order`. anyOf[1] (Value): string or null. Your
+             * reference for the sale the redemption pays for. Set for source_type external. `null`
+             * when `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "sale_reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * What the redemption pays for: a sale you record, or a Flint order's payment. Value
+             * enum: "external", "flint_order". anyOf[1] (Value): string. What the redemption pays
+             * for: a sale you record, or a Flint order's payment. Value enum: "external",
+             * "flint_order". anyOf[2] (Value): null.
+             */
+            "source_type"?: (("external" | "flint_order" | (string & {})) | (null));
+            /**
+             * Where the redemption is in its lifecycle. Value enum: "reserved", "succeeded",
+             * "canceled", "expired". anyOf[1] (Value): string. Where the redemption is in its
+             * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("reserved" | "succeeded" | "canceled" | "expired" | (string & {})) | (null));
+            /**
+             * Lifecycle actions accepted for the stored redemption, independent of the caller's
+             * credentials. capture is available only before expires_at; cancel remains available
+             * until the reservation is resolved. Reservations for Flint orders are resolved
+             * through their payment attempt and list no actions. [] enum: "capture", "cancel".
+             * anyOf[1] (Value): Array of string. Lifecycle actions accepted for the stored
+             * redemption, independent of the caller's credentials. capture is available only
+             * before expires_at; cancel remains available until the reservation is resolved.
+             * Reservations for Flint orders are resolved through their payment attempt and list no
+             * actions. [] enum: "capture", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "capture", "cancel". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"capture" | "cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2345,6 +3131,103 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.capture_mode (Optional): string or null. Whether the redemption spends
+     * the value now or reserves it to capture later. Value enum: "automatic", "manual".
+     * previous_attributes.capture_mode.anyOf[1] (Value): string. Whether the redemption spends the
+     * value now or reserves it to capture later. Value enum: "automatic", "manual".
+     * previous_attributes.capture_mode.anyOf[2] (Value): null. previous_attributes.captured_money
+     * (Optional): {@link MoneyValue} or null. The value captured from the card so far.
+     * previous_attributes.captured_money.anyOf[1] (Value): {@link MoneyValue}. The value captured
+     * from the card so far. previous_attributes.captured_money.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null or null. When an uncaptured
+     * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
+     * immediately. previous_attributes.expires_at.anyOf[1] (Value): string or null. When an
+     * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which
+     * posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expires_at.anyOf[2] (Value): null. previous_attributes.gift_card_id
+     * (Optional): string or null. ID of the gift card the value is spent from.
+     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the value is
+     * spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_redemption_id (Optional): string or null. Unique identifier
+     * for this gift card redemption, prefixed `gcr_`.
+     * previous_attributes.gift_card_redemption_id.anyOf[1] (Value): string. Unique identifier for
+     * this gift card redemption, prefixed `gcr_`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
+     * previous_attributes.gift_card_redemption_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null or null. Your Idempotency-Key
+     * for the command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key
+     * for the command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null or null. ID of the Flint order the redemption pays for. `null`
+     * when `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string or
+     * null. ID of the Flint order the redemption pays for. `null` when `source_type` is
+     * `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.order_payment_attempt_id (Optional): string or null or
+     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
+     * `null` when `source_type` is `external`.
+     * previous_attributes.order_payment_attempt_id.anyOf[1] (Value): string or null. The order
+     * payment attempt the redemption belongs to. Set for source_type flint_order. `null` when
+     * `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+     * previous_attributes.order_payment_attempt_id.anyOf[2] (Value): null.
+     * previous_attributes.refunded_money (Optional): {@link MoneyValue} or null. Total refunded
+     * against this redemption across all refunds. Each refund lists its share in
+     * `tender_allocations`. previous_attributes.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Total refunded against this redemption across all refunds. Each refund lists
+     * its share in `tender_allocations`. previous_attributes.refunded_money.anyOf[2] (Value):
+     * null. previous_attributes.remaining_refundable_money (Optional): {@link MoneyValue} or null.
+     * Captured value not yet refunded. A refund allocation to this redemption can be at most this
+     * amount. Zero while the redemption is reserved, canceled, or expired.
+     * previous_attributes.remaining_refundable_money.anyOf[1] (Value): {@link MoneyValue}.
+     * Captured value not yet refunded. A refund allocation to this redemption can be at most this
+     * amount. Zero while the redemption is reserved, canceled, or expired.
+     * previous_attributes.remaining_refundable_money.anyOf[2] (Value): null.
+     * previous_attributes.requested_money (Optional): {@link MoneyValue} or null. The amount
+     * requested when the redemption was created. previous_attributes.requested_money.anyOf[1]
+     * (Value): {@link MoneyValue}. The amount requested when the redemption was created.
+     * previous_attributes.requested_money.anyOf[2] (Value): null.
+     * previous_attributes.reserved_money (Optional): {@link MoneyValue} or null. The value held on
+     * the card for this redemption while it is reserved.
+     * previous_attributes.reserved_money.anyOf[1] (Value): {@link MoneyValue}. The value held on
+     * the card for this redemption while it is reserved.
+     * previous_attributes.reserved_money.anyOf[2] (Value): null.
+     * previous_attributes.sale_reference (Optional): string or null or null. Your reference for
+     * the sale the redemption pays for. Set for source_type external. `null` when `source_type` is
+     * `flint_order`. previous_attributes.sale_reference.anyOf[1] (Value): string or null. Your
+     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * `source_type` is `flint_order`. maxLength: 255. previous_attributes.sale_reference.anyOf[2]
+     * (Value): null. previous_attributes.source_type (Optional): string or null. What the
+     * redemption pays for: a sale you record, or a Flint order's payment. Value enum: "external",
+     * "flint_order". previous_attributes.source_type.anyOf[1] (Value): string. What the redemption
+     * pays for: a sale you record, or a Flint order's payment. Value enum: "external",
+     * "flint_order". previous_attributes.source_type.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Lifecycle actions accepted for the stored redemption,
+     * independent of the caller's credentials. capture is available only before expires_at; cancel
+     * remains available until the reservation is resolved. Reservations for Flint orders are
+     * resolved through their payment attempt and list no actions. [] enum: "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for the stored redemption, independent of the caller's credentials. capture is
+     * available only before expires_at; cancel remains available until the reservation is
+     * resolved. Reservations for Flint orders are resolved through their payment attempt and list
+     * no actions. [] enum: "capture", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "capture", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2495,9 +3378,226 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. capture_mode (Optional): string or null. Whether
+         * the redemption spends the value now or reserves it to capture later. Value enum:
+         * "automatic", "manual". capture_mode.anyOf[1] (Value): string. Whether the redemption
+         * spends the value now or reserves it to capture later. Value enum: "automatic", "manual".
+         * capture_mode.anyOf[2] (Value): null. captured_money (Optional): {@link MoneyValue} or
+         * null. The value captured from the card so far. captured_money.anyOf[1] (Value): {@link
+         * MoneyValue}. The value captured from the card so far. captured_money.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. expires_at (Optional): string or null or null. When
+         * an uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`,
+         * which posts immediately. expires_at.anyOf[1] (Value): string or null. When an uncaptured
+         * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
+         * immediately. Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2]
+         * (Value): null. gift_card_id (Optional): string or null. ID of the gift card the value is
+         * spent from. gift_card_id.anyOf[1] (Value): string. ID of the gift card the value is
+         * spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value):
+         * null. gift_card_redemption_id (Optional): string or null. Unique identifier for this
+         * gift card redemption, prefixed `gcr_`. gift_card_redemption_id.anyOf[1] (Value): string.
+         * Unique identifier for this gift card redemption, prefixed `gcr_`. Example:
+         * "gcr_01KEZF7C002YD2G2J734RRZTWT". gift_card_redemption_id.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key for the command
+         * that created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null or null. ID
+         * of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+         * order_id.anyOf[1] (Value): string or null. ID of the Flint order the redemption pays
+         * for. `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null or
+         * null. The order payment attempt the redemption belongs to. Set for source_type
+         * flint_order. `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1]
+         * (Value): string or null. The order payment attempt the redemption belongs to. Set for
+         * source_type flint_order. `null` when `source_type` is `external`. Example:
+         * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". order_payment_attempt_id.anyOf[2] (Value): null.
+         * refunded_money (Optional): {@link MoneyValue} or null. Total refunded against this
+         * redemption across all refunds. Each refund lists its share in `tender_allocations`.
+         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded against this
+         * redemption across all refunds. Each refund lists its share in `tender_allocations`.
+         * refunded_money.anyOf[2] (Value): null. remaining_refundable_money (Optional): {@link
+         * MoneyValue} or null. Captured value not yet refunded. A refund allocation to this
+         * redemption can be at most this amount. Zero while the redemption is reserved, canceled,
+         * or expired. remaining_refundable_money.anyOf[1] (Value): {@link MoneyValue}. Captured
+         * value not yet refunded. A refund allocation to this redemption can be at most this
+         * amount. Zero while the redemption is reserved, canceled, or expired.
+         * remaining_refundable_money.anyOf[2] (Value): null. requested_money (Optional): {@link
+         * MoneyValue} or null. The amount requested when the redemption was created.
+         * requested_money.anyOf[1] (Value): {@link MoneyValue}. The amount requested when the
+         * redemption was created. requested_money.anyOf[2] (Value): null. reserved_money
+         * (Optional): {@link MoneyValue} or null. The value held on the card for this redemption
+         * while it is reserved. reserved_money.anyOf[1] (Value): {@link MoneyValue}. The value
+         * held on the card for this redemption while it is reserved. reserved_money.anyOf[2]
+         * (Value): null. sale_reference (Optional): string or null or null. Your reference for the
+         * sale the redemption pays for. Set for source_type external. `null` when `source_type` is
+         * `flint_order`. sale_reference.anyOf[1] (Value): string or null. Your reference for the
+         * sale the redemption pays for. Set for source_type external. `null` when `source_type` is
+         * `flint_order`. maxLength: 255. sale_reference.anyOf[2] (Value): null. source_type
+         * (Optional): string or null. What the redemption pays for: a sale you record, or a Flint
+         * order's payment. Value enum: "external", "flint_order". source_type.anyOf[1] (Value):
+         * string. What the redemption pays for: a sale you record, or a Flint order's payment.
+         * Value enum: "external", "flint_order". source_type.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the redemption is in its lifecycle. Value enum:
+         * "reserved", "succeeded", "canceled", "expired". status.anyOf[1] (Value): string. Where
+         * the redemption is in its lifecycle. Value enum: "reserved", "succeeded", "canceled",
+         * "expired". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
+         * or null. Lifecycle actions accepted for the stored redemption, independent of the
+         * caller's credentials. capture is available only before expires_at; cancel remains
+         * available until the reservation is resolved. Reservations for Flint orders are resolved
+         * through their payment attempt and list no actions. [] enum: "capture", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions accepted for the
+         * stored redemption, independent of the caller's credentials. capture is available only
+         * before expires_at; cancel remains available until the reservation is resolved.
+         * Reservations for Flint orders are resolved through their payment attempt and list no
+         * actions. [] enum: "capture", "cancel". supported_actions.anyOf[1][] (Value): string.
+         * Value enum: "capture", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCardRedemption>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Whether the redemption spends the value now or reserves it to capture later. Value
+             * enum: "automatic", "manual". anyOf[1] (Value): string. Whether the redemption spends
+             * the value now or reserves it to capture later. Value enum: "automatic", "manual".
+             * anyOf[2] (Value): null.
+             */
+            "capture_mode"?: (("automatic" | "manual" | (string & {})) | (null));
+            /**
+             * The value captured from the card so far. anyOf[1] (Value): {@link MoneyValue}. The
+             * value captured from the card so far. anyOf[2] (Value): null.
+             */
+            "captured_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * When an uncaptured manual reservation expires. `null` when `capture_mode` is
+             * `automatic`, which posts immediately. anyOf[1] (Value): string or null. When an
+             * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`,
+             * which posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the gift card the value is spent from. anyOf[1] (Value): string. ID of the
+             * gift card the value is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card redemption, prefixed `gcr_`. anyOf[1] (Value):
+             * string. Unique identifier for this gift card redemption, prefixed `gcr_`. Example:
+             * "gcr_01KEZF7C002YD2G2J734RRZTWT". anyOf[2] (Value): null.
+             */
+            "gift_card_redemption_id"?: ((string) | (null));
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent. anyOf[1] (Value): string or null. Your
+             * Idempotency-Key for the command that created this record. `null` when Flint created
+             * it or no key was sent. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the Flint order the redemption pays for. `null` when `source_type` is
+             * `external`. anyOf[1] (Value): string or null. ID of the Flint order the redemption
+             * pays for. `null` when `source_type` is `external`. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * The order payment attempt the redemption belongs to. Set for source_type
+             * flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string or
+             * null. The order payment attempt the redemption belongs to. Set for source_type
+             * flint_order. `null` when `source_type` is `external`. Example:
+             * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
+             */
+            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Total refunded against this redemption across all refunds. Each refund lists its
+             * share in `tender_allocations`. anyOf[1] (Value): {@link MoneyValue}. Total refunded
+             * against this redemption across all refunds. Each refund lists its share in
+             * `tender_allocations`. anyOf[2] (Value): null.
+             */
+            "refunded_money"?: ((MoneyValue) | (null));
+            /**
+             * Captured value not yet refunded. A refund allocation to this redemption can be at
+             * most this amount. Zero while the redemption is reserved, canceled, or expired.
+             * anyOf[1] (Value): {@link MoneyValue}. Captured value not yet refunded. A refund
+             * allocation to this redemption can be at most this amount. Zero while the redemption
+             * is reserved, canceled, or expired. anyOf[2] (Value): null.
+             */
+            "remaining_refundable_money"?: ((MoneyValue) | (null));
+            /**
+             * The amount requested when the redemption was created. anyOf[1] (Value): {@link
+             * MoneyValue}. The amount requested when the redemption was created. anyOf[2] (Value):
+             * null.
+             */
+            "requested_money"?: ((MoneyValue) | (null));
+            /**
+             * The value held on the card for this redemption while it is reserved. anyOf[1]
+             * (Value): {@link MoneyValue}. The value held on the card for this redemption while it
+             * is reserved. anyOf[2] (Value): null.
+             */
+            "reserved_money"?: ((MoneyValue) | (null));
+            /**
+             * Your reference for the sale the redemption pays for. Set for source_type external.
+             * `null` when `source_type` is `flint_order`. anyOf[1] (Value): string or null. Your
+             * reference for the sale the redemption pays for. Set for source_type external. `null`
+             * when `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "sale_reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * What the redemption pays for: a sale you record, or a Flint order's payment. Value
+             * enum: "external", "flint_order". anyOf[1] (Value): string. What the redemption pays
+             * for: a sale you record, or a Flint order's payment. Value enum: "external",
+             * "flint_order". anyOf[2] (Value): null.
+             */
+            "source_type"?: (("external" | "flint_order" | (string & {})) | (null));
+            /**
+             * Where the redemption is in its lifecycle. Value enum: "reserved", "succeeded",
+             * "canceled", "expired". anyOf[1] (Value): string. Where the redemption is in its
+             * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("reserved" | "succeeded" | "canceled" | "expired" | (string & {})) | (null));
+            /**
+             * Lifecycle actions accepted for the stored redemption, independent of the caller's
+             * credentials. capture is available only before expires_at; cancel remains available
+             * until the reservation is resolved. Reservations for Flint orders are resolved
+             * through their payment attempt and list no actions. [] enum: "capture", "cancel".
+             * anyOf[1] (Value): Array of string. Lifecycle actions accepted for the stored
+             * redemption, independent of the caller's credentials. capture is available only
+             * before expires_at; cancel remains available until the reservation is resolved.
+             * Reservations for Flint orders are resolved through their payment attempt and list no
+             * actions. [] enum: "capture", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "capture", "cancel". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"capture" | "cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3564,7 +4664,29 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCard>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_money"?: ((MoneyValue) | (null));
+            "balance_money"?: ((MoneyValue) | (null));
+            "code_source"?: (("generated" | "imported" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: (("USD" | (string & {})) | (null));
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "gift_card_id"?: ((string) | (null));
+            "last_loaded_at"?: ((string | null) | (null) | (unknown));
+            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            "last4"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "reserved_money"?: ((MoneyValue) | (null));
+            "restrictions"?: ((Array<GiftCardRestriction>) | (null));
+            "status"?: (("pending" | "active" | "frozen" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "gift_card.updated";
@@ -3592,7 +4714,29 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCard>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_money"?: ((MoneyValue) | (null));
+            "balance_money"?: ((MoneyValue) | (null));
+            "code_source"?: (("generated" | "imported" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: (("USD" | (string & {})) | (null));
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "gift_card_id"?: ((string) | (null));
+            "last_loaded_at"?: ((string | null) | (null) | (unknown));
+            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            "last4"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "reserved_money"?: ((MoneyValue) | (null));
+            "restrictions"?: ((Array<GiftCardRestriction>) | (null));
+            "status"?: (("pending" | "active" | "frozen" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "gift_card.updated";
@@ -3659,7 +4803,95 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.available_money (Optional): {@link MoneyValue} or null. The
+     * balance minus reserved value: what can be spent now.
+     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. The balance minus
+     * reserved value: what can be spent now. previous_attributes.available_money.anyOf[2] (Value):
+     * null. previous_attributes.balance_money (Optional): {@link MoneyValue} or null. The posted
+     * balance, including value reserved for redemptions in progress.
+     * previous_attributes.balance_money.anyOf[1] (Value): {@link MoneyValue}. The posted balance,
+     * including value reserved for redemptions in progress.
+     * previous_attributes.balance_money.anyOf[2] (Value): null. previous_attributes.code_source
+     * (Optional): string or null. Origin of the current code: generated means Flint issued a
+     * random code; imported means the merchant supplied an existing code during import. Rotating
+     * the code resets this to generated. Value enum: "generated", "imported".
+     * previous_attributes.code_source.anyOf[1] (Value): string. Origin of the current code:
+     * generated means Flint issued a random code; imported means the merchant supplied an existing
+     * code during import. Rotating the code resets this to generated. Value enum: "generated",
+     * "imported". previous_attributes.code_source.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.currency (Optional): string or null. ISO 4217 currency code. Value
+     * enum: "USD". previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". Value enum: "USD".
+     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null or null. ID of the customer associated with the card. `null` when
+     * no customer is associated. previous_attributes.customer_id.anyOf[1] (Value): string or null.
+     * ID of the customer associated with the card. `null` when no customer is associated. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * identifier for this resource in an external system. `null` when none is set.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. `null` when none is set. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_id (Optional): string or null. Unique identifier for this gift
+     * card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string. Unique
+     * identifier for this gift card, prefixed `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null. previous_attributes.last_loaded_at
+     * (Optional): string or null or null. RFC3339 timestamp. `null` when no value has been loaded
+     * onto the card. previous_attributes.last_loaded_at.anyOf[1] (Value): string or null. RFC3339
+     * timestamp. `null` when no value has been loaded onto the card. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.last_loaded_at.anyOf[2] (Value): null.
+     * previous_attributes.last_redeemed_at (Optional): string or null or null. RFC3339 timestamp.
+     * `null` when the card has never been redeemed. previous_attributes.last_redeemed_at.anyOf[1]
+     * (Value): string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.last_redeemed_at.anyOf[2] (Value): null. previous_attributes.last4
+     * (Optional): string or null. Last four characters of the card's current code.
+     * previous_attributes.last4.anyOf[1] (Value): string. Last four characters of the card's
+     * current code. minLength: 4. maxLength: 4. previous_attributes.last4.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.reserved_money
+     * (Optional): {@link MoneyValue} or null. Value held for redemptions in progress. It isn't
+     * available to other payments until the redemption succeeds or is released.
+     * previous_attributes.reserved_money.anyOf[1] (Value): {@link MoneyValue}. Value held for
+     * redemptions in progress. It isn't available to other payments until the redemption succeeds
+     * or is released. previous_attributes.reserved_money.anyOf[2] (Value): null.
+     * previous_attributes.restrictions (Optional): Array of {@link GiftCardRestriction} or null.
+     * The restrictions that keep the card frozen. unfreeze is supported only when every
+     * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card
+     * funding disposition. previous_attributes.restrictions.anyOf[1] (Value): Array of {@link
+     * GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is supported only
+     * when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs
+     * a gift card funding disposition. previous_attributes.restrictions.anyOf[1][] (Value): {@link
+     * GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a funding
+     * dispute, with its reason or dispute details. previous_attributes.restrictions.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the card is in
+     * its lifecycle. Only an `active` card can be spent. Value enum: "pending", "active",
+     * "frozen", "closed". previous_attributes.status.anyOf[1] (Value): string. Where the card is
+     * in its lifecycle. Only an `active` card can be spent. Value enum: "pending", "active",
+     * "frozen", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * accepted for the stored card state, independent of the caller's credentials. Empty when no
+     * action is available. [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for the stored card state, independent of the caller's credentials. Empty when no
+     * action is available. [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3800,9 +5032,213 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_money (Optional): {@link MoneyValue}
+         * or null. The balance minus reserved value: what can be spent now.
+         * available_money.anyOf[1] (Value): {@link MoneyValue}. The balance minus reserved value:
+         * what can be spent now. available_money.anyOf[2] (Value): null. balance_money (Optional):
+         * {@link MoneyValue} or null. The posted balance, including value reserved for redemptions
+         * in progress. balance_money.anyOf[1] (Value): {@link MoneyValue}. The posted balance,
+         * including value reserved for redemptions in progress. balance_money.anyOf[2] (Value):
+         * null. code_source (Optional): string or null. Origin of the current code: generated
+         * means Flint issued a random code; imported means the merchant supplied an existing code
+         * during import. Rotating the code resets this to generated. Value enum: "generated",
+         * "imported". code_source.anyOf[1] (Value): string. Origin of the current code: generated
+         * means Flint issued a random code; imported means the merchant supplied an existing code
+         * during import. Rotating the code resets this to generated. Value enum: "generated",
+         * "imported". code_source.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. currency
+         * (Optional): string or null. ISO 4217 currency code. Value enum: "USD". currency.anyOf[1]
+         * (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+         * ^[A-Z]{3}$. Example: "USD". Value enum: "USD". currency.anyOf[2] (Value): null.
+         * customer_id (Optional): string or null or null. ID of the customer associated with the
+         * card. `null` when no customer is associated. customer_id.anyOf[1] (Value): string or
+         * null. ID of the customer associated with the card. `null` when no customer is
+         * associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null or null. Caller-owned identifier
+         * for this resource in an external system. `null` when none is set.
+         * external_reference_id.anyOf[1] (Value): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when none is set. minLength: 1. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. gift_card_id
+         * (Optional): string or null. Unique identifier for this gift card, prefixed `gc_`.
+         * gift_card_id.anyOf[1] (Value): string. Unique identifier for this gift card, prefixed
+         * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
+         * last_loaded_at (Optional): string or null or null. RFC3339 timestamp. `null` when no
+         * value has been loaded onto the card. last_loaded_at.anyOf[1] (Value): string or null.
+         * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". last_loaded_at.anyOf[2] (Value): null.
+         * last_redeemed_at (Optional): string or null or null. RFC3339 timestamp. `null` when the
+         * card has never been redeemed. last_redeemed_at.anyOf[1] (Value): string or null. RFC3339
+         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". last_redeemed_at.anyOf[2] (Value): null. last4 (Optional):
+         * string or null. Last four characters of the card's current code. last4.anyOf[1] (Value):
+         * string. Last four characters of the card's current code. minLength: 4. maxLength: 4.
+         * last4.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the merchant
+         * this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the merchant this
+         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. reserved_money (Optional): {@link MoneyValue} or null. Value held for
+         * redemptions in progress. It isn't available to other payments until the redemption
+         * succeeds or is released. reserved_money.anyOf[1] (Value): {@link MoneyValue}. Value held
+         * for redemptions in progress. It isn't available to other payments until the redemption
+         * succeeds or is released. reserved_money.anyOf[2] (Value): null. restrictions (Optional):
+         * Array of {@link GiftCardRestriction} or null. The restrictions that keep the card
+         * frozen. unfreeze is supported only when every restriction is merchant_freeze. A
+         * funding_dispute with dispute_status lost needs a gift card funding disposition.
+         * restrictions.anyOf[1] (Value): Array of {@link GiftCardRestriction}. The restrictions
+         * that keep the card frozen. unfreeze is supported only when every restriction is
+         * merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding
+         * disposition. restrictions.anyOf[1][] (Value): {@link GiftCardRestriction}. A restriction
+         * on a gift card, either a merchant freeze or a funding dispute, with its reason or
+         * dispute details. restrictions.anyOf[2] (Value): null. status (Optional): string or null.
+         * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+         * "pending", "active", "frozen", "closed". status.anyOf[1] (Value): string. Where the card
+         * is in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+         * "active", "frozen", "closed". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions accepted for the stored card
+         * state, independent of the caller's credentials. Empty when no action is available. []
+         * enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions accepted for the
+         * stored card state, independent of the caller's credentials. Empty when no action is
+         * available. [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "adjust_balance", "cash_out",
+         * "close", "freeze", "unfreeze". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCard>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@link
+             * MoneyValue}. The balance minus reserved value: what can be spent now. anyOf[2]
+             * (Value): null.
+             */
+            "available_money"?: ((MoneyValue) | (null));
+            /**
+             * The posted balance, including value reserved for redemptions in progress. anyOf[1]
+             * (Value): {@link MoneyValue}. The posted balance, including value reserved for
+             * redemptions in progress. anyOf[2] (Value): null.
+             */
+            "balance_money"?: ((MoneyValue) | (null));
+            /**
+             * Origin of the current code: generated means Flint issued a random code; imported
+             * means the merchant supplied an existing code during import. Rotating the code resets
+             * this to generated. Value enum: "generated", "imported". anyOf[1] (Value): string.
+             * Origin of the current code: generated means Flint issued a random code; imported
+             * means the merchant supplied an existing code during import. Rotating the code resets
+             * this to generated. Value enum: "generated", "imported". anyOf[2] (Value): null.
+             */
+            "code_source"?: (("generated" | "imported" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ISO 4217 currency code. Value enum: "USD". anyOf[1] (Value): string. ISO 4217
+             * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             * Value enum: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: (("USD" | (string & {})) | (null));
+            /**
+             * ID of the customer associated with the card. `null` when no customer is associated.
+             * anyOf[1] (Value): string or null. ID of the customer associated with the card.
+             * `null` when no customer is associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             * anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when none is
+             * set. anyOf[1] (Value): string or null. Caller-owned identifier for this resource in
+             * an external system. `null` when none is set. minLength: 1. maxLength: 255. Example:
+             * "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Unique identifier for this gift card, prefixed `gc_`. anyOf[1] (Value): string.
+             * Unique identifier for this gift card, prefixed `gc_`. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1]
+             * (Value): string or null. RFC3339 timestamp. `null` when no value has been loaded
+             * onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "last_loaded_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. `null` when the card has never been redeemed. anyOf[1] (Value):
+             * string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * Last four characters of the card's current code. anyOf[1] (Value): string. Last four
+             * characters of the card's current code. minLength: 4. maxLength: 4. anyOf[2] (Value):
+             * null.
+             */
+            "last4"?: ((string) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Value held for redemptions in progress. It isn't available to other payments until
+             * the redemption succeeds or is released. anyOf[1] (Value): {@link MoneyValue}. Value
+             * held for redemptions in progress. It isn't available to other payments until the
+             * redemption succeeds or is released. anyOf[2] (Value): null.
+             */
+            "reserved_money"?: ((MoneyValue) | (null));
+            /**
+             * The restrictions that keep the card frozen. unfreeze is supported only when every
+             * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a
+             * gift card funding disposition. anyOf[1] (Value): Array of {@link
+             * GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is
+             * supported only when every restriction is merchant_freeze. A funding_dispute with
+             * dispute_status lost needs a gift card funding disposition. anyOf[1][] (Value):
+             * {@link GiftCardRestriction}. A restriction on a gift card, either a merchant freeze
+             * or a funding dispute, with its reason or dispute details. anyOf[2] (Value): null.
+             */
+            "restrictions"?: ((Array<GiftCardRestriction>) | (null));
+            /**
+             * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+             * "pending", "active", "frozen", "closed". anyOf[1] (Value): string. Where the card is
+             * in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+             * "active", "frozen", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "frozen" | "closed" | (string & {})) | (null));
+            /**
+             * Lifecycle actions accepted for the stored card state, independent of the caller's
+             * credentials. Empty when no action is available. [] enum: "adjust_balance",
+             * "cash_out", "close", "freeze", "unfreeze". anyOf[1] (Value): Array of string.
+             * Lifecycle actions accepted for the stored card state, independent of the caller's
+             * credentials. Empty when no action is available. [] enum: "adjust_balance",
+             * "cash_out", "close", "freeze", "unfreeze". anyOf[1][] (Value): string. Value enum:
+             * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3895,7 +5331,95 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.available_money (Optional): {@link MoneyValue} or null. The
+     * balance minus reserved value: what can be spent now.
+     * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValue}. The balance minus
+     * reserved value: what can be spent now. previous_attributes.available_money.anyOf[2] (Value):
+     * null. previous_attributes.balance_money (Optional): {@link MoneyValue} or null. The posted
+     * balance, including value reserved for redemptions in progress.
+     * previous_attributes.balance_money.anyOf[1] (Value): {@link MoneyValue}. The posted balance,
+     * including value reserved for redemptions in progress.
+     * previous_attributes.balance_money.anyOf[2] (Value): null. previous_attributes.code_source
+     * (Optional): string or null. Origin of the current code: generated means Flint issued a
+     * random code; imported means the merchant supplied an existing code during import. Rotating
+     * the code resets this to generated. Value enum: "generated", "imported".
+     * previous_attributes.code_source.anyOf[1] (Value): string. Origin of the current code:
+     * generated means Flint issued a random code; imported means the merchant supplied an existing
+     * code during import. Rotating the code resets this to generated. Value enum: "generated",
+     * "imported". previous_attributes.code_source.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.currency (Optional): string or null. ISO 4217 currency code. Value
+     * enum: "USD". previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". Value enum: "USD".
+     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null or null. ID of the customer associated with the card. `null` when
+     * no customer is associated. previous_attributes.customer_id.anyOf[1] (Value): string or null.
+     * ID of the customer associated with the card. `null` when no customer is associated. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * identifier for this resource in an external system. `null` when none is set.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. `null` when none is set. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_id (Optional): string or null. Unique identifier for this gift
+     * card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string. Unique
+     * identifier for this gift card, prefixed `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null. previous_attributes.last_loaded_at
+     * (Optional): string or null or null. RFC3339 timestamp. `null` when no value has been loaded
+     * onto the card. previous_attributes.last_loaded_at.anyOf[1] (Value): string or null. RFC3339
+     * timestamp. `null` when no value has been loaded onto the card. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.last_loaded_at.anyOf[2] (Value): null.
+     * previous_attributes.last_redeemed_at (Optional): string or null or null. RFC3339 timestamp.
+     * `null` when the card has never been redeemed. previous_attributes.last_redeemed_at.anyOf[1]
+     * (Value): string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.last_redeemed_at.anyOf[2] (Value): null. previous_attributes.last4
+     * (Optional): string or null. Last four characters of the card's current code.
+     * previous_attributes.last4.anyOf[1] (Value): string. Last four characters of the card's
+     * current code. minLength: 4. maxLength: 4. previous_attributes.last4.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.reserved_money
+     * (Optional): {@link MoneyValue} or null. Value held for redemptions in progress. It isn't
+     * available to other payments until the redemption succeeds or is released.
+     * previous_attributes.reserved_money.anyOf[1] (Value): {@link MoneyValue}. Value held for
+     * redemptions in progress. It isn't available to other payments until the redemption succeeds
+     * or is released. previous_attributes.reserved_money.anyOf[2] (Value): null.
+     * previous_attributes.restrictions (Optional): Array of {@link GiftCardRestriction} or null.
+     * The restrictions that keep the card frozen. unfreeze is supported only when every
+     * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card
+     * funding disposition. previous_attributes.restrictions.anyOf[1] (Value): Array of {@link
+     * GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is supported only
+     * when every restriction is merchant_freeze. A funding_dispute with dispute_status lost needs
+     * a gift card funding disposition. previous_attributes.restrictions.anyOf[1][] (Value): {@link
+     * GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a funding
+     * dispute, with its reason or dispute details. previous_attributes.restrictions.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the card is in
+     * its lifecycle. Only an `active` card can be spent. Value enum: "pending", "active",
+     * "frozen", "closed". previous_attributes.status.anyOf[1] (Value): string. Where the card is
+     * in its lifecycle. Only an `active` card can be spent. Value enum: "pending", "active",
+     * "frozen", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * accepted for the stored card state, independent of the caller's credentials. Empty when no
+     * action is available. [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * accepted for the stored card state, independent of the caller's credentials. Empty when no
+     * action is available. [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -4036,9 +5560,213 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_money (Optional): {@link MoneyValue}
+         * or null. The balance minus reserved value: what can be spent now.
+         * available_money.anyOf[1] (Value): {@link MoneyValue}. The balance minus reserved value:
+         * what can be spent now. available_money.anyOf[2] (Value): null. balance_money (Optional):
+         * {@link MoneyValue} or null. The posted balance, including value reserved for redemptions
+         * in progress. balance_money.anyOf[1] (Value): {@link MoneyValue}. The posted balance,
+         * including value reserved for redemptions in progress. balance_money.anyOf[2] (Value):
+         * null. code_source (Optional): string or null. Origin of the current code: generated
+         * means Flint issued a random code; imported means the merchant supplied an existing code
+         * during import. Rotating the code resets this to generated. Value enum: "generated",
+         * "imported". code_source.anyOf[1] (Value): string. Origin of the current code: generated
+         * means Flint issued a random code; imported means the merchant supplied an existing code
+         * during import. Rotating the code resets this to generated. Value enum: "generated",
+         * "imported". code_source.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. currency
+         * (Optional): string or null. ISO 4217 currency code. Value enum: "USD". currency.anyOf[1]
+         * (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+         * ^[A-Z]{3}$. Example: "USD". Value enum: "USD". currency.anyOf[2] (Value): null.
+         * customer_id (Optional): string or null or null. ID of the customer associated with the
+         * card. `null` when no customer is associated. customer_id.anyOf[1] (Value): string or
+         * null. ID of the customer associated with the card. `null` when no customer is
+         * associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null or null. Caller-owned identifier
+         * for this resource in an external system. `null` when none is set.
+         * external_reference_id.anyOf[1] (Value): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when none is set. minLength: 1. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. gift_card_id
+         * (Optional): string or null. Unique identifier for this gift card, prefixed `gc_`.
+         * gift_card_id.anyOf[1] (Value): string. Unique identifier for this gift card, prefixed
+         * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
+         * last_loaded_at (Optional): string or null or null. RFC3339 timestamp. `null` when no
+         * value has been loaded onto the card. last_loaded_at.anyOf[1] (Value): string or null.
+         * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". last_loaded_at.anyOf[2] (Value): null.
+         * last_redeemed_at (Optional): string or null or null. RFC3339 timestamp. `null` when the
+         * card has never been redeemed. last_redeemed_at.anyOf[1] (Value): string or null. RFC3339
+         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". last_redeemed_at.anyOf[2] (Value): null. last4 (Optional):
+         * string or null. Last four characters of the card's current code. last4.anyOf[1] (Value):
+         * string. Last four characters of the card's current code. minLength: 4. maxLength: 4.
+         * last4.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the merchant
+         * this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the merchant this
+         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. reserved_money (Optional): {@link MoneyValue} or null. Value held for
+         * redemptions in progress. It isn't available to other payments until the redemption
+         * succeeds or is released. reserved_money.anyOf[1] (Value): {@link MoneyValue}. Value held
+         * for redemptions in progress. It isn't available to other payments until the redemption
+         * succeeds or is released. reserved_money.anyOf[2] (Value): null. restrictions (Optional):
+         * Array of {@link GiftCardRestriction} or null. The restrictions that keep the card
+         * frozen. unfreeze is supported only when every restriction is merchant_freeze. A
+         * funding_dispute with dispute_status lost needs a gift card funding disposition.
+         * restrictions.anyOf[1] (Value): Array of {@link GiftCardRestriction}. The restrictions
+         * that keep the card frozen. unfreeze is supported only when every restriction is
+         * merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding
+         * disposition. restrictions.anyOf[1][] (Value): {@link GiftCardRestriction}. A restriction
+         * on a gift card, either a merchant freeze or a funding dispute, with its reason or
+         * dispute details. restrictions.anyOf[2] (Value): null. status (Optional): string or null.
+         * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+         * "pending", "active", "frozen", "closed". status.anyOf[1] (Value): string. Where the card
+         * is in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+         * "active", "frozen", "closed". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions accepted for the stored card
+         * state, independent of the caller's credentials. Empty when no action is available. []
+         * enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions accepted for the
+         * stored card state, independent of the caller's credentials. Empty when no action is
+         * available. [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "adjust_balance", "cash_out",
+         * "close", "freeze", "unfreeze". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCard>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@link
+             * MoneyValue}. The balance minus reserved value: what can be spent now. anyOf[2]
+             * (Value): null.
+             */
+            "available_money"?: ((MoneyValue) | (null));
+            /**
+             * The posted balance, including value reserved for redemptions in progress. anyOf[1]
+             * (Value): {@link MoneyValue}. The posted balance, including value reserved for
+             * redemptions in progress. anyOf[2] (Value): null.
+             */
+            "balance_money"?: ((MoneyValue) | (null));
+            /**
+             * Origin of the current code: generated means Flint issued a random code; imported
+             * means the merchant supplied an existing code during import. Rotating the code resets
+             * this to generated. Value enum: "generated", "imported". anyOf[1] (Value): string.
+             * Origin of the current code: generated means Flint issued a random code; imported
+             * means the merchant supplied an existing code during import. Rotating the code resets
+             * this to generated. Value enum: "generated", "imported". anyOf[2] (Value): null.
+             */
+            "code_source"?: (("generated" | "imported" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ISO 4217 currency code. Value enum: "USD". anyOf[1] (Value): string. ISO 4217
+             * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             * Value enum: "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: (("USD" | (string & {})) | (null));
+            /**
+             * ID of the customer associated with the card. `null` when no customer is associated.
+             * anyOf[1] (Value): string or null. ID of the customer associated with the card.
+             * `null` when no customer is associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             * anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when none is
+             * set. anyOf[1] (Value): string or null. Caller-owned identifier for this resource in
+             * an external system. `null` when none is set. minLength: 1. maxLength: 255. Example:
+             * "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Unique identifier for this gift card, prefixed `gc_`. anyOf[1] (Value): string.
+             * Unique identifier for this gift card, prefixed `gc_`. Example:
+             * "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1]
+             * (Value): string or null. RFC3339 timestamp. `null` when no value has been loaded
+             * onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "last_loaded_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. `null` when the card has never been redeemed. anyOf[1] (Value):
+             * string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * Last four characters of the card's current code. anyOf[1] (Value): string. Last four
+             * characters of the card's current code. minLength: 4. maxLength: 4. anyOf[2] (Value):
+             * null.
+             */
+            "last4"?: ((string) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Value held for redemptions in progress. It isn't available to other payments until
+             * the redemption succeeds or is released. anyOf[1] (Value): {@link MoneyValue}. Value
+             * held for redemptions in progress. It isn't available to other payments until the
+             * redemption succeeds or is released. anyOf[2] (Value): null.
+             */
+            "reserved_money"?: ((MoneyValue) | (null));
+            /**
+             * The restrictions that keep the card frozen. unfreeze is supported only when every
+             * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a
+             * gift card funding disposition. anyOf[1] (Value): Array of {@link
+             * GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is
+             * supported only when every restriction is merchant_freeze. A funding_dispute with
+             * dispute_status lost needs a gift card funding disposition. anyOf[1][] (Value):
+             * {@link GiftCardRestriction}. A restriction on a gift card, either a merchant freeze
+             * or a funding dispute, with its reason or dispute details. anyOf[2] (Value): null.
+             */
+            "restrictions"?: ((Array<GiftCardRestriction>) | (null));
+            /**
+             * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+             * "pending", "active", "frozen", "closed". anyOf[1] (Value): string. Where the card is
+             * in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+             * "active", "frozen", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "frozen" | "closed" | (string & {})) | (null));
+            /**
+             * Lifecycle actions accepted for the stored card state, independent of the caller's
+             * credentials. Empty when no action is available. [] enum: "adjust_balance",
+             * "cash_out", "close", "freeze", "unfreeze". anyOf[1] (Value): Array of string.
+             * Lifecycle actions accepted for the stored card state, independent of the caller's
+             * credentials. Empty when no action is available. [] enum: "adjust_balance",
+             * "cash_out", "close", "freeze", "unfreeze". anyOf[1][] (Value): string. Value enum:
+             * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

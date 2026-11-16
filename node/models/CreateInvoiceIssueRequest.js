@@ -1,7 +1,7 @@
-import { d7181 as c0 } from '../descriptors/data/337.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7181 as d7181 } from '../descriptors/data/337.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d7984 as c0 } from '../descriptors/data/369.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7984 as d7984 } from '../descriptors/data/369.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7181;
+const read = d7984;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateInvoiceIssueRequest"]:c0()}); }
 export { codec as _validate };

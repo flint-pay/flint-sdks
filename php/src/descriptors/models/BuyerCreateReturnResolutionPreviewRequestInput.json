@@ -1,1 +1,1 @@
-{"shared":"BuyerCreateReturnResolutionPreviewRequest","dependencies":["BuyerCreateReturnResolutionPreviewRequest","BuyerReturnReplacementLineItemRequest","ReturnResolutionLineItemRequest","SharedCodec54","SharedCodec91","SharedCodec92","SharedCodec93","SharedCodec94"]}
+{"shared":"BuyerCreateReturnResolutionPreviewRequest","dependencies":["BuyerCreateReturnResolutionPreviewRequest","BuyerReturnReplacementLineItemRequest","ReturnResolutionLineItemRequest","SharedCodec130","SharedCodec131","SharedCodec132","SharedCodec133","SharedCodec94"]}

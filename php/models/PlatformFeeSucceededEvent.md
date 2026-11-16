@@ -33,3 +33,7 @@ Field definitions: [shared fields](PlatformFeeCanceledEvent.md#platformfeecancel
 
 Field definitions: [PlatformFeeCanceledEvent.data fields 1.object](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1object).
 
+### PlatformFeeSucceededEvent.data fields 1.previous_attributes
+
+Field definitions: [PlatformFeeCanceledEvent.data fields 1.previous_attributes](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributes).
+

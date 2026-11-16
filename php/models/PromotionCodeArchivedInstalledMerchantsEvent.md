@@ -31,6 +31,10 @@ Field definitions: [shared fields](PromotionCodeArchivedMerchantEvent.md#promoti
 
 Field definitions: [PromotionCodeArchivedMerchantEvent.data fields 1.object](../models/PromotionCodeArchivedMerchantEvent.md#promotioncodearchivedmerchanteventdata-fields-1object).
 
+### PromotionCodeArchivedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes](../models/PromotionCodeArchivedMerchantEvent.md#promotioncodearchivedmerchanteventdata-fields-1previous_attributes).
+
 ### PromotionCodeArchivedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

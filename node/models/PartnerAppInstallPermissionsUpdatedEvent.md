@@ -25,11 +25,191 @@ Fields shared by partner webhook payloads.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PartnerAppInstallCreatedEvent.md#partnerappinstallcreatedeventdata).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PartnerAppInstallCreatedEvent.md#partnerappinstallcreatedeventdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributes). |
 
 ### PartnerAppInstallPermissionsUpdatedEvent.data.object
 
 Field definitions: [PartnerAppInstallCreatedEvent.data.object](../models/PartnerAppInstallCreatedEvent.md#partnerappinstallcreatedeventdataobject).
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `environment_grants` | Optional | Array of [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant) or null | The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. `environment_grants`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesenvironment_grants). |
+| `installed_by_user_id` | Optional | string or null | ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded. `installed_by_user_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesinstalled_by_user_id). |
+| `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
+| `merchant_signup_id` | Optional | string or null | The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke. `merchant_signup_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesmerchant_signup_id). |
+| `partner_app_id` | Optional | string or null | ID of the partner app the merchant installed. `partner_app_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributespartner_app_id). |
+| `partner_app_install_id` | Optional | string or null | Unique identifier for this partner app install, prefixed `pinst_`. `partner_app_install_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributespartner_app_install_id). |
+| `partner_app_name` | Optional | string or null | The app’s current name. `partner_app_name`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributespartner_app_name). |
+| `revoked_at` | Optional | string or null | RFC3339 timestamp. `revoked_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `revoked_by` | Optional | string or null | Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Values: `"merchant"`, `"partner_app"`. `revoked_by`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesrevoked_by). |
+| `revoked_by_user_id` | Optional | string or null | ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. `revoked_by_user_id`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesrevoked_by_user_id). |
+| `status` | Optional | string or null | Where the install is in its lifecycle. Values: `"pending_exchange"`, `"active"`, `"revoked"`. `status`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributesstatus). |
+| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked. Items values: `"revoke"`. `supported_actions`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdataprevious_attributessupported_actions). |
+| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.environment_grants
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.environment_grants variant 1
+
+anyOf variant 1: The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none..
+
+- Value shape: Array of [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant). The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.environment_grants variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.installed_by_user_id
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.installed_by_user_id variant 1
+
+anyOf variant 1: ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded..
+
+- Value shape: string. ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded. ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded. Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.installed_by_user_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.merchant_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id).
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.merchant_signup_id
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.merchant_signup_id variant 1
+
+anyOf variant 1: The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke..
+
+- Value shape: string. The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke. The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke. Example: `"msu_01KEZF7C00SRGYRMBPKRKW8V9J"`. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.merchant_signup_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_id
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_id variant 1
+
+anyOf variant 1: ID of the partner app the merchant installed..
+
+- Value shape: string. ID of the partner app the merchant installed. ID of the partner app the merchant installed. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the partner app the merchant installed. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_install_id
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_install_id variant 1
+
+anyOf variant 1: Unique identifier for this partner app install, prefixed `pinst_`..
+
+- Value shape: string. Unique identifier for this partner app install, prefixed `pinst_`. Unique identifier for this partner app install, prefixed `pinst_`. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_install_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this partner app install, prefixed `pinst_`. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_name
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_name variant 1
+
+anyOf variant 1: The app’s current name..
+
+- Value shape: string. The app’s current name. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.partner_app_name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The app’s current name. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_by
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_by variant 1
+
+anyOf variant 1: Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again..
+
+- Value shape: string. Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Values: `"merchant"`, `"partner_app"`.
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_by variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_by_user_id
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_by_user_id variant 1
+
+anyOf variant 1: ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it..
+
+- Value shape: string. ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.revoked_by_user_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.status
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Where the install is in its lifecycle..
+
+- Value shape: string. Where the install is in its lifecycle. Values: `"pending_exchange"`, `"active"`, `"revoked"`.
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where the install is in its lifecycle. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.supported_actions
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.supported_actions variant 1
+
+anyOf variant 1: Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked..
+
+- Value shape: Array of string. Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked. Items values: `"revoke"`.
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.supported_actions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked. 
+
+### PartnerAppInstallPermissionsUpdatedEvent.data.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
 
 ### PartnerAppInstallPermissionsUpdatedEvent.source
 

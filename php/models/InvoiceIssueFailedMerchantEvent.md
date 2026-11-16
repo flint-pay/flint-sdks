@@ -33,3 +33,7 @@ Field definitions: [shared fields](InvoiceCollectionBlockResolvedMerchantEvent.m
 
 Field definitions: [InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.object](../models/InvoiceCollectionBlockResolvedMerchantEvent.md#invoicecollectionblockresolvedmerchanteventdata-fields-1object).
 
+### InvoiceIssueFailedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes](../models/InvoiceCollectionBlockResolvedMerchantEvent.md#invoicecollectionblockresolvedmerchanteventdata-fields-1previous_attributes).
+

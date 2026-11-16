@@ -33,3 +33,7 @@ Field definitions: [shared fields](PriceListArchivedMerchantEvent.md#pricelistar
 
 Field definitions: [PriceListArchivedMerchantEvent.data fields 1.object](../models/PriceListArchivedMerchantEvent.md#pricelistarchivedmerchanteventdata-fields-1object).
 
+### PriceListUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [PriceListArchivedMerchantEvent.data fields 1.previous_attributes](../models/PriceListArchivedMerchantEvent.md#pricelistarchivedmerchanteventdata-fields-1previous_attributes).
+

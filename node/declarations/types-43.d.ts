@@ -1339,7 +1339,58 @@ export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "version": number;
             "weight"?: Weight;
         };
-        "previous_attributes"?: Partial<Package>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "carrier"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivered_at"?: ((string) | (null));
+            "dimensions"?: ((Dimensions) | (null));
+            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
+            "external_system"?: ((string) | (null));
+            "fulfillment_id"?: ((string) | (null));
+            "label_url"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "package_id"?: ((string) | (null));
+            "return_id"?: ((string) | (null));
+            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
+            "service_code"?: ((string) | (null));
+            "shipment_id"?: ((string) | (null));
+            "shipped_at"?: ((string) | (null));
+            "status"?: (("created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {}))
+                | (null));
+            "status_reason"?: ((string) | (null));
+            "supported_actions"?: ((Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>)
+                | (null));
+            "tracking_number"?: ((string) | (null));
+            "tracking_url"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "weight"?: ((Weight) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "package.updated";
@@ -1394,7 +1445,58 @@ export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "version": number;
             "weight"?: Weight;
         };
-        "previous_attributes"?: Partial<Package>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "carrier"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivered_at"?: ((string) | (null));
+            "dimensions"?: ((Dimensions) | (null));
+            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
+            "external_system"?: ((string) | (null));
+            "fulfillment_id"?: ((string) | (null));
+            "label_url"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "package_id"?: ((string) | (null));
+            "return_id"?: ((string) | (null));
+            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
+            "service_code"?: ((string) | (null));
+            "shipment_id"?: ((string) | (null));
+            "shipped_at"?: ((string) | (null));
+            "status"?: (("created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {}))
+                | (null));
+            "status_reason"?: ((string) | (null));
+            "supported_actions"?: ((Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>)
+                | (null));
+            "tracking_number"?: ((string) | (null));
+            "tracking_url"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "weight"?: ((Weight) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "package.updated";
@@ -1489,6 +1591,152 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.carrier (Optional): string or null. Carrier transporting the package.
+     * previous_attributes.carrier.anyOf[1] (Value): string. Carrier transporting the package.
+     * previous_attributes.carrier.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Creation timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivered_at
+     * (Optional): string or null. Package delivery timestamp.
+     * previous_attributes.delivered_at.anyOf[1] (Value): string. Package delivery timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.delivered_at.anyOf[2] (Value): null. previous_attributes.dimensions
+     * (Optional): {@link Dimensions} or null. Physical length, width, and height of the package.
+     * previous_attributes.dimensions.anyOf[1] (Value): {@link Dimensions}. Physical length, width,
+     * and height of the package. previous_attributes.dimensions.anyOf[2] (Value): null.
+     * previous_attributes.expected_delivery_at (Optional): string or null or null. When the
+     * carrier or merchant expects this package to arrive. Null when no estimate is set. Retained
+     * after delivery as history. This estimate is separate from the fulfillment's promised
+     * shipment window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string or null.
+     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
+     * Retained after delivery as history. This estimate is separate from the fulfillment's
+     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expected_delivery_at.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. Requires external_system. External
+     * references are not unique. Use Idempotency-Key for retries.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Requires external_system. External references are
+     * not unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.external_system (Optional): string or null. Name of the external system
+     * that external_reference_id belongs to. External references are not unique. Use
+     * Idempotency-Key for retries. previous_attributes.external_system.anyOf[1] (Value): string.
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. previous_attributes.external_system.anyOf[2]
+     * (Value): null. previous_attributes.fulfillment_id (Optional): string or null. Fulfillment
+     * whose items are in the package. previous_attributes.fulfillment_id.anyOf[1] (Value): string.
+     * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.label_url
+     * (Optional): string or null. HTTPS shipping-label URL supplied by your integration. Non-Flint
+     * URLs require external_system for provenance. Flint does not host the label file. Omitted for
+     * a checkout session credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.label_url.anyOf[1] (Value): string. HTTPS shipping-label URL supplied by
+     * your integration. Non-Flint URLs require external_system for provenance. Flint does not host
+     * the label file. Omitted for a checkout session credential that doesn't act for the customer
+     * the buyer verified. previous_attributes.label_url.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
+     * metadata associated with the package. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. Caller-owned key-value metadata associated with the package.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
+     * expanded. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. Order whose items are in the package. previous_attributes.order_id.anyOf[1]
+     * (Value): string. Order whose items are in the package. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.package_id (Optional): string or null. Stable identifier of the package.
+     * previous_attributes.package_id.anyOf[1] (Value): string. Stable identifier of the package.
+     * Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". previous_attributes.package_id.anyOf[2] (Value):
+     * null. previous_attributes.return_id (Optional): string or null. Return this package belongs
+     * to. Present only on packages of return shipments. previous_attributes.return_id.anyOf[1]
+     * (Value): string. Return this package belongs to. Present only on packages of return
+     * shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
+     * (Value): null. previous_attributes.return_line_items (Optional): Array of {@link
+     * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this parcel.
+     * Present only on packages of return shipments. previous_attributes.return_line_items.anyOf[1]
+     * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities allocated
+     * to this parcel. Present only on packages of return shipments.
+     * previous_attributes.return_line_items.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
+     * shipment or package. previous_attributes.return_line_items.anyOf[2] (Value): null.
+     * previous_attributes.service_code (Optional): string or null. Carrier service used for the
+     * package. previous_attributes.service_code.anyOf[1] (Value): string. Carrier service used for
+     * the package. previous_attributes.service_code.anyOf[2] (Value): null.
+     * previous_attributes.shipment_id (Optional): string or null. Shipment carrying this package.
+     * previous_attributes.shipment_id.anyOf[1] (Value): string. Shipment carrying this package.
+     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_id.anyOf[2] (Value):
+     * null. previous_attributes.shipped_at (Optional): string or null. Package handoff timestamp.
+     * previous_attributes.shipped_at.anyOf[1] (Value): string. Package handoff timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.shipped_at.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Current package lifecycle
+     * state. Package states are the source used to derive shipment status. - `created`: The
+     * package record exists but has not been packed or handed off. - `packed`: The package is
+     * packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
+     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
+     * The package is on its final delivery route. - `delivered`: The carrier reported successful
+     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
+     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
+     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
+     * was returned toward or to its origin. - `voided`: The package was voided and will not
+     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * previous_attributes.status.anyOf[1] (Value): string. Current package lifecycle state.
+     * Package states are the source used to derive shipment status. - `created`: The package
+     * record exists but has not been packed or handed off. - `packed`: The package is packed and
+     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
+     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
+     * The package is on its final delivery route. - `delivered`: The carrier reported successful
+     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
+     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
+     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
+     * was returned toward or to its origin. - `voided`: The package was voided and will not
+     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.status_reason
+     * (Optional): string or null. Additional explanation of the package's current status.
+     * previous_attributes.status_reason.anyOf[1] (Value): string. Additional explanation of the
+     * package's current status. previous_attributes.status_reason.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now. mark_in_transit can repeat while in transit to refresh
+     * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
+     * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
+     * "mark_returned", "mark_shipped", "void". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Lifecycle actions Flint accepts now. mark_in_transit can repeat
+     * while in transit to refresh expected_delivery_at. [] enum: "mark_delivered",
+     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
+     * "mark_packed", "mark_returned", "mark_shipped", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null.
+     * previous_attributes.tracking_number (Optional): string or null. Omitted for a checkout
+     * session credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.tracking_number.anyOf[1] (Value): string. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.tracking_number.anyOf[2] (Value): null. previous_attributes.tracking_url
+     * (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded URL credentials
+     * are rejected. Omitted for a checkout session credential that doesn't act for the customer
+     * the buyer verified. previous_attributes.tracking_url.anyOf[1] (Value): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout
+     * session credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.tracking_url.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Last update timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Monotonic package version for expected_version checks.
+     * previous_attributes.version.anyOf[1] (Value): integer. Monotonic package version for
+     * expected_version checks. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null. previous_attributes.weight (Optional): {@link Weight} or null. Physical
+     * weight of the package. previous_attributes.weight.anyOf[1] (Value): {@link Weight}. Physical
+     * weight of the package. previous_attributes.weight.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1713,9 +1961,363 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. carrier (Optional): string or null. Carrier
+         * transporting the package. carrier.anyOf[1] (Value): string. Carrier transporting the
+         * package. carrier.anyOf[2] (Value): null. created_at (Optional): string or null. Creation
+         * timestamp. created_at.anyOf[1] (Value): string. Creation timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivered_at
+         * (Optional): string or null. Package delivery timestamp. delivered_at.anyOf[1] (Value):
+         * string. Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivered_at.anyOf[2] (Value): null. dimensions (Optional): {@link Dimensions} or null.
+         * Physical length, width, and height of the package. dimensions.anyOf[1] (Value): {@link
+         * Dimensions}. Physical length, width, and height of the package. dimensions.anyOf[2]
+         * (Value): null. expected_delivery_at (Optional): string or null or null. When the carrier
+         * or merchant expects this package to arrive. Null when no estimate is set. Retained after
+         * delivery as history. This estimate is separate from the fulfillment's promised shipment
+         * window. expected_delivery_at.anyOf[1] (Value): string or null. When the carrier or
+         * merchant expects this package to arrive. Null when no estimate is set. Retained after
+         * delivery as history. This estimate is separate from the fulfillment's promised shipment
+         * window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expected_delivery_at.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system. Requires
+         * external_system. External references are not unique. Use Idempotency-Key for retries.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Requires external_system. External references are not
+         * unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. external_system (Optional): string or
+         * null. Name of the external system that external_reference_id belongs to. External
+         * references are not unique. Use Idempotency-Key for retries. external_system.anyOf[1]
+         * (Value): string. Name of the external system that external_reference_id belongs to.
+         * External references are not unique. Use Idempotency-Key for retries.
+         * external_system.anyOf[2] (Value): null. fulfillment_id (Optional): string or null.
+         * Fulfillment whose items are in the package. fulfillment_id.anyOf[1] (Value): string.
+         * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+         * fulfillment_id.anyOf[2] (Value): null. label_url (Optional): string or null. HTTPS
+         * shipping-label URL supplied by your integration. Non-Flint URLs require external_system
+         * for provenance. Flint does not host the label file. Omitted for a checkout session
+         * credential that doesn't act for the customer the buyer verified. label_url.anyOf[1]
+         * (Value): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
+         * require external_system for provenance. Flint does not host the label file. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified.
+         * label_url.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Caller-owned key-value metadata associated with the package. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
+         * metadata.anyOf[2] (Value): null. order (Optional): {@link ExpandedOrderSummary} or null
+         * or null. Order summary returned when the order relationship is expanded. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned
+         * when the order relationship is expanded. Present only when `expand` includes `order`;
+         * `null` when expanded and there is no related order. order.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+         * refund status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. Order whose items are in the package. order_id.anyOf[1]
+         * (Value): string. Order whose items are in the package. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
+         * (Optional): string or null. Stable identifier of the package. package_id.anyOf[1]
+         * (Value): string. Stable identifier of the package. Example:
+         * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". package_id.anyOf[2] (Value): null. return_id
+         * (Optional): string or null. Return this package belongs to. Present only on packages of
+         * return shipments. return_id.anyOf[1] (Value): string. Return this package belongs to.
+         * Present only on packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+         * return_id.anyOf[2] (Value): null. return_line_items (Optional): Array of {@link
+         * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this
+         * parcel. Present only on packages of return shipments. return_line_items.anyOf[1]
+         * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities
+         * allocated to this parcel. Present only on packages of return shipments.
+         * return_line_items.anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
+         * line and the quantity placed in a return shipment or package. return_line_items.anyOf[2]
+         * (Value): null. service_code (Optional): string or null. Carrier service used for the
+         * package. service_code.anyOf[1] (Value): string. Carrier service used for the package.
+         * service_code.anyOf[2] (Value): null. shipment_id (Optional): string or null. Shipment
+         * carrying this package. shipment_id.anyOf[1] (Value): string. Shipment carrying this
+         * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipment_id.anyOf[2] (Value): null.
+         * shipped_at (Optional): string or null. Package handoff timestamp. shipped_at.anyOf[1]
+         * (Value): string. Package handoff timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". shipped_at.anyOf[2] (Value): null. status (Optional): string or
+         * null. Current package lifecycle state. Package states are the source used to derive
+         * shipment status. - `created`: The package record exists but has not been packed or
+         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
+         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
+         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
+         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
+         * carrier attempted delivery but did not complete it. Follow the carrier instructions
+         * before retrying delivery. - `exception`: A carrier exception is blocking normal
+         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
+         * toward or to its origin. - `voided`: The package was voided and will not continue
+         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
+         * "voided". status.anyOf[1] (Value): string. Current package lifecycle state. Package
+         * states are the source used to derive shipment status. - `created`: The package record
+         * exists but has not been packed or handed off. - `packed`: The package is packed and
+         * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
+         * `in_transit`: The carrier is moving the package through its network. -
+         * `out_for_delivery`: The package is on its final delivery route. - `delivered`: The
+         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
+         * delivery but did not complete it. Follow the carrier instructions before retrying
+         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
+         * carrier-reported issue. - `returned`: The package was returned toward or to its origin.
+         * - `voided`: The package was voided and will not continue through delivery. Value enum:
+         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+         * "delivery_attempted", "exception", "returned", "voided". status.anyOf[2] (Value): null.
+         * status_reason (Optional): string or null. Additional explanation of the package's
+         * current status. status_reason.anyOf[1] (Value): string. Additional explanation of the
+         * package's current status. status_reason.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now.
+         * mark_in_transit can repeat while in transit to refresh expected_delivery_at. [] enum:
+         * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
+         * now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
+         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "mark_delivered",
+         * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
+         * "mark_packed", "mark_returned", "mark_shipped", "void". supported_actions.anyOf[2]
+         * (Value): null. tracking_number (Optional): string or null. Omitted for a checkout
+         * session credential that doesn't act for the customer the buyer verified.
+         * tracking_number.anyOf[1] (Value): string. Omitted for a checkout session credential that
+         * doesn't act for the customer the buyer verified. tracking_number.anyOf[2] (Value): null.
+         * tracking_url (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded
+         * URL credentials are rejected. Omitted for a checkout session credential that doesn't act
+         * for the customer the buyer verified. tracking_url.anyOf[1] (Value): string. Absolute
+         * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
+         * checkout session credential that doesn't act for the customer the buyer verified.
+         * tracking_url.anyOf[2] (Value): null. updated_at (Optional): string or null. Last update
+         * timestamp. updated_at.anyOf[1] (Value): string. Last update timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Monotonic package version for expected_version checks.
+         * version.anyOf[1] (Value): integer. Monotonic package version for expected_version
+         * checks. Format: uint64. minimum: 1. version.anyOf[2] (Value): null. weight (Optional):
+         * {@link Weight} or null. Physical weight of the package. weight.anyOf[1] (Value): {@link
+         * Weight}. Physical weight of the package. weight.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<Package>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Carrier transporting the package. anyOf[1] (Value): string. Carrier transporting the
+             * package. anyOf[2] (Value): null.
+             */
+            "carrier"?: ((string) | (null));
+            /**
+             * Creation timestamp. anyOf[1] (Value): string. Creation timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Package delivery timestamp. anyOf[1] (Value): string. Package delivery timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "delivered_at"?: ((string) | (null));
+            /**
+             * Physical length, width, and height of the package. anyOf[1] (Value): {@link
+             * Dimensions}. Physical length, width, and height of the package. anyOf[2] (Value):
+             * null.
+             */
+            "dimensions"?: ((Dimensions) | (null));
+            /**
+             * When the carrier or merchant expects this package to arrive. Null when no estimate
+             * is set. Retained after delivery as history. This estimate is separate from the
+             * fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the
+             * carrier or merchant expects this package to arrive. Null when no estimate is set.
+             * Retained after delivery as history. This estimate is separate from the fulfillment's
+             * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. Requires
+             * external_system. External references are not unique. Use Idempotency-Key for
+             * retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
+             * external system. Requires external_system. External references are not unique. Use
+             * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". anyOf[2]
+             * (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Name of the external system that external_reference_id belongs to. External
+             * references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value):
+             * string. Name of the external system that external_reference_id belongs to. External
+             * references are not unique. Use Idempotency-Key for retries. anyOf[2] (Value): null.
+             */
+            "external_system"?: ((string) | (null));
+            /**
+             * Fulfillment whose items are in the package. anyOf[1] (Value): string. Fulfillment
+             * whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
+             * (Value): null.
+             */
+            "fulfillment_id"?: ((string) | (null));
+            /**
+             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+             * external_system for provenance. Flint does not host the label file. Omitted for a
+             * checkout session credential that doesn't act for the customer the buyer verified.
+             * anyOf[1] (Value): string. HTTPS shipping-label URL supplied by your integration.
+             * Non-Flint URLs require external_system for provenance. Flint does not host the label
+             * file. Omitted for a checkout session credential that doesn't act for the customer
+             * the buyer verified. anyOf[2] (Value): null.
+             */
+            "label_url"?: ((string) | (null));
+            /**
+             * Caller-owned key-value metadata associated with the package. anyOf[1] (Value):
+             * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned when
+             * the order relationship is expanded. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * Order whose items are in the package. anyOf[1] (Value): string. Order whose items
+             * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Stable identifier of the package. anyOf[1] (Value): string. Stable identifier of the
+             * package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". anyOf[2] (Value): null.
+             */
+            "package_id"?: ((string) | (null));
+            /**
+             * Return this package belongs to. Present only on packages of return shipments.
+             * anyOf[1] (Value): string. Return this package belongs to. Present only on packages
+             * of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value):
+             * null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Return line quantities allocated to this parcel. Present only on packages of return
+             * shipments. anyOf[1] (Value): Array of {@link ReturnHandoffRequirementLineItem}.
+             * Return line quantities allocated to this parcel. Present only on packages of return
+             * shipments. anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
+             * line and the quantity placed in a return shipment or package. anyOf[2] (Value):
+             * null.
+             */
+            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
+            /**
+             * Carrier service used for the package. anyOf[1] (Value): string. Carrier service used
+             * for the package. anyOf[2] (Value): null.
+             */
+            "service_code"?: ((string) | (null));
+            /**
+             * Shipment carrying this package. anyOf[1] (Value): string. Shipment carrying this
+             * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_id"?: ((string) | (null));
+            /**
+             * Package handoff timestamp. anyOf[1] (Value): string. Package handoff timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "shipped_at"?: ((string) | (null));
+            /**
+             * Current package lifecycle state. Package states are the source used to derive
+             * shipment status. - `created`: The package record exists but has not been packed or
+             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
+             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
+             * moving the package through its network. - `out_for_delivery`: The package is on its
+             * final delivery route. - `delivered`: The carrier reported successful delivery. -
+             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
+             * the carrier instructions before retrying delivery. - `exception`: A carrier
+             * exception is blocking normal progress. Resolve the carrier-reported issue. -
+             * `returned`: The package was returned toward or to its origin. - `voided`: The
+             * package was voided and will not continue through delivery. Value enum: "created",
+             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+             * "delivery_attempted", "exception", "returned", "voided". anyOf[1] (Value): string.
+             * Current package lifecycle state. Package states are the source used to derive
+             * shipment status. - `created`: The package record exists but has not been packed or
+             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
+             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
+             * moving the package through its network. - `out_for_delivery`: The package is on its
+             * final delivery route. - `delivered`: The carrier reported successful delivery. -
+             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
+             * the carrier instructions before retrying delivery. - `exception`: A carrier
+             * exception is blocking normal progress. Resolve the carrier-reported issue. -
+             * `returned`: The package was returned toward or to its origin. - `voided`: The
+             * package was voided and will not continue through delivery. Value enum: "created",
+             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+             * "delivery_attempted", "exception", "returned", "voided". anyOf[2] (Value): null.
+             */
+            "status"?: (("created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {}))
+                | (null));
+            /**
+             * Additional explanation of the package's current status. anyOf[1] (Value): string.
+             * Additional explanation of the package's current status. anyOf[2] (Value): null.
+             */
+            "status_reason"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
+             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
+             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
+             * "mark_returned", "mark_shipped", "void". anyOf[1] (Value): Array of string.
+             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
+             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
+             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
+             * "mark_returned", "mark_shipped", "void". anyOf[1][] (Value): string. Value enum:
+             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>)
+                | (null));
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[1] (Value): string. Omitted for a checkout session credential
+             * that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
+             */
+            "tracking_number"?: ((string) | (null));
+            /**
+             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
+             * for a checkout session credential that doesn't act for the customer the buyer
+             * verified. anyOf[1] (Value): string. Absolute HTTPS carrier tracking URL. Embedded
+             * URL credentials are rejected. Omitted for a checkout session credential that doesn't
+             * act for the customer the buyer verified. anyOf[2] (Value): null.
+             */
+            "tracking_url"?: ((string) | (null));
+            /**
+             * Last update timestamp. anyOf[1] (Value): string. Last update timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Monotonic package version for expected_version checks. anyOf[1] (Value): integer.
+             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * Physical weight of the package. anyOf[1] (Value): {@link Weight}. Physical weight of
+             * the package. anyOf[2] (Value): null.
+             */
+            "weight"?: ((Weight) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1836,6 +2438,152 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.carrier (Optional): string or null. Carrier transporting the package.
+     * previous_attributes.carrier.anyOf[1] (Value): string. Carrier transporting the package.
+     * previous_attributes.carrier.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Creation timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivered_at
+     * (Optional): string or null. Package delivery timestamp.
+     * previous_attributes.delivered_at.anyOf[1] (Value): string. Package delivery timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.delivered_at.anyOf[2] (Value): null. previous_attributes.dimensions
+     * (Optional): {@link Dimensions} or null. Physical length, width, and height of the package.
+     * previous_attributes.dimensions.anyOf[1] (Value): {@link Dimensions}. Physical length, width,
+     * and height of the package. previous_attributes.dimensions.anyOf[2] (Value): null.
+     * previous_attributes.expected_delivery_at (Optional): string or null or null. When the
+     * carrier or merchant expects this package to arrive. Null when no estimate is set. Retained
+     * after delivery as history. This estimate is separate from the fulfillment's promised
+     * shipment window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string or null.
+     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
+     * Retained after delivery as history. This estimate is separate from the fulfillment's
+     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expected_delivery_at.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. Requires external_system. External
+     * references are not unique. Use Idempotency-Key for retries.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Requires external_system. External references are
+     * not unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.external_system (Optional): string or null. Name of the external system
+     * that external_reference_id belongs to. External references are not unique. Use
+     * Idempotency-Key for retries. previous_attributes.external_system.anyOf[1] (Value): string.
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. previous_attributes.external_system.anyOf[2]
+     * (Value): null. previous_attributes.fulfillment_id (Optional): string or null. Fulfillment
+     * whose items are in the package. previous_attributes.fulfillment_id.anyOf[1] (Value): string.
+     * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.label_url
+     * (Optional): string or null. HTTPS shipping-label URL supplied by your integration. Non-Flint
+     * URLs require external_system for provenance. Flint does not host the label file. Omitted for
+     * a checkout session credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.label_url.anyOf[1] (Value): string. HTTPS shipping-label URL supplied by
+     * your integration. Non-Flint URLs require external_system for provenance. Flint does not host
+     * the label file. Omitted for a checkout session credential that doesn't act for the customer
+     * the buyer verified. previous_attributes.label_url.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
+     * metadata associated with the package. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. Caller-owned key-value metadata associated with the package.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Order summary returned when the order relationship is
+     * expanded. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. Order whose items are in the package. previous_attributes.order_id.anyOf[1]
+     * (Value): string. Order whose items are in the package. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.package_id (Optional): string or null. Stable identifier of the package.
+     * previous_attributes.package_id.anyOf[1] (Value): string. Stable identifier of the package.
+     * Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". previous_attributes.package_id.anyOf[2] (Value):
+     * null. previous_attributes.return_id (Optional): string or null. Return this package belongs
+     * to. Present only on packages of return shipments. previous_attributes.return_id.anyOf[1]
+     * (Value): string. Return this package belongs to. Present only on packages of return
+     * shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
+     * (Value): null. previous_attributes.return_line_items (Optional): Array of {@link
+     * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this parcel.
+     * Present only on packages of return shipments. previous_attributes.return_line_items.anyOf[1]
+     * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities allocated
+     * to this parcel. Present only on packages of return shipments.
+     * previous_attributes.return_line_items.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
+     * shipment or package. previous_attributes.return_line_items.anyOf[2] (Value): null.
+     * previous_attributes.service_code (Optional): string or null. Carrier service used for the
+     * package. previous_attributes.service_code.anyOf[1] (Value): string. Carrier service used for
+     * the package. previous_attributes.service_code.anyOf[2] (Value): null.
+     * previous_attributes.shipment_id (Optional): string or null. Shipment carrying this package.
+     * previous_attributes.shipment_id.anyOf[1] (Value): string. Shipment carrying this package.
+     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_id.anyOf[2] (Value):
+     * null. previous_attributes.shipped_at (Optional): string or null. Package handoff timestamp.
+     * previous_attributes.shipped_at.anyOf[1] (Value): string. Package handoff timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.shipped_at.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Current package lifecycle
+     * state. Package states are the source used to derive shipment status. - `created`: The
+     * package record exists but has not been packed or handed off. - `packed`: The package is
+     * packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
+     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
+     * The package is on its final delivery route. - `delivered`: The carrier reported successful
+     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
+     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
+     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
+     * was returned toward or to its origin. - `voided`: The package was voided and will not
+     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * previous_attributes.status.anyOf[1] (Value): string. Current package lifecycle state.
+     * Package states are the source used to derive shipment status. - `created`: The package
+     * record exists but has not been packed or handed off. - `packed`: The package is packed and
+     * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
+     * `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`:
+     * The package is on its final delivery route. - `delivered`: The carrier reported successful
+     * delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it.
+     * Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception
+     * is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package
+     * was returned toward or to its origin. - `voided`: The package was voided and will not
+     * continue through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.status_reason
+     * (Optional): string or null. Additional explanation of the package's current status.
+     * previous_attributes.status_reason.anyOf[1] (Value): string. Additional explanation of the
+     * package's current status. previous_attributes.status_reason.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now. mark_in_transit can repeat while in transit to refresh
+     * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
+     * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
+     * "mark_returned", "mark_shipped", "void". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Lifecycle actions Flint accepts now. mark_in_transit can repeat
+     * while in transit to refresh expected_delivery_at. [] enum: "mark_delivered",
+     * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
+     * "mark_packed", "mark_returned", "mark_shipped", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null.
+     * previous_attributes.tracking_number (Optional): string or null. Omitted for a checkout
+     * session credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.tracking_number.anyOf[1] (Value): string. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.tracking_number.anyOf[2] (Value): null. previous_attributes.tracking_url
+     * (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded URL credentials
+     * are rejected. Omitted for a checkout session credential that doesn't act for the customer
+     * the buyer verified. previous_attributes.tracking_url.anyOf[1] (Value): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout
+     * session credential that doesn't act for the customer the buyer verified.
+     * previous_attributes.tracking_url.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Last update timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Last update timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Monotonic package version for expected_version checks.
+     * previous_attributes.version.anyOf[1] (Value): integer. Monotonic package version for
+     * expected_version checks. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null. previous_attributes.weight (Optional): {@link Weight} or null. Physical
+     * weight of the package. previous_attributes.weight.anyOf[1] (Value): {@link Weight}. Physical
+     * weight of the package. previous_attributes.weight.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2060,9 +2808,363 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. carrier (Optional): string or null. Carrier
+         * transporting the package. carrier.anyOf[1] (Value): string. Carrier transporting the
+         * package. carrier.anyOf[2] (Value): null. created_at (Optional): string or null. Creation
+         * timestamp. created_at.anyOf[1] (Value): string. Creation timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. delivered_at
+         * (Optional): string or null. Package delivery timestamp. delivered_at.anyOf[1] (Value):
+         * string. Package delivery timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivered_at.anyOf[2] (Value): null. dimensions (Optional): {@link Dimensions} or null.
+         * Physical length, width, and height of the package. dimensions.anyOf[1] (Value): {@link
+         * Dimensions}. Physical length, width, and height of the package. dimensions.anyOf[2]
+         * (Value): null. expected_delivery_at (Optional): string or null or null. When the carrier
+         * or merchant expects this package to arrive. Null when no estimate is set. Retained after
+         * delivery as history. This estimate is separate from the fulfillment's promised shipment
+         * window. expected_delivery_at.anyOf[1] (Value): string or null. When the carrier or
+         * merchant expects this package to arrive. Null when no estimate is set. Retained after
+         * delivery as history. This estimate is separate from the fulfillment's promised shipment
+         * window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expected_delivery_at.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system. Requires
+         * external_system. External references are not unique. Use Idempotency-Key for retries.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Requires external_system. External references are not
+         * unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. external_system (Optional): string or
+         * null. Name of the external system that external_reference_id belongs to. External
+         * references are not unique. Use Idempotency-Key for retries. external_system.anyOf[1]
+         * (Value): string. Name of the external system that external_reference_id belongs to.
+         * External references are not unique. Use Idempotency-Key for retries.
+         * external_system.anyOf[2] (Value): null. fulfillment_id (Optional): string or null.
+         * Fulfillment whose items are in the package. fulfillment_id.anyOf[1] (Value): string.
+         * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+         * fulfillment_id.anyOf[2] (Value): null. label_url (Optional): string or null. HTTPS
+         * shipping-label URL supplied by your integration. Non-Flint URLs require external_system
+         * for provenance. Flint does not host the label file. Omitted for a checkout session
+         * credential that doesn't act for the customer the buyer verified. label_url.anyOf[1]
+         * (Value): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
+         * require external_system for provenance. Flint does not host the label file. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified.
+         * label_url.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Caller-owned key-value metadata associated with the package. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
+         * metadata.anyOf[2] (Value): null. order (Optional): {@link ExpandedOrderSummary} or null
+         * or null. Order summary returned when the order relationship is expanded. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned
+         * when the order relationship is expanded. Present only when `expand` includes `order`;
+         * `null` when expanded and there is no related order. order.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+         * refund status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. Order whose items are in the package. order_id.anyOf[1]
+         * (Value): string. Order whose items are in the package. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
+         * (Optional): string or null. Stable identifier of the package. package_id.anyOf[1]
+         * (Value): string. Stable identifier of the package. Example:
+         * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". package_id.anyOf[2] (Value): null. return_id
+         * (Optional): string or null. Return this package belongs to. Present only on packages of
+         * return shipments. return_id.anyOf[1] (Value): string. Return this package belongs to.
+         * Present only on packages of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+         * return_id.anyOf[2] (Value): null. return_line_items (Optional): Array of {@link
+         * ReturnHandoffRequirementLineItem} or null. Return line quantities allocated to this
+         * parcel. Present only on packages of return shipments. return_line_items.anyOf[1]
+         * (Value): Array of {@link ReturnHandoffRequirementLineItem}. Return line quantities
+         * allocated to this parcel. Present only on packages of return shipments.
+         * return_line_items.anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
+         * line and the quantity placed in a return shipment or package. return_line_items.anyOf[2]
+         * (Value): null. service_code (Optional): string or null. Carrier service used for the
+         * package. service_code.anyOf[1] (Value): string. Carrier service used for the package.
+         * service_code.anyOf[2] (Value): null. shipment_id (Optional): string or null. Shipment
+         * carrying this package. shipment_id.anyOf[1] (Value): string. Shipment carrying this
+         * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipment_id.anyOf[2] (Value): null.
+         * shipped_at (Optional): string or null. Package handoff timestamp. shipped_at.anyOf[1]
+         * (Value): string. Package handoff timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". shipped_at.anyOf[2] (Value): null. status (Optional): string or
+         * null. Current package lifecycle state. Package states are the source used to derive
+         * shipment status. - `created`: The package record exists but has not been packed or
+         * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`:
+         * The package was handed to the carrier. - `in_transit`: The carrier is moving the package
+         * through its network. - `out_for_delivery`: The package is on its final delivery route. -
+         * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The
+         * carrier attempted delivery but did not complete it. Follow the carrier instructions
+         * before retrying delivery. - `exception`: A carrier exception is blocking normal
+         * progress. Resolve the carrier-reported issue. - `returned`: The package was returned
+         * toward or to its origin. - `voided`: The package was voided and will not continue
+         * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+         * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned",
+         * "voided". status.anyOf[1] (Value): string. Current package lifecycle state. Package
+         * states are the source used to derive shipment status. - `created`: The package record
+         * exists but has not been packed or handed off. - `packed`: The package is packed and
+         * awaiting carrier handoff. - `shipped`: The package was handed to the carrier. -
+         * `in_transit`: The carrier is moving the package through its network. -
+         * `out_for_delivery`: The package is on its final delivery route. - `delivered`: The
+         * carrier reported successful delivery. - `delivery_attempted`: The carrier attempted
+         * delivery but did not complete it. Follow the carrier instructions before retrying
+         * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
+         * carrier-reported issue. - `returned`: The package was returned toward or to its origin.
+         * - `voided`: The package was voided and will not continue through delivery. Value enum:
+         * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+         * "delivery_attempted", "exception", "returned", "voided". status.anyOf[2] (Value): null.
+         * status_reason (Optional): string or null. Additional explanation of the package's
+         * current status. status_reason.anyOf[1] (Value): string. Additional explanation of the
+         * package's current status. status_reason.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now.
+         * mark_in_transit can repeat while in transit to refresh expected_delivery_at. [] enum:
+         * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
+         * now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. []
+         * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+         * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "mark_delivered",
+         * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
+         * "mark_packed", "mark_returned", "mark_shipped", "void". supported_actions.anyOf[2]
+         * (Value): null. tracking_number (Optional): string or null. Omitted for a checkout
+         * session credential that doesn't act for the customer the buyer verified.
+         * tracking_number.anyOf[1] (Value): string. Omitted for a checkout session credential that
+         * doesn't act for the customer the buyer verified. tracking_number.anyOf[2] (Value): null.
+         * tracking_url (Optional): string or null. Absolute HTTPS carrier tracking URL. Embedded
+         * URL credentials are rejected. Omitted for a checkout session credential that doesn't act
+         * for the customer the buyer verified. tracking_url.anyOf[1] (Value): string. Absolute
+         * HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
+         * checkout session credential that doesn't act for the customer the buyer verified.
+         * tracking_url.anyOf[2] (Value): null. updated_at (Optional): string or null. Last update
+         * timestamp. updated_at.anyOf[1] (Value): string. Last update timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Monotonic package version for expected_version checks.
+         * version.anyOf[1] (Value): integer. Monotonic package version for expected_version
+         * checks. Format: uint64. minimum: 1. version.anyOf[2] (Value): null. weight (Optional):
+         * {@link Weight} or null. Physical weight of the package. weight.anyOf[1] (Value): {@link
+         * Weight}. Physical weight of the package. weight.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<Package>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Carrier transporting the package. anyOf[1] (Value): string. Carrier transporting the
+             * package. anyOf[2] (Value): null.
+             */
+            "carrier"?: ((string) | (null));
+            /**
+             * Creation timestamp. anyOf[1] (Value): string. Creation timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Package delivery timestamp. anyOf[1] (Value): string. Package delivery timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "delivered_at"?: ((string) | (null));
+            /**
+             * Physical length, width, and height of the package. anyOf[1] (Value): {@link
+             * Dimensions}. Physical length, width, and height of the package. anyOf[2] (Value):
+             * null.
+             */
+            "dimensions"?: ((Dimensions) | (null));
+            /**
+             * When the carrier or merchant expects this package to arrive. Null when no estimate
+             * is set. Retained after delivery as history. This estimate is separate from the
+             * fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the
+             * carrier or merchant expects this package to arrive. Null when no estimate is set.
+             * Retained after delivery as history. This estimate is separate from the fulfillment's
+             * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. Requires
+             * external_system. External references are not unique. Use Idempotency-Key for
+             * retries. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
+             * external system. Requires external_system. External references are not unique. Use
+             * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842". anyOf[2]
+             * (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Name of the external system that external_reference_id belongs to. External
+             * references are not unique. Use Idempotency-Key for retries. anyOf[1] (Value):
+             * string. Name of the external system that external_reference_id belongs to. External
+             * references are not unique. Use Idempotency-Key for retries. anyOf[2] (Value): null.
+             */
+            "external_system"?: ((string) | (null));
+            /**
+             * Fulfillment whose items are in the package. anyOf[1] (Value): string. Fulfillment
+             * whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
+             * (Value): null.
+             */
+            "fulfillment_id"?: ((string) | (null));
+            /**
+             * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+             * external_system for provenance. Flint does not host the label file. Omitted for a
+             * checkout session credential that doesn't act for the customer the buyer verified.
+             * anyOf[1] (Value): string. HTTPS shipping-label URL supplied by your integration.
+             * Non-Flint URLs require external_system for provenance. Flint does not host the label
+             * file. Omitted for a checkout session credential that doesn't act for the customer
+             * the buyer verified. anyOf[2] (Value): null.
+             */
+            "label_url"?: ((string) | (null));
+            /**
+             * Caller-owned key-value metadata associated with the package. anyOf[1] (Value):
+             * {@link MetadataMap}. Caller-owned key-value metadata associated with the package.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Order summary returned when
+             * the order relationship is expanded. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * Order whose items are in the package. anyOf[1] (Value): string. Order whose items
+             * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Stable identifier of the package. anyOf[1] (Value): string. Stable identifier of the
+             * package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". anyOf[2] (Value): null.
+             */
+            "package_id"?: ((string) | (null));
+            /**
+             * Return this package belongs to. Present only on packages of return shipments.
+             * anyOf[1] (Value): string. Return this package belongs to. Present only on packages
+             * of return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value):
+             * null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Return line quantities allocated to this parcel. Present only on packages of return
+             * shipments. anyOf[1] (Value): Array of {@link ReturnHandoffRequirementLineItem}.
+             * Return line quantities allocated to this parcel. Present only on packages of return
+             * shipments. anyOf[1][] (Value): {@link ReturnHandoffRequirementLineItem}. A return
+             * line and the quantity placed in a return shipment or package. anyOf[2] (Value):
+             * null.
+             */
+            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItem>) | (null));
+            /**
+             * Carrier service used for the package. anyOf[1] (Value): string. Carrier service used
+             * for the package. anyOf[2] (Value): null.
+             */
+            "service_code"?: ((string) | (null));
+            /**
+             * Shipment carrying this package. anyOf[1] (Value): string. Shipment carrying this
+             * package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_id"?: ((string) | (null));
+            /**
+             * Package handoff timestamp. anyOf[1] (Value): string. Package handoff timestamp.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "shipped_at"?: ((string) | (null));
+            /**
+             * Current package lifecycle state. Package states are the source used to derive
+             * shipment status. - `created`: The package record exists but has not been packed or
+             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
+             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
+             * moving the package through its network. - `out_for_delivery`: The package is on its
+             * final delivery route. - `delivered`: The carrier reported successful delivery. -
+             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
+             * the carrier instructions before retrying delivery. - `exception`: A carrier
+             * exception is blocking normal progress. Resolve the carrier-reported issue. -
+             * `returned`: The package was returned toward or to its origin. - `voided`: The
+             * package was voided and will not continue through delivery. Value enum: "created",
+             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+             * "delivery_attempted", "exception", "returned", "voided". anyOf[1] (Value): string.
+             * Current package lifecycle state. Package states are the source used to derive
+             * shipment status. - `created`: The package record exists but has not been packed or
+             * handed off. - `packed`: The package is packed and awaiting carrier handoff. -
+             * `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is
+             * moving the package through its network. - `out_for_delivery`: The package is on its
+             * final delivery route. - `delivered`: The carrier reported successful delivery. -
+             * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow
+             * the carrier instructions before retrying delivery. - `exception`: A carrier
+             * exception is blocking normal progress. Resolve the carrier-reported issue. -
+             * `returned`: The package was returned toward or to its origin. - `voided`: The
+             * package was voided and will not continue through delivery. Value enum: "created",
+             * "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+             * "delivery_attempted", "exception", "returned", "voided". anyOf[2] (Value): null.
+             */
+            "status"?: (("created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {}))
+                | (null));
+            /**
+             * Additional explanation of the package's current status. anyOf[1] (Value): string.
+             * Additional explanation of the package's current status. anyOf[2] (Value): null.
+             */
+            "status_reason"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
+             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
+             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
+             * "mark_returned", "mark_shipped", "void". anyOf[1] (Value): Array of string.
+             * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to
+             * refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
+             * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
+             * "mark_returned", "mark_shipped", "void". anyOf[1][] (Value): string. Value enum:
+             * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+             * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>)
+                | (null));
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[1] (Value): string. Omitted for a checkout session credential
+             * that doesn't act for the customer the buyer verified. anyOf[2] (Value): null.
+             */
+            "tracking_number"?: ((string) | (null));
+            /**
+             * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted
+             * for a checkout session credential that doesn't act for the customer the buyer
+             * verified. anyOf[1] (Value): string. Absolute HTTPS carrier tracking URL. Embedded
+             * URL credentials are rejected. Omitted for a checkout session credential that doesn't
+             * act for the customer the buyer verified. anyOf[2] (Value): null.
+             */
+            "tracking_url"?: ((string) | (null));
+            /**
+             * Last update timestamp. anyOf[1] (Value): string. Last update timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Monotonic package version for expected_version checks. anyOf[1] (Value): integer.
+             * Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * Physical weight of the package. anyOf[1] (Value): {@link Weight}. Physical weight of
+             * the package. anyOf[2] (Value): null.
+             */
+            "weight"?: ((Weight) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3138,7 +4240,25 @@ export type PartnerAppInstallPermissionsUpdatedEvent = ((Exclude<PartnerWebhookE
             "supported_actions": Array<"revoke" | (string & {})>;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<PartnerAppInstall>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "environment_grants"?: ((Array<PartnerEnvironmentGrant>) | (null));
+            "installed_by_user_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "merchant_signup_id"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "partner_app_name"?: ((string) | (null));
+            "revoked_at"?: ((string) | (null));
+            "revoked_by"?: (("merchant" | "partner_app" | (string & {})) | (null));
+            "revoked_by_user_id"?: ((string) | (null));
+            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "partner_app" | (string & {});
     "event_type"?: "partner_app_install.permissions_updated";
@@ -3187,7 +4307,25 @@ export type PartnerAppInstallRevokedEvent = ((Exclude<PartnerWebhookEnvelope & o
             "supported_actions": Array<"revoke" | (string & {})>;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<PartnerAppInstall>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "environment_grants"?: ((Array<PartnerEnvironmentGrant>) | (null));
+            "installed_by_user_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "merchant_signup_id"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "partner_app_name"?: ((string) | (null));
+            "revoked_at"?: ((string) | (null));
+            "revoked_by"?: (("merchant" | "partner_app" | (string & {})) | (null));
+            "revoked_by_user_id"?: ((string) | (null));
+            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "partner_app" | (string & {});
     "event_type"?: "partner_app_install.revoked";
@@ -3218,7 +4356,25 @@ export type PartnerAppInstallUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & o
             "supported_actions": Array<"revoke" | (string & {})>;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<PartnerAppInstall>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "environment_grants"?: ((Array<PartnerEnvironmentGrant>) | (null));
+            "installed_by_user_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "merchant_signup_id"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "partner_app_name"?: ((string) | (null));
+            "revoked_at"?: ((string) | (null));
+            "revoked_by"?: (("merchant" | "partner_app" | (string & {})) | (null));
+            "revoked_by_user_id"?: ((string) | (null));
+            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "partner_app" | (string & {});
     "event_type"?: "partner_app_install.updated";

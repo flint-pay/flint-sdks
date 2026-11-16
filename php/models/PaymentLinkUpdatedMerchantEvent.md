@@ -27,9 +27,110 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PaymentLinkCreatedMerchantEvent.md#paymentlinkcreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PaymentLinkCreatedMerchantEvent.md#paymentlinkcreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PaymentLinkUpdatedMerchantEvent.md#paymentlinkupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### PaymentLinkUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [PaymentLinkCreatedMerchantEvent.data fields 1.object](../models/PaymentLinkCreatedMerchantEvent.md#paymentlinkcreatedmerchanteventdata-fields-1object).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributes).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.checkout_session_expires_in_seconds
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.checkout_session_expires_in_seconds](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributescheckout_session_expires_in_seconds).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.completed_count
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.completed_count](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributescompleted_count).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.custom_fields
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.custom_fields](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributescustom_fields).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.delivery_method_ids
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.delivery_method_ids](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdelivery_method_ids).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.description
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.description](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdescription).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.donation_suggested_amount_money_options
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.donation_suggested_amount_money_options](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdonation_suggested_amount_money_options).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.inactive_message
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.inactive_message](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesinactive_message).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.line_items
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.max_completions
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.max_completions](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesmax_completions).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.metadata](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.name](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesname).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.payment_link_id
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_id](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributespayment_link_id).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.payment_link_type
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_type](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributespayment_link_type).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.sales_end_at
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_end_at](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_end_at).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.status](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesstatus).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.subscription_plan_id
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan_id](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessubscription_plan_id).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.total_quantity_sold
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.total_quantity_sold](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestotal_quantity_sold).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.url
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.url](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesurl).
+
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [GiftCardUpdatedMerchantEventDataPreviousAttributes.version](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributesversion).
 

@@ -30,11 +30,69 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/SubscriptionDeliveryMigrationCompletedMerchantEvent.md#subscriptiondeliverymigrationcompletedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/SubscriptionDeliveryMigrationCompletedMerchantEvent.md#subscriptiondeliverymigrationcompletedmerchanteventdata-fields-1previous_attributes). |
 
 ### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](SubscriptionDeliveryMigrationCompletedMerchantEventDataObject.md#subscriptiondeliverymigrationcompletedmerchanteventdataobject).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributes).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.completed_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.failed_count
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.failed_count](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributesfailed_count).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.failure_reason_counts
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.failure_reason_counts](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributesfailure_reason_counts).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.from_delivery_method_id
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.from_delivery_method_id](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributesfrom_delivery_method_id).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.moved_count
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.moved_count](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributesmoved_count).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.pending_count
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.pending_count](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributespending_count).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.status](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributesstatus).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.subscription_delivery_migration_id
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.subscription_delivery_migration_id](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributessubscription_delivery_migration_id).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.subscription_plan_id
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.subscription_plan_id](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributessubscription_plan_id).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.to_delivery_method_id
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.to_delivery_method_id](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributesto_delivery_method_id).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.total_count
+
+Declared alternatives: [SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.total_count](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataPreviousAttributes.md#subscriptiondeliverymigrationcompletedmerchanteventdatapreviousattributestotal_count).
+
+### SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 

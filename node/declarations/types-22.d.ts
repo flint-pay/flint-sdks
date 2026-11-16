@@ -527,7 +527,40 @@ export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelop
                 | (string & {});
             "supported_actions": Array<"release" | (string & {})>;
         };
-        "previous_attributes"?: Partial<DeliverySelection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "buyer_location"?: ((DeliveryBuyerLocationResource) | (null) | (unknown));
+            "calculation_expires_at"?: ((string) | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "choices"?: ((Array<DeliverySelectionChoiceResource>) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_quote_id"?: ((string) | (null));
+            "delivery_selection_id"?: ((string) | (null));
+            "destination_address"?: ((Address) | (null));
+            "expires_at"?: ((string) | (null));
+            "input_requirements"?: ((Array<DeliveryInputRequirement>) | (null));
+            "instructions"?: ((string) | (null));
+            "lifecycle_events"?: ((Array<DeliverySelectionLifecycleEventResource>) | (null));
+            "lifecycle_updated_at"?: ((string) | (null));
+            "limiting_deadline_reason"?: (("selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {}))
+                | (null));
+            "order_id"?: ((string) | (null));
+            "private_data_status"?: (("available" | "redacted" | (string & {})) | (null));
+            "recipient"?: ((DeliveryRecipientResource) | (null));
+            "redacted_at"?: ((string) | (null));
+            "status"?: (("selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {}))
+                | (null));
+            "supported_actions"?: ((Array<"release" | (string & {})>) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_selection.committed";
@@ -564,7 +597,40 @@ export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelop
                 | (string & {});
             "supported_actions": Array<"release" | (string & {})>;
         };
-        "previous_attributes"?: Partial<DeliverySelection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "buyer_location"?: ((DeliveryBuyerLocationResource) | (null) | (unknown));
+            "calculation_expires_at"?: ((string) | (null));
+            "checkout_session_id"?: ((string) | (null));
+            "choices"?: ((Array<DeliverySelectionChoiceResource>) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_quote_id"?: ((string) | (null));
+            "delivery_selection_id"?: ((string) | (null));
+            "destination_address"?: ((Address) | (null));
+            "expires_at"?: ((string) | (null));
+            "input_requirements"?: ((Array<DeliveryInputRequirement>) | (null));
+            "instructions"?: ((string) | (null));
+            "lifecycle_events"?: ((Array<DeliverySelectionLifecycleEventResource>) | (null));
+            "lifecycle_updated_at"?: ((string) | (null));
+            "limiting_deadline_reason"?: (("selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {}))
+                | (null));
+            "order_id"?: ((string) | (null));
+            "private_data_status"?: (("available" | "redacted" | (string & {})) | (null));
+            "recipient"?: ((DeliveryRecipientResource) | (null));
+            "redacted_at"?: ((string) | (null));
+            "status"?: (("selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {}))
+                | (null));
+            "supported_actions"?: ((Array<"release" | (string & {})>) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_selection.committed";
@@ -667,7 +733,166 @@ export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<Partner
      * (Optional): object. Previous values of changed top-level fields in data.object, at this
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
+     * previous state, including synthetic test events. previous_attributes.amount_money
+     * (Optional): {@link MoneyValue} or null. Delivery charge committed by this selection.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Delivery charge
+     * committed by this selection. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * previous_attributes.buyer_location (Optional): {@link DeliveryBuyerLocationResource} or
+     * null. Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or
+     * dashboard credential. previous_attributes.buyer_location.anyOf[1] (Value): {@link
+     * DeliveryBuyerLocationResource}. Buyer location snapshot used to evaluate pickup proximity.
+     * Returned with an API key or dashboard credential.
+     * previous_attributes.buyer_location.anyOf[2] (Value): null.
+     * previous_attributes.calculation_expires_at (Optional): string or null. Deadline after which
+     * calculated pricing evidence is no longer valid. Always present with an API key or dashboard
+     * credential. previous_attributes.calculation_expires_at.anyOf[1] (Value): string. Deadline
+     * after which calculated pricing evidence is no longer valid. Always present with an API key
+     * or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.calculation_expires_at.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_id (Optional): string or null. Checkout session that
+     * owns the selection. Always present with an API key or dashboard credential.
+     * previous_attributes.checkout_session_id.anyOf[1] (Value): string. Checkout session that owns
+     * the selection. Always present with an API key or dashboard credential. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_id.anyOf[2] (Value):
+     * null. previous_attributes.choices (Optional): Array of {@link
+     * DeliverySelectionChoiceResource} or null. One chosen option for each required choice group.
+     * previous_attributes.choices.anyOf[1] (Value): Array of {@link
+     * DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+     * previous_attributes.choices.anyOf[1][] (Value): {@link DeliverySelectionChoiceResource}. A
+     * delivery option chosen for one choice group in a delivery selection, with its method,
+     * amounts, type-specific details, timezone, and any chosen delivery window.
+     * previous_attributes.choices.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the selection was created. Always present with an API key
+     * or dashboard credential. previous_attributes.created_at.anyOf[1] (Value): string. Time the
+     * selection was created. Always present with an API key or dashboard credential. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.delivery_quote_id (Optional): string or null. Quote from which
+     * this selection was made. previous_attributes.delivery_quote_id.anyOf[1] (Value): string.
+     * Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     * previous_attributes.delivery_quote_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_selection_id (Optional): string or null. Stable delivery
+     * selection ID. previous_attributes.delivery_selection_id.anyOf[1] (Value): string. Stable
+     * delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * previous_attributes.delivery_selection_id.anyOf[2] (Value): null.
+     * previous_attributes.destination_address (Optional): {@link Address} or null. Destination
+     * address snapshot used for delivery evaluation. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified.
+     * previous_attributes.destination_address.anyOf[1] (Value): {@link Address}. Destination
+     * address snapshot used for delivery evaluation. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified.
+     * previous_attributes.destination_address.anyOf[2] (Value): null.
+     * previous_attributes.expires_at (Optional): string or null. Deadline after which this
+     * provisional selection can no longer be committed. previous_attributes.expires_at.anyOf[1]
+     * (Value): string. Deadline after which this provisional selection can no longer be committed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2]
+     * (Value): null. previous_attributes.input_requirements (Optional): Array of {@link
+     * DeliveryInputRequirement} or null. Inputs this selection still needs before payment: each
+     * destination_address member a chosen shipment or local delivery needs that the stored address
+     * lacks (line1, city, and country, plus state and postal_code in the US), and each recipient
+     * field a chosen option requires that the selection does not include. Each entry repeats the
+     * quote's requirement for that option, with the same delivery_input_requirement_id. Payment
+     * fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection
+     * reference until a new delivery selection includes them. Empty when nothing is missing, and
+     * always empty unless status is selected. previous_attributes.input_requirements.anyOf[1]
+     * (Value): Array of {@link DeliveryInputRequirement}. Inputs this selection still needs before
+     * payment: each destination_address member a chosen shipment or local delivery needs that the
+     * stored address lacks (line1, city, and country, plus state and postal_code in the US), and
+     * each recipient field a chosen option requires that the selection does not include. Each
+     * entry repeats the quote's requirement for that option, with the same
+     * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+     * configuration_required, and the delivery_selection reference until a new delivery selection
+     * includes them. Empty when nothing is missing, and always empty unless status is selected.
+     * previous_attributes.input_requirements.anyOf[1][] (Value): {@link DeliveryInputRequirement}.
+     * An input a delivery method needs, such as an address field or time window, with its
+     * `field_path`, purpose, and constraint. previous_attributes.input_requirements.anyOf[2]
+     * (Value): null. previous_attributes.instructions (Optional): string or null. Buyer-provided
+     * delivery instructions. Returned with an API key or dashboard credential.
+     * previous_attributes.instructions.anyOf[1] (Value): string. Buyer-provided delivery
+     * instructions. Returned with an API key or dashboard credential.
+     * previous_attributes.instructions.anyOf[2] (Value): null.
+     * previous_attributes.lifecycle_events (Optional): Array of {@link
+     * DeliverySelectionLifecycleEventResource} or null. Ordered lifecycle events recorded for this
+     * selection. previous_attributes.lifecycle_events.anyOf[1] (Value): Array of {@link
+     * DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this
+     * selection. previous_attributes.lifecycle_events.anyOf[1][] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened.
+     * previous_attributes.lifecycle_events.anyOf[2] (Value): null.
+     * previous_attributes.lifecycle_updated_at (Optional): string or null. Time the selection
+     * lifecycle last changed. Always present with an API key or dashboard credential.
+     * previous_attributes.lifecycle_updated_at.anyOf[1] (Value): string. Time the selection
+     * lifecycle last changed. Always present with an API key or dashboard credential. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.lifecycle_updated_at.anyOf[2] (Value): null.
+     * previous_attributes.limiting_deadline_reason (Optional): string or null. The deadline that
+     * set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and
+     * the maximum selection lifetime. A tie between the calculation and the guarantee reports
+     * calculation_expiry. Always present with an API key or dashboard credential. -
+     * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery
+     * windows comes first. When the selection holds stock, the hold ends at this deadline too. -
+     * `calculation_expiry`: The calculation the selection was priced against expires first. It
+     * ends no later than the checkout session's expires_at, and earlier when an applied promotion
+     * ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional
+     * selection can last, 24 hours after it was created. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime".
+     * previous_attributes.limiting_deadline_reason.anyOf[1] (Value): string. The deadline that set
+     * expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the
+     * maximum selection lifetime. A tie between the calculation and the guarantee reports
+     * calculation_expiry. Always present with an API key or dashboard credential. -
+     * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery
+     * windows comes first. When the selection holds stock, the hold ends at this deadline too. -
+     * `calculation_expiry`: The calculation the selection was priced against expires first. It
+     * ends no later than the checkout session's expires_at, and earlier when an applied promotion
+     * ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional
+     * selection can last, 24 hours after it was created. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime".
+     * previous_attributes.limiting_deadline_reason.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. Order affected by the selection.
+     * Always present with an API key or dashboard credential.
+     * previous_attributes.order_id.anyOf[1] (Value): string. Order affected by the selection.
+     * Always present with an API key or dashboard credential. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.private_data_status (Optional): string or null. Availability state of
+     * merchant-private selection evidence. Value enum: "available", "redacted".
+     * previous_attributes.private_data_status.anyOf[1] (Value): string. Availability state of
+     * merchant-private selection evidence. Value enum: "available", "redacted".
+     * previous_attributes.private_data_status.anyOf[2] (Value): null.
+     * previous_attributes.recipient (Optional): {@link DeliveryRecipientResource} or null.
+     * Recipient details captured with the selection. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified. previous_attributes.recipient.anyOf[1]
+     * (Value): {@link DeliveryRecipientResource}. Recipient details captured with the selection.
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. previous_attributes.recipient.anyOf[2] (Value): null.
+     * previous_attributes.redacted_at (Optional): string or null. Time merchant-private selection
+     * evidence was redacted. previous_attributes.redacted_at.anyOf[1] (Value): string. Time
+     * merchant-private selection evidence was redacted. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.redacted_at.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current selection lifecycle status. -
+     * `selected`: These choices are provisional and can be replaced before payment. -
+     * `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment
+     * finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer
+     * selection replaced these choices. - `expired`: The selection is no longer usable because its
+     * deadline passed. - `released`: These choices were withdrawn. Create a new selection before
+     * paying for delivery. Value enum: "selected", "locked_for_payment", "committed",
+     * "superseded", "expired", "released". previous_attributes.status.anyOf[1] (Value): string.
+     * Current selection lifecycle status. - `selected`: These choices are provisional and can be
+     * replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They
+     * are frozen until payment finishes. - `committed`: Payment fixed these choices on the order.
+     * - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no
+     * longer usable because its deadline passed. - `released`: These choices were withdrawn.
+     * Create a new selection before paying for delivery. Value enum: "selected",
+     * "locked_for_payment", "committed", "superseded", "expired", "released".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Contains release while status is selected and the
+     * selection belongs to a checkout session: POST
+     * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty
+     * in every other status. Independent of caller permissions. [] enum: "release".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Contains release
+     * while status is selected and the selection belongs to a checkout session: POST
+     * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty
+     * in every other status. Independent of caller permissions. [] enum: "release".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "release".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -902,9 +1127,361 @@ export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<Partner
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Delivery charge committed by this selection. amount_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Delivery charge committed by this selection. amount_money.anyOf[2] (Value):
+         * null. buyer_location (Optional): {@link DeliveryBuyerLocationResource} or null. Buyer
+         * location snapshot used to evaluate pickup proximity. Returned with an API key or
+         * dashboard credential. buyer_location.anyOf[1] (Value): {@link
+         * DeliveryBuyerLocationResource}. Buyer location snapshot used to evaluate pickup
+         * proximity. Returned with an API key or dashboard credential. buyer_location.anyOf[2]
+         * (Value): null. calculation_expires_at (Optional): string or null. Deadline after which
+         * calculated pricing evidence is no longer valid. Always present with an API key or
+         * dashboard credential. calculation_expires_at.anyOf[1] (Value): string. Deadline after
+         * which calculated pricing evidence is no longer valid. Always present with an API key or
+         * dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * calculation_expires_at.anyOf[2] (Value): null. checkout_session_id (Optional): string or
+         * null. Checkout session that owns the selection. Always present with an API key or
+         * dashboard credential. checkout_session_id.anyOf[1] (Value): string. Checkout session
+         * that owns the selection. Always present with an API key or dashboard credential.
+         * Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
+         * choices (Optional): Array of {@link DeliverySelectionChoiceResource} or null. One chosen
+         * option for each required choice group. choices.anyOf[1] (Value): Array of {@link
+         * DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+         * choices.anyOf[1][] (Value): {@link DeliverySelectionChoiceResource}. A delivery option
+         * chosen for one choice group in a delivery selection, with its method, amounts,
+         * type-specific details, timezone, and any chosen delivery window. choices.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. Time the selection was created.
+         * Always present with an API key or dashboard credential. created_at.anyOf[1] (Value):
+         * string. Time the selection was created. Always present with an API key or dashboard
+         * credential. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. delivery_quote_id (Optional): string or null. Quote from which this
+         * selection was made. delivery_quote_id.anyOf[1] (Value): string. Quote from which this
+         * selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+         * delivery_quote_id.anyOf[2] (Value): null. delivery_selection_id (Optional): string or
+         * null. Stable delivery selection ID. delivery_selection_id.anyOf[1] (Value): string.
+         * Stable delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+         * delivery_selection_id.anyOf[2] (Value): null. destination_address (Optional): {@link
+         * Address} or null. Destination address snapshot used for delivery evaluation. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified.
+         * destination_address.anyOf[1] (Value): {@link Address}. Destination address snapshot used
+         * for delivery evaluation. Omitted for a checkout session credential that doesn't act for
+         * the customer the buyer verified. destination_address.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. Deadline after which this provisional selection can no
+         * longer be committed. expires_at.anyOf[1] (Value): string. Deadline after which this
+         * provisional selection can no longer be committed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. input_requirements
+         * (Optional): Array of {@link DeliveryInputRequirement} or null. Inputs this selection
+         * still needs before payment: each destination_address member a chosen shipment or local
+         * delivery needs that the stored address lacks (line1, city, and country, plus state and
+         * postal_code in the US), and each recipient field a chosen option requires that the
+         * selection does not include. Each entry repeats the quote's requirement for that option,
+         * with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED,
+         * reason configuration_required, and the delivery_selection reference until a new delivery
+         * selection includes them. Empty when nothing is missing, and always empty unless status
+         * is selected. input_requirements.anyOf[1] (Value): Array of {@link
+         * DeliveryInputRequirement}. Inputs this selection still needs before payment: each
+         * destination_address member a chosen shipment or local delivery needs that the stored
+         * address lacks (line1, city, and country, plus state and postal_code in the US), and each
+         * recipient field a chosen option requires that the selection does not include. Each entry
+         * repeats the quote's requirement for that option, with the same
+         * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+         * configuration_required, and the delivery_selection reference until a new delivery
+         * selection includes them. Empty when nothing is missing, and always empty unless status
+         * is selected. input_requirements.anyOf[1][] (Value): {@link DeliveryInputRequirement}. An
+         * input a delivery method needs, such as an address field or time window, with its
+         * `field_path`, purpose, and constraint. input_requirements.anyOf[2] (Value): null.
+         * instructions (Optional): string or null. Buyer-provided delivery instructions. Returned
+         * with an API key or dashboard credential. instructions.anyOf[1] (Value): string.
+         * Buyer-provided delivery instructions. Returned with an API key or dashboard credential.
+         * instructions.anyOf[2] (Value): null. lifecycle_events (Optional): Array of {@link
+         * DeliverySelectionLifecycleEventResource} or null. Ordered lifecycle events recorded for
+         * this selection. lifecycle_events.anyOf[1] (Value): Array of {@link
+         * DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this
+         * selection. lifecycle_events.anyOf[1][] (Value): {@link
+         * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+         * history, with the new `status`, the `reason`, and when it happened.
+         * lifecycle_events.anyOf[2] (Value): null. lifecycle_updated_at (Optional): string or
+         * null. Time the selection lifecycle last changed. Always present with an API key or
+         * dashboard credential. lifecycle_updated_at.anyOf[1] (Value): string. Time the selection
+         * lifecycle last changed. Always present with an API key or dashboard credential. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". lifecycle_updated_at.anyOf[2] (Value): null.
+         * limiting_deadline_reason (Optional): string or null. The deadline that set expires_at:
+         * the earliest of the chosen options' guarantee, the calculation expiry, and the maximum
+         * selection lifetime. A tie between the calculation and the guarantee reports
+         * calculation_expiry. Always present with an API key or dashboard credential. -
+         * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+         * delivery windows comes first. When the selection holds stock, the hold ends at this
+         * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+         * expires first. It ends no later than the checkout session's expires_at, and earlier when
+         * an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches
+         * the longest a provisional selection can last, 24 hours after it was created. Value enum:
+         * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+         * limiting_deadline_reason.anyOf[1] (Value): string. The deadline that set expires_at: the
+         * earliest of the chosen options' guarantee, the calculation expiry, and the maximum
+         * selection lifetime. A tie between the calculation and the guarantee reports
+         * calculation_expiry. Always present with an API key or dashboard credential. -
+         * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+         * delivery windows comes first. When the selection holds stock, the hold ends at this
+         * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+         * expires first. It ends no later than the checkout session's expires_at, and earlier when
+         * an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches
+         * the longest a provisional selection can last, 24 hours after it was created. Value enum:
+         * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+         * limiting_deadline_reason.anyOf[2] (Value): null. order_id (Optional): string or null.
+         * Order affected by the selection. Always present with an API key or dashboard credential.
+         * order_id.anyOf[1] (Value): string. Order affected by the selection. Always present with
+         * an API key or dashboard credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. private_data_status (Optional): string or null.
+         * Availability state of merchant-private selection evidence. Value enum: "available",
+         * "redacted". private_data_status.anyOf[1] (Value): string. Availability state of
+         * merchant-private selection evidence. Value enum: "available", "redacted".
+         * private_data_status.anyOf[2] (Value): null. recipient (Optional): {@link
+         * DeliveryRecipientResource} or null. Recipient details captured with the selection.
+         * Omitted for a checkout session credential that doesn't act for the customer the buyer
+         * verified. recipient.anyOf[1] (Value): {@link DeliveryRecipientResource}. Recipient
+         * details captured with the selection. Omitted for a checkout session credential that
+         * doesn't act for the customer the buyer verified. recipient.anyOf[2] (Value): null.
+         * redacted_at (Optional): string or null. Time merchant-private selection evidence was
+         * redacted. redacted_at.anyOf[1] (Value): string. Time merchant-private selection evidence
+         * was redacted. Format: date-time. Example: "2026-08-02T16:00:00Z". redacted_at.anyOf[2]
+         * (Value): null. status (Optional): string or null. Current selection lifecycle status. -
+         * `selected`: These choices are provisional and can be replaced before payment. -
+         * `locked_for_payment`: A payment attempt owns these choices. They are frozen until
+         * payment finishes. - `committed`: Payment fixed these choices on the order. -
+         * `superseded`: A newer selection replaced these choices. - `expired`: The selection is no
+         * longer usable because its deadline passed. - `released`: These choices were withdrawn.
+         * Create a new selection before paying for delivery. Value enum: "selected",
+         * "locked_for_payment", "committed", "superseded", "expired", "released". status.anyOf[1]
+         * (Value): string. Current selection lifecycle status. - `selected`: These choices are
+         * provisional and can be replaced before payment. - `locked_for_payment`: A payment
+         * attempt owns these choices. They are frozen until payment finishes. - `committed`:
+         * Payment fixed these choices on the order. - `superseded`: A newer selection replaced
+         * these choices. - `expired`: The selection is no longer usable because its deadline
+         * passed. - `released`: These choices were withdrawn. Create a new selection before paying
+         * for delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded",
+         * "expired", "released". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Contains release while status is selected and the selection
+         * belongs to a checkout session: POST
+         * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+         * Empty in every other status. Independent of caller permissions. [] enum: "release".
+         * supported_actions.anyOf[1] (Value): Array of string. Contains release while status is
+         * selected and the selection belongs to a checkout session: POST
+         * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+         * Empty in every other status. Independent of caller permissions. [] enum: "release".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "release".
+         * supported_actions.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliverySelection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Delivery charge committed by this selection. anyOf[1] (Value): {@link MoneyValue}.
+             * Delivery charge committed by this selection. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
+             * or dashboard credential. anyOf[1] (Value): {@link DeliveryBuyerLocationResource}.
+             * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
+             * or dashboard credential. anyOf[2] (Value): null.
+             */
+            "buyer_location"?: ((DeliveryBuyerLocationResource) | (null) | (unknown));
+            /**
+             * Deadline after which calculated pricing evidence is no longer valid. Always present
+             * with an API key or dashboard credential. anyOf[1] (Value): string. Deadline after
+             * which calculated pricing evidence is no longer valid. Always present with an API key
+             * or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "calculation_expires_at"?: ((string) | (null));
+            /**
+             * Checkout session that owns the selection. Always present with an API key or
+             * dashboard credential. anyOf[1] (Value): string. Checkout session that owns the
+             * selection. Always present with an API key or dashboard credential. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_id"?: ((string) | (null));
+            /**
+             * One chosen option for each required choice group. anyOf[1] (Value): Array of {@link
+             * DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+             * anyOf[1][] (Value): {@link DeliverySelectionChoiceResource}. A delivery option
+             * chosen for one choice group in a delivery selection, with its method, amounts,
+             * type-specific details, timezone, and any chosen delivery window. anyOf[2] (Value):
+             * null.
+             */
+            "choices"?: ((Array<DeliverySelectionChoiceResource>) | (null));
+            /**
+             * Time the selection was created. Always present with an API key or dashboard
+             * credential. anyOf[1] (Value): string. Time the selection was created. Always present
+             * with an API key or dashboard credential. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Quote from which this selection was made. anyOf[1] (Value): string. Quote from which
+             * this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV". anyOf[2]
+             * (Value): null.
+             */
+            "delivery_quote_id"?: ((string) | (null));
+            /**
+             * Stable delivery selection ID. anyOf[1] (Value): string. Stable delivery selection
+             * ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+             */
+            "delivery_selection_id"?: ((string) | (null));
+            /**
+             * Destination address snapshot used for delivery evaluation. Omitted for a checkout
+             * session credential that doesn't act for the customer the buyer verified. anyOf[1]
+             * (Value): {@link Address}. Destination address snapshot used for delivery evaluation.
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[2] (Value): null.
+             */
+            "destination_address"?: ((Address) | (null));
+            /**
+             * Deadline after which this provisional selection can no longer be committed. anyOf[1]
+             * (Value): string. Deadline after which this provisional selection can no longer be
+             * committed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * Inputs this selection still needs before payment: each destination_address member a
+             * chosen shipment or local delivery needs that the stored address lacks (line1, city,
+             * and country, plus state and postal_code in the US), and each recipient field a
+             * chosen option requires that the selection does not include. Each entry repeats the
+             * quote's requirement for that option, with the same delivery_input_requirement_id.
+             * Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the
+             * delivery_selection reference until a new delivery selection includes them. Empty
+             * when nothing is missing, and always empty unless status is selected. anyOf[1]
+             * (Value): Array of {@link DeliveryInputRequirement}. Inputs this selection still
+             * needs before payment: each destination_address member a chosen shipment or local
+             * delivery needs that the stored address lacks (line1, city, and country, plus state
+             * and postal_code in the US), and each recipient field a chosen option requires that
+             * the selection does not include. Each entry repeats the quote's requirement for that
+             * option, with the same delivery_input_requirement_id. Payment fails with
+             * ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection
+             * reference until a new delivery selection includes them. Empty when nothing is
+             * missing, and always empty unless status is selected. anyOf[1][] (Value): {@link
+             * DeliveryInputRequirement}. An input a delivery method needs, such as an address
+             * field or time window, with its `field_path`, purpose, and constraint. anyOf[2]
+             * (Value): null.
+             */
+            "input_requirements"?: ((Array<DeliveryInputRequirement>) | (null));
+            /**
+             * Buyer-provided delivery instructions. Returned with an API key or dashboard
+             * credential. anyOf[1] (Value): string. Buyer-provided delivery instructions. Returned
+             * with an API key or dashboard credential. anyOf[2] (Value): null.
+             */
+            "instructions"?: ((string) | (null));
+            /**
+             * Ordered lifecycle events recorded for this selection. anyOf[1] (Value): Array of
+             * {@link DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded
+             * for this selection. anyOf[1][] (Value): {@link
+             * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+             * history, with the new `status`, the `reason`, and when it happened. anyOf[2]
+             * (Value): null.
+             */
+            "lifecycle_events"?: ((Array<DeliverySelectionLifecycleEventResource>) | (null));
+            /**
+             * Time the selection lifecycle last changed. Always present with an API key or
+             * dashboard credential. anyOf[1] (Value): string. Time the selection lifecycle last
+             * changed. Always present with an API key or dashboard credential. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "lifecycle_updated_at"?: ((string) | (null));
+            /**
+             * The deadline that set expires_at: the earliest of the chosen options' guarantee, the
+             * calculation expiry, and the maximum selection lifetime. A tie between the
+             * calculation and the guarantee reports calculation_expiry. Always present with an API
+             * key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee
+             * among the chosen options and delivery windows comes first. When the selection holds
+             * stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation
+             * the selection was priced against expires first. It ends no later than the checkout
+             * session's expires_at, and earlier when an applied promotion ends first. -
+             * `selection_maximum_lifetime`: The selection reaches the longest a provisional
+             * selection can last, 24 hours after it was created. Value enum:
+             * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+             * anyOf[1] (Value): string. The deadline that set expires_at: the earliest of the
+             * chosen options' guarantee, the calculation expiry, and the maximum selection
+             * lifetime. A tie between the calculation and the guarantee reports
+             * calculation_expiry. Always present with an API key or dashboard credential. -
+             * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+             * delivery windows comes first. When the selection holds stock, the hold ends at this
+             * deadline too. - `calculation_expiry`: The calculation the selection was priced
+             * against expires first. It ends no later than the checkout session's expires_at, and
+             * earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The
+             * selection reaches the longest a provisional selection can last, 24 hours after it
+             * was created. Value enum: "selection_guarantee_expiry", "calculation_expiry",
+             * "selection_maximum_lifetime". anyOf[2] (Value): null.
+             */
+            "limiting_deadline_reason"?: (("selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {}))
+                | (null));
+            /**
+             * Order affected by the selection. Always present with an API key or dashboard
+             * credential. anyOf[1] (Value): string. Order affected by the selection. Always
+             * present with an API key or dashboard credential. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Availability state of merchant-private selection evidence. Value enum: "available",
+             * "redacted". anyOf[1] (Value): string. Availability state of merchant-private
+             * selection evidence. Value enum: "available", "redacted". anyOf[2] (Value): null.
+             */
+            "private_data_status"?: (("available" | "redacted" | (string & {})) | (null));
+            /**
+             * Recipient details captured with the selection. Omitted for a checkout session
+             * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value):
+             * {@link DeliveryRecipientResource}. Recipient details captured with the selection.
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[2] (Value): null.
+             */
+            "recipient"?: ((DeliveryRecipientResource) | (null));
+            /**
+             * Time merchant-private selection evidence was redacted. anyOf[1] (Value): string.
+             * Time merchant-private selection evidence was redacted. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "redacted_at"?: ((string) | (null));
+            /**
+             * Current selection lifecycle status. - `selected`: These choices are provisional and
+             * can be replaced before payment. - `locked_for_payment`: A payment attempt owns these
+             * choices. They are frozen until payment finishes. - `committed`: Payment fixed these
+             * choices on the order. - `superseded`: A newer selection replaced these choices. -
+             * `expired`: The selection is no longer usable because its deadline passed. -
+             * `released`: These choices were withdrawn. Create a new selection before paying for
+             * delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded",
+             * "expired", "released". anyOf[1] (Value): string. Current selection lifecycle status.
+             * - `selected`: These choices are provisional and can be replaced before payment. -
+             * `locked_for_payment`: A payment attempt owns these choices. They are frozen until
+             * payment finishes. - `committed`: Payment fixed these choices on the order. -
+             * `superseded`: A newer selection replaced these choices. - `expired`: The selection
+             * is no longer usable because its deadline passed. - `released`: These choices were
+             * withdrawn. Create a new selection before paying for delivery. Value enum:
+             * "selected", "locked_for_payment", "committed", "superseded", "expired", "released".
+             * anyOf[2] (Value): null.
+             */
+            "status"?: (("selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {}))
+                | (null));
+            /**
+             * Contains release while status is selected and the selection belongs to a checkout
+             * session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from
+             * the checkout. Empty in every other status. Independent of caller permissions. []
+             * enum: "release". anyOf[1] (Value): Array of string. Contains release while status is
+             * selected and the selection belongs to a checkout session: POST
+             * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+             * Empty in every other status. Independent of caller permissions. [] enum: "release".
+             * anyOf[1][] (Value): string. Value enum: "release". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"release" | (string & {})>) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1033,7 +1610,166 @@ export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEn
      * (Optional): object. Previous values of changed top-level fields in data.object, at this
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
+     * previous state, including synthetic test events. previous_attributes.amount_money
+     * (Optional): {@link MoneyValue} or null. Delivery charge committed by this selection.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Delivery charge
+     * committed by this selection. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * previous_attributes.buyer_location (Optional): {@link DeliveryBuyerLocationResource} or
+     * null. Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or
+     * dashboard credential. previous_attributes.buyer_location.anyOf[1] (Value): {@link
+     * DeliveryBuyerLocationResource}. Buyer location snapshot used to evaluate pickup proximity.
+     * Returned with an API key or dashboard credential.
+     * previous_attributes.buyer_location.anyOf[2] (Value): null.
+     * previous_attributes.calculation_expires_at (Optional): string or null. Deadline after which
+     * calculated pricing evidence is no longer valid. Always present with an API key or dashboard
+     * credential. previous_attributes.calculation_expires_at.anyOf[1] (Value): string. Deadline
+     * after which calculated pricing evidence is no longer valid. Always present with an API key
+     * or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.calculation_expires_at.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_id (Optional): string or null. Checkout session that
+     * owns the selection. Always present with an API key or dashboard credential.
+     * previous_attributes.checkout_session_id.anyOf[1] (Value): string. Checkout session that owns
+     * the selection. Always present with an API key or dashboard credential. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_id.anyOf[2] (Value):
+     * null. previous_attributes.choices (Optional): Array of {@link
+     * DeliverySelectionChoiceResource} or null. One chosen option for each required choice group.
+     * previous_attributes.choices.anyOf[1] (Value): Array of {@link
+     * DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+     * previous_attributes.choices.anyOf[1][] (Value): {@link DeliverySelectionChoiceResource}. A
+     * delivery option chosen for one choice group in a delivery selection, with its method,
+     * amounts, type-specific details, timezone, and any chosen delivery window.
+     * previous_attributes.choices.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the selection was created. Always present with an API key
+     * or dashboard credential. previous_attributes.created_at.anyOf[1] (Value): string. Time the
+     * selection was created. Always present with an API key or dashboard credential. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.delivery_quote_id (Optional): string or null. Quote from which
+     * this selection was made. previous_attributes.delivery_quote_id.anyOf[1] (Value): string.
+     * Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     * previous_attributes.delivery_quote_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_selection_id (Optional): string or null. Stable delivery
+     * selection ID. previous_attributes.delivery_selection_id.anyOf[1] (Value): string. Stable
+     * delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * previous_attributes.delivery_selection_id.anyOf[2] (Value): null.
+     * previous_attributes.destination_address (Optional): {@link Address} or null. Destination
+     * address snapshot used for delivery evaluation. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified.
+     * previous_attributes.destination_address.anyOf[1] (Value): {@link Address}. Destination
+     * address snapshot used for delivery evaluation. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified.
+     * previous_attributes.destination_address.anyOf[2] (Value): null.
+     * previous_attributes.expires_at (Optional): string or null. Deadline after which this
+     * provisional selection can no longer be committed. previous_attributes.expires_at.anyOf[1]
+     * (Value): string. Deadline after which this provisional selection can no longer be committed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2]
+     * (Value): null. previous_attributes.input_requirements (Optional): Array of {@link
+     * DeliveryInputRequirement} or null. Inputs this selection still needs before payment: each
+     * destination_address member a chosen shipment or local delivery needs that the stored address
+     * lacks (line1, city, and country, plus state and postal_code in the US), and each recipient
+     * field a chosen option requires that the selection does not include. Each entry repeats the
+     * quote's requirement for that option, with the same delivery_input_requirement_id. Payment
+     * fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection
+     * reference until a new delivery selection includes them. Empty when nothing is missing, and
+     * always empty unless status is selected. previous_attributes.input_requirements.anyOf[1]
+     * (Value): Array of {@link DeliveryInputRequirement}. Inputs this selection still needs before
+     * payment: each destination_address member a chosen shipment or local delivery needs that the
+     * stored address lacks (line1, city, and country, plus state and postal_code in the US), and
+     * each recipient field a chosen option requires that the selection does not include. Each
+     * entry repeats the quote's requirement for that option, with the same
+     * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+     * configuration_required, and the delivery_selection reference until a new delivery selection
+     * includes them. Empty when nothing is missing, and always empty unless status is selected.
+     * previous_attributes.input_requirements.anyOf[1][] (Value): {@link DeliveryInputRequirement}.
+     * An input a delivery method needs, such as an address field or time window, with its
+     * `field_path`, purpose, and constraint. previous_attributes.input_requirements.anyOf[2]
+     * (Value): null. previous_attributes.instructions (Optional): string or null. Buyer-provided
+     * delivery instructions. Returned with an API key or dashboard credential.
+     * previous_attributes.instructions.anyOf[1] (Value): string. Buyer-provided delivery
+     * instructions. Returned with an API key or dashboard credential.
+     * previous_attributes.instructions.anyOf[2] (Value): null.
+     * previous_attributes.lifecycle_events (Optional): Array of {@link
+     * DeliverySelectionLifecycleEventResource} or null. Ordered lifecycle events recorded for this
+     * selection. previous_attributes.lifecycle_events.anyOf[1] (Value): Array of {@link
+     * DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this
+     * selection. previous_attributes.lifecycle_events.anyOf[1][] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened.
+     * previous_attributes.lifecycle_events.anyOf[2] (Value): null.
+     * previous_attributes.lifecycle_updated_at (Optional): string or null. Time the selection
+     * lifecycle last changed. Always present with an API key or dashboard credential.
+     * previous_attributes.lifecycle_updated_at.anyOf[1] (Value): string. Time the selection
+     * lifecycle last changed. Always present with an API key or dashboard credential. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.lifecycle_updated_at.anyOf[2] (Value): null.
+     * previous_attributes.limiting_deadline_reason (Optional): string or null. The deadline that
+     * set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and
+     * the maximum selection lifetime. A tie between the calculation and the guarantee reports
+     * calculation_expiry. Always present with an API key or dashboard credential. -
+     * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery
+     * windows comes first. When the selection holds stock, the hold ends at this deadline too. -
+     * `calculation_expiry`: The calculation the selection was priced against expires first. It
+     * ends no later than the checkout session's expires_at, and earlier when an applied promotion
+     * ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional
+     * selection can last, 24 hours after it was created. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime".
+     * previous_attributes.limiting_deadline_reason.anyOf[1] (Value): string. The deadline that set
+     * expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the
+     * maximum selection lifetime. A tie between the calculation and the guarantee reports
+     * calculation_expiry. Always present with an API key or dashboard credential. -
+     * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery
+     * windows comes first. When the selection holds stock, the hold ends at this deadline too. -
+     * `calculation_expiry`: The calculation the selection was priced against expires first. It
+     * ends no later than the checkout session's expires_at, and earlier when an applied promotion
+     * ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional
+     * selection can last, 24 hours after it was created. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime".
+     * previous_attributes.limiting_deadline_reason.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. Order affected by the selection.
+     * Always present with an API key or dashboard credential.
+     * previous_attributes.order_id.anyOf[1] (Value): string. Order affected by the selection.
+     * Always present with an API key or dashboard credential. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.private_data_status (Optional): string or null. Availability state of
+     * merchant-private selection evidence. Value enum: "available", "redacted".
+     * previous_attributes.private_data_status.anyOf[1] (Value): string. Availability state of
+     * merchant-private selection evidence. Value enum: "available", "redacted".
+     * previous_attributes.private_data_status.anyOf[2] (Value): null.
+     * previous_attributes.recipient (Optional): {@link DeliveryRecipientResource} or null.
+     * Recipient details captured with the selection. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified. previous_attributes.recipient.anyOf[1]
+     * (Value): {@link DeliveryRecipientResource}. Recipient details captured with the selection.
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. previous_attributes.recipient.anyOf[2] (Value): null.
+     * previous_attributes.redacted_at (Optional): string or null. Time merchant-private selection
+     * evidence was redacted. previous_attributes.redacted_at.anyOf[1] (Value): string. Time
+     * merchant-private selection evidence was redacted. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.redacted_at.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current selection lifecycle status. -
+     * `selected`: These choices are provisional and can be replaced before payment. -
+     * `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment
+     * finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer
+     * selection replaced these choices. - `expired`: The selection is no longer usable because its
+     * deadline passed. - `released`: These choices were withdrawn. Create a new selection before
+     * paying for delivery. Value enum: "selected", "locked_for_payment", "committed",
+     * "superseded", "expired", "released". previous_attributes.status.anyOf[1] (Value): string.
+     * Current selection lifecycle status. - `selected`: These choices are provisional and can be
+     * replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They
+     * are frozen until payment finishes. - `committed`: Payment fixed these choices on the order.
+     * - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no
+     * longer usable because its deadline passed. - `released`: These choices were withdrawn.
+     * Create a new selection before paying for delivery. Value enum: "selected",
+     * "locked_for_payment", "committed", "superseded", "expired", "released".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Contains release while status is selected and the
+     * selection belongs to a checkout session: POST
+     * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty
+     * in every other status. Independent of caller permissions. [] enum: "release".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Contains release
+     * while status is selected and the selection belongs to a checkout session: POST
+     * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty
+     * in every other status. Independent of caller permissions. [] enum: "release".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "release".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1268,9 +2004,361 @@ export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Delivery charge committed by this selection. amount_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Delivery charge committed by this selection. amount_money.anyOf[2] (Value):
+         * null. buyer_location (Optional): {@link DeliveryBuyerLocationResource} or null. Buyer
+         * location snapshot used to evaluate pickup proximity. Returned with an API key or
+         * dashboard credential. buyer_location.anyOf[1] (Value): {@link
+         * DeliveryBuyerLocationResource}. Buyer location snapshot used to evaluate pickup
+         * proximity. Returned with an API key or dashboard credential. buyer_location.anyOf[2]
+         * (Value): null. calculation_expires_at (Optional): string or null. Deadline after which
+         * calculated pricing evidence is no longer valid. Always present with an API key or
+         * dashboard credential. calculation_expires_at.anyOf[1] (Value): string. Deadline after
+         * which calculated pricing evidence is no longer valid. Always present with an API key or
+         * dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * calculation_expires_at.anyOf[2] (Value): null. checkout_session_id (Optional): string or
+         * null. Checkout session that owns the selection. Always present with an API key or
+         * dashboard credential. checkout_session_id.anyOf[1] (Value): string. Checkout session
+         * that owns the selection. Always present with an API key or dashboard credential.
+         * Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_id.anyOf[2] (Value): null.
+         * choices (Optional): Array of {@link DeliverySelectionChoiceResource} or null. One chosen
+         * option for each required choice group. choices.anyOf[1] (Value): Array of {@link
+         * DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+         * choices.anyOf[1][] (Value): {@link DeliverySelectionChoiceResource}. A delivery option
+         * chosen for one choice group in a delivery selection, with its method, amounts,
+         * type-specific details, timezone, and any chosen delivery window. choices.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. Time the selection was created.
+         * Always present with an API key or dashboard credential. created_at.anyOf[1] (Value):
+         * string. Time the selection was created. Always present with an API key or dashboard
+         * credential. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. delivery_quote_id (Optional): string or null. Quote from which this
+         * selection was made. delivery_quote_id.anyOf[1] (Value): string. Quote from which this
+         * selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+         * delivery_quote_id.anyOf[2] (Value): null. delivery_selection_id (Optional): string or
+         * null. Stable delivery selection ID. delivery_selection_id.anyOf[1] (Value): string.
+         * Stable delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+         * delivery_selection_id.anyOf[2] (Value): null. destination_address (Optional): {@link
+         * Address} or null. Destination address snapshot used for delivery evaluation. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified.
+         * destination_address.anyOf[1] (Value): {@link Address}. Destination address snapshot used
+         * for delivery evaluation. Omitted for a checkout session credential that doesn't act for
+         * the customer the buyer verified. destination_address.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. Deadline after which this provisional selection can no
+         * longer be committed. expires_at.anyOf[1] (Value): string. Deadline after which this
+         * provisional selection can no longer be committed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. input_requirements
+         * (Optional): Array of {@link DeliveryInputRequirement} or null. Inputs this selection
+         * still needs before payment: each destination_address member a chosen shipment or local
+         * delivery needs that the stored address lacks (line1, city, and country, plus state and
+         * postal_code in the US), and each recipient field a chosen option requires that the
+         * selection does not include. Each entry repeats the quote's requirement for that option,
+         * with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED,
+         * reason configuration_required, and the delivery_selection reference until a new delivery
+         * selection includes them. Empty when nothing is missing, and always empty unless status
+         * is selected. input_requirements.anyOf[1] (Value): Array of {@link
+         * DeliveryInputRequirement}. Inputs this selection still needs before payment: each
+         * destination_address member a chosen shipment or local delivery needs that the stored
+         * address lacks (line1, city, and country, plus state and postal_code in the US), and each
+         * recipient field a chosen option requires that the selection does not include. Each entry
+         * repeats the quote's requirement for that option, with the same
+         * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+         * configuration_required, and the delivery_selection reference until a new delivery
+         * selection includes them. Empty when nothing is missing, and always empty unless status
+         * is selected. input_requirements.anyOf[1][] (Value): {@link DeliveryInputRequirement}. An
+         * input a delivery method needs, such as an address field or time window, with its
+         * `field_path`, purpose, and constraint. input_requirements.anyOf[2] (Value): null.
+         * instructions (Optional): string or null. Buyer-provided delivery instructions. Returned
+         * with an API key or dashboard credential. instructions.anyOf[1] (Value): string.
+         * Buyer-provided delivery instructions. Returned with an API key or dashboard credential.
+         * instructions.anyOf[2] (Value): null. lifecycle_events (Optional): Array of {@link
+         * DeliverySelectionLifecycleEventResource} or null. Ordered lifecycle events recorded for
+         * this selection. lifecycle_events.anyOf[1] (Value): Array of {@link
+         * DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this
+         * selection. lifecycle_events.anyOf[1][] (Value): {@link
+         * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+         * history, with the new `status`, the `reason`, and when it happened.
+         * lifecycle_events.anyOf[2] (Value): null. lifecycle_updated_at (Optional): string or
+         * null. Time the selection lifecycle last changed. Always present with an API key or
+         * dashboard credential. lifecycle_updated_at.anyOf[1] (Value): string. Time the selection
+         * lifecycle last changed. Always present with an API key or dashboard credential. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". lifecycle_updated_at.anyOf[2] (Value): null.
+         * limiting_deadline_reason (Optional): string or null. The deadline that set expires_at:
+         * the earliest of the chosen options' guarantee, the calculation expiry, and the maximum
+         * selection lifetime. A tie between the calculation and the guarantee reports
+         * calculation_expiry. Always present with an API key or dashboard credential. -
+         * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+         * delivery windows comes first. When the selection holds stock, the hold ends at this
+         * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+         * expires first. It ends no later than the checkout session's expires_at, and earlier when
+         * an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches
+         * the longest a provisional selection can last, 24 hours after it was created. Value enum:
+         * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+         * limiting_deadline_reason.anyOf[1] (Value): string. The deadline that set expires_at: the
+         * earliest of the chosen options' guarantee, the calculation expiry, and the maximum
+         * selection lifetime. A tie between the calculation and the guarantee reports
+         * calculation_expiry. Always present with an API key or dashboard credential. -
+         * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+         * delivery windows comes first. When the selection holds stock, the hold ends at this
+         * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+         * expires first. It ends no later than the checkout session's expires_at, and earlier when
+         * an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches
+         * the longest a provisional selection can last, 24 hours after it was created. Value enum:
+         * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+         * limiting_deadline_reason.anyOf[2] (Value): null. order_id (Optional): string or null.
+         * Order affected by the selection. Always present with an API key or dashboard credential.
+         * order_id.anyOf[1] (Value): string. Order affected by the selection. Always present with
+         * an API key or dashboard credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. private_data_status (Optional): string or null.
+         * Availability state of merchant-private selection evidence. Value enum: "available",
+         * "redacted". private_data_status.anyOf[1] (Value): string. Availability state of
+         * merchant-private selection evidence. Value enum: "available", "redacted".
+         * private_data_status.anyOf[2] (Value): null. recipient (Optional): {@link
+         * DeliveryRecipientResource} or null. Recipient details captured with the selection.
+         * Omitted for a checkout session credential that doesn't act for the customer the buyer
+         * verified. recipient.anyOf[1] (Value): {@link DeliveryRecipientResource}. Recipient
+         * details captured with the selection. Omitted for a checkout session credential that
+         * doesn't act for the customer the buyer verified. recipient.anyOf[2] (Value): null.
+         * redacted_at (Optional): string or null. Time merchant-private selection evidence was
+         * redacted. redacted_at.anyOf[1] (Value): string. Time merchant-private selection evidence
+         * was redacted. Format: date-time. Example: "2026-08-02T16:00:00Z". redacted_at.anyOf[2]
+         * (Value): null. status (Optional): string or null. Current selection lifecycle status. -
+         * `selected`: These choices are provisional and can be replaced before payment. -
+         * `locked_for_payment`: A payment attempt owns these choices. They are frozen until
+         * payment finishes. - `committed`: Payment fixed these choices on the order. -
+         * `superseded`: A newer selection replaced these choices. - `expired`: The selection is no
+         * longer usable because its deadline passed. - `released`: These choices were withdrawn.
+         * Create a new selection before paying for delivery. Value enum: "selected",
+         * "locked_for_payment", "committed", "superseded", "expired", "released". status.anyOf[1]
+         * (Value): string. Current selection lifecycle status. - `selected`: These choices are
+         * provisional and can be replaced before payment. - `locked_for_payment`: A payment
+         * attempt owns these choices. They are frozen until payment finishes. - `committed`:
+         * Payment fixed these choices on the order. - `superseded`: A newer selection replaced
+         * these choices. - `expired`: The selection is no longer usable because its deadline
+         * passed. - `released`: These choices were withdrawn. Create a new selection before paying
+         * for delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded",
+         * "expired", "released". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Contains release while status is selected and the selection
+         * belongs to a checkout session: POST
+         * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+         * Empty in every other status. Independent of caller permissions. [] enum: "release".
+         * supported_actions.anyOf[1] (Value): Array of string. Contains release while status is
+         * selected and the selection belongs to a checkout session: POST
+         * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+         * Empty in every other status. Independent of caller permissions. [] enum: "release".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "release".
+         * supported_actions.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliverySelection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Delivery charge committed by this selection. anyOf[1] (Value): {@link MoneyValue}.
+             * Delivery charge committed by this selection. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
+             * or dashboard credential. anyOf[1] (Value): {@link DeliveryBuyerLocationResource}.
+             * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
+             * or dashboard credential. anyOf[2] (Value): null.
+             */
+            "buyer_location"?: ((DeliveryBuyerLocationResource) | (null) | (unknown));
+            /**
+             * Deadline after which calculated pricing evidence is no longer valid. Always present
+             * with an API key or dashboard credential. anyOf[1] (Value): string. Deadline after
+             * which calculated pricing evidence is no longer valid. Always present with an API key
+             * or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "calculation_expires_at"?: ((string) | (null));
+            /**
+             * Checkout session that owns the selection. Always present with an API key or
+             * dashboard credential. anyOf[1] (Value): string. Checkout session that owns the
+             * selection. Always present with an API key or dashboard credential. Example:
+             * "cs_01KEZF7C004JRWFW43H037MQRN". anyOf[2] (Value): null.
+             */
+            "checkout_session_id"?: ((string) | (null));
+            /**
+             * One chosen option for each required choice group. anyOf[1] (Value): Array of {@link
+             * DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+             * anyOf[1][] (Value): {@link DeliverySelectionChoiceResource}. A delivery option
+             * chosen for one choice group in a delivery selection, with its method, amounts,
+             * type-specific details, timezone, and any chosen delivery window. anyOf[2] (Value):
+             * null.
+             */
+            "choices"?: ((Array<DeliverySelectionChoiceResource>) | (null));
+            /**
+             * Time the selection was created. Always present with an API key or dashboard
+             * credential. anyOf[1] (Value): string. Time the selection was created. Always present
+             * with an API key or dashboard credential. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Quote from which this selection was made. anyOf[1] (Value): string. Quote from which
+             * this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV". anyOf[2]
+             * (Value): null.
+             */
+            "delivery_quote_id"?: ((string) | (null));
+            /**
+             * Stable delivery selection ID. anyOf[1] (Value): string. Stable delivery selection
+             * ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+             */
+            "delivery_selection_id"?: ((string) | (null));
+            /**
+             * Destination address snapshot used for delivery evaluation. Omitted for a checkout
+             * session credential that doesn't act for the customer the buyer verified. anyOf[1]
+             * (Value): {@link Address}. Destination address snapshot used for delivery evaluation.
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[2] (Value): null.
+             */
+            "destination_address"?: ((Address) | (null));
+            /**
+             * Deadline after which this provisional selection can no longer be committed. anyOf[1]
+             * (Value): string. Deadline after which this provisional selection can no longer be
+             * committed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * Inputs this selection still needs before payment: each destination_address member a
+             * chosen shipment or local delivery needs that the stored address lacks (line1, city,
+             * and country, plus state and postal_code in the US), and each recipient field a
+             * chosen option requires that the selection does not include. Each entry repeats the
+             * quote's requirement for that option, with the same delivery_input_requirement_id.
+             * Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the
+             * delivery_selection reference until a new delivery selection includes them. Empty
+             * when nothing is missing, and always empty unless status is selected. anyOf[1]
+             * (Value): Array of {@link DeliveryInputRequirement}. Inputs this selection still
+             * needs before payment: each destination_address member a chosen shipment or local
+             * delivery needs that the stored address lacks (line1, city, and country, plus state
+             * and postal_code in the US), and each recipient field a chosen option requires that
+             * the selection does not include. Each entry repeats the quote's requirement for that
+             * option, with the same delivery_input_requirement_id. Payment fails with
+             * ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection
+             * reference until a new delivery selection includes them. Empty when nothing is
+             * missing, and always empty unless status is selected. anyOf[1][] (Value): {@link
+             * DeliveryInputRequirement}. An input a delivery method needs, such as an address
+             * field or time window, with its `field_path`, purpose, and constraint. anyOf[2]
+             * (Value): null.
+             */
+            "input_requirements"?: ((Array<DeliveryInputRequirement>) | (null));
+            /**
+             * Buyer-provided delivery instructions. Returned with an API key or dashboard
+             * credential. anyOf[1] (Value): string. Buyer-provided delivery instructions. Returned
+             * with an API key or dashboard credential. anyOf[2] (Value): null.
+             */
+            "instructions"?: ((string) | (null));
+            /**
+             * Ordered lifecycle events recorded for this selection. anyOf[1] (Value): Array of
+             * {@link DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded
+             * for this selection. anyOf[1][] (Value): {@link
+             * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+             * history, with the new `status`, the `reason`, and when it happened. anyOf[2]
+             * (Value): null.
+             */
+            "lifecycle_events"?: ((Array<DeliverySelectionLifecycleEventResource>) | (null));
+            /**
+             * Time the selection lifecycle last changed. Always present with an API key or
+             * dashboard credential. anyOf[1] (Value): string. Time the selection lifecycle last
+             * changed. Always present with an API key or dashboard credential. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "lifecycle_updated_at"?: ((string) | (null));
+            /**
+             * The deadline that set expires_at: the earliest of the chosen options' guarantee, the
+             * calculation expiry, and the maximum selection lifetime. A tie between the
+             * calculation and the guarantee reports calculation_expiry. Always present with an API
+             * key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee
+             * among the chosen options and delivery windows comes first. When the selection holds
+             * stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation
+             * the selection was priced against expires first. It ends no later than the checkout
+             * session's expires_at, and earlier when an applied promotion ends first. -
+             * `selection_maximum_lifetime`: The selection reaches the longest a provisional
+             * selection can last, 24 hours after it was created. Value enum:
+             * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+             * anyOf[1] (Value): string. The deadline that set expires_at: the earliest of the
+             * chosen options' guarantee, the calculation expiry, and the maximum selection
+             * lifetime. A tie between the calculation and the guarantee reports
+             * calculation_expiry. Always present with an API key or dashboard credential. -
+             * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+             * delivery windows comes first. When the selection holds stock, the hold ends at this
+             * deadline too. - `calculation_expiry`: The calculation the selection was priced
+             * against expires first. It ends no later than the checkout session's expires_at, and
+             * earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The
+             * selection reaches the longest a provisional selection can last, 24 hours after it
+             * was created. Value enum: "selection_guarantee_expiry", "calculation_expiry",
+             * "selection_maximum_lifetime". anyOf[2] (Value): null.
+             */
+            "limiting_deadline_reason"?: (("selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {}))
+                | (null));
+            /**
+             * Order affected by the selection. Always present with an API key or dashboard
+             * credential. anyOf[1] (Value): string. Order affected by the selection. Always
+             * present with an API key or dashboard credential. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Availability state of merchant-private selection evidence. Value enum: "available",
+             * "redacted". anyOf[1] (Value): string. Availability state of merchant-private
+             * selection evidence. Value enum: "available", "redacted". anyOf[2] (Value): null.
+             */
+            "private_data_status"?: (("available" | "redacted" | (string & {})) | (null));
+            /**
+             * Recipient details captured with the selection. Omitted for a checkout session
+             * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value):
+             * {@link DeliveryRecipientResource}. Recipient details captured with the selection.
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. anyOf[2] (Value): null.
+             */
+            "recipient"?: ((DeliveryRecipientResource) | (null));
+            /**
+             * Time merchant-private selection evidence was redacted. anyOf[1] (Value): string.
+             * Time merchant-private selection evidence was redacted. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "redacted_at"?: ((string) | (null));
+            /**
+             * Current selection lifecycle status. - `selected`: These choices are provisional and
+             * can be replaced before payment. - `locked_for_payment`: A payment attempt owns these
+             * choices. They are frozen until payment finishes. - `committed`: Payment fixed these
+             * choices on the order. - `superseded`: A newer selection replaced these choices. -
+             * `expired`: The selection is no longer usable because its deadline passed. -
+             * `released`: These choices were withdrawn. Create a new selection before paying for
+             * delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded",
+             * "expired", "released". anyOf[1] (Value): string. Current selection lifecycle status.
+             * - `selected`: These choices are provisional and can be replaced before payment. -
+             * `locked_for_payment`: A payment attempt owns these choices. They are frozen until
+             * payment finishes. - `committed`: Payment fixed these choices on the order. -
+             * `superseded`: A newer selection replaced these choices. - `expired`: The selection
+             * is no longer usable because its deadline passed. - `released`: These choices were
+             * withdrawn. Create a new selection before paying for delivery. Value enum:
+             * "selected", "locked_for_payment", "committed", "superseded", "expired", "released".
+             * anyOf[2] (Value): null.
+             */
+            "status"?: (("selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {}))
+                | (null));
+            /**
+             * Contains release while status is selected and the selection belongs to a checkout
+             * session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from
+             * the checkout. Empty in every other status. Independent of caller permissions. []
+             * enum: "release". anyOf[1] (Value): Array of string. Contains release while status is
+             * selected and the selection belongs to a checkout session: POST
+             * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+             * Empty in every other status. Independent of caller permissions. [] enum: "release".
+             * anyOf[1][] (Value): string. Value enum: "release". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"release" | (string & {})>) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1393,8 +2481,8 @@ export type DeliverySelectionOrder = {
     /**
      * The earliest open or resolving payment review on this order's counted payments. `null` when
      * no review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+     * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
      */
     "active_payment_review_id"?: string | null;
     /**
@@ -1436,7 +2524,8 @@ export type DeliverySelectionOrder = {
      * The reference the payment link URL or resolve request carried, such as your user ID. `null`
      * when none was sent or checkout did not start from a payment link. Returned only to merchant
      * credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a
-     * claim, not proof of identity. minLength: 1. maxLength: 255.
+     * claim, not proof of identity. Always present with merchant credentials. minLength: 1.
+     * maxLength: 255.
      */
     "client_reference"?: string | null;
     /**
@@ -1474,9 +2563,10 @@ export type DeliverySelectionOrder = {
      * the link had no custom fields, or the buyer answered none. Orders created before Flint
      * recorded answers here also return an empty list and keep their answers in `metadata` as
      * `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant
-     * credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@link
-     * CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when
-     * checkout started. `custom_field_type` determines the type of `value`.
+     * credentials; omitted for buyer credentials. Always present with merchant credentials.
+     * maxItems: 20. [] (Value): {@link CustomFieldAnswer}. One answer to a payment link custom
+     * field, with the field as it was when checkout started. `custom_field_type` determines the
+     * type of `value`.
      */
     "custom_field_answers"?: Array<CustomFieldAnswer>;
     /**
@@ -1523,9 +2613,9 @@ export type DeliverySelectionOrder = {
      * states take precedence in this order: needs_response, under_review, inquiry_needs_response,
      * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
      * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
-     * /v1/disputes?order_id={order_id}. Value enum: "none", "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other".
+     * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
      */
     "dispute_status"?: "none"
         | "inquiry_needs_response"
@@ -1712,7 +2802,8 @@ export type DeliverySelectionOrder = {
     /**
      * The order edit waiting for its balance payment. While it is set, the units that edit removes
      * can't join a fulfillment and the order refuses another edit. `null` when there is none.
-     * Omitted for buyer credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * Omitted for buyer credentials. Always present with merchant credentials. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
      */
     "pending_order_edit_id"?: string | null;
     /**
@@ -1815,8 +2906,9 @@ export type DeliverySelectionOrder = {
     /**
      * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
      * is allowed, and pay while open without an active attempt and with an outstanding balance or
-     * payment-method setup available. [] enum: "close", "pay", "resolve_inventory_exception". []
-     * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
+     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
+     * "pay", "resolve_inventory_exception". [] (Value): string. Value enum: "close", "pay",
+     * "resolve_inventory_exception".
      */
     "supported_actions"?: Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
     /**
@@ -2579,7 +3671,21 @@ export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            "delivery_zone_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_zone.archived";
@@ -2599,7 +3705,21 @@ export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            "delivery_zone_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_zone.archived";
@@ -2643,6 +3763,41 @@ export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryZoneConfiguration} or null.
+     * Current geographic eligibility conditions. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryZoneConfiguration}. Current geographic eligibility conditions.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the zone was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the zone was created. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.current_delivery_zone_revision_id (Optional): string or null.
+     * Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_zone_id (Optional): string or null. Stable delivery zone ID.
+     * previous_attributes.delivery_zone_id.anyOf[1] (Value): string. Stable delivery zone ID.
+     * Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". previous_attributes.delivery_zone_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing zone name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing zone name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current zone lifecycle status. Value
+     * enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string. Current
+     * zone lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. Time the zone last
+     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the zone last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Optimistic-concurrency version for zone writes.
+     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+     * zone writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2705,9 +3860,97 @@ export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryZoneConfiguration} or null. Current geographic eligibility conditions.
+         * configuration.anyOf[1] (Value): {@link DeliveryZoneConfiguration}. Current geographic
+         * eligibility conditions. configuration.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. Time the zone was created. created_at.anyOf[1] (Value): string. Time the
+         * zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_zone_revision_id (Optional): string
+         * or null. Immutable revision used for new quotes.
+         * current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable revision used for
+         * new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+         * current_delivery_zone_revision_id.anyOf[2] (Value): null. delivery_zone_id (Optional):
+         * string or null. Stable delivery zone ID. delivery_zone_id.anyOf[1] (Value): string.
+         * Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+         * delivery_zone_id.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap}
+         * or null. Caller-owned metadata. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Caller-owned metadata. metadata.anyOf[2] (Value): null. name (Optional): string or null.
+         * Merchant-facing zone name. name.anyOf[1] (Value): string. Merchant-facing zone name.
+         * name.anyOf[2] (Value): null. status (Optional): string or null. Current zone lifecycle
+         * status. Value enum: "active", "archived". status.anyOf[1] (Value): string. Current zone
+         * lifecycle status. Value enum: "active", "archived". status.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the zone last changed. updated_at.anyOf[1]
+         * (Value): string. Time the zone last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for zone writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current geographic eligibility conditions. anyOf[1] (Value): {@link
+             * DeliveryZoneConfiguration}. Current geographic eligibility conditions. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            /**
+             * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery zone ID. anyOf[1] (Value): string. Stable delivery zone ID. Example:
+             * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
+             */
+            "delivery_zone_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current zone lifecycle status. Value enum: "active", "archived". anyOf[1] (Value):
+             * string. Current zone lifecycle status. Value enum: "active", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the zone last changed. anyOf[1] (Value): string. Time the zone last changed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for zone writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. anyOf[2]
+             * (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2777,6 +4020,41 @@ export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryZoneConfiguration} or null.
+     * Current geographic eligibility conditions. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryZoneConfiguration}. Current geographic eligibility conditions.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the zone was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the zone was created. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.current_delivery_zone_revision_id (Optional): string or null.
+     * Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_zone_id (Optional): string or null. Stable delivery zone ID.
+     * previous_attributes.delivery_zone_id.anyOf[1] (Value): string. Stable delivery zone ID.
+     * Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". previous_attributes.delivery_zone_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing zone name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing zone name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current zone lifecycle status. Value
+     * enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string. Current
+     * zone lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. Time the zone last
+     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the zone last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Optimistic-concurrency version for zone writes.
+     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+     * zone writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2839,9 +4117,97 @@ export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryZoneConfiguration} or null. Current geographic eligibility conditions.
+         * configuration.anyOf[1] (Value): {@link DeliveryZoneConfiguration}. Current geographic
+         * eligibility conditions. configuration.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. Time the zone was created. created_at.anyOf[1] (Value): string. Time the
+         * zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_zone_revision_id (Optional): string
+         * or null. Immutable revision used for new quotes.
+         * current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable revision used for
+         * new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+         * current_delivery_zone_revision_id.anyOf[2] (Value): null. delivery_zone_id (Optional):
+         * string or null. Stable delivery zone ID. delivery_zone_id.anyOf[1] (Value): string.
+         * Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+         * delivery_zone_id.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap}
+         * or null. Caller-owned metadata. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Caller-owned metadata. metadata.anyOf[2] (Value): null. name (Optional): string or null.
+         * Merchant-facing zone name. name.anyOf[1] (Value): string. Merchant-facing zone name.
+         * name.anyOf[2] (Value): null. status (Optional): string or null. Current zone lifecycle
+         * status. Value enum: "active", "archived". status.anyOf[1] (Value): string. Current zone
+         * lifecycle status. Value enum: "active", "archived". status.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the zone last changed. updated_at.anyOf[1]
+         * (Value): string. Time the zone last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for zone writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current geographic eligibility conditions. anyOf[1] (Value): {@link
+             * DeliveryZoneConfiguration}. Current geographic eligibility conditions. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            /**
+             * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery zone ID. anyOf[1] (Value): string. Stable delivery zone ID. Example:
+             * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
+             */
+            "delivery_zone_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current zone lifecycle status. Value enum: "active", "archived". anyOf[1] (Value):
+             * string. Current zone lifecycle status. Value enum: "active", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the zone last changed. anyOf[1] (Value): string. Time the zone last changed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for zone writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. anyOf[2]
+             * (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3687,7 +5053,21 @@ export type DeliveryZoneUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            "delivery_zone_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_zone.updated";
@@ -3707,7 +5087,21 @@ export type DeliveryZoneUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            "delivery_zone_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_zone.updated";
@@ -3751,6 +5145,41 @@ export type DeliveryZoneUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryZoneConfiguration} or null.
+     * Current geographic eligibility conditions. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryZoneConfiguration}. Current geographic eligibility conditions.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the zone was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the zone was created. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.current_delivery_zone_revision_id (Optional): string or null.
+     * Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_zone_id (Optional): string or null. Stable delivery zone ID.
+     * previous_attributes.delivery_zone_id.anyOf[1] (Value): string. Stable delivery zone ID.
+     * Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". previous_attributes.delivery_zone_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing zone name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing zone name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current zone lifecycle status. Value
+     * enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string. Current
+     * zone lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. Time the zone last
+     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the zone last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Optimistic-concurrency version for zone writes.
+     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+     * zone writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3813,9 +5242,97 @@ export type DeliveryZoneUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryZoneConfiguration} or null. Current geographic eligibility conditions.
+         * configuration.anyOf[1] (Value): {@link DeliveryZoneConfiguration}. Current geographic
+         * eligibility conditions. configuration.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. Time the zone was created. created_at.anyOf[1] (Value): string. Time the
+         * zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_zone_revision_id (Optional): string
+         * or null. Immutable revision used for new quotes.
+         * current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable revision used for
+         * new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+         * current_delivery_zone_revision_id.anyOf[2] (Value): null. delivery_zone_id (Optional):
+         * string or null. Stable delivery zone ID. delivery_zone_id.anyOf[1] (Value): string.
+         * Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+         * delivery_zone_id.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap}
+         * or null. Caller-owned metadata. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Caller-owned metadata. metadata.anyOf[2] (Value): null. name (Optional): string or null.
+         * Merchant-facing zone name. name.anyOf[1] (Value): string. Merchant-facing zone name.
+         * name.anyOf[2] (Value): null. status (Optional): string or null. Current zone lifecycle
+         * status. Value enum: "active", "archived". status.anyOf[1] (Value): string. Current zone
+         * lifecycle status. Value enum: "active", "archived". status.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the zone last changed. updated_at.anyOf[1]
+         * (Value): string. Time the zone last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for zone writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current geographic eligibility conditions. anyOf[1] (Value): {@link
+             * DeliveryZoneConfiguration}. Current geographic eligibility conditions. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            /**
+             * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery zone ID. anyOf[1] (Value): string. Stable delivery zone ID. Example:
+             * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
+             */
+            "delivery_zone_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current zone lifecycle status. Value enum: "active", "archived". anyOf[1] (Value):
+             * string. Current zone lifecycle status. Value enum: "active", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the zone last changed. anyOf[1] (Value): string. Time the zone last changed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for zone writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. anyOf[2]
+             * (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3885,6 +5402,41 @@ export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryZoneConfiguration} or null.
+     * Current geographic eligibility conditions. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryZoneConfiguration}. Current geographic eligibility conditions.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the zone was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the zone was created. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.current_delivery_zone_revision_id (Optional): string or null.
+     * Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+     * previous_attributes.current_delivery_zone_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_zone_id (Optional): string or null. Stable delivery zone ID.
+     * previous_attributes.delivery_zone_id.anyOf[1] (Value): string. Stable delivery zone ID.
+     * Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". previous_attributes.delivery_zone_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing zone name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing zone name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current zone lifecycle status. Value
+     * enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string. Current
+     * zone lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. Time the zone last
+     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the zone last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Optimistic-concurrency version for zone writes.
+     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+     * zone writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3947,9 +5499,97 @@ export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryZoneConfiguration} or null. Current geographic eligibility conditions.
+         * configuration.anyOf[1] (Value): {@link DeliveryZoneConfiguration}. Current geographic
+         * eligibility conditions. configuration.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. Time the zone was created. created_at.anyOf[1] (Value): string. Time the
+         * zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_zone_revision_id (Optional): string
+         * or null. Immutable revision used for new quotes.
+         * current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable revision used for
+         * new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+         * current_delivery_zone_revision_id.anyOf[2] (Value): null. delivery_zone_id (Optional):
+         * string or null. Stable delivery zone ID. delivery_zone_id.anyOf[1] (Value): string.
+         * Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+         * delivery_zone_id.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap}
+         * or null. Caller-owned metadata. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Caller-owned metadata. metadata.anyOf[2] (Value): null. name (Optional): string or null.
+         * Merchant-facing zone name. name.anyOf[1] (Value): string. Merchant-facing zone name.
+         * name.anyOf[2] (Value): null. status (Optional): string or null. Current zone lifecycle
+         * status. Value enum: "active", "archived". status.anyOf[1] (Value): string. Current zone
+         * lifecycle status. Value enum: "active", "archived". status.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the zone last changed. updated_at.anyOf[1]
+         * (Value): string. Time the zone last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for zone writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryZone>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current geographic eligibility conditions. anyOf[1] (Value): {@link
+             * DeliveryZoneConfiguration}. Current geographic eligibility conditions. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryZoneConfiguration) | (null) | (unknown));
+            /**
+             * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_zone_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery zone ID. anyOf[1] (Value): string. Stable delivery zone ID. Example:
+             * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
+             */
+            "delivery_zone_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current zone lifecycle status. Value enum: "active", "archived". anyOf[1] (Value):
+             * string. Current zone lifecycle status. Value enum: "active", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the zone last changed. anyOf[1] (Value): string. Time the zone last changed.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for zone writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. anyOf[2]
+             * (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

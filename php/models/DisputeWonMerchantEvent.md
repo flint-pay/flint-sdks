@@ -27,9 +27,13 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DisputeCreatedMerchantEvent.md#disputecreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](DisputeInquiryClosedMerchantEvent.md#disputeinquiryclosedmerchanteventdata-fields-1).
 
 ### DisputeWonMerchantEvent.data fields 1.object
 
 Field definitions: [DisputeCreatedMerchantEvent.data fields 1.object](../models/DisputeCreatedMerchantEvent.md#disputecreatedmerchanteventdata-fields-1object).
+
+### DisputeWonMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [DisputeInquiryClosedMerchantEvent.data fields 1.previous_attributes](../models/DisputeInquiryClosedMerchantEvent.md#disputeinquiryclosedmerchanteventdata-fields-1previous_attributes).
 

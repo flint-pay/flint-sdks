@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InventoryLevelShortageDetectedMerchantEvent.md#inventorylevelshortagedetectedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InventoryLevelShortageDetectedMerchantEvent.md#inventorylevelshortagedetectedmerchanteventdata-fields-1previous_attributes). |
 
 ### InventoryLevelShortageDetectedMerchantEvent.data fields 1.object
 
@@ -41,4 +41,90 @@ Field definitions: [shared fields](InventoryLevel.md#inventorylevel).
 ### InventoryLevelShortageDetectedMerchantEvent.data fields 1.object.inventory_item
 
 Field definitions: [InventoryLevelResponse.data.inventory_item](../models/InventoryLevelResponse.md#inventorylevelresponsedatainventory_item).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributes).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.available_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.available_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesavailable_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.backordered_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.backordered_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesbackordered_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.claim_version
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.claim_version](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesclaim_version).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.committed_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.committed_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributescommitted_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.damaged_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.damaged_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesdamaged_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.held_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.held_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesheld_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.incoming_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.incoming_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesincoming_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.inventory_item_id
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_item_id](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item_id).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.inventory_level_id
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.inventory_level_id](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_level_id).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.location_id
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.location_id](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributeslocation_id).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.on_hand_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.on_hand_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributeson_hand_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.physical_version
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.physical_version](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesphysical_version).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.quality_control_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.quality_control_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesquality_control_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.quarantined_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.quarantined_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesquarantined_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.safety_stock_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.safety_stock_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributessafety_stock_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.shortage_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.shortage_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesshortage_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.unavailable_on_hand_quantity
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.unavailable_on_hand_quantity](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesunavailable_on_hand_quantity).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.version](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesversion).
 

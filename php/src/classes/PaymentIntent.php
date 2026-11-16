@@ -28,7 +28,7 @@ namespace Flint;
  * @property-read string|null $latest_order_payment_attempt_id
  * @property-read ?string $merchant_id
  * @property-read ?MoneyValue $merchant_net_money
- * @property-read array<array-key, string> $metadata
+ * @property-read ?array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
  * @property-read ?string $order_edit_id
  * @property-read ?string $order_id
@@ -62,7 +62,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentIntent extends Model {
-    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata': mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at': string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntent')); }
     /** Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. [] (Value): {@see PaymentAddOnFee}. A Flint fee added to a payment intent, with the fee type and amount.
      * @return ?list<PaymentAddOnFee>
@@ -194,10 +194,10 @@ final class PaymentIntent extends Model {
      */
     public function getMerchantNetMoney(): ?MoneyValue { return $this->get('merchant_net_money'); }
     public function hasMerchantNetMoney(): bool { return $this->has('merchant_net_money'); }
-    /** Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * @return array<array-key, string>
+    /** Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Always present with merchant credentials. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return ?array<array-key, string>
      */
-    public function getMetadata(): array { return $this->get('metadata'); }
+    public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
      * @return ExpandedOrderSummary|null
@@ -259,7 +259,7 @@ final class PaymentIntent extends Model {
      */
     public function getReceiptEmail(): string|null { return $this->get('receipt_email'); }
     public function hasReceiptEmail(): bool { return $this->has('receipt_email'); }
-    /** Last time Flint can refund this payment through the original payment method. A refund submitted at exactly this time is accepted; after it, refunds through the original payment method are refused. Today only Affirm has a refund window: 120 days after the payment settles. `null` when the method has no refund window, the payment has not succeeded with captured money, or its capture time is missing. Format: date-time.
+    /** Last time Flint can refund this payment through the original payment method. A refund submitted at exactly this time is accepted; after it, refunds through the original payment method are refused. Today only Affirm has a refund window: 120 days after the payment settles. `null` when the method has no refund window, the payment has not succeeded with captured money, or its capture time is missing. Always present with merchant credentials. Format: date-time.
      * @return string|null
      */
     public function getRefundExpiresAt(): string|null { return $this->get('refund_expires_at'); }

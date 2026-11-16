@@ -187,7 +187,22 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_count_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "location_id"?: ((string) | (null));
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_count.updated";
@@ -208,7 +223,22 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_count_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            "location_id"?: ((string) | (null));
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_count.updated";
@@ -258,6 +288,58 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
+     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
+     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
+     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
+     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
+     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
+     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+     * item's line in an inventory count, with the quantities Flint expected, the quantities
+     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
+     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
+     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
+     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null.
+     * previous_attributes.observation_provenance (Optional): {@link
+     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
+     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
+     * canceled, and applied once every line has an observation. Empty after the count is applied
+     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
+     * and applied once every line has an observation. Empty after the count is applied or
+     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "apply", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -342,9 +424,132 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
+         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
+         * string. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
+         * Unique identifier for this inventory count, prefixed `invc_`.
+         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
+         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
+         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
+         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+         * item's line in an inventory count, with the quantities Flint expected, the quantities
+         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
+         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
+         * string. ID of the Location whose stock is counted. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
+         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
+         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
+         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
+         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
+         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Actions that can change this count now. A draft can be
+         * canceled, and applied once every line has an observation. Empty after the count is
+         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
+         * Array of string. Actions that can change this count now. A draft can be canceled, and
+         * applied once every line has an observation. Empty after the count is applied or
+         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
+         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "applied_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             */
+            "inventory_count_id"?: ((string) | (null));
+            /**
+             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
+             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
+             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
+             * count, with the quantities Flint expected, the quantities counted, and the variance
+             * applied. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            /**
+             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
+             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Source system, actor, and time reported with the count's observations. anyOf[1]
+             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
+             * reported with the count's observations. anyOf[2] (Value): null.
+             */
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            /**
+             * Whether the count is still open. Applying or canceling a `draft` count ends it.
+             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
+             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
+             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can change this count now. A draft can be canceled, and applied once
+             * every line has an observation. Empty after the count is applied or canceled. []
+             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
+             * this count now. A draft can be canceled, and applied once every line has an
+             * observation. Empty after the count is applied or canceled. [] enum: "apply",
+             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
+             * (Value): null.
+             */
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -420,6 +625,58 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.applied_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.applied_at.anyOf[2] (Value):
+     * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
+     * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+     * "invc_01KEZF7C00B47NXRE3ET37QQ59". previous_attributes.inventory_count_id.anyOf[2] (Value):
+     * null. previous_attributes.lines (Optional): Array of {@link InventoryCountLine} or null.
+     * Count lines, one for each inventory item being counted. previous_attributes.lines.anyOf[1]
+     * (Value): Array of {@link InventoryCountLine}. Count lines, one for each inventory item being
+     * counted. previous_attributes.lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+     * item's line in an inventory count, with the quantities Flint expected, the quantities
+     * counted, and the variance applied. previous_attributes.lines.anyOf[2] (Value): null.
+     * previous_attributes.location_id (Optional): string or null. ID of the Location whose stock
+     * is counted. previous_attributes.location_id.anyOf[1] (Value): string. ID of the Location
+     * whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null.
+     * previous_attributes.observation_provenance (Optional): {@link
+     * InventoryCountObservationProvenance} or null. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[1] (Value):
+     * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported with
+     * the count's observations. previous_attributes.observation_provenance.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the count is still open.
+     * Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can change this count now. A draft can be
+     * canceled, and applied once every line has an observation. Empty after the count is applied
+     * or canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Actions that can change this count now. A draft can be canceled,
+     * and applied once every line has an observation. Empty after the count is applied or
+     * canceled. [] enum: "apply", "cancel". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "apply", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -504,9 +761,132 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. applied_at (Optional): string or null. RFC3339
+         * timestamp. applied_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". applied_at.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
+         * string. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
+         * Unique identifier for this inventory count, prefixed `invc_`.
+         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
+         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+         * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryCountLine} or null. Count lines, one for each inventory item being counted.
+         * lines.anyOf[1] (Value): Array of {@link InventoryCountLine}. Count lines, one for each
+         * inventory item being counted. lines.anyOf[1][] (Value): {@link InventoryCountLine}. One
+         * item's line in an inventory count, with the quantities Flint expected, the quantities
+         * counted, and the variance applied. lines.anyOf[2] (Value): null. location_id (Optional):
+         * string or null. ID of the Location whose stock is counted. location_id.anyOf[1] (Value):
+         * string. ID of the Location whose stock is counted. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2] (Value): null.
+         * observation_provenance (Optional): {@link InventoryCountObservationProvenance} or null.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[1] (Value): {@link InventoryCountObservationProvenance}.
+         * Source system, actor, and time reported with the count's observations.
+         * observation_provenance.anyOf[2] (Value): null. status (Optional): string or null.
+         * Whether the count is still open. Applying or canceling a `draft` count ends it. Value
+         * enum: "draft", "applied", "canceled". status.anyOf[1] (Value): string. Whether the count
+         * is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
+         * "applied", "canceled". status.anyOf[2] (Value): null. supported_actions (Optional):
+         * Array of string or null. Actions that can change this count now. A draft can be
+         * canceled, and applied once every line has an observation. Empty after the count is
+         * applied or canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1] (Value):
+         * Array of string. Actions that can change this count now. A draft can be canceled, and
+         * applied once every line has an observation. Empty after the count is applied or
+         * canceled. [] enum: "apply", "cancel". supported_actions.anyOf[1][] (Value): string.
+         * Value enum: "apply", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryCount>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "applied_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory count, prefixed `invc_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
+             * "invc_01KEZF7C00B47NXRE3ET37QQ59". anyOf[2] (Value): null.
+             */
+            "inventory_count_id"?: ((string) | (null));
+            /**
+             * Count lines, one for each inventory item being counted. anyOf[1] (Value): Array of
+             * {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
+             * anyOf[1][] (Value): {@link InventoryCountLine}. One item's line in an inventory
+             * count, with the quantities Flint expected, the quantities counted, and the variance
+             * applied. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryCountLine>) | (null));
+            /**
+             * ID of the Location whose stock is counted. anyOf[1] (Value): string. ID of the
+             * Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Source system, actor, and time reported with the count's observations. anyOf[1]
+             * (Value): {@link InventoryCountObservationProvenance}. Source system, actor, and time
+             * reported with the count's observations. anyOf[2] (Value): null.
+             */
+            "observation_provenance"?: ((InventoryCountObservationProvenance) | (null));
+            /**
+             * Whether the count is still open. Applying or canceling a `draft` count ends it.
+             * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
+             * count is still open. Applying or canceling a `draft` count ends it. Value enum:
+             * "draft", "applied", "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can change this count now. A draft can be canceled, and applied once
+             * every line has an observation. Empty after the count is applied or canceled. []
+             * enum: "apply", "cancel". anyOf[1] (Value): Array of string. Actions that can change
+             * this count now. A draft can be canceled, and applied once every line has an
+             * observation. Empty after the count is applied or canceled. [] enum: "apply",
+             * "cancel". anyOf[1][] (Value): string. Value enum: "apply", "cancel". anyOf[2]
+             * (Value): null.
+             */
+            "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1048,7 +1428,32 @@ export type InventoryLevelShortageDetectedEvent = ((((Exclude<MerchantWebhookEnv
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_quantity"?: ((number) | (null));
+            "backordered_quantity"?: ((number) | (null));
+            "claim_version"?: ((number) | (null));
+            "committed_quantity"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "damaged_quantity"?: ((number) | (null));
+            "held_quantity"?: ((number) | (null));
+            "incoming_quantity"?: ((number) | (null));
+            "inventory_item"?: ((InventoryItem) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_level_id"?: ((string) | (null));
+            "location_id"?: ((string) | (null));
+            "on_hand_quantity"?: ((number) | (null));
+            "physical_version"?: ((number) | (null));
+            "quality_control_quantity"?: ((number) | (null));
+            "quarantined_quantity"?: ((number) | (null));
+            "safety_stock_quantity"?: ((number) | (null));
+            "shortage_quantity"?: ((number) | (null));
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_level.shortage_detected";
@@ -1079,7 +1484,32 @@ export type InventoryLevelShortageDetectedEvent = ((((Exclude<MerchantWebhookEnv
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_quantity"?: ((number) | (null));
+            "backordered_quantity"?: ((number) | (null));
+            "claim_version"?: ((number) | (null));
+            "committed_quantity"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "damaged_quantity"?: ((number) | (null));
+            "held_quantity"?: ((number) | (null));
+            "incoming_quantity"?: ((number) | (null));
+            "inventory_item"?: ((InventoryItem) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_level_id"?: ((string) | (null));
+            "location_id"?: ((string) | (null));
+            "on_hand_quantity"?: ((number) | (null));
+            "physical_version"?: ((number) | (null));
+            "quality_control_quantity"?: ((number) | (null));
+            "quarantined_quantity"?: ((number) | (null));
+            "safety_stock_quantity"?: ((number) | (null));
+            "shortage_quantity"?: ((number) | (null));
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_level.shortage_detected";
@@ -1150,7 +1580,113 @@ export type InventoryLevelShortageDetectedInstalledMerchantsEvent = (Exclude<Par
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
+     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
+     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
+     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
+     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
+     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
+     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+     * previous_attributes.claim_version.anyOf[2] (Value): null.
+     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
+     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
+     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64.
+     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
+     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
+     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
+     * reservation that has not been committed. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
+     * an open reservation that has not been committed. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
+     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
+     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
+     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
+     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
+     * The inventory item this level belongs to. Present only when the list request asked for
+     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
+     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
+     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
+     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
+     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
+     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
+     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
+     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
+     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
+     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
+     * (Optional): integer or null. Units physically present at the Location, in any condition.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
+     * the Location, in any condition. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
+     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
+     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
+     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
+     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
+     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
+     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
+     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
+     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
+     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
+     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
+     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
+     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
+     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64.
+     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
+     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
+     * A level that a counted adjustment creates without a quantity change starts at version 0.
+     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
+     * change at this level, including holds and commits. Read it immediately before a PATCH. A
+     * level that a counted adjustment creates without a quantity change starts at version 0.
+     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1311,9 +1847,254 @@ export type InventoryLevelShortageDetectedInstalledMerchantsEvent = (Exclude<Par
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_quantity (Optional): integer or null.
+         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
+         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
+         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
+         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
+         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
+         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
+         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
+         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
+         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
+         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
+         * or null. Units promised to accepted orders. Still physically present until fulfillment
+         * consumes them. Whole-number quantity; fractional quantities are not supported.
+         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
+         * physically present until fulfillment consumes them. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
+         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
+         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
+         * integer or null. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
+         * (Value): integer. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
+         * Units recorded as inbound but not yet on hand. Does not count toward availability.
+         * Whole-number quantity; fractional quantities are not supported.
+         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
+         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
+         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
+         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
+         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
+         * Unique identifier for this inventory level, prefixed `invl_`.
+         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
+         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
+         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
+         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
+         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
+         * physical_version (Optional): integer or null. Advances only when on-hand or condition
+         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
+         * on-hand or condition quantities change. Format: int64. minimum: 0.
+         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
+         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
+         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
+         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
+         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
+         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
+         * or null. Buffer withheld from allocation. Change it with PATCH
+         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
+         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
+         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
+         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
+         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
+         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
+         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Changes on every quantity or claim change at this level,
+         * including holds and commits. Read it immediately before a PATCH. A level that a counted
+         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
+         * (Value): integer. Changes on every quantity or claim change at this level, including
+         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
+         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Derived and never written: on_hand minus unavailable, held, committed, and safety
+             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
+             * never written: on_hand minus unavailable, held, committed, and safety stock, never
+             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "available_quantity"?: ((number) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "backordered_quantity"?: ((number) | (null));
+            /**
+             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
+             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "claim_version"?: ((number) | (null));
+            /**
+             * Units promised to accepted orders. Still physically present until fulfillment
+             * consumes them. Whole-number quantity; fractional quantities are not supported.
+             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
+             * present until fulfillment consumes them. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "committed_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
+             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "damaged_quantity"?: ((number) | (null));
+            /**
+             * Units claimed by an open reservation that has not been committed. Whole-number
+             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
+             * claimed by an open reservation that has not been committed. Whole-number quantity;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "held_quantity"?: ((number) | (null));
+            /**
+             * Units recorded as inbound but not yet on hand. Does not count toward availability.
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Units recorded as inbound but not yet on hand. Does not count toward
+             * availability. Whole-number quantity; fractional quantities are not supported.
+             * Format: int64. anyOf[2] (Value): null.
+             */
+            "incoming_quantity"?: ((number) | (null));
+            /**
+             * The inventory item this level belongs to. Present only when the list request asked
+             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
+             * item this level belongs to. Present only when the list request asked for
+             * expand=inventory_item. anyOf[2] (Value): null.
+             */
+            "inventory_item"?: ((InventoryItem) | (null));
+            /**
+             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
+             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
+             */
+            "inventory_level_id"?: ((string) | (null));
+            /**
+             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
+             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Units physically present at the Location, in any condition. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
+             * present at the Location, in any condition. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "on_hand_quantity"?: ((number) | (null));
+            /**
+             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
+             * integer. Advances only when on-hand or condition quantities change. Format: int64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "physical_version"?: ((number) | (null));
+            /**
+             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
+             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quality_control_quantity"?: ((number) | (null));
+            /**
+             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
+             * review. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quarantined_quantity"?: ((number) | (null));
+            /**
+             * Buffer withheld from allocation. Change it with PATCH
+             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
+             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "safety_stock_quantity"?: ((number) | (null));
+            /**
+             * Derived: claims exceeding sellable physical stock. Positive only after stock is
+             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
+             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
+             * physical stock. Positive only after stock is lost, damaged, or corrected down.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "shortage_quantity"?: ((number) | (null));
+            /**
+             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
+             * damaged + quarantined. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1410,7 +2191,113 @@ export type InventoryLevelShortageDetectedMerchantEvent = (Exclude<MerchantWebho
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
+     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
+     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
+     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
+     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
+     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
+     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+     * previous_attributes.claim_version.anyOf[2] (Value): null.
+     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
+     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
+     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64.
+     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
+     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
+     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
+     * reservation that has not been committed. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
+     * an open reservation that has not been committed. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
+     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
+     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
+     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
+     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
+     * The inventory item this level belongs to. Present only when the list request asked for
+     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
+     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
+     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
+     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
+     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
+     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
+     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
+     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
+     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
+     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
+     * (Optional): integer or null. Units physically present at the Location, in any condition.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
+     * the Location, in any condition. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
+     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
+     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
+     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
+     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
+     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
+     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
+     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
+     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
+     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
+     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
+     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
+     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
+     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64.
+     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
+     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
+     * A level that a counted adjustment creates without a quantity change starts at version 0.
+     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
+     * change at this level, including holds and commits. Read it immediately before a PATCH. A
+     * level that a counted adjustment creates without a quantity change starts at version 0.
+     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1571,9 +2458,254 @@ export type InventoryLevelShortageDetectedMerchantEvent = (Exclude<MerchantWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_quantity (Optional): integer or null.
+         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
+         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
+         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
+         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
+         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
+         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
+         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
+         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
+         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
+         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
+         * or null. Units promised to accepted orders. Still physically present until fulfillment
+         * consumes them. Whole-number quantity; fractional quantities are not supported.
+         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
+         * physically present until fulfillment consumes them. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
+         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
+         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
+         * integer or null. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
+         * (Value): integer. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
+         * Units recorded as inbound but not yet on hand. Does not count toward availability.
+         * Whole-number quantity; fractional quantities are not supported.
+         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
+         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
+         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
+         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
+         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
+         * Unique identifier for this inventory level, prefixed `invl_`.
+         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
+         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
+         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
+         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
+         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
+         * physical_version (Optional): integer or null. Advances only when on-hand or condition
+         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
+         * on-hand or condition quantities change. Format: int64. minimum: 0.
+         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
+         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
+         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
+         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
+         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
+         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
+         * or null. Buffer withheld from allocation. Change it with PATCH
+         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
+         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
+         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
+         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
+         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
+         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
+         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Changes on every quantity or claim change at this level,
+         * including holds and commits. Read it immediately before a PATCH. A level that a counted
+         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
+         * (Value): integer. Changes on every quantity or claim change at this level, including
+         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
+         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Derived and never written: on_hand minus unavailable, held, committed, and safety
+             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
+             * never written: on_hand minus unavailable, held, committed, and safety stock, never
+             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "available_quantity"?: ((number) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "backordered_quantity"?: ((number) | (null));
+            /**
+             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
+             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "claim_version"?: ((number) | (null));
+            /**
+             * Units promised to accepted orders. Still physically present until fulfillment
+             * consumes them. Whole-number quantity; fractional quantities are not supported.
+             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
+             * present until fulfillment consumes them. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "committed_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
+             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "damaged_quantity"?: ((number) | (null));
+            /**
+             * Units claimed by an open reservation that has not been committed. Whole-number
+             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
+             * claimed by an open reservation that has not been committed. Whole-number quantity;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "held_quantity"?: ((number) | (null));
+            /**
+             * Units recorded as inbound but not yet on hand. Does not count toward availability.
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Units recorded as inbound but not yet on hand. Does not count toward
+             * availability. Whole-number quantity; fractional quantities are not supported.
+             * Format: int64. anyOf[2] (Value): null.
+             */
+            "incoming_quantity"?: ((number) | (null));
+            /**
+             * The inventory item this level belongs to. Present only when the list request asked
+             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
+             * item this level belongs to. Present only when the list request asked for
+             * expand=inventory_item. anyOf[2] (Value): null.
+             */
+            "inventory_item"?: ((InventoryItem) | (null));
+            /**
+             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
+             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
+             */
+            "inventory_level_id"?: ((string) | (null));
+            /**
+             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
+             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Units physically present at the Location, in any condition. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
+             * present at the Location, in any condition. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "on_hand_quantity"?: ((number) | (null));
+            /**
+             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
+             * integer. Advances only when on-hand or condition quantities change. Format: int64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "physical_version"?: ((number) | (null));
+            /**
+             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
+             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quality_control_quantity"?: ((number) | (null));
+            /**
+             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
+             * review. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quarantined_quantity"?: ((number) | (null));
+            /**
+             * Buffer withheld from allocation. Change it with PATCH
+             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
+             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "safety_stock_quantity"?: ((number) | (null));
+            /**
+             * Derived: claims exceeding sellable physical stock. Positive only after stock is
+             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
+             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
+             * physical stock. Positive only after stock is lost, damaged, or corrected down.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "shortage_quantity"?: ((number) | (null));
+            /**
+             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
+             * damaged + quarantined. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1606,7 +2738,32 @@ export type InventoryLevelUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_quantity"?: ((number) | (null));
+            "backordered_quantity"?: ((number) | (null));
+            "claim_version"?: ((number) | (null));
+            "committed_quantity"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "damaged_quantity"?: ((number) | (null));
+            "held_quantity"?: ((number) | (null));
+            "incoming_quantity"?: ((number) | (null));
+            "inventory_item"?: ((InventoryItem) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_level_id"?: ((string) | (null));
+            "location_id"?: ((string) | (null));
+            "on_hand_quantity"?: ((number) | (null));
+            "physical_version"?: ((number) | (null));
+            "quality_control_quantity"?: ((number) | (null));
+            "quarantined_quantity"?: ((number) | (null));
+            "safety_stock_quantity"?: ((number) | (null));
+            "shortage_quantity"?: ((number) | (null));
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_level.updated";
@@ -1637,7 +2794,32 @@ export type InventoryLevelUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_quantity"?: ((number) | (null));
+            "backordered_quantity"?: ((number) | (null));
+            "claim_version"?: ((number) | (null));
+            "committed_quantity"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "damaged_quantity"?: ((number) | (null));
+            "held_quantity"?: ((number) | (null));
+            "incoming_quantity"?: ((number) | (null));
+            "inventory_item"?: ((InventoryItem) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_level_id"?: ((string) | (null));
+            "location_id"?: ((string) | (null));
+            "on_hand_quantity"?: ((number) | (null));
+            "physical_version"?: ((number) | (null));
+            "quality_control_quantity"?: ((number) | (null));
+            "quarantined_quantity"?: ((number) | (null));
+            "safety_stock_quantity"?: ((number) | (null));
+            "shortage_quantity"?: ((number) | (null));
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_level.updated";
@@ -1708,7 +2890,113 @@ export type InventoryLevelUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
+     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
+     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
+     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
+     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
+     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
+     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+     * previous_attributes.claim_version.anyOf[2] (Value): null.
+     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
+     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
+     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64.
+     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
+     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
+     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
+     * reservation that has not been committed. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
+     * an open reservation that has not been committed. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
+     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
+     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
+     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
+     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
+     * The inventory item this level belongs to. Present only when the list request asked for
+     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
+     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
+     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
+     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
+     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
+     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
+     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
+     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
+     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
+     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
+     * (Optional): integer or null. Units physically present at the Location, in any condition.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
+     * the Location, in any condition. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
+     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
+     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
+     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
+     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
+     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
+     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
+     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
+     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
+     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
+     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
+     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
+     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
+     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64.
+     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
+     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
+     * A level that a counted adjustment creates without a quantity change starts at version 0.
+     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
+     * change at this level, including holds and commits. Read it immediately before a PATCH. A
+     * level that a counted adjustment creates without a quantity change starts at version 0.
+     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1869,9 +3157,254 @@ export type InventoryLevelUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_quantity (Optional): integer or null.
+         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
+         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
+         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
+         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
+         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
+         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
+         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
+         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
+         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
+         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
+         * or null. Units promised to accepted orders. Still physically present until fulfillment
+         * consumes them. Whole-number quantity; fractional quantities are not supported.
+         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
+         * physically present until fulfillment consumes them. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
+         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
+         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
+         * integer or null. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
+         * (Value): integer. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
+         * Units recorded as inbound but not yet on hand. Does not count toward availability.
+         * Whole-number quantity; fractional quantities are not supported.
+         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
+         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
+         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
+         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
+         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
+         * Unique identifier for this inventory level, prefixed `invl_`.
+         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
+         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
+         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
+         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
+         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
+         * physical_version (Optional): integer or null. Advances only when on-hand or condition
+         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
+         * on-hand or condition quantities change. Format: int64. minimum: 0.
+         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
+         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
+         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
+         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
+         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
+         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
+         * or null. Buffer withheld from allocation. Change it with PATCH
+         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
+         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
+         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
+         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
+         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
+         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
+         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Changes on every quantity or claim change at this level,
+         * including holds and commits. Read it immediately before a PATCH. A level that a counted
+         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
+         * (Value): integer. Changes on every quantity or claim change at this level, including
+         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
+         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Derived and never written: on_hand minus unavailable, held, committed, and safety
+             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
+             * never written: on_hand minus unavailable, held, committed, and safety stock, never
+             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "available_quantity"?: ((number) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "backordered_quantity"?: ((number) | (null));
+            /**
+             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
+             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "claim_version"?: ((number) | (null));
+            /**
+             * Units promised to accepted orders. Still physically present until fulfillment
+             * consumes them. Whole-number quantity; fractional quantities are not supported.
+             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
+             * present until fulfillment consumes them. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "committed_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
+             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "damaged_quantity"?: ((number) | (null));
+            /**
+             * Units claimed by an open reservation that has not been committed. Whole-number
+             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
+             * claimed by an open reservation that has not been committed. Whole-number quantity;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "held_quantity"?: ((number) | (null));
+            /**
+             * Units recorded as inbound but not yet on hand. Does not count toward availability.
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Units recorded as inbound but not yet on hand. Does not count toward
+             * availability. Whole-number quantity; fractional quantities are not supported.
+             * Format: int64. anyOf[2] (Value): null.
+             */
+            "incoming_quantity"?: ((number) | (null));
+            /**
+             * The inventory item this level belongs to. Present only when the list request asked
+             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
+             * item this level belongs to. Present only when the list request asked for
+             * expand=inventory_item. anyOf[2] (Value): null.
+             */
+            "inventory_item"?: ((InventoryItem) | (null));
+            /**
+             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
+             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
+             */
+            "inventory_level_id"?: ((string) | (null));
+            /**
+             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
+             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Units physically present at the Location, in any condition. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
+             * present at the Location, in any condition. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "on_hand_quantity"?: ((number) | (null));
+            /**
+             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
+             * integer. Advances only when on-hand or condition quantities change. Format: int64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "physical_version"?: ((number) | (null));
+            /**
+             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
+             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quality_control_quantity"?: ((number) | (null));
+            /**
+             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
+             * review. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quarantined_quantity"?: ((number) | (null));
+            /**
+             * Buffer withheld from allocation. Change it with PATCH
+             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
+             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "safety_stock_quantity"?: ((number) | (null));
+            /**
+             * Derived: claims exceeding sellable physical stock. Positive only after stock is
+             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
+             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
+             * physical stock. Positive only after stock is lost, damaged, or corrected down.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "shortage_quantity"?: ((number) | (null));
+            /**
+             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
+             * damaged + quarantined. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1968,7 +3501,113 @@ export type InventoryLevelUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.available_quantity (Optional): integer or null. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.available_quantity.anyOf[1] (Value): integer. Derived and
+     * never written: on_hand minus unavailable, held, committed, and safety stock, never below 0.
+     * See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.available_quantity.anyOf[2] (Value): null.
+     * previous_attributes.backordered_quantity (Optional): integer or null. Whole-number quantity;
+     * fractional quantities are not supported. previous_attributes.backordered_quantity.anyOf[1]
+     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. minimum: 0. previous_attributes.backordered_quantity.anyOf[2] (Value): null.
+     * previous_attributes.claim_version (Optional): integer or null. Advances only when held or
+     * committed quantities change. previous_attributes.claim_version.anyOf[1] (Value): integer.
+     * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+     * previous_attributes.claim_version.anyOf[2] (Value): null.
+     * previous_attributes.committed_quantity (Optional): integer or null. Units promised to
+     * accepted orders. Still physically present until fulfillment consumes them. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.committed_quantity.anyOf[1] (Value): integer. Units promised to accepted
+     * orders. Still physically present until fulfillment consumes them. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64.
+     * previous_attributes.committed_quantity.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.damaged_quantity (Optional): integer or null. On-hand units known
+     * to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+     * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64. previous_attributes.damaged_quantity.anyOf[2] (Value): null.
+     * previous_attributes.held_quantity (Optional): integer or null. Units claimed by an open
+     * reservation that has not been committed. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.held_quantity.anyOf[1] (Value): integer. Units claimed by
+     * an open reservation that has not been committed. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.held_quantity.anyOf[2]
+     * (Value): null. previous_attributes.incoming_quantity (Optional): integer or null. Units
+     * recorded as inbound but not yet on hand. Does not count toward availability. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound
+     * but not yet on hand. Does not count toward availability. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.incoming_quantity.anyOf[2]
+     * (Value): null. previous_attributes.inventory_item (Optional): {@link InventoryItem} or null.
+     * The inventory item this level belongs to. Present only when the list request asked for
+     * expand=inventory_item. previous_attributes.inventory_item.anyOf[1] (Value): {@link
+     * InventoryItem}. The inventory item this level belongs to. Present only when the list request
+     * asked for expand=inventory_item. previous_attributes.inventory_item.anyOf[2] (Value): null.
+     * previous_attributes.inventory_item_id (Optional): string or null. ID of the inventory item
+     * the stock is for. previous_attributes.inventory_item_id.anyOf[1] (Value): string. ID of the
+     * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_level_id (Optional): string or null. Unique identifier for
+     * this inventory level, prefixed `invl_`. previous_attributes.inventory_level_id.anyOf[1]
+     * (Value): string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+     * "invl_01KEZF7C00H201XZXKRX5KMDDE". previous_attributes.inventory_level_id.anyOf[2] (Value):
+     * null. previous_attributes.location_id (Optional): string or null. ID of the Location that
+     * holds the stock. previous_attributes.location_id.anyOf[1] (Value): string. ID of the
+     * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.location_id.anyOf[2] (Value): null. previous_attributes.on_hand_quantity
+     * (Optional): integer or null. Units physically present at the Location, in any condition.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.on_hand_quantity.anyOf[1] (Value): integer. Units physically present at
+     * the Location, in any condition. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.physical_version (Optional): integer or null. Advances only when on-hand
+     * or condition quantities change. previous_attributes.physical_version.anyOf[1] (Value):
+     * integer. Advances only when on-hand or condition quantities change. Format: int64. minimum:
+     * 0. previous_attributes.physical_version.anyOf[2] (Value): null.
+     * previous_attributes.quality_control_quantity (Optional): integer or null. On-hand units
+     * awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quality_control_quantity.anyOf[1] (Value): integer. On-hand
+     * units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are
+     * not supported. Format: int64. previous_attributes.quality_control_quantity.anyOf[2] (Value):
+     * null. previous_attributes.quarantined_quantity (Optional): integer or null. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. previous_attributes.quarantined_quantity.anyOf[1] (Value): integer. On-hand units
+     * isolated for review. Not sellable. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. previous_attributes.quarantined_quantity.anyOf[2] (Value): null.
+     * previous_attributes.safety_stock_quantity (Optional): integer or null. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported.
+     * previous_attributes.safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+     * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.safety_stock_quantity.anyOf[2] (Value): null.
+     * previous_attributes.shortage_quantity (Optional): integer or null. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+     * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * previous_attributes.shortage_quantity.anyOf[2] (Value): null.
+     * previous_attributes.unavailable_on_hand_quantity (Optional): integer or null. Derived:
+     * quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are
+     * not supported. previous_attributes.unavailable_on_hand_quantity.anyOf[1] (Value): integer.
+     * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64.
+     * previous_attributes.unavailable_on_hand_quantity.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Changes on every quantity or
+     * claim change at this level, including holds and commits. Read it immediately before a PATCH.
+     * A level that a counted adjustment creates without a quantity change starts at version 0.
+     * previous_attributes.version.anyOf[1] (Value): integer. Changes on every quantity or claim
+     * change at this level, including holds and commits. Read it immediately before a PATCH. A
+     * level that a counted adjustment creates without a quantity change starts at version 0.
+     * Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2129,9 +3768,254 @@ export type InventoryLevelUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. available_quantity (Optional): integer or null.
+         * Derived and never written: on_hand minus unavailable, held, committed, and safety stock,
+         * never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+         * quantities are not supported. available_quantity.anyOf[1] (Value): integer. Derived and
+         * never written: on_hand minus unavailable, held, committed, and safety stock, never below
+         * 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. available_quantity.anyOf[2] (Value): null.
+         * backordered_quantity (Optional): integer or null. Whole-number quantity; fractional
+         * quantities are not supported. backordered_quantity.anyOf[1] (Value): integer.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum:
+         * 0. backordered_quantity.anyOf[2] (Value): null. claim_version (Optional): integer or
+         * null. Advances only when held or committed quantities change. claim_version.anyOf[1]
+         * (Value): integer. Advances only when held or committed quantities change. Format: int64.
+         * minimum: 0. claim_version.anyOf[2] (Value): null. committed_quantity (Optional): integer
+         * or null. Units promised to accepted orders. Still physically present until fulfillment
+         * consumes them. Whole-number quantity; fractional quantities are not supported.
+         * committed_quantity.anyOf[1] (Value): integer. Units promised to accepted orders. Still
+         * physically present until fulfillment consumes them. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. committed_quantity.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. damaged_quantity (Optional): integer or null. On-hand
+         * units known to be damaged. Not sellable. Whole-number quantity; fractional quantities
+         * are not supported. damaged_quantity.anyOf[1] (Value): integer. On-hand units known to be
+         * damaged. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * Format: int64. damaged_quantity.anyOf[2] (Value): null. held_quantity (Optional):
+         * integer or null. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. held_quantity.anyOf[1]
+         * (Value): integer. Units claimed by an open reservation that has not been committed.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * held_quantity.anyOf[2] (Value): null. incoming_quantity (Optional): integer or null.
+         * Units recorded as inbound but not yet on hand. Does not count toward availability.
+         * Whole-number quantity; fractional quantities are not supported.
+         * incoming_quantity.anyOf[1] (Value): integer. Units recorded as inbound but not yet on
+         * hand. Does not count toward availability. Whole-number quantity; fractional quantities
+         * are not supported. Format: int64. incoming_quantity.anyOf[2] (Value): null.
+         * inventory_item (Optional): {@link InventoryItem} or null. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[1] (Value): {@link InventoryItem}. The inventory item this level
+         * belongs to. Present only when the list request asked for expand=inventory_item.
+         * inventory_item.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. ID
+         * of the inventory item the stock is for. inventory_item_id.anyOf[1] (Value): string. ID
+         * of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+         * inventory_item_id.anyOf[2] (Value): null. inventory_level_id (Optional): string or null.
+         * Unique identifier for this inventory level, prefixed `invl_`.
+         * inventory_level_id.anyOf[1] (Value): string. Unique identifier for this inventory level,
+         * prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
+         * inventory_level_id.anyOf[2] (Value): null. location_id (Optional): string or null. ID of
+         * the Location that holds the stock. location_id.anyOf[1] (Value): string. ID of the
+         * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. on_hand_quantity (Optional): integer or null. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. on_hand_quantity.anyOf[1] (Value): integer. Units
+         * physically present at the Location, in any condition. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. on_hand_quantity.anyOf[2] (Value): null.
+         * physical_version (Optional): integer or null. Advances only when on-hand or condition
+         * quantities change. physical_version.anyOf[1] (Value): integer. Advances only when
+         * on-hand or condition quantities change. Format: int64. minimum: 0.
+         * physical_version.anyOf[2] (Value): null. quality_control_quantity (Optional): integer or
+         * null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. quality_control_quantity.anyOf[1] (Value): integer.
+         * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. quality_control_quantity.anyOf[2] (Value):
+         * null. quarantined_quantity (Optional): integer or null. On-hand units isolated for
+         * review. Not sellable. Whole-number quantity; fractional quantities are not supported.
+         * quarantined_quantity.anyOf[1] (Value): integer. On-hand units isolated for review. Not
+         * sellable. Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * quarantined_quantity.anyOf[2] (Value): null. safety_stock_quantity (Optional): integer
+         * or null. Buffer withheld from allocation. Change it with PATCH
+         * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities
+         * are not supported. safety_stock_quantity.anyOf[1] (Value): integer. Buffer withheld from
+         * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * safety_stock_quantity.anyOf[2] (Value): null. shortage_quantity (Optional): integer or
+         * null. Derived: claims exceeding sellable physical stock. Positive only after stock is
+         * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not
+         * supported. shortage_quantity.anyOf[1] (Value): integer. Derived: claims exceeding
+         * sellable physical stock. Positive only after stock is lost, damaged, or corrected down.
+         * Whole-number quantity; fractional quantities are not supported. Format: int64.
+         * shortage_quantity.anyOf[2] (Value): null. unavailable_on_hand_quantity (Optional):
+         * integer or null. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. unavailable_on_hand_quantity.anyOf[1]
+         * (Value): integer. Derived: quality_control + damaged + quarantined. Whole-number
+         * quantity; fractional quantities are not supported. Format: int64.
+         * unavailable_on_hand_quantity.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Changes on every quantity or claim change at this level,
+         * including holds and commits. Read it immediately before a PATCH. A level that a counted
+         * adjustment creates without a quantity change starts at version 0. version.anyOf[1]
+         * (Value): integer. Changes on every quantity or claim change at this level, including
+         * holds and commits. Read it immediately before a PATCH. A level that a counted adjustment
+         * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryLevel>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Derived and never written: on_hand minus unavailable, held, committed, and safety
+             * stock, never below 0. See shortage_quantity for the excess. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Derived and
+             * never written: on_hand minus unavailable, held, committed, and safety stock, never
+             * below 0. See shortage_quantity for the excess. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "available_quantity"?: ((number) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "backordered_quantity"?: ((number) | (null));
+            /**
+             * Advances only when held or committed quantities change. anyOf[1] (Value): integer.
+             * Advances only when held or committed quantities change. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "claim_version"?: ((number) | (null));
+            /**
+             * Units promised to accepted orders. Still physically present until fulfillment
+             * consumes them. Whole-number quantity; fractional quantities are not supported.
+             * anyOf[1] (Value): integer. Units promised to accepted orders. Still physically
+             * present until fulfillment consumes them. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "committed_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units known to be
+             * damaged. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "damaged_quantity"?: ((number) | (null));
+            /**
+             * Units claimed by an open reservation that has not been committed. Whole-number
+             * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units
+             * claimed by an open reservation that has not been committed. Whole-number quantity;
+             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "held_quantity"?: ((number) | (null));
+            /**
+             * Units recorded as inbound but not yet on hand. Does not count toward availability.
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Units recorded as inbound but not yet on hand. Does not count toward
+             * availability. Whole-number quantity; fractional quantities are not supported.
+             * Format: int64. anyOf[2] (Value): null.
+             */
+            "incoming_quantity"?: ((number) | (null));
+            /**
+             * The inventory item this level belongs to. Present only when the list request asked
+             * for expand=inventory_item. anyOf[1] (Value): {@link InventoryItem}. The inventory
+             * item this level belongs to. Present only when the list request asked for
+             * expand=inventory_item. anyOf[2] (Value): null.
+             */
+            "inventory_item"?: ((InventoryItem) | (null));
+            /**
+             * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
+             * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory level, prefixed `invl_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory level, prefixed `invl_`. Example:
+             * "invl_01KEZF7C00H201XZXKRX5KMDDE". anyOf[2] (Value): null.
+             */
+            "inventory_level_id"?: ((string) | (null));
+            /**
+             * ID of the Location that holds the stock. anyOf[1] (Value): string. ID of the
+             * Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
+             * (Value): null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Units physically present at the Location, in any condition. Whole-number quantity;
+             * fractional quantities are not supported. anyOf[1] (Value): integer. Units physically
+             * present at the Location, in any condition. Whole-number quantity; fractional
+             * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "on_hand_quantity"?: ((number) | (null));
+            /**
+             * Advances only when on-hand or condition quantities change. anyOf[1] (Value):
+             * integer. Advances only when on-hand or condition quantities change. Format: int64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "physical_version"?: ((number) | (null));
+            /**
+             * On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units awaiting
+             * inspection. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quality_control_quantity"?: ((number) | (null));
+            /**
+             * On-hand units isolated for review. Not sellable. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. On-hand units isolated for
+             * review. Not sellable. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "quarantined_quantity"?: ((number) | (null));
+            /**
+             * Buffer withheld from allocation. Change it with PATCH
+             * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Buffer withheld from
+             * allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "safety_stock_quantity"?: ((number) | (null));
+            /**
+             * Derived: claims exceeding sellable physical stock. Positive only after stock is
+             * lost, damaged, or corrected down. Whole-number quantity; fractional quantities are
+             * not supported. anyOf[1] (Value): integer. Derived: claims exceeding sellable
+             * physical stock. Positive only after stock is lost, damaged, or corrected down.
+             * Whole-number quantity; fractional quantities are not supported. Format: int64.
+             * anyOf[2] (Value): null.
+             */
+            "shortage_quantity"?: ((number) | (null));
+            /**
+             * Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional
+             * quantities are not supported. anyOf[1] (Value): integer. Derived: quality_control +
+             * damaged + quarantined. Whole-number quantity; fractional quantities are not
+             * supported. Format: int64. anyOf[2] (Value): null.
+             */
+            "unavailable_on_hand_quantity"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. anyOf[1] (Value): integer.
+             * Changes on every quantity or claim change at this level, including holds and
+             * commits. Read it immediately before a PATCH. A level that a counted adjustment
+             * creates without a quantity change starts at version 0. Format: int64. minimum: 0.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3524,7 +5408,36 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryReservation>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_reason"?: (("consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_action_required"?: ((InventoryActionRequired) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
+            "lines"?: ((Array<InventoryReservationLine>) | (null));
+            "owner"?: ((InventoryReservationOwner) | (null) | (unknown));
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            "source_inventory_reservation_id"?: ((string) | (null));
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_reservation.action_required";
@@ -3557,7 +5470,36 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryReservation>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_reason"?: (("consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_action_required"?: ((InventoryActionRequired) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
+            "lines"?: ((Array<InventoryReservationLine>) | (null));
+            "owner"?: ((InventoryReservationOwner) | (null) | (unknown));
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            "source_inventory_reservation_id"?: ((string) | (null));
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_reservation.action_required";
@@ -3626,7 +5568,100 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.closed_reason (Optional): string or
+     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
+     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
+     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
+     * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
+     * selection. mixed when more than one terminal outcome applied. `null` when the reservation
+     * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
+     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
+     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
+     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
+     * line holds quantity or has unconfirmed backordered quantity.
+     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_action_required (Optional): {@link InventoryActionRequired} or
+     * null. Present when the claim needs a merchant action before commerce can continue.
+     * previous_attributes.inventory_action_required.anyOf[1] (Value): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. previous_attributes.inventory_action_required.anyOf[2] (Value): null.
+     * previous_attributes.inventory_reservation_id (Optional): string or null. Unique identifier
+     * for this inventory reservation, prefixed `invr_`.
+     * previous_attributes.inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * previous_attributes.inventory_reservation_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link InventoryRoutingSource} or
+     * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+     * allocation policy, or a specific policy revision.
+     * previous_attributes.inventory_routing_source.anyOf[1] (Value): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.lines (Optional): Array of {@link InventoryReservationLine} or null.
+     * Allocations of the reserved stock, one for each item and Location.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryReservationLine}.
+     * Allocations of the reserved stock, one for each item and Location.
+     * previous_attributes.lines.anyOf[1][] (Value): {@link InventoryReservationLine}. One item's
+     * location allocation within a reservation. previous_attributes.lines.anyOf[2] (Value): null.
+     * previous_attributes.owner (Optional): {@link InventoryReservationOwner} or null. Who holds
+     * the reservation: a `key` you choose, or an order Flint holds the stock for.
+     * previous_attributes.owner.anyOf[1] (Value): {@link InventoryReservationOwner}. Who holds the
+     * reservation: a `key` you choose, or an order Flint holds the stock for.
+     * previous_attributes.owner.anyOf[2] (Value): null.
+     * previous_attributes.replacement_inventory_reservation_id (Optional): string or null. Set on
+     * a reservation whose claim Flint moved when it rerouted an order: the replacement reservation
+     * that now holds the quantity named in this reservation's reallocated_quantity.
+     * previous_attributes.replacement_inventory_reservation_id.anyOf[1] (Value): string. Set on a
+     * reservation whose claim Flint moved when it rerouted an order: the replacement reservation
+     * that now holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * previous_attributes.replacement_inventory_reservation_id.anyOf[2] (Value): null.
+     * previous_attributes.source_inventory_reservation_id (Optional): string or null. Set on a
+     * replacement reservation: the reservation whose claim Flint moved here when it rerouted an
+     * order. This reservation holds the quantity that reservation reports as reallocated_quantity.
+     * previous_attributes.source_inventory_reservation_id.anyOf[1] (Value): string. Set on a
+     * replacement reservation: the reservation whose claim Flint moved here when it rerouted an
+     * order. This reservation holds the quantity that reservation reports as reallocated_quantity.
+     * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * previous_attributes.source_inventory_reservation_id.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. active while any held, committed, or
+     * backordered quantity remains; closed once none does. Value enum: "active", "closed".
+     * previous_attributes.status.anyOf[1] (Value): string. active while any held, committed, or
+     * backordered quantity remains; closed once none does. Value enum: "active", "closed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can change this reservation now. Empty for
+     * a closed reservation and for one Flint holds for an order. Resending targets already applied
+     * succeeds in any status. Computed when Flint produced this response or event, so replays and
+     * webhooks keep their original value. [] enum: "commit", "consume", "release".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * change this reservation now. Empty for a closed reservation and for one Flint holds for an
+     * order. Resending targets already applied succeeds in any status. Computed when Flint
+     * produced this response or event, so replays and webhooks keep their original value. [] enum:
+     * "commit", "consume", "release". previous_attributes.supported_actions.anyOf[1][] (Value):
+     * string. Value enum: "commit", "consume", "release".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. The reservation version. Send it as expected_version to reject
+     * a write if the reservation changed. previous_attributes.version.anyOf[1] (Value): integer.
+     * The reservation version. Send it as expected_version to reject a write if the reservation
+     * changed. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3772,9 +5807,223 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_reason (Optional): string or null or
+         * null. How the reservation ended. adopted when its remaining held stock moved to a
+         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
+         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
+         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
+         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * expires_at (Optional): string or null or null. When held quantity is released if it
+         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
+         * the same deadline. Committed and consumed quantity never expire. `null` when no line
+         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
+         * string or null. When held quantity is released if it isn't committed first. Backordered
+         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
+         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key of the request that created this resource; on a movement, of the command
+         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
+         * string. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
+         * InventoryActionRequired} or null. Present when the claim needs a merchant action before
+         * commerce can continue. inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id
+         * (Optional): string or null. Unique identifier for this inventory reservation, prefixed
+         * `invr_`. inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
+         * {@link InventoryRoutingSource} or null. How Flint chooses the Locations that serve the
+         * reservation: one fixed Location, an allocation policy, or a specific policy revision.
+         * inventory_routing_source.anyOf[1] (Value): {@link InventoryRoutingSource}. How Flint
+         * chooses the Locations that serve the reservation: one fixed Location, an allocation
+         * policy, or a specific policy revision. inventory_routing_source.anyOf[2] (Value): null.
+         * lines (Optional): Array of {@link InventoryReservationLine} or null. Allocations of the
+         * reserved stock, one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines.anyOf[1][] (Value): {@link InventoryReservationLine}. One item's
+         * location allocation within a reservation. lines.anyOf[2] (Value): null. owner
+         * (Optional): {@link InventoryReservationOwner} or null. Who holds the reservation: a
+         * `key` you choose, or an order Flint holds the stock for. owner.anyOf[1] (Value): {@link
+         * InventoryReservationOwner}. Who holds the reservation: a `key` you choose, or an order
+         * Flint holds the stock for. owner.anyOf[2] (Value): null.
+         * replacement_inventory_reservation_id (Optional): string or null. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity.
+         * replacement_inventory_reservation_id.anyOf[1] (Value): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". replacement_inventory_reservation_id.anyOf[2]
+         * (Value): null. source_inventory_reservation_id (Optional): string or null. Set on a
+         * replacement reservation: the reservation whose claim Flint moved here when it rerouted
+         * an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. source_inventory_reservation_id.anyOf[1] (Value): string. Set on a
+         * replacement reservation: the reservation whose claim Flint moved here when it rerouted
+         * an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+         * source_inventory_reservation_id.anyOf[2] (Value): null. status (Optional): string or
+         * null. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". status.anyOf[1] (Value): string. active while
+         * any held, committed, or backordered quantity remains; closed once none does. Value enum:
+         * "active", "closed". status.anyOf[2] (Value): null. supported_actions (Optional): Array
+         * of string or null. Actions that can change this reservation now. Empty for a closed
+         * reservation and for one Flint holds for an order. Resending targets already applied
+         * succeeds in any status. Computed when Flint produced this response or event, so replays
+         * and webhooks keep their original value. [] enum: "commit", "consume", "release".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * reservation now. Empty for a closed reservation and for one Flint holds for an order.
+         * Resending targets already applied succeeds in any status. Computed when Flint produced
+         * this response or event, so replays and webhooks keep their original value. [] enum:
+         * "commit", "consume", "release". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "commit", "consume", "release". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. The reservation
+         * version. Send it as expected_version to reject a write if the reservation changed.
+         * version.anyOf[1] (Value): integer. The reservation version. Send it as expected_version
+         * to reject a write if the reservation changed. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryReservation>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
+             */
+            "closed_reason"?: (("consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
+             * released if it isn't committed first. Backordered quantity that payment hasn't
+             * confirmed yet carries the same deadline. Committed and consumed quantity never
+             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Present when the claim needs a merchant action before commerce can continue.
+             * anyOf[1] (Value): {@link InventoryActionRequired}. Present when the claim needs a
+             * merchant action before commerce can continue. anyOf[2] (Value): null.
+             */
+            "inventory_action_required"?: ((InventoryActionRequired) | (null));
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
+             * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
+             * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "inventory_reservation_id"?: ((string) | (null));
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
+             * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation:
+             * one fixed Location, an allocation policy, or a specific policy revision. anyOf[2]
+             * (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSource) | (null));
+            /**
+             * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
+             * Array of {@link InventoryReservationLine}. Allocations of the reserved stock, one
+             * for each item and Location. anyOf[1][] (Value): {@link InventoryReservationLine}.
+             * One item's location allocation within a reservation. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryReservationLine>) | (null));
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. anyOf[1] (Value): {@link InventoryReservationOwner}. Who holds the reservation:
+             * a `key` you choose, or an order Flint holds the stock for. anyOf[2] (Value): null.
+             */
+            "owner"?: ((InventoryReservationOwner) | (null) | (unknown));
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. anyOf[1] (Value): string. Set on a reservation whose claim
+             * Flint moved when it rerouted an order: the replacement reservation that now holds
+             * the quantity named in this reservation's reallocated_quantity. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. anyOf[1] (Value): string. Set on a replacement reservation:
+             * the reservation whose claim Flint moved here when it rerouted an order. This
+             * reservation holds the quantity that reservation reports as reallocated_quantity.
+             * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". anyOf[2] (Value): null.
+             */
+            "source_inventory_reservation_id"?: ((string) | (null));
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed". anyOf[1] (Value): string. active while any
+             * held, committed, or backordered quantity remains; closed once none does. Value enum:
+             * "active", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". anyOf[1]
+             * (Value): Array of string. Actions that can change this reservation now. Empty for a
+             * closed reservation and for one Flint holds for an order. Resending targets already
+             * applied succeeds in any status. Computed when Flint produced this response or event,
+             * so replays and webhooks keep their original value. [] enum: "commit", "consume",
+             * "release". anyOf[1][] (Value): string. Value enum: "commit", "consume", "release".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. anyOf[1] (Value): integer. The reservation version. Send it as
+             * expected_version to reject a write if the reservation changed. Format: uint64.
+             * minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});

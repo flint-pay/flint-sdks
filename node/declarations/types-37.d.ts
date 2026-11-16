@@ -1057,7 +1057,19 @@ export type MerchantBillingBalanceUpdatedEvent = ((Exclude<MerchantWebhookEnvelo
             "past_due_money": MoneyValue;
             "payout_hold_at"?: string;
         };
-        "previous_attributes"?: Partial<MerchantBillingBalance>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "available_credit_money"?: ((MoneyValue) | (null));
+            "currency"?: ((string) | (null));
+            "merchant_billing_balance_id"?: ((string) | (null));
+            "observed_at"?: ((string) | (null));
+            "outstanding_money"?: ((MoneyValue) | (null));
+            "past_due_at"?: ((string) | (null));
+            "past_due_money"?: ((MoneyValue) | (null));
+            "payout_hold_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "merchant_billing_balance.updated";
@@ -1361,7 +1373,26 @@ export type MerchantBillingInvoiceIssuedEvent = ((Exclude<MerchantWebhookEnvelop
             "total_money": MoneyValue;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<MerchantBillingInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_credit_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "due_at"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "issued_at"?: ((string) | (null));
+            "line_items"?: ((Array<MerchantBillingInvoiceLineItem>) | (null));
+            "merchant_billing_invoice_id"?: ((string) | (null));
+            "outstanding_money"?: ((MoneyValue) | (null));
+            "paid_at"?: ((string) | (null));
+            "period_end_at"?: ((string) | (null));
+            "period_start_at"?: ((string) | (null));
+            "status"?: (("open" | "paid" | "written_off" | (string & {})) | (null));
+            "subtotal_money"?: ((MoneyValue) | (null));
+            "total_money"?: ((MoneyValue) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "merchant_billing_invoice.issued";
@@ -1462,7 +1493,26 @@ export type MerchantBillingInvoiceUpdatedEvent = ((Exclude<MerchantWebhookEnvelo
             "total_money": MoneyValue;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<MerchantBillingInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_credit_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "due_at"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "issued_at"?: ((string) | (null));
+            "line_items"?: ((Array<MerchantBillingInvoiceLineItem>) | (null));
+            "merchant_billing_invoice_id"?: ((string) | (null));
+            "outstanding_money"?: ((MoneyValue) | (null));
+            "paid_at"?: ((string) | (null));
+            "period_end_at"?: ((string) | (null));
+            "period_start_at"?: ((string) | (null));
+            "status"?: (("open" | "paid" | "written_off" | (string & {})) | (null));
+            "subtotal_money"?: ((MoneyValue) | (null));
+            "total_money"?: ((MoneyValue) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "merchant_billing_invoice.updated";
@@ -1529,7 +1579,35 @@ export type MerchantReadinessUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
     & ({
     "data"?: {
         "object": WebhookMerchant;
-        "previous_attributes"?: Partial<WebhookMerchant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "address"?: ((Address) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_pinned_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "business_name"?: ((string) | (null));
+            "business_type"?: (("individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "email"?: ((string | null) | (null) | (unknown));
+            "icon"?: ((ImageAttachment) | (null));
+            "logo"?: ((ImageAttachment) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "phone"?: ((string) | (null));
+            "readiness"?: ((MerchantReadiness) | (null));
+            "status"?: (("active" | "suspended" | "restricted" | "closed" | (string & {})) | (null));
+            "support_email"?: ((string) | (null));
+            "support_phone"?: ((string) | (null));
+            "support_url"?: ((string) | (null));
+            "timezone"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "website_url"?: ((string) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "merchant.readiness_updated";
@@ -1538,7 +1616,35 @@ export type MerchantReadinessUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
     & ({
     "data"?: {
         "object": WebhookMerchant;
-        "previous_attributes"?: Partial<WebhookMerchant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "address"?: ((Address) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_pinned_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "business_name"?: ((string) | (null));
+            "business_type"?: (("individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "email"?: ((string | null) | (null) | (unknown));
+            "icon"?: ((ImageAttachment) | (null));
+            "logo"?: ((ImageAttachment) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "phone"?: ((string) | (null));
+            "readiness"?: ((MerchantReadiness) | (null));
+            "status"?: (("active" | "suspended" | "restricted" | "closed" | (string & {})) | (null));
+            "support_email"?: ((string) | (null));
+            "support_phone"?: ((string) | (null));
+            "support_url"?: ((string) | (null));
+            "timezone"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "website_url"?: ((string) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "merchant.readiness_updated";
@@ -1565,7 +1671,116 @@ export type MerchantReadinessUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.address (Optional): {@link Address} or null. The
+     * merchant's business address. previous_attributes.address.anyOf[1] (Value): {@link Address}.
+     * The merchant's business address. previous_attributes.address.anyOf[2] (Value): null.
+     * previous_attributes.api_version (Optional): string or null. Default API version for requests
+     * without a Flint-Version header. Shared across live and test environments.
+     * previous_attributes.api_version.anyOf[1] (Value): string. Default API version for requests
+     * without a Flint-Version header. Shared across live and test environments.
+     * previous_attributes.api_version.anyOf[2] (Value): null.
+     * previous_attributes.api_version_changed_at (Optional): string or null. When the merchant's
+     * default API version last changed. previous_attributes.api_version_changed_at.anyOf[1]
+     * (Value): string. When the merchant's default API version last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.api_version_changed_at.anyOf[2]
+     * (Value): null. previous_attributes.api_version_pinned_at (Optional): string or null. When
+     * the merchant's default API version was first set.
+     * previous_attributes.api_version_pinned_at.anyOf[1] (Value): string. When the merchant's
+     * default API version was first set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.api_version_pinned_at.anyOf[2] (Value): null.
+     * previous_attributes.api_version_previous (Optional): string or null. Previous API version,
+     * present while a supported rollback is available.
+     * previous_attributes.api_version_previous.anyOf[1] (Value): string. Previous API version,
+     * present while a supported rollback is available.
+     * previous_attributes.api_version_previous.anyOf[2] (Value): null.
+     * previous_attributes.api_version_rollback_expires_at (Optional): string or null. When the
+     * 72-hour rollback offer expires. Explicit changes to any supported version remain available
+     * afterward. previous_attributes.api_version_rollback_expires_at.anyOf[1] (Value): string.
+     * When the 72-hour rollback offer expires. Explicit changes to any supported version remain
+     * available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.api_version_rollback_expires_at.anyOf[2] (Value): null.
+     * previous_attributes.business_name (Optional): string or null. Business name buyers see on
+     * checkout, payment links, and receipts. Once the merchant starts verification, it stays in
+     * sync with the business name on the live Stripe account: a change on either side applies, and
+     * the latest change wins. previous_attributes.business_name.anyOf[1] (Value): string. Business
+     * name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins.
+     * previous_attributes.business_name.anyOf[2] (Value): null. previous_attributes.business_type
+     * (Optional): string or null. Merchant's business type. - `other`: A business type Flint does
+     * not map yet. Value enum: "individual", "company", "non_profit", "government_entity",
+     * "other". previous_attributes.business_type.anyOf[1] (Value): string. Merchant's business
+     * type. - `other`: A business type Flint does not map yet. Value enum: "individual",
+     * "company", "non_profit", "government_entity", "other".
+     * previous_attributes.business_type.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.email (Optional):
+     * string or null or null. The account's contact email address. A new account starts with the
+     * sign-up email. `null` when none is set. previous_attributes.email.anyOf[1] (Value): string
+     * or null. The account's contact email address. A new account starts with the sign-up email.
+     * `null` when none is set. previous_attributes.email.anyOf[2] (Value): null.
+     * previous_attributes.icon (Optional): {@link ImageAttachment} or null. A square image, at
+     * least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact
+     * headers. previous_attributes.icon.anyOf[1] (Value): {@link ImageAttachment}. A square image,
+     * at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and
+     * compact headers. previous_attributes.icon.anyOf[2] (Value): null. previous_attributes.logo
+     * (Optional): {@link ImageAttachment} or null. The merchant's public brand mark.
+     * previous_attributes.logo.anyOf[1] (Value): {@link ImageAttachment}. The merchant's public
+     * brand mark. previous_attributes.logo.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Stable identifier of the merchant.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Stable identifier of the merchant.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Stored
+     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned
+     * key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.phone (Optional):
+     * string or null. The account's contact phone number, in international format such as
+     * +12125551234. previous_attributes.phone.anyOf[1] (Value): string. The account's contact
+     * phone number, in international format such as +12125551234.
+     * previous_attributes.phone.anyOf[2] (Value): null. previous_attributes.readiness (Optional):
+     * {@link MerchantReadiness} or null. Whether the merchant can accept payments and receive
+     * payouts, and what is still needed. previous_attributes.readiness.anyOf[1] (Value): {@link
+     * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and what
+     * is still needed. previous_attributes.readiness.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether Flint lets the account
+     * operate. `readiness` says whether payments and payouts are available. Value enum: "active",
+     * "suspended", "restricted", "closed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether Flint lets the account operate. `readiness` says whether payments and payouts are
+     * available. Value enum: "active", "suspended", "restricted", "closed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.support_email
+     * (Optional): string or null. Support email address shown to buyers, for example on receipts
+     * and checkout. previous_attributes.support_email.anyOf[1] (Value): string. Support email
+     * address shown to buyers, for example on receipts and checkout.
+     * previous_attributes.support_email.anyOf[2] (Value): null. previous_attributes.support_phone
+     * (Optional): string or null. Support phone number shown to buyers, in international format
+     * such as +12125551234. previous_attributes.support_phone.anyOf[1] (Value): string. Support
+     * phone number shown to buyers, in international format such as +12125551234.
+     * previous_attributes.support_phone.anyOf[2] (Value): null. previous_attributes.support_url
+     * (Optional): string or null. Support page shown to buyers.
+     * previous_attributes.support_url.anyOf[1] (Value): string. Support page shown to buyers.
+     * previous_attributes.support_url.anyOf[2] (Value): null. previous_attributes.timezone
+     * (Optional): string or null. Business IANA time zone, such as America/New_York. Used for
+     * invoice deadlines, new locations, notifications, and reporting when a request omits its time
+     * zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone.
+     * previous_attributes.timezone.anyOf[1] (Value): string. Business IANA time zone, such as
+     * America/New_York. Used for invoice deadlines, new locations, notifications, and reporting
+     * when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources
+     * keep their saved time zone. previous_attributes.timezone.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Merchant version. Profile,
+     * status, and API version changes advance this version, including business name and business
+     * type changes synced from the payment provider. Readiness updates alone do not.
+     * previous_attributes.version.anyOf[1] (Value): integer. Merchant version. Profile, status,
+     * and API version changes advance this version, including business name and business type
+     * changes synced from the payment provider. Readiness updates alone do not. Format: int64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * previous_attributes.website_url (Optional): string or null. The business's website.
+     * previous_attributes.website_url.anyOf[1] (Value): string. The business's website.
+     * previous_attributes.website_url.anyOf[2] (Value): null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
@@ -1574,9 +1789,262 @@ export type MerchantReadinessUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. address (Optional): {@link Address} or null. The
+         * merchant's business address. address.anyOf[1] (Value): {@link Address}. The merchant's
+         * business address. address.anyOf[2] (Value): null. api_version (Optional): string or
+         * null. Default API version for requests without a Flint-Version header. Shared across
+         * live and test environments. api_version.anyOf[1] (Value): string. Default API version
+         * for requests without a Flint-Version header. Shared across live and test environments.
+         * api_version.anyOf[2] (Value): null. api_version_changed_at (Optional): string or null.
+         * When the merchant's default API version last changed. api_version_changed_at.anyOf[1]
+         * (Value): string. When the merchant's default API version last changed. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". api_version_changed_at.anyOf[2] (Value):
+         * null. api_version_pinned_at (Optional): string or null. When the merchant's default API
+         * version was first set. api_version_pinned_at.anyOf[1] (Value): string. When the
+         * merchant's default API version was first set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_pinned_at.anyOf[2] (Value): null.
+         * api_version_previous (Optional): string or null. Previous API version, present while a
+         * supported rollback is available. api_version_previous.anyOf[1] (Value): string. Previous
+         * API version, present while a supported rollback is available.
+         * api_version_previous.anyOf[2] (Value): null. api_version_rollback_expires_at (Optional):
+         * string or null. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. api_version_rollback_expires_at.anyOf[1]
+         * (Value): string. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_rollback_expires_at.anyOf[2] (Value): null.
+         * business_name (Optional): string or null. Business name buyers see on checkout, payment
+         * links, and receipts. Once the merchant starts verification, it stays in sync with the
+         * business name on the live Stripe account: a change on either side applies, and the
+         * latest change wins. business_name.anyOf[1] (Value): string. Business name buyers see on
+         * checkout, payment links, and receipts. Once the merchant starts verification, it stays
+         * in sync with the business name on the live Stripe account: a change on either side
+         * applies, and the latest change wins. business_name.anyOf[2] (Value): null. business_type
+         * (Optional): string or null. Merchant's business type. - `other`: A business type Flint
+         * does not map yet. Value enum: "individual", "company", "non_profit",
+         * "government_entity", "other". business_type.anyOf[1] (Value): string. Merchant's
+         * business type. - `other`: A business type Flint does not map yet. Value enum:
+         * "individual", "company", "non_profit", "government_entity", "other".
+         * business_type.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. email (Optional):
+         * string or null or null. The account's contact email address. A new account starts with
+         * the sign-up email. `null` when none is set. email.anyOf[1] (Value): string or null. The
+         * account's contact email address. A new account starts with the sign-up email. `null`
+         * when none is set. email.anyOf[2] (Value): null. icon (Optional): {@link ImageAttachment}
+         * or null. A square image, at least 128 by 128 pixels, shown where the store needs a small
+         * mark: browser tabs and compact headers. icon.anyOf[1] (Value): {@link ImageAttachment}.
+         * A square image, at least 128 by 128 pixels, shown where the store needs a small mark:
+         * browser tabs and compact headers. icon.anyOf[2] (Value): null. logo (Optional): {@link
+         * ImageAttachment} or null. The merchant's public brand mark. logo.anyOf[1] (Value):
+         * {@link ImageAttachment}. The merchant's public brand mark. logo.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Stable identifier of the merchant.
+         * merchant_id.anyOf[1] (Value): string. Stable identifier of the merchant. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. metadata.anyOf[2] (Value): null. phone (Optional): string or null. The
+         * account's contact phone number, in international format such as +12125551234.
+         * phone.anyOf[1] (Value): string. The account's contact phone number, in international
+         * format such as +12125551234. phone.anyOf[2] (Value): null. readiness (Optional): {@link
+         * MerchantReadiness} or null. Whether the merchant can accept payments and receive
+         * payouts, and what is still needed. readiness.anyOf[1] (Value): {@link
+         * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and
+         * what is still needed. readiness.anyOf[2] (Value): null. status (Optional): string or
+         * null. Whether Flint lets the account operate. `readiness` says whether payments and
+         * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+         * status.anyOf[1] (Value): string. Whether Flint lets the account operate. `readiness`
+         * says whether payments and payouts are available. Value enum: "active", "suspended",
+         * "restricted", "closed". status.anyOf[2] (Value): null. support_email (Optional): string
+         * or null. Support email address shown to buyers, for example on receipts and checkout.
+         * support_email.anyOf[1] (Value): string. Support email address shown to buyers, for
+         * example on receipts and checkout. support_email.anyOf[2] (Value): null. support_phone
+         * (Optional): string or null. Support phone number shown to buyers, in international
+         * format such as +12125551234. support_phone.anyOf[1] (Value): string. Support phone
+         * number shown to buyers, in international format such as +12125551234.
+         * support_phone.anyOf[2] (Value): null. support_url (Optional): string or null. Support
+         * page shown to buyers. support_url.anyOf[1] (Value): string. Support page shown to
+         * buyers. support_url.anyOf[2] (Value): null. timezone (Optional): string or null.
+         * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+         * locations, notifications, and reporting when a request omits its time zone. Omitted when
+         * unset; UTC then applies. Existing resources keep their saved time zone.
+         * timezone.anyOf[1] (Value): string. Business IANA time zone, such as America/New_York.
+         * Used for invoice deadlines, new locations, notifications, and reporting when a request
+         * omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their
+         * saved time zone. timezone.anyOf[2] (Value): null. updated_at (Optional): string or null.
+         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Merchant version. Profile, status, and API version changes
+         * advance this version, including business name and business type changes synced from the
+         * payment provider. Readiness updates alone do not. version.anyOf[1] (Value): integer.
+         * Merchant version. Profile, status, and API version changes advance this version,
+         * including business name and business type changes synced from the payment provider.
+         * Readiness updates alone do not. Format: int64. minimum: 1. version.anyOf[2] (Value):
+         * null. website_url (Optional): string or null. The business's website.
+         * website_url.anyOf[1] (Value): string. The business's website. website_url.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookMerchant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The merchant's business address. anyOf[1] (Value): {@link Address}. The merchant's
+             * business address. anyOf[2] (Value): null.
+             */
+            "address"?: ((Address) | (null));
+            /**
+             * Default API version for requests without a Flint-Version header. Shared across live
+             * and test environments. anyOf[1] (Value): string. Default API version for requests
+             * without a Flint-Version header. Shared across live and test environments. anyOf[2]
+             * (Value): null.
+             */
+            "api_version"?: ((string) | (null));
+            /**
+             * When the merchant's default API version last changed. anyOf[1] (Value): string. When
+             * the merchant's default API version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "api_version_changed_at"?: ((string) | (null));
+            /**
+             * When the merchant's default API version was first set. anyOf[1] (Value): string.
+             * When the merchant's default API version was first set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "api_version_pinned_at"?: ((string) | (null));
+            /**
+             * Previous API version, present while a supported rollback is available. anyOf[1]
+             * (Value): string. Previous API version, present while a supported rollback is
+             * available. anyOf[2] (Value): null.
+             */
+            "api_version_previous"?: ((string) | (null));
+            /**
+             * When the 72-hour rollback offer expires. Explicit changes to any supported version
+             * remain available afterward. anyOf[1] (Value): string. When the 72-hour rollback
+             * offer expires. Explicit changes to any supported version remain available afterward.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            /**
+             * Business name buyers see on checkout, payment links, and receipts. Once the merchant
+             * starts verification, it stays in sync with the business name on the live Stripe
+             * account: a change on either side applies, and the latest change wins. anyOf[1]
+             * (Value): string. Business name buyers see on checkout, payment links, and receipts.
+             * Once the merchant starts verification, it stays in sync with the business name on
+             * the live Stripe account: a change on either side applies, and the latest change
+             * wins. anyOf[2] (Value): null.
+             */
+            "business_name"?: ((string) | (null));
+            /**
+             * Merchant's business type. - `other`: A business type Flint does not map yet. Value
+             * enum: "individual", "company", "non_profit", "government_entity", "other". anyOf[1]
+             * (Value): string. Merchant's business type. - `other`: A business type Flint does not
+             * map yet. Value enum: "individual", "company", "non_profit", "government_entity",
+             * "other". anyOf[2] (Value): null.
+             */
+            "business_type"?: (("individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The account's contact email address. A new account starts with the sign-up email.
+             * `null` when none is set. anyOf[1] (Value): string or null. The account's contact
+             * email address. A new account starts with the sign-up email. `null` when none is set.
+             * anyOf[2] (Value): null.
+             */
+            "email"?: ((string | null) | (null) | (unknown));
+            /**
+             * A square image, at least 128 by 128 pixels, shown where the store needs a small
+             * mark: browser tabs and compact headers. anyOf[1] (Value): {@link ImageAttachment}. A
+             * square image, at least 128 by 128 pixels, shown where the store needs a small mark:
+             * browser tabs and compact headers. anyOf[2] (Value): null.
+             */
+            "icon"?: ((ImageAttachment) | (null));
+            /**
+             * The merchant's public brand mark. anyOf[1] (Value): {@link ImageAttachment}. The
+             * merchant's public brand mark. anyOf[2] (Value): null.
+             */
+            "logo"?: ((ImageAttachment) | (null));
+            /**
+             * Stable identifier of the merchant. anyOf[1] (Value): string. Stable identifier of
+             * the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The account's contact phone number, in international format such as +12125551234.
+             * anyOf[1] (Value): string. The account's contact phone number, in international
+             * format such as +12125551234. anyOf[2] (Value): null.
+             */
+            "phone"?: ((string) | (null));
+            /**
+             * Whether the merchant can accept payments and receive payouts, and what is still
+             * needed. anyOf[1] (Value): {@link MerchantReadiness}. Whether the merchant can accept
+             * payments and receive payouts, and what is still needed. anyOf[2] (Value): null.
+             */
+            "readiness"?: ((MerchantReadiness) | (null));
+            /**
+             * Whether Flint lets the account operate. `readiness` says whether payments and
+             * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+             * anyOf[1] (Value): string. Whether Flint lets the account operate. `readiness` says
+             * whether payments and payouts are available. Value enum: "active", "suspended",
+             * "restricted", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "suspended" | "restricted" | "closed" | (string & {})) | (null));
+            /**
+             * Support email address shown to buyers, for example on receipts and checkout.
+             * anyOf[1] (Value): string. Support email address shown to buyers, for example on
+             * receipts and checkout. anyOf[2] (Value): null.
+             */
+            "support_email"?: ((string) | (null));
+            /**
+             * Support phone number shown to buyers, in international format such as +12125551234.
+             * anyOf[1] (Value): string. Support phone number shown to buyers, in international
+             * format such as +12125551234. anyOf[2] (Value): null.
+             */
+            "support_phone"?: ((string) | (null));
+            /**
+             * Support page shown to buyers. anyOf[1] (Value): string. Support page shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "support_url"?: ((string) | (null));
+            /**
+             * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+             * locations, notifications, and reporting when a request omits its time zone. Omitted
+             * when unset; UTC then applies. Existing resources keep their saved time zone.
+             * anyOf[1] (Value): string. Business IANA time zone, such as America/New_York. Used
+             * for invoice deadlines, new locations, notifications, and reporting when a request
+             * omits its time zone. Omitted when unset; UTC then applies. Existing resources keep
+             * their saved time zone. anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Merchant version. Profile, status, and API version changes advance this version,
+             * including business name and business type changes synced from the payment provider.
+             * Readiness updates alone do not. anyOf[1] (Value): integer. Merchant version.
+             * Profile, status, and API version changes advance this version, including business
+             * name and business type changes synced from the payment provider. Readiness updates
+             * alone do not. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * The business's website. anyOf[1] (Value): string. The business's website. anyOf[2]
+             * (Value): null.
+             */
+            "website_url"?: ((string) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1629,7 +2097,116 @@ export type MerchantReadinessUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.address (Optional): {@link Address} or null. The
+     * merchant's business address. previous_attributes.address.anyOf[1] (Value): {@link Address}.
+     * The merchant's business address. previous_attributes.address.anyOf[2] (Value): null.
+     * previous_attributes.api_version (Optional): string or null. Default API version for requests
+     * without a Flint-Version header. Shared across live and test environments.
+     * previous_attributes.api_version.anyOf[1] (Value): string. Default API version for requests
+     * without a Flint-Version header. Shared across live and test environments.
+     * previous_attributes.api_version.anyOf[2] (Value): null.
+     * previous_attributes.api_version_changed_at (Optional): string or null. When the merchant's
+     * default API version last changed. previous_attributes.api_version_changed_at.anyOf[1]
+     * (Value): string. When the merchant's default API version last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.api_version_changed_at.anyOf[2]
+     * (Value): null. previous_attributes.api_version_pinned_at (Optional): string or null. When
+     * the merchant's default API version was first set.
+     * previous_attributes.api_version_pinned_at.anyOf[1] (Value): string. When the merchant's
+     * default API version was first set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.api_version_pinned_at.anyOf[2] (Value): null.
+     * previous_attributes.api_version_previous (Optional): string or null. Previous API version,
+     * present while a supported rollback is available.
+     * previous_attributes.api_version_previous.anyOf[1] (Value): string. Previous API version,
+     * present while a supported rollback is available.
+     * previous_attributes.api_version_previous.anyOf[2] (Value): null.
+     * previous_attributes.api_version_rollback_expires_at (Optional): string or null. When the
+     * 72-hour rollback offer expires. Explicit changes to any supported version remain available
+     * afterward. previous_attributes.api_version_rollback_expires_at.anyOf[1] (Value): string.
+     * When the 72-hour rollback offer expires. Explicit changes to any supported version remain
+     * available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.api_version_rollback_expires_at.anyOf[2] (Value): null.
+     * previous_attributes.business_name (Optional): string or null. Business name buyers see on
+     * checkout, payment links, and receipts. Once the merchant starts verification, it stays in
+     * sync with the business name on the live Stripe account: a change on either side applies, and
+     * the latest change wins. previous_attributes.business_name.anyOf[1] (Value): string. Business
+     * name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins.
+     * previous_attributes.business_name.anyOf[2] (Value): null. previous_attributes.business_type
+     * (Optional): string or null. Merchant's business type. - `other`: A business type Flint does
+     * not map yet. Value enum: "individual", "company", "non_profit", "government_entity",
+     * "other". previous_attributes.business_type.anyOf[1] (Value): string. Merchant's business
+     * type. - `other`: A business type Flint does not map yet. Value enum: "individual",
+     * "company", "non_profit", "government_entity", "other".
+     * previous_attributes.business_type.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.email (Optional):
+     * string or null or null. The account's contact email address. A new account starts with the
+     * sign-up email. `null` when none is set. previous_attributes.email.anyOf[1] (Value): string
+     * or null. The account's contact email address. A new account starts with the sign-up email.
+     * `null` when none is set. previous_attributes.email.anyOf[2] (Value): null.
+     * previous_attributes.icon (Optional): {@link ImageAttachment} or null. A square image, at
+     * least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact
+     * headers. previous_attributes.icon.anyOf[1] (Value): {@link ImageAttachment}. A square image,
+     * at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and
+     * compact headers. previous_attributes.icon.anyOf[2] (Value): null. previous_attributes.logo
+     * (Optional): {@link ImageAttachment} or null. The merchant's public brand mark.
+     * previous_attributes.logo.anyOf[1] (Value): {@link ImageAttachment}. The merchant's public
+     * brand mark. previous_attributes.logo.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. Stable identifier of the merchant.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. Stable identifier of the merchant.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Stored
+     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned
+     * key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.phone (Optional):
+     * string or null. The account's contact phone number, in international format such as
+     * +12125551234. previous_attributes.phone.anyOf[1] (Value): string. The account's contact
+     * phone number, in international format such as +12125551234.
+     * previous_attributes.phone.anyOf[2] (Value): null. previous_attributes.readiness (Optional):
+     * {@link MerchantReadiness} or null. Whether the merchant can accept payments and receive
+     * payouts, and what is still needed. previous_attributes.readiness.anyOf[1] (Value): {@link
+     * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and what
+     * is still needed. previous_attributes.readiness.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether Flint lets the account
+     * operate. `readiness` says whether payments and payouts are available. Value enum: "active",
+     * "suspended", "restricted", "closed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether Flint lets the account operate. `readiness` says whether payments and payouts are
+     * available. Value enum: "active", "suspended", "restricted", "closed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.support_email
+     * (Optional): string or null. Support email address shown to buyers, for example on receipts
+     * and checkout. previous_attributes.support_email.anyOf[1] (Value): string. Support email
+     * address shown to buyers, for example on receipts and checkout.
+     * previous_attributes.support_email.anyOf[2] (Value): null. previous_attributes.support_phone
+     * (Optional): string or null. Support phone number shown to buyers, in international format
+     * such as +12125551234. previous_attributes.support_phone.anyOf[1] (Value): string. Support
+     * phone number shown to buyers, in international format such as +12125551234.
+     * previous_attributes.support_phone.anyOf[2] (Value): null. previous_attributes.support_url
+     * (Optional): string or null. Support page shown to buyers.
+     * previous_attributes.support_url.anyOf[1] (Value): string. Support page shown to buyers.
+     * previous_attributes.support_url.anyOf[2] (Value): null. previous_attributes.timezone
+     * (Optional): string or null. Business IANA time zone, such as America/New_York. Used for
+     * invoice deadlines, new locations, notifications, and reporting when a request omits its time
+     * zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone.
+     * previous_attributes.timezone.anyOf[1] (Value): string. Business IANA time zone, such as
+     * America/New_York. Used for invoice deadlines, new locations, notifications, and reporting
+     * when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources
+     * keep their saved time zone. previous_attributes.timezone.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Merchant version. Profile,
+     * status, and API version changes advance this version, including business name and business
+     * type changes synced from the payment provider. Readiness updates alone do not.
+     * previous_attributes.version.anyOf[1] (Value): integer. Merchant version. Profile, status,
+     * and API version changes advance this version, including business name and business type
+     * changes synced from the payment provider. Readiness updates alone do not. Format: int64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     * previous_attributes.website_url (Optional): string or null. The business's website.
+     * previous_attributes.website_url.anyOf[1] (Value): string. The business's website.
+     * previous_attributes.website_url.anyOf[2] (Value): null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
@@ -1638,9 +2215,262 @@ export type MerchantReadinessUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. address (Optional): {@link Address} or null. The
+         * merchant's business address. address.anyOf[1] (Value): {@link Address}. The merchant's
+         * business address. address.anyOf[2] (Value): null. api_version (Optional): string or
+         * null. Default API version for requests without a Flint-Version header. Shared across
+         * live and test environments. api_version.anyOf[1] (Value): string. Default API version
+         * for requests without a Flint-Version header. Shared across live and test environments.
+         * api_version.anyOf[2] (Value): null. api_version_changed_at (Optional): string or null.
+         * When the merchant's default API version last changed. api_version_changed_at.anyOf[1]
+         * (Value): string. When the merchant's default API version last changed. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". api_version_changed_at.anyOf[2] (Value):
+         * null. api_version_pinned_at (Optional): string or null. When the merchant's default API
+         * version was first set. api_version_pinned_at.anyOf[1] (Value): string. When the
+         * merchant's default API version was first set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_pinned_at.anyOf[2] (Value): null.
+         * api_version_previous (Optional): string or null. Previous API version, present while a
+         * supported rollback is available. api_version_previous.anyOf[1] (Value): string. Previous
+         * API version, present while a supported rollback is available.
+         * api_version_previous.anyOf[2] (Value): null. api_version_rollback_expires_at (Optional):
+         * string or null. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. api_version_rollback_expires_at.anyOf[1]
+         * (Value): string. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_rollback_expires_at.anyOf[2] (Value): null.
+         * business_name (Optional): string or null. Business name buyers see on checkout, payment
+         * links, and receipts. Once the merchant starts verification, it stays in sync with the
+         * business name on the live Stripe account: a change on either side applies, and the
+         * latest change wins. business_name.anyOf[1] (Value): string. Business name buyers see on
+         * checkout, payment links, and receipts. Once the merchant starts verification, it stays
+         * in sync with the business name on the live Stripe account: a change on either side
+         * applies, and the latest change wins. business_name.anyOf[2] (Value): null. business_type
+         * (Optional): string or null. Merchant's business type. - `other`: A business type Flint
+         * does not map yet. Value enum: "individual", "company", "non_profit",
+         * "government_entity", "other". business_type.anyOf[1] (Value): string. Merchant's
+         * business type. - `other`: A business type Flint does not map yet. Value enum:
+         * "individual", "company", "non_profit", "government_entity", "other".
+         * business_type.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. email (Optional):
+         * string or null or null. The account's contact email address. A new account starts with
+         * the sign-up email. `null` when none is set. email.anyOf[1] (Value): string or null. The
+         * account's contact email address. A new account starts with the sign-up email. `null`
+         * when none is set. email.anyOf[2] (Value): null. icon (Optional): {@link ImageAttachment}
+         * or null. A square image, at least 128 by 128 pixels, shown where the store needs a small
+         * mark: browser tabs and compact headers. icon.anyOf[1] (Value): {@link ImageAttachment}.
+         * A square image, at least 128 by 128 pixels, shown where the store needs a small mark:
+         * browser tabs and compact headers. icon.anyOf[2] (Value): null. logo (Optional): {@link
+         * ImageAttachment} or null. The merchant's public brand mark. logo.anyOf[1] (Value):
+         * {@link ImageAttachment}. The merchant's public brand mark. logo.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Stable identifier of the merchant.
+         * merchant_id.anyOf[1] (Value): string. Stable identifier of the merchant. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. metadata.anyOf[2] (Value): null. phone (Optional): string or null. The
+         * account's contact phone number, in international format such as +12125551234.
+         * phone.anyOf[1] (Value): string. The account's contact phone number, in international
+         * format such as +12125551234. phone.anyOf[2] (Value): null. readiness (Optional): {@link
+         * MerchantReadiness} or null. Whether the merchant can accept payments and receive
+         * payouts, and what is still needed. readiness.anyOf[1] (Value): {@link
+         * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and
+         * what is still needed. readiness.anyOf[2] (Value): null. status (Optional): string or
+         * null. Whether Flint lets the account operate. `readiness` says whether payments and
+         * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+         * status.anyOf[1] (Value): string. Whether Flint lets the account operate. `readiness`
+         * says whether payments and payouts are available. Value enum: "active", "suspended",
+         * "restricted", "closed". status.anyOf[2] (Value): null. support_email (Optional): string
+         * or null. Support email address shown to buyers, for example on receipts and checkout.
+         * support_email.anyOf[1] (Value): string. Support email address shown to buyers, for
+         * example on receipts and checkout. support_email.anyOf[2] (Value): null. support_phone
+         * (Optional): string or null. Support phone number shown to buyers, in international
+         * format such as +12125551234. support_phone.anyOf[1] (Value): string. Support phone
+         * number shown to buyers, in international format such as +12125551234.
+         * support_phone.anyOf[2] (Value): null. support_url (Optional): string or null. Support
+         * page shown to buyers. support_url.anyOf[1] (Value): string. Support page shown to
+         * buyers. support_url.anyOf[2] (Value): null. timezone (Optional): string or null.
+         * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+         * locations, notifications, and reporting when a request omits its time zone. Omitted when
+         * unset; UTC then applies. Existing resources keep their saved time zone.
+         * timezone.anyOf[1] (Value): string. Business IANA time zone, such as America/New_York.
+         * Used for invoice deadlines, new locations, notifications, and reporting when a request
+         * omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their
+         * saved time zone. timezone.anyOf[2] (Value): null. updated_at (Optional): string or null.
+         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Merchant version. Profile, status, and API version changes
+         * advance this version, including business name and business type changes synced from the
+         * payment provider. Readiness updates alone do not. version.anyOf[1] (Value): integer.
+         * Merchant version. Profile, status, and API version changes advance this version,
+         * including business name and business type changes synced from the payment provider.
+         * Readiness updates alone do not. Format: int64. minimum: 1. version.anyOf[2] (Value):
+         * null. website_url (Optional): string or null. The business's website.
+         * website_url.anyOf[1] (Value): string. The business's website. website_url.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookMerchant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The merchant's business address. anyOf[1] (Value): {@link Address}. The merchant's
+             * business address. anyOf[2] (Value): null.
+             */
+            "address"?: ((Address) | (null));
+            /**
+             * Default API version for requests without a Flint-Version header. Shared across live
+             * and test environments. anyOf[1] (Value): string. Default API version for requests
+             * without a Flint-Version header. Shared across live and test environments. anyOf[2]
+             * (Value): null.
+             */
+            "api_version"?: ((string) | (null));
+            /**
+             * When the merchant's default API version last changed. anyOf[1] (Value): string. When
+             * the merchant's default API version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "api_version_changed_at"?: ((string) | (null));
+            /**
+             * When the merchant's default API version was first set. anyOf[1] (Value): string.
+             * When the merchant's default API version was first set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "api_version_pinned_at"?: ((string) | (null));
+            /**
+             * Previous API version, present while a supported rollback is available. anyOf[1]
+             * (Value): string. Previous API version, present while a supported rollback is
+             * available. anyOf[2] (Value): null.
+             */
+            "api_version_previous"?: ((string) | (null));
+            /**
+             * When the 72-hour rollback offer expires. Explicit changes to any supported version
+             * remain available afterward. anyOf[1] (Value): string. When the 72-hour rollback
+             * offer expires. Explicit changes to any supported version remain available afterward.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            /**
+             * Business name buyers see on checkout, payment links, and receipts. Once the merchant
+             * starts verification, it stays in sync with the business name on the live Stripe
+             * account: a change on either side applies, and the latest change wins. anyOf[1]
+             * (Value): string. Business name buyers see on checkout, payment links, and receipts.
+             * Once the merchant starts verification, it stays in sync with the business name on
+             * the live Stripe account: a change on either side applies, and the latest change
+             * wins. anyOf[2] (Value): null.
+             */
+            "business_name"?: ((string) | (null));
+            /**
+             * Merchant's business type. - `other`: A business type Flint does not map yet. Value
+             * enum: "individual", "company", "non_profit", "government_entity", "other". anyOf[1]
+             * (Value): string. Merchant's business type. - `other`: A business type Flint does not
+             * map yet. Value enum: "individual", "company", "non_profit", "government_entity",
+             * "other". anyOf[2] (Value): null.
+             */
+            "business_type"?: (("individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The account's contact email address. A new account starts with the sign-up email.
+             * `null` when none is set. anyOf[1] (Value): string or null. The account's contact
+             * email address. A new account starts with the sign-up email. `null` when none is set.
+             * anyOf[2] (Value): null.
+             */
+            "email"?: ((string | null) | (null) | (unknown));
+            /**
+             * A square image, at least 128 by 128 pixels, shown where the store needs a small
+             * mark: browser tabs and compact headers. anyOf[1] (Value): {@link ImageAttachment}. A
+             * square image, at least 128 by 128 pixels, shown where the store needs a small mark:
+             * browser tabs and compact headers. anyOf[2] (Value): null.
+             */
+            "icon"?: ((ImageAttachment) | (null));
+            /**
+             * The merchant's public brand mark. anyOf[1] (Value): {@link ImageAttachment}. The
+             * merchant's public brand mark. anyOf[2] (Value): null.
+             */
+            "logo"?: ((ImageAttachment) | (null));
+            /**
+             * Stable identifier of the merchant. anyOf[1] (Value): string. Stable identifier of
+             * the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The account's contact phone number, in international format such as +12125551234.
+             * anyOf[1] (Value): string. The account's contact phone number, in international
+             * format such as +12125551234. anyOf[2] (Value): null.
+             */
+            "phone"?: ((string) | (null));
+            /**
+             * Whether the merchant can accept payments and receive payouts, and what is still
+             * needed. anyOf[1] (Value): {@link MerchantReadiness}. Whether the merchant can accept
+             * payments and receive payouts, and what is still needed. anyOf[2] (Value): null.
+             */
+            "readiness"?: ((MerchantReadiness) | (null));
+            /**
+             * Whether Flint lets the account operate. `readiness` says whether payments and
+             * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+             * anyOf[1] (Value): string. Whether Flint lets the account operate. `readiness` says
+             * whether payments and payouts are available. Value enum: "active", "suspended",
+             * "restricted", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "suspended" | "restricted" | "closed" | (string & {})) | (null));
+            /**
+             * Support email address shown to buyers, for example on receipts and checkout.
+             * anyOf[1] (Value): string. Support email address shown to buyers, for example on
+             * receipts and checkout. anyOf[2] (Value): null.
+             */
+            "support_email"?: ((string) | (null));
+            /**
+             * Support phone number shown to buyers, in international format such as +12125551234.
+             * anyOf[1] (Value): string. Support phone number shown to buyers, in international
+             * format such as +12125551234. anyOf[2] (Value): null.
+             */
+            "support_phone"?: ((string) | (null));
+            /**
+             * Support page shown to buyers. anyOf[1] (Value): string. Support page shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "support_url"?: ((string) | (null));
+            /**
+             * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+             * locations, notifications, and reporting when a request omits its time zone. Omitted
+             * when unset; UTC then applies. Existing resources keep their saved time zone.
+             * anyOf[1] (Value): string. Business IANA time zone, such as America/New_York. Used
+             * for invoice deadlines, new locations, notifications, and reporting when a request
+             * omits its time zone. Omitted when unset; UTC then applies. Existing resources keep
+             * their saved time zone. anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Merchant version. Profile, status, and API version changes advance this version,
+             * including business name and business type changes synced from the payment provider.
+             * Readiness updates alone do not. anyOf[1] (Value): integer. Merchant version.
+             * Profile, status, and API version changes advance this version, including business
+             * name and business type changes synced from the payment provider. Readiness updates
+             * alone do not. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * The business's website. anyOf[1] (Value): string. The business's website. anyOf[2]
+             * (Value): null.
+             */
+            "website_url"?: ((string) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

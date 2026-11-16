@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](InvoiceCollectionBlockResolvedMerchantEvent.md#invoicecollectionblockresolvedmerchanteventdata-fields-1).
+Field definitions: [shared fields](InvoiceCreatedMerchantEvent.md#invoicecreatedmerchanteventdata-fields-1).
 
 ### InvoiceReminderDueInstalledMerchantsEvent.data fields 1.object
 

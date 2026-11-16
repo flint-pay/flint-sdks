@@ -33,3 +33,7 @@ Field definitions: [shared fields](ReturnInspectionAcceptanceDecidedMerchantEven
 
 Field definitions: [ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.object](../models/ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1object).
 
+### ReturnInspectionSupersededMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes](../models/ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1previous_attributes).
+

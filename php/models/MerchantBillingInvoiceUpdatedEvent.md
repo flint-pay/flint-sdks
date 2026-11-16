@@ -33,3 +33,7 @@ Field definitions: [shared fields](MerchantBillingInvoiceIssuedEvent.md#merchant
 
 Field definitions: [MerchantBillingInvoiceIssuedEvent.data fields 1.object](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1object).
 
+### MerchantBillingInvoiceUpdatedEvent.data fields 1.previous_attributes
+
+Field definitions: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributes).
+

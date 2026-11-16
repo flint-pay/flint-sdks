@@ -33,3 +33,7 @@ Field definitions: [shared fields](InventoryReservationActionRequiredMerchantEve
 
 Field definitions: [InventoryReservationActionRequiredMerchantEvent.data fields 1.object](../models/InventoryReservationActionRequiredMerchantEvent.md#inventoryreservationactionrequiredmerchanteventdata-fields-1object).
 
+### InventoryReservationConsumedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [InventoryReservationActionRequiredMerchantEvent.data fields 1.previous_attributes](../models/InventoryReservationActionRequiredMerchantEvent.md#inventoryreservationactionrequiredmerchanteventdata-fields-1previous_attributes).
+

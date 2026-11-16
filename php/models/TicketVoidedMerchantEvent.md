@@ -33,3 +33,7 @@ Field definitions: [shared fields](TicketCheckedInMerchantEvent.md#ticketchecked
 
 Field definitions: [TicketCheckedInMerchantEvent.data fields 1.object](../models/TicketCheckedInMerchantEvent.md#ticketcheckedinmerchanteventdata-fields-1object).
 
+### TicketVoidedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [TicketCheckedInMerchantEvent.data fields 1.previous_attributes](../models/TicketCheckedInMerchantEvent.md#ticketcheckedinmerchanteventdata-fields-1previous_attributes).
+

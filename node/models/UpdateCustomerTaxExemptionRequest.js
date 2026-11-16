@@ -1,14 +1,14 @@
-import { d6351 as c0 } from '../descriptors/data/291.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5942 as c1 } from '../descriptors/data/268.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6038 as c2 } from '../descriptors/data/274.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6320 as c3 } from '../descriptors/data/289.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6186 as c4, d6187 as c5, d6188 as c6, d6189 as c7 } from '../descriptors/data/282.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5667 as c8 } from '../descriptors/data/247.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5667 as d5667 } from '../descriptors/data/247.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d7154 as c0 } from '../descriptors/data/323.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6745 as c1 } from '../descriptors/data/300.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6841 as c2 } from '../descriptors/data/306.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7123 as c3 } from '../descriptors/data/321.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6989 as c4, d6990 as c5, d6991 as c6, d6992 as c7 } from '../descriptors/data/314.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6470 as c8 } from '../descriptors/data/279.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6470 as d6470 } from '../descriptors/data/279.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5667;
+const read = d6470;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CustomerTaxExemptionCoverageRequest"]:c0(),["SharedCodec1687"]:c1(),["SharedCodec1690"]:c2(),["SharedCodec1697"]:c3(),["SharedCodec492"]:c4(),["SharedCodec493"]:c5(),["SharedCodec494"]:c6(),["SharedCodec495"]:c7(),["UpdateCustomerTaxExemptionRequest"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CustomerTaxExemptionCoverageRequest"]:c0(),["SharedCodec2406"]:c1(),["SharedCodec2409"]:c2(),["SharedCodec2416"]:c3(),["SharedCodec614"]:c4(),["SharedCodec615"]:c5(),["SharedCodec616"]:c6(),["SharedCodec617"]:c7(),["UpdateCustomerTaxExemptionRequest"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateCustomerTaxExemptionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

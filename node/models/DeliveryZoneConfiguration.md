@@ -71,15 +71,7 @@ oneOf variant 7.
 
 A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `all` | Conditional | Array of [DeliveryZoneConfiguration](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. |
-| `any` | Conditional | Array of [DeliveryZoneConfiguration](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. |
-| `country` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry). |
-| `not` | Conditional | [DeliveryZoneConfiguration](../models/DeliveryZoneConfiguration.md#deliveryzoneconfiguration) | Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `postal_code` | Conditional | [DeliveryPostalCodeCondition](../models/DeliveryPostalCodeCondition.md#deliverypostalcodecondition) | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code). |
-| `radius` | Conditional | [DeliveryRadiusCondition](../models/DeliveryRadiusCondition.md#deliveryradiuscondition) | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius). |
-| `state` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate). |
+Field definitions: [shared fields](DeliveryZoneArchivedInstalledMerchantsEvent.md#deliveryzonearchivedinstalledmerchantseventdataprevious_attributesconfiguration).
 
 ### DeliveryZoneConfiguration.all[] variant 1
 

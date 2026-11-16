@@ -1,1 +1,1 @@
-{"shared":"TicketWithAdmissionCode","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedOrderSummary","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1001","SharedCodec1669","SharedCodec1680","TicketWithAdmissionCode"]}
+{"shared":"TicketWithAdmissionCode","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedOrderSummary","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1180","SharedCodec2381","SharedCodec2399","TicketWithAdmissionCode"]}

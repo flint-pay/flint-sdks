@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string | ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. |
-| `order_id` | Required | string | ID of the renewal order waiting for stock. Merchant credentials only. |
+| `invoice_id` | Optional | string | ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. |
+| `order_id` | Optional | string | ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. |
 | `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 

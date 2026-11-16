@@ -1,8 +1,8 @@
 import type {
     PartnerAppPermissionManifestEntry,
-    PartnerApp,
     PartnerAppMerchantActionRouting,
     PartnerAppPaymentSplits,
+    PartnerApp,
     PartnerAppMerchantReadiness
 } from './types-43.js';
 import type { MerchantWebhookEnvelope } from './types-38.js';
@@ -115,7 +115,36 @@ export type PartnerAppPlatformApprovedEvent = ((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<PartnerApp>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allowed_scopes"?: ((Array<string>) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "client_id"?: ((string) | (null));
+            "client_secret_enabled"?: ((boolean) | (null));
+            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "default_requested_permissions"?: ((Array<string>) | (null));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRouting) | (null));
+            "merchant_action_url"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerAppPaymentSplits) | (null));
+            "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntry>) | (null));
+            "platform"?: ((PartnerAppPlatform) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfile) | (null));
+            "previous_secret_expires_at"?: ((string) | (null));
+            "redirect_uris"?: ((Array<string>) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"accept_platform_terms" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "partner_app.platform_approved";
@@ -189,7 +218,36 @@ export type PartnerAppPlatformLimitedEvent = ((Exclude<MerchantWebhookEnvelope &
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<PartnerApp>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allowed_scopes"?: ((Array<string>) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "client_id"?: ((string) | (null));
+            "client_secret_enabled"?: ((boolean) | (null));
+            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "default_requested_permissions"?: ((Array<string>) | (null));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRouting) | (null));
+            "merchant_action_url"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerAppPaymentSplits) | (null));
+            "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntry>) | (null));
+            "platform"?: ((PartnerAppPlatform) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfile) | (null));
+            "previous_secret_expires_at"?: ((string) | (null));
+            "redirect_uris"?: ((Array<string>) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"accept_platform_terms" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "partner_app.platform_limited";
@@ -335,7 +393,36 @@ export type PartnerAppPlatformRejectedEvent = ((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<PartnerApp>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allowed_scopes"?: ((Array<string>) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "client_id"?: ((string) | (null));
+            "client_secret_enabled"?: ((boolean) | (null));
+            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "default_requested_permissions"?: ((Array<string>) | (null));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRouting) | (null));
+            "merchant_action_url"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerAppPaymentSplits) | (null));
+            "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntry>) | (null));
+            "platform"?: ((PartnerAppPlatform) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfile) | (null));
+            "previous_secret_expires_at"?: ((string) | (null));
+            "redirect_uris"?: ((Array<string>) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"accept_platform_terms" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "partner_app.platform_rejected";
@@ -440,7 +527,36 @@ export type PartnerAppUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<PartnerApp>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allowed_scopes"?: ((Array<string>) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "client_id"?: ((string) | (null));
+            "client_secret_enabled"?: ((boolean) | (null));
+            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "default_requested_permissions"?: ((Array<string>) | (null));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRouting) | (null));
+            "merchant_action_url"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerAppPaymentSplits) | (null));
+            "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntry>) | (null));
+            "platform"?: ((PartnerAppPlatform) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfile) | (null));
+            "previous_secret_expires_at"?: ((string) | (null));
+            "redirect_uris"?: ((Array<string>) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"accept_platform_terms" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "partner_app.updated";

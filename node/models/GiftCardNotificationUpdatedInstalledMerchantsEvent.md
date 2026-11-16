@@ -25,11 +25,158 @@ Fields shared by partner webhook payloads.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](GiftCardNotificationCreatedInstalledMerchantsEvent.md#giftcardnotificationcreatedinstalledmerchantseventdata).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/GiftCardNotificationCreatedInstalledMerchantsEvent.md#giftcardnotificationcreatedinstalledmerchantseventdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributes). |
 
 ### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.object
 
 Field definitions: [GiftCardNotificationCreatedInstalledMerchantsEvent.data.object](../models/GiftCardNotificationCreatedInstalledMerchantsEvent.md#giftcardnotificationcreatedinstalledmerchantseventdataobject).
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `delivery` | Optional | [GiftCardNotificationDelivery](../models/GiftCardNotificationDelivery.md#giftcardnotificationdelivery) or null | Included on notification retrieval. Contains the most recent sending attempts and delivery events, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. |
+| `gift_card_id` | Optional | string or null | ID of the gift card the notification is about. `gift_card_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesgift_card_id). |
+| `gift_card_notification_id` | Optional | string or null | Unique identifier for this gift card notification, prefixed `gcn_`. `gift_card_notification_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesgift_card_notification_id). |
+| `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) or null | Who the notification is sent to. `recipient`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesrecipient). |
+| `resend_of_notification_id` | Optional | string or null | ID of the earlier notification this one sends again. `resend_of_notification_id`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesresend_of_notification_id). |
+| `sent_at` | Optional | string or null | RFC3339 timestamp. `sent_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `status` | Optional | string or null | Where sending the notification stands. Read `delivery` for the attempts and email events behind it. Values: `"scheduled"`, `"pending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"canceled"`. `status`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesstatus). |
+| `status_reason` | Optional | string or null or null | Why the notification has its current status. credential_rotated means code rotation canceled an unsent notification for the previous code. Null when no reason applies. Values: `"credential_rotated"`, `null`. `status_reason`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributesstatus_reason). |
+| `supported_actions` | Optional | Array of string or null | Lifecycle actions accepted for this notification's stored state, independent of the caller's credentials. Empty when none are available. Items values: `"cancel"`. `supported_actions`: [declared alternatives](../models/GiftCardNotificationUpdatedInstalledMerchantsEvent.md#giftcardnotificationupdatedinstalledmerchantseventdataprevious_attributessupported_actions). |
+| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesversion). |
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.gift_card_id
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.gift_card_id variant 1
+
+anyOf variant 1: ID of the gift card the notification is about..
+
+- Value shape: string. ID of the gift card the notification is about. ID of the gift card the notification is about. Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.gift_card_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the gift card the notification is about. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.gift_card_notification_id
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.gift_card_notification_id variant 1
+
+anyOf variant 1: Unique identifier for this gift card notification, prefixed `gcn_`..
+
+- Value shape: string. Unique identifier for this gift card notification, prefixed `gcn_`. Unique identifier for this gift card notification, prefixed `gcn_`. Example: `"gcn_01KEZF7C0023FN0HF9GH34RZA1"`. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.gift_card_notification_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this gift card notification, prefixed `gcn_`. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient
+
+Who the notification is sent to.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Conditional | string | Email address the notification is sent to. Format: `email`. minLength: `1`. maxLength: `254`. Example: `"buyer@example.com"`. |
+| `message` | Conditional | string | Message included in the notification. minLength: `1`. maxLength: `200`. |
+| `name` | Conditional | string | Name of the person the notification is addressed to. minLength: `1`. maxLength: `255`. |
+| `send_at` | Conditional | string | Optional whole-second send time between now and 90 days from now. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 1
+
+anyOf GiftCardNotificationRecipient: Who the notification is sent to..
+
+- Required: `email`.
+- Optional: `message`, `name`, `send_at`.
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.recipient variant 2
+
+anyOf variant 2.
+
+- Undeclared: `email`, `message`, `name`, `send_at`.
+- Value shape: null. Who the notification is sent to. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.resend_of_notification_id
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.resend_of_notification_id variant 1
+
+anyOf variant 1: ID of the earlier notification this one sends again..
+
+- Value shape: string. ID of the earlier notification this one sends again. ID of the earlier notification this one sends again. Example: `"ntf_01KEZF7C00X0DP9KT950FYXHQ1"`. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.resend_of_notification_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the earlier notification this one sends again. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.sent_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.status
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Where sending the notification stands. Read `delivery` for the attempts and email events behind it..
+
+- Value shape: string. Where sending the notification stands. Read `delivery` for the attempts and email events behind it. Values: `"scheduled"`, `"pending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"canceled"`.
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where sending the notification stands. Read `delivery` for the attempts and email events behind it. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.status_reason
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.status_reason variant 1
+
+anyOf variant 1: Why the notification has its current status. credential_rotated means code rotation canceled an unsent notification for the previous code. Null when no reason applies..
+
+- Value shape: (string or null). Why the notification has its current status. credential_rotated means code rotation canceled an unsent notification for the previous code. Null when no reason applies. Values: `"credential_rotated"`, `null`.
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.status_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the notification has its current status. credential_rotated means code rotation canceled an unsent notification for the previous code. Null when no reason applies. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.supported_actions
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.supported_actions variant 1
+
+anyOf variant 1: Lifecycle actions accepted for this notification's stored state, independent of the caller's credentials. Empty when none are available..
+
+- Value shape: Array of string. Lifecycle actions accepted for this notification's stored state, independent of the caller's credentials. Empty when none are available. Items values: `"cancel"`.
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.supported_actions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Lifecycle actions accepted for this notification's stored state, independent of the caller's credentials. Empty when none are available. 
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### GiftCardNotificationUpdatedInstalledMerchantsEvent.data.previous_attributes.version
+
+Declared alternatives: [GiftCardLoadUpdatedInstalledMerchantsEvent.data.previous_attributes.version](../models/GiftCardLoadUpdatedInstalledMerchantsEvent.md#giftcardloadupdatedinstalledmerchantseventdataprevious_attributesversion).
 
 ### GiftCardNotificationUpdatedInstalledMerchantsEvent.source
 

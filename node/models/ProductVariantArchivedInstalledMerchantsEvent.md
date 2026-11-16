@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object and [WebhookProductVariant](../models/WebhookProductVariant.md#webhookproductvariant) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`, `inventory_availability`. `object`: [field definitions](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributes). |
 
 ### ProductVariantArchivedInstalledMerchantsEvent.data.object
 
@@ -107,6 +107,465 @@ Field definitions: [ProductVariant.unit_price_money](../models/ProductVariant.md
 ### ProductVariantArchivedInstalledMerchantsEvent.data.object.unit_weight
 
 Field definitions: [ProductVariant.unit_weight](../models/ProductVariant.md#productvariantunit_weight).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `barcode` | Optional | string or null | Barcode assigned to this sellable item. `barcode`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesbarcode). |
+| `created_at` | Optional | string or null | When this resource was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescreated_at). |
+| `delivery_configuration_reason` | Optional | string or null | Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`. `delivery_configuration_reason`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_reason). |
+| `delivery_configuration_status` | Optional | string or null | Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`. `delivery_configuration_status`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_configuration_status). |
+| `delivery_profile_id` | Optional | string or null | Identifier of the assigned delivery profile. Digital and service variants opt in to manual delivery with a required manual profile whose allowed_types is exactly [digital] or [service], matching the product type. Without a profile, delivery does not apply. `delivery_profile_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesdelivery_profile_id). |
+| `effective_images` | Optional | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. `effective_images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributeseffective_images). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) or null | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. `gift_card_configuration`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesgift_card_configuration). |
+| `images` | Optional | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) or null | The variant's own images in display order. An empty gallery inherits the product's images. `images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesimages). |
+| `inventory_item_id` | Optional | string or null | The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. `inventory_item_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesinventory_item_id). |
+| `inventory_tracking` | Optional | string or null | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. `inventory_tracking`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesinventory_tracking). |
+| `is_available_for_sale` | Optional | boolean or null | Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. `is_available_for_sale`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesis_available_for_sale). |
+| `is_inheriting_product_images` | Optional | boolean or null | Whether effective_images comes from the product's gallery because this variant's gallery is empty. `is_inheriting_product_images`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesis_inheriting_product_images). |
+| `line_item_tax_category` | Optional | string or null | Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: [12 declared values](#productvariantarchivedinstalledmerchantseventdataprevious_attributes-line_item_tax_category-values). `line_item_tax_category`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesline_item_tax_category). |
+| `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmerchant_id). |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmetadata). |
+| `modifier_set_id` | Optional | string or null or null | ID of the modifier set attached to the variant. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesmodifier_set_id). |
+| `name` | Optional | string or null | Variant name that distinguishes it from the product's other variants. `name`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesname). |
+| `position` | Optional | integer or null | Display order among the product's variants, starting at zero. `position`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesposition). |
+| `product_id` | Optional | string or null | Identifier of the product this variant belongs to. `product_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesproduct_id). |
+| `quantity_price_breaks` | Optional | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) or null | Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. `quantity_price_breaks`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesquantity_price_breaks). |
+| `release_date` | Optional | string or null or null | Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. `release_date`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesrelease_date). |
+| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) or null | Always present. Empty collections are returned as []. `selected_options`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesselected_options). |
+| `sku` | Optional | string or null | Stock keeping unit assigned to this sellable item. `sku`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributessku). |
+| `status` | Optional | string or null | Variant lifecycle status. Archived variants remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesstatus). |
+| `taxable` | Optional | boolean or null | Whether this item is subject to tax. `taxable`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributestaxable). |
+| `unit_dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) or null | Per-unit measurement. Omitted when unknown. `unit_dimensions`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_dimensions). |
+| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Base unit price before quantity price breaks, in the currency's smallest unit. `unit_price_money`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_price_money). |
+| `unit_weight` | Optional | [Weight](../models/Weight.md#weight) or null | Per-unit measurement. Omitted when unknown. `unit_weight`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesunit_weight). |
+| `updated_at` | Optional | string or null | When this resource last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesupdated_at). |
+| `variant_id` | Optional | string or null | Stable identifier of the product variant. `variant_id`: [declared alternatives](../models/ProductVariantArchivedInstalledMerchantsEvent.md#productvariantarchivedinstalledmerchantseventdataprevious_attributesvariant_id). |
+| `version` | Optional | integer or null | Current resource version. Send it as expected_version to reject a write if the resource has changed. `version`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesversion). |
+
+#### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes line_item_tax_category values
+
+- `"general"`
+- `"physical_goods"`
+- `"digital_goods"`
+- `"software"`
+- `"saas"`
+- `"services"`
+- `"professional_services"`
+- `"food"`
+- `"prepared_food"`
+- `"clothing"`
+- `"medical_goods"`
+- `"admission"`
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.barcode
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.barcode](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesbarcode).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.created_at
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.created_at](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributescreated_at).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_configuration_reason
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_configuration_reason variant 1
+
+anyOf variant 1: Reason the variant's delivery configuration needs attention..
+
+- Value shape: string. Reason the variant's delivery configuration needs attention. Values: `"delivery_profile_missing"`, `"delivery_profile_inactive"`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_configuration_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Reason the variant's delivery configuration needs attention. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_configuration_status
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_configuration_status variant 1
+
+anyOf variant 1: Whether the variant's delivery configuration is ready, needs attention, or does not apply..
+
+- Value shape: string. Whether the variant's delivery configuration is ready, needs attention, or does not apply. Values: `"configured"`, `"action_required"`, `"not_applicable"`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_configuration_status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the variant's delivery configuration is ready, needs attention, or does not apply. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_profile_id
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_profile_id variant 1
+
+anyOf variant 1: Identifier of the assigned delivery profile. Digital and service variants opt in to manual delivery with a required manual profile whose allowed_types is exactly [digital] or [service], matching the product type. Without a profile, delivery does not apply..
+
+- Value shape: string. Identifier of the assigned delivery profile. Digital and service variants opt in to manual delivery with a required manual profile whose allowed_types is exactly [digital] or [service], matching the product type. Without a profile, delivery does not apply. Identifier of the assigned delivery profile. Digital and service variants opt in to manual delivery with a required manual profile whose allowed_types is exactly [digital] or [service], matching the product type. Without a profile, delivery does not apply. Example: `"dprof_01KEZF7C0020J13FQYNY9854R0"`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.delivery_profile_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the assigned delivery profile. Digital and service variants opt in to manual delivery with a required manual profile whose allowed_types is exactly [digital] or [service], matching the product type. Without a profile, delivery does not apply. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.effective_images
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.effective_images variant 1
+
+anyOf variant 1: Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery..
+
+- Value shape: Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment). Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.effective_images variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.external_reference_id
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration
+
+Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `custom_amount_bounds` | Conditional | [GiftCardCustomAmountBounds](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountbounds) | Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount. `custom_amount_bounds`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration-variant-1custom_amount_bounds). |
+| `face_value_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Gift card value issued for one unit of this variant, in the same currency as its unit price. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `face_value_money`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfigurationface_value_money). |
+| `price_mode` | Conditional | string | Whether the gift card is sold at its face value or at a discounted price. Values: `"face_value"`, `"discounted"`. |
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 1
+
+anyOf GiftCardProductConfiguration: Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up..
+
+- Required: `face_value_money`, `price_mode`.
+- Optional: `custom_amount_bounds`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 2
+
+anyOf variant 2.
+
+- Undeclared: `custom_amount_bounds`, `face_value_money`, `price_mode`.
+- Value shape: null. Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 1.custom_amount_bounds
+
+Field definitions: [GiftCardProductConfiguration variant 1.custom_amount_bounds](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration-variant-1custom_amount_bounds).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.gift_card_configuration variant 1.face_value_money
+
+Field definitions: [GiftCardProductConfiguration.face_value_money](../models/GiftCardProductConfiguration.md#giftcardproductconfigurationface_value_money).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.images
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.images variant 1
+
+anyOf variant 1: The variant's own images in display order. An empty gallery inherits the product's images..
+
+- Value shape: Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment). The variant's own images in display order. An empty gallery inherits the product's images. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.images variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The variant's own images in display order. An empty gallery inherits the product's images. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.inventory_item_id
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.inventory_item_id variant 1
+
+anyOf variant 1: The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item..
+
+- Value shape: string. The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.inventory_item_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.inventory_tracking
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.inventory_tracking variant 1
+
+anyOf variant 1: Whether sales of this variant consume an inventory item..
+
+- Value shape: string. Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.inventory_tracking variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether sales of this variant consume an inventory item. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.is_available_for_sale
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.is_available_for_sale variant 1
+
+anyOf variant 1: Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads..
+
+- Value shape: boolean. Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.is_available_for_sale variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the variant and its product are both active. Stock isn't considered; `inventory_availability` reports it on reads. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.is_inheriting_product_images
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.is_inheriting_product_images variant 1
+
+anyOf variant 1: Whether effective_images comes from the product's gallery because this variant's gallery is empty..
+
+- Value shape: boolean. Whether effective_images comes from the product's gallery because this variant's gallery is empty. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.is_inheriting_product_images variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether effective_images comes from the product's gallery because this variant's gallery is empty. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.line_item_tax_category
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.line_item_tax_category variant 1
+
+anyOf variant 1: Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default..
+
+- Value shape: string. Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. Values: `"general"`, `"physical_goods"`, `"digital_goods"`, `"software"`, `"saas"`, `"services"`, `"professional_services"`, `"food"`, `"prepared_food"`, `"clothing"`, `"medical_goods"`, `"admission"`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.line_item_tax_category variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stored Flint line-item tax category. New digital-product variants default to digital_goods when omitted. The stored value remains editable. Unset uses the merchant default. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.merchant_id
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.merchant_id](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmerchant_id).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.metadata
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.metadata](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesmetadata).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_set_id
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_set_id variant 1
+
+anyOf variant 1: ID of the modifier set attached to the variant. `null` when no modifier set is attached..
+
+- Value shape: (string or null). ID of the modifier set attached to the variant. `null` when no modifier set is attached. ID of the modifier set attached to the variant. `null` when no modifier set is attached. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.modifier_set_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the modifier set attached to the variant. `null` when no modifier set is attached. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.name
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.name variant 1
+
+anyOf variant 1: Variant name that distinguishes it from the product's other variants..
+
+- Value shape: string. Variant name that distinguishes it from the product's other variants. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Variant name that distinguishes it from the product's other variants. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.position
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.position variant 1
+
+anyOf variant 1: Display order among the product's variants, starting at zero..
+
+- Value shape: integer. Display order among the product's variants, starting at zero. Display order among the product's variants, starting at zero. Format: `int32`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.position variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Display order among the product's variants, starting at zero. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.product_id
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.product_id variant 1
+
+anyOf variant 1: Identifier of the product this variant belongs to..
+
+- Value shape: string. Identifier of the product this variant belongs to. Identifier of the product this variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.product_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the product this variant belongs to. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.quantity_price_breaks
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.quantity_price_breaks variant 1
+
+anyOf variant 1: Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks..
+
+- Value shape: Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak). Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: `10`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.quantity_price_breaks variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.quantity_price_breaks variant 1.[] fields 1
+
+Field definitions: [PaymentLinkAvailableVariant.quantity_price_breaks[]](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantquantity_price_breaks).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.release_date
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.release_date variant 1
+
+anyOf variant 1: Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date..
+
+- Value shape: (string or null). Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Format: `date`. Example: `"2026-08-02"`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.release_date variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.selected_options
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.selected_options variant 1
+
+anyOf variant 1: Always present. Empty collections are returned as []..
+
+- Value shape: Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption). Always present. Empty collections are returned as []. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.selected_options variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Always present. Empty collections are returned as []. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.sku
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.sku](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributessku).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.status
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Variant lifecycle status. Archived variants remain readable and cannot be edited..
+
+- Value shape: string. Variant lifecycle status. Archived variants remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Variant lifecycle status. Archived variants remain readable and cannot be edited. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.taxable
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.taxable variant 1
+
+anyOf variant 1: Whether this item is subject to tax..
+
+- Value shape: boolean. Whether this item is subject to tax. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.taxable variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether this item is subject to tax. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_dimensions
+
+Per-unit measurement. Omitted when unknown.
+
+Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesdimensions).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_dimensions variant 1
+
+anyOf Dimensions: Per-unit measurement. Omitted when unknown..
+
+- Required: `height`, `length`, `unit`, `width`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_dimensions variant 2
+
+anyOf variant 2.
+
+- Undeclared: `height`, `length`, `unit`, `width`.
+- Value shape: null. Per-unit measurement. Omitted when unknown. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money
+
+Base unit price before quantity price breaks, in the currency's smallest unit.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 1
+
+anyOf MoneyValue: Base unit price before quantity price breaks, in the currency's smallest unit..
+
+- Required: `amount`, `currency`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_price_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Base unit price before quantity price breaks, in the currency's smallest unit. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_weight
+
+Per-unit measurement. Omitted when unknown.
+
+Field definitions: [shared fields](PackageUpdatedInstalledMerchantsEvent.md#packageupdatedinstalledmerchantseventdataprevious_attributesweight).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_weight variant 1
+
+anyOf Weight: Per-unit measurement. Omitted when unknown..
+
+- Required: `unit`, `value`.
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.unit_weight variant 2
+
+anyOf variant 2.
+
+- Undeclared: `unit`, `value`.
+- Value shape: null. Per-unit measurement. Omitted when unknown. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.updated_at](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesupdated_at).
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.variant_id
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.variant_id variant 1
+
+anyOf variant 1: Stable identifier of the product variant..
+
+- Value shape: string. Stable identifier of the product variant. Stable identifier of the product variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.variant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of the product variant. 
+
+### ProductVariantArchivedInstalledMerchantsEvent.data.previous_attributes.version
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.version](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesversion).
 
 ### ProductVariantArchivedInstalledMerchantsEvent.source
 

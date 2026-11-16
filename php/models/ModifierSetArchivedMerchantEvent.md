@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ModifierSetArchivedMerchantEvent.md#modifiersetarchivedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ModifierSetArchivedMerchantEvent.md#modifiersetarchivedmerchanteventdata-fields-1previous_attributes). |
 
 ### ModifierSetArchivedMerchantEvent.data fields 1.object
 
@@ -45,4 +45,50 @@ Field definitions: [FulfillmentResponse.data.line_items[].modifiers[].metadata](
 ### ModifierSetArchivedMerchantEvent.data fields 1.object.modifier_groups[]
 
 Field definitions: [BundleResponse.data.modifier_set variant 1.modifier_groups[]](../models/BundleResponse.md#bundleresponsedatamodifier_set-variant-1modifier_groups).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributes).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.created_at](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributescreated_at).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.merchant_id](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesmerchant_id).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.metadata](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesmetadata).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.modifier_groups
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.modifier_groups](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesmodifier_groups).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.modifier_set_id
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.modifier_set_id](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesmodifier_set_id).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.name](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesname).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.status](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesstatus).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.updated_at](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesupdated_at).
+
+### ModifierSetArchivedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.version](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesversion).
 

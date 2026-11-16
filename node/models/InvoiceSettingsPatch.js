@@ -1,14 +1,15 @@
-import { d7293 as c0 } from '../descriptors/data/343.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d8682 as c1, d8659 as c7, d8660 as c8, d8661 as c9, d8662 as c10, d8663 as c11, d8664 as c12 } from '../descriptors/data/426.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d923 as c2 } from '../descriptors/data/45.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5814 as c3 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6039 as c4, d6040 as c5 } from '../descriptors/data/274.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6349 as c6, d6350 as c13 } from '../descriptors/data/291.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d923 as d923 } from '../descriptors/data/45.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d8096 as c0 } from '../descriptors/data/375.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d9485 as c1 } from '../descriptors/data/458.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d923 as c2 } from '../descriptors/data/45.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6617 as c3 } from '../descriptors/data/291.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6842 as c4, d6843 as c5 } from '../descriptors/data/306.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d9430 as c6, d9431 as c7, d9432 as c8, d9433 as c9, d9434 as c10, d9435 as c11 } from '../descriptors/data/456.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7152 as c12, d7153 as c13 } from '../descriptors/data/323.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d923 as d923 } from '../descriptors/data/45.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d923;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentOptionLimitRequest"]:c0(),["InvoiceReminderRule"]:c1(),["InvoiceSettingsPatch"]:c2(),["MoneyValue"]:c3(),["SharedCodec0"]:c4(),["SharedCodec1"]:c5(),["SharedCodec1000"]:c6(),["SharedCodec993"]:c7(),["SharedCodec994"]:c8(),["SharedCodec995"]:c9(),["SharedCodec996"]:c10(),["SharedCodec997"]:c11(),["SharedCodec998"]:c12(),["SharedCodec999"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentOptionLimitRequest"]:c0(),["InvoiceReminderRule"]:c1(),["InvoiceSettingsPatch"]:c2(),["MoneyValue"]:c3(),["SharedCodec0"]:c4(),["SharedCodec1"]:c5(),["SharedCodec1315"]:c6(),["SharedCodec1316"]:c7(),["SharedCodec1317"]:c8(),["SharedCodec1318"]:c9(),["SharedCodec1319"]:c10(),["SharedCodec1320"]:c11(),["SharedCodec1321"]:c12(),["SharedCodec1322"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoiceSettingsPatch(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1138,6 +1138,10 @@ The generated 0.2 beta is an intentional breaking upgrade. It is initially publi
 
 Compare your production call sites against the generated reference and run your payment, refund, checkout, and webhook flows against a sandbox before upgrading. The generator's compatibility baseline does not describe the old handwritten SDK.
 
+## Changes in 8.0.0-beta.5
+
+Checkout credential responses omit merchant-only members. Checkout session and order models now make those members optional, so generated clients accept the buyer projection. Check a field before reading it when using checkout credentials. Webhook previous attributes now accept null for previously absent values in Node and PHP. In PHP, `getPreviousAttributes()` returns a generated model instead of an array. Replace array access with the corresponding getter, such as `getName()`, and use `hasName()` to distinguish an absent key from a previous null value. Error `current_resource` alternatives also follow the refreshed contract; inspect the resource discriminator before using variant fields. The API date remains `2026-09-07`.
+
 ## Changes in 8.0.0-beta.4
 
 See the [beta.4 changelog](CHANGELOG.md#800-beta4) for subscription line quantities, checkout confirmation, order counters and edit states, and replay-secret migration details. Use beta.4 only with a backend serving its pinned contract. Stable 7.0.0 remains on npm `latest` until the production stable cut.

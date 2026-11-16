@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InvoicePaymentAttemptCanceledMerchantEvent.md#invoicepaymentattemptcanceledmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InvoicePaymentAttemptCanceledMerchantEvent.md#invoicepaymentattemptcanceledmerchanteventdata-fields-1previous_attributes). |
 
 ### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.object
 
@@ -41,4 +41,66 @@ Field definitions: [shared fields](InvoicePaymentAttempt.md#invoicepaymentattemp
 ### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.object.last_payment_error
 
 Field definitions: [InvoicePaymentAttemptResponse.data.last_payment_error](../models/InvoicePaymentAttemptResponse.md#invoicepaymentattemptresponsedatalast_payment_error).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributes).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.canceled_at
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.canceled_at](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributescanceled_at).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.cancellation_requested_at
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.cancellation_requested_at](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributescancellation_requested_at).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.checkout_session_id
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.checkout_session_id](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributescheckout_session_id).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.expires_at
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.expires_at](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesexpires_at).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.invoice_id
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.invoice_id](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_id).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.invoice_payment_attempt_id
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.invoice_payment_attempt_id](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_payment_attempt_id).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.invoice_schedule_entry_id
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.invoice_schedule_entry_id](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_schedule_entry_id).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.payment_intent_id
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.payment_intent_id](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributespayment_intent_id).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.rail
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.rail](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesrail).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.settled_at
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.settled_at](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributessettled_at).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.started_at
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.created_at](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributescreated_at).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.status](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesstatus).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.supported_actions](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributessupported_actions).
+
+### InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.updated_at](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesupdated_at).
 

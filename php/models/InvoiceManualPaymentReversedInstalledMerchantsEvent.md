@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](InvoiceManualPaymentCreatedMerchantEvent.md#invoicemanualpaymentcreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](InvoiceManualPaymentReversedMerchantEvent.md#invoicemanualpaymentreversedmerchanteventdata-fields-1).
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [InvoiceManualPaymentCreatedMerchantEvent.data fields 1.object](../models/InvoiceManualPaymentCreatedMerchantEvent.md#invoicemanualpaymentcreatedmerchanteventdata-fields-1object).
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes](../models/InvoiceManualPaymentReversedMerchantEvent.md#invoicemanualpaymentreversedmerchanteventdata-fields-1previous_attributes).
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.source fields 1
 

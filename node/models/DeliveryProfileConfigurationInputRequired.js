@@ -1,11 +1,11 @@
-import { d533 as c0 } from '../descriptors/data/31.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6623 as c1 } from '../descriptors/data/305.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6634 as c2, d6635 as c3, d6638 as c4, d6639 as c5, d6640 as c6, d6643 as c7, d6644 as c8, d6645 as c9, d6646 as c10, d6647 as c11 } from '../descriptors/data/306.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d533 as d533 } from '../descriptors/data/31.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d533 as c0 } from '../descriptors/data/31.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7426 as c1 } from '../descriptors/data/337.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7437 as c2, d7438 as c3, d7441 as c4, d7442 as c5, d7443 as c6, d7446 as c7, d7447 as c8, d7448 as c9, d7449 as c10, d7450 as c11 } from '../descriptors/data/338.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d533 as d533 } from '../descriptors/data/31.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d533;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryProfileConfigurationInputRequired"]:c0(),["DeliveryProfileOriginPolicyRequest"]:c1(),["SharedCodec598"]:c2(),["SharedCodec599"]:c3(),["SharedCodec602"]:c4(),["SharedCodec603"]:c5(),["SharedCodec604"]:c6(),["SharedCodec609"]:c7(),["SharedCodec610"]:c8(),["SharedCodec611"]:c9(),["SharedCodec612"]:c10(),["SharedCodec613"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryProfileConfigurationInputRequired"]:c0(),["DeliveryProfileOriginPolicyRequest"]:c1(),["SharedCodec745"]:c2(),["SharedCodec746"]:c3(),["SharedCodec749"]:c4(),["SharedCodec750"]:c5(),["SharedCodec751"]:c6(),["SharedCodec756"]:c7(),["SharedCodec757"]:c8(),["SharedCodec758"]:c9(),["SharedCodec759"]:c10(),["SharedCodec760"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryProfileConfigurationInputRequired(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

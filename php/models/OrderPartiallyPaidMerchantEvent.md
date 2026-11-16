@@ -33,3 +33,7 @@ Field definitions: [shared fields](OrderClosedMerchantEvent.md#orderclosedmercha
 
 Field definitions: [OrderClosedMerchantEvent.data fields 1.object](../models/OrderClosedMerchantEvent.md#orderclosedmerchanteventdata-fields-1object).
 
+### OrderPartiallyPaidMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [OrderClosedMerchantEvent.data fields 1.previous_attributes](../models/OrderClosedMerchantEvent.md#orderclosedmerchanteventdata-fields-1previous_attributes).
+

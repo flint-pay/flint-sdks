@@ -1,13 +1,13 @@
-import { d7184 as c0, d7190 as c2 } from '../descriptors/data/338.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7293 as c1 } from '../descriptors/data/343.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5814 as c3 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d6241 as c4, d6242 as c5 } from '../descriptors/data/285.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7223 as c6, d7224 as c7, d7225 as c8, d7226 as c9, d7227 as c10, d7228 as c11, d7229 as c12 } from '../descriptors/data/340.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7184 as d7184 } from '../descriptors/data/338.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d7987 as c0, d7993 as c2, d7998 as c6, d7999 as c7, d8000 as c8, d8001 as c9, d8002 as c10, d8003 as c11 } from '../descriptors/data/370.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8096 as c1 } from '../descriptors/data/375.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6617 as c3 } from '../descriptors/data/291.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7044 as c4, d7045 as c5 } from '../descriptors/data/317.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8004 as c12 } from '../descriptors/data/371.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d7987 as d7987 } from '../descriptors/data/370.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7184;
+const read = d7987;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoiceCollectionRequest"]:c0(),["InvoicePaymentOptionLimitRequest"]:c1(),["InvoicePaymentPolicyRequest"]:c2(),["MoneyValue"]:c3(),["SharedCodec868"]:c4(),["SharedCodec869"]:c5(),["SharedCodec875"]:c6(),["SharedCodec876"]:c7(),["SharedCodec877"]:c8(),["SharedCodec878"]:c9(),["SharedCodec879"]:c10(),["SharedCodec880"]:c11(),["SharedCodec881"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoiceCollectionRequest"]:c0(),["InvoicePaymentOptionLimitRequest"]:c1(),["InvoicePaymentPolicyRequest"]:c2(),["MoneyValue"]:c3(),["SharedCodec1152"]:c4(),["SharedCodec1153"]:c5(),["SharedCodec1188"]:c6(),["SharedCodec1189"]:c7(),["SharedCodec1190"]:c8(),["SharedCodec1191"]:c9(),["SharedCodec1192"]:c10(),["SharedCodec1193"]:c11(),["SharedCodec1194"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoiceCollectionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

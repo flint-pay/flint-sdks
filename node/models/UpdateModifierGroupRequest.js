@@ -1,12 +1,12 @@
-import { d5941 as c0, d5943 as c3, d5944 as c4, d5942 as c5 } from '../descriptors/data/268.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7644 as c1, d7646 as c6, d7636 as c7, d7637 as c8 } from '../descriptors/data/365.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5814 as c2 } from '../descriptors/data/259.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5691 as c9 } from '../descriptors/data/249.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5691 as d5691 } from '../descriptors/data/249.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6744 as c0, d6746 as c3, d6747 as c4, d6745 as c5 } from '../descriptors/data/300.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8447 as c1, d8449 as c6, d8439 as c7, d8440 as c8 } from '../descriptors/data/397.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6617 as c2 } from '../descriptors/data/291.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6494 as c9 } from '../descriptors/data/281.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6494 as d6494 } from '../descriptors/data/281.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5691;
+const read = d6494;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MetadataRequest"]:c0(),["ModifierRequest"]:c1(),["MoneyValue"]:c2(),["SharedCodec1685"]:c3(),["SharedCodec1686"]:c4(),["SharedCodec1687"]:c5(),["SharedCodec1731"]:c6(),["SharedCodec1739"]:c7(),["SharedCodec1740"]:c8(),["UpdateModifierGroupRequest"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MetadataRequest"]:c0(),["ModifierRequest"]:c1(),["MoneyValue"]:c2(),["SharedCodec2404"]:c3(),["SharedCodec2405"]:c4(),["SharedCodec2406"]:c5(),["SharedCodec2450"]:c6(),["SharedCodec2458"]:c7(),["SharedCodec2459"]:c8(),["UpdateModifierGroupRequest"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateModifierGroupRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

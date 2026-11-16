@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](GiftCardCreatedMerchantEvent.md#giftcardcreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](GiftCardUpdatedMerchantEvent.md#giftcardupdatedmerchanteventdata-fields-1).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [GiftCardCreatedMerchantEvent.data fields 1.object](../models/GiftCardCreatedMerchantEvent.md#giftcardcreatedmerchanteventdata-fields-1object).
+
+### GiftCardUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [GiftCardUpdatedMerchantEvent.data fields 1.previous_attributes](../models/GiftCardUpdatedMerchantEvent.md#giftcardupdatedmerchanteventdata-fields-1previous_attributes).
 
 ### GiftCardUpdatedInstalledMerchantsEvent.source fields 1
 

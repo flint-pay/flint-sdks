@@ -348,7 +348,127 @@ export type ReportFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, read
             | (Exclude<ReportSucceeded & object, readonly unknown[]>)
             | (Exclude<ReportFailed & object, readonly unknown[]>)
             | (Record<string, unknown>));
-        "previous_attributes"?: Partial<Report>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & (({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & (((({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("pending" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & ({
+            "status"?: (("pending" | (string & {})) | (null));
+        }))
+            | (({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("succeeded" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & ({
+            "status"?: (("succeeded" | (string & {})) | (null));
+        }))
+            | (({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("failed" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & ({
+            "status"?: (("failed" | (string & {})) | (null));
+        }))
+            | (Record<string, unknown>))));
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "report.failed";
@@ -655,7 +775,127 @@ export type ReportSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, r
             | (Exclude<ReportSucceeded & object, readonly unknown[]>)
             | (Exclude<ReportFailed & object, readonly unknown[]>)
             | (Record<string, unknown>));
-        "previous_attributes"?: Partial<Report>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & (({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & (((({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("pending" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & ({
+            "status"?: (("pending" | (string & {})) | (null));
+        }))
+            | (({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("succeeded" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & ({
+            "status"?: (("succeeded" | (string & {})) | (null));
+        }))
+            | (({
+            "as_of_date"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "download"?: ((PublicDownload) | (null));
+            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
+            "interval_end_at"?: ((string) | (null));
+            "interval_start_at"?: ((string) | (null));
+            "report_id"?: ((string) | (null));
+            "report_type"?: (("receivables_aging_v1"
+                | "invoices_itemized_v1"
+                | "gift_card_liability_v1"
+                | "orders_itemized_v1"
+                | "orders_itemized_v2"
+                | "payments_itemized_v1"
+                | "balance_transactions_itemized_v1"
+                | "payouts_itemized_v1"
+                | "tax_itemized_v1"
+                | "tax_summarized_v1"
+                | "merchant_billing_itemized_v1"
+                | "tax_transactions_itemized_v1"
+                | "tax_transactions_itemized_v2"
+                | (string & {}))
+                | (null));
+            "status"?: (("failed" | (string & {})) | (null));
+            "timezone"?: ((string) | (null));
+        })
+            & ({
+            "status"?: (("failed" | (string & {})) | (null));
+        }))
+            | (Record<string, unknown>))));
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "report.succeeded";

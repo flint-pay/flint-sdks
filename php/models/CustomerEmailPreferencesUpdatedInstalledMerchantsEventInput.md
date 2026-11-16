@@ -28,13 +28,95 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributes). |
 
 ### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](CustomerEmailPreferencesInput.md#customeremailpreferencesinput).
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `checkout_reminders` | Optional | boolean or null | A reminder after leaving checkout without paying. `true` unless the buyer turned it off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. `checkout_reminders`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributescheckout_reminders). |
+| `customer_id` | Optional | string or null or null | ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. `customer_id`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributescustomer_id). |
+| `email` | Optional | string or null | The customer's current email address. The preferences belong to this address, so they also apply to guest checkouts and other customers with the same address, and they change when the customer's email changes. On address lookup, the address as sent, trimmed. `email`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesemail). |
+| `shipping_updates` | Optional | boolean or null | Emails about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. `shipping_updates`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesshipping_updates). |
+| `version` | Optional | integer or null or null | The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. `version`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesversion). |
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.checkout_reminders
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.checkout_reminders variant 1
+
+anyOf variant 1: A reminder after leaving checkout without paying. `true` unless the buyer turned it off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either..
+
+- Value shape: boolean. A reminder after leaving checkout without paying. `true` unless the buyer turned it off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.checkout_reminders variant 2
+
+anyOf variant 2.
+
+- Value shape: null. A reminder after leaving checkout without paying. `true` unless the buyer turned it off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.customer_id
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.customer_id variant 1
+
+anyOf variant 1: ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer..
+
+- Value shape: (string or null). ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.customer_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.email
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.email variant 1
+
+anyOf variant 1: The customer's current email address. The preferences belong to this address, so they also apply to guest checkouts and other customers with the same address, and they change when the customer's email changes. On address lookup, the address as sent, trimmed..
+
+- Value shape: string. The customer's current email address. The preferences belong to this address, so they also apply to guest checkouts and other customers with the same address, and they change when the customer's email changes. On address lookup, the address as sent, trimmed. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.email variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The customer's current email address. The preferences belong to this address, so they also apply to guest checkouts and other customers with the same address, and they change when the customer's email changes. On address lookup, the address as sent, trimmed. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.shipping_updates
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.shipping_updates variant 1
+
+anyOf variant 1: Emails about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either..
+
+- Value shape: boolean. Emails about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.shipping_updates variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Emails about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.version
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.version variant 1
+
+anyOf variant 1: The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer..
+
+- Value shape: (integer or null). The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. Format: `uint64`. minimum: `1`. 
+
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. 
 
 ### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.source
 

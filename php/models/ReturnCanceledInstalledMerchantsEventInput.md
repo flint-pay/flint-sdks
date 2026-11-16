@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributes). |
 
 ### ReturnCanceledInstalledMerchantsEventInput.data.object
 
@@ -91,6 +91,498 @@ The affected public resource without expansions, client authority fields, or fie
 - `"disposition_required"`
 - `"resolved"`
 - `"exception"`
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `canceled_at` | Optional | string or null | RFC3339 timestamp. `canceled_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `canceled_by` | Optional | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) or null | Who canceled the Return. |
+| `cancellation_reason` | Optional | string or null | Why the Return was canceled. Values: `"buyer_request"`, `"merchant_request"`, `"duplicate"`, `"expired"`, `"created_in_error"`, `"other"`. `cancellation_reason`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescancellation_reason). |
+| `cancellation_reason_message` | Optional | string or null | Detail sent with the cancellation. Merchant reads only. `cancellation_reason_message`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescancellation_reason_message). |
+| `completed_at` | Optional | string or null | RFC3339 timestamp. `completed_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `completed_by` | Optional | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) or null | Who completed the Return. `system` when Flint completed it automatically. |
+| `completion_blockers` | Optional | Array of [ReturnCompletionBlockerInput](../models/ReturnCompletionBlockerInput.md#returncompletionblockerinput) or null | What is still owed before the Return can complete. Empty when nothing is. `completion_blockers`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescompletion_blockers). |
+| `completion_mode` | Optional | string or null | automatic completes the Return when the last completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Values: `"manual"`, `"automatic"`. `completion_mode`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescompletion_mode). |
+| `completion_reason` | Optional | string or null | Why the Return was completed by hand. Absent when Flint completed it automatically. Values: `"manual_completion"`, `"exception_waived"`, `"other"`. `completion_reason`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescompletion_reason). |
+| `completion_reason_message` | Optional | string or null | Detail sent when the Return was completed by hand. `completion_reason_message`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescompletion_reason_message). |
+| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `customer` | Optional | [ExpandedCustomerSummaryInput](../models/ExpandedCustomerSummaryInput.md#expandedcustomersummaryinput) or null or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
+| `customer_id` | Optional | string or null | The customer the Return belongs to. `customer_id`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributescustomer_id). |
+| `decision_at` | Optional | string or null | RFC3339 timestamp. `decision_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `decision_status` | Optional | string or null | Whether the requested units were approved. `pending` until one decision covers every line. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. `decision_status`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesdecision_status). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
+| `financial_summary` | Optional | [ReturnFinancialSummaryInput](../models/ReturnFinancialSummaryInput.md#returnfinancialsummaryinput) or null | The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. |
+| `handoff_requirements` | Optional | Array of [ReturnHandoffRequirementInput](../models/ReturnHandoffRequirementInput.md#returnhandoffrequirementinput) or null | What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. `handoff_requirements`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributeshandoff_requirements). |
+| `initiated_by` | Optional | string or null | Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`. `initiated_by`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesinitiated_by). |
+| `line_items` | Optional | Array of [ReturnLineItemInput](../models/ReturnLineItemInput.md#returnlineiteminput) or null | The lines being returned. `line_items`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesline_items). |
+| `merchandise_status` | Optional | string or null | On the Return, the least-finished line's value. Values: [10 declared values](#returncanceledinstalledmerchantseventinputdataprevious_attributes-merchandise_status-values). `merchandise_status`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesmerchandise_status). |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. |
+| `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
+| `order_id` | Optional | string or null | ID of the Order the Return is against. `order_id`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesorder_id). |
+| `policy_evaluation` | Optional | [ReturnPolicyEvaluationInput](../models/ReturnPolicyEvaluationInput.md#returnpolicyevaluationinput) or null | How your return policies judged the request when the Return was created. |
+| `resolution_status` | Optional | string or null | Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`. `resolution_status`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesresolution_status). |
+| `return_disposition_ids` | Optional | Array of string or null | IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline. `return_disposition_ids`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_disposition_ids). |
+| `return_dispositions` | Optional | Array of [ReturnDispositionInput](../models/ReturnDispositionInput.md#returndispositioninput) or null | Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. `return_dispositions`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_dispositions). |
+| `return_id` | Optional | string or null | Unique identifier for this return, prefixed `ret_`. `return_id`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_id). |
+| `return_inspection_ids` | Optional | Array of string or null | IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline. `return_inspection_ids`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_inspection_ids). |
+| `return_inspections` | Optional | Array of [ReturnInspectionInput](../models/ReturnInspectionInput.md#returninspectioninput) or null | Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. `return_inspections`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_inspections). |
+| `return_number` | Optional | string or null | Human-readable number for the Return. `return_number`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_number). |
+| `return_receipt_ids` | Optional | Array of string or null | IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. `return_receipt_ids`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_receipt_ids). |
+| `return_receipts` | Optional | Array of [ReturnReceiptInput](../models/ReturnReceiptInput.md#returnreceiptinput) or null | Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. `return_receipts`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_receipts). |
+| `return_resolution_ids` | Optional | Array of string or null | IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. `return_resolution_ids`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_resolution_ids). |
+| `return_resolutions` | Optional | Array of [ReturnResolutionInput](../models/ReturnResolutionInput.md#returnresolutioninput) or null | Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. `return_resolutions`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesreturn_resolutions). |
+| `shipment_ids` | Optional | Array of string or null | IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline. `shipment_ids`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesshipment_ids). |
+| `shipments` | Optional | Array of [ExpandedShipmentSummaryInput](../models/ExpandedShipmentSummaryInput.md#expandedshipmentsummaryinput) or null | Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. `shipments`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesshipments). |
+| `status` | Optional | string or null | Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. `status`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesstatus). |
+| `supported_actions` | Optional | Array of string or null | Actions that can succeed now. Actions the API key or token doesn't have the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while no units have been received, inspected, dispositioned, or resolved, and it has no current receipts or inspections, non-canceled dispositions or resolutions, or non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. Items values: `"cancel"`, `"complete"`, `"decide"`, `"process"`, `"reopen"`. `supported_actions`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributessupported_actions). |
+| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `version` | Optional | integer or null | Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. `version`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesversion). |
+
+#### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes merchandise_status values
+
+- `"not_required"`
+- `"awaiting_handoff"`
+- `"in_transit"`
+- `"partially_received"`
+- `"inspection_required"`
+- `"partially_inspected"`
+- `"inspection_review_required"`
+- `"disposition_required"`
+- `"resolved"`
+- `"exception"`
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.canceled_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason variant 1
+
+anyOf variant 1: Why the Return was canceled..
+
+- Value shape: string. Why the Return was canceled. Values: `"buyer_request"`, `"merchant_request"`, `"duplicate"`, `"expired"`, `"created_in_error"`, `"other"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the Return was canceled. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason_message
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason_message variant 1
+
+anyOf variant 1: Detail sent with the cancellation. Merchant reads only..
+
+- Value shape: string. Detail sent with the cancellation. Merchant reads only. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason_message variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Detail sent with the cancellation. Merchant reads only. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completed_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_blockers
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_blockers variant 1
+
+anyOf variant 1: What is still owed before the Return can complete. Empty when nothing is..
+
+- Value shape: Array of [ReturnCompletionBlockerInput](../models/ReturnCompletionBlockerInput.md#returncompletionblockerinput). What is still owed before the Return can complete. Empty when nothing is. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_blockers variant 2
+
+anyOf variant 2.
+
+- Value shape: null. What is still owed before the Return can complete. Empty when nothing is. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_mode
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_mode variant 1
+
+anyOf variant 1: automatic completes the Return when the last completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual..
+
+- Value shape: string. automatic completes the Return when the last completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Values: `"manual"`, `"automatic"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_mode variant 2
+
+anyOf variant 2.
+
+- Value shape: null. automatic completes the Return when the last completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_reason
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_reason variant 1
+
+anyOf variant 1: Why the Return was completed by hand. Absent when Flint completed it automatically..
+
+- Value shape: string. Why the Return was completed by hand. Absent when Flint completed it automatically. Values: `"manual_completion"`, `"exception_waived"`, `"other"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the Return was completed by hand. Absent when Flint completed it automatically. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_reason_message
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_reason_message variant 1
+
+anyOf variant 1: Detail sent when the Return was completed by hand..
+
+- Value shape: string. Detail sent when the Return was completed by hand. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.completion_reason_message variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Detail sent when the Return was completed by hand. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.customer_id
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.customer_id variant 1
+
+anyOf variant 1: The customer the Return belongs to..
+
+- Value shape: string. The customer the Return belongs to. The customer the Return belongs to. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.customer_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The customer the Return belongs to. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.decision_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.decision_status
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.decision_status variant 1
+
+anyOf variant 1: Whether the requested units were approved. `pending` until one decision covers every line..
+
+- Value shape: string. Whether the requested units were approved. `pending` until one decision covers every line. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.decision_status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the requested units were approved. `pending` until one decision covers every line. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.external_reference_id
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id).
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.handoff_requirements
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.handoff_requirements variant 1
+
+anyOf variant 1: What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer..
+
+- Value shape: Array of [ReturnHandoffRequirementInput](../models/ReturnHandoffRequirementInput.md#returnhandoffrequirementinput). What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.handoff_requirements variant 2
+
+anyOf variant 2.
+
+- Value shape: null. What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.initiated_by
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.initiated_by variant 1
+
+anyOf variant 1: Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent..
+
+- Value shape: string. Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.initiated_by variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.line_items
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.line_items variant 1
+
+anyOf variant 1: The lines being returned..
+
+- Value shape: Array of [ReturnLineItemInput](../models/ReturnLineItemInput.md#returnlineiteminput). The lines being returned. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.line_items variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The lines being returned. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.merchandise_status
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.merchandise_status variant 1
+
+anyOf variant 1: On the Return, the least-finished line's value..
+
+- Value shape: string. On the Return, the least-finished line's value. Values: `"not_required"`, `"awaiting_handoff"`, `"in_transit"`, `"partially_received"`, `"inspection_required"`, `"partially_inspected"`, `"inspection_review_required"`, `"disposition_required"`, `"resolved"`, `"exception"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.merchandise_status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. On the Return, the least-finished line's value. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.order_id
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.order_id variant 1
+
+anyOf variant 1: ID of the Order the Return is against..
+
+- Value shape: string. ID of the Order the Return is against. ID of the Order the Return is against. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.order_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the Order the Return is against. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.resolution_status
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.resolution_status variant 1
+
+anyOf variant 1: Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections..
+
+- Value shape: string. Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.resolution_status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_disposition_ids
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_disposition_ids variant 1
+
+anyOf variant 1: IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline..
+
+- Value shape: Array of string. IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline. Items: Example: `"retdsp_01KEZF7C007H87J66PH2EEK1VW"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_disposition_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_dispositions
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_dispositions variant 1
+
+anyOf variant 1: Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order..
+
+- Value shape: Array of [ReturnDispositionInput](../models/ReturnDispositionInput.md#returndispositioninput). Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_dispositions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_id
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_id variant 1
+
+anyOf variant 1: Unique identifier for this return, prefixed `ret_`..
+
+- Value shape: string. Unique identifier for this return, prefixed `ret_`. Unique identifier for this return, prefixed `ret_`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this return, prefixed `ret_`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_inspection_ids
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_inspection_ids variant 1
+
+anyOf variant 1: IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline..
+
+- Value shape: Array of string. IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline. Items: Example: `"retins_01KEZF7C00WPB0BR4WTT7CMSB8"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_inspection_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_inspections
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_inspections variant 1
+
+anyOf variant 1: Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order..
+
+- Value shape: Array of [ReturnInspectionInput](../models/ReturnInspectionInput.md#returninspectioninput). Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_inspections variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_number
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_number variant 1
+
+anyOf variant 1: Human-readable number for the Return..
+
+- Value shape: string. Human-readable number for the Return. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_number variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Human-readable number for the Return. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_receipt_ids
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_receipt_ids variant 1
+
+anyOf variant 1: IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline..
+
+- Value shape: Array of string. IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. Items: Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_receipt_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_receipts
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_receipts variant 1
+
+anyOf variant 1: Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order..
+
+- Value shape: Array of [ReturnReceiptInput](../models/ReturnReceiptInput.md#returnreceiptinput). Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_receipts variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_resolution_ids
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_resolution_ids variant 1
+
+anyOf variant 1: IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline..
+
+- Value shape: Array of string. IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. Items: Example: `"retres_01KEZF7C00C7RZJN31W9SGMEQ3"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_resolution_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_resolutions
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_resolutions variant 1
+
+anyOf variant 1: Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order..
+
+- Value shape: Array of [ReturnResolutionInput](../models/ReturnResolutionInput.md#returnresolutioninput). Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.return_resolutions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.shipment_ids
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.shipment_ids variant 1
+
+anyOf variant 1: IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline..
+
+- Value shape: Array of string. IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline. Items: Example: `"shp_01KEZF7C00Q2AFXWXHMCDR3F68"`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.shipment_ids variant 2
+
+anyOf variant 2.
+
+- Value shape: null. IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.shipments
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.shipments variant 1
+
+anyOf variant 1: Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order..
+
+- Value shape: Array of [ExpandedShipmentSummaryInput](../models/ExpandedShipmentSummaryInput.md#expandedshipmentsummaryinput). Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.shipments variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.status
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.status variant 1
+
+anyOf variant 1: Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need..
+
+- Value shape: string. Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.supported_actions
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.supported_actions variant 1
+
+anyOf variant 1: Actions that can succeed now. Actions the API key or token doesn't have the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while no units have been received, inspected, dispositioned, or resolved, and it has no current receipts or inspections, non-canceled dispositions or resolutions, or non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled Return lists none..
+
+- Value shape: Array of string. Actions that can succeed now. Actions the API key or token doesn't have the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while no units have been received, inspected, dispositioned, or resolved, and it has no current receipts or inspections, non-canceled dispositions or resolutions, or non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. Items values: `"cancel"`, `"complete"`, `"decide"`, `"process"`, `"reopen"`.
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.supported_actions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Actions that can succeed now. Actions the API key or token doesn't have the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while no units have been received, inspected, dispositioned, or resolved, and it has no current receipts or inspections, non-canceled dispositions or resolutions, or non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.version
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.version variant 1
+
+anyOf variant 1: Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value..
+
+- Value shape: integer. Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Format: `int64`. minimum: `0`. 
+
+### ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. 
 
 ### ReturnCanceledInstalledMerchantsEventInput.source
 

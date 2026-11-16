@@ -27,9 +27,58 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](GiftCardLoadCreatedMerchantEvent.md#giftcardloadcreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/GiftCardLoadCreatedMerchantEvent.md#giftcardloadcreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/GiftCardLoadUpdatedMerchantEvent.md#giftcardloadupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### GiftCardLoadUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [GiftCardLoadCreatedMerchantEvent.data fields 1.object](../models/GiftCardLoadCreatedMerchantEvent.md#giftcardloadcreatedmerchanteventdata-fields-1object).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributes).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.funding_disputes
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.funding_disputes](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributesfunding_disputes).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.gift_card_id
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.gift_card_id](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributesgift_card_id).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.gift_card_load_id
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.gift_card_load_id](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributesgift_card_load_id).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.idempotency_key](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributesidempotency_key).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.purchase_refund_value_holds
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.purchase_refund_value_holds](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributespurchase_refund_value_holds).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.purchase_refunds
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.purchase_refunds](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributespurchase_refunds).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.source
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.source](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributessource).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.source_created_at
+
+Declared alternatives: [GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.source_created_at](../models/GiftCardLoadUpdatedMerchantEventDataPreviousAttributes.md#giftcardloadupdatedmerchanteventdatapreviousattributessource_created_at).
+
+### GiftCardLoadUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [GiftCardUpdatedMerchantEventDataPreviousAttributes.version](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributesversion).
 

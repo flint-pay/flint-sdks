@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MerchantBillingBalanceUpdatedEventDataObject $object
- * @property-read ?array<array-key, mixed> $previous_attributes
+ * @property-read ?MerchantBillingBalanceUpdatedEventDataPreviousAttributes $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantBillingBalanceUpdatedEventData extends Model {
-    /** @param array{'object': object{'available_credit_money': mixed, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed, 'past_due_at'?: string, 'past_due_money': mixed, 'payout_hold_at'?: string}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': object{'available_credit_money': mixed, 'currency': string, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed, 'past_due_at'?: string, 'past_due_money': mixed, 'payout_hold_at'?: string}, 'previous_attributes'?: object{'available_credit_money'?: mixed, 'currency'?: mixed, 'merchant_billing_balance_id'?: mixed, 'observed_at'?: mixed, 'outstanding_money'?: mixed, 'past_due_at'?: mixed, 'past_due_money'?: mixed, 'payout_hold_at'?: mixed}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalanceUpdatedEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return MerchantBillingBalanceUpdatedEventDataObject
@@ -14,8 +14,8 @@ final class MerchantBillingBalanceUpdatedEventData extends Model {
     public function getObject(): MerchantBillingBalanceUpdatedEventDataObject { return $this->get('object'); }
     public function hasObject(): bool { return $this->has('object'); }
     /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
-     * @return ?array<array-key, mixed>
+     * @return ?MerchantBillingBalanceUpdatedEventDataPreviousAttributes
      */
-    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function getPreviousAttributes(): ?MerchantBillingBalanceUpdatedEventDataPreviousAttributes { return $this->get('previous_attributes'); }
     public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
 }

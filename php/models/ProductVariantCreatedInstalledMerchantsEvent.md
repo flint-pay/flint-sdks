@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](ProductVariantArchivedMerchantEvent.md#productvariantarchivedmerchanteventdata-fields-1).
+Field definitions: [shared fields](ProductVariantCreatedMerchantEvent.md#productvariantcreatedmerchanteventdata-fields-1).
 
 ### ProductVariantCreatedInstalledMerchantsEvent.data fields 1.object
 

@@ -41,7 +41,7 @@ A payment review requiring a merchant decision.
 
 The credential that closed this payment review. Null when Flint closed it.
 
-Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
+Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
 
 ### PaymentReview.closed_by variant 1
 
@@ -79,7 +79,7 @@ anyOf variant 2.
 
 The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it.
 
-Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
+Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
 
 ### PaymentReview.resolution_started_by variant 1
 

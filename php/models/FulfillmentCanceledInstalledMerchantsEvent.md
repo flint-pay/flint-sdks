@@ -31,6 +31,10 @@ Field definitions: [shared fields](FulfillmentCanceledMerchantEvent.md#fulfillme
 
 Field definitions: [FulfillmentCanceledMerchantEvent.data fields 1.object](../models/FulfillmentCanceledMerchantEvent.md#fulfillmentcanceledmerchanteventdata-fields-1object).
 
+### FulfillmentCanceledInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [FulfillmentCanceledMerchantEvent.data fields 1.previous_attributes](../models/FulfillmentCanceledMerchantEvent.md#fulfillmentcanceledmerchanteventdata-fields-1previous_attributes).
+
 ### FulfillmentCanceledInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

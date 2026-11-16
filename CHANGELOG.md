@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.0-beta.5
+
+Version `8.0.0-beta.5` updates both SDKs to Flint `475bb52b73efe6cd2451263b60cfae5043bec2c6`, API date `2026-09-07`, and generator `d2e00485c76bb57170320343bf5a7ad9911ee533`. This prerelease publishes to npm `next`; `latest` stays `7.0.0`.
+
+Checkout and order responses now accept fields omitted for checkout credentials, including checkout client references, custom field answers, supported actions, and order review IDs. Order decoding no longer requires the retired `buyer_actions` field. Webhook previous attributes decode nullable prior values correctly in Node and PHP, including signed catalog events. The API date stays the same. Handle optional fields before reading them. PHP webhook `getPreviousAttributes()` now returns a generated model instead of an array; use its field getters and presence checks.
+
 ## 8.0.0-beta.4
 
 Version `8.0.0-beta.4` updates both SDKs to Flint `main` at `78a427dec59a83778fa81390dd31700ae3dcc4f3`, with API date `2026-09-07` and generator `7713b37e9bcdf63dbb6242e33c5c5ca4bbd8d323`. This prerelease publishes to npm `next`; `latest` stays `7.0.0`. Install `@flintpay/node@8.0.0-beta.4` or `flintpay/flint:8.0.0-beta.4` explicitly for a backend serving this contract. The packages select 721 of 722 source operations; only the browser OAuth consent redirect is excluded.

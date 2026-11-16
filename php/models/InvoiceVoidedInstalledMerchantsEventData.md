@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | [InvoiceVoidedInstalledMerchantsEventDataObject](../models/InvoiceVoidedInstalledMerchantsEventDataObject.md#invoicevoidedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. `object`: [field definitions](../models/InvoiceVoidedInstalledMerchantsEventData.md#invoicevoidedinstalledmerchantseventdataobject-fields-1). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | [InvoiceVoidedInstalledMerchantsEventDataPreviousAttributes](../models/InvoiceVoidedInstalledMerchantsEventDataPreviousAttributes.md#invoicevoidedinstalledmerchantseventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InvoiceVoidedInstalledMerchantsEventData.md#invoicevoidedinstalledmerchantseventdataprevious_attributes). |
 
 ### InvoiceVoidedInstalledMerchantsEventData.object fields 1
 
@@ -56,4 +56,166 @@ Field definitions: [InvoiceResponse.data.schedule_entries[]](../models/InvoiceRe
 ### InvoiceVoidedInstalledMerchantsEventData.object fields 1.snapshot
 
 Field definitions: [InvoiceResponse.data.snapshot](../models/InvoiceResponse.md#invoiceresponsedatasnapshot).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributes).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.cc_emails
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.cc_emails](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescc_emails).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.closed_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.closed_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesclosed_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.collection
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.collection](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescollection).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.collection_block_status
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.collection_block_status](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescollection_block_status).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.created_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.created_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescreated_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.customer_id
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.customer_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributescustomer_id).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.delivery_mode
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.delivery_mode](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesdelivery_mode).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.due_date
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.due_date](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesdue_date).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.external_reference_id
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.external_reference_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesexternal_reference_id).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.footer
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.footer](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesfooter).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.invoice_id
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.invoice_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesinvoice_id).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.invoice_number
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.invoice_number](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesinvoice_number).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.is_overdue
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.is_overdue](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesis_overdue).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.issued_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.issued_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesissued_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.late_fees
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.late_fees](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributeslate_fees).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.memo
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.memo](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesmemo).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.merchant_id
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.merchant_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesmerchant_id).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.metadata
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.metadata](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesmetadata).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.order_id
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.order_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesorder_id).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.paid_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.paid_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespaid_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.payment_due
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.payment_due](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespayment_due).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.po_number
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.po_number](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespo_number).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.recipient_email
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.recipient_email](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesrecipient_email).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.reference
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.reference](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesreference).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.refund_status
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.refund_status](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesrefund_status).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.reminders_paused
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.reminders_paused](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesreminders_paused).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.reminders_paused_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.reminders_paused_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesreminders_paused_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.schedule_entries
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.schedule_entries](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesschedule_entries).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.scheduled_issue_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.scheduled_issue_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesscheduled_issue_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.service_date
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.service_date](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesservice_date).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.status
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.status](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesstatus).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.subscription_id
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.subscription_id](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessubscription_id).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.supported_actions
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.supported_actions](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessupported_actions).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.timezone
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.timezone](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributestimezone).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.uncollectible_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.uncollectible_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesuncollectible_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.updated_at
+
+Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.updated_at](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesupdated_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.version
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.version](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesversion).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.viewed_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.viewed_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesviewed_at).
+
+### InvoiceVoidedInstalledMerchantsEventData.previous_attributes.voided_at
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.voided_at](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesvoided_at).
 

@@ -31,6 +31,10 @@ Field definitions: [shared fields](DeliverySelectionCommittedMerchantEvent.md#de
 
 Field definitions: [DeliverySelectionCommittedMerchantEvent.data fields 1.object](../models/DeliverySelectionCommittedMerchantEvent.md#deliveryselectioncommittedmerchanteventdata-fields-1object).
 
+### DeliverySelectionCommittedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [DeliverySelectionCommittedMerchantEvent.data fields 1.previous_attributes](../models/DeliverySelectionCommittedMerchantEvent.md#deliveryselectioncommittedmerchanteventdata-fields-1previous_attributes).
+
 ### DeliverySelectionCommittedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PriceListArchivedMerchantEvent.md#pricelistarchivedmerchanteventdata-fields-1).
+Field definitions: [shared fields](PriceListCreatedMerchantEvent.md#pricelistcreatedmerchanteventdata-fields-1).
 
 ### PriceListCreatedInstalledMerchantsEvent.data fields 1.object
 

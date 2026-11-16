@@ -1,11 +1,11 @@
-import { d1003 as c0 } from '../descriptors/data/48.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7667 as c1, d7668 as c2, d7669 as c3, d7670 as c4, d7671 as c5, d7672 as c6, d7673 as c7 } from '../descriptors/data/367.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7674 as c8, d7675 as c9, d7676 as c10 } from '../descriptors/data/368.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d1003 as d1003 } from '../descriptors/data/48.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d1003 as c0 } from '../descriptors/data/48.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8470 as c1, d8471 as c2, d8472 as c3, d8473 as c4, d8474 as c5, d8475 as c6, d8476 as c7 } from '../descriptors/data/399.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8477 as c8, d8478 as c9, d8479 as c10 } from '../descriptors/data/400.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d1003 as d1003 } from '../descriptors/data/48.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d1003;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["OAuthTokenRequest"]:c0(),["SharedCodec1039"]:c1(),["SharedCodec1040"]:c2(),["SharedCodec1041"]:c3(),["SharedCodec1042"]:c4(),["SharedCodec1043"]:c5(),["SharedCodec1044"]:c6(),["SharedCodec1045"]:c7(),["SharedCodec1046"]:c8(),["SharedCodec1047"]:c9(),["SharedCodec1048"]:c10()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["OAuthTokenRequest"]:c0(),["SharedCodec1383"]:c1(),["SharedCodec1384"]:c2(),["SharedCodec1385"]:c3(),["SharedCodec1386"]:c4(),["SharedCodec1387"]:c5(),["SharedCodec1388"]:c6(),["SharedCodec1389"]:c7(),["SharedCodec1390"]:c8(),["SharedCodec1391"]:c9(),["SharedCodec1392"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOAuthTokenRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

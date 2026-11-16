@@ -18,7 +18,7 @@ Response model.
 | `status` | Required | string | Where the subscription is in its lifecycle. Each value says what it means. Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
 | `subscription_id` | Required | string | Unique identifier for this subscription, prefixed `sub_`. |
 | `subscription_plan_id` | Required | string | ID of the subscription plan the terms come from. An empty string when `terms_type` is `subscription_offer`. |
-| `supported_actions` | Required | Array of string | Merchant lifecycle actions accepted by the subscription's current state. Items values: `"cancel"`, `"pause"`, `"resume"`, `"skip_cycle"`, `"renew"`, `"change_plan"`, `"change_quantity"`. |
+| `supported_actions` | Optional | Array of string | Merchant lifecycle actions accepted by the subscription's current state. Always present with merchant credentials. Items values: `"cancel"`, `"pause"`, `"resume"`, `"skip_cycle"`, `"renew"`, `"change_plan"`, `"change_quantity"`. |
 | `terms_type` | Required | string | Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Values: `"subscription_plan"`, `"subscription_offer"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 

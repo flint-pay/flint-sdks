@@ -1,0 +1,10 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DisputeUpdatedMerchantEventDataPreviousAttributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Response model.
+
+Fields, types, descriptions and enum values: [DisputeInquiryClosedMerchantEventDataPreviousAttributes](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributes).
+

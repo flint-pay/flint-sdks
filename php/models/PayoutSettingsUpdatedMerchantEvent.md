@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PayoutSettingsUpdatedMerchantEvent.md#payoutsettingsupdatedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PayoutSettingsUpdatedMerchantEvent.md#payoutsettingsupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### PayoutSettingsUpdatedMerchantEvent.data fields 1.object
 
@@ -41,4 +41,74 @@ Field definitions: [shared fields](PayoutSettings.md#payoutsettings).
 ### PayoutSettingsUpdatedMerchantEvent.data fields 1.object.next_actions[]
 
 Field definitions: [DisputeResponse.meta.warnings[].next_actions[]](../models/DisputeResponse.md#disputeresponsemetawarningsnext_actions).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributes).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.blocked_reasons
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.blocked_reasons](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesblocked_reasons).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.created_at](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributescreated_at).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.default_payout_destinations
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.default_payout_destinations](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesdefault_payout_destinations).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.delay_days
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.delay_days](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesdelay_days).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.delay_days_override
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.delay_days_override](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesdelay_days_override).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.interval
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.interval](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesinterval).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.merchant_id](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesmerchant_id).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.minimum_balance_currency_options
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.minimum_balance_currency_options](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesminimum_balance_currency_options).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.monthly_payout_days
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.monthly_payout_days](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesmonthly_payout_days).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.next_actions
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.next_actions](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesnext_actions).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.payout_settings_id
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.payout_settings_id](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributespayout_settings_id).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.statement_descriptor
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.statement_descriptor](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesstatement_descriptor).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.status](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesstatus).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.updated_at](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesupdated_at).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [PaymentSplitCanceledEvent.data fields 1.previous_attributes.version](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesversion).
+
+### PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes.weekly_payout_days
+
+Declared alternatives: [PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.weekly_payout_days](../models/PayoutSettingsUpdatedMerchantEventDataPreviousAttributes.md#payoutsettingsupdatedmerchanteventdatapreviousattributesweekly_payout_days).
 

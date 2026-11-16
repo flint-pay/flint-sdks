@@ -1,1 +1,1 @@
-{"shared":"CheckoutSubscriptionTerms","dependencies":["CheckoutSubscriptionRecurringShipping","CheckoutSubscriptionTerms","MoneyValue","SharedCodec100","SharedCodec167","SharedCodec168","SharedCodec99","SubscriptionIntervalOption"]}
+{"shared":"CheckoutSubscriptionTerms","dependencies":["CheckoutSubscriptionRecurringShipping","CheckoutSubscriptionTerms","MoneyValue","SharedCodec138","SharedCodec139","SharedCodec233","SharedCodec234","SubscriptionIntervalOption"]}

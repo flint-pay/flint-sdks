@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](TicketCheckedInMerchantEvent.md#ticketcheckedinmerchanteventdata-fields-1).
+Field definitions: [shared fields](TicketCreatedMerchantEvent.md#ticketcreatedmerchanteventdata-fields-1).
 
 ### TicketCreatedInstalledMerchantsEvent.data fields 1.object
 

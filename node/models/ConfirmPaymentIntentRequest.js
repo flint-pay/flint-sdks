@@ -1,12 +1,13 @@
-import { d191 as c0 } from '../descriptors/data/8.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7836 as c1, d7838 as c2, d7839 as c3, d7840 as c4, d7841 as c5 } from '../descriptors/data/375.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7842 as c6, d7843 as c11, d7844 as c13 } from '../descriptors/data/376.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7963 as c7, d7964 as c8, d7965 as c9, d7966 as c10, d7967 as c12 } from '../descriptors/data/383.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d191 as d191 } from '../descriptors/data/8.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d191 as c0 } from '../descriptors/data/8.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8639 as c1, d8641 as c2, d8642 as c3, d8643 as c4, d8644 as c5 } from '../descriptors/data/407.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8645 as c6, d8646 as c11, d8647 as c13 } from '../descriptors/data/408.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8769 as c7, d8772 as c8 } from '../descriptors/data/415.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d8773 as c9, d8774 as c10, d8775 as c12 } from '../descriptors/data/416.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d191 as d191 } from '../descriptors/data/8.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d191;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ConfirmPaymentIntentRequest"]:c0(),["PaymentSourceCredential"]:c1(),["ReaderPaymentSourceTip"]:c2(),["SharedCodec1235"]:c3(),["SharedCodec1236"]:c4(),["SharedCodec1237"]:c5(),["SharedCodec1238"]:c6(),["SharedCodec174"]:c7(),["SharedCodec175"]:c8(),["SharedCodec176"]:c9(),["SharedCodec177"]:c10(),["SharedCodec178"]:c11(),["SharedCodec179"]:c12(),["SharedCodec180"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ConfirmPaymentIntentRequest"]:c0(),["PaymentSourceCredential"]:c1(),["ReaderPaymentSourceTip"]:c2(),["SharedCodec1710"]:c3(),["SharedCodec1711"]:c4(),["SharedCodec1712"]:c5(),["SharedCodec1713"]:c6(),["SharedCodec264"]:c7(),["SharedCodec265"]:c8(),["SharedCodec266"]:c9(),["SharedCodec267"]:c10(),["SharedCodec268"]:c11(),["SharedCodec269"]:c12(),["SharedCodec270"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeConfirmPaymentIntentRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

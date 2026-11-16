@@ -1,7 +1,7 @@
-import { d5687 as c0 } from '../descriptors/data/249.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5687 as d5687 } from '../descriptors/data/249.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6490 as c0 } from '../descriptors/data/281.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
+import { d6490 as d6490 } from '../descriptors/data/281.js?sdk=463b7ee2b27f6903a58bf01aff26d1d854fe2c26aab70e40c0514cdc6ad62453';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5687;
+const read = d6490;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["UpdateMeRequest"]:c0()}); }
 export { codec as _validate };

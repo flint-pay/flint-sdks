@@ -25,11 +25,166 @@ Fields shared by partner webhook payloads.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](InvoiceManualPaymentCreatedInstalledMerchantsEvent.md#invoicemanualpaymentcreatedinstalledmerchantseventdata).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InvoiceManualPaymentCreatedInstalledMerchantsEvent.md#invoicemanualpaymentcreatedinstalledmerchantseventdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributes). |
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.object
 
 Field definitions: [InvoiceManualPaymentCreatedInstalledMerchantsEvent.data.object](../models/InvoiceManualPaymentCreatedInstalledMerchantsEvent.md#invoicemanualpaymentcreatedinstalledmerchantseventdataobject).
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Full amount received, including any principal and late fees covered. `amount_money`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesamount_money). |
+| `invoice_id` | Optional | string or null | The invoice this payment was recorded against. `invoice_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesinvoice_id). |
+| `invoice_manual_payment_id` | Optional | string or null | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. `invoice_manual_payment_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesinvoice_manual_payment_id). |
+| `note` | Optional | string or null | Note about the offline payment, up to 4096 characters. `note`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesnote). |
+| `payment_reference` | Optional | string or null | Caller-owned check, wire, or bank reference, stored unmodified. `payment_reference`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributespayment_reference). |
+| `received_at` | Optional | string or null | When the payment was received. `received_at`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesreceived_at). |
+| `reversal_note` | Optional | string or null | Note supplied when reversing the payment. Present only when reversed and a note was supplied. `reversal_note`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesreversal_note). |
+| `reversed_at` | Optional | string or null | When the payment was reversed. Present only when reversed. `reversed_at`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesreversed_at). |
+| `status` | Optional | string or null | Whether the payment is recorded or has been reversed in full. Values: `"recorded"`, `"reversed"`. `status`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesstatus). |
+| `supported_actions` | Optional | Array of string or null | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"reverse"`. `supported_actions`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributessupported_actions). |
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money
+
+Full amount received, including any principal and late fees covered.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1
+
+anyOf MoneyValue: Full amount received, including any principal and late fees covered..
+
+- Required: `amount`, `currency`.
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Full amount received, including any principal and late fees covered. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_id
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_id variant 1
+
+anyOf variant 1: The invoice this payment was recorded against..
+
+- Value shape: string. The invoice this payment was recorded against. The invoice this payment was recorded against. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The invoice this payment was recorded against. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_manual_payment_id
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_manual_payment_id variant 1
+
+anyOf variant 1: Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id..
+
+- Value shape: string. Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. Example: `"omp_01KEZF7C007J18203RBJKB9TYE"`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_manual_payment_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.note
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.note variant 1
+
+anyOf variant 1: Note about the offline payment, up to 4096 characters..
+
+- Value shape: string. Note about the offline payment, up to 4096 characters. Note about the offline payment, up to 4096 characters. minLength: `1`. maxLength: `4096`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.note variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Note about the offline payment, up to 4096 characters. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.payment_reference
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.payment_reference variant 1
+
+anyOf variant 1: Caller-owned check, wire, or bank reference, stored unmodified..
+
+- Value shape: string. Caller-owned check, wire, or bank reference, stored unmodified. Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.payment_reference variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Caller-owned check, wire, or bank reference, stored unmodified. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.received_at
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.received_at variant 1
+
+anyOf variant 1: When the payment was received..
+
+- Value shape: string. When the payment was received. When the payment was received. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.received_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the payment was received. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.reversal_note
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.reversal_note variant 1
+
+anyOf variant 1: Note supplied when reversing the payment. Present only when reversed and a note was supplied..
+
+- Value shape: string. Note supplied when reversing the payment. Present only when reversed and a note was supplied. Note supplied when reversing the payment. Present only when reversed and a note was supplied. minLength: `1`. maxLength: `4096`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.reversal_note variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Note supplied when reversing the payment. Present only when reversed and a note was supplied. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.reversed_at
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.reversed_at variant 1
+
+anyOf variant 1: When the payment was reversed. Present only when reversed..
+
+- Value shape: string. When the payment was reversed. Present only when reversed. When the payment was reversed. Present only when reversed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.reversed_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the payment was reversed. Present only when reversed. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.status
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Whether the payment is recorded or has been reversed in full..
+
+- Value shape: string. Whether the payment is recorded or has been reversed in full. Values: `"recorded"`, `"reversed"`.
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the payment is recorded or has been reversed in full. 
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.supported_actions
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.supported_actions](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributessupported_actions).
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.source
 

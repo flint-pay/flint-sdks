@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PriceListArchivedMerchantEvent.md#pricelistarchivedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PriceListArchivedMerchantEvent.md#pricelistarchivedmerchanteventdata-fields-1previous_attributes). |
 
 ### PriceListArchivedMerchantEvent.data fields 1.object
 
@@ -41,4 +41,62 @@ Field definitions: [shared fields](PriceList.md#pricelist).
 ### PriceListArchivedMerchantEvent.data fields 1.object.metadata
 
 Field definitions: [PriceListResourceResponse.data.metadata](../models/PriceListResourceResponse.md#pricelistresourceresponsedatametadata).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributes).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.archived_at
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.archived_at](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesarchived_at).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.created_at](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributescreated_at).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.currency
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.currency](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributescurrency).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.customer_segments
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.customer_segments](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributescustomer_segments).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [CreditNoteIssuedMerchantEventDataPreviousAttributes.external_reference_id](../models/CreditNoteIssuedMerchantEventDataPreviousAttributes.md#creditnoteissuedmerchanteventdatapreviousattributesexternal_reference_id).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.merchant_id](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesmerchant_id).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.metadata](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesmetadata).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.name](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesname).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.price_count
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.price_count](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesprice_count).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.price_list_id
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.price_list_id](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesprice_list_id).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.status](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesstatus).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.updated_at](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesupdated_at).
+
+### PriceListArchivedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [PriceListArchivedMerchantEventDataPreviousAttributes.version](../models/PriceListArchivedMerchantEventDataPreviousAttributes.md#pricelistarchivedmerchanteventdatapreviousattributesversion).
 

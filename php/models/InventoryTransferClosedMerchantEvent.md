@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InventoryTransferClosedMerchantEvent.md#inventorytransferclosedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InventoryTransferClosedMerchantEvent.md#inventorytransferclosedmerchanteventdata-fields-1previous_attributes). |
 
 ### InventoryTransferClosedMerchantEvent.data fields 1.object
 
@@ -41,4 +41,74 @@ Field definitions: [shared fields](InventoryTransfer.md#inventorytransfer).
 ### InventoryTransferClosedMerchantEvent.data fields 1.object.lines[]
 
 Field definitions: [InventoryTransferResponse.data.lines[]](../models/InventoryTransferResponse.md#inventorytransferresponsedatalines).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributes).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.closed_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.closed_reason
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.closed_reason](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesclosed_reason).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.departed_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.destination_location_id
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.destination_location_id](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesdestination_location_id).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [InventoryCountAppliedMerchantEventDataPreviousAttributes.idempotency_key](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesidempotency_key).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.inventory_transfer_id
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.inventory_transfer_id](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesinventory_transfer_id).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.lines
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.lines](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributeslines).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.note
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.note](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesnote).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.origin_location_id
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.origin_location_id](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesorigin_location_id).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.received_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.status](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributesstatus).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [InventoryTransferClosedMerchantEventDataPreviousAttributes.supported_actions](../models/InventoryTransferClosedMerchantEventDataPreviousAttributes.md#inventorytransferclosedmerchanteventdatapreviousattributessupported_actions).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.version](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesversion).
 

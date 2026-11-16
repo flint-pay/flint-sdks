@@ -33,3 +33,7 @@ Field definitions: [shared fields](BundleArchivedMerchantEvent.md#bundlearchived
 
 Field definitions: [BundleArchivedMerchantEvent.data fields 1.object](../models/BundleArchivedMerchantEvent.md#bundlearchivedmerchanteventdata-fields-1object).
 
+### BundleUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [BundleArchivedMerchantEvent.data fields 1.previous_attributes](../models/BundleArchivedMerchantEvent.md#bundlearchivedmerchanteventdata-fields-1previous_attributes).
+

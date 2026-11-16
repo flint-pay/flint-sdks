@@ -31,6 +31,10 @@ Field definitions: [shared fields](SubscriptionActivatedMerchantEvent.md#subscri
 
 Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.object](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1object).
 
+### SubscriptionCancellationScheduledInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1previous_attributes).
+
 ### SubscriptionCancellationScheduledInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

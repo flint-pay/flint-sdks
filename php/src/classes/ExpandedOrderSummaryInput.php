@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedOrderSummaryInput extends Model {
-    /** @param array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedOrderSummaryInput')); }
     /** Buyer contact recorded on the order, including guest contact when retained. Omitted when the order has no recorded contact. Buyer contact supplied with payment or saved during checkout.
      * @return CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass
@@ -127,7 +127,7 @@ final class ExpandedOrderSummaryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lifecycle actions Flint accepts on the order now, independent of permissions. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
+    /** Lifecycle actions Flint accepts on the order now, independent of permissions. Always present with merchant credentials. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */

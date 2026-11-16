@@ -33,3 +33,7 @@ Field definitions: [shared fields](MerchantReadinessUpdatedMerchantEvent.md#merc
 
 Field definitions: [MerchantReadinessUpdatedMerchantEvent.data fields 1.object](../models/MerchantReadinessUpdatedMerchantEvent.md#merchantreadinessupdatedmerchanteventdata-fields-1object).
 
+### MerchantUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes](../models/MerchantReadinessUpdatedMerchantEvent.md#merchantreadinessupdatedmerchanteventdata-fields-1previous_attributes).
+

@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1).
+Field definitions: [shared fields](EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1).
 
 ### EnvironmentGrantUpdatedEvent.data fields 1.object
 
 Field definitions: [EnvironmentGrantCreatedEvent.data fields 1.object](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1object).
+
+### EnvironmentGrantUpdatedEvent.data fields 1.previous_attributes
+
+Field definitions: [EnvironmentGrantRevokedEvent.data fields 1.previous_attributes](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributes).
 
 ### EnvironmentGrantUpdatedEvent.source fields 1
 

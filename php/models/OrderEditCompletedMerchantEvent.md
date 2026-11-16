@@ -33,3 +33,7 @@ Field definitions: [shared fields](OrderEditCanceledMerchantEvent.md#ordereditca
 
 Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.object](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1object).
 
+### OrderEditCompletedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.previous_attributes](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1previous_attributes).
+

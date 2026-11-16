@@ -33,3 +33,7 @@ Field definitions: [shared fields](DeliveryRateCallbackActivatedMerchantEvent.md
 
 Field definitions: [DeliveryRateCallbackActivatedMerchantEvent.data fields 1.object](../models/DeliveryRateCallbackActivatedMerchantEvent.md#deliveryratecallbackactivatedmerchanteventdata-fields-1object).
 
+### DeliveryRateCallbackArchivedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [DeliveryRateCallbackActivatedMerchantEvent.data fields 1.previous_attributes](../models/DeliveryRateCallbackActivatedMerchantEvent.md#deliveryratecallbackactivatedmerchanteventdata-fields-1previous_attributes).
+

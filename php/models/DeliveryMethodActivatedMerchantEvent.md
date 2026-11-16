@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/DeliveryMethodActivatedMerchantEvent.md#deliverymethodactivatedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/DeliveryMethodActivatedMerchantEvent.md#deliverymethodactivatedmerchanteventdata-fields-1previous_attributes). |
 
 ### DeliveryMethodActivatedMerchantEvent.data fields 1.object
 
@@ -45,4 +45,70 @@ Field definitions: [DeliveryMethodResponse.data.configuration](../models/Deliver
 ### DeliveryMethodActivatedMerchantEvent.data fields 1.object.metadata
 
 Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributes).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.configuration
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.created_at](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributescreated_at).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.current_delivery_method_revision_id
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.current_delivery_method_revision_id](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributescurrent_delivery_method_revision_id).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.delivery_method_id
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.delivery_method_id](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesdelivery_method_id).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.delivery_revocation_id
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.delivery_revocation_id](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesdelivery_revocation_id).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.description
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.description](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesdescription).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.display_position
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.display_position](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesdisplay_position).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.metadata](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesmetadata).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.name](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesname).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.recommendation_priority
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.recommendation_priority](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesrecommendation_priority).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.status](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesstatus).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.type
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.type](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributestype).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.updated_at](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesupdated_at).
+
+### DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.version](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesversion).
 

@@ -2907,7 +2907,28 @@ export type GiftCardLoadUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "value_money": MoneyValue;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCardLoad>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "consideration_money"?: ((((MoneyValue) | (null))) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "funding_disputes"?: ((Array<GiftCardFundingDispute>) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_load_id"?: ((string) | (null));
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHold>) | (null));
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocation>) | (null));
+            "purchase_restoration"?: ((GiftCardPurchaseRestoration) | (null));
+            "refund_provenance"?: ((GiftCardRefundProvenance) | (null));
+            "refund_transferred_money"?: ((MoneyValue) | (null));
+            "remaining_money"?: ((MoneyValue) | (null));
+            "reversed_money"?: ((MoneyValue) | (null));
+            "source"?: ((GiftCardFundingSource) | (null) | (unknown));
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            "value_money"?: ((MoneyValue) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "gift_card_load.updated";
@@ -2934,7 +2955,28 @@ export type GiftCardLoadUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "value_money": MoneyValue;
             "version": number;
         };
-        "previous_attributes"?: Partial<GiftCardLoad>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "consideration_money"?: ((((MoneyValue) | (null))) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "funding_disputes"?: ((Array<GiftCardFundingDispute>) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_load_id"?: ((string) | (null));
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHold>) | (null));
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocation>) | (null));
+            "purchase_restoration"?: ((GiftCardPurchaseRestoration) | (null));
+            "refund_provenance"?: ((GiftCardRefundProvenance) | (null));
+            "refund_transferred_money"?: ((MoneyValue) | (null));
+            "remaining_money"?: ((MoneyValue) | (null));
+            "reversed_money"?: ((MoneyValue) | (null));
+            "source"?: ((GiftCardFundingSource) | (null) | (unknown));
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            "value_money"?: ((MoneyValue) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "gift_card_load.updated";
@@ -3014,6 +3056,110 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * top-level fields in data.object, at this delivery's API version. Nested changes include the
      * whole previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.consideration_money (Optional): {@link MoneyValue} or null or null. What
+     * the buyer paid for the value, separate from `value_money`. `null` when no payment amount is
+     * recorded. previous_attributes.consideration_money.anyOf[1] (Value): {@link MoneyValue} or
+     * null. What the buyer paid for the value, separate from `value_money`. `null` when no payment
+     * amount is recorded. previous_attributes.consideration_money.anyOf[1].anyOf[1] (Value):
+     * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. previous_attributes.consideration_money.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.consideration_money.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.funding_disputes (Optional): Array of {@link
+     * GiftCardFundingDispute} or null. Restrictions tied to original funding, including value
+     * restored to replacement cards. A win clears only its own restriction. A loss keeps spending
+     * restricted until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1] (Value): Array of {@link
+     * GiftCardFundingDispute}. Restrictions tied to original funding, including value restored to
+     * replacement cards. A win clears only its own restriction. A loss keeps spending restricted
+     * until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1][] (Value): {@link GiftCardFundingDispute}. A
+     * dispute on the payment that funded a gift card load, with its status and any loss
+     * resolution. previous_attributes.funding_disputes.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_id (Optional): string or null. ID of the gift card the load
+     * added value to. previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift
+     * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_load_id (Optional): string or null. Unique identifier for this
+     * gift card load, prefixed `gcl_`. previous_attributes.gift_card_load_id.anyOf[1] (Value):
+     * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". previous_attributes.gift_card_load_id.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHold} or null. Pending original cash refunds holding unspent
+     * value on this descendant funding lot. Unknown provider outcomes retain these holds.
+     * previous_attributes.purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+     * this descendant funding lot. Unknown provider outcomes retain these holds.
+     * previous_attributes.purchase_refund_value_holds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the
+     * refund, the root gift card and load, and the amount held.
+     * previous_attributes.purchase_refund_value_holds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refunds (Optional): Array of {@link
+     * GiftCardPurchaseRefundAllocation} or null. Cash refunds and manual payment reversals against
+     * this original funding load. Pending refunds reserve their value; confirmed success removes
+     * it, and confirmed failure releases the hold. previous_attributes.purchase_refunds.anyOf[1]
+     * (Value): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment
+     * reversals against this original funding load. Pending refunds reserve their value; confirmed
+     * success removes it, and confirmed failure releases the hold.
+     * previous_attributes.purchase_refunds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * previous_attributes.purchase_refunds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration} or
+     * null. Set when the buyer paid again for value that reversing a gift card purchase had
+     * removed, and this load restored it. Names the original card and load, the purchase refund
+     * entry that removed the value, and the purchased unit. Omitted for other loads.
+     * previous_attributes.purchase_restoration.anyOf[1] (Value): {@link
+     * GiftCardPurchaseRestoration}. Set when the buyer paid again for value that reversing a gift
+     * card purchase had removed, and this load restored it. Names the original card and load, the
+     * purchase refund entry that removed the value, and the purchased unit. Omitted for other
+     * loads. previous_attributes.purchase_restoration.anyOf[2] (Value): null.
+     * previous_attributes.refund_provenance (Optional): {@link GiftCardRefundProvenance} or null.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. previous_attributes.refund_provenance.anyOf[1] (Value): {@link
+     * GiftCardRefundProvenance}. Traces a load made by a refund back to its original funding.
+     * `null` when the load wasn't made by a refund. previous_attributes.refund_provenance.anyOf[2]
+     * (Value): null. previous_attributes.refund_transferred_money (Optional): {@link MoneyValue}
+     * or null. The part of this load's value that refunds of redemptions moved onto replacement
+     * gift cards. Omitted until a refund moves value.
+     * previous_attributes.refund_transferred_money.anyOf[1] (Value): {@link MoneyValue}. The part
+     * of this load's value that refunds of redemptions moved onto replacement gift cards. Omitted
+     * until a refund moves value. previous_attributes.refund_transferred_money.anyOf[2] (Value):
+     * null. previous_attributes.remaining_money (Optional): {@link MoneyValue} or null. The value
+     * from this load still on the card: not yet spent, reversed, or moved to a replacement card.
+     * It includes value held by a reserved redemption.
+     * previous_attributes.remaining_money.anyOf[1] (Value): {@link MoneyValue}. The value from
+     * this load still on the card: not yet spent, reversed, or moved to a replacement card. It
+     * includes value held by a reserved redemption. previous_attributes.remaining_money.anyOf[2]
+     * (Value): null. previous_attributes.reversed_money (Optional): {@link MoneyValue} or null.
+     * The value removed from this load by refunding or reversing the purchase that funded it. It
+     * goes down again when a purchase refund fails and the value is restored.
+     * previous_attributes.reversed_money.anyOf[1] (Value): {@link MoneyValue}. The value removed
+     * from this load by refunding or reversing the purchase that funded it. It goes down again
+     * when a purchase refund fails and the value is restored.
+     * previous_attributes.reversed_money.anyOf[2] (Value): null. previous_attributes.source
+     * (Optional): {@link GiftCardFundingSource} or null. Where the value came from, with your
+     * reference for it. previous_attributes.source.anyOf[1] (Value): {@link
+     * GiftCardFundingSource}. Where the value came from, with your reference for it.
+     * previous_attributes.source.anyOf[2] (Value): null. previous_attributes.source_created_at
+     * (Optional): string or null or null. RFC3339 timestamp. `null` when no source time was
+     * recorded. previous_attributes.source_created_at.anyOf[1] (Value): string or null. RFC3339
+     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.source_created_at.anyOf[2] (Value): null.
+     * previous_attributes.value_money (Optional): {@link MoneyValue} or null. The face value the
+     * load adds to the card. previous_attributes.value_money.anyOf[1] (Value): {@link MoneyValue}.
+     * The face value the load adds to the card. previous_attributes.value_money.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3177,9 +3323,233 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. consideration_money (Optional): {@link
+         * MoneyValue} or null or null. What the buyer paid for the value, separate from
+         * `value_money`. `null` when no payment amount is recorded. consideration_money.anyOf[1]
+         * (Value): {@link MoneyValue} or null. What the buyer paid for the value, separate from
+         * `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1].anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * consideration_money.anyOf[1].anyOf[2] (Value): null. consideration_money.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. funding_disputes (Optional):
+         * Array of {@link GiftCardFundingDispute} or null. Restrictions tied to original funding,
+         * including value restored to replacement cards. A win clears only its own restriction. A
+         * loss keeps spending restricted until you create a gift card funding disposition.
+         * funding_disputes.anyOf[1] (Value): Array of {@link GiftCardFundingDispute}. Restrictions
+         * tied to original funding, including value restored to replacement cards. A win clears
+         * only its own restriction. A loss keeps spending restricted until you create a gift card
+         * funding disposition. funding_disputes.anyOf[1][] (Value): {@link
+         * GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with its
+         * status and any loss resolution. funding_disputes.anyOf[2] (Value): null. gift_card_id
+         * (Optional): string or null. ID of the gift card the load added value to.
+         * gift_card_id.anyOf[1] (Value): string. ID of the gift card the load added value to.
+         * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
+         * gift_card_load_id (Optional): string or null. Unique identifier for this gift card load,
+         * prefixed `gcl_`. gift_card_load_id.anyOf[1] (Value): string. Unique identifier for this
+         * gift card load, prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC".
+         * gift_card_load_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null or
+         * null. Your Idempotency-Key for the command that created this record. `null` when Flint
+         * created it or no key was sent. idempotency_key.anyOf[1] (Value): string or null. Your
+         * Idempotency-Key for the command that created this record. `null` when Flint created it
+         * or no key was sent. idempotency_key.anyOf[2] (Value): null. purchase_refund_value_holds
+         * (Optional): Array of {@link GiftCardPurchaseRefundValueHold} or null. Pending original
+         * cash refunds holding unspent value on this descendant funding lot. Unknown provider
+         * outcomes retain these holds. purchase_refund_value_holds.anyOf[1] (Value): Array of
+         * {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent
+         * value on this descendant funding lot. Unknown provider outcomes retain these holds.
+         * purchase_refund_value_holds.anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueHold}.
+         * Gift card value held back by a purchase refund, with the refund, the root gift card and
+         * load, and the amount held. purchase_refund_value_holds.anyOf[2] (Value): null.
+         * purchase_refunds (Optional): Array of {@link GiftCardPurchaseRefundAllocation} or null.
+         * Cash refunds and manual payment reversals against this original funding load. Pending
+         * refunds reserve their value; confirmed success removes it, and confirmed failure
+         * releases the hold. purchase_refunds.anyOf[1] (Value): Array of {@link
+         * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+         * this original funding load. Pending refunds reserve their value; confirmed success
+         * removes it, and confirmed failure releases the hold. purchase_refunds.anyOf[1][]
+         * (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card load's
+         * purchase refunds. purchase_refunds.anyOf[2] (Value): null. purchase_restoration
+         * (Optional): {@link GiftCardPurchaseRestoration} or null. Set when the buyer paid again
+         * for value that reversing a gift card purchase had removed, and this load restored it.
+         * Names the original card and load, the purchase refund entry that removed the value, and
+         * the purchased unit. Omitted for other loads. purchase_restoration.anyOf[1] (Value):
+         * {@link GiftCardPurchaseRestoration}. Set when the buyer paid again for value that
+         * reversing a gift card purchase had removed, and this load restored it. Names the
+         * original card and load, the purchase refund entry that removed the value, and the
+         * purchased unit. Omitted for other loads. purchase_restoration.anyOf[2] (Value): null.
+         * refund_provenance (Optional): {@link GiftCardRefundProvenance} or null. Traces a load
+         * made by a refund back to its original funding. `null` when the load wasn't made by a
+         * refund. refund_provenance.anyOf[1] (Value): {@link GiftCardRefundProvenance}. Traces a
+         * load made by a refund back to its original funding. `null` when the load wasn't made by
+         * a refund. refund_provenance.anyOf[2] (Value): null. refund_transferred_money (Optional):
+         * {@link MoneyValue} or null. The part of this load's value that refunds of redemptions
+         * moved onto replacement gift cards. Omitted until a refund moves value.
+         * refund_transferred_money.anyOf[1] (Value): {@link MoneyValue}. The part of this load's
+         * value that refunds of redemptions moved onto replacement gift cards. Omitted until a
+         * refund moves value. refund_transferred_money.anyOf[2] (Value): null. remaining_money
+         * (Optional): {@link MoneyValue} or null. The value from this load still on the card: not
+         * yet spent, reversed, or moved to a replacement card. It includes value held by a
+         * reserved redemption. remaining_money.anyOf[1] (Value): {@link MoneyValue}. The value
+         * from this load still on the card: not yet spent, reversed, or moved to a replacement
+         * card. It includes value held by a reserved redemption. remaining_money.anyOf[2] (Value):
+         * null. reversed_money (Optional): {@link MoneyValue} or null. The value removed from this
+         * load by refunding or reversing the purchase that funded it. It goes down again when a
+         * purchase refund fails and the value is restored. reversed_money.anyOf[1] (Value): {@link
+         * MoneyValue}. The value removed from this load by refunding or reversing the purchase
+         * that funded it. It goes down again when a purchase refund fails and the value is
+         * restored. reversed_money.anyOf[2] (Value): null. source (Optional): {@link
+         * GiftCardFundingSource} or null. Where the value came from, with your reference for it.
+         * source.anyOf[1] (Value): {@link GiftCardFundingSource}. Where the value came from, with
+         * your reference for it. source.anyOf[2] (Value): null. source_created_at (Optional):
+         * string or null or null. RFC3339 timestamp. `null` when no source time was recorded.
+         * source_created_at.anyOf[1] (Value): string or null. RFC3339 timestamp. `null` when no
+         * source time was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * source_created_at.anyOf[2] (Value): null. value_money (Optional): {@link MoneyValue} or
+         * null. The face value the load adds to the card. value_money.anyOf[1] (Value): {@link
+         * MoneyValue}. The face value the load adds to the card. value_money.anyOf[2] (Value):
+         * null. version (Optional): integer or null. Current version of this resource's owned
+         * state. Send it as `expected_version` when changing the resource to reject a stale write.
+         * version.anyOf[1] (Value): integer. Current version of this resource's owned state. Send
+         * it as `expected_version` when changing the resource to reject a stale write. Format:
+         * int64. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCardLoad>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): {@link MoneyValue} or null. What the
+             * buyer paid for the value, separate from `value_money`. `null` when no payment amount
+             * is recorded. anyOf[1].anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2]
+             * (Value): null. anyOf[2] (Value): null.
+             */
+            "consideration_money"?: ((((MoneyValue) | (null))) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. anyOf[1] (Value): Array of {@link
+             * GiftCardFundingDispute}. Restrictions tied to original funding, including value
+             * restored to replacement cards. A win clears only its own restriction. A loss keeps
+             * spending restricted until you create a gift card funding disposition. anyOf[1][]
+             * (Value): {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift
+             * card load, with its status and any loss resolution. anyOf[2] (Value): null.
+             */
+            "funding_disputes"?: ((Array<GiftCardFundingDispute>) | (null));
+            /**
+             * ID of the gift card the load added value to. anyOf[1] (Value): string. ID of the
+             * gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card load, prefixed `gcl_`. anyOf[1] (Value):
+             * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC". anyOf[2] (Value): null.
+             */
+            "gift_card_load_id"?: ((string) | (null));
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent. anyOf[1] (Value): string or null. Your
+             * Idempotency-Key for the command that created this record. `null` when Flint created
+             * it or no key was sent. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            /**
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent
+             * value on this descendant funding lot. Unknown provider outcomes retain these holds.
+             * anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift card value held
+             * back by a purchase refund, with the refund, the root gift card and load, and the
+             * amount held. anyOf[2] (Value): null.
+             */
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHold>) | (null));
+            /**
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+             * this original funding load. Pending refunds reserve their value; confirmed success
+             * removes it, and confirmed failure releases the hold. anyOf[1][] (Value): {@link
+             * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+             * anyOf[2] (Value): null.
+             */
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocation>) | (null));
+            /**
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. anyOf[1] (Value): {@link GiftCardPurchaseRestoration}. Set when the buyer
+             * paid again for value that reversing a gift card purchase had removed, and this load
+             * restored it. Names the original card and load, the purchase refund entry that
+             * removed the value, and the purchased unit. Omitted for other loads. anyOf[2]
+             * (Value): null.
+             */
+            "purchase_restoration"?: ((GiftCardPurchaseRestoration) | (null));
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. anyOf[1] (Value): {@link GiftCardRefundProvenance}. Traces
+             * a load made by a refund back to its original funding. `null` when the load wasn't
+             * made by a refund. anyOf[2] (Value): null.
+             */
+            "refund_provenance"?: ((GiftCardRefundProvenance) | (null));
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. anyOf[1] (Value): {@link
+             * MoneyValue}. The part of this load's value that refunds of redemptions moved onto
+             * replacement gift cards. Omitted until a refund moves value. anyOf[2] (Value): null.
+             */
+            "refund_transferred_money"?: ((MoneyValue) | (null));
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. anyOf[1] (Value):
+             * {@link MoneyValue}. The value from this load still on the card: not yet spent,
+             * reversed, or moved to a replacement card. It includes value held by a reserved
+             * redemption. anyOf[2] (Value): null.
+             */
+            "remaining_money"?: ((MoneyValue) | (null));
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * anyOf[1] (Value): {@link MoneyValue}. The value removed from this load by refunding
+             * or reversing the purchase that funded it. It goes down again when a purchase refund
+             * fails and the value is restored. anyOf[2] (Value): null.
+             */
+            "reversed_money"?: ((MoneyValue) | (null));
+            /**
+             * Where the value came from, with your reference for it. anyOf[1] (Value): {@link
+             * GiftCardFundingSource}. Where the value came from, with your reference for it.
+             * anyOf[2] (Value): null.
+             */
+            "source"?: ((GiftCardFundingSource) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. anyOf[1] (Value): string
+             * or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The face value the load adds to the card. anyOf[1] (Value): {@link MoneyValue}. The
+             * face value the load adds to the card. anyOf[2] (Value): null.
+             */
+            "value_money"?: ((MoneyValue) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3285,6 +3655,110 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * top-level fields in data.object, at this delivery's API version. Nested changes include the
      * whole previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.consideration_money (Optional): {@link MoneyValue} or null or null. What
+     * the buyer paid for the value, separate from `value_money`. `null` when no payment amount is
+     * recorded. previous_attributes.consideration_money.anyOf[1] (Value): {@link MoneyValue} or
+     * null. What the buyer paid for the value, separate from `value_money`. `null` when no payment
+     * amount is recorded. previous_attributes.consideration_money.anyOf[1].anyOf[1] (Value):
+     * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. previous_attributes.consideration_money.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.consideration_money.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.funding_disputes (Optional): Array of {@link
+     * GiftCardFundingDispute} or null. Restrictions tied to original funding, including value
+     * restored to replacement cards. A win clears only its own restriction. A loss keeps spending
+     * restricted until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1] (Value): Array of {@link
+     * GiftCardFundingDispute}. Restrictions tied to original funding, including value restored to
+     * replacement cards. A win clears only its own restriction. A loss keeps spending restricted
+     * until you create a gift card funding disposition.
+     * previous_attributes.funding_disputes.anyOf[1][] (Value): {@link GiftCardFundingDispute}. A
+     * dispute on the payment that funded a gift card load, with its status and any loss
+     * resolution. previous_attributes.funding_disputes.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_id (Optional): string or null. ID of the gift card the load
+     * added value to. previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift
+     * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_load_id (Optional): string or null. Unique identifier for this
+     * gift card load, prefixed `gcl_`. previous_attributes.gift_card_load_id.anyOf[1] (Value):
+     * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". previous_attributes.gift_card_load_id.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your
+     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
+     * key was sent. previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
+     * GiftCardPurchaseRefundValueHold} or null. Pending original cash refunds holding unspent
+     * value on this descendant funding lot. Unknown provider outcomes retain these holds.
+     * previous_attributes.purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
+     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+     * this descendant funding lot. Unknown provider outcomes retain these holds.
+     * previous_attributes.purchase_refund_value_holds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the
+     * refund, the root gift card and load, and the amount held.
+     * previous_attributes.purchase_refund_value_holds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_refunds (Optional): Array of {@link
+     * GiftCardPurchaseRefundAllocation} or null. Cash refunds and manual payment reversals against
+     * this original funding load. Pending refunds reserve their value; confirmed success removes
+     * it, and confirmed failure releases the hold. previous_attributes.purchase_refunds.anyOf[1]
+     * (Value): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment
+     * reversals against this original funding load. Pending refunds reserve their value; confirmed
+     * success removes it, and confirmed failure releases the hold.
+     * previous_attributes.purchase_refunds.anyOf[1][] (Value): {@link
+     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     * previous_attributes.purchase_refunds.anyOf[2] (Value): null.
+     * previous_attributes.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration} or
+     * null. Set when the buyer paid again for value that reversing a gift card purchase had
+     * removed, and this load restored it. Names the original card and load, the purchase refund
+     * entry that removed the value, and the purchased unit. Omitted for other loads.
+     * previous_attributes.purchase_restoration.anyOf[1] (Value): {@link
+     * GiftCardPurchaseRestoration}. Set when the buyer paid again for value that reversing a gift
+     * card purchase had removed, and this load restored it. Names the original card and load, the
+     * purchase refund entry that removed the value, and the purchased unit. Omitted for other
+     * loads. previous_attributes.purchase_restoration.anyOf[2] (Value): null.
+     * previous_attributes.refund_provenance (Optional): {@link GiftCardRefundProvenance} or null.
+     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
+     * made by a refund. previous_attributes.refund_provenance.anyOf[1] (Value): {@link
+     * GiftCardRefundProvenance}. Traces a load made by a refund back to its original funding.
+     * `null` when the load wasn't made by a refund. previous_attributes.refund_provenance.anyOf[2]
+     * (Value): null. previous_attributes.refund_transferred_money (Optional): {@link MoneyValue}
+     * or null. The part of this load's value that refunds of redemptions moved onto replacement
+     * gift cards. Omitted until a refund moves value.
+     * previous_attributes.refund_transferred_money.anyOf[1] (Value): {@link MoneyValue}. The part
+     * of this load's value that refunds of redemptions moved onto replacement gift cards. Omitted
+     * until a refund moves value. previous_attributes.refund_transferred_money.anyOf[2] (Value):
+     * null. previous_attributes.remaining_money (Optional): {@link MoneyValue} or null. The value
+     * from this load still on the card: not yet spent, reversed, or moved to a replacement card.
+     * It includes value held by a reserved redemption.
+     * previous_attributes.remaining_money.anyOf[1] (Value): {@link MoneyValue}. The value from
+     * this load still on the card: not yet spent, reversed, or moved to a replacement card. It
+     * includes value held by a reserved redemption. previous_attributes.remaining_money.anyOf[2]
+     * (Value): null. previous_attributes.reversed_money (Optional): {@link MoneyValue} or null.
+     * The value removed from this load by refunding or reversing the purchase that funded it. It
+     * goes down again when a purchase refund fails and the value is restored.
+     * previous_attributes.reversed_money.anyOf[1] (Value): {@link MoneyValue}. The value removed
+     * from this load by refunding or reversing the purchase that funded it. It goes down again
+     * when a purchase refund fails and the value is restored.
+     * previous_attributes.reversed_money.anyOf[2] (Value): null. previous_attributes.source
+     * (Optional): {@link GiftCardFundingSource} or null. Where the value came from, with your
+     * reference for it. previous_attributes.source.anyOf[1] (Value): {@link
+     * GiftCardFundingSource}. Where the value came from, with your reference for it.
+     * previous_attributes.source.anyOf[2] (Value): null. previous_attributes.source_created_at
+     * (Optional): string or null or null. RFC3339 timestamp. `null` when no source time was
+     * recorded. previous_attributes.source_created_at.anyOf[1] (Value): string or null. RFC3339
+     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.source_created_at.anyOf[2] (Value): null.
+     * previous_attributes.value_money (Optional): {@link MoneyValue} or null. The face value the
+     * load adds to the card. previous_attributes.value_money.anyOf[1] (Value): {@link MoneyValue}.
+     * The face value the load adds to the card. previous_attributes.value_money.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3448,9 +3922,233 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. consideration_money (Optional): {@link
+         * MoneyValue} or null or null. What the buyer paid for the value, separate from
+         * `value_money`. `null` when no payment amount is recorded. consideration_money.anyOf[1]
+         * (Value): {@link MoneyValue} or null. What the buyer paid for the value, separate from
+         * `value_money`. `null` when no payment amount is recorded.
+         * consideration_money.anyOf[1].anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * consideration_money.anyOf[1].anyOf[2] (Value): null. consideration_money.anyOf[2]
+         * (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. funding_disputes (Optional):
+         * Array of {@link GiftCardFundingDispute} or null. Restrictions tied to original funding,
+         * including value restored to replacement cards. A win clears only its own restriction. A
+         * loss keeps spending restricted until you create a gift card funding disposition.
+         * funding_disputes.anyOf[1] (Value): Array of {@link GiftCardFundingDispute}. Restrictions
+         * tied to original funding, including value restored to replacement cards. A win clears
+         * only its own restriction. A loss keeps spending restricted until you create a gift card
+         * funding disposition. funding_disputes.anyOf[1][] (Value): {@link
+         * GiftCardFundingDispute}. A dispute on the payment that funded a gift card load, with its
+         * status and any loss resolution. funding_disputes.anyOf[2] (Value): null. gift_card_id
+         * (Optional): string or null. ID of the gift card the load added value to.
+         * gift_card_id.anyOf[1] (Value): string. ID of the gift card the load added value to.
+         * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
+         * gift_card_load_id (Optional): string or null. Unique identifier for this gift card load,
+         * prefixed `gcl_`. gift_card_load_id.anyOf[1] (Value): string. Unique identifier for this
+         * gift card load, prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC".
+         * gift_card_load_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null or
+         * null. Your Idempotency-Key for the command that created this record. `null` when Flint
+         * created it or no key was sent. idempotency_key.anyOf[1] (Value): string or null. Your
+         * Idempotency-Key for the command that created this record. `null` when Flint created it
+         * or no key was sent. idempotency_key.anyOf[2] (Value): null. purchase_refund_value_holds
+         * (Optional): Array of {@link GiftCardPurchaseRefundValueHold} or null. Pending original
+         * cash refunds holding unspent value on this descendant funding lot. Unknown provider
+         * outcomes retain these holds. purchase_refund_value_holds.anyOf[1] (Value): Array of
+         * {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent
+         * value on this descendant funding lot. Unknown provider outcomes retain these holds.
+         * purchase_refund_value_holds.anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueHold}.
+         * Gift card value held back by a purchase refund, with the refund, the root gift card and
+         * load, and the amount held. purchase_refund_value_holds.anyOf[2] (Value): null.
+         * purchase_refunds (Optional): Array of {@link GiftCardPurchaseRefundAllocation} or null.
+         * Cash refunds and manual payment reversals against this original funding load. Pending
+         * refunds reserve their value; confirmed success removes it, and confirmed failure
+         * releases the hold. purchase_refunds.anyOf[1] (Value): Array of {@link
+         * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+         * this original funding load. Pending refunds reserve their value; confirmed success
+         * removes it, and confirmed failure releases the hold. purchase_refunds.anyOf[1][]
+         * (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card load's
+         * purchase refunds. purchase_refunds.anyOf[2] (Value): null. purchase_restoration
+         * (Optional): {@link GiftCardPurchaseRestoration} or null. Set when the buyer paid again
+         * for value that reversing a gift card purchase had removed, and this load restored it.
+         * Names the original card and load, the purchase refund entry that removed the value, and
+         * the purchased unit. Omitted for other loads. purchase_restoration.anyOf[1] (Value):
+         * {@link GiftCardPurchaseRestoration}. Set when the buyer paid again for value that
+         * reversing a gift card purchase had removed, and this load restored it. Names the
+         * original card and load, the purchase refund entry that removed the value, and the
+         * purchased unit. Omitted for other loads. purchase_restoration.anyOf[2] (Value): null.
+         * refund_provenance (Optional): {@link GiftCardRefundProvenance} or null. Traces a load
+         * made by a refund back to its original funding. `null` when the load wasn't made by a
+         * refund. refund_provenance.anyOf[1] (Value): {@link GiftCardRefundProvenance}. Traces a
+         * load made by a refund back to its original funding. `null` when the load wasn't made by
+         * a refund. refund_provenance.anyOf[2] (Value): null. refund_transferred_money (Optional):
+         * {@link MoneyValue} or null. The part of this load's value that refunds of redemptions
+         * moved onto replacement gift cards. Omitted until a refund moves value.
+         * refund_transferred_money.anyOf[1] (Value): {@link MoneyValue}. The part of this load's
+         * value that refunds of redemptions moved onto replacement gift cards. Omitted until a
+         * refund moves value. refund_transferred_money.anyOf[2] (Value): null. remaining_money
+         * (Optional): {@link MoneyValue} or null. The value from this load still on the card: not
+         * yet spent, reversed, or moved to a replacement card. It includes value held by a
+         * reserved redemption. remaining_money.anyOf[1] (Value): {@link MoneyValue}. The value
+         * from this load still on the card: not yet spent, reversed, or moved to a replacement
+         * card. It includes value held by a reserved redemption. remaining_money.anyOf[2] (Value):
+         * null. reversed_money (Optional): {@link MoneyValue} or null. The value removed from this
+         * load by refunding or reversing the purchase that funded it. It goes down again when a
+         * purchase refund fails and the value is restored. reversed_money.anyOf[1] (Value): {@link
+         * MoneyValue}. The value removed from this load by refunding or reversing the purchase
+         * that funded it. It goes down again when a purchase refund fails and the value is
+         * restored. reversed_money.anyOf[2] (Value): null. source (Optional): {@link
+         * GiftCardFundingSource} or null. Where the value came from, with your reference for it.
+         * source.anyOf[1] (Value): {@link GiftCardFundingSource}. Where the value came from, with
+         * your reference for it. source.anyOf[2] (Value): null. source_created_at (Optional):
+         * string or null or null. RFC3339 timestamp. `null` when no source time was recorded.
+         * source_created_at.anyOf[1] (Value): string or null. RFC3339 timestamp. `null` when no
+         * source time was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * source_created_at.anyOf[2] (Value): null. value_money (Optional): {@link MoneyValue} or
+         * null. The face value the load adds to the card. value_money.anyOf[1] (Value): {@link
+         * MoneyValue}. The face value the load adds to the card. value_money.anyOf[2] (Value):
+         * null. version (Optional): integer or null. Current version of this resource's owned
+         * state. Send it as `expected_version` when changing the resource to reject a stale write.
+         * version.anyOf[1] (Value): integer. Current version of this resource's owned state. Send
+         * it as `expected_version` when changing the resource to reject a stale write. Format:
+         * int64. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<GiftCardLoad>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * What the buyer paid for the value, separate from `value_money`. `null` when no
+             * payment amount is recorded. anyOf[1] (Value): {@link MoneyValue} or null. What the
+             * buyer paid for the value, separate from `value_money`. `null` when no payment amount
+             * is recorded. anyOf[1].anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code. anyOf[1].anyOf[2]
+             * (Value): null. anyOf[2] (Value): null.
+             */
+            "consideration_money"?: ((((MoneyValue) | (null))) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Restrictions tied to original funding, including value restored to replacement
+             * cards. A win clears only its own restriction. A loss keeps spending restricted until
+             * you create a gift card funding disposition. anyOf[1] (Value): Array of {@link
+             * GiftCardFundingDispute}. Restrictions tied to original funding, including value
+             * restored to replacement cards. A win clears only its own restriction. A loss keeps
+             * spending restricted until you create a gift card funding disposition. anyOf[1][]
+             * (Value): {@link GiftCardFundingDispute}. A dispute on the payment that funded a gift
+             * card load, with its status and any loss resolution. anyOf[2] (Value): null.
+             */
+            "funding_disputes"?: ((Array<GiftCardFundingDispute>) | (null));
+            /**
+             * ID of the gift card the load added value to. anyOf[1] (Value): string. ID of the
+             * gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+             * anyOf[2] (Value): null.
+             */
+            "gift_card_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this gift card load, prefixed `gcl_`. anyOf[1] (Value):
+             * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
+             * "gcl_01KEZF7C00YJED2857SE0J6KWC". anyOf[2] (Value): null.
+             */
+            "gift_card_load_id"?: ((string) | (null));
+            /**
+             * Your Idempotency-Key for the command that created this record. `null` when Flint
+             * created it or no key was sent. anyOf[1] (Value): string or null. Your
+             * Idempotency-Key for the command that created this record. `null` when Flint created
+             * it or no key was sent. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            /**
+             * Pending original cash refunds holding unspent value on this descendant funding lot.
+             * Unknown provider outcomes retain these holds. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent
+             * value on this descendant funding lot. Unknown provider outcomes retain these holds.
+             * anyOf[1][] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift card value held
+             * back by a purchase refund, with the refund, the root gift card and load, and the
+             * amount held. anyOf[2] (Value): null.
+             */
+            "purchase_refund_value_holds"?: ((Array<GiftCardPurchaseRefundValueHold>) | (null));
+            /**
+             * Cash refunds and manual payment reversals against this original funding load.
+             * Pending refunds reserve their value; confirmed success removes it, and confirmed
+             * failure releases the hold. anyOf[1] (Value): Array of {@link
+             * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
+             * this original funding load. Pending refunds reserve their value; confirmed success
+             * removes it, and confirmed failure releases the hold. anyOf[1][] (Value): {@link
+             * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+             * anyOf[2] (Value): null.
+             */
+            "purchase_refunds"?: ((Array<GiftCardPurchaseRefundAllocation>) | (null));
+            /**
+             * Set when the buyer paid again for value that reversing a gift card purchase had
+             * removed, and this load restored it. Names the original card and load, the purchase
+             * refund entry that removed the value, and the purchased unit. Omitted for other
+             * loads. anyOf[1] (Value): {@link GiftCardPurchaseRestoration}. Set when the buyer
+             * paid again for value that reversing a gift card purchase had removed, and this load
+             * restored it. Names the original card and load, the purchase refund entry that
+             * removed the value, and the purchased unit. Omitted for other loads. anyOf[2]
+             * (Value): null.
+             */
+            "purchase_restoration"?: ((GiftCardPurchaseRestoration) | (null));
+            /**
+             * Traces a load made by a refund back to its original funding. `null` when the load
+             * wasn't made by a refund. anyOf[1] (Value): {@link GiftCardRefundProvenance}. Traces
+             * a load made by a refund back to its original funding. `null` when the load wasn't
+             * made by a refund. anyOf[2] (Value): null.
+             */
+            "refund_provenance"?: ((GiftCardRefundProvenance) | (null));
+            /**
+             * The part of this load's value that refunds of redemptions moved onto replacement
+             * gift cards. Omitted until a refund moves value. anyOf[1] (Value): {@link
+             * MoneyValue}. The part of this load's value that refunds of redemptions moved onto
+             * replacement gift cards. Omitted until a refund moves value. anyOf[2] (Value): null.
+             */
+            "refund_transferred_money"?: ((MoneyValue) | (null));
+            /**
+             * The value from this load still on the card: not yet spent, reversed, or moved to a
+             * replacement card. It includes value held by a reserved redemption. anyOf[1] (Value):
+             * {@link MoneyValue}. The value from this load still on the card: not yet spent,
+             * reversed, or moved to a replacement card. It includes value held by a reserved
+             * redemption. anyOf[2] (Value): null.
+             */
+            "remaining_money"?: ((MoneyValue) | (null));
+            /**
+             * The value removed from this load by refunding or reversing the purchase that funded
+             * it. It goes down again when a purchase refund fails and the value is restored.
+             * anyOf[1] (Value): {@link MoneyValue}. The value removed from this load by refunding
+             * or reversing the purchase that funded it. It goes down again when a purchase refund
+             * fails and the value is restored. anyOf[2] (Value): null.
+             */
+            "reversed_money"?: ((MoneyValue) | (null));
+            /**
+             * Where the value came from, with your reference for it. anyOf[1] (Value): {@link
+             * GiftCardFundingSource}. Where the value came from, with your reference for it.
+             * anyOf[2] (Value): null.
+             */
+            "source"?: ((GiftCardFundingSource) | (null) | (unknown));
+            /**
+             * RFC3339 timestamp. `null` when no source time was recorded. anyOf[1] (Value): string
+             * or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "source_created_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The face value the load adds to the card. anyOf[1] (Value): {@link MoneyValue}. The
+             * face value the load adds to the card. anyOf[2] (Value): null.
+             */
+            "value_money"?: ((MoneyValue) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

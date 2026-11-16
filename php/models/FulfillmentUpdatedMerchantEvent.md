@@ -33,3 +33,7 @@ Field definitions: [shared fields](FulfillmentCanceledMerchantEvent.md#fulfillme
 
 Field definitions: [FulfillmentCanceledMerchantEvent.data fields 1.object](../models/FulfillmentCanceledMerchantEvent.md#fulfillmentcanceledmerchanteventdata-fields-1object).
 
+### FulfillmentUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [FulfillmentCanceledMerchantEvent.data fields 1.previous_attributes](../models/FulfillmentCanceledMerchantEvent.md#fulfillmentcanceledmerchanteventdata-fields-1previous_attributes).
+

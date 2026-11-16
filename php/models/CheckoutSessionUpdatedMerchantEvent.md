@@ -33,3 +33,7 @@ Field definitions: [shared fields](CheckoutSessionClosedMerchantEvent.md#checkou
 
 Field definitions: [CheckoutSessionClosedMerchantEvent.data fields 1.object](../models/CheckoutSessionClosedMerchantEvent.md#checkoutsessionclosedmerchanteventdata-fields-1object).
 
+### CheckoutSessionUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes](../models/CheckoutSessionClosedMerchantEvent.md#checkoutsessionclosedmerchanteventdata-fields-1previous_attributes).
+

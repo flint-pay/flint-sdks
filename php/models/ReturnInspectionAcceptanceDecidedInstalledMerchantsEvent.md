@@ -31,6 +31,10 @@ Field definitions: [shared fields](ReturnInspectionAcceptanceDecidedMerchantEven
 
 Field definitions: [ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.object](../models/ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1object).
 
+### ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes](../models/ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1previous_attributes).
+
 ### ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

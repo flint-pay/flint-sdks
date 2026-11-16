@@ -16,10 +16,10 @@ namespace Flint;
  * @property-read ?string $started_at
  * @property-read string $status
  * @property-read ?string $status_reason
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class OrderPaymentAttempt extends Model {
-    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'gift_card_redemptions': list<mixed>, 'is_resumable': bool, 'last_payment_error'?: mixed, 'mode': string, 'order_id': string, 'order_payment_attempt_id': string, 'payment_intents': list<mixed>, 'payment_method_save'?: mixed, 'pending_actions': list<mixed>, 'started_at'?: string, 'status': string, 'status_reason'?: string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'gift_card_redemptions': list<mixed>, 'is_resumable': bool, 'last_payment_error'?: mixed, 'mode': string, 'order_id': string, 'order_payment_attempt_id': string, 'payment_intents': list<mixed>, 'payment_method_save'?: mixed, 'pending_actions': list<mixed>, 'started_at'?: string, 'status': string, 'status_reason'?: string, 'supported_actions'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttempt')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -91,9 +91,9 @@ final class OrderPaymentAttempt extends Model {
      */
     public function getStatusReason(): ?string { return $this->get('status_reason'); }
     public function hasStatusReason(): bool { return $this->has('status_reason'); }
-    /** Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
-     * @return list<string>
+    /** Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Always present with merchant credentials. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

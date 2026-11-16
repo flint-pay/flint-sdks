@@ -1455,7 +1455,25 @@ export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Category>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "assigned_bundle_count"?: ((number) | (null));
+            "assigned_product_count"?: ((number) | (null));
+            "category_id"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "handle"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "deleted" | (string & {})) | (null));
+            "targeting_reference_count"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "category.updated";
@@ -1479,7 +1497,25 @@ export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Category>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "assigned_bundle_count"?: ((number) | (null));
+            "assigned_product_count"?: ((number) | (null));
+            "category_id"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "handle"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "deleted" | (string & {})) | (null));
+            "targeting_reference_count"?: ((number) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "category.updated";
@@ -1531,6 +1567,66 @@ export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.assigned_bundle_count (Optional): integer or null. Number of bundles
+     * currently assigned to the category. previous_attributes.assigned_bundle_count.anyOf[1]
+     * (Value): integer. Number of bundles currently assigned to the category. Format: int64.
+     * previous_attributes.assigned_bundle_count.anyOf[2] (Value): null.
+     * previous_attributes.assigned_product_count (Optional): integer or null. Number of products
+     * currently assigned to the category. previous_attributes.assigned_product_count.anyOf[1]
+     * (Value): integer. Number of products currently assigned to the category. Format: int64.
+     * previous_attributes.assigned_product_count.anyOf[2] (Value): null.
+     * previous_attributes.category_id (Optional): string or null. Stable identifier of the
+     * category. previous_attributes.category_id.anyOf[1] (Value): string. Stable identifier of the
+     * category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
+     * previous_attributes.category_id.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When this resource was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When this resource was created, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.description
+     * (Optional): string or null. Description of the category.
+     * previous_attributes.description.anyOf[1] (Value): string. Description of the category.
+     * previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.handle
+     * (Optional): string or null. Immutable handle used to assign this category to products and
+     * bundles. previous_attributes.handle.anyOf[1] (Value): string. Immutable handle used to
+     * assign this category to products and bundles. previous_attributes.handle.anyOf[2] (Value):
+     * null. previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant
+     * that owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns this resource. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. previous_attributes.metadata.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Category name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Category name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Category lifecycle status. Active categories can be assigned; deleted is
+     * returned only by DELETE. Value enum: "active", "deleted".
+     * previous_attributes.status.anyOf[1] (Value): string. Category lifecycle status. Active
+     * categories can be assigned; deleted is returned only by DELETE. Value enum: "active",
+     * "deleted". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.targeting_reference_count (Optional): integer or null. Number of
+     * promotions, return reasons and return policy versions that reference this category. Deleting
+     * the category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+     * `assigned_bundle_count` is above zero.
+     * previous_attributes.targeting_reference_count.anyOf[1] (Value): integer. Number of
+     * promotions, return reasons and return policy versions that reference this category. Deleting
+     * the category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+     * `assigned_bundle_count` is above zero. Format: int64.
+     * previous_attributes.targeting_reference_count.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
+     * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
+     * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Persisted owned-state version.
+     * Clock-based availability and expanded resources do not advance this counter.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
+     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1622,9 +1718,148 @@ export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. assigned_bundle_count (Optional): integer or
+         * null. Number of bundles currently assigned to the category.
+         * assigned_bundle_count.anyOf[1] (Value): integer. Number of bundles currently assigned to
+         * the category. Format: int64. assigned_bundle_count.anyOf[2] (Value): null.
+         * assigned_product_count (Optional): integer or null. Number of products currently
+         * assigned to the category. assigned_product_count.anyOf[1] (Value): integer. Number of
+         * products currently assigned to the category. Format: int64.
+         * assigned_product_count.anyOf[2] (Value): null. category_id (Optional): string or null.
+         * Stable identifier of the category. category_id.anyOf[1] (Value): string. Stable
+         * identifier of the category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
+         * category_id.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. description (Optional):
+         * string or null. Description of the category. description.anyOf[1] (Value): string.
+         * Description of the category. description.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. handle (Optional): string or null.
+         * Immutable handle used to assign this category to products and bundles. handle.anyOf[1]
+         * (Value): string. Immutable handle used to assign this category to products and bundles.
+         * handle.anyOf[2] (Value): null. merchant_id (Optional): string or null. Identifier of the
+         * merchant that owns this resource. merchant_id.anyOf[1] (Value): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Caller-owned metadata stored on this resource. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. Caller-owned metadata stored on this resource. metadata.anyOf[2] (Value):
+         * null. name (Optional): string or null. Category name shown to buyers. name.anyOf[1]
+         * (Value): string. Category name shown to buyers. name.anyOf[2] (Value): null. status
+         * (Optional): string or null. Category lifecycle status. Active categories can be
+         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
+         * status.anyOf[1] (Value): string. Category lifecycle status. Active categories can be
+         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
+         * status.anyOf[2] (Value): null. targeting_reference_count (Optional): integer or null.
+         * Number of promotions, return reasons and return policy versions that reference this
+         * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
+         * `assigned_product_count` or `assigned_bundle_count` is above zero.
+         * targeting_reference_count.anyOf[1] (Value): integer. Number of promotions, return
+         * reasons and return policy versions that reference this category. Deleting the category
+         * is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+         * `assigned_bundle_count` is above zero. Format: int64. targeting_reference_count.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this resource last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Persisted
+         * owned-state version. Clock-based availability and expanded resources do not advance this
+         * counter. version.anyOf[1] (Value): integer. Persisted owned-state version. Clock-based
+         * availability and expanded resources do not advance this counter. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<Category>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of bundles currently assigned to the category. anyOf[1] (Value): integer.
+             * Number of bundles currently assigned to the category. Format: int64. anyOf[2]
+             * (Value): null.
+             */
+            "assigned_bundle_count"?: ((number) | (null));
+            /**
+             * Number of products currently assigned to the category. anyOf[1] (Value): integer.
+             * Number of products currently assigned to the category. Format: int64. anyOf[2]
+             * (Value): null.
+             */
+            "assigned_product_count"?: ((number) | (null));
+            /**
+             * Stable identifier of the category. anyOf[1] (Value): string. Stable identifier of
+             * the category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q". anyOf[2] (Value): null.
+             */
+            "category_id"?: ((string) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Description of the category. anyOf[1] (Value): string. Description of the category.
+             * anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Immutable handle used to assign this category to products and bundles. anyOf[1]
+             * (Value): string. Immutable handle used to assign this category to products and
+             * bundles. anyOf[2] (Value): null.
+             */
+            "handle"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Category name shown to buyers. anyOf[1] (Value): string. Category name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Category lifecycle status. Active categories can be assigned; deleted is returned
+             * only by DELETE. Value enum: "active", "deleted". anyOf[1] (Value): string. Category
+             * lifecycle status. Active categories can be assigned; deleted is returned only by
+             * DELETE. Value enum: "active", "deleted". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "deleted" | (string & {})) | (null));
+            /**
+             * Number of promotions, return reasons and return policy versions that reference this
+             * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
+             * `assigned_product_count` or `assigned_bundle_count` is above zero. anyOf[1] (Value):
+             * integer. Number of promotions, return reasons and return policy versions that
+             * reference this category. Deleting the category is refused with `409 RESOURCE_IN_USE`
+             * while this or `assigned_product_count` or `assigned_bundle_count` is above zero.
+             * Format: int64. anyOf[2] (Value): null.
+             */
+            "targeting_reference_count"?: ((number) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted owned-state version. Clock-based availability and expanded resources do
+             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
+             * Clock-based availability and expanded resources do not advance this counter. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1702,6 +1937,66 @@ export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.assigned_bundle_count (Optional): integer or null. Number of bundles
+     * currently assigned to the category. previous_attributes.assigned_bundle_count.anyOf[1]
+     * (Value): integer. Number of bundles currently assigned to the category. Format: int64.
+     * previous_attributes.assigned_bundle_count.anyOf[2] (Value): null.
+     * previous_attributes.assigned_product_count (Optional): integer or null. Number of products
+     * currently assigned to the category. previous_attributes.assigned_product_count.anyOf[1]
+     * (Value): integer. Number of products currently assigned to the category. Format: int64.
+     * previous_attributes.assigned_product_count.anyOf[2] (Value): null.
+     * previous_attributes.category_id (Optional): string or null. Stable identifier of the
+     * category. previous_attributes.category_id.anyOf[1] (Value): string. Stable identifier of the
+     * category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
+     * previous_attributes.category_id.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When this resource was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When this resource was created, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.description
+     * (Optional): string or null. Description of the category.
+     * previous_attributes.description.anyOf[1] (Value): string. Description of the category.
+     * previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.handle
+     * (Optional): string or null. Immutable handle used to assign this category to products and
+     * bundles. previous_attributes.handle.anyOf[1] (Value): string. Immutable handle used to
+     * assign this category to products and bundles. previous_attributes.handle.anyOf[2] (Value):
+     * null. previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant
+     * that owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns this resource. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. previous_attributes.metadata.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Category name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Category name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Category lifecycle status. Active categories can be assigned; deleted is
+     * returned only by DELETE. Value enum: "active", "deleted".
+     * previous_attributes.status.anyOf[1] (Value): string. Category lifecycle status. Active
+     * categories can be assigned; deleted is returned only by DELETE. Value enum: "active",
+     * "deleted". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.targeting_reference_count (Optional): integer or null. Number of
+     * promotions, return reasons and return policy versions that reference this category. Deleting
+     * the category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+     * `assigned_bundle_count` is above zero.
+     * previous_attributes.targeting_reference_count.anyOf[1] (Value): integer. Number of
+     * promotions, return reasons and return policy versions that reference this category. Deleting
+     * the category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+     * `assigned_bundle_count` is above zero. Format: int64.
+     * previous_attributes.targeting_reference_count.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
+     * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
+     * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Persisted owned-state version.
+     * Clock-based availability and expanded resources do not advance this counter.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state version.
+     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1793,9 +2088,148 @@ export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. assigned_bundle_count (Optional): integer or
+         * null. Number of bundles currently assigned to the category.
+         * assigned_bundle_count.anyOf[1] (Value): integer. Number of bundles currently assigned to
+         * the category. Format: int64. assigned_bundle_count.anyOf[2] (Value): null.
+         * assigned_product_count (Optional): integer or null. Number of products currently
+         * assigned to the category. assigned_product_count.anyOf[1] (Value): integer. Number of
+         * products currently assigned to the category. Format: int64.
+         * assigned_product_count.anyOf[2] (Value): null. category_id (Optional): string or null.
+         * Stable identifier of the category. category_id.anyOf[1] (Value): string. Stable
+         * identifier of the category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
+         * category_id.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. description (Optional):
+         * string or null. Description of the category. description.anyOf[1] (Value): string.
+         * Description of the category. description.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. handle (Optional): string or null.
+         * Immutable handle used to assign this category to products and bundles. handle.anyOf[1]
+         * (Value): string. Immutable handle used to assign this category to products and bundles.
+         * handle.anyOf[2] (Value): null. merchant_id (Optional): string or null. Identifier of the
+         * merchant that owns this resource. merchant_id.anyOf[1] (Value): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Caller-owned metadata stored on this resource. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. Caller-owned metadata stored on this resource. metadata.anyOf[2] (Value):
+         * null. name (Optional): string or null. Category name shown to buyers. name.anyOf[1]
+         * (Value): string. Category name shown to buyers. name.anyOf[2] (Value): null. status
+         * (Optional): string or null. Category lifecycle status. Active categories can be
+         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
+         * status.anyOf[1] (Value): string. Category lifecycle status. Active categories can be
+         * assigned; deleted is returned only by DELETE. Value enum: "active", "deleted".
+         * status.anyOf[2] (Value): null. targeting_reference_count (Optional): integer or null.
+         * Number of promotions, return reasons and return policy versions that reference this
+         * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
+         * `assigned_product_count` or `assigned_bundle_count` is above zero.
+         * targeting_reference_count.anyOf[1] (Value): integer. Number of promotions, return
+         * reasons and return policy versions that reference this category. Deleting the category
+         * is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or
+         * `assigned_bundle_count` is above zero. Format: int64. targeting_reference_count.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When this resource last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Persisted
+         * owned-state version. Clock-based availability and expanded resources do not advance this
+         * counter. version.anyOf[1] (Value): integer. Persisted owned-state version. Clock-based
+         * availability and expanded resources do not advance this counter. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<Category>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of bundles currently assigned to the category. anyOf[1] (Value): integer.
+             * Number of bundles currently assigned to the category. Format: int64. anyOf[2]
+             * (Value): null.
+             */
+            "assigned_bundle_count"?: ((number) | (null));
+            /**
+             * Number of products currently assigned to the category. anyOf[1] (Value): integer.
+             * Number of products currently assigned to the category. Format: int64. anyOf[2]
+             * (Value): null.
+             */
+            "assigned_product_count"?: ((number) | (null));
+            /**
+             * Stable identifier of the category. anyOf[1] (Value): string. Stable identifier of
+             * the category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q". anyOf[2] (Value): null.
+             */
+            "category_id"?: ((string) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Description of the category. anyOf[1] (Value): string. Description of the category.
+             * anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Immutable handle used to assign this category to products and bundles. anyOf[1]
+             * (Value): string. Immutable handle used to assign this category to products and
+             * bundles. anyOf[2] (Value): null.
+             */
+            "handle"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Category name shown to buyers. anyOf[1] (Value): string. Category name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Category lifecycle status. Active categories can be assigned; deleted is returned
+             * only by DELETE. Value enum: "active", "deleted". anyOf[1] (Value): string. Category
+             * lifecycle status. Active categories can be assigned; deleted is returned only by
+             * DELETE. Value enum: "active", "deleted". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "deleted" | (string & {})) | (null));
+            /**
+             * Number of promotions, return reasons and return policy versions that reference this
+             * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
+             * `assigned_product_count` or `assigned_bundle_count` is above zero. anyOf[1] (Value):
+             * integer. Number of promotions, return reasons and return policy versions that
+             * reference this category. Deleting the category is refused with `409 RESOURCE_IN_USE`
+             * while this or `assigned_product_count` or `assigned_bundle_count` is above zero.
+             * Format: int64. anyOf[2] (Value): null.
+             */
+            "targeting_reference_count"?: ((number) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted owned-state version. Clock-based availability and expanded resources do
+             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
+             * Clock-based availability and expanded resources do not advance this counter. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

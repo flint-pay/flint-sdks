@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedShipmentSummaryInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string|\DateTimeInterface, 'package_count': int, 'return_id'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string|\DateTimeInterface, 'package_count': int, 'return_id'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedShipmentSummaryInput')); }
     /** When the shipment was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -78,7 +78,7 @@ final class ExpandedShipmentSummaryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value): string.  Value enum: "void".
+    /** Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. Always present with merchant credentials. [] enum: "void". [] (Value): string.  Value enum: "void".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */

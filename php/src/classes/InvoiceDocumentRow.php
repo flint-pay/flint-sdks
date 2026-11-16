@@ -37,7 +37,7 @@ final class InvoiceDocumentRow extends Model {
      */
     public function getKind(): string { return $this->get('kind'); }
     public function hasKind(): bool { return $this->has('kind'); }
-    /** Discount, charge, or tax jurisdiction name.
+    /** Discount, charge, or tax jurisdiction name. A promotion's discount row carries the promotion's buyer-facing `display_name`.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
@@ -67,7 +67,7 @@ final class InvoiceDocumentRow extends Model {
      */
     public function getTaxabilityReason(): ?string { return $this->get('taxability_reason'); }
     public function hasTaxabilityReason(): bool { return $this->has('taxability_reason'); }
-    /** Taxable amount of a tax row. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Taxable amount of a tax row. Tax is rounded line by line, so a row's `amount_money` can differ from `percent` of this amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getTaxableMoney(): ?MoneyValue { return $this->get('taxable_money'); }

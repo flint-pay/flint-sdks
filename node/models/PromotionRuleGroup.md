@@ -10,8 +10,8 @@ A rule group is an object with exactly one nonempty all (AND) or any (OR) array 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups that must all match. minItems: `1`. `all[]`: [declared alternatives](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all). |
-| `any` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups of which at least one must match. minItems: `1`. `any[]`: [declared alternatives](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all). |
+| `all` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups that must all match. minItems: `1`. `all[]`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEvent.md#promotionarchivedinstalledmerchantseventdataprevious_attributeseligibility_rules-variant-1all-variant-2all). |
+| `any` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups of which at least one must match. minItems: `1`. `any[]`: [declared alternatives](../models/PromotionArchivedInstalledMerchantsEvent.md#promotionarchivedinstalledmerchantseventdataprevious_attributeseligibility_rules-variant-1all-variant-2all). |
 
 ### PromotionRuleGroup variant 1
 
@@ -29,99 +29,9 @@ oneOf Any.
 
 ### PromotionRuleGroup variant 1.all[]
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `attribute` | Conditional | string | Field the rule tests. The attribute fixes the value type and the operators that are legal for it: money attributes accept comparison operators but not eq or in, booleans accept eq only, and so on. The full attribute/type/operator matrix is machine-readable in x-flint-rule-attributes on this schema. metadata.&lt;key> reads a string from the customer's metadata and accepts the string operators. A disallowed operator returns `400 INVALID_REQUEST` naming the operator, and the message lists the operators the attribute allows. customer.paid_order_count counts the customer's other orders in the same merchant and environment, with live and test mode counted separately, that have at least one successfully settled payment above zero, including partial payments, or are completed zero-total orders, including orders completed with a 100% promotion or gift card. Later refunds and disputes do not remove an order. The current order, failed, canceled, or expired attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked through link_guest_purchases count; unlinked guest orders are never matched by email. The order's customer takes precedence over a checkout session's merchant-named or email-verified customer; typed email alone does not identify a customer. Without an identified customer the promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for a first-order guarantee across concurrent checkouts. |
-| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `operator` | Conditional | string | Comparison to apply to the attribute. The attribute determines which operators are allowed. Values: `"eq"`, `"ne"`, `"gt"`, `"gte"`, `"lt"`, `"lte"`, `"in"`, `"contains"`, `"is_defined"`. |
-| `values` | Conditional | Array of [PromotionRuleValue](../models/PromotionRuleValue.md#promotionrulevalue) | Comparison values with the type required by the attribute. Omit for is_defined, which tests whether the attribute is present. `values[]`: [declared alternatives](../models/PromotionRule.md#promotionrule-variant-1values). |
-| `all` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups that must all match. minItems: `1`. `all[]`: [declared alternatives](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all-variant-2all). |
-| `any` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups of which at least one must match. minItems: `1`. `any[]`: [declared alternatives](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all-variant-2all). |
-
-### PromotionRuleGroup variant 1.all[] variant 1
-
-oneOf PromotionRule: One condition in a promotion rule group, which tests an attribute with an operator and values..
-
-- Required: `attribute`, `operator`.
-- Optional: `currency_options`, `values`.
-- Undeclared: `all`, `any`.
-
-### PromotionRuleGroup variant 1.all[] variant 2
-
-oneOf PromotionRuleGroup: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf All.
-
-- Required: `all`.
-- Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
-
-### PromotionRuleGroup variant 1.all[] variant 3
-
-oneOf PromotionRuleGroup: A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.; oneOf Any.
-
-- Required: `any`.
-- Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.
-
-### PromotionRuleGroup variant 1.all[] variant 1.currency_options{}
-
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
-
-### PromotionRuleGroup variant 1.all[] variant 1.values[]
-
-Declared alternatives: [PromotionRule variant 1.values[]](../models/PromotionRule.md#promotionrule-variant-1values).
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[]
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `attribute` | Conditional | string | Field the rule tests. The attribute fixes the value type and the operators that are legal for it: money attributes accept comparison operators but not eq or in, booleans accept eq only, and so on. The full attribute/type/operator matrix is machine-readable in x-flint-rule-attributes on this schema. metadata.&lt;key> reads a string from the customer's metadata and accepts the string operators. A disallowed operator returns `400 INVALID_REQUEST` naming the operator, and the message lists the operators the attribute allows. customer.paid_order_count counts the customer's other orders in the same merchant and environment, with live and test mode counted separately, that have at least one successfully settled payment above zero, including partial payments, or are completed zero-total orders, including orders completed with a 100% promotion or gift card. Later refunds and disputes do not remove an order. The current order, failed, canceled, or expired attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked through link_guest_purchases count; unlinked guest orders are never matched by email. The order's customer takes precedence over a checkout session's merchant-named or email-verified customer; typed email alone does not identify a customer. Without an identified customer the promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for a first-order guarantee across concurrent checkouts. |
-| `currency_options` | Conditional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `operator` | Conditional | string | Comparison to apply to the attribute. The attribute determines which operators are allowed. Values: `"eq"`, `"ne"`, `"gt"`, `"gte"`, `"lt"`, `"lte"`, `"in"`, `"contains"`, `"is_defined"`. |
-| `values` | Conditional | Array of [PromotionRuleValue](../models/PromotionRuleValue.md#promotionrulevalue) | Comparison values with the type required by the attribute. Omit for is_defined, which tests whether the attribute is present. `values[]`: [declared alternatives](../models/PromotionRule.md#promotionrule-variant-1values). |
-| `all` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups that must all match. minItems: `1`. `all[]`: [field definitions](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all). |
-| `any` | Conditional | Array of ([PromotionRule](../models/PromotionRule.md#promotionrule) or [PromotionRuleGroup](../models/PromotionRuleGroup.md#promotionrulegroup)) | Rules and nested groups of which at least one must match. minItems: `1`. `any[]`: [field definitions](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all). |
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 1
-
-oneOf PromotionRule: One condition in a promotion rule group, which tests an attribute with an operator and values..
-
-- Required: `attribute`, `operator`.
-- Optional: `currency_options`, `values`.
-- Undeclared: `all`, `any`.
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 2
-
-oneOf PromotionRuleGroup; oneOf All.
-
-- Required: `all`.
-- Undeclared: `attribute`, `currency_options`, `operator`, `values`, `any`.
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 3
-
-oneOf PromotionRuleGroup; oneOf Any.
-
-- Required: `any`.
-- Undeclared: `attribute`, `currency_options`, `operator`, `values`, `all`.
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 1.currency_options{}
-
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 1.values[]
-
-Declared alternatives: [PromotionRule variant 1.values[]](../models/PromotionRule.md#promotionrule-variant-1values).
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 2.all[]
-
-Field definitions: [PromotionRuleGroup variant 1.all[]](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all).
-
-### PromotionRuleGroup variant 1.all[] variant 2.all[] variant 3.any[]
-
-Field definitions: [PromotionRuleGroup variant 1.all[]](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all).
-
-### PromotionRuleGroup variant 1.all[] variant 3.any[]
-
-Declared alternatives: [PromotionRuleGroup variant 1.all[] variant 2.all[]](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all-variant-2all).
+Declared alternatives: [PromotionArchivedInstalledMerchantsEvent.data.previous_attributes.eligibility_rules variant 1.all[] variant 2.all[]](../models/PromotionArchivedInstalledMerchantsEvent.md#promotionarchivedinstalledmerchantseventdataprevious_attributeseligibility_rules-variant-1all-variant-2all).
 
 ### PromotionRuleGroup variant 2.any[]
 
-Declared alternatives: [PromotionRuleGroup variant 1.all[]](../models/PromotionRuleGroup.md#promotionrulegroup-variant-1all).
+Declared alternatives: [PromotionArchivedInstalledMerchantsEvent.data.previous_attributes.eligibility_rules variant 1.all[] variant 2.all[]](../models/PromotionArchivedInstalledMerchantsEvent.md#promotionarchivedinstalledmerchantseventdataprevious_attributeseligibility_rules-variant-1all-variant-2all).
 

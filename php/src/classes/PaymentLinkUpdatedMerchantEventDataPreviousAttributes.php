@@ -1,0 +1,243 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read CheckoutBuyerFields|null $buyer_fields
+ * @property-read int|null $checkout_session_expires_in_seconds
+ * @property-read int|null $completed_count
+ * @property-read string|null $created_at
+ * @property-read list<PaymentLinkCustomField>|null $custom_fields
+ * @property-read CheckoutCustomTextConfig|null $custom_text
+ * @property-read list<string>|null $delivery_method_ids
+ * @property-read string|null $description
+ * @property-read MoneyValue|null $donation_max_amount_money
+ * @property-read MoneyValue|null $donation_min_amount_money
+ * @property-read list<MoneyValue>|null $donation_suggested_amount_money_options
+ * @property-read PaymentLinkEventConfig|null $event_config
+ * @property-read string|null $external_reference_id
+ * @property-read ImageAttachment|null $image
+ * @property-read string|null $inactive_message
+ * @property-read InventoryRoutingSource|null $inventory_routing_source
+ * @property-read CheckoutLegalConfig|null $legal
+ * @property-read list<\stdClass|PaymentLinkUpdatedMerchantEventDataPreviousAttributesLineItemsItemBundle|PaymentLinkUpdatedMerchantEventDataPreviousAttributesLineItemsItemCustomFixed|PaymentLinkUpdatedMerchantEventDataPreviousAttributesLineItemsItemCustomVariable>|null $line_items
+ * @property-read int|null $max_completions
+ * @property-read string|null $merchant_id
+ * @property-read array<array-key, string>|null $metadata
+ * @property-read string|null $name
+ * @property-read string|null $payment_link_id
+ * @property-read string|null $payment_link_type
+ * @property-read CheckoutPaymentConfig|null $payments
+ * @property-read CheckoutPromotionConfig|null $promotion_config
+ * @property-read CheckoutRedirects|null $redirects
+ * @property-read string|null $sales_end_at
+ * @property-read PaymentLinkSalesSummary|null $sales_summary
+ * @property-read string|null $status
+ * @property-read mixed $subscription_plan
+ * @property-read string|null $subscription_plan_id
+ * @property-read CheckoutTaxConfig|null $tax
+ * @property-read ThemeConfig|null $theme
+ * @property-read CheckoutTipConfig|null $tip
+ * @property-read int|null $total_quantity_sold
+ * @property-read string|null $updated_at
+ * @property-read string|null $url
+ * @property-read int|null $version
+ * Presence-aware response; omitted optional fields return null. */
+final class PaymentLinkUpdatedMerchantEventDataPreviousAttributes extends Model {
+    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: mixed, 'completed_count'?: mixed, 'created_at'?: mixed, 'custom_fields'?: mixed, 'custom_text'?: mixed, 'delivery_method_ids'?: mixed, 'description'?: mixed, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: mixed, 'event_config'?: mixed, 'external_reference_id'?: mixed, 'image'?: mixed, 'inactive_message'?: mixed, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: mixed, 'max_completions'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'payment_link_id'?: mixed, 'payment_link_type'?: mixed, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: mixed, 'sales_summary'?: mixed, 'status'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: mixed, 'updated_at'?: mixed, 'url'?: mixed, 'version'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkUpdatedMerchantEventDataPreviousAttributes')); }
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. anyOf[1] (Value): {@see CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your checkout settings. anyOf[2] (Value): null.
+     * @return CheckoutBuyerFields|null
+     */
+    public function getBuyerFields(): CheckoutBuyerFields|null { return $this->get('buyer_fields'); }
+    public function hasBuyerFields(): bool { return $this->has('buyer_fields'); }
+    /** Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. anyOf[1] (Value): integer. Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum: 60. maximum: 86400. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getCheckoutSessionExpiresInSeconds(): int|null { return $this->get('checkout_session_expires_in_seconds'); }
+    public function hasCheckoutSessionExpiresInSeconds(): bool { return $this->has('checkout_session_expires_in_seconds'); }
+    /** Number of paid checkout sessions started from this link. anyOf[1] (Value): integer. Number of paid checkout sessions started from this link. Format: int32. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getCompletedCount(): int|null { return $this->get('completed_count'); }
+    public function hasCompletedCount(): bool { return $this->has('completed_count'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreatedAt(): string|null { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Questions buyers answer before paying. Answers are recorded on the order and checkout session in `custom_field_answers`. anyOf[1] (Value): Array of {@see PaymentLinkCustomField}. Questions buyers answer before paying. Answers are recorded on the order and checkout session in `custom_field_answers`. anyOf[1][] (Value): {@see PaymentLinkCustomField}. A custom field on a payment link that collects an answer from the buyer. anyOf[2] (Value): null.
+     * @return list<PaymentLinkCustomField>|null
+     */
+    public function getCustomFields(): array|null { return $this->get('custom_fields'); }
+    public function hasCustomFields(): bool { return $this->has('custom_fields'); }
+    /** Custom text for checkouts started from this link. anyOf[1] (Value): {@see CheckoutCustomTextConfig}. Custom text for checkouts started from this link. anyOf[2] (Value): null.
+     * @return CheckoutCustomTextConfig|null
+     */
+    public function getCustomText(): CheckoutCustomTextConfig|null { return $this->get('custom_text'); }
+    public function hasCustomText(): bool { return $this->has('custom_text'); }
+    /** Delivery methods the link offers. Empty when the link has none, and then its checkouts offer settings.checkout.default_delivery_method_ids when the order has items to deliver. anyOf[1] (Value): Array of string. Delivery methods the link offers. Empty when the link has none, and then its checkouts offer settings.checkout.default_delivery_method_ids when the order has items to deliver. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+     * @return list<string>|null
+     */
+    public function getDeliveryMethodIds(): array|null { return $this->get('delivery_method_ids'); }
+    public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
+    /** Text about what the link sells, returned to buyers when they open it. anyOf[1] (Value): string. Text about what the link sells, returned to buyers when they open it. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getDescription(): string|null { return $this->get('description'); }
+    public function hasDescription(): bool { return $this->has('description'); }
+    /** Largest amount a buyer can give on a donation link. anyOf[1] (Value): {@see MoneyValue}. Largest amount a buyer can give on a donation link. anyOf[2] (Value): null.
+     * @return MoneyValue|null
+     */
+    public function getDonationMaxAmountMoney(): MoneyValue|null { return $this->get('donation_max_amount_money'); }
+    public function hasDonationMaxAmountMoney(): bool { return $this->has('donation_max_amount_money'); }
+    /** Smallest amount a buyer can give on a donation link. anyOf[1] (Value): {@see MoneyValue}. Smallest amount a buyer can give on a donation link. anyOf[2] (Value): null.
+     * @return MoneyValue|null
+     */
+    public function getDonationMinAmountMoney(): MoneyValue|null { return $this->get('donation_min_amount_money'); }
+    public function hasDonationMinAmountMoney(): bool { return $this->has('donation_min_amount_money'); }
+    /** Amounts a donation link offers as one-tap choices. anyOf[1] (Value): Array of {@see MoneyValue}. Amounts a donation link offers as one-tap choices. anyOf[1][] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * @return list<MoneyValue>|null
+     */
+    public function getDonationSuggestedAmountMoneyOptions(): array|null { return $this->get('donation_suggested_amount_money_options'); }
+    public function hasDonationSuggestedAmountMoneyOptions(): bool { return $this->has('donation_suggested_amount_money_options'); }
+    /** Event details for an `event` link: when and where it takes place and how many tickets it sells. anyOf[1] (Value): {@see PaymentLinkEventConfig}. Event details for an `event` link: when and where it takes place and how many tickets it sells. anyOf[2] (Value): null.
+     * @return PaymentLinkEventConfig|null
+     */
+    public function getEventConfig(): PaymentLinkEventConfig|null { return $this->get('event_config'); }
+    public function hasEventConfig(): bool { return $this->has('event_config'); }
+    /** Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Image shown to buyers with the link. anyOf[1] (Value): {@see ImageAttachment}. Image shown to buyers with the link. anyOf[2] (Value): null.
+     * @return ImageAttachment|null
+     */
+    public function getImage(): ImageAttachment|null { return $this->get('image'); }
+    public function hasImage(): bool { return $this->has('image'); }
+    /** Message to show the buyer when the link is inactive. anyOf[1] (Value): string. Message to show the buyer when the link is inactive. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getInactiveMessage(): string|null { return $this->get('inactive_message'); }
+    public function hasInactiveMessage(): bool { return $this->has('inactive_message'); }
+    /** The inventory location or routing policy that supplies stock for the link's catalog lines. anyOf[1] (Value): {@see InventoryRoutingSource}. The inventory location or routing policy that supplies stock for the link's catalog lines. anyOf[2] (Value): null.
+     * @return InventoryRoutingSource|null
+     */
+    public function getInventoryRoutingSource(): InventoryRoutingSource|null { return $this->get('inventory_routing_source'); }
+    public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
+    /** The terms and policy links checkouts started from this link show the buyer. anyOf[1] (Value): {@see CheckoutLegalConfig}. The terms and policy links checkouts started from this link show the buyer. anyOf[2] (Value): null.
+     * @return CheckoutLegalConfig|null
+     */
+    public function getLegal(): CheckoutLegalConfig|null { return $this->get('legal'); }
+    public function hasLegal(): bool { return $this->has('legal'); }
+    /** What the link sells. anyOf[1] (Value): Array of {@see PaymentLinkLineItem}. What the link sells. anyOf[1][] (Value): {@see PaymentLinkLineItem}. A line item on a payment link. anyOf[2] (Value): null.
+     * @return list<\stdClass|PaymentLinkUpdatedMerchantEventDataPreviousAttributesLineItemsItemBundle|PaymentLinkUpdatedMerchantEventDataPreviousAttributesLineItemsItemCustomFixed|PaymentLinkUpdatedMerchantEventDataPreviousAttributesLineItemsItemCustomVariable>|null
+     */
+    public function getLineItems(): array|null { return $this->get('line_items'); }
+    public function hasLineItems(): bool { return $this->has('line_items'); }
+    /** Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. anyOf[1] (Value): integer. Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. Format: int32. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getMaxCompletions(): int|null { return $this->get('max_completions'); }
+    public function hasMaxCompletions(): bool { return $this->has('max_completions'); }
+    /** ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the merchant this resource belongs to. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getMerchantId(): string|null { return $this->get('merchant_id'); }
+    public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+     * @return array<array-key, string>|null
+     */
+    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Name of the payment link. anyOf[1] (Value): string. Name of the payment link. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getName(): string|null { return $this->get('name'); }
+    public function hasName(): bool { return $this->has('name'); }
+    /** Unique identifier for this payment link, prefixed `pl_`. anyOf[1] (Value): string. Unique identifier for this payment link, prefixed `pl_`. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPaymentLinkId(): string|null { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
+    /** What kind of link this is. Value enum: "standard", "donation", "event". anyOf[1] (Value): string. What kind of link this is. Value enum: "standard", "donation", "event". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPaymentLinkType(): string|null { return $this->get('payment_link_type'); }
+    public function hasPaymentLinkType(): bool { return $this->has('payment_link_type'); }
+    /** Payment options for checkouts started from this link. anyOf[1] (Value): {@see CheckoutPaymentConfig}. Payment options for checkouts started from this link. anyOf[2] (Value): null.
+     * @return CheckoutPaymentConfig|null
+     */
+    public function getPayments(): CheckoutPaymentConfig|null { return $this->get('payments'); }
+    public function hasPayments(): bool { return $this->has('payments'); }
+    /** Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. anyOf[1] (Value): {@see CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. anyOf[2] (Value): null.
+     * @return CheckoutPromotionConfig|null
+     */
+    public function getPromotionConfig(): CheckoutPromotionConfig|null { return $this->get('promotion_config'); }
+    public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
+    /** Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. anyOf[1] (Value): {@see CheckoutRedirects}. Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. anyOf[2] (Value): null.
+     * @return CheckoutRedirects|null
+     */
+    public function getRedirects(): CheckoutRedirects|null { return $this->get('redirects'); }
+    public function hasRedirects(): bool { return $this->has('redirects'); }
+    /** RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. anyOf[1] (Value): string. RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSalesEndAt(): string|null { return $this->get('sales_end_at'); }
+    public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
+    /** Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. anyOf[1] (Value): {@see PaymentLinkSalesSummary}. Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. anyOf[2] (Value): null.
+     * @return PaymentLinkSalesSummary|null
+     */
+    public function getSalesSummary(): PaymentLinkSalesSummary|null { return $this->get('sales_summary'); }
+    public function hasSalesSummary(): bool { return $this->has('sales_summary'); }
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive". anyOf[1] (Value): string. Whether the link can start new checkouts. Value enum: "active", "inactive". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getStatus(): string|null { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. anyOf[1].anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name, billing interval, currency, and status, returned when the plan is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * @return mixed
+     */
+    public function getSubscriptionPlan(): mixed { return $this->get('subscription_plan'); }
+    public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
+    /** ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. anyOf[1] (Value): string. ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSubscriptionPlanId(): string|null { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
+    /** Tax settings for checkouts started from this link. anyOf[1] (Value): {@see CheckoutTaxConfig}. Tax settings for checkouts started from this link. anyOf[2] (Value): null.
+     * @return CheckoutTaxConfig|null
+     */
+    public function getTax(): CheckoutTaxConfig|null { return $this->get('tax'); }
+    public function hasTax(): bool { return $this->has('tax'); }
+    /** The title and colors for checkouts started from this link, over your branding settings. anyOf[1] (Value): {@see ThemeConfig}. The title and colors for checkouts started from this link, over your branding settings. anyOf[2] (Value): null.
+     * @return ThemeConfig|null
+     */
+    public function getTheme(): ThemeConfig|null { return $this->get('theme'); }
+    public function hasTheme(): bool { return $this->has('theme'); }
+    /** Tip options for checkouts started from this link. anyOf[1] (Value): {@see CheckoutTipConfig}. Tip options for checkouts started from this link. anyOf[2] (Value): null.
+     * @return CheckoutTipConfig|null
+     */
+    public function getTip(): CheckoutTipConfig|null { return $this->get('tip'); }
+    public function hasTip(): bool { return $this->has('tip'); }
+    /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getTotalQuantitySold(): int|null { return $this->get('total_quantity_sold'); }
+    public function hasTotalQuantitySold(): bool { return $this->has('total_quantity_sold'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getUpdatedAt(): string|null { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** URL buyers open to use the link. anyOf[1] (Value): string. URL buyers open to use the link. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getUrl(): string|null { return $this->get('url'); }
+    public function hasUrl(): bool { return $this->has('url'); }
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getVersion(): int|null { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

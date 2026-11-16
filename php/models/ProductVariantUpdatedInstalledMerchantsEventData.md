@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | [ProductVariantUpdatedInstalledMerchantsEventDataObject](../models/ProductVariantUpdatedInstalledMerchantsEventDataObject.md#productvariantupdatedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`, `inventory_availability`. `object`: [field definitions](../models/ProductVariantUpdatedInstalledMerchantsEventData.md#productvariantupdatedinstalledmerchantseventdataobject-fields-1). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | [ProductVariantUpdatedInstalledMerchantsEventDataPreviousAttributes](../models/ProductVariantUpdatedInstalledMerchantsEventDataPreviousAttributes.md#productvariantupdatedinstalledmerchantseventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### ProductVariantUpdatedInstalledMerchantsEventData.object fields 1
 

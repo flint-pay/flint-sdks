@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string|null $client_reference
  * @property-read ?string $closed_reason_message
  * @property-read string $created_at
- * @property-read list<CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemText|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemTextarea|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemDropdown|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass> $custom_field_answers
+ * @property-read list<CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemText|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemTextarea|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemDropdown|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>|null $custom_field_answers
  * @property-read ?CheckoutCustomTextConfig $custom_text
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
@@ -48,7 +48,7 @@ namespace Flint;
  * @property-read ?string $subscription_plan_id
  * @property-read ?CheckoutSubscriptionTerms $subscription_terms
  * @property-read ?string $superseding_checkout_session_id
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * @property-read string $surface
  * @property-read ?CheckoutSessionTax $tax
  * @property-read ?string $terminal_reason
@@ -59,7 +59,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionPartiallyPaidMerchantEventDataObject extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'checkout_session_id': string, 'client_reference': string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers': list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions': list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'checkout_session_id': string, 'client_reference'?: string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions'?: list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionPartiallyPaidMerchantEventDataObject')); }
     /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
      * @return ?OrderPaymentAttempt
@@ -86,7 +86,7 @@ final class CheckoutSessionPartiallyPaidMerchantEventDataObject extends Model {
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. minLength: 1. maxLength: 255.
+    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * @return string|null
      */
     public function getClientReference(): string|null { return $this->get('client_reference'); }
@@ -101,10 +101,10 @@ final class CheckoutSessionPartiallyPaidMerchantEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The buyer's answers to the payment link's custom fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when the session didn't start from a payment link, the buyer answered no custom fields, or the order was created before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
-     * @return list<CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemText|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemTextarea|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemDropdown|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>
+    /** The buyer's answers to the payment link's custom fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when the session didn't start from a payment link, the buyer answered no custom fields, or the order was created before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
+     * @return list<CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemText|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemTextarea|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemDropdown|CheckoutSessionPartiallyPaidMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>|null
      */
-    public function getCustomFieldAnswers(): array { return $this->get('custom_field_answers'); }
+    public function getCustomFieldAnswers(): ?array { return $this->get('custom_field_answers'); }
     public function hasCustomFieldAnswers(): bool { return $this->has('custom_field_answers'); }
     /** The custom text this session shows in checkout. Custom text shown in checkout: an order summary message and a shipping address label.
      * @return ?CheckoutCustomTextConfig
@@ -291,10 +291,10 @@ final class CheckoutSessionPartiallyPaidMerchantEventDataObject extends Model {
      */
     public function getSupersedingCheckoutSessionId(): ?string { return $this->get('superseding_checkout_session_id'); }
     public function hasSupersedingCheckoutSessionId(): bool { return $this->has('superseding_checkout_session_id'); }
-    /** Lifecycle actions Flint accepts now, computed from stored checkout state without checking the caller's permissions. Contains close while open; empty after payment, closure, or expiry. [] enum: "close". [] (Value): string.  Value enum: "close".
-     * @return list<string>
+    /** Lifecycle actions Flint accepts now, computed from stored checkout state without checking the caller's permissions. Contains close while open; empty after payment, closure, or expiry. Always present with merchant credentials. [] enum: "close". [] (Value): string.  Value enum: "close".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
      * @return string

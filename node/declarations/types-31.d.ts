@@ -1,6 +1,6 @@
-import type { InventoryTransfer } from './types-30.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
+import type { InventoryTransfer } from './types-30.js';
 import type { ResponseMeta, ReportInventoryTransferLossRequestInput } from './types-54.js';
 import type { InventoryLevel } from './types-29.js';
 import type { InputValue } from '../runtime.js';
@@ -67,6 +67,84 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -180,9 +258,198 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -267,6 +534,84 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -380,9 +725,198 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -418,7 +952,38 @@ export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_transfer.departed";
@@ -452,7 +1017,38 @@ export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_transfer.departed";
@@ -511,6 +1107,84 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -624,9 +1298,198 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -711,6 +1574,84 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -824,9 +1765,198 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -952,7 +2082,38 @@ export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_transfer.lost";
@@ -986,7 +2147,38 @@ export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_transfer.lost";
@@ -1045,6 +2237,84 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1158,9 +2428,198 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1245,6 +2704,84 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1358,9 +2895,198 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1396,7 +3122,38 @@ export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_transfer.received";
@@ -1430,7 +3187,38 @@ export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_transfer.received";
@@ -1489,6 +3277,84 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1602,9 +3468,198 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1689,6 +3744,84 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1802,9 +3935,198 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1891,7 +4213,38 @@ export type InventoryTransferReturnedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_transfer.returned";
@@ -1925,7 +4278,38 @@ export type InventoryTransferReturnedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_transfer.returned";
@@ -1984,6 +4368,84 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2097,9 +4559,198 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2184,6 +4835,84 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2297,9 +5026,198 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2335,7 +5253,38 @@ export type InventoryTransferUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "inventory_transfer.updated";
@@ -2369,7 +5318,38 @@ export type InventoryTransferUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "created_at"?: ((string) | (null));
+            "departed_at"?: ((string) | (null));
+            "destination_location_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_transfer_id"?: ((string) | (null));
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            "note"?: ((string) | (null));
+            "origin_location_id"?: ((string) | (null));
+            "received_at"?: ((string) | (null));
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "inventory_transfer.updated";
@@ -2428,6 +5408,84 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2541,9 +5599,198 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2628,6 +5875,84 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.closed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.closed_reason (Optional): string or null or null. How the transfer
+     * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[1] (Value): string or null. How the transfer ended.
+     * `null` when the transfer isn't closed. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.departed_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.departed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.departed_at.anyOf[2] (Value): null.
+     * previous_attributes.destination_location_id (Optional): string or null. ID of the Location
+     * the stock goes to. previous_attributes.destination_location_id.anyOf[1] (Value): string. ID
+     * of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.destination_location_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
+     * previous_attributes.inventory_transfer_id (Optional): string or null. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`.
+     * previous_attributes.inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for
+     * this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     * previous_attributes.inventory_transfer_id.anyOf[2] (Value): null. previous_attributes.lines
+     * (Optional): Array of {@link InventoryTransferLine} or null. Owned collection of transfer
+     * lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+     * previous_attributes.lines.anyOf[1] (Value): Array of {@link InventoryTransferLine}. Owned
+     * collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces
+     * the full collection. previous_attributes.lines.anyOf[1][] (Value): {@link
+     * InventoryTransferLine}. One line of an inventory transfer, with its quantities.
+     * previous_attributes.lines.anyOf[2] (Value): null. previous_attributes.note (Optional):
+     * string or null. Free-text note about the transfer. previous_attributes.note.anyOf[1]
+     * (Value): string. Free-text note about the transfer. previous_attributes.note.anyOf[2]
+     * (Value): null. previous_attributes.origin_location_id (Optional): string or null. ID of the
+     * Location the stock leaves. previous_attributes.origin_location_id.anyOf[1] (Value): string.
+     * ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.origin_location_id.anyOf[2] (Value): null.
+     * previous_attributes.received_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.received_at.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the transfer
+     * stands, worked out from the quantities that have left the origin and have since been
+     * received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[1] (Value): string. Where
+     * the transfer stands, worked out from the quantities that have left the origin and have since
+     * been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Actions that can
+     * change this transfer now. `depart` and `cancel` need units that haven't left the origin.
+     * `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the
+     * transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can change this transfer now. `depart` and `cancel` need units that haven't left the
+     * origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once
+     * the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss",
+     * "cancel". previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum:
+     * "depart", "receive", "return_to_origin", "report_loss", "cancel".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2741,9 +6066,198 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. closed_at (Optional): string or null. RFC3339
+         * timestamp. closed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null or null. How the transfer ended. `null` when the transfer
+         * isn't closed. Value enum: "received", "canceled", "received_with_cancellation",
+         * "returned", "lost", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How
+         * the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+         * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. departed_at
+         * (Optional): string or null. RFC3339 timestamp. departed_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * departed_at.anyOf[2] (Value): null. destination_location_id (Optional): string or null.
+         * ID of the Location the stock goes to. destination_location_id.anyOf[1] (Value): string.
+         * ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * destination_location_id.anyOf[2] (Value): null. external_reference_id (Optional): string
+         * or null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource; on a movement, of
+         * the command that wrote it. Omitted when that request had no key.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[2] (Value): null. inventory_transfer_id
+         * (Optional): string or null. Unique identifier for this inventory transfer, prefixed
+         * `invtr_`. inventory_transfer_id.anyOf[1] (Value): string. Unique identifier for this
+         * inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+         * inventory_transfer_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryTransferLine} or null. Owned collection of transfer lines. Lines have no
+         * lifecycle outside this transfer; PATCH replaces the full collection. lines.anyOf[1]
+         * (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+         * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
+         * lines.anyOf[1][] (Value): {@link InventoryTransferLine}. One line of an inventory
+         * transfer, with its quantities. lines.anyOf[2] (Value): null. note (Optional): string or
+         * null. Free-text note about the transfer. note.anyOf[1] (Value): string. Free-text note
+         * about the transfer. note.anyOf[2] (Value): null. origin_location_id (Optional): string
+         * or null. ID of the Location the stock leaves. origin_location_id.anyOf[1] (Value):
+         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * origin_location_id.anyOf[2] (Value): null. received_at (Optional): string or null.
+         * RFC3339 timestamp. received_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". received_at.anyOf[2] (Value): null. status
+         * (Optional): string or null. Where the transfer stands, worked out from the quantities
+         * that have left the origin and have since been received, returned, or reported lost.
+         * Value enum: "draft", "in_transit", "partially_resolved", "closed". status.anyOf[1]
+         * (Value): string. Where the transfer stands, worked out from the quantities that have
+         * left the origin and have since been received, returned, or reported lost. Value enum:
+         * "draft", "in_transit", "partially_resolved", "closed". status.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions that can change this
+         * transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`,
+         * `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is
+         * closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "depart", "receive",
+         * "return_to_origin", "report_loss", "cancel". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
+         * resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<InventoryTransfer>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
+             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
+             * null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the
+             * transfer isn't closed. Value enum: "received", "canceled",
+             * "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value):
+             * null.
+             */
+            "closed_reason"?: (("received"
+                | "canceled"
+                | "received_with_cancellation"
+                | "returned"
+                | "lost"
+                | "mixed"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "departed_at"?: ((string) | (null));
+            /**
+             * ID of the Location the stock goes to. anyOf[1] (Value): string. ID of the Location
+             * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "destination_location_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
+             * string. The Idempotency-Key of the request that created this resource; on a
+             * movement, of the command that wrote it. Omitted when that request had no key.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Unique identifier for this inventory transfer, prefixed `invtr_`. anyOf[1] (Value):
+             * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". anyOf[2] (Value): null.
+             */
+            "inventory_transfer_id"?: ((string) | (null));
+            /**
+             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
+             * PATCH replaces the full collection. anyOf[1] (Value): Array of {@link
+             * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
+             * outside this transfer; PATCH replaces the full collection. anyOf[1][] (Value):
+             * {@link InventoryTransferLine}. One line of an inventory transfer, with its
+             * quantities. anyOf[2] (Value): null.
+             */
+            "lines"?: ((Array<InventoryTransferLine>) | (null));
+            /**
+             * Free-text note about the transfer. anyOf[1] (Value): string. Free-text note about
+             * the transfer. anyOf[2] (Value): null.
+             */
+            "note"?: ((string) | (null));
+            /**
+             * ID of the Location the stock leaves. anyOf[1] (Value): string. ID of the Location
+             * the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "origin_location_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "received_at"?: ((string) | (null));
+            /**
+             * Where the transfer stands, worked out from the quantities that have left the origin
+             * and have since been received, returned, or reported lost. Value enum: "draft",
+             * "in_transit", "partially_resolved", "closed". anyOf[1] (Value): string. Where the
+             * transfer stands, worked out from the quantities that have left the origin and have
+             * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+             * "partially_resolved", "closed". anyOf[2] (Value): null.
+             */
+            "status"?: (("draft" | "in_transit" | "partially_resolved" | "closed" | (string & {})) | (null));
+            /**
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1] (Value): Array of string.
+             * Actions that can change this transfer now. `depart` and `cancel` need units that
+             * haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units
+             * in transit. Empty once the transfer is closed. [] enum: "depart", "receive",
+             * "return_to_origin", "report_loss", "cancel". anyOf[1][] (Value): string. Value enum:
+             * "depart", "receive", "return_to_origin", "report_loss", "cancel". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>)
+                | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3515,7 +7029,65 @@ export type InvoiceCollectionBlockResolvedEvent = ((((Exclude<MerchantWebhookEnv
     & ({
     "data"?: {
         "object": WebhookInvoice;
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "footer"?: ((string | null) | (null) | (unknown));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            "memo"?: ((string | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            "po_number"?: ((string | null) | (null) | (unknown));
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            "reference"?: ((string | null) | (null) | (unknown));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((Address) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            "service_date"?: ((string | null) | (null) | (unknown));
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "invoice.collection_block_resolved";
@@ -3524,7 +7096,65 @@ export type InvoiceCollectionBlockResolvedEvent = ((((Exclude<MerchantWebhookEnv
     & ({
     "data"?: {
         "object": WebhookInvoice;
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "footer"?: ((string | null) | (null) | (unknown));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            "memo"?: ((string | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            "po_number"?: ((string | null) | (null) | (unknown));
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            "reference"?: ((string | null) | (null) | (unknown));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((Address) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            "service_date"?: ((string | null) | (null) | (unknown));
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "invoice.collection_block_resolved";
@@ -3551,7 +7181,286 @@ export type InvoiceCollectionBlockResolvedInstalledMerchantsEvent = (Exclude<Par
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollection} or null. How this
+     * invoice is collected, resolved when the draft is written. Send this object back when
+     * updating its collection policy. previous_attributes.collection.anyOf[1] (Value): {@link
+     * InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send
+     * this object back when updating its collection policy.
+     * previous_attributes.collection.anyOf[2] (Value): null.
+     * previous_attributes.collection_block_status (Optional): string or null. Whether collection
+     * is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[1] (Value): string. Whether collection is
+     * blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or
+     * null or null. Summary of the billed customer. Returned only with expand=customer. Present
+     * only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Summary of the billed customer. Returned only with expand=customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has no
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this
+     * invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. Use it as your sync key: it isn't
+     * printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.footer (Optional): string or null or null. Fine print at the bottom of
+     * the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[1] (Value): string or null. Fine print at the bottom of the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFee} or null. Late fees assessed on this invoice,
+     * each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees
+     * assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A charge assessed
+     * because an invoice payment is overdue. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null or null. Message to the customer,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string or null. Message to the customer, printed
+     * on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Summary of the backing order. Returned only
+     * with expand=order. Present only when `expand` includes `order`; `null` when expanded and
+     * there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Summary of the backing order. Returned only with
+     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The order this invoice bills. Every invoice has one; quick pay creates it.
+     * previous_attributes.order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the invoice most recently became paid. Cleared when status leaves paid
+     * and set again on a later paid transition. previous_attributes.paid_at.anyOf[1] (Value):
+     * string. When the invoice most recently became paid. Cleared when status leaves paid and set
+     * again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_due
+     * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+     * object back when updating the draft; payment_terms captures the term's current revision
+     * again. previous_attributes.payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The
+     * resolved due-date policy. Send this object back when updating the draft; payment_terms
+     * captures the term's current revision again. previous_attributes.payment_due.anyOf[2]
+     * (Value): null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshot} or null. The payment term captured on the draft, with its due
+     * date rule and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule
+     * and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A
+     * draft previews the backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1] (Value):
+     * {@link PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+     * backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[2] (Value):
+     * null. previous_attributes.recipient_email (Optional): string or null or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[1] (Value): string or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[2] (Value): null.
+     * previous_attributes.reference (Optional): string or null or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[1] (Value): string or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link Address} or null. Where the buyer
+     * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+     * address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link Address}. Where the
+     * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+     * remit-to address. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link InvoiceScheduleEntry} or
+     * null. The payment schedule, in schedule order. Always [] when the invoice has no schedule
+     * and is collected in one balance. previous_attributes.schedule_entries.anyOf[1] (Value):
+     * Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One
+     * payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
+     * its due time, amounts, and status. previous_attributes.schedule_entries.anyOf[2] (Value):
+     * null. previous_attributes.scheduled_issue_at (Optional): string or null or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue
+     * is scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null or null. The
+     * calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as
+     * written, without timezone conversion. `null` when unset.
+     * previous_attributes.service_date.anyOf[1] (Value): string or null. The calendar date of the
+     * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+     * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link InvoiceSettlementAmounts} or null.
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees,
+     * and the remaining invoice balance. What is still owed: pricing_amounts.total_money +
+     * late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on
+     * paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on
+     * a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and
+     * still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value): null.
+     * previous_attributes.snapshot (Optional): {@link InvoiceSnapshot} or null. The billing
+     * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the
+     * backing order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[1] (Value): {@link InvoiceSnapshot}. The billing content
+     * of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing
+     * order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Current invoice status. paid and credited close the current balance and can
+     * reopen to open or partially_paid after a payment or credit allocation reversal;
+     * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+     * payments and becomes paid when fully recovered; reversals restore the write-off. voided is
+     * final. Refunds change refund_status without reopening the balance. A lost dispute leaves
+     * paid_money, the balance, and status unchanged; collecting it again requires a new invoice.
+     * Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
+     * "credited". previous_attributes.status.anyOf[1] (Value): string. Current invoice status.
+     * paid and credited close the current balance and can reopen to open or partially_paid after a
+     * payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null or null. The subscription the backing order belongs to, copied
+     * when the draft is created and never changed. `null` when the order isn't part of a
+     * subscription. previous_attributes.subscription_id.anyOf[1] (Value): string or null. The
+     * subscription the backing order belongs to, copied when the draft is created and never
+     * changed. `null` when the order isn't part of a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
+     * actions Flint accepts for this resource now, based on stored state. Independent of the
+     * caller's permissions; each action still requires its route's scope. Always [] when no action
+     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
@@ -3560,9 +7469,638 @@ export type InvoiceCollectionBlockResolvedInstalledMerchantsEvent = (Exclude<Par
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollection} or null. How this invoice is collected, resolved when the draft is
+         * written. Send this object back when updating its collection policy. collection.anyOf[1]
+         * (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
+         * draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummary} or null or null. Summary of the billed customer. Returned only
+         * with expand=customer. Present only when `expand` includes `customer`; `null` when
+         * expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with
+         * expand=customer. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer billed
+         * by this invoice. Absent when the invoice has no customer. customer_id.anyOf[1] (Value):
+         * string. Customer billed by this invoice. Absent when the invoice has no customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_mode (Optional): string or null. How issue delivered the invoice. Value enum:
+         * "email", "caller_managed". delivery_mode.anyOf[1] (Value): string. How issue delivered
+         * the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[2] (Value):
+         * null. due_date (Optional): string or null. Calendar due date in YYYY-MM-DD format,
+         * interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only
+         * after this date ends. Automatic collection runs at the later of issue and the start of
+         * this date. With payment terms, issue computes this date from issued_at. Absent when
+         * there is no due date. due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+         * format, interpreted in timezone (UTC when absent). The outstanding balance becomes
+         * overdue only after this date ends. Automatic collection runs at the later of issue and
+         * the start of this date. With payment terms, issue computes this date from issued_at.
+         * Absent when there is no due date. Format: date. Example: "2026-08-02". due_date.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null or null. Caller-owned
+         * identifier for this resource in an external system. Use it as your sync key: it isn't
+         * printed on the invoice. `null` when unset. external_reference_id.anyOf[1] (Value):
+         * string or null. Caller-owned identifier for this resource in an external system. Use it
+         * as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * footer (Optional): string or null or null. Fine print at the bottom of the invoice and
+         * PDF. It cannot change after issue. `null` when unset. footer.anyOf[1] (Value): string or
+         * null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+         * `null` when unset. footer.anyOf[2] (Value): null. invoice_id (Optional): string or null.
+         * Flint invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFee} or null. Late fees assessed on this invoice, each with its paid,
+         * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1] (Value): Array of {@link
+         * InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived,
+         * written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A
+         * charge assessed because an invoice payment is overdue. late_fees.anyOf[2] (Value): null.
+         * memo (Optional): string or null or null. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[1] (Value): string
+         * or null. Message to the customer, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. Merchant that owns this invoice. merchant_id.anyOf[1] (Value): string. Merchant
+         * that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2]
+         * (Value): null. order (Optional): {@link ExpandedOrderSummary} or null or null. Summary
+         * of the backing order. Returned only with expand=order. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+         * object back when updating the draft; payment_terms captures the term's current revision
+         * again. payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[2] (Value): null. payment_terms_snapshot
+         * (Optional): {@link InvoicePaymentTermsSnapshot} or null. The payment term captured on
+         * the draft, with its due date rule and late fee policy. Later changes to the payment term
+         * don't affect this invoice. payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date
+         * rule and late fee policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[2] (Value): null. po_number (Optional): string or null or
+         * null. The buyer's purchase order number, printed on the invoice and PDF. It cannot
+         * change after issue. `null` when unset. po_number.anyOf[1] (Value): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[2] (Value): null. pricing_amounts (Optional):
+         * {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A draft
+         * previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+         * backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null or null. Where Flint emails the invoice and
+         * its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null or null.
+         * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+         * order number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string or null. Your reference for the invoice, printed on
+         * the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+         * change after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link Address} or null. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[1] (Value): {@link Address}. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntry} or null. The payment schedule, in schedule order. Always [] when
+         * the invoice has no schedule and is collected in one balance. schedule_entries.anyOf[1]
+         * (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order.
+         * Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One payment on an
+         * invoice's payment schedule, such as a deposit, installment, or balance, with its due
+         * time, amounts, and status. schedule_entries.anyOf[2] (Value): null. scheduled_issue_at
+         * (Optional): string or null or null. When Flint will issue and deliver this draft. `null`
+         * when no issue is scheduled. Cleared when the draft is issued or voided, or when you send
+         * null. scheduled_issue_at.anyOf[1] (Value): string or null. When Flint will issue and
+         * deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued
+         * or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_issue_at.anyOf[2] (Value): null. service_date (Optional): string or null or
+         * null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+         * print it as written, without timezone conversion. `null` when unset.
+         * service_date.anyOf[1] (Value): string or null. The calendar date of the billed service,
+         * in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone
+         * conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmounts} or null. Payments, refunds, write-offs, allocated credit
+         * notes, late fees, and the remaining invoice balance. What is still owed:
+         * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
+         * don't change it. settlement_amounts.anyOf[1] (Value): {@link InvoiceSettlementAmounts}.
+         * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+         * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+         * paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited,
+         * uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft.
+         * Refunds and dispute losses don't change it. Money collected, returned, waived, and still
+         * owed on a bill. settlement_amounts.anyOf[2] (Value): null. snapshot (Optional): {@link
+         * InvoiceSnapshot} or null. The billing content of the invoice: line items, discounts,
+         * charges, tip, and tax. A draft previews the backing order; issue freezes it, and later
+         * order changes don't reach an issued invoice. snapshot.anyOf[1] (Value): {@link
+         * InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges,
+         * tip, and tax. A draft previews the backing order; issue freezes it, and later order
+         * changes don't reach an issued invoice. snapshot.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current invoice status. paid and credited close the current
+         * balance and can reopen to open or partially_paid after a payment or credit allocation
+         * reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual
+         * recovery payments and becomes paid when fully recovered; reversals restore the
+         * write-off. voided is final. Refunds change refund_status without reopening the balance.
+         * A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again
+         * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+         * "uncollectible", "credited". status.anyOf[1] (Value): string. Current invoice status.
+         * paid and credited close the current balance and can reopen to open or partially_paid
+         * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+         * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+         * recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
+         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
+         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string or null. The subscription the backing order belongs to, copied when the
+         * draft is created and never changed. `null` when the order isn't part of a subscription.
+         * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollection}. How this invoice is collected, resolved when the draft is
+             * written. Send this object back when updating its collection policy. anyOf[2]
+             * (Value): null.
+             */
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Summary of the
+             * billed customer. Returned only with expand=customer. Present only when `expand`
+             * includes `customer`; `null` when expanded and there is no related customer.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or
+             * null. Caller-owned identifier for this resource in an external system. Use it as
+             * your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+             * maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the
+             * invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value):
+             * null.
+             */
+            "footer"?: ((string | null) | (null) | (unknown));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees assessed on
+             * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+             * settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][]
+             * (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
+             * overdue. anyOf[2] (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer,
+             * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "memo"?: ((string | null) | (null) | (unknown));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Summary of the backing
+             * order. Returned only with expand=order. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDue}. The resolved due-date policy. Send this object back when
+             * updating the draft; payment_terms captures the term's current revision again.
+             * anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with
+             * its due date rule and late fee policy. Later changes to the payment term don't
+             * affect this invoice. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's
+             * purchase order number, printed on the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string | null) | (null) | (unknown));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmounts}. The invoice pricing totals, frozen at
+             * issue. A draft previews the backing order. total_money excludes late fees, which are
+             * in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the
+             * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string or null. Your reference for the invoice, printed on the
+             * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+             * change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link Address}. Where the
+             * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+             * remit-to address. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((Address) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the
+             * invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@link
+             * InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a
+             * deposit, installment, or balance, with its due time, amounts, and status. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string or null. When Flint will issue and deliver this draft. `null` when no issue
+             * is scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+             * format. The invoice and PDF print it as written, without timezone conversion. `null`
+             * when unset. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
+             * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes,
+             * late fees, and the remaining invoice balance. What is still owed:
+             * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+             * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+             * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+             * losses don't change it. Money collected, returned, waived, and still owed on a bill.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link InvoiceSnapshot}. The billing
+             * content of the invoice: line items, discounts, charges, tip, and tax. A draft
+             * previews the backing order; issue freezes it, and later order changes don't reach an
+             * issued invoice. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
+             * string. Current invoice status. paid and credited close the current balance and can
+             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string or null. The subscription the backing order belongs to, copied when the draft
+             * is created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3615,7 +8153,286 @@ export type InvoiceCollectionBlockResolvedMerchantEvent = (Exclude<MerchantWebho
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollection} or null. How this
+     * invoice is collected, resolved when the draft is written. Send this object back when
+     * updating its collection policy. previous_attributes.collection.anyOf[1] (Value): {@link
+     * InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send
+     * this object back when updating its collection policy.
+     * previous_attributes.collection.anyOf[2] (Value): null.
+     * previous_attributes.collection_block_status (Optional): string or null. Whether collection
+     * is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[1] (Value): string. Whether collection is
+     * blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or
+     * null or null. Summary of the billed customer. Returned only with expand=customer. Present
+     * only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Summary of the billed customer. Returned only with expand=customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has no
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this
+     * invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. Use it as your sync key: it isn't
+     * printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.footer (Optional): string or null or null. Fine print at the bottom of
+     * the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[1] (Value): string or null. Fine print at the bottom of the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFee} or null. Late fees assessed on this invoice,
+     * each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees
+     * assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A charge assessed
+     * because an invoice payment is overdue. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null or null. Message to the customer,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string or null. Message to the customer, printed
+     * on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Summary of the backing order. Returned only
+     * with expand=order. Present only when `expand` includes `order`; `null` when expanded and
+     * there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Summary of the backing order. Returned only with
+     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The order this invoice bills. Every invoice has one; quick pay creates it.
+     * previous_attributes.order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the invoice most recently became paid. Cleared when status leaves paid
+     * and set again on a later paid transition. previous_attributes.paid_at.anyOf[1] (Value):
+     * string. When the invoice most recently became paid. Cleared when status leaves paid and set
+     * again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_due
+     * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+     * object back when updating the draft; payment_terms captures the term's current revision
+     * again. previous_attributes.payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The
+     * resolved due-date policy. Send this object back when updating the draft; payment_terms
+     * captures the term's current revision again. previous_attributes.payment_due.anyOf[2]
+     * (Value): null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshot} or null. The payment term captured on the draft, with its due
+     * date rule and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule
+     * and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A
+     * draft previews the backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1] (Value):
+     * {@link PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+     * backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[2] (Value):
+     * null. previous_attributes.recipient_email (Optional): string or null or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[1] (Value): string or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[2] (Value): null.
+     * previous_attributes.reference (Optional): string or null or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[1] (Value): string or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link Address} or null. Where the buyer
+     * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+     * address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link Address}. Where the
+     * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+     * remit-to address. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link InvoiceScheduleEntry} or
+     * null. The payment schedule, in schedule order. Always [] when the invoice has no schedule
+     * and is collected in one balance. previous_attributes.schedule_entries.anyOf[1] (Value):
+     * Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One
+     * payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
+     * its due time, amounts, and status. previous_attributes.schedule_entries.anyOf[2] (Value):
+     * null. previous_attributes.scheduled_issue_at (Optional): string or null or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue
+     * is scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null or null. The
+     * calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as
+     * written, without timezone conversion. `null` when unset.
+     * previous_attributes.service_date.anyOf[1] (Value): string or null. The calendar date of the
+     * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+     * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link InvoiceSettlementAmounts} or null.
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees,
+     * and the remaining invoice balance. What is still owed: pricing_amounts.total_money +
+     * late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on
+     * paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on
+     * a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and
+     * still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value): null.
+     * previous_attributes.snapshot (Optional): {@link InvoiceSnapshot} or null. The billing
+     * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the
+     * backing order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[1] (Value): {@link InvoiceSnapshot}. The billing content
+     * of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing
+     * order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Current invoice status. paid and credited close the current balance and can
+     * reopen to open or partially_paid after a payment or credit allocation reversal;
+     * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+     * payments and becomes paid when fully recovered; reversals restore the write-off. voided is
+     * final. Refunds change refund_status without reopening the balance. A lost dispute leaves
+     * paid_money, the balance, and status unchanged; collecting it again requires a new invoice.
+     * Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
+     * "credited". previous_attributes.status.anyOf[1] (Value): string. Current invoice status.
+     * paid and credited close the current balance and can reopen to open or partially_paid after a
+     * payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null or null. The subscription the backing order belongs to, copied
+     * when the draft is created and never changed. `null` when the order isn't part of a
+     * subscription. previous_attributes.subscription_id.anyOf[1] (Value): string or null. The
+     * subscription the backing order belongs to, copied when the draft is created and never
+     * changed. `null` when the order isn't part of a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
+     * actions Flint accepts for this resource now, based on stored state. Independent of the
+     * caller's permissions; each action still requires its route's scope. Always [] when no action
+     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
@@ -3624,9 +8441,638 @@ export type InvoiceCollectionBlockResolvedMerchantEvent = (Exclude<MerchantWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollection} or null. How this invoice is collected, resolved when the draft is
+         * written. Send this object back when updating its collection policy. collection.anyOf[1]
+         * (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
+         * draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummary} or null or null. Summary of the billed customer. Returned only
+         * with expand=customer. Present only when `expand` includes `customer`; `null` when
+         * expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with
+         * expand=customer. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer billed
+         * by this invoice. Absent when the invoice has no customer. customer_id.anyOf[1] (Value):
+         * string. Customer billed by this invoice. Absent when the invoice has no customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_mode (Optional): string or null. How issue delivered the invoice. Value enum:
+         * "email", "caller_managed". delivery_mode.anyOf[1] (Value): string. How issue delivered
+         * the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[2] (Value):
+         * null. due_date (Optional): string or null. Calendar due date in YYYY-MM-DD format,
+         * interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only
+         * after this date ends. Automatic collection runs at the later of issue and the start of
+         * this date. With payment terms, issue computes this date from issued_at. Absent when
+         * there is no due date. due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+         * format, interpreted in timezone (UTC when absent). The outstanding balance becomes
+         * overdue only after this date ends. Automatic collection runs at the later of issue and
+         * the start of this date. With payment terms, issue computes this date from issued_at.
+         * Absent when there is no due date. Format: date. Example: "2026-08-02". due_date.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null or null. Caller-owned
+         * identifier for this resource in an external system. Use it as your sync key: it isn't
+         * printed on the invoice. `null` when unset. external_reference_id.anyOf[1] (Value):
+         * string or null. Caller-owned identifier for this resource in an external system. Use it
+         * as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * footer (Optional): string or null or null. Fine print at the bottom of the invoice and
+         * PDF. It cannot change after issue. `null` when unset. footer.anyOf[1] (Value): string or
+         * null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+         * `null` when unset. footer.anyOf[2] (Value): null. invoice_id (Optional): string or null.
+         * Flint invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFee} or null. Late fees assessed on this invoice, each with its paid,
+         * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1] (Value): Array of {@link
+         * InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived,
+         * written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A
+         * charge assessed because an invoice payment is overdue. late_fees.anyOf[2] (Value): null.
+         * memo (Optional): string or null or null. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[1] (Value): string
+         * or null. Message to the customer, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. Merchant that owns this invoice. merchant_id.anyOf[1] (Value): string. Merchant
+         * that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2]
+         * (Value): null. order (Optional): {@link ExpandedOrderSummary} or null or null. Summary
+         * of the backing order. Returned only with expand=order. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+         * object back when updating the draft; payment_terms captures the term's current revision
+         * again. payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[2] (Value): null. payment_terms_snapshot
+         * (Optional): {@link InvoicePaymentTermsSnapshot} or null. The payment term captured on
+         * the draft, with its due date rule and late fee policy. Later changes to the payment term
+         * don't affect this invoice. payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date
+         * rule and late fee policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[2] (Value): null. po_number (Optional): string or null or
+         * null. The buyer's purchase order number, printed on the invoice and PDF. It cannot
+         * change after issue. `null` when unset. po_number.anyOf[1] (Value): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[2] (Value): null. pricing_amounts (Optional):
+         * {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A draft
+         * previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+         * backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null or null. Where Flint emails the invoice and
+         * its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null or null.
+         * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+         * order number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string or null. Your reference for the invoice, printed on
+         * the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+         * change after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link Address} or null. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[1] (Value): {@link Address}. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntry} or null. The payment schedule, in schedule order. Always [] when
+         * the invoice has no schedule and is collected in one balance. schedule_entries.anyOf[1]
+         * (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order.
+         * Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One payment on an
+         * invoice's payment schedule, such as a deposit, installment, or balance, with its due
+         * time, amounts, and status. schedule_entries.anyOf[2] (Value): null. scheduled_issue_at
+         * (Optional): string or null or null. When Flint will issue and deliver this draft. `null`
+         * when no issue is scheduled. Cleared when the draft is issued or voided, or when you send
+         * null. scheduled_issue_at.anyOf[1] (Value): string or null. When Flint will issue and
+         * deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued
+         * or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_issue_at.anyOf[2] (Value): null. service_date (Optional): string or null or
+         * null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+         * print it as written, without timezone conversion. `null` when unset.
+         * service_date.anyOf[1] (Value): string or null. The calendar date of the billed service,
+         * in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone
+         * conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmounts} or null. Payments, refunds, write-offs, allocated credit
+         * notes, late fees, and the remaining invoice balance. What is still owed:
+         * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
+         * don't change it. settlement_amounts.anyOf[1] (Value): {@link InvoiceSettlementAmounts}.
+         * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+         * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+         * paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited,
+         * uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft.
+         * Refunds and dispute losses don't change it. Money collected, returned, waived, and still
+         * owed on a bill. settlement_amounts.anyOf[2] (Value): null. snapshot (Optional): {@link
+         * InvoiceSnapshot} or null. The billing content of the invoice: line items, discounts,
+         * charges, tip, and tax. A draft previews the backing order; issue freezes it, and later
+         * order changes don't reach an issued invoice. snapshot.anyOf[1] (Value): {@link
+         * InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges,
+         * tip, and tax. A draft previews the backing order; issue freezes it, and later order
+         * changes don't reach an issued invoice. snapshot.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current invoice status. paid and credited close the current
+         * balance and can reopen to open or partially_paid after a payment or credit allocation
+         * reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual
+         * recovery payments and becomes paid when fully recovered; reversals restore the
+         * write-off. voided is final. Refunds change refund_status without reopening the balance.
+         * A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again
+         * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+         * "uncollectible", "credited". status.anyOf[1] (Value): string. Current invoice status.
+         * paid and credited close the current balance and can reopen to open or partially_paid
+         * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+         * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+         * recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
+         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
+         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string or null. The subscription the backing order belongs to, copied when the
+         * draft is created and never changed. `null` when the order isn't part of a subscription.
+         * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollection}. How this invoice is collected, resolved when the draft is
+             * written. Send this object back when updating its collection policy. anyOf[2]
+             * (Value): null.
+             */
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Summary of the
+             * billed customer. Returned only with expand=customer. Present only when `expand`
+             * includes `customer`; `null` when expanded and there is no related customer.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or
+             * null. Caller-owned identifier for this resource in an external system. Use it as
+             * your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+             * maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the
+             * invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value):
+             * null.
+             */
+            "footer"?: ((string | null) | (null) | (unknown));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees assessed on
+             * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+             * settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][]
+             * (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
+             * overdue. anyOf[2] (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer,
+             * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "memo"?: ((string | null) | (null) | (unknown));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Summary of the backing
+             * order. Returned only with expand=order. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDue}. The resolved due-date policy. Send this object back when
+             * updating the draft; payment_terms captures the term's current revision again.
+             * anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with
+             * its due date rule and late fee policy. Later changes to the payment term don't
+             * affect this invoice. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's
+             * purchase order number, printed on the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string | null) | (null) | (unknown));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmounts}. The invoice pricing totals, frozen at
+             * issue. A draft previews the backing order. total_money excludes late fees, which are
+             * in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the
+             * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string or null. Your reference for the invoice, printed on the
+             * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+             * change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link Address}. Where the
+             * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+             * remit-to address. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((Address) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the
+             * invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@link
+             * InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a
+             * deposit, installment, or balance, with its due time, amounts, and status. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string or null. When Flint will issue and deliver this draft. `null` when no issue
+             * is scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+             * format. The invoice and PDF print it as written, without timezone conversion. `null`
+             * when unset. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
+             * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes,
+             * late fees, and the remaining invoice balance. What is still owed:
+             * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+             * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+             * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+             * losses don't change it. Money collected, returned, waived, and still owed on a bill.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link InvoiceSnapshot}. The billing
+             * content of the invoice: line items, discounts, charges, tip, and tax. A draft
+             * previews the backing order; issue freezes it, and later order changes don't reach an
+             * issued invoice. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
+             * string. Current invoice status. paid and credited close the current balance and can
+             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string or null. The subscription the backing order belongs to, copied when the draft
+             * is created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3637,7 +9083,65 @@ export type InvoiceCollectionBlockedEvent = ((((Exclude<MerchantWebhookEnvelope 
     & ({
     "data"?: {
         "object": WebhookInvoice;
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "footer"?: ((string | null) | (null) | (unknown));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            "memo"?: ((string | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            "po_number"?: ((string | null) | (null) | (unknown));
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            "reference"?: ((string | null) | (null) | (unknown));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((Address) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            "service_date"?: ((string | null) | (null) | (unknown));
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "invoice.collection_blocked";
@@ -3646,7 +9150,65 @@ export type InvoiceCollectionBlockedEvent = ((((Exclude<MerchantWebhookEnvelope 
     & ({
     "data"?: {
         "object": WebhookInvoice;
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "footer"?: ((string | null) | (null) | (unknown));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            "memo"?: ((string | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            "po_number"?: ((string | null) | (null) | (unknown));
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            "reference"?: ((string | null) | (null) | (unknown));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((Address) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            "service_date"?: ((string | null) | (null) | (unknown));
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "invoice.collection_blocked";
@@ -3673,7 +9235,286 @@ export type InvoiceCollectionBlockedInstalledMerchantsEvent = (Exclude<PartnerWe
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollection} or null. How this
+     * invoice is collected, resolved when the draft is written. Send this object back when
+     * updating its collection policy. previous_attributes.collection.anyOf[1] (Value): {@link
+     * InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send
+     * this object back when updating its collection policy.
+     * previous_attributes.collection.anyOf[2] (Value): null.
+     * previous_attributes.collection_block_status (Optional): string or null. Whether collection
+     * is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[1] (Value): string. Whether collection is
+     * blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or
+     * null or null. Summary of the billed customer. Returned only with expand=customer. Present
+     * only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Summary of the billed customer. Returned only with expand=customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has no
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this
+     * invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. Use it as your sync key: it isn't
+     * printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.footer (Optional): string or null or null. Fine print at the bottom of
+     * the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[1] (Value): string or null. Fine print at the bottom of the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFee} or null. Late fees assessed on this invoice,
+     * each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees
+     * assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A charge assessed
+     * because an invoice payment is overdue. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null or null. Message to the customer,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string or null. Message to the customer, printed
+     * on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Summary of the backing order. Returned only
+     * with expand=order. Present only when `expand` includes `order`; `null` when expanded and
+     * there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Summary of the backing order. Returned only with
+     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The order this invoice bills. Every invoice has one; quick pay creates it.
+     * previous_attributes.order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the invoice most recently became paid. Cleared when status leaves paid
+     * and set again on a later paid transition. previous_attributes.paid_at.anyOf[1] (Value):
+     * string. When the invoice most recently became paid. Cleared when status leaves paid and set
+     * again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_due
+     * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+     * object back when updating the draft; payment_terms captures the term's current revision
+     * again. previous_attributes.payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The
+     * resolved due-date policy. Send this object back when updating the draft; payment_terms
+     * captures the term's current revision again. previous_attributes.payment_due.anyOf[2]
+     * (Value): null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshot} or null. The payment term captured on the draft, with its due
+     * date rule and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule
+     * and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A
+     * draft previews the backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1] (Value):
+     * {@link PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+     * backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[2] (Value):
+     * null. previous_attributes.recipient_email (Optional): string or null or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[1] (Value): string or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[2] (Value): null.
+     * previous_attributes.reference (Optional): string or null or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[1] (Value): string or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link Address} or null. Where the buyer
+     * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+     * address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link Address}. Where the
+     * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+     * remit-to address. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link InvoiceScheduleEntry} or
+     * null. The payment schedule, in schedule order. Always [] when the invoice has no schedule
+     * and is collected in one balance. previous_attributes.schedule_entries.anyOf[1] (Value):
+     * Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One
+     * payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
+     * its due time, amounts, and status. previous_attributes.schedule_entries.anyOf[2] (Value):
+     * null. previous_attributes.scheduled_issue_at (Optional): string or null or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue
+     * is scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null or null. The
+     * calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as
+     * written, without timezone conversion. `null` when unset.
+     * previous_attributes.service_date.anyOf[1] (Value): string or null. The calendar date of the
+     * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+     * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link InvoiceSettlementAmounts} or null.
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees,
+     * and the remaining invoice balance. What is still owed: pricing_amounts.total_money +
+     * late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on
+     * paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on
+     * a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and
+     * still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value): null.
+     * previous_attributes.snapshot (Optional): {@link InvoiceSnapshot} or null. The billing
+     * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the
+     * backing order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[1] (Value): {@link InvoiceSnapshot}. The billing content
+     * of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing
+     * order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Current invoice status. paid and credited close the current balance and can
+     * reopen to open or partially_paid after a payment or credit allocation reversal;
+     * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+     * payments and becomes paid when fully recovered; reversals restore the write-off. voided is
+     * final. Refunds change refund_status without reopening the balance. A lost dispute leaves
+     * paid_money, the balance, and status unchanged; collecting it again requires a new invoice.
+     * Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
+     * "credited". previous_attributes.status.anyOf[1] (Value): string. Current invoice status.
+     * paid and credited close the current balance and can reopen to open or partially_paid after a
+     * payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null or null. The subscription the backing order belongs to, copied
+     * when the draft is created and never changed. `null` when the order isn't part of a
+     * subscription. previous_attributes.subscription_id.anyOf[1] (Value): string or null. The
+     * subscription the backing order belongs to, copied when the draft is created and never
+     * changed. `null` when the order isn't part of a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
+     * actions Flint accepts for this resource now, based on stored state. Independent of the
+     * caller's permissions; each action still requires its route's scope. Always [] when no action
+     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
@@ -3682,9 +9523,638 @@ export type InvoiceCollectionBlockedInstalledMerchantsEvent = (Exclude<PartnerWe
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollection} or null. How this invoice is collected, resolved when the draft is
+         * written. Send this object back when updating its collection policy. collection.anyOf[1]
+         * (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
+         * draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummary} or null or null. Summary of the billed customer. Returned only
+         * with expand=customer. Present only when `expand` includes `customer`; `null` when
+         * expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with
+         * expand=customer. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer billed
+         * by this invoice. Absent when the invoice has no customer. customer_id.anyOf[1] (Value):
+         * string. Customer billed by this invoice. Absent when the invoice has no customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_mode (Optional): string or null. How issue delivered the invoice. Value enum:
+         * "email", "caller_managed". delivery_mode.anyOf[1] (Value): string. How issue delivered
+         * the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[2] (Value):
+         * null. due_date (Optional): string or null. Calendar due date in YYYY-MM-DD format,
+         * interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only
+         * after this date ends. Automatic collection runs at the later of issue and the start of
+         * this date. With payment terms, issue computes this date from issued_at. Absent when
+         * there is no due date. due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+         * format, interpreted in timezone (UTC when absent). The outstanding balance becomes
+         * overdue only after this date ends. Automatic collection runs at the later of issue and
+         * the start of this date. With payment terms, issue computes this date from issued_at.
+         * Absent when there is no due date. Format: date. Example: "2026-08-02". due_date.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null or null. Caller-owned
+         * identifier for this resource in an external system. Use it as your sync key: it isn't
+         * printed on the invoice. `null` when unset. external_reference_id.anyOf[1] (Value):
+         * string or null. Caller-owned identifier for this resource in an external system. Use it
+         * as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * footer (Optional): string or null or null. Fine print at the bottom of the invoice and
+         * PDF. It cannot change after issue. `null` when unset. footer.anyOf[1] (Value): string or
+         * null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+         * `null` when unset. footer.anyOf[2] (Value): null. invoice_id (Optional): string or null.
+         * Flint invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFee} or null. Late fees assessed on this invoice, each with its paid,
+         * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1] (Value): Array of {@link
+         * InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived,
+         * written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A
+         * charge assessed because an invoice payment is overdue. late_fees.anyOf[2] (Value): null.
+         * memo (Optional): string or null or null. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[1] (Value): string
+         * or null. Message to the customer, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. Merchant that owns this invoice. merchant_id.anyOf[1] (Value): string. Merchant
+         * that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2]
+         * (Value): null. order (Optional): {@link ExpandedOrderSummary} or null or null. Summary
+         * of the backing order. Returned only with expand=order. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+         * object back when updating the draft; payment_terms captures the term's current revision
+         * again. payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[2] (Value): null. payment_terms_snapshot
+         * (Optional): {@link InvoicePaymentTermsSnapshot} or null. The payment term captured on
+         * the draft, with its due date rule and late fee policy. Later changes to the payment term
+         * don't affect this invoice. payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date
+         * rule and late fee policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[2] (Value): null. po_number (Optional): string or null or
+         * null. The buyer's purchase order number, printed on the invoice and PDF. It cannot
+         * change after issue. `null` when unset. po_number.anyOf[1] (Value): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[2] (Value): null. pricing_amounts (Optional):
+         * {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A draft
+         * previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+         * backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null or null. Where Flint emails the invoice and
+         * its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null or null.
+         * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+         * order number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string or null. Your reference for the invoice, printed on
+         * the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+         * change after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link Address} or null. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[1] (Value): {@link Address}. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntry} or null. The payment schedule, in schedule order. Always [] when
+         * the invoice has no schedule and is collected in one balance. schedule_entries.anyOf[1]
+         * (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order.
+         * Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One payment on an
+         * invoice's payment schedule, such as a deposit, installment, or balance, with its due
+         * time, amounts, and status. schedule_entries.anyOf[2] (Value): null. scheduled_issue_at
+         * (Optional): string or null or null. When Flint will issue and deliver this draft. `null`
+         * when no issue is scheduled. Cleared when the draft is issued or voided, or when you send
+         * null. scheduled_issue_at.anyOf[1] (Value): string or null. When Flint will issue and
+         * deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued
+         * or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_issue_at.anyOf[2] (Value): null. service_date (Optional): string or null or
+         * null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+         * print it as written, without timezone conversion. `null` when unset.
+         * service_date.anyOf[1] (Value): string or null. The calendar date of the billed service,
+         * in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone
+         * conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmounts} or null. Payments, refunds, write-offs, allocated credit
+         * notes, late fees, and the remaining invoice balance. What is still owed:
+         * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
+         * don't change it. settlement_amounts.anyOf[1] (Value): {@link InvoiceSettlementAmounts}.
+         * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+         * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+         * paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited,
+         * uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft.
+         * Refunds and dispute losses don't change it. Money collected, returned, waived, and still
+         * owed on a bill. settlement_amounts.anyOf[2] (Value): null. snapshot (Optional): {@link
+         * InvoiceSnapshot} or null. The billing content of the invoice: line items, discounts,
+         * charges, tip, and tax. A draft previews the backing order; issue freezes it, and later
+         * order changes don't reach an issued invoice. snapshot.anyOf[1] (Value): {@link
+         * InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges,
+         * tip, and tax. A draft previews the backing order; issue freezes it, and later order
+         * changes don't reach an issued invoice. snapshot.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current invoice status. paid and credited close the current
+         * balance and can reopen to open or partially_paid after a payment or credit allocation
+         * reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual
+         * recovery payments and becomes paid when fully recovered; reversals restore the
+         * write-off. voided is final. Refunds change refund_status without reopening the balance.
+         * A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again
+         * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+         * "uncollectible", "credited". status.anyOf[1] (Value): string. Current invoice status.
+         * paid and credited close the current balance and can reopen to open or partially_paid
+         * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+         * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+         * recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
+         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
+         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string or null. The subscription the backing order belongs to, copied when the
+         * draft is created and never changed. `null` when the order isn't part of a subscription.
+         * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollection}. How this invoice is collected, resolved when the draft is
+             * written. Send this object back when updating its collection policy. anyOf[2]
+             * (Value): null.
+             */
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Summary of the
+             * billed customer. Returned only with expand=customer. Present only when `expand`
+             * includes `customer`; `null` when expanded and there is no related customer.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or
+             * null. Caller-owned identifier for this resource in an external system. Use it as
+             * your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+             * maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the
+             * invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value):
+             * null.
+             */
+            "footer"?: ((string | null) | (null) | (unknown));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees assessed on
+             * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+             * settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][]
+             * (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
+             * overdue. anyOf[2] (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer,
+             * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "memo"?: ((string | null) | (null) | (unknown));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Summary of the backing
+             * order. Returned only with expand=order. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDue}. The resolved due-date policy. Send this object back when
+             * updating the draft; payment_terms captures the term's current revision again.
+             * anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with
+             * its due date rule and late fee policy. Later changes to the payment term don't
+             * affect this invoice. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's
+             * purchase order number, printed on the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string | null) | (null) | (unknown));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmounts}. The invoice pricing totals, frozen at
+             * issue. A draft previews the backing order. total_money excludes late fees, which are
+             * in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the
+             * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string or null. Your reference for the invoice, printed on the
+             * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+             * change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link Address}. Where the
+             * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+             * remit-to address. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((Address) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the
+             * invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@link
+             * InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a
+             * deposit, installment, or balance, with its due time, amounts, and status. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string or null. When Flint will issue and deliver this draft. `null` when no issue
+             * is scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+             * format. The invoice and PDF print it as written, without timezone conversion. `null`
+             * when unset. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
+             * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes,
+             * late fees, and the remaining invoice balance. What is still owed:
+             * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+             * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+             * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+             * losses don't change it. Money collected, returned, waived, and still owed on a bill.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link InvoiceSnapshot}. The billing
+             * content of the invoice: line items, discounts, charges, tip, and tax. A draft
+             * previews the backing order; issue freezes it, and later order changes don't reach an
+             * issued invoice. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
+             * string. Current invoice status. paid and credited close the current balance and can
+             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string or null. The subscription the backing order belongs to, copied when the draft
+             * is created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3737,7 +10207,286 @@ export type InvoiceCollectionBlockedMerchantEvent = (Exclude<MerchantWebhookEnve
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollection} or null. How this
+     * invoice is collected, resolved when the draft is written. Send this object back when
+     * updating its collection policy. previous_attributes.collection.anyOf[1] (Value): {@link
+     * InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send
+     * this object back when updating its collection policy.
+     * previous_attributes.collection.anyOf[2] (Value): null.
+     * previous_attributes.collection_block_status (Optional): string or null. Whether collection
+     * is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[1] (Value): string. Whether collection is
+     * blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or
+     * null or null. Summary of the billed customer. Returned only with expand=customer. Present
+     * only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Summary of the billed customer. Returned only with expand=customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has no
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this
+     * invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. Use it as your sync key: it isn't
+     * printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.footer (Optional): string or null or null. Fine print at the bottom of
+     * the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[1] (Value): string or null. Fine print at the bottom of the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFee} or null. Late fees assessed on this invoice,
+     * each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees
+     * assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A charge assessed
+     * because an invoice payment is overdue. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null or null. Message to the customer,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string or null. Message to the customer, printed
+     * on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Summary of the backing order. Returned only
+     * with expand=order. Present only when `expand` includes `order`; `null` when expanded and
+     * there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Summary of the backing order. Returned only with
+     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The order this invoice bills. Every invoice has one; quick pay creates it.
+     * previous_attributes.order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the invoice most recently became paid. Cleared when status leaves paid
+     * and set again on a later paid transition. previous_attributes.paid_at.anyOf[1] (Value):
+     * string. When the invoice most recently became paid. Cleared when status leaves paid and set
+     * again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_due
+     * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+     * object back when updating the draft; payment_terms captures the term's current revision
+     * again. previous_attributes.payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The
+     * resolved due-date policy. Send this object back when updating the draft; payment_terms
+     * captures the term's current revision again. previous_attributes.payment_due.anyOf[2]
+     * (Value): null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshot} or null. The payment term captured on the draft, with its due
+     * date rule and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule
+     * and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A
+     * draft previews the backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1] (Value):
+     * {@link PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+     * backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[2] (Value):
+     * null. previous_attributes.recipient_email (Optional): string or null or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[1] (Value): string or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[2] (Value): null.
+     * previous_attributes.reference (Optional): string or null or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[1] (Value): string or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link Address} or null. Where the buyer
+     * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+     * address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link Address}. Where the
+     * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+     * remit-to address. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link InvoiceScheduleEntry} or
+     * null. The payment schedule, in schedule order. Always [] when the invoice has no schedule
+     * and is collected in one balance. previous_attributes.schedule_entries.anyOf[1] (Value):
+     * Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One
+     * payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
+     * its due time, amounts, and status. previous_attributes.schedule_entries.anyOf[2] (Value):
+     * null. previous_attributes.scheduled_issue_at (Optional): string or null or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue
+     * is scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null or null. The
+     * calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as
+     * written, without timezone conversion. `null` when unset.
+     * previous_attributes.service_date.anyOf[1] (Value): string or null. The calendar date of the
+     * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+     * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link InvoiceSettlementAmounts} or null.
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees,
+     * and the remaining invoice balance. What is still owed: pricing_amounts.total_money +
+     * late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on
+     * paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on
+     * a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and
+     * still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value): null.
+     * previous_attributes.snapshot (Optional): {@link InvoiceSnapshot} or null. The billing
+     * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the
+     * backing order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[1] (Value): {@link InvoiceSnapshot}. The billing content
+     * of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing
+     * order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Current invoice status. paid and credited close the current balance and can
+     * reopen to open or partially_paid after a payment or credit allocation reversal;
+     * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+     * payments and becomes paid when fully recovered; reversals restore the write-off. voided is
+     * final. Refunds change refund_status without reopening the balance. A lost dispute leaves
+     * paid_money, the balance, and status unchanged; collecting it again requires a new invoice.
+     * Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
+     * "credited". previous_attributes.status.anyOf[1] (Value): string. Current invoice status.
+     * paid and credited close the current balance and can reopen to open or partially_paid after a
+     * payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null or null. The subscription the backing order belongs to, copied
+     * when the draft is created and never changed. `null` when the order isn't part of a
+     * subscription. previous_attributes.subscription_id.anyOf[1] (Value): string or null. The
+     * subscription the backing order belongs to, copied when the draft is created and never
+     * changed. `null` when the order isn't part of a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
+     * actions Flint accepts for this resource now, based on stored state. Independent of the
+     * caller's permissions; each action still requires its route's scope. Always [] when no action
+     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
@@ -3746,9 +10495,638 @@ export type InvoiceCollectionBlockedMerchantEvent = (Exclude<MerchantWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollection} or null. How this invoice is collected, resolved when the draft is
+         * written. Send this object back when updating its collection policy. collection.anyOf[1]
+         * (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
+         * draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummary} or null or null. Summary of the billed customer. Returned only
+         * with expand=customer. Present only when `expand` includes `customer`; `null` when
+         * expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with
+         * expand=customer. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer billed
+         * by this invoice. Absent when the invoice has no customer. customer_id.anyOf[1] (Value):
+         * string. Customer billed by this invoice. Absent when the invoice has no customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_mode (Optional): string or null. How issue delivered the invoice. Value enum:
+         * "email", "caller_managed". delivery_mode.anyOf[1] (Value): string. How issue delivered
+         * the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[2] (Value):
+         * null. due_date (Optional): string or null. Calendar due date in YYYY-MM-DD format,
+         * interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only
+         * after this date ends. Automatic collection runs at the later of issue and the start of
+         * this date. With payment terms, issue computes this date from issued_at. Absent when
+         * there is no due date. due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+         * format, interpreted in timezone (UTC when absent). The outstanding balance becomes
+         * overdue only after this date ends. Automatic collection runs at the later of issue and
+         * the start of this date. With payment terms, issue computes this date from issued_at.
+         * Absent when there is no due date. Format: date. Example: "2026-08-02". due_date.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null or null. Caller-owned
+         * identifier for this resource in an external system. Use it as your sync key: it isn't
+         * printed on the invoice. `null` when unset. external_reference_id.anyOf[1] (Value):
+         * string or null. Caller-owned identifier for this resource in an external system. Use it
+         * as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * footer (Optional): string or null or null. Fine print at the bottom of the invoice and
+         * PDF. It cannot change after issue. `null` when unset. footer.anyOf[1] (Value): string or
+         * null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+         * `null` when unset. footer.anyOf[2] (Value): null. invoice_id (Optional): string or null.
+         * Flint invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFee} or null. Late fees assessed on this invoice, each with its paid,
+         * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1] (Value): Array of {@link
+         * InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived,
+         * written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A
+         * charge assessed because an invoice payment is overdue. late_fees.anyOf[2] (Value): null.
+         * memo (Optional): string or null or null. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[1] (Value): string
+         * or null. Message to the customer, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. Merchant that owns this invoice. merchant_id.anyOf[1] (Value): string. Merchant
+         * that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2]
+         * (Value): null. order (Optional): {@link ExpandedOrderSummary} or null or null. Summary
+         * of the backing order. Returned only with expand=order. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+         * object back when updating the draft; payment_terms captures the term's current revision
+         * again. payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[2] (Value): null. payment_terms_snapshot
+         * (Optional): {@link InvoicePaymentTermsSnapshot} or null. The payment term captured on
+         * the draft, with its due date rule and late fee policy. Later changes to the payment term
+         * don't affect this invoice. payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date
+         * rule and late fee policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[2] (Value): null. po_number (Optional): string or null or
+         * null. The buyer's purchase order number, printed on the invoice and PDF. It cannot
+         * change after issue. `null` when unset. po_number.anyOf[1] (Value): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[2] (Value): null. pricing_amounts (Optional):
+         * {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A draft
+         * previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+         * backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null or null. Where Flint emails the invoice and
+         * its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null or null.
+         * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+         * order number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string or null. Your reference for the invoice, printed on
+         * the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+         * change after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link Address} or null. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[1] (Value): {@link Address}. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntry} or null. The payment schedule, in schedule order. Always [] when
+         * the invoice has no schedule and is collected in one balance. schedule_entries.anyOf[1]
+         * (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order.
+         * Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One payment on an
+         * invoice's payment schedule, such as a deposit, installment, or balance, with its due
+         * time, amounts, and status. schedule_entries.anyOf[2] (Value): null. scheduled_issue_at
+         * (Optional): string or null or null. When Flint will issue and deliver this draft. `null`
+         * when no issue is scheduled. Cleared when the draft is issued or voided, or when you send
+         * null. scheduled_issue_at.anyOf[1] (Value): string or null. When Flint will issue and
+         * deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued
+         * or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_issue_at.anyOf[2] (Value): null. service_date (Optional): string or null or
+         * null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+         * print it as written, without timezone conversion. `null` when unset.
+         * service_date.anyOf[1] (Value): string or null. The calendar date of the billed service,
+         * in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone
+         * conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmounts} or null. Payments, refunds, write-offs, allocated credit
+         * notes, late fees, and the remaining invoice balance. What is still owed:
+         * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
+         * don't change it. settlement_amounts.anyOf[1] (Value): {@link InvoiceSettlementAmounts}.
+         * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+         * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+         * paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited,
+         * uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft.
+         * Refunds and dispute losses don't change it. Money collected, returned, waived, and still
+         * owed on a bill. settlement_amounts.anyOf[2] (Value): null. snapshot (Optional): {@link
+         * InvoiceSnapshot} or null. The billing content of the invoice: line items, discounts,
+         * charges, tip, and tax. A draft previews the backing order; issue freezes it, and later
+         * order changes don't reach an issued invoice. snapshot.anyOf[1] (Value): {@link
+         * InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges,
+         * tip, and tax. A draft previews the backing order; issue freezes it, and later order
+         * changes don't reach an issued invoice. snapshot.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current invoice status. paid and credited close the current
+         * balance and can reopen to open or partially_paid after a payment or credit allocation
+         * reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual
+         * recovery payments and becomes paid when fully recovered; reversals restore the
+         * write-off. voided is final. Refunds change refund_status without reopening the balance.
+         * A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again
+         * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+         * "uncollectible", "credited". status.anyOf[1] (Value): string. Current invoice status.
+         * paid and credited close the current balance and can reopen to open or partially_paid
+         * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+         * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+         * recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
+         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
+         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string or null. The subscription the backing order belongs to, copied when the
+         * draft is created and never changed. `null` when the order isn't part of a subscription.
+         * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollection}. How this invoice is collected, resolved when the draft is
+             * written. Send this object back when updating its collection policy. anyOf[2]
+             * (Value): null.
+             */
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Summary of the
+             * billed customer. Returned only with expand=customer. Present only when `expand`
+             * includes `customer`; `null` when expanded and there is no related customer.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or
+             * null. Caller-owned identifier for this resource in an external system. Use it as
+             * your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+             * maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the
+             * invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value):
+             * null.
+             */
+            "footer"?: ((string | null) | (null) | (unknown));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees assessed on
+             * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+             * settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][]
+             * (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
+             * overdue. anyOf[2] (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer,
+             * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "memo"?: ((string | null) | (null) | (unknown));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Summary of the backing
+             * order. Returned only with expand=order. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDue}. The resolved due-date policy. Send this object back when
+             * updating the draft; payment_terms captures the term's current revision again.
+             * anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with
+             * its due date rule and late fee policy. Later changes to the payment term don't
+             * affect this invoice. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's
+             * purchase order number, printed on the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string | null) | (null) | (unknown));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmounts}. The invoice pricing totals, frozen at
+             * issue. A draft previews the backing order. total_money excludes late fees, which are
+             * in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the
+             * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string or null. Your reference for the invoice, printed on the
+             * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+             * change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link Address}. Where the
+             * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+             * remit-to address. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((Address) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the
+             * invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@link
+             * InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a
+             * deposit, installment, or balance, with its due time, amounts, and status. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string or null. When Flint will issue and deliver this draft. `null` when no issue
+             * is scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+             * format. The invoice and PDF print it as written, without timezone conversion. `null`
+             * when unset. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
+             * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes,
+             * late fees, and the remaining invoice balance. What is still owed:
+             * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+             * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+             * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+             * losses don't change it. Money collected, returned, waived, and still owed on a bill.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link InvoiceSnapshot}. The billing
+             * content of the invoice: line items, discounts, charges, tip, and tax. A draft
+             * previews the backing order; issue freezes it, and later order changes don't reach an
+             * issued invoice. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
+             * string. Current invoice status. paid and credited close the current balance and can
+             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string or null. The subscription the backing order belongs to, copied when the draft
+             * is created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -4187,7 +11565,65 @@ export type InvoiceCreditedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
     & ({
     "data"?: {
         "object": WebhookInvoice;
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "footer"?: ((string | null) | (null) | (unknown));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            "memo"?: ((string | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            "po_number"?: ((string | null) | (null) | (unknown));
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            "reference"?: ((string | null) | (null) | (unknown));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((Address) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            "service_date"?: ((string | null) | (null) | (unknown));
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "invoice.credited";
@@ -4196,7 +11632,65 @@ export type InvoiceCreditedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
     & ({
     "data"?: {
         "object": WebhookInvoice;
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "cc_emails"?: ((Array<string>) | (null));
+            "closed_at"?: ((string) | (null));
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            "due_date"?: ((string) | (null));
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "footer"?: ((string | null) | (null) | (unknown));
+            "invoice_id"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "is_overdue"?: ((boolean) | (null));
+            "issued_at"?: ((string) | (null));
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            "memo"?: ((string | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "paid_at"?: ((string) | (null));
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            "po_number"?: ((string | null) | (null) | (unknown));
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            "reference"?: ((string | null) | (null) | (unknown));
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            "reminders_paused"?: ((boolean) | (null));
+            "reminders_paused_at"?: ((string) | (null));
+            "remit_to_address"?: ((Address) | (null));
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            "service_date"?: ((string | null) | (null) | (unknown));
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            "timezone"?: ((string) | (null));
+            "uncollectible_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "viewed_at"?: ((string) | (null));
+            "voided_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "invoice.credited";
@@ -4223,7 +11717,286 @@ export type InvoiceCreditedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollection} or null. How this
+     * invoice is collected, resolved when the draft is written. Send this object back when
+     * updating its collection policy. previous_attributes.collection.anyOf[1] (Value): {@link
+     * InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send
+     * this object back when updating its collection policy.
+     * previous_attributes.collection.anyOf[2] (Value): null.
+     * previous_attributes.collection_block_status (Optional): string or null. Whether collection
+     * is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[1] (Value): string. Whether collection is
+     * blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or
+     * null or null. Summary of the billed customer. Returned only with expand=customer. Present
+     * only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Summary of the billed customer. Returned only with expand=customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has no
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this
+     * invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. Use it as your sync key: it isn't
+     * printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.footer (Optional): string or null or null. Fine print at the bottom of
+     * the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[1] (Value): string or null. Fine print at the bottom of the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFee} or null. Late fees assessed on this invoice,
+     * each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees
+     * assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A charge assessed
+     * because an invoice payment is overdue. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null or null. Message to the customer,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string or null. Message to the customer, printed
+     * on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Summary of the backing order. Returned only
+     * with expand=order. Present only when `expand` includes `order`; `null` when expanded and
+     * there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Summary of the backing order. Returned only with
+     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The order this invoice bills. Every invoice has one; quick pay creates it.
+     * previous_attributes.order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the invoice most recently became paid. Cleared when status leaves paid
+     * and set again on a later paid transition. previous_attributes.paid_at.anyOf[1] (Value):
+     * string. When the invoice most recently became paid. Cleared when status leaves paid and set
+     * again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_due
+     * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+     * object back when updating the draft; payment_terms captures the term's current revision
+     * again. previous_attributes.payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The
+     * resolved due-date policy. Send this object back when updating the draft; payment_terms
+     * captures the term's current revision again. previous_attributes.payment_due.anyOf[2]
+     * (Value): null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshot} or null. The payment term captured on the draft, with its due
+     * date rule and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule
+     * and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A
+     * draft previews the backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1] (Value):
+     * {@link PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+     * backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[2] (Value):
+     * null. previous_attributes.recipient_email (Optional): string or null or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[1] (Value): string or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[2] (Value): null.
+     * previous_attributes.reference (Optional): string or null or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[1] (Value): string or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link Address} or null. Where the buyer
+     * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+     * address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link Address}. Where the
+     * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+     * remit-to address. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link InvoiceScheduleEntry} or
+     * null. The payment schedule, in schedule order. Always [] when the invoice has no schedule
+     * and is collected in one balance. previous_attributes.schedule_entries.anyOf[1] (Value):
+     * Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One
+     * payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
+     * its due time, amounts, and status. previous_attributes.schedule_entries.anyOf[2] (Value):
+     * null. previous_attributes.scheduled_issue_at (Optional): string or null or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue
+     * is scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null or null. The
+     * calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as
+     * written, without timezone conversion. `null` when unset.
+     * previous_attributes.service_date.anyOf[1] (Value): string or null. The calendar date of the
+     * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+     * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link InvoiceSettlementAmounts} or null.
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees,
+     * and the remaining invoice balance. What is still owed: pricing_amounts.total_money +
+     * late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on
+     * paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on
+     * a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and
+     * still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value): null.
+     * previous_attributes.snapshot (Optional): {@link InvoiceSnapshot} or null. The billing
+     * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the
+     * backing order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[1] (Value): {@link InvoiceSnapshot}. The billing content
+     * of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing
+     * order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Current invoice status. paid and credited close the current balance and can
+     * reopen to open or partially_paid after a payment or credit allocation reversal;
+     * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+     * payments and becomes paid when fully recovered; reversals restore the write-off. voided is
+     * final. Refunds change refund_status without reopening the balance. A lost dispute leaves
+     * paid_money, the balance, and status unchanged; collecting it again requires a new invoice.
+     * Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
+     * "credited". previous_attributes.status.anyOf[1] (Value): string. Current invoice status.
+     * paid and credited close the current balance and can reopen to open or partially_paid after a
+     * payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null or null. The subscription the backing order belongs to, copied
+     * when the draft is created and never changed. `null` when the order isn't part of a
+     * subscription. previous_attributes.subscription_id.anyOf[1] (Value): string or null. The
+     * subscription the backing order belongs to, copied when the draft is created and never
+     * changed. `null` when the order isn't part of a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
+     * actions Flint accepts for this resource now, based on stored state. Independent of the
+     * caller's permissions; each action still requires its route's scope. Always [] when no action
+     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
@@ -4232,9 +12005,638 @@ export type InvoiceCreditedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollection} or null. How this invoice is collected, resolved when the draft is
+         * written. Send this object back when updating its collection policy. collection.anyOf[1]
+         * (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
+         * draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummary} or null or null. Summary of the billed customer. Returned only
+         * with expand=customer. Present only when `expand` includes `customer`; `null` when
+         * expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with
+         * expand=customer. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer billed
+         * by this invoice. Absent when the invoice has no customer. customer_id.anyOf[1] (Value):
+         * string. Customer billed by this invoice. Absent when the invoice has no customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_mode (Optional): string or null. How issue delivered the invoice. Value enum:
+         * "email", "caller_managed". delivery_mode.anyOf[1] (Value): string. How issue delivered
+         * the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[2] (Value):
+         * null. due_date (Optional): string or null. Calendar due date in YYYY-MM-DD format,
+         * interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only
+         * after this date ends. Automatic collection runs at the later of issue and the start of
+         * this date. With payment terms, issue computes this date from issued_at. Absent when
+         * there is no due date. due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+         * format, interpreted in timezone (UTC when absent). The outstanding balance becomes
+         * overdue only after this date ends. Automatic collection runs at the later of issue and
+         * the start of this date. With payment terms, issue computes this date from issued_at.
+         * Absent when there is no due date. Format: date. Example: "2026-08-02". due_date.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null or null. Caller-owned
+         * identifier for this resource in an external system. Use it as your sync key: it isn't
+         * printed on the invoice. `null` when unset. external_reference_id.anyOf[1] (Value):
+         * string or null. Caller-owned identifier for this resource in an external system. Use it
+         * as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * footer (Optional): string or null or null. Fine print at the bottom of the invoice and
+         * PDF. It cannot change after issue. `null` when unset. footer.anyOf[1] (Value): string or
+         * null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+         * `null` when unset. footer.anyOf[2] (Value): null. invoice_id (Optional): string or null.
+         * Flint invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFee} or null. Late fees assessed on this invoice, each with its paid,
+         * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1] (Value): Array of {@link
+         * InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived,
+         * written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A
+         * charge assessed because an invoice payment is overdue. late_fees.anyOf[2] (Value): null.
+         * memo (Optional): string or null or null. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[1] (Value): string
+         * or null. Message to the customer, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. Merchant that owns this invoice. merchant_id.anyOf[1] (Value): string. Merchant
+         * that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2]
+         * (Value): null. order (Optional): {@link ExpandedOrderSummary} or null or null. Summary
+         * of the backing order. Returned only with expand=order. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+         * object back when updating the draft; payment_terms captures the term's current revision
+         * again. payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[2] (Value): null. payment_terms_snapshot
+         * (Optional): {@link InvoicePaymentTermsSnapshot} or null. The payment term captured on
+         * the draft, with its due date rule and late fee policy. Later changes to the payment term
+         * don't affect this invoice. payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date
+         * rule and late fee policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[2] (Value): null. po_number (Optional): string or null or
+         * null. The buyer's purchase order number, printed on the invoice and PDF. It cannot
+         * change after issue. `null` when unset. po_number.anyOf[1] (Value): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[2] (Value): null. pricing_amounts (Optional):
+         * {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A draft
+         * previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+         * backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null or null. Where Flint emails the invoice and
+         * its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null or null.
+         * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+         * order number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string or null. Your reference for the invoice, printed on
+         * the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+         * change after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link Address} or null. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[1] (Value): {@link Address}. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntry} or null. The payment schedule, in schedule order. Always [] when
+         * the invoice has no schedule and is collected in one balance. schedule_entries.anyOf[1]
+         * (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order.
+         * Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One payment on an
+         * invoice's payment schedule, such as a deposit, installment, or balance, with its due
+         * time, amounts, and status. schedule_entries.anyOf[2] (Value): null. scheduled_issue_at
+         * (Optional): string or null or null. When Flint will issue and deliver this draft. `null`
+         * when no issue is scheduled. Cleared when the draft is issued or voided, or when you send
+         * null. scheduled_issue_at.anyOf[1] (Value): string or null. When Flint will issue and
+         * deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued
+         * or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_issue_at.anyOf[2] (Value): null. service_date (Optional): string or null or
+         * null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+         * print it as written, without timezone conversion. `null` when unset.
+         * service_date.anyOf[1] (Value): string or null. The calendar date of the billed service,
+         * in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone
+         * conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmounts} or null. Payments, refunds, write-offs, allocated credit
+         * notes, late fees, and the remaining invoice balance. What is still owed:
+         * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
+         * don't change it. settlement_amounts.anyOf[1] (Value): {@link InvoiceSettlementAmounts}.
+         * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+         * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+         * paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited,
+         * uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft.
+         * Refunds and dispute losses don't change it. Money collected, returned, waived, and still
+         * owed on a bill. settlement_amounts.anyOf[2] (Value): null. snapshot (Optional): {@link
+         * InvoiceSnapshot} or null. The billing content of the invoice: line items, discounts,
+         * charges, tip, and tax. A draft previews the backing order; issue freezes it, and later
+         * order changes don't reach an issued invoice. snapshot.anyOf[1] (Value): {@link
+         * InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges,
+         * tip, and tax. A draft previews the backing order; issue freezes it, and later order
+         * changes don't reach an issued invoice. snapshot.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current invoice status. paid and credited close the current
+         * balance and can reopen to open or partially_paid after a payment or credit allocation
+         * reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual
+         * recovery payments and becomes paid when fully recovered; reversals restore the
+         * write-off. voided is final. Refunds change refund_status without reopening the balance.
+         * A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again
+         * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+         * "uncollectible", "credited". status.anyOf[1] (Value): string. Current invoice status.
+         * paid and credited close the current balance and can reopen to open or partially_paid
+         * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+         * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+         * recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
+         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
+         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string or null. The subscription the backing order belongs to, copied when the
+         * draft is created and never changed. `null` when the order isn't part of a subscription.
+         * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollection}. How this invoice is collected, resolved when the draft is
+             * written. Send this object back when updating its collection policy. anyOf[2]
+             * (Value): null.
+             */
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Summary of the
+             * billed customer. Returned only with expand=customer. Present only when `expand`
+             * includes `customer`; `null` when expanded and there is no related customer.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or
+             * null. Caller-owned identifier for this resource in an external system. Use it as
+             * your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+             * maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the
+             * invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value):
+             * null.
+             */
+            "footer"?: ((string | null) | (null) | (unknown));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees assessed on
+             * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+             * settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][]
+             * (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
+             * overdue. anyOf[2] (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer,
+             * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "memo"?: ((string | null) | (null) | (unknown));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Summary of the backing
+             * order. Returned only with expand=order. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDue}. The resolved due-date policy. Send this object back when
+             * updating the draft; payment_terms captures the term's current revision again.
+             * anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with
+             * its due date rule and late fee policy. Later changes to the payment term don't
+             * affect this invoice. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's
+             * purchase order number, printed on the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string | null) | (null) | (unknown));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmounts}. The invoice pricing totals, frozen at
+             * issue. A draft previews the backing order. total_money excludes late fees, which are
+             * in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the
+             * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string or null. Your reference for the invoice, printed on the
+             * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+             * change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link Address}. Where the
+             * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+             * remit-to address. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((Address) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the
+             * invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@link
+             * InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a
+             * deposit, installment, or balance, with its due time, amounts, and status. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string or null. When Flint will issue and deliver this draft. `null` when no issue
+             * is scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+             * format. The invoice and PDF print it as written, without timezone conversion. `null`
+             * when unset. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
+             * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes,
+             * late fees, and the remaining invoice balance. What is still owed:
+             * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+             * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+             * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+             * losses don't change it. Money collected, returned, waived, and still owed on a bill.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link InvoiceSnapshot}. The billing
+             * content of the invoice: line items, discounts, charges, tip, and tax. A draft
+             * previews the backing order; issue freezes it, and later order changes don't reach an
+             * issued invoice. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
+             * string. Current invoice status. paid and credited close the current balance and can
+             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string or null. The subscription the backing order belongs to, copied when the draft
+             * is created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -4287,7 +12689,286 @@ export type InvoiceCreditedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.cc_emails (Optional): Array of string or null.
+     * Additional recipients copied on the invoice email and every reminder.
+     * previous_attributes.cc_emails.anyOf[1] (Value): Array of string. Additional recipients
+     * copied on the invoice email and every reminder. previous_attributes.cc_emails.anyOf[1][]
+     * (Value): string. previous_attributes.cc_emails.anyOf[2] (Value): null.
+     * previous_attributes.closed_at (Optional): string or null. When the current closed interval
+     * began. Cleared when status returns to open or partially_paid. A direct move between closed
+     * statuses preserves this timestamp. previous_attributes.closed_at.anyOf[1] (Value): string.
+     * When the current closed interval began. Cleared when status returns to open or
+     * partially_paid. A direct move between closed statuses preserves this timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.closed_at.anyOf[2] (Value):
+     * null. previous_attributes.collection (Optional): {@link InvoiceCollection} or null. How this
+     * invoice is collected, resolved when the draft is written. Send this object back when
+     * updating its collection policy. previous_attributes.collection.anyOf[1] (Value): {@link
+     * InvoiceCollection}. How this invoice is collected, resolved when the draft is written. Send
+     * this object back when updating its collection policy.
+     * previous_attributes.collection.anyOf[2] (Value): null.
+     * previous_attributes.collection_block_status (Optional): string or null. Whether collection
+     * is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[1] (Value): string. Whether collection is
+     * blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED
+     * with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * previous_attributes.collection_block_status.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the invoice was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the invoice was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or
+     * null or null. Summary of the billed customer. Returned only with expand=customer. Present
+     * only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Summary of the billed customer. Returned only with expand=customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Customer billed by this invoice. Absent when the invoice has no
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string. Customer billed by this
+     * invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.delivery_mode
+     * (Optional): string or null. How issue delivered the invoice. Value enum: "email",
+     * "caller_managed". previous_attributes.delivery_mode.anyOf[1] (Value): string. How issue
+     * delivered the invoice. Value enum: "email", "caller_managed".
+     * previous_attributes.delivery_mode.anyOf[2] (Value): null. previous_attributes.due_date
+     * (Optional): string or null. Calendar due date in YYYY-MM-DD format, interpreted in timezone
+     * (UTC when absent). The outstanding balance becomes overdue only after this date ends.
+     * Automatic collection runs at the later of issue and the start of this date. With payment
+     * terms, issue computes this date from issued_at. Absent when there is no due date.
+     * previous_attributes.due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+     * format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue
+     * only after this date ends. Automatic collection runs at the later of issue and the start of
+     * this date. With payment terms, issue computes this date from issued_at. Absent when there is
+     * no due date. Format: date. Example: "2026-08-02". previous_attributes.due_date.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null or null.
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice. `null` when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
+     * identifier for this resource in an external system. Use it as your sync key: it isn't
+     * printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.footer (Optional): string or null or null. Fine print at the bottom of
+     * the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[1] (Value): string or null. Fine print at the bottom of the
+     * invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
+     * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
+     * (Optional): string or null. Sequential document number assigned when the invoice is issued.
+     * Numbering is per merchant, with test and live mode numbered independently.
+     * previous_attributes.invoice_number.anyOf[1] (Value): string. Sequential document number
+     * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
+     * numbered independently. previous_attributes.invoice_number.anyOf[2] (Value): null.
+     * previous_attributes.is_overdue (Optional): boolean or null. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[1] (Value): boolean. Whether the invoice is open or
+     * partially_paid and past due with a balance remaining. Without schedule_entries, the due_date
+     * has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at
+     * least one entry is overdue. Computed when the invoice is read.
+     * previous_attributes.is_overdue.anyOf[2] (Value): null. previous_attributes.issued_at
+     * (Optional): string or null. When the invoice was issued. Absent on a draft.
+     * previous_attributes.issued_at.anyOf[1] (Value): string. When the invoice was issued. Absent
+     * on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.issued_at.anyOf[2] (Value): null. previous_attributes.late_fees
+     * (Optional): Array of {@link InvoiceLateFee} or null. Late fees assessed on this invoice,
+     * each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees
+     * assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts.
+     * settlement_amounts.late_fee_money is their assessed total minus waivers.
+     * previous_attributes.late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A charge assessed
+     * because an invoice payment is overdue. previous_attributes.late_fees.anyOf[2] (Value): null.
+     * previous_attributes.memo (Optional): string or null or null. Message to the customer,
+     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[1] (Value): string or null. Message to the customer, printed
+     * on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.memo.anyOf[2] (Value): null. previous_attributes.merchant_id (Optional):
+     * string or null. Merchant that owns this invoice. previous_attributes.merchant_id.anyOf[1]
+     * (Value): string. Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummary} or null or null. Summary of the backing order. Returned only
+     * with expand=order. Present only when `expand` includes `order`; `null` when expanded and
+     * there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary} or null. Summary of the backing order. Returned only with
+     * expand=order. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The order this invoice bills. Every invoice has one; quick pay creates it.
+     * previous_attributes.order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+     * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the invoice most recently became paid. Cleared when status leaves paid
+     * and set again on a later paid transition. previous_attributes.paid_at.anyOf[1] (Value):
+     * string. When the invoice most recently became paid. Cleared when status leaves paid and set
+     * again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_due
+     * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+     * object back when updating the draft; payment_terms captures the term's current revision
+     * again. previous_attributes.payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The
+     * resolved due-date policy. Send this object back when updating the draft; payment_terms
+     * captures the term's current revision again. previous_attributes.payment_due.anyOf[2]
+     * (Value): null. previous_attributes.payment_terms_snapshot (Optional): {@link
+     * InvoicePaymentTermsSnapshot} or null. The payment term captured on the draft, with its due
+     * date rule and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
+     * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date rule
+     * and late fee policy. Later changes to the payment term don't affect this invoice.
+     * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
+     * previous_attributes.po_number (Optional): string or null or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[1] (Value): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
+     * (Optional): {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A
+     * draft previews the backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[1] (Value):
+     * {@link PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+     * backing order. total_money excludes late fees, which are in
+     * settlement_amounts.late_fee_money. previous_attributes.pricing_amounts.anyOf[2] (Value):
+     * null. previous_attributes.recipient_email (Optional): string or null or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[1] (Value): string or null. Where Flint
+     * emails the invoice and its reminders. Email delivery requires it at issue. `null` when
+     * unset. previous_attributes.recipient_email.anyOf[2] (Value): null.
+     * previous_attributes.reference (Optional): string or null or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[1] (Value): string or null. Your reference for the
+     * invoice, printed on the invoice and PDF. The buyer's purchase order number goes in
+     * po_number. It cannot change after issue. `null` when unset.
+     * previous_attributes.reference.anyOf[2] (Value): null. previous_attributes.refund_status
+     * (Optional): string or null. How much of the collected money has been refunded. It doesn't
+     * change status. Value enum: "none", "partially_refunded", "refunded".
+     * previous_attributes.refund_status.anyOf[1] (Value): string. How much of the collected money
+     * has been refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+     * "refunded". previous_attributes.refund_status.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused (Optional): boolean or null. Whether automatic
+     * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[1] (Value): boolean. Whether automatic reminders
+     * are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * previous_attributes.reminders_paused.anyOf[2] (Value): null.
+     * previous_attributes.reminders_paused_at (Optional): string or null. When automatic reminders
+     * were paused. Absent while reminders are active.
+     * previous_attributes.reminders_paused_at.anyOf[1] (Value): string. When automatic reminders
+     * were paused. Absent while reminders are active. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.reminders_paused_at.anyOf[2] (Value): null.
+     * previous_attributes.remit_to_address (Optional): {@link Address} or null. Where the buyer
+     * sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to
+     * address. previous_attributes.remit_to_address.anyOf[1] (Value): {@link Address}. Where the
+     * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+     * remit-to address. previous_attributes.remit_to_address.anyOf[2] (Value): null.
+     * previous_attributes.schedule_entries (Optional): Array of {@link InvoiceScheduleEntry} or
+     * null. The payment schedule, in schedule order. Always [] when the invoice has no schedule
+     * and is collected in one balance. previous_attributes.schedule_entries.anyOf[1] (Value):
+     * Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order. Always []
+     * when the invoice has no schedule and is collected in one balance.
+     * previous_attributes.schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One
+     * payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
+     * its due time, amounts, and status. previous_attributes.schedule_entries.anyOf[2] (Value):
+     * null. previous_attributes.scheduled_issue_at (Optional): string or null or null. When Flint
+     * will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft
+     * is issued or voided, or when you send null. previous_attributes.scheduled_issue_at.anyOf[1]
+     * (Value): string or null. When Flint will issue and deliver this draft. `null` when no issue
+     * is scheduled. Cleared when the draft is issued or voided, or when you send null. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.scheduled_issue_at.anyOf[2]
+     * (Value): null. previous_attributes.service_date (Optional): string or null or null. The
+     * calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as
+     * written, without timezone conversion. `null` when unset.
+     * previous_attributes.service_date.anyOf[1] (Value): string or null. The calendar date of the
+     * billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without
+     * timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * previous_attributes.service_date.anyOf[2] (Value): null.
+     * previous_attributes.settlement_amounts (Optional): {@link InvoiceSettlementAmounts} or null.
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
+     * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes, late fees,
+     * and the remaining invoice balance. What is still owed: pricing_amounts.total_money +
+     * late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on
+     * paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on
+     * a draft. Refunds and dispute losses don't change it. Money collected, returned, waived, and
+     * still owed on a bill. previous_attributes.settlement_amounts.anyOf[2] (Value): null.
+     * previous_attributes.snapshot (Optional): {@link InvoiceSnapshot} or null. The billing
+     * content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the
+     * backing order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[1] (Value): {@link InvoiceSnapshot}. The billing content
+     * of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing
+     * order; issue freezes it, and later order changes don't reach an issued invoice.
+     * previous_attributes.snapshot.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Current invoice status. paid and credited close the current balance and can
+     * reopen to open or partially_paid after a payment or credit allocation reversal;
+     * invoice.reopened reports that change. An uncollectible invoice accepts manual recovery
+     * payments and becomes paid when fully recovered; reversals restore the write-off. voided is
+     * final. Refunds change refund_status without reopening the balance. A lost dispute leaves
+     * paid_money, the balance, and status unchanged; collecting it again requires a new invoice.
+     * Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible",
+     * "credited". previous_attributes.status.anyOf[1] (Value): string. Current invoice status.
+     * paid and credited close the current balance and can reopen to open or partially_paid after a
+     * payment or credit allocation reversal; invoice.reopened reports that change. An
+     * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+     * recovered; reversals restore the write-off. voided is final. Refunds change refund_status
+     * without reopening the balance. A lost dispute leaves paid_money, the balance, and status
+     * unchanged; collecting it again requires a new invoice. Value enum: "draft", "open",
+     * "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null or null. The subscription the backing order belongs to, copied
+     * when the draft is created and never changed. `null` when the order isn't part of a
+     * subscription. previous_attributes.subscription_id.anyOf[1] (Value): string or null. The
+     * subscription the backing order belongs to, copied when the draft is created and never
+     * changed. `null` when the order isn't part of a subscription. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". previous_attributes.subscription_id.anyOf[2] (Value):
+     * null. previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle
+     * actions Flint accepts for this resource now, based on stored state. Independent of the
+     * caller's permissions; each action still requires its route's scope. Always [] when no action
+     * is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * Flint accepts for this resource now, based on stored state. Independent of the caller's
+     * permissions; each action still requires its route's scope. Always [] when no action is
+     * available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "collect",
+     * "issue", "mark_uncollectible", "void". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.timezone (Optional): string or null. IANA time zone
+     * snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the
+     * merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do
+     * not alter this invoice's calendar. previous_attributes.timezone.anyOf[1] (Value): string.
+     * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken
+     * from the merchant's timezone when the draft is written, or UTC when unset. Later merchant
+     * changes do not alter this invoice's calendar. previous_attributes.timezone.anyOf[2] (Value):
+     * null. previous_attributes.uncollectible_at (Optional): string or null. When the invoice was
+     * marked uncollectible. previous_attributes.uncollectible_at.anyOf[1] (Value): string. When
+     * the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.uncollectible_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the invoice last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the invoice last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Current invoice
+     * version. Send this as expected_version when updating the draft.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current invoice version. Send this as
+     * expected_version when updating the draft. Format: int64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null. previous_attributes.viewed_at
+     * (Optional): string or null. When the buyer first opened the invoice through its hosted
+     * invoice link. Recorded on a best-effort basis. previous_attributes.viewed_at.anyOf[1]
+     * (Value): string. When the buyer first opened the invoice through its hosted invoice link.
+     * Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.viewed_at.anyOf[2] (Value): null. previous_attributes.voided_at
+     * (Optional): string or null. When the invoice was voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the invoice was voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. */
@@ -4296,9 +12977,638 @@ export type InvoiceCreditedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. cc_emails (Optional): Array of string or null.
+         * Additional recipients copied on the invoice email and every reminder. cc_emails.anyOf[1]
+         * (Value): Array of string. Additional recipients copied on the invoice email and every
+         * reminder. cc_emails.anyOf[1][] (Value): string. cc_emails.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the current closed interval began. Cleared
+         * when status returns to open or partially_paid. A direct move between closed statuses
+         * preserves this timestamp. closed_at.anyOf[1] (Value): string. When the current closed
+         * interval began. Cleared when status returns to open or partially_paid. A direct move
+         * between closed statuses preserves this timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. collection (Optional): {@link
+         * InvoiceCollection} or null. How this invoice is collected, resolved when the draft is
+         * written. Send this object back when updating its collection policy. collection.anyOf[1]
+         * (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
+         * draft is written. Send this object back when updating its collection policy.
+         * collection.anyOf[2] (Value): null. collection_block_status (Optional): string or null.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[1] (Value): string.
+         * Whether collection is blocked. While it is inventory_blocked, collection attempts return
+         * 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+         * "inventory_blocked", "resolved". collection_block_status.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the invoice was created. created_at.anyOf[1]
+         * (Value): string. When the invoice was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummary} or null or null. Summary of the billed customer. Returned only
+         * with expand=customer. Present only when `expand` includes `customer`; `null` when
+         * expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Summary of the billed customer. Returned only with
+         * expand=customer. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer billed
+         * by this invoice. Absent when the invoice has no customer. customer_id.anyOf[1] (Value):
+         * string. Customer billed by this invoice. Absent when the invoice has no customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * delivery_mode (Optional): string or null. How issue delivered the invoice. Value enum:
+         * "email", "caller_managed". delivery_mode.anyOf[1] (Value): string. How issue delivered
+         * the invoice. Value enum: "email", "caller_managed". delivery_mode.anyOf[2] (Value):
+         * null. due_date (Optional): string or null. Calendar due date in YYYY-MM-DD format,
+         * interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only
+         * after this date ends. Automatic collection runs at the later of issue and the start of
+         * this date. With payment terms, issue computes this date from issued_at. Absent when
+         * there is no due date. due_date.anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
+         * format, interpreted in timezone (UTC when absent). The outstanding balance becomes
+         * overdue only after this date ends. Automatic collection runs at the later of issue and
+         * the start of this date. With payment terms, issue computes this date from issued_at.
+         * Absent when there is no due date. Format: date. Example: "2026-08-02". due_date.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null or null. Caller-owned
+         * identifier for this resource in an external system. Use it as your sync key: it isn't
+         * printed on the invoice. `null` when unset. external_reference_id.anyOf[1] (Value):
+         * string or null. Caller-owned identifier for this resource in an external system. Use it
+         * as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * footer (Optional): string or null or null. Fine print at the bottom of the invoice and
+         * PDF. It cannot change after issue. `null` when unset. footer.anyOf[1] (Value): string or
+         * null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+         * `null` when unset. footer.anyOf[2] (Value): null. invoice_id (Optional): string or null.
+         * Flint invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
+         * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
+         * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
+         * string. When the invoice was issued. Absent on a draft. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". issued_at.anyOf[2] (Value): null. late_fees (Optional): Array of
+         * {@link InvoiceLateFee} or null. Late fees assessed on this invoice, each with its paid,
+         * waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1] (Value): Array of {@link
+         * InvoiceLateFee}. Late fees assessed on this invoice, each with its paid, waived,
+         * written-off, and outstanding amounts. settlement_amounts.late_fee_money is their
+         * assessed total minus waivers. late_fees.anyOf[1][] (Value): {@link InvoiceLateFee}. A
+         * charge assessed because an invoice payment is overdue. late_fees.anyOf[2] (Value): null.
+         * memo (Optional): string or null or null. Message to the customer, printed on the invoice
+         * and PDF. It cannot change after issue. `null` when unset. memo.anyOf[1] (Value): string
+         * or null. Message to the customer, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. memo.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. Merchant that owns this invoice. merchant_id.anyOf[1] (Value): string. Merchant
+         * that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2]
+         * (Value): null. order (Optional): {@link ExpandedOrderSummary} or null or null. Summary
+         * of the backing order. Returned only with expand=order. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order. Returned
+         * only with expand=order. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order this invoice bills. Every invoice has one; quick
+         * pay creates it. order_id.anyOf[1] (Value): string. The order this invoice bills. Every
+         * invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. paid_at (Optional): string or null. When the invoice
+         * most recently became paid. Cleared when status leaves paid and set again on a later paid
+         * transition. paid_at.anyOf[1] (Value): string. When the invoice most recently became
+         * paid. Cleared when status leaves paid and set again on a later paid transition. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_due
+         * (Optional): {@link InvoicePaymentDue} or null. The resolved due-date policy. Send this
+         * object back when updating the draft; payment_terms captures the term's current revision
+         * again. payment_due.anyOf[1] (Value): {@link InvoicePaymentDue}. The resolved due-date
+         * policy. Send this object back when updating the draft; payment_terms captures the term's
+         * current revision again. payment_due.anyOf[2] (Value): null. payment_terms_snapshot
+         * (Optional): {@link InvoicePaymentTermsSnapshot} or null. The payment term captured on
+         * the draft, with its due date rule and late fee policy. Later changes to the payment term
+         * don't affect this invoice. payment_terms_snapshot.anyOf[1] (Value): {@link
+         * InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with its due date
+         * rule and late fee policy. Later changes to the payment term don't affect this invoice.
+         * payment_terms_snapshot.anyOf[2] (Value): null. po_number (Optional): string or null or
+         * null. The buyer's purchase order number, printed on the invoice and PDF. It cannot
+         * change after issue. `null` when unset. po_number.anyOf[1] (Value): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[2] (Value): null. pricing_amounts (Optional):
+         * {@link PricingAmounts} or null. The invoice pricing totals, frozen at issue. A draft
+         * previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmounts}. The invoice pricing totals, frozen at issue. A draft previews the
+         * backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null or null. Where Flint emails the invoice and
+         * its reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null or null.
+         * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+         * order number goes in po_number. It cannot change after issue. `null` when unset.
+         * reference.anyOf[1] (Value): string or null. Your reference for the invoice, printed on
+         * the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+         * change after issue. `null` when unset. reference.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. How much of the collected money has been refunded. It
+         * doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+         * refund_status.anyOf[1] (Value): string. How much of the collected money has been
+         * refunded. It doesn't change status. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. reminders_paused (Optional): boolean
+         * or null. Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[1] (Value): boolean.
+         * Whether automatic reminders are paused. Set reminders_paused on PATCH
+         * /v1/invoices/{invoice_id} to change it. reminders_paused.anyOf[2] (Value): null.
+         * reminders_paused_at (Optional): string or null. When automatic reminders were paused.
+         * Absent while reminders are active. reminders_paused_at.anyOf[1] (Value): string. When
+         * automatic reminders were paused. Absent while reminders are active. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". reminders_paused_at.anyOf[2] (Value): null.
+         * remit_to_address (Optional): {@link Address} or null. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[1] (Value): {@link Address}. Where the buyer sends offline
+         * payments, shown on the invoice. Defaults to the invoice settings remit-to address.
+         * remit_to_address.anyOf[2] (Value): null. schedule_entries (Optional): Array of {@link
+         * InvoiceScheduleEntry} or null. The payment schedule, in schedule order. Always [] when
+         * the invoice has no schedule and is collected in one balance. schedule_entries.anyOf[1]
+         * (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule order.
+         * Always [] when the invoice has no schedule and is collected in one balance.
+         * schedule_entries.anyOf[1][] (Value): {@link InvoiceScheduleEntry}. One payment on an
+         * invoice's payment schedule, such as a deposit, installment, or balance, with its due
+         * time, amounts, and status. schedule_entries.anyOf[2] (Value): null. scheduled_issue_at
+         * (Optional): string or null or null. When Flint will issue and deliver this draft. `null`
+         * when no issue is scheduled. Cleared when the draft is issued or voided, or when you send
+         * null. scheduled_issue_at.anyOf[1] (Value): string or null. When Flint will issue and
+         * deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued
+         * or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_issue_at.anyOf[2] (Value): null. service_date (Optional): string or null or
+         * null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+         * print it as written, without timezone conversion. `null` when unset.
+         * service_date.anyOf[1] (Value): string or null. The calendar date of the billed service,
+         * in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone
+         * conversion. `null` when unset. Format: date. Example: "2026-08-02".
+         * service_date.anyOf[2] (Value): null. settlement_amounts (Optional): {@link
+         * InvoiceSettlementAmounts} or null. Payments, refunds, write-offs, allocated credit
+         * notes, late fees, and the remaining invoice balance. What is still owed:
+         * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+         * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+         * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses
+         * don't change it. settlement_amounts.anyOf[1] (Value): {@link InvoiceSettlementAmounts}.
+         * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+         * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+         * paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited,
+         * uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft.
+         * Refunds and dispute losses don't change it. Money collected, returned, waived, and still
+         * owed on a bill. settlement_amounts.anyOf[2] (Value): null. snapshot (Optional): {@link
+         * InvoiceSnapshot} or null. The billing content of the invoice: line items, discounts,
+         * charges, tip, and tax. A draft previews the backing order; issue freezes it, and later
+         * order changes don't reach an issued invoice. snapshot.anyOf[1] (Value): {@link
+         * InvoiceSnapshot}. The billing content of the invoice: line items, discounts, charges,
+         * tip, and tax. A draft previews the backing order; issue freezes it, and later order
+         * changes don't reach an issued invoice. snapshot.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current invoice status. paid and credited close the current
+         * balance and can reopen to open or partially_paid after a payment or credit allocation
+         * reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual
+         * recovery payments and becomes paid when fully recovered; reversals restore the
+         * write-off. voided is final. Refunds change refund_status without reopening the balance.
+         * A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again
+         * requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided",
+         * "uncollectible", "credited". status.anyOf[1] (Value): string. Current invoice status.
+         * paid and credited close the current balance and can reopen to open or partially_paid
+         * after a payment or credit allocation reversal; invoice.reopened reports that change. An
+         * uncollectible invoice accepts manual recovery payments and becomes paid when fully
+         * recovered; reversals restore the write-off. voided is final. Refunds change
+         * refund_status without reopening the balance. A lost dispute leaves paid_money, the
+         * balance, and status unchanged; collecting it again requires a new invoice. Value enum:
+         * "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+         * status.anyOf[2] (Value): null. subscription_id (Optional): string or null or null. The
+         * subscription the backing order belongs to, copied when the draft is created and never
+         * changed. `null` when the order isn't part of a subscription. subscription_id.anyOf[1]
+         * (Value): string or null. The subscription the backing order belongs to, copied when the
+         * draft is created and never changed. `null` when the order isn't part of a subscription.
+         * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based
+         * on stored state. Independent of the caller's permissions; each action still requires its
+         * route's scope. Always [] when no action is available. [] enum: "collect", "issue",
+         * "mark_uncollectible", "void". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "collect", "issue", "mark_uncollectible", "void". supported_actions.anyOf[2] (Value):
+         * null. timezone (Optional): string or null. IANA time zone snapshot for invoice due
+         * dates, reminders, and late fee calendar days. Taken from the merchant's timezone when
+         * the draft is written, or UTC when unset. Later merchant changes do not alter this
+         * invoice's calendar. timezone.anyOf[1] (Value): string. IANA time zone snapshot for
+         * invoice due dates, reminders, and late fee calendar days. Taken from the merchant's
+         * timezone when the draft is written, or UTC when unset. Later merchant changes do not
+         * alter this invoice's calendar. timezone.anyOf[2] (Value): null. uncollectible_at
+         * (Optional): string or null. When the invoice was marked uncollectible.
+         * uncollectible_at.anyOf[1] (Value): string. When the invoice was marked uncollectible.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". uncollectible_at.anyOf[2] (Value):
+         * null. updated_at (Optional): string or null. When the invoice last changed.
+         * updated_at.anyOf[1] (Value): string. When the invoice last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current invoice version. Send this as expected_version when updating
+         * the draft. version.anyOf[1] (Value): integer. Current invoice version. Send this as
+         * expected_version when updating the draft. Format: int64. minimum: 1. version.anyOf[2]
+         * (Value): null. viewed_at (Optional): string or null. When the buyer first opened the
+         * invoice through its hosted invoice link. Recorded on a best-effort basis.
+         * viewed_at.anyOf[1] (Value): string. When the buyer first opened the invoice through its
+         * hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". viewed_at.anyOf[2] (Value): null. voided_at (Optional): string
+         * or null. When the invoice was voided. voided_at.anyOf[1] (Value): string. When the
+         * invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookInvoice>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Additional recipients copied on the invoice email and every reminder. anyOf[1]
+             * (Value): Array of string. Additional recipients copied on the invoice email and
+             * every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
+             */
+            "cc_emails"?: ((Array<string>) | (null));
+            /**
+             * When the current closed interval began. Cleared when status returns to open or
+             * partially_paid. A direct move between closed statuses preserves this timestamp.
+             * anyOf[1] (Value): string. When the current closed interval began. Cleared when
+             * status returns to open or partially_paid. A direct move between closed statuses
+             * preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "closed_at"?: ((string) | (null));
+            /**
+             * How this invoice is collected, resolved when the draft is written. Send this object
+             * back when updating its collection policy. anyOf[1] (Value): {@link
+             * InvoiceCollection}. How this invoice is collected, resolved when the draft is
+             * written. Send this object back when updating its collection policy. anyOf[2]
+             * (Value): null.
+             */
+            "collection"?: ((InvoiceCollection) | (null) | (unknown));
+            /**
+             * Whether collection is blocked. While it is inventory_blocked, collection attempts
+             * return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum:
+             * "none", "inventory_blocked", "resolved". anyOf[1] (Value): string. Whether
+             * collection is blocked. While it is inventory_blocked, collection attempts return 409
+             * ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none",
+             * "inventory_blocked", "resolved". anyOf[2] (Value): null.
+             */
+            "collection_block_status"?: (("none" | "inventory_blocked" | "resolved" | (string & {})) | (null));
+            /**
+             * When the invoice was created. anyOf[1] (Value): string. When the invoice was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Summary of the billed customer. Returned only with expand=customer. Present only
+             * when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Summary of the
+             * billed customer. Returned only with expand=customer. Present only when `expand`
+             * includes `customer`; `null` when expanded and there is no related customer.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * Customer billed by this invoice. Absent when the invoice has no customer. anyOf[1]
+             * (Value): string. Customer billed by this invoice. Absent when the invoice has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * How issue delivered the invoice. Value enum: "email", "caller_managed". anyOf[1]
+             * (Value): string. How issue delivered the invoice. Value enum: "email",
+             * "caller_managed". anyOf[2] (Value): null.
+             */
+            "delivery_mode"?: (("email" | "caller_managed" | (string & {})) | (null));
+            /**
+             * Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent).
+             * The outstanding balance becomes overdue only after this date ends. Automatic
+             * collection runs at the later of issue and the start of this date. With payment
+             * terms, issue computes this date from issued_at. Absent when there is no due date.
+             * anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD format, interpreted in
+             * timezone (UTC when absent). The outstanding balance becomes overdue only after this
+             * date ends. Automatic collection runs at the later of issue and the start of this
+             * date. With payment terms, issue computes this date from issued_at. Absent when there
+             * is no due date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "due_date"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Use it as your sync
+             * key: it isn't printed on the invoice. `null` when unset. anyOf[1] (Value): string or
+             * null. Caller-owned identifier for this resource in an external system. Use it as
+             * your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1.
+             * maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[1] (Value): string or null. Fine print at the bottom of the
+             * invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value):
+             * null.
+             */
+            "footer"?: ((string | null) | (null) | (unknown));
+            /**
+             * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[1] (Value): string.
+             * Sequential document number assigned when the invoice is issued. Numbering is per
+             * merchant, with test and live mode numbered independently. anyOf[2] (Value): null.
+             */
+            "invoice_number"?: ((string) | (null));
+            /**
+             * Whether the invoice is open or partially_paid and past due with a balance remaining.
+             * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+             * outstanding_money is above zero; with them, at least one entry is overdue. Computed
+             * when the invoice is read. anyOf[1] (Value): boolean. Whether the invoice is open or
+             * partially_paid and past due with a balance remaining. Without schedule_entries, the
+             * due_date has ended in timezone (UTC when absent) and outstanding_money is above
+             * zero; with them, at least one entry is overdue. Computed when the invoice is read.
+             * anyOf[2] (Value): null.
+             */
+            "is_overdue"?: ((boolean) | (null));
+            /**
+             * When the invoice was issued. Absent on a draft. anyOf[1] (Value): string. When the
+             * invoice was issued. Absent on a draft. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "issued_at"?: ((string) | (null));
+            /**
+             * Late fees assessed on this invoice, each with its paid, waived, written-off, and
+             * outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus
+             * waivers. anyOf[1] (Value): Array of {@link InvoiceLateFee}. Late fees assessed on
+             * this invoice, each with its paid, waived, written-off, and outstanding amounts.
+             * settlement_amounts.late_fee_money is their assessed total minus waivers. anyOf[1][]
+             * (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
+             * overdue. anyOf[2] (Value): null.
+             */
+            "late_fees"?: ((Array<InvoiceLateFee>) | (null));
+            /**
+             * Message to the customer, printed on the invoice and PDF. It cannot change after
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Message to the customer,
+             * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "memo"?: ((string | null) | (null) | (unknown));
+            /**
+             * Merchant that owns this invoice. anyOf[1] (Value): string. Merchant that owns this
+             * invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Summary of the backing order. Returned only with expand=order. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Summary of the backing
+             * order. Returned only with expand=order. Present only when `expand` includes `order`;
+             * `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value):
+             * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+             * and refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * The order this invoice bills. Every invoice has one; quick pay creates it. anyOf[1]
+             * (Value): string. The order this invoice bills. Every invoice has one; quick pay
+             * creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * When the invoice most recently became paid. Cleared when status leaves paid and set
+             * again on a later paid transition. anyOf[1] (Value): string. When the invoice most
+             * recently became paid. Cleared when status leaves paid and set again on a later paid
+             * transition. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "paid_at"?: ((string) | (null));
+            /**
+             * The resolved due-date policy. Send this object back when updating the draft;
+             * payment_terms captures the term's current revision again. anyOf[1] (Value): {@link
+             * InvoicePaymentDue}. The resolved due-date policy. Send this object back when
+             * updating the draft; payment_terms captures the term's current revision again.
+             * anyOf[2] (Value): null.
+             */
+            "payment_due"?: ((InvoicePaymentDue) | (null) | (unknown));
+            /**
+             * The payment term captured on the draft, with its due date rule and late fee policy.
+             * Later changes to the payment term don't affect this invoice. anyOf[1] (Value):
+             * {@link InvoicePaymentTermsSnapshot}. The payment term captured on the draft, with
+             * its due date rule and late fee policy. Later changes to the payment term don't
+             * affect this invoice. anyOf[2] (Value): null.
+             */
+            "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshot) | (null));
+            /**
+             * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
+             * after issue. `null` when unset. anyOf[1] (Value): string or null. The buyer's
+             * purchase order number, printed on the invoice and PDF. It cannot change after issue.
+             * `null` when unset. anyOf[2] (Value): null.
+             */
+            "po_number"?: ((string | null) | (null) | (unknown));
+            /**
+             * The invoice pricing totals, frozen at issue. A draft previews the backing order.
+             * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
+             * anyOf[1] (Value): {@link PricingAmounts}. The invoice pricing totals, frozen at
+             * issue. A draft previews the backing order. total_money excludes late fees, which are
+             * in settlement_amounts.late_fee_money. anyOf[2] (Value): null.
+             */
+            "pricing_amounts"?: ((PricingAmounts) | (null));
+            /**
+             * Where Flint emails the invoice and its reminders. Email delivery requires it at
+             * issue. `null` when unset. anyOf[1] (Value): string or null. Where Flint emails the
+             * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+             * anyOf[2] (Value): null.
+             */
+            "recipient_email"?: ((string | null) | (null) | (unknown));
+            /**
+             * Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase
+             * order number goes in po_number. It cannot change after issue. `null` when unset.
+             * anyOf[1] (Value): string or null. Your reference for the invoice, printed on the
+             * invoice and PDF. The buyer's purchase order number goes in po_number. It cannot
+             * change after issue. `null` when unset. anyOf[2] (Value): null.
+             */
+            "reference"?: ((string | null) | (null) | (unknown));
+            /**
+             * How much of the collected money has been refunded. It doesn't change status. Value
+             * enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much
+             * of the collected money has been refunded. It doesn't change status. Value enum:
+             * "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
+             */
+            "refund_status"?: (("none" | "partially_refunded" | "refunded" | (string & {})) | (null));
+            /**
+             * Whether automatic reminders are paused. Set reminders_paused on PATCH
+             * /v1/invoices/{invoice_id} to change it. anyOf[1] (Value): boolean. Whether automatic
+             * reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to
+             * change it. anyOf[2] (Value): null.
+             */
+            "reminders_paused"?: ((boolean) | (null));
+            /**
+             * When automatic reminders were paused. Absent while reminders are active. anyOf[1]
+             * (Value): string. When automatic reminders were paused. Absent while reminders are
+             * active. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reminders_paused_at"?: ((string) | (null));
+            /**
+             * Where the buyer sends offline payments, shown on the invoice. Defaults to the
+             * invoice settings remit-to address. anyOf[1] (Value): {@link Address}. Where the
+             * buyer sends offline payments, shown on the invoice. Defaults to the invoice settings
+             * remit-to address. anyOf[2] (Value): null.
+             */
+            "remit_to_address"?: ((Address) | (null));
+            /**
+             * The payment schedule, in schedule order. Always [] when the invoice has no schedule
+             * and is collected in one balance. anyOf[1] (Value): Array of {@link
+             * InvoiceScheduleEntry}. The payment schedule, in schedule order. Always [] when the
+             * invoice has no schedule and is collected in one balance. anyOf[1][] (Value): {@link
+             * InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as a
+             * deposit, installment, or balance, with its due time, amounts, and status. anyOf[2]
+             * (Value): null.
+             */
+            "schedule_entries"?: ((Array<InvoiceScheduleEntry>) | (null));
+            /**
+             * When Flint will issue and deliver this draft. `null` when no issue is scheduled.
+             * Cleared when the draft is issued or voided, or when you send null. anyOf[1] (Value):
+             * string or null. When Flint will issue and deliver this draft. `null` when no issue
+             * is scheduled. Cleared when the draft is issued or voided, or when you send null.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "scheduled_issue_at"?: ((string | null) | (null) | (unknown));
+            /**
+             * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF
+             * print it as written, without timezone conversion. `null` when unset. anyOf[1]
+             * (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+             * format. The invoice and PDF print it as written, without timezone conversion. `null`
+             * when unset. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+             */
+            "service_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining
+             * invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money -
+             * paid_money - credited_money - written_off_money, never below zero. 0 on paid,
+             * credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money
+             * on a draft. Refunds and dispute losses don't change it. anyOf[1] (Value): {@link
+             * InvoiceSettlementAmounts}. Payments, refunds, write-offs, allocated credit notes,
+             * late fees, and the remaining invoice balance. What is still owed:
+             * pricing_amounts.total_money + late_fee_money - paid_money - credited_money -
+             * written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided
+             * invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+             * losses don't change it. Money collected, returned, waived, and still owed on a bill.
+             * anyOf[2] (Value): null.
+             */
+            "settlement_amounts"?: ((InvoiceSettlementAmounts) | (null));
+            /**
+             * The billing content of the invoice: line items, discounts, charges, tip, and tax. A
+             * draft previews the backing order; issue freezes it, and later order changes don't
+             * reach an issued invoice. anyOf[1] (Value): {@link InvoiceSnapshot}. The billing
+             * content of the invoice: line items, discounts, charges, tip, and tax. A draft
+             * previews the backing order; issue freezes it, and later order changes don't reach an
+             * issued invoice. anyOf[2] (Value): null.
+             */
+            "snapshot"?: ((InvoiceSnapshot) | (null));
+            /**
+             * Current invoice status. paid and credited close the current balance and can reopen
+             * to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value):
+             * string. Current invoice status. paid and credited close the current balance and can
+             * reopen to open or partially_paid after a payment or credit allocation reversal;
+             * invoice.reopened reports that change. An uncollectible invoice accepts manual
+             * recovery payments and becomes paid when fully recovered; reversals restore the
+             * write-off. voided is final. Refunds change refund_status without reopening the
+             * balance. A lost dispute leaves paid_money, the balance, and status unchanged;
+             * collecting it again requires a new invoice. Value enum: "draft", "open",
+             * "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("draft"
+                | "open"
+                | "partially_paid"
+                | "paid"
+                | "voided"
+                | "uncollectible"
+                | "credited"
+                | (string & {}))
+                | (null));
+            /**
+             * The subscription the backing order belongs to, copied when the draft is created and
+             * never changed. `null` when the order isn't part of a subscription. anyOf[1] (Value):
+             * string or null. The subscription the backing order belongs to, copied when the draft
+             * is created and never changed. `null` when the order isn't part of a subscription.
+             * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "collect", "issue",
+             * "mark_uncollectible", "void". anyOf[1] (Value): Array of string. Lifecycle actions
+             * Flint accepts for this resource now, based on stored state. Independent of the
+             * caller's permissions; each action still requires its route's scope. Always [] when
+             * no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void".
+             * anyOf[1][] (Value): string. Value enum: "collect", "issue", "mark_uncollectible",
+             * "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"collect" | "issue" | "mark_uncollectible" | "void" | (string & {})>) | (null));
+            /**
+             * IANA time zone snapshot for invoice due dates, reminders, and late fee calendar
+             * days. Taken from the merchant's timezone when the draft is written, or UTC when
+             * unset. Later merchant changes do not alter this invoice's calendar. anyOf[1]
+             * (Value): string. IANA time zone snapshot for invoice due dates, reminders, and late
+             * fee calendar days. Taken from the merchant's timezone when the draft is written, or
+             * UTC when unset. Later merchant changes do not alter this invoice's calendar.
+             * anyOf[2] (Value): null.
+             */
+            "timezone"?: ((string) | (null));
+            /**
+             * When the invoice was marked uncollectible. anyOf[1] (Value): string. When the
+             * invoice was marked uncollectible. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "uncollectible_at"?: ((string) | (null));
+            /**
+             * When the invoice last changed. anyOf[1] (Value): string. When the invoice last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current invoice version. Send this as expected_version when updating the draft.
+             * anyOf[1] (Value): integer. Current invoice version. Send this as expected_version
+             * when updating the draft. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the buyer first opened the invoice through its hosted invoice link. Recorded on
+             * a best-effort basis. anyOf[1] (Value): string. When the buyer first opened the
+             * invoice through its hosted invoice link. Recorded on a best-effort basis. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "viewed_at"?: ((string) | (null));
+            /**
+             * When the invoice was voided. anyOf[1] (Value): string. When the invoice was voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
