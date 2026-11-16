@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $balance_transaction_id
  * @property-read string|null $created_at
  * @property-read string|null $failure_reason
@@ -17,9 +17,9 @@ final class PlatformFeePayoutFailedEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'balance_transaction_id'?: mixed, 'created_at'?: mixed, 'failure_reason'?: mixed, 'partner_app_id'?: mixed, 'platform_fee_payout_id'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeePayoutFailedEventDataPreviousAttributes')); }
     /** The amount transferred to your merchant balance. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. anyOf[1] (Value): string. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. anyOf[2] (Value): null.
      * @return string|null

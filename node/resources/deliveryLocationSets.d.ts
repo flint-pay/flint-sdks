@@ -51,8 +51,8 @@ export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/type
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-79.js';
 export { makeDeliveryLocationSetConfiguration } from '../declarations/types-82.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-90.js';
 export interface DeliveryLocationSetsResource {
     /**

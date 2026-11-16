@@ -86,12 +86,7 @@ export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/ty
 export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
-export type {
-    SettlementAmounts,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction
-} from '../declarations/types-66.js';
+export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-65.js';
 export type { ReadinessMerchantAccountSession, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-58.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
@@ -108,6 +103,7 @@ export type {
     PaymentSourceCardPresentDetails,
     PaymentRisk,
     PaymentSplit,
+    PaymentSplitReversal,
     PaymentSourceCredentialInput,
     PaymentSourceCredentialPaymentMethodInput,
     PaymentSourceCredentialStripeConfirmationTokenInput,
@@ -115,26 +111,28 @@ export type {
     PaymentSourceCredentialReaderInput,
     PaymentSplitRequestInput
 } from '../declarations/types-52.js';
-export type { PaymentSplitReversal, PendingPaymentAction } from '../declarations/types-53.js';
 export type {
     PlatformFeeRequestInput,
     PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-54.js';
+export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
+export type {
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    StripeTerminalPaymentIntentClientAction
+} from '../declarations/types-66.js';
 export type { CreatePaymentIntentRequestInput } from '../declarations/types-12.js';
-export type { SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-65.js';
 export type { UpdatePaymentIntentRequestInput } from '../declarations/types-74.js';
-export { makeCancelPaymentIntentRequest, makeCapturePaymentIntentRequest, makeCapturePaymentSplitRequest } from '../declarations/types-78.js';
-export { makeConfirmPaymentIntentRequest } from '../declarations/types-79.js';
-export { makeCreatePaymentIntentRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
 export {
-    makeMetadataRequest,
-    makeMoneyValue,
-    makeOrderPaymentSourceCardSelection,
-    makeOrderPaymentSourceSelection
-} from '../declarations/types-86.js';
+    makeCancelPaymentIntentRequest,
+    makeCapturePaymentIntentRequest,
+    makeCapturePaymentSplitRequest,
+    makeConfirmPaymentIntentRequest
+} from '../declarations/types-78.js';
+export { makeCreatePaymentIntentRequest } from '../declarations/types-81.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue, makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-86.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,

@@ -1,15 +1,11 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateFeedbackReportRatingInput,
-    CreateFeedbackReportRequestInput,
-    CreateFileRequestInput,
-    CreateFulfillmentEventRequestInput,
     CreateFulfillmentRequestInput,
     CreateFulfillmentRequestDigitalInput,
-    CreateFulfillmentRequestLocalDeliveryInput
+    CreateFulfillmentRequestLocalDeliveryInput,
+    CreateFulfillmentRequestPickupInput
 } from './types-9.js';
 import type {
-    CreateFulfillmentRequestPickupInput,
     CreateFulfillmentRequestServiceInput,
     CreateFulfillmentRequestShipmentInput,
     CreateGiftCardFundingDispositionRequestInput,
@@ -39,10 +35,10 @@ import type {
     CreateInvoiceQuickPayRequestInput,
     CreateInvoiceRequestInput,
     CreateInvoiceRequestOrderInput,
-    CreateInvoiceRequestQuickPayInput
+    CreateInvoiceRequestQuickPayInput,
+    CreateLocationRequestInput
 } from './types-10.js';
 import type {
-    CreateLocationRequestInput,
     CreateMeCheckoutSessionInvoiceInput,
     CreateMeCheckoutSessionRequestInput,
     CreateMeCheckoutSessionReturnResolutionInput,
@@ -67,12 +63,12 @@ import type {
     CreateOrderLineItemInputCustomInput,
     CreateOrderLineItemInputVariantInput,
     CreateOrderLineItemRequestInput,
-    CreateOrderRequestInput
+    CreateOrderRequestInput,
+    CreateOrderTipInput,
+    CreateOrderTipAmountInput,
+    CreateOrderTipPercentInput,
+    CreatePackageItemRequestInput
 } from './types-11.js';
-export declare function makeCreateFeedbackReportRating(value: InputValue<CreateFeedbackReportRatingInput>): Model<CreateFeedbackReportRatingInput>;
-export declare function makeCreateFeedbackReportRequest(value: InputValue<CreateFeedbackReportRequestInput>): Model<CreateFeedbackReportRequestInput>;
-export declare function makeCreateFileRequest(value: InputValue<CreateFileRequestInput>): Model<CreateFileRequestInput>;
-export declare function makeCreateFulfillmentEventRequest(value: InputValue<CreateFulfillmentEventRequestInput>): Model<CreateFulfillmentEventRequestInput>;
 export declare function makeCreateFulfillmentRequest(value: InputValue<CreateFulfillmentRequestInput>): Model<CreateFulfillmentRequestInput>;
 export declare function makeCreateFulfillmentRequestDigital(value: InputValue<CreateFulfillmentRequestDigitalInput>): Model<CreateFulfillmentRequestDigitalInput>;
 export declare function makeCreateFulfillmentRequestLocalDelivery(value: InputValue<CreateFulfillmentRequestLocalDeliveryInput>): Model<CreateFulfillmentRequestLocalDeliveryInput>;
@@ -135,3 +131,7 @@ export declare function makeCreateOrderLineItemInputCustom(value: InputValue<Cre
 export declare function makeCreateOrderLineItemInputVariant(value: InputValue<CreateOrderLineItemInputVariantInput>): Model<CreateOrderLineItemInputVariantInput>;
 export declare function makeCreateOrderLineItemRequest(value: InputValue<CreateOrderLineItemRequestInput>): Model<CreateOrderLineItemRequestInput>;
 export declare function makeCreateOrderRequest(value: InputValue<CreateOrderRequestInput>): Model<CreateOrderRequestInput>;
+export declare function makeCreateOrderTip(value: InputValue<CreateOrderTipInput>): Model<CreateOrderTipInput>;
+export declare function makeCreateOrderTipAmount(value: InputValue<CreateOrderTipAmountInput>): Model<CreateOrderTipAmountInput>;
+export declare function makeCreateOrderTipPercent(value: InputValue<CreateOrderTipPercentInput>): Model<CreateOrderTipPercentInput>;
+export declare function makeCreatePackageItemRequest(value: InputValue<CreatePackageItemRequestInput>): Model<CreatePackageItemRequestInput>;

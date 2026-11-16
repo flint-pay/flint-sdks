@@ -1,9 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    UpdateGiftCardRequestInput,
-    UpdateInventoryAllocationPolicyRequestInput,
-    UpdateInventoryCountRequestInput,
-    UpdateInventoryItemRequestInput,
     UpdateInventoryLevelRequestInput,
     UpdateInventoryReservationRequestInput,
     UpdateInventoryTransferRequestInput,
@@ -29,11 +25,11 @@ import type {
     UpdatePayoutSettingsRequestInput,
     UpdatePickupFulfillmentDetailsInput,
     UpdatePriceListPriceRequestInput,
-    UpdatePriceListRequestInput
+    UpdatePriceListRequestInput,
+    UpdateProductOptionRequestInput,
+    UpdateProductOptionValueRequestInput
 } from './types-74.js';
 import type {
-    UpdateProductOptionRequestInput,
-    UpdateProductOptionValueRequestInput,
     UpdateProductRequestInput,
     UpdateProductVariantRequestInput,
     UpdatePromotionCodeRequestInput,
@@ -61,18 +57,18 @@ import type {
     UpdateSubscriptionPlanLineItemInputBundleInput,
     UpdateSubscriptionPlanLineItemInputCustomInput,
     UpdateSubscriptionPlanLineItemInputVariantInput,
-    UpdateSubscriptionPlanLineItemRequestInput
+    UpdateSubscriptionPlanLineItemRequestInput,
+    UpdateSubscriptionPlanRequestInput,
+    UpdateSubscriptionRequestInput
 } from './types-75.js';
 import type {
-    UpdateSubscriptionPlanRequestInput,
-    UpdateSubscriptionRequestInput,
     UpdateTaxCalculationCallbackRequestInput,
-    UpdateTaxRegistrationRequestInput
+    UpdateTaxRegistrationRequestInput,
+    UpdateTicketRequestInput,
+    UpdateWebhookEndpointRequestInput,
+    UpdateWorkloadIdentityRequestInput,
+    VerifyMerchantSignupRequestInput
 } from './types-76.js';
-export declare function makeUpdateGiftCardRequest(value: InputValue<UpdateGiftCardRequestInput>): Model<UpdateGiftCardRequestInput>;
-export declare function makeUpdateInventoryAllocationPolicyRequest(value: InputValue<UpdateInventoryAllocationPolicyRequestInput>): Model<UpdateInventoryAllocationPolicyRequestInput>;
-export declare function makeUpdateInventoryCountRequest(value: InputValue<UpdateInventoryCountRequestInput>): Model<UpdateInventoryCountRequestInput>;
-export declare function makeUpdateInventoryItemRequest(value: InputValue<UpdateInventoryItemRequestInput>): Model<UpdateInventoryItemRequestInput>;
 export declare function makeUpdateInventoryLevelRequest(value: InputValue<UpdateInventoryLevelRequestInput>): Model<UpdateInventoryLevelRequestInput>;
 export declare function makeUpdateInventoryReservationRequest(value: InputValue<UpdateInventoryReservationRequestInput>): Model<UpdateInventoryReservationRequestInput>;
 export declare function makeUpdateInventoryTransferRequest(value: InputValue<UpdateInventoryTransferRequestInput>): Model<UpdateInventoryTransferRequestInput>;
@@ -133,3 +129,7 @@ export declare function makeUpdateSubscriptionPlanRequest(value: InputValue<Upda
 export declare function makeUpdateSubscriptionRequest(value: InputValue<UpdateSubscriptionRequestInput>): Model<UpdateSubscriptionRequestInput>;
 export declare function makeUpdateTaxCalculationCallbackRequest(value: InputValue<UpdateTaxCalculationCallbackRequestInput>): Model<UpdateTaxCalculationCallbackRequestInput>;
 export declare function makeUpdateTaxRegistrationRequest(value: InputValue<UpdateTaxRegistrationRequestInput>): Model<UpdateTaxRegistrationRequestInput>;
+export declare function makeUpdateTicketRequest(value: InputValue<UpdateTicketRequestInput>): Model<UpdateTicketRequestInput>;
+export declare function makeUpdateWebhookEndpointRequest(value: InputValue<UpdateWebhookEndpointRequestInput>): Model<UpdateWebhookEndpointRequestInput>;
+export declare function makeUpdateWorkloadIdentityRequest(value: InputValue<UpdateWorkloadIdentityRequestInput>): Model<UpdateWorkloadIdentityRequestInput>;
+export declare function makeVerifyMerchantSignupRequest(value: InputValue<VerifyMerchantSignupRequestInput>): Model<VerifyMerchantSignupRequestInput>;

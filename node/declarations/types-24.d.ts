@@ -11,12 +11,8 @@ import type {
     DeliveryPricingTierBandRequestInput,
     DeliveryPricingTierBandPreviousAttributes
 } from './types-21.js';
-import type { DeliveryBusinessDayRange } from './types-17.js';
-import type {
-    DeliveryBusinessDayRangePreviousAttributes,
-    DeliveryBusinessDayRangeRequestInput,
-    DeliveryCountryConditionRequestInput
-} from './types-18.js';
+import type { DeliveryBusinessDayRange, DeliveryBusinessDayRangePreviousAttributes } from './types-17.js';
+import type { DeliveryBusinessDayRangeRequestInput, DeliveryCountryConditionRequestInput } from './types-18.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
@@ -30,26 +26,6 @@ import type {
     DeliveryRadiusConditionPreviousAttributes,
     DeliveryRadiusConditionRequestInput
 } from './types-22.js';
-export type DeliverySelectionInstructionsRequestPreviousAttributes = {
-    /**
-     * ID from the option's offered_windows. Required when window_selection is offered; omit it
-     * otherwise. anyOf[1] (Value): string. ID from the option's offered_windows. Required when
-     * window_selection is offered; omit it otherwise. minLength: 1. Example:
-     * "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d". anyOf[2] (Value):
-     * null.
-     */
-    "delivery_window_id"?: ((string) | (null));
-    /**
-     * Buyer instructions for the selected option, without leading or trailing whitespace. Send
-     * this field only when buyer_instructions.enabled is true. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): string.
-     * Buyer instructions for the selected option, without leading or trailing whitespace. Send
-     * this field only when buyer_instructions.enabled is true. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. minLength: 1. maxLength:
-     * 2000. anyOf[2] (Value): null.
-     */
-    "instructions"?: ((string) | (null));
-};
 /**
  * A status change in a delivery selection's history, with the new `status`, the `reason`, and when
  * it happened.
@@ -924,12 +900,12 @@ export type DeliveryTransitTimeRulePreviousAttributes = {
      * Business days the merchant needs to prepare the order. anyOf[1] (Value): {@link
      * DeliveryBusinessDayRangePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "handling_days"?: ((DeliveryBusinessDayRangePreviousAttributes) | (null) | (unknown));
+    "handling_days"?: ((DeliveryBusinessDayRangePreviousAttributes) | (null));
     /**
      * Business days the order spends in transit. anyOf[1] (Value): {@link
      * DeliveryBusinessDayRangePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "transit_days"?: ((DeliveryBusinessDayRangePreviousAttributes) | (null) | (unknown));
+    "transit_days"?: ((DeliveryBusinessDayRangePreviousAttributes) | (null));
 };
 /**
  * Estimate rule giving a delivery method's handling time and transit time as ranges of business
@@ -1118,7 +1094,7 @@ export type DeliveryWindowResourcePreviousAttributes = {
      * Price of delivery in this window. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of this window. The buyer sends it to choose the window. anyOf[1] (Value): string. ID of
      * this window. The buyer sends it to choose the window. Example:
@@ -1249,12 +1225,12 @@ export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_zone_revision_id"?: ((string) | (null));
             "delivery_zone_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -1283,12 +1259,12 @@ export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_zone_revision_id"?: ((string) | (null));
             "delivery_zone_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -1473,7 +1449,7 @@ export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * Current geographic eligibility conditions. anyOf[1] (Value): {@link
              * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             /**
              * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1500,7 +1476,7 @@ export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
              * anyOf[2] (Value): null.
@@ -1729,7 +1705,7 @@ export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * Current geographic eligibility conditions. anyOf[1] (Value): {@link
              * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             /**
              * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1756,7 +1732,7 @@ export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
              * anyOf[2] (Value): null.
@@ -1955,27 +1931,27 @@ export type DeliveryZoneConfigurationPreviousAttributes = ({
      * Matches when the address is in one of the listed countries. anyOf[1] (Value): {@link
      * DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "country"?: ((DeliveryStateConditionPreviousAttributes) | (null) | (unknown));
+    "country"?: ((DeliveryStateConditionPreviousAttributes) | (null));
     /**
      * Matches when the nested expression does not match. anyOf[1] (Value): {@link
      * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "not"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+    "not"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
     /**
      * Matches when the address postal code matches one of the listed codes. anyOf[1] (Value):
      * {@link DeliveryPostalCodeConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "postal_code"?: ((DeliveryPostalCodeConditionPreviousAttributes) | (null) | (unknown));
+    "postal_code"?: ((DeliveryPostalCodeConditionPreviousAttributes) | (null));
     /**
      * Matches when the address is within a set distance of an origin. anyOf[1] (Value): {@link
      * DeliveryRadiusConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "radius"?: ((DeliveryRadiusConditionPreviousAttributes) | (null) | (unknown));
+    "radius"?: ((DeliveryRadiusConditionPreviousAttributes) | (null));
     /**
      * Matches when the address is in one of the listed states or provinces. anyOf[1] (Value):
      * {@link DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "state"?: ((DeliveryStateConditionPreviousAttributes) | (null) | (unknown));
+    "state"?: ((DeliveryStateConditionPreviousAttributes) | (null));
 })
     & (((unknown)
     | (unknown)
@@ -2695,12 +2671,12 @@ export type DeliveryZoneUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_zone_revision_id"?: ((string) | (null));
             "delivery_zone_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -2729,12 +2705,12 @@ export type DeliveryZoneUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_zone_revision_id"?: ((string) | (null));
             "delivery_zone_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -2919,7 +2895,7 @@ export type DeliveryZoneUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * Current geographic eligibility conditions. anyOf[1] (Value): {@link
              * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             /**
              * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2946,7 +2922,7 @@ export type DeliveryZoneUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
              * anyOf[2] (Value): null.
@@ -3175,7 +3151,7 @@ export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * Current geographic eligibility conditions. anyOf[1] (Value): {@link
              * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
             /**
              * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3202,7 +3178,7 @@ export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
              * anyOf[2] (Value): null.
@@ -3255,3 +3231,60 @@ export type DeliveryZonesCreateParams = (InputValue<CreateDeliveryZoneRequestInp
 };
 export type DeliveryZonesDeleteParams = DeliveryLocationSetsDeleteParams;
 export type DeliveryZonesGetParams = DisputesAcceptParams;
+export type DeliveryZonesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Search across delivery_zone_id, name, and external_reference_id. Text fields match any part
+     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as dzone_01. maxLength: 255.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Filter by an active current method that references this resource. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};

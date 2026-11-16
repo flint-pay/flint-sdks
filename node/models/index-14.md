@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackWithSecretResponse to DeliveryZoneConfigurationRequestInput
+# DeliveryRateEvaluationAllocation to DeliveryZoneCreatedInstalledMerchantsEvent
 
-- [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
 - [DeliveryRateEvaluationAllocation](DeliveryRateEvaluationAllocation.md)
 - [DeliveryRateEvaluationCandidate](DeliveryRateEvaluationCandidate.md)
 - [DeliveryRateEvaluationExecutionLeg](DeliveryRateEvaluationExecutionLeg.md)
@@ -102,4 +101,5 @@
 - [DeliveryZoneConfigurationPreviousAttributes](DeliveryZoneConfigurationPreviousAttributes.md)
 - [DeliveryZoneConfigurationRequest](DeliveryZoneConfigurationRequest.md)
 - [DeliveryZoneConfigurationRequestInput](DeliveryZoneConfigurationRequestInput.md)
+- [DeliveryZoneCreatedInstalledMerchantsEvent](DeliveryZoneCreatedInstalledMerchantsEvent.md)
 

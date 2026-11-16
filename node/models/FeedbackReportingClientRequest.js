@@ -1,7 +1,7 @@
-import { d8740 as c0 } from '../descriptors/data/389.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8740 as d8740 } from '../descriptors/data/389.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8650 as c0 } from '../descriptors/data/386.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8650 as d8650 } from '../descriptors/data/386.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8740;
+const read = d8650;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["FeedbackReportingClientRequest"]:c0()}); }
 export { codec as _validate };

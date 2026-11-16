@@ -10,7 +10,7 @@ Request input.
 | --- | --- | --- | --- |
 | `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/InventoryCountObservationProvenancePreviousAttributesInput.md#inventorycountobservationprovenancepreviousattributesinputexternal_actor_id). |
 | `occurred_at` | Optional | string or null | When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. `occurred_at`: [declared alternatives](../models/InventoryCountObservationProvenancePreviousAttributesInput.md#inventorycountobservationprovenancepreviousattributesinputoccurred_at). |
-| `source_system` | Optional | ([InventorySourceSystemPreviousAttributesInput](../models/InventorySourceSystemPreviousAttributesInput.md#inventorysourcesystempreviousattributesinput) or null) or null | System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. |
+| `source_system` | Optional | [InventorySourceSystemPreviousAttributesInput](../models/InventorySourceSystemPreviousAttributesInput.md#inventorysourcesystempreviousattributesinput) or null | System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. |
 
 ### InventoryCountObservationProvenancePreviousAttributesInput.external_actor_id
 

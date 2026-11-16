@@ -39,12 +39,12 @@ export type {
     InvoicePaymentTermsSnapshot,
     InvoicePaymentTermsSnapshotPreviousAttributes,
     InvoicePaymentTermCalculationRequestInput,
-    InvoicePaymentTermCalculationOnReceiptRequestInput,
     InvoicePaymentTermCalculationPreviousAttributes
 } from '../declarations/types-37.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
     InvoicePaymentTerm,
+    InvoicePaymentTermCalculationOnReceiptRequestInput,
     InvoicePaymentTermCalculationNetDaysRequestInput,
     InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput,
     InvoicePaymentTermCalculationDayOfMonthRequestInput,
@@ -82,9 +82,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-74.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-80.js';
+export { makeInvoiceLateFeePolicyFixedRequest, makeInvoiceLateFeePolicyPercentageRequest } from '../declarations/types-84.js';
 export {
-    makeInvoiceLateFeePolicyFixedRequest,
-    makeInvoiceLateFeePolicyPercentageRequest,
     makeInvoiceLateFeePolicyRequest,
     makeInvoicePaymentTermCalculationDayOfMonthRequest,
     makeInvoicePaymentTermCalculationDayOfNextMonthRequest,

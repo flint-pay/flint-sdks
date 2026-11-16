@@ -1,12 +1,12 @@
-import { d7730 as c0 } from '../descriptors/data/330.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8844 as c1 } from '../descriptors/data/396.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d10605 as c2, d10606 as c3 } from '../descriptors/data/498.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d7572 as c4 } from '../descriptors/data/317.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d7572 as d7572 } from '../descriptors/data/317.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d7640 as c0 } from '../descriptors/data/327.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8754 as c1 } from '../descriptors/data/393.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d10515 as c2, d10516 as c3 } from '../descriptors/data/495.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7482 as c4 } from '../descriptors/data/314.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7482 as d7482 } from '../descriptors/data/314.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7572;
+const read = d7482;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec221"]:c1(),["SharedCodec3059"]:c2(),["SharedCodec3060"]:c3(),["TippingSettingsPatch"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec211"]:c1(),["SharedCodec2968"]:c2(),["SharedCodec2969"]:c3(),["TippingSettingsPatch"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeTippingSettingsPatch(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string|null $return_line_item_id
  * @property-read string|null $return_resolution_id
  * @property-read string|null $return_resolution_line_item_id
- * @property-read mixed $returned_total_money
+ * @property-read MoneyValuePreviousAttributes|null $returned_total_money
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnResolutionLineItemPreviousAttributes extends Model {
     /** @param array{'quantity'?: mixed, 'release_timing'?: mixed, 'return_id'?: mixed, 'return_line_item_id'?: mixed, 'return_resolution_id'?: mixed, 'return_resolution_line_item_id'?: mixed, 'returned_total_money'?: mixed, ...}|object $values */
@@ -44,8 +44,8 @@ final class ReturnResolutionLineItemPreviousAttributes extends Model {
     public function getReturnResolutionLineItemId(): string|null { return $this->get('return_resolution_line_item_id'); }
     public function hasReturnResolutionLineItemId(): bool { return $this->has('return_resolution_line_item_id'); }
     /** Value of the returned units this line covers. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReturnedTotalMoney(): mixed { return $this->get('returned_total_money'); }
+    public function getReturnedTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
 }

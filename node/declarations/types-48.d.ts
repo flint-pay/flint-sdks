@@ -1,6 +1,6 @@
+import type { PartnerEnvironmentGrantPreviousAttributes, PartnerWebhookEnvelope } from './types-49.js';
 import type { PartnerAppInstall, PartnerApp } from './types-47.js';
 import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes } from './types-60.js';
-import type { PartnerEnvironmentGrantPreviousAttributes, PartnerWebhookEnvelope } from './types-49.js';
 import type { InputValue } from '../runtime.js';
 import type { MerchantWebhookEnvelope } from './types-41.js';
 import type { PlatformFeeCap, PlatformFeeCapPreviousAttributes } from './types-54.js';
@@ -10,24 +10,6 @@ import type { CreatePartnerAppCredentialRequestInput, CreatePartnerAppRequestInp
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-7.js';
 import type { RotatePartnerAppSecretRequestInput } from './types-65.js';
 import type { UpdatePartnerAppRequestInput } from './types-74.js';
-/** A response containing `PartnerAppInstall` data. */
-export type PartnerAppInstallResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant's
-     * authorization of a partner application.
-     */
-    "data": PartnerAppInstall;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
 export type PartnerAppInstallRevokedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -394,13 +376,13 @@ export type PartnerAppMerchantReadinessPreviousAttributes = {
      * `status_reason` of `readiness.payments` on the merchant. anyOf[1] (Value): {@link
      * PartnerAppMerchantReadinessAxisPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "payments"?: ((PartnerAppMerchantReadinessAxisPreviousAttributes) | (null) | (unknown));
+    "payments"?: ((PartnerAppMerchantReadinessAxisPreviousAttributes) | (null));
     /**
      * Whether the merchant can receive payouts in this environment, with the `status` and
      * `status_reason` of `readiness.payouts` on the merchant. anyOf[1] (Value): {@link
      * PartnerAppMerchantReadinessAxisPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "payouts"?: ((PartnerAppMerchantReadinessAxisPreviousAttributes) | (null) | (unknown));
+    "payouts"?: ((PartnerAppMerchantReadinessAxisPreviousAttributes) | (null));
 };
 /**
  * The app's declaration that its owner sends splits of the payments it collects to sellers:
@@ -607,18 +589,18 @@ export type PartnerAppPlatformApprovedEvent = ((Exclude<MerchantWebhookEnvelope 
             "api_version_rollback_expires_at"?: ((string) | (null));
             "client_id"?: ((string) | (null));
             "client_secret_enabled"?: ((boolean) | (null));
-            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "client_secret_last_used_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "default_requested_permissions"?: ((Array<string>) | (null));
-            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null) | (unknown));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null));
             "merchant_action_url"?: ((string) | (null));
             "name"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
-            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null) | (unknown));
+            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null));
             "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
-            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null) | (unknown));
-            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null) | (unknown));
-            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null) | (unknown));
+            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null));
             "previous_secret_expires_at"?: ((string) | (null));
             "redirect_uris"?: ((Array<string>) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
@@ -712,11 +694,11 @@ export type PartnerAppPlatformCurrentTermsPreviousAttributes = {
     "platform_terms_version"?: ((string) | (null));
     /**
      * Where Flint publishes this version's text: the Flint Platform Agreement. `null` when the
-     * version has no published text. anyOf[1] (Value): string or null. Where Flint publishes this
+     * version has no published text. anyOf[1] (Value): string. Where Flint publishes this
      * version's text: the Flint Platform Agreement. `null` when the version has no published text.
      * Format: uri. Example: "https://example.com/receipt". anyOf[2] (Value): null.
      */
-    "url"?: ((string | null) | (null) | (unknown));
+    "url"?: ((string) | (null));
 };
 export type PartnerAppPlatformLimitedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
@@ -759,18 +741,18 @@ export type PartnerAppPlatformLimitedEvent = ((Exclude<MerchantWebhookEnvelope &
             "api_version_rollback_expires_at"?: ((string) | (null));
             "client_id"?: ((string) | (null));
             "client_secret_enabled"?: ((boolean) | (null));
-            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "client_secret_last_used_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "default_requested_permissions"?: ((Array<string>) | (null));
-            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null) | (unknown));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null));
             "merchant_action_url"?: ((string) | (null));
             "name"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
-            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null) | (unknown));
+            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null));
             "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
-            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null) | (unknown));
-            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null) | (unknown));
-            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null) | (unknown));
+            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null));
             "previous_secret_expires_at"?: ((string) | (null));
             "redirect_uris"?: ((Array<string>) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
@@ -827,7 +809,7 @@ export type PartnerAppPlatformLimitsPreviousAttributes = {
      * a write to the app, doesn't advance the app's version, and sends no event. anyOf[1] (Value):
      * {@link PartnerAppPlatformUsagePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "usage"?: ((PartnerAppPlatformUsagePreviousAttributes) | (null) | (unknown));
+    "usage"?: ((PartnerAppPlatformUsagePreviousAttributes) | (null));
 };
 export type PartnerAppPlatformPreviousAttributes = {
     /**
@@ -843,14 +825,14 @@ export type PartnerAppPlatformPreviousAttributes = {
      * is the same. anyOf[1] (Value): {@link PartnerAppPlatformCurrentTermsPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "current_terms"?: ((PartnerAppPlatformCurrentTermsPreviousAttributes) | (null) | (unknown));
+    "current_terms"?: ((PartnerAppPlatformCurrentTermsPreviousAttributes) | (null));
     /**
      * The platform's live merchant and monthly volume limits, present once Flint has approved or
      * limited the app. Limits are soft: crossing one never refuses or interrupts a payment or an
      * onboarding step. Flint staff are alerted and may limit or pause the app. anyOf[1] (Value):
      * {@link PartnerAppPlatformLimitsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "limits"?: ((PartnerAppPlatformLimitsPreviousAttributes) | (null) | (unknown));
+    "limits"?: ((PartnerAppPlatformLimitsPreviousAttributes) | (null));
     /**
      * What's outstanding before Flint can review the app, `[]` when nothing is. Flint moves the
      * app to pending_review when the last one is met. [] enum: "owner_merchant_onboarding",
@@ -868,7 +850,7 @@ export type PartnerAppPlatformPreviousAttributes = {
      * anyOf[1] (Value): {@link PartnerAppPlatformReservePreviousAttributes}. anyOf[2] (Value):
      * null.
      */
-    "reserve"?: ((PartnerAppPlatformReservePreviousAttributes) | (null) | (unknown));
+    "reserve"?: ((PartnerAppPlatformReservePreviousAttributes) | (null));
     /**
      * Where the app is in platform onboarding. No value is final. Value enum: "not_started",
      * "pending_review", "approved", "limited", "rejected". anyOf[1] (Value): string. Where the app
@@ -878,15 +860,10 @@ export type PartnerAppPlatformPreviousAttributes = {
     "status"?: (("not_started" | "pending_review" | "approved" | "limited" | "rejected" | (string & {})) | (null));
     /**
      * The latest acceptance of Flint's platform terms. `null` when the app hasn't accepted any
-     * version. anyOf[1] (Value): ({@link PartnerAppPlatformTermsAcceptancePreviousAttributes} or
-     * null). The latest acceptance of Flint's platform terms. `null` when the app hasn't accepted
-     * any version. anyOf[1].anyOf[1] (Value): {@link
-     * PartnerAppPlatformTermsAcceptancePreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
+     * version. anyOf[1] (Value): {@link PartnerAppPlatformTermsAcceptancePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "terms_acceptance"?: (((((PartnerAppPlatformTermsAcceptancePreviousAttributes) | (null) | (unknown))))
-        | (null)
-        | (unknown));
+    "terms_acceptance"?: ((PartnerAppPlatformTermsAcceptancePreviousAttributes) | (null));
 };
 /** What the platform tells Flint for its review. It is one value: a write replaces it whole. */
 export type PartnerAppPlatformProfile = {
@@ -942,7 +919,7 @@ export type PartnerAppPlatformProfilePreviousAttributes = {
      * Monthly payment volume the platform expects across those merchants in 12 months. Above zero,
      * in USD. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "estimated_monthly_volume_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "estimated_monthly_volume_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * The kinds of merchants the platform serves, in 1 to 500 characters. anyOf[1] (Value):
      * string. The kinds of merchants the platform serves, in 1 to 500 characters. minLength: 1.
@@ -1066,18 +1043,18 @@ export type PartnerAppPlatformRejectedEvent = ((Exclude<MerchantWebhookEnvelope 
             "api_version_rollback_expires_at"?: ((string) | (null));
             "client_id"?: ((string) | (null));
             "client_secret_enabled"?: ((boolean) | (null));
-            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "client_secret_last_used_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "default_requested_permissions"?: ((Array<string>) | (null));
-            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null) | (unknown));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null));
             "merchant_action_url"?: ((string) | (null));
             "name"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
-            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null) | (unknown));
+            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null));
             "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
-            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null) | (unknown));
-            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null) | (unknown));
-            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null) | (unknown));
+            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null));
             "previous_secret_expires_at"?: ((string) | (null));
             "redirect_uris"?: ((Array<string>) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
@@ -1142,7 +1119,7 @@ export type PartnerAppPlatformTermsAcceptancePreviousAttributes = {
      * The credential that accepted: a user for a Dashboard session, or an api_key. anyOf[1]
      * (Value): {@link ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "accepted_by"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+    "accepted_by"?: ((ResourceReferencePreviousAttributes) | (null));
     /**
      * The platform terms version accepted. anyOf[1] (Value): string. The platform terms version
      * accepted. anyOf[2] (Value): null.
@@ -1262,18 +1239,18 @@ export type PartnerAppUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object,
             "api_version_rollback_expires_at"?: ((string) | (null));
             "client_id"?: ((string) | (null));
             "client_secret_enabled"?: ((boolean) | (null));
-            "client_secret_last_used_at"?: ((string | null) | (null) | (unknown));
+            "client_secret_last_used_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "default_requested_permissions"?: ((Array<string>) | (null));
-            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null) | (unknown));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null));
             "merchant_action_url"?: ((string) | (null));
             "name"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
-            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null) | (unknown));
+            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null));
             "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
-            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null) | (unknown));
-            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null) | (unknown));
-            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null) | (unknown));
+            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null));
             "previous_secret_expires_at"?: ((string) | (null));
             "redirect_uris"?: ((Array<string>) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
@@ -1572,4 +1549,24 @@ export type PartnerEnvironmentGrantPaymentSplits = {
      * maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt".
      */
     "seller_terms_url": string;
+};
+export type PartnerEnvironmentGrantPaymentSplitsPreviousAttributes = {
+    /**
+     * When the merchant approved receiving split funds. Authorizing again with the same seller
+     * terms keeps it; approving other seller terms, or approving again after the approval ended,
+     * sets a new one. anyOf[1] (Value): string. When the merchant approved receiving split funds.
+     * Authorizing again with the same seller terms keeps it; approving other seller terms, or
+     * approving again after the approval ended, sets a new one. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "approved_at"?: ((string) | (null));
+    /**
+     * The seller terms the merchant approved: the app's seller_terms_url when the merchant
+     * authorized it. Changing the app's seller_terms_url doesn't change it. anyOf[1] (Value):
+     * string. The seller terms the merchant approved: the app's seller_terms_url when the merchant
+     * authorized it. Changing the app's seller_terms_url doesn't change it. Format: uri.
+     * maxLength: 2048. pattern: ^https://. Example: "https://example.com/receipt". anyOf[2]
+     * (Value): null.
+     */
+    "seller_terms_url"?: ((string) | (null));
 };

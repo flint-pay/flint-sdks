@@ -21,7 +21,7 @@ Response model.
 | `is_available_for_sale` | Optional | boolean or null | Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered. `is_available_for_sale`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesis_available_for_sale). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Caller-owned metadata stored on this resource. `metadata`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmetadata). |
-| `modifier_set_id` | Optional | string or null or null | ID of the modifier set attached to the bundle. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmodifier_set_id). |
+| `modifier_set_id` | Optional | string or null | ID of the modifier set attached to the bundle. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesmodifier_set_id). |
 | `name` | Optional | string or null | Bundle name shown to buyers. `name`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesname). |
 | `sku` | Optional | string or null | Stock keeping unit assigned to this sellable item. `sku`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributessku). |
 | `status` | Optional | string or null | Bundle lifecycle status. Archived bundles remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributesstatus). |
@@ -135,7 +135,7 @@ anyOf variant 2.
 | `position` | Optional | integer or null | Display order among the bundle's components, starting at zero. `position`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesposition). |
 | `product_id` | Optional | string or null | Identifier of the product the component's variant belongs to. `product_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents-variant-1-fields-1product_id). |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
-| `variant` | Optional | Alternative shapes (see declared variants) | Summary of the component's variant and its selected options. `variant`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant). |
+| `variant` | Optional | [BundleComponentVariantSummaryPreviousAttributes](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributes) or null | Summary of the component's variant and its selected options. `variant`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant). |
 | `variant_id` | Optional | string or null | Identifier of the product variant included in the bundle. `variant_id`: [declared alternatives](../models/BundleArchivedMerchantEventDataPreviousAttributes.md#bundlearchivedmerchanteventdatapreviousattributescomponents-variant-1-fields-1variant_id). |
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.components variant 1.[] fields 1.bundle_component_id
@@ -367,7 +367,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the modifier set attached to the bundle. `null` when no modifier set is attached..
 
-- Value shape: (string or null). ID of the modifier set attached to the bundle. `null` when no modifier set is attached. 
+- Value shape: string. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. 
 
 ### BundleArchivedMerchantEventDataPreviousAttributes.modifier_set_id variant 2
 

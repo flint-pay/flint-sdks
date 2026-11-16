@@ -174,8 +174,8 @@ The installed merchant’s payments and payouts readiness in this grant’s envi
 | --- | --- | --- | --- |
 | `blocking_requirement_count` | Conditional | integer or null | How many distinct requirements in the merchant's `readiness.requirements.currently_due` and `past_due` are open. 0 when nothing is due now. Read the merchant with a partner app token in this grant's mode for the requirement names. `blocking_requirement_count`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1blocking_requirement_count). |
 | `observed_at` | Conditional | string or null | When Flint last observed the merchant's account, which the statuses come from. The merchant's own `readiness.observed_at` can be later, because it also covers capability observations. `observed_at`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1observed_at). |
-| `payments` | Conditional | Alternative shapes (see declared variants) | Whether the merchant can take payments in this environment, with the `status` and `status_reason` of `readiness.payments` on the merchant. `payments`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payments). |
-| `payouts` | Conditional | Alternative shapes (see declared variants) | Whether the merchant can receive payouts in this environment, with the `status` and `status_reason` of `readiness.payouts` on the merchant. `payouts`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payouts). |
+| `payments` | Conditional | [PartnerAppMerchantReadinessAxisPreviousAttributes](../models/PartnerAppMerchantReadinessAxisPreviousAttributes.md#partnerappmerchantreadinessaxispreviousattributes) or null | Whether the merchant can take payments in this environment, with the `status` and `status_reason` of `readiness.payments` on the merchant. |
+| `payouts` | Conditional | [PartnerAppMerchantReadinessAxisPreviousAttributes](../models/PartnerAppMerchantReadinessAxisPreviousAttributes.md#partnerappmerchantreadinessaxispreviousattributes) or null | Whether the merchant can receive payouts in this environment, with the `status` and `status_reason` of `readiness.payouts` on the merchant. |
 
 ### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1
 
@@ -217,83 +217,6 @@ anyOf variant 1: When Flint last observed the merchant's account, which the stat
 anyOf variant 2.
 
 - Value shape: null. When Flint last observed the merchant's account, which the statuses come from. The merchant's own `readiness.observed_at` can be later, because it also covers capability observations. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments
-
-Whether the merchant can take payments in this environment, with the `status` and `status_reason` of `readiness.payments` on the merchant.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `status` | Conditional | string or null | Whether this area works now, with the same value as on the merchant's `readiness`. Values: `"ready"`, `"pending"`, `"blocked"`, `"not_requested"`, `"not_available"`. `status`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payments-variant-1status). |
-| `status_reason` | Conditional | string or null | Why the status isn't `ready`. Absent when the status is `ready` or `not_requested`. Values: [19 declared values](CapabilityReadinessInput.md#capabilityreadinessinput-status_reason-values). `status_reason`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payments-variant-1status_reason). |
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1
-
-anyOf PartnerAppMerchantReadinessAxisPreviousAttributes.
-
-- Optional: `status`, `status_reason`.
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 2
-
-anyOf variant 2.
-
-- Undeclared: `status`, `status_reason`.
-- Value shape: null. Whether the merchant can take payments in this environment, with the `status` and `status_reason` of `readiness.payments` on the merchant. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status variant 1
-
-anyOf variant 1: Whether this area works now, with the same value as on the merchant's `readiness`..
-
-- Value shape: string. Whether this area works now, with the same value as on the merchant's `readiness`. Values: `"ready"`, `"pending"`, `"blocked"`, `"not_requested"`, `"not_available"`.
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether this area works now, with the same value as on the merchant's `readiness`. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status_reason
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status_reason variant 1
-
-anyOf variant 1: Why the status isn't `ready`. Absent when the status is `ready` or `not_requested`..
-
-- Value shape: string. Why the status isn't `ready`. Absent when the status is `ready` or `not_requested`. Values: `"provisioning"`, `"onboarding_not_started"`, `"requirements_due"`, `"requirements_past_due"`, `"pending_verification"`, `"account_rejected"`, `"disabled_by_platform_policy"`, `"billing_suspended"`, `"platform_review"`, `"processing_not_enabled"`, `"platform_funding_unavailable"`, `"tax_category_required"`, `"service_unavailable"`, `"payment_option_access_not_provisioned"`, `"payment_option_activation_pending"`, `"payment_option_not_in_plan"`, `"payment_option_not_available"`, `"capability_not_active"`, `"other"`.
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status_reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Why the status isn't `ready`. Absent when the status is `ready` or `not_requested`. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payouts
-
-Whether the merchant can receive payouts in this environment, with the `status` and `status_reason` of `readiness.payouts` on the merchant.
-
-Field definitions: [shared fields](#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payments).
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payouts variant 1
-
-anyOf PartnerAppMerchantReadinessAxisPreviousAttributes.
-
-- Optional: `status`, `status_reason`.
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payouts variant 2
-
-anyOf variant 2.
-
-- Undeclared: `status`, `status_reason`.
-- Value shape: null. Whether the merchant can receive payouts in this environment, with the `status` and `status_reason` of `readiness.payouts` on the merchant. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payouts variant 1.status
-
-Declared alternatives: [EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payments-variant-1status).
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payouts variant 1.status_reason
-
-Declared alternatives: [EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.merchant_readiness variant 1.payments variant 1.status_reason](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesmerchant_readiness-variant-1payments-variant-1status_reason).
 
 ### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.mode
 
@@ -372,71 +295,6 @@ anyOf variant 1: The seller terms the merchant approved: the app's seller_terms_
 anyOf variant 2.
 
 - Value shape: null. The seller terms the merchant approved: the app's seller_terms_url when the merchant authorized it. Changing the app's seller_terms_url doesn't change it. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap
-
-The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. No request accepts a platform fee yet.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `fixed_fee_currency_options` | Conditional | Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The fixed part of the cap per payment, keyed by currency code, added to the percentage part. Omitted when no currency has one. Only USD today. `fixed_fee_currency_options`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesplatform_fee_cap-variant-1fixed_fee_currency_options). |
-| `maximum_fee_currency_options` | Conditional | Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The maximum fee on one payment, keyed by currency code. Only USD today. `maximum_fee_currency_options`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesplatform_fee_cap-variant-1maximum_fee_currency_options). |
-| `percent` | Conditional | number or null | The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part alone. `percent`: [declared alternatives](../models/EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1previous_attributesplatform_fee_cap-variant-1percent). |
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1
-
-anyOf PlatformFeeCapPreviousAttributes.
-
-- Optional: `fixed_fee_currency_options`, `maximum_fee_currency_options`, `percent`.
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 2
-
-anyOf variant 2.
-
-- Undeclared: `fixed_fee_currency_options`, `maximum_fee_currency_options`, `percent`.
-- Value shape: null. The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. No request accepts a platform fee yet. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.fixed_fee_currency_options
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.fixed_fee_currency_options variant 1
-
-anyOf variant 1.
-
-- Value shape: Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). The fixed part of the cap per payment, keyed by currency code, added to the percentage part. Omitted when no currency has one. Only USD today. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.fixed_fee_currency_options variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The fixed part of the cap per payment, keyed by currency code, added to the percentage part. Omitted when no currency has one. Only USD today. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.maximum_fee_currency_options
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.maximum_fee_currency_options variant 1
-
-anyOf variant 1.
-
-- Value shape: Map of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). The maximum fee on one payment, keyed by currency code. Only USD today. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.maximum_fee_currency_options variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The maximum fee on one payment, keyed by currency code. Only USD today. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.percent
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.percent variant 1
-
-anyOf variant 1: The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part alone..
-
-- Value shape: number. The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part alone. The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part alone. minimum: `0`. maximum: `25`. multipleOf: `0.0001`. 
-
-### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.platform_fee_cap variant 1.percent variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part alone. 
 
 ### EnvironmentGrantRevokedEvent.data fields 1.previous_attributes.revoked_at
 

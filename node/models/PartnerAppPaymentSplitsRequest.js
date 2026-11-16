@@ -1,7 +1,7 @@
-import { d9809 as c0 } from '../descriptors/data/451.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d9809 as d9809 } from '../descriptors/data/451.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d9719 as c0 } from '../descriptors/data/448.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d9719 as d9719 } from '../descriptors/data/448.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9809;
+const read = d9719;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["PartnerAppPaymentSplitsRequest"]:c0()}); }
 export { codec as _validate };

@@ -15,7 +15,7 @@ Response model.
 | `position` | Optional | integer or null | Display order among the bundle's components, starting at zero. `position`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesposition). |
 | `product_id` | Optional | string or null | Identifier of the product the component's variant belongs to. `product_id`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesproduct_id). |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
-| `variant` | Optional | Alternative shapes (see declared variants) | Summary of the component's variant and its selected options. `variant`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant). |
+| `variant` | Optional | [BundleComponentVariantSummaryPreviousAttributes](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributes) or null | Summary of the component's variant and its selected options. `variant`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant). |
 | `variant_id` | Optional | string or null | Identifier of the product variant included in the bundle. `variant_id`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant_id). |
 
 ### BundleComponentPreviousAttributes.bundle_component_id
@@ -122,12 +122,12 @@ Summary of the component's variant and its selected options.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `is_available_for_sale` | Conditional | boolean or null | Whether the component's variant and its product are both active. `is_available_for_sale`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1is_available_for_sale). |
-| `name` | Conditional | string or null | Name of the component's variant, when set. `name`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1name). |
+| `is_available_for_sale` | Conditional | boolean or null | Whether the component's variant and its product are both active. `is_available_for_sale`: [declared alternatives](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesis_available_for_sale). |
+| `name` | Conditional | string or null | Name of the component's variant, when set. `name`: [declared alternatives](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesname). |
 | `product_id` | Conditional | string or null | Identifier of the product this component variant belongs to. `product_id`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1product_id). |
-| `product_name` | Conditional | string or null | Name of the product the variant belongs to. `product_name`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1product_name). |
-| `selected_options` | Conditional | Array of [SelectedProductOptionPreviousAttributes](../models/SelectedProductOptionPreviousAttributes.md#selectedproductoptionpreviousattributes) or null | Option names and values selected by the component's variant. `selected_options`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1selected_options). |
-| `sku` | Conditional | string or null | Stock keeping unit assigned to the component's variant, when set. `sku`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1sku). |
+| `product_name` | Conditional | string or null | Name of the product the variant belongs to. `product_name`: [declared alternatives](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesproduct_name). |
+| `selected_options` | Conditional | Array of [SelectedProductOptionPreviousAttributes](../models/SelectedProductOptionPreviousAttributes.md#selectedproductoptionpreviousattributes) or null | Option names and values selected by the component's variant. `selected_options`: [declared alternatives](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesselected_options). |
+| `sku` | Conditional | string or null | Stock keeping unit assigned to the component's variant, when set. `sku`: [declared alternatives](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributessku). |
 | `variant_id` | Conditional | string or null | Identifier of the product variant included in the component. `variant_id`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1variant_id). |
 
 ### BundleComponentPreviousAttributes.variant variant 1
@@ -145,31 +145,11 @@ anyOf variant 2.
 
 ### BundleComponentPreviousAttributes.variant variant 1.is_available_for_sale
 
-### BundleComponentPreviousAttributes.variant variant 1.is_available_for_sale variant 1
-
-anyOf variant 1: Whether the component's variant and its product are both active..
-
-- Value shape: boolean. Whether the component's variant and its product are both active. 
-
-### BundleComponentPreviousAttributes.variant variant 1.is_available_for_sale variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the component's variant and its product are both active. 
+Declared alternatives: [BundleComponentVariantSummaryPreviousAttributes.is_available_for_sale](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesis_available_for_sale).
 
 ### BundleComponentPreviousAttributes.variant variant 1.name
 
-### BundleComponentPreviousAttributes.variant variant 1.name variant 1
-
-anyOf variant 1: Name of the component's variant, when set..
-
-- Value shape: string. Name of the component's variant, when set. 
-
-### BundleComponentPreviousAttributes.variant variant 1.name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name of the component's variant, when set. 
+Declared alternatives: [BundleComponentVariantSummaryPreviousAttributes.name](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesname).
 
 ### BundleComponentPreviousAttributes.variant variant 1.product_id
 
@@ -187,110 +167,15 @@ anyOf variant 2.
 
 ### BundleComponentPreviousAttributes.variant variant 1.product_name
 
-### BundleComponentPreviousAttributes.variant variant 1.product_name variant 1
-
-anyOf variant 1: Name of the product the variant belongs to..
-
-- Value shape: string. Name of the product the variant belongs to. 
-
-### BundleComponentPreviousAttributes.variant variant 1.product_name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name of the product the variant belongs to. 
+Declared alternatives: [BundleComponentVariantSummaryPreviousAttributes.product_name](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesproduct_name).
 
 ### BundleComponentPreviousAttributes.variant variant 1.selected_options
 
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1
-
-anyOf variant 1: Option names and values selected by the component's variant..
-
-- Value shape: Array of [SelectedProductOptionPreviousAttributes](../models/SelectedProductOptionPreviousAttributes.md#selectedproductoptionpreviousattributes). Option names and values selected by the component's variant. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Option names and values selected by the component's variant. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `option_id` | Optional | string or null | Identifier of the selected product option. `option_id`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1selected_options-variant-1-fields-1option_id). |
-| `option_name` | Optional | string or null | Name of the selected product option. `option_name`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1selected_options-variant-1-fields-1option_name). |
-| `option_value_id` | Optional | string or null | Identifier of the selected option value. `option_value_id`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1selected_options-variant-1-fields-1option_value_id). |
-| `value` | Optional | string or null | Selected value of the product option. `value`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1selected_options-variant-1-fields-1value). |
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_id
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_id variant 1
-
-anyOf variant 1: Identifier of the selected product option..
-
-- Value shape: string. Identifier of the selected product option. Identifier of the selected product option. Example: `"opt_01KEZF7C008R5Q9BG9B4B4KQH8"`. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Identifier of the selected product option. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_name
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_name variant 1
-
-anyOf variant 1: Name of the selected product option..
-
-- Value shape: string. Name of the selected product option. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name of the selected product option. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_value_id
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_value_id variant 1
-
-anyOf variant 1: Identifier of the selected option value..
-
-- Value shape: string. Identifier of the selected option value. Identifier of the selected option value. Example: `"optv_01KEZF7C0078SVZ1T7PVRXQK7F"`. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.option_value_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Identifier of the selected option value. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.value
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.value variant 1
-
-anyOf variant 1: Selected value of the product option..
-
-- Value shape: string. Selected value of the product option. 
-
-### BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1.value variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Selected value of the product option. 
+Declared alternatives: [BundleComponentVariantSummaryPreviousAttributes.selected_options](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesselected_options).
 
 ### BundleComponentPreviousAttributes.variant variant 1.sku
 
-### BundleComponentPreviousAttributes.variant variant 1.sku variant 1
-
-anyOf variant 1: Stock keeping unit assigned to the component's variant, when set..
-
-- Value shape: string. Stock keeping unit assigned to the component's variant, when set. 
-
-### BundleComponentPreviousAttributes.variant variant 1.sku variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Stock keeping unit assigned to the component's variant, when set. 
+Declared alternatives: [BundleComponentVariantSummaryPreviousAttributes.sku](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributessku).
 
 ### BundleComponentPreviousAttributes.variant variant 1.variant_id
 

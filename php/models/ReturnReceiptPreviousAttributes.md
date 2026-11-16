@@ -11,7 +11,7 @@ Response model.
 | `correction_reason` | Optional | string or null | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. `correction_reason`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributescorrection_reason). |
 | `correction_reason_message` | Optional | string or null | Detail about `correction_reason`. `correction_reason_message`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributescorrection_reason_message). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesexternal_actor_id). |
+| `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributesexternal_actor_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `generated_dispositions` | Optional | Array of [ReturnDispositionPreviousAttributes](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributes) or null | Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. `generated_dispositions`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions). |
 | `line_items` | Optional | Array of [ReturnReceiptLineItemPreviousAttributes](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributes) or null | The lines recorded. `line_items`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesline_items). |
@@ -20,7 +20,7 @@ Response model.
 | `return_id` | Optional | string or null | ID of the Return the goods belong to. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesreturn_id). |
 | `return_receipt_id` | Optional | string or null | Unique identifier for this return receipt, prefixed `retrc_`. `return_receipt_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesreturn_receipt_id). |
 | `shipment_id` | Optional | string or null | ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. `shipment_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesshipment_id). |
-| `source_system` | Optional | Alternative shapes (see declared variants) or null | System that recorded the observation. `null` when no source system was recorded. `source_system`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system). |
+| `source_system` | Optional | [ReturnSourceSystemPreviousAttributes](../models/ReturnSourceSystemPreviousAttributes.md#returnsourcesystempreviousattributes) or null | System that recorded the observation. `null` when no source system was recorded. `source_system`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system). |
 | `status` | Optional | string or null | Whether this is the current observation of these units or a correction replaced it. Values: `"current"`, `"superseded"`. `status`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesstatus). |
 | `superseded_at` | Optional | string or null | RFC3339 timestamp. `superseded_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `superseded_by_return_receipt_id` | Optional | string or null | ID of the receipt that corrected this one. Absent while it is current. `superseded_by_return_receipt_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributessuperseded_by_return_receipt_id). |
@@ -42,7 +42,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnReceiptPreviousAttributes.external_actor_id
 
-Declared alternatives: [ReturnInspectionPreviousAttributes.external_actor_id](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesexternal_actor_id).
+Declared alternatives: [InventoryCountObservationProvenancePreviousAttributes.external_actor_id](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributesexternal_actor_id).
 
 ### ReturnReceiptPreviousAttributes.external_reference_id
 
@@ -72,17 +72,17 @@ anyOf variant 2.
 | --- | --- | --- | --- |
 | `available_disposition_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `available_disposition_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
-| `return_id` | Optional | string or null or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_id). |
+| `return_id` | Optional | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_id). |
 | `return_line_item_id` | Optional | string or null | ID of the Return line the units were matched to. Absent for unverified units. `return_line_item_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesline_items-variant-1-fields-1return_line_item_id). |
 | `return_receipt_id` | Optional | string or null | ID of the receipt the line belongs to. `return_receipt_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesline_items-variant-1-fields-1return_receipt_id). |
 | `return_receipt_line_item_id` | Optional | string or null | Unique identifier for this return receipt line item, prefixed `retrcli_`. `return_receipt_line_item_id`: [declared alternatives](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesline_items-variant-1-fields-1return_receipt_line_item_id). |
 | `supported_actions` | Optional | Array of string or null | Actions that can succeed now. Actions the API key or token doesn't have the scope for are left out. `verify` is listed while the receipt is current and the line's `verification_status` is `unverified`. Otherwise empty. Items values: `"verify"`. `supported_actions`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributessupported_actions). |
-| `unverified_item` | Optional | Alternative shapes (see declared variants) | What the operator recorded for units that match no line. Present on `unverified` lines. `unverified_item`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesunverified_item). |
+| `unverified_item` | Optional | [ReturnUnverifiedItemPreviousAttributes](../models/ReturnUnverifiedItemPreviousAttributes.md#returnunverifieditempreviousattributes) or null | What the operator recorded for units that match no line. Present on `unverified` lines. |
 | `verification_reason` | Optional | string or null | Why the units were verified against the line. Values: `"order_match_confirmed"`, `"sku_match_confirmed"`, `"inspection_confirmed"`, `"merchant_review"`, `"other"`. `verification_reason`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesverification_reason). |
 | `verification_reason_message` | Optional | string or null | Detail about `verification_reason`. `verification_reason_message`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesverification_reason_message). |
 | `verification_status` | Optional | string or null | Whether the units are matched to a line. Values: `"matched"`, `"unverified"`, `"excess"`. `verification_status`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesverification_status). |
 | `verified_at` | Optional | string or null | RFC3339 timestamp. `verified_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `verified_by` | Optional | Alternative shapes (see declared variants) | Who verified the line. `verified_by`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesverified_by). |
+| `verified_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who verified the line. `verified_by`: [declared alternatives](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesverified_by). |
 
 ### ReturnReceiptPreviousAttributes.line_items variant 1.[] fields 1.available_disposition_quantity
 
@@ -141,10 +141,6 @@ anyOf variant 2.
 ### ReturnReceiptPreviousAttributes.line_items variant 1.[] fields 1.supported_actions
 
 Declared alternatives: [ReturnReceiptLineItemPreviousAttributes.supported_actions](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributessupported_actions).
-
-### ReturnReceiptPreviousAttributes.line_items variant 1.[] fields 1.unverified_item
-
-Declared alternatives: [ReturnReceiptLineItemPreviousAttributes.unverified_item](../models/ReturnReceiptLineItemPreviousAttributes.md#returnreceiptlineitempreviousattributesunverified_item).
 
 ### ReturnReceiptPreviousAttributes.line_items variant 1.[] fields 1.verification_reason
 

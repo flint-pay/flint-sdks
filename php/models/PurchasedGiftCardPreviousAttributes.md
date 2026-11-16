@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `gift_card_id` | Optional | string or null | ID of the gift card issued for the purchased unit. `gift_card_id`: [declared alternatives](../models/PurchasedGiftCardPreviousAttributes.md#purchasedgiftcardpreviousattributesgift_card_id). |
-| `last4` | Optional | string or null | Last four characters of the card's current code. `last4`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1gift_card_redemptions-variant-1-fields-1last4). |
+| `last4` | Optional | string or null | Last four characters of the card's current code. `last4`: [declared alternatives](../models/PaymentAttemptGiftCardRedemptionPreviousAttributes.md#paymentattemptgiftcardredemptionpreviousattributeslast4). |
 | `original_gift_card_id` | Optional | string or null | ID of the card that this card replaces. Set when restoring reversed value needed a replacement card. `original_gift_card_id`: [declared alternatives](../models/PurchasedGiftCardPreviousAttributes.md#purchasedgiftcardpreviousattributesoriginal_gift_card_id). |
 | `restoration_reason` | Optional | string or null | What restored the reversed value onto a replacement card. Values: `"manual_recollection"`, `"processor_recollection"`. `restoration_reason`: [declared alternatives](../models/PurchasedGiftCardPreviousAttributes.md#purchasedgiftcardpreviousattributesrestoration_reason). |
 | `unit_ordinal` | Optional | integer or null | Which unit of the line item's quantity this card was issued for, starting at 1. `unit_ordinal`: [declared alternatives](../models/PurchasedGiftCardPreviousAttributes.md#purchasedgiftcardpreviousattributesunit_ordinal). |
@@ -30,7 +30,7 @@ anyOf variant 2.
 
 ### PurchasedGiftCardPreviousAttributes.last4
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.gift_card_redemptions variant 1.[] fields 1.last4](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1gift_card_redemptions-variant-1-fields-1last4).
+Declared alternatives: [PaymentAttemptGiftCardRedemptionPreviousAttributes.last4](../models/PaymentAttemptGiftCardRedemptionPreviousAttributes.md#paymentattemptgiftcardredemptionpreviousattributeslast4).
 
 ### PurchasedGiftCardPreviousAttributes.original_gift_card_id
 

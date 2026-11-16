@@ -1,13 +1,12 @@
 [Model index](../MODELS.md)
 
-# CheckoutSubscriptionTermsRequestInput to CreateCreditNoteAllocationRequestInput
+# CheckoutSubscriptionTermsRequestInput to CreateCreditNoteRequest
 
 - [CheckoutSubscriptionTermsRequestInput](CheckoutSubscriptionTermsRequestInput.md)
 - [CheckoutTaxCalculation](CheckoutTaxCalculation.md)
 - [CheckoutTaxCalculationPreviousAttributes](CheckoutTaxCalculationPreviousAttributes.md)
 - [CheckoutTaxCalculationRequestInput](CheckoutTaxCalculationRequestInput.md)
 - [CheckoutTaxConfig](CheckoutTaxConfig.md)
-- [CheckoutTaxConfigPreviousAttributes](CheckoutTaxConfigPreviousAttributes.md)
 - [CheckoutTaxConfigRequestInput](CheckoutTaxConfigRequestInput.md)
 - [CheckoutTheme](CheckoutTheme.md)
 - [CheckoutThemePreviousAttributes](CheckoutThemePreviousAttributes.md)
@@ -102,4 +101,5 @@
 - [CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput.md)
 - [CreateCreditNoteAllocationRequest](CreateCreditNoteAllocationRequest.md)
 - [CreateCreditNoteAllocationRequestInput](CreateCreditNoteAllocationRequestInput.md)
+- [CreateCreditNoteRequest](CreateCreditNoteRequest.md)
 

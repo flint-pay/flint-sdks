@@ -1,7 +1,7 @@
-import { d8992 as c0 } from '../descriptors/data/404.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8992 as d8992 } from '../descriptors/data/404.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8902 as c0 } from '../descriptors/data/401.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8902 as d8902 } from '../descriptors/data/401.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8992;
+const read = d8902;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InventoryBackorderPolicyRequest"]:c0()}); }
 export { codec as _validate };

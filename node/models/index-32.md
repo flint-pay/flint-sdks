@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# ReturnCompletedMerchantEvent to ReturnReceiptLineItemInputUnverified
+# ReturnCreatedInstalledMerchantsEvent to ReturnReceiptLineItemRequest
 
-- [ReturnCompletedMerchantEvent](ReturnCompletedMerchantEvent.md)
-- [ReturnCompletionBlocker](ReturnCompletionBlocker.md)
-- [ReturnCompletionBlockerPreviousAttributes](ReturnCompletionBlockerPreviousAttributes.md)
 - [ReturnCreatedInstalledMerchantsEvent](ReturnCreatedInstalledMerchantsEvent.md)
 - [ReturnCreatedMerchantEvent](ReturnCreatedMerchantEvent.md)
 - [ReturnDecisionRecordedInstalledMerchantsEvent](ReturnDecisionRecordedInstalledMerchantsEvent.md)
@@ -102,4 +99,7 @@
 - [ReturnReceiptLineItemInputMatched](ReturnReceiptLineItemInputMatched.md)
 - [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
 - [ReturnReceiptLineItemInputUnverified](ReturnReceiptLineItemInputUnverified.md)
+- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
+- [ReturnReceiptLineItemPreviousAttributes](ReturnReceiptLineItemPreviousAttributes.md)
+- [ReturnReceiptLineItemRequest](ReturnReceiptLineItemRequest.md)
 

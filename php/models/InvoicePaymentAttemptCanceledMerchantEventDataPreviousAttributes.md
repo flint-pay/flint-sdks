@@ -16,7 +16,7 @@ Response model.
 | `invoice_id` | Optional | string or null | The invoice this attempt collects. `invoice_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_id). |
 | `invoice_payment_attempt_id` | Optional | string or null | Flint invoice payment attempt ID. `invoice_payment_attempt_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_payment_attempt_id). |
 | `invoice_schedule_entry_id` | Optional | string or null | The schedule entry this attempt collects. Absent when the attempt collects the invoice balance. `invoice_schedule_entry_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_schedule_entry_id). |
-| `last_payment_error` | Optional | Alternative shapes (see declared variants) | Why the payment failed. Present only when status is failed. `last_payment_error`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributeslast_payment_error). |
+| `last_payment_error` | Optional | [PaymentErrorSummaryPreviousAttributes](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributes) or null | Why the payment failed. Present only when status is failed. `last_payment_error`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributeslast_payment_error). |
 | `payment_intent_id` | Optional | string or null | The payment intent behind this attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet. `payment_intent_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributespayment_intent_id). |
 | `rail` | Optional | string or null | How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit. Values: `"card"`, `"ach_debit"`. `rail`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesrail). |
 | `settled_at` | Optional | string or null | When this attempt first settled successfully. Duplicate payment notifications preserve this timestamp. `settled_at`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributessettled_at). |
@@ -127,7 +127,7 @@ anyOf variant 2.
 
 Why the payment failed. Present only when status is failed.
 
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error).
+Field definitions: [shared fields](PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributeslast_payment_error).
 
 ### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.last_payment_error variant 1
 
@@ -144,19 +144,15 @@ anyOf variant 2.
 
 ### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.last_payment_error variant 1.code
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.code](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1code).
+Declared alternatives: [PaymentErrorSummaryPreviousAttributes.code](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributescode).
 
 ### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.last_payment_error variant 1.failed_at
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.failed_at](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1failed_at).
+Declared alternatives: [PaymentAttemptPaymentIntentPreviousAttributes.last_payment_error variant 1.failed_at](../models/PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributeslast_payment_error-variant-1failed_at).
 
 ### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.last_payment_error variant 1.message
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.message](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1message).
-
-### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.last_payment_error variant 1.remediation
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.active_payment_attempt variant 1.last_payment_error variant 1.remediation](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesactive_payment_attempt-variant-1last_payment_error-variant-1remediation).
+Declared alternatives: [PaymentErrorSummaryPreviousAttributes.message](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributesmessage).
 
 ### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.payment_intent_id
 

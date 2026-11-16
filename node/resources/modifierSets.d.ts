@@ -81,16 +81,14 @@ export {
     makeCreateModifierSetRequest
 } from '../declarations/types-80.js';
 export { makeInlineModifierGroupRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
 export {
+    makeMetadataPatchRequest,
     makeMetadataRequest,
     makeModifierOverrideRequest,
     makeModifierRequest,
-    makeModifierSetGroupInputExisting,
-    makeModifierSetGroupInputInline,
-    makeModifierSetGroupRequest,
-    makeMoneyValue
-} from '../declarations/types-86.js';
+    makeModifierSetGroupInputExisting
+} from '../declarations/types-85.js';
+export { makeModifierSetGroupInputInline, makeModifierSetGroupRequest, makeMoneyValue } from '../declarations/types-86.js';
 export { makeTextModifierConfigRequest } from '../declarations/types-90.js';
 export { makeUpdateModifierSetRequest } from '../declarations/types-91.js';
 export interface ModifierSetsResource {

@@ -153,9 +153,12 @@ export {
     makeDeliveryBuyerLocationRequest,
     makeDeliveryCoordinateRequest
 } from '../declarations/types-82.js';
-export { makeDeliveryPickupAvailabilityMaximumDistanceRequest, makeDeliveryWindowRequest } from '../declarations/types-83.js';
 export {
-    makeDimensionsRequest,
+    makeDeliveryPickupAvailabilityMaximumDistanceRequest,
+    makeDeliveryWindowRequest,
+    makeDimensionsRequest
+} from '../declarations/types-83.js';
+export {
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest,
@@ -164,9 +167,12 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-84.js';
-export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-85.js';
 export {
-    makeMetadataRequest,
+    makeLineItemFulfillmentOriginRequestModel,
+    makeLineItemFulfillmentRequestModel,
+    makeMetadataRequest
+} from '../declarations/types-85.js';
+export {
     makeMoneyValue,
     makeOrderDraftLineItemInventoryDemandRequest,
     makeOrderDraftLineItemTaxCalculationRequestModel,

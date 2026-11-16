@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategyCreateRequestInput to DeliveryRateCallbackWithSecret
+# DeliveryPricingStrategyFixed to DeliveryRateCallbackWithSecretResponse
 
-- [DeliveryPricingStrategyCreateRequestInput](DeliveryPricingStrategyCreateRequestInput.md)
 - [DeliveryPricingStrategyFixed](DeliveryPricingStrategyFixed.md)
 - [DeliveryPricingStrategyFixedPreviousAttributes](DeliveryPricingStrategyFixedPreviousAttributes.md)
 - [DeliveryPricingStrategyInputCalculated](DeliveryPricingStrategyInputCalculated.md)
@@ -102,4 +101,5 @@
 - [DeliveryRateCallbackUpdatedInstalledMerchantsEvent](DeliveryRateCallbackUpdatedInstalledMerchantsEvent.md)
 - [DeliveryRateCallbackUpdatedMerchantEvent](DeliveryRateCallbackUpdatedMerchantEvent.md)
 - [DeliveryRateCallbackWithSecret](DeliveryRateCallbackWithSecret.md)
+- [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
 

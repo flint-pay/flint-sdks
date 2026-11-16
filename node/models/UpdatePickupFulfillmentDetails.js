@@ -1,11 +1,11 @@
-import { d8265 as c0, d8266 as c1 } from '../descriptors/data/362.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d7955 as c2, d7956 as c3 } from '../descriptors/data/345.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d7618 as c4 } from '../descriptors/data/320.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d7618 as d7618 } from '../descriptors/data/320.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8175 as c0, d8176 as c1 } from '../descriptors/data/359.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7865 as c2, d7866 as c3 } from '../descriptors/data/342.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7528 as c4 } from '../descriptors/data/317.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7528 as d7528 } from '../descriptors/data/317.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7618;
+const read = d7528;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1741"]:c0(),["SharedCodec1742"]:c1(),["SharedCodec2"]:c2(),["SharedCodec3"]:c3(),["UpdatePickupFulfillmentDetails"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1704"]:c0(),["SharedCodec1705"]:c1(),["SharedCodec2"]:c2(),["SharedCodec3"]:c3(),["UpdatePickupFulfillmentDetails"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePickupFulfillmentDetails(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

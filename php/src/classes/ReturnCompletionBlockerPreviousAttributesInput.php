@@ -4,13 +4,13 @@ namespace Flint;
 /**
  * @property-read string|null $code
  * @property-read string|null $message
- * @property-read string|null|null $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_line_item_id
  * @property-read string|null $return_receipt_id
  * @property-read string|null $return_resolution_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnCompletionBlockerPreviousAttributesInput extends Model {
-    /** @param array{'code'?: string|null, 'message'?: string|null, 'return_id'?: string|null|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_resolution_id'?: string|null, ...}|object $values */
+    /** @param array{'code'?: string|null, 'message'?: string|null, 'return_id'?: string|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_resolution_id'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnCompletionBlockerPreviousAttributesInput')); }
     /** What is still owed before this Return can complete. Each blocker names its Return line, except resolution_pending for a correction and merchandise_exception for unidentified units. resolution_* codes also name return_resolution_id when a resolution exists; merchandise_exception also names return_receipt_id. An empty completion_blockers array means nothing is outstanding. Value enum: "decision_pending", "handoff_pending", "receipt_pending", "inspection_pending", "inspection_review_required", "disposition_required", "resolution_not_selected", "resolution_pending", "resolution_requires_action", "resolution_failed", "merchandise_exception". anyOf[1] (Value): string. What is still owed before this Return can complete. Each blocker names its Return line, except resolution_pending for a correction and merchandise_exception for unidentified units. resolution_* codes also name return_resolution_id when a resolution exists; merchandise_exception also names return_receipt_id. An empty completion_blockers array means nothing is outstanding. Value enum: "decision_pending", "handoff_pending", "receipt_pending", "inspection_pending", "inspection_review_required", "disposition_required", "resolution_not_selected", "resolution_pending", "resolution_requires_action", "resolution_failed", "merchandise_exception". anyOf[2] (Value): null.
      * @return string|null
@@ -24,8 +24,8 @@ final class ReturnCompletionBlockerPreviousAttributesInput extends Model {
      */
     public function getMessage(): mixed { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): mixed { return $this->get('return_id'); }

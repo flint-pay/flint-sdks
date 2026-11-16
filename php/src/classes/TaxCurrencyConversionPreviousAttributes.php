@@ -6,8 +6,8 @@ namespace Flint;
  * @property-read float|null $exchange_rate
  * @property-read string|null $rate_date
  * @property-read string|null $rate_source
- * @property-read mixed $tax_money
- * @property-read mixed $taxable_money
+ * @property-read MoneyValuePreviousAttributes|null $tax_money
+ * @property-read MoneyValuePreviousAttributes|null $taxable_money
  * Presence-aware response; omitted optional fields return null. */
 final class TaxCurrencyConversionPreviousAttributes extends Model {
     /** @param array{'currency'?: mixed, 'exchange_rate'?: mixed, 'rate_date'?: mixed, 'rate_source'?: mixed, 'tax_money'?: mixed, 'taxable_money'?: mixed, ...}|object $values */
@@ -33,13 +33,13 @@ final class TaxCurrencyConversionPreviousAttributes extends Model {
     public function getRateSource(): string|null { return $this->get('rate_source'); }
     public function hasRateSource(): bool { return $this->has('rate_source'); }
     /** The document's VAT for this currency: VAT summed in the invoice currency, times exchange_rate, rounded half up to the currency's minor units. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTaxMoney(): mixed { return $this->get('tax_money'); }
+    public function getTaxMoney(): MoneyValuePreviousAttributes|null { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
     /** The amount the VAT was charged on, converted the same way. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTaxableMoney(): mixed { return $this->get('taxable_money'); }
+    public function getTaxableMoney(): MoneyValuePreviousAttributes|null { return $this->get('taxable_money'); }
     public function hasTaxableMoney(): bool { return $this->has('taxable_money'); }
 }

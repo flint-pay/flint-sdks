@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Optional | ([SubscriptionTaxCalculationPreviousAttributesInput](../models/SubscriptionTaxCalculationPreviousAttributesInput.md#subscriptiontaxcalculationpreviousattributesinput) or null) or null | How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic. |
+| `calculation` | Optional | [SubscriptionTaxCalculationPreviousAttributesInput](../models/SubscriptionTaxCalculationPreviousAttributesInput.md#subscriptiontaxcalculationpreviousattributesinput) or null | How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic. |
 | `enabled` | Optional | boolean or null | Whether the subscription's orders calculate tax. `enabled`: [declared alternatives](../models/SubscriptionTaxPreviousAttributesInput.md#subscriptiontaxpreviousattributesinputenabled). |
 
 ### SubscriptionTaxPreviousAttributesInput.enabled

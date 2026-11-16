@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|null|null $email
+ * @property-read string|null $email
  * @property-read bool|null $is_email_cleared
  * @property-read bool|null $is_phone_cleared
- * @property-read string|null|null $phone
+ * @property-read string|null $phone
  * @property-read string|\DateTimeInterface|null $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutBuyerContactPreviousAttributesInput extends Model {
-    /** @param array{'email'?: string|null|null, 'is_email_cleared'?: bool|null, 'is_phone_cleared'?: bool|null, 'phone'?: string|null|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'email'?: string|null, 'is_email_cleared'?: bool|null, 'is_phone_cleared'?: bool|null, 'phone'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutBuyerContactPreviousAttributesInput')); }
-    /** Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. anyOf[1] (Value): string or null. Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. Format: email. maxLength: 255. Example: "buyer@example.com". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. anyOf[1] (Value): string. Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. Format: email. maxLength: 255. Example: "buyer@example.com". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): mixed { return $this->get('email'); }
@@ -29,8 +29,8 @@ final class CheckoutBuyerContactPreviousAttributesInput extends Model {
      */
     public function getIsPhoneCleared(): mixed { return $this->get('is_phone_cleared'); }
     public function hasIsPhoneCleared(): bool { return $this->has('is_phone_cleared'); }
-    /** Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear. anyOf[1] (Value): string or null. Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear. pattern: ^\+[1-9][0-9]{1,14}$. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear. anyOf[1] (Value): string. Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear. pattern: ^\+[1-9][0-9]{1,14}$. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
     public function getPhone(): mixed { return $this->get('phone'); }

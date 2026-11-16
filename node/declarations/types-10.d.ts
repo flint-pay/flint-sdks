@@ -1,19 +1,19 @@
 import type {
-    CreateDeliveryFulfillmentDetailsInput,
-    CreateDigitalFulfillmentDetailsInput,
     CreateDeliveryFulfillmentDetails,
-    CreateDigitalFulfillmentDetails
+    CreateDigitalFulfillmentDetails,
+    CreateDeliveryFulfillmentDetailsInput,
+    CreateDigitalFulfillmentDetailsInput
 } from './types-9.js';
-import type { CreatePickupFulfillmentDetailsInput, CreatePickupFulfillmentDetails } from './types-12.js';
-import type { CreateServiceFulfillmentDetailsInput, CreateServiceFulfillmentDetails } from './types-13.js';
+import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
+import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-13.js';
 import type {
-    FulfillmentLineItemRequestInput,
-    FulfillmentPackagingRequestInput,
     FulfillmentLineItemRequest,
-    FulfillmentPackagingRequest
+    FulfillmentPackagingRequest,
+    FulfillmentLineItemRequestInput,
+    FulfillmentPackagingRequestInput
 } from './types-27.js';
-import type { FulfillmentRecipientRequestInput, FulfillmentRecipientRequest, GiftCardFundingSource, GiftCard } from './types-28.js';
-import type { MetadataRequestInput, MetadataMap } from './types-41.js';
+import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput, GiftCardFundingSource, GiftCard } from './types-28.js';
+import type { MetadataMap, MetadataRequestInput } from './types-41.js';
 import type { MoneyValue, MoneyValueInput } from './types-42.js';
 import type {
     GiftCardFundingSourceRequestInput,
@@ -74,104 +74,7 @@ import type {
 import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-44.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-46.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { LocationCoordinate } from './types-39.js';
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages.
- */
-export type CreateFulfillmentRequestPickupInput = ({
-    /**
-     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
-     * you supply when creating a fulfillment: the delivery URL.
-     */
-    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
-     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
-     * when creating a fulfillment.
-     */
-    "line_items": Array<FulfillmentLineItemRequestInput>;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
-     * delivery details you supply when creating a fulfillment: courier, timing window,
-     * instructions, and tracking.
-     */
-    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
-    /**
-     * Merchant location responsible for this fulfillment. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-    /**
-     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
-     * the pickup address, location, window, instructions, and curbside details.
-     */
-    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
-    /**
-     * Who receives the fulfillment. Recipient details you supply when creating or updating a
-     * fulfillment: name, email, phone, address, and handling instructions.
-     */
-    "recipient"?: FulfillmentRecipientRequestInput;
-    /**
-     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
-     * the scheduled start and end, timezone, and notes.
-     */
-    "service_details"?: CreateServiceFulfillmentDetailsInput;
-    /**
-     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
-     * single_package assigns every submitted line quantity to package; itemized requires explicit
-     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
-     * the same call. Creates an outbound shipment with one package using `packaging:
-     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
-     * External reference and metadata are optional.
-     */
-    "shipment"?: FulfillmentPackagingRequestInput;
-    /** The kind of fulfillment. Value enum: "pickup". */
-    "type": "pickup";
-})
-    & (({
-    "shipment"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-}))
-    & (({
-    "service_details"?: never;
-}));
+import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-39.js';
 /**
  * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
  * digital_details, or service_details. Shipment execution details belong to shipments and
@@ -3157,6 +3060,60 @@ export type CreateLocationRequest = {
      * "active", "inactive".
      */
     "status"?: "active" | "inactive" | (string & {});
+    /**
+     * IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to
+     * the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location
+     * sets an unset merchant business time zone; sandbox Locations do not. minLength: 1.
+     */
+    "timezone"?: string;
+};
+/** The request body for: Create location. */
+export type CreateLocationRequestInput = {
+    /**
+     * Postal address of the Location. A complete postal address. State and postal_code are
+     * required for US addresses and optional for other countries. Send null or omit line2, state,
+     * and postal_code when the address has none.
+     */
+    "address": AddressRequestInput;
+    /**
+     * Latitude and longitude of the Location. Send it with `coordinate_source`. A latitude and
+     * longitude for a merchant location.
+     */
+    "coordinate"?: LocationCoordinateRequestInput;
+    /**
+     * Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if
+     * you got it by geocoding the address. Send it with `coordinate`: it is required when
+     * `coordinate` is present and rejected when `coordinate` is absent. `null` counts as omitted,
+     * so it is accepted only when `coordinate` is also omitted. Value enum: "merchant_supplied",
+     * "geocoded", null.
+     */
+    "coordinate_source"?: "merchant_supplied" | "geocoded" | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Whether this Location accepts inventory allocation. Sending this field requires
+     * commerce.inventory.allocation.write in addition to the route scope. Default: false.
+     */
+    "inventory_allocation_enabled"?: boolean;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Merchant-facing Location name, from 1 to 255 characters. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Status the Location starts in. Defaults to `active`. Default: "active". Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
     /**
      * IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to
      * the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location

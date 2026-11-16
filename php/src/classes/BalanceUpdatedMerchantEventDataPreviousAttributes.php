@@ -3,16 +3,16 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read array<array-key, SignedMoneyPreviousAttributes>|null $available_by_source_type
- * @property-read mixed $available_money
+ * @property-read SignedMoneyPreviousAttributes|null $available_money
  * @property-read string|null $balance_id
  * @property-read string|null $currency
- * @property-read mixed $held_money
+ * @property-read MoneyValuePreviousAttributes|null $held_money
  * @property-read string|null $merchant_id
  * @property-read string|null $observed_at
  * @property-read bool|null $payouts_enabled
  * @property-read array<array-key, SignedMoneyPreviousAttributes>|null $pending_by_source_type
- * @property-read mixed $pending_money
- * @property-read mixed $reserve_money
+ * @property-read SignedMoneyPreviousAttributes|null $pending_money
+ * @property-read MoneyValuePreviousAttributes|null $reserve_money
  * Presence-aware response; omitted optional fields return null. */
 final class BalanceUpdatedMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'available_by_source_type'?: mixed, 'available_money'?: mixed, 'balance_id'?: mixed, 'currency'?: mixed, 'held_money'?: mixed, 'merchant_id'?: mixed, 'observed_at'?: mixed, 'payouts_enabled'?: mixed, 'pending_by_source_type'?: mixed, 'pending_money'?: mixed, 'reserve_money'?: mixed, ...}|object $values */
@@ -23,9 +23,9 @@ final class BalanceUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getAvailableBySourceType(): array|null { return $this->get('available_by_source_type'); }
     public function hasAvailableBySourceType(): bool { return $this->has('available_by_source_type'); }
     /** Signed amount available for payouts after active payout holds are deducted. Separate from pending_money, reserve_money, and held_money. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return SignedMoneyPreviousAttributes|null
      */
-    public function getAvailableMoney(): mixed { return $this->get('available_money'); }
+    public function getAvailableMoney(): SignedMoneyPreviousAttributes|null { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
     /** Stable identifier of this currency's balance. anyOf[1] (Value): string. Stable identifier of this currency's balance. anyOf[2] (Value): null.
      * @return string|null
@@ -38,9 +38,9 @@ final class BalanceUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getCurrency(): string|null { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
     /** Funds set aside for payouts you created that haven't been debited from your balance yet. They aren't payable and aren't included in `available_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getHeldMoney(): mixed { return $this->get('held_money'); }
+    public function getHeldMoney(): MoneyValuePreviousAttributes|null { return $this->get('held_money'); }
     public function hasHeldMoney(): bool { return $this->has('held_money'); }
     /** Merchant whose balance this is. anyOf[1] (Value): string. Merchant whose balance this is. anyOf[2] (Value): null.
      * @return string|null
@@ -63,13 +63,13 @@ final class BalanceUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getPendingBySourceType(): array|null { return $this->get('pending_by_source_type'); }
     public function hasPendingBySourceType(): bool { return $this->has('pending_by_source_type'); }
     /** Signed amount awaiting availability. Separate from available_money; pending_by_source_type breaks down this amount when source details are supplied. anyOf[1] (Value): {@see SignedMoneyPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return SignedMoneyPreviousAttributes|null
      */
-    public function getPendingMoney(): mixed { return $this->get('pending_money'); }
+    public function getPendingMoney(): SignedMoneyPreviousAttributes|null { return $this->get('pending_money'); }
     public function hasPendingMoney(): bool { return $this->has('pending_money'); }
     /** Amount held in reserve. It doesn't overlap available_money or held_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReserveMoney(): mixed { return $this->get('reserve_money'); }
+    public function getReserveMoney(): MoneyValuePreviousAttributes|null { return $this->get('reserve_money'); }
     public function hasReserveMoney(): bool { return $this->has('reserve_money'); }
 }

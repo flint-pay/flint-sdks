@@ -4,8 +4,8 @@ namespace Flint;
 /**
  * @property-read string|null $order_line_item_id
  * @property-read int|null $quantity
- * @property-read mixed $refund_money
- * @property-read mixed $total_money
+ * @property-read MoneyValuePreviousAttributes|null $refund_money
+ * @property-read MoneyValuePreviousAttributes|null $total_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditLineRemovalPreviousAttributes extends Model {
     /** @param array{'order_line_item_id'?: mixed, 'quantity'?: mixed, 'refund_money'?: mixed, 'total_money'?: mixed, ...}|object $values */
@@ -21,13 +21,13 @@ final class OrderEditLineRemovalPreviousAttributes extends Model {
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The part of total_money refunded to the buyer, frozen when the edit was created. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundMoney(): mixed { return $this->get('refund_money'); }
+    public function getRefundMoney(): MoneyValuePreviousAttributes|null { return $this->get('refund_money'); }
     public function hasRefundMoney(): bool { return $this->has('refund_money'); }
     /** The value of these units, including their original discount and tax shares, frozen when the edit was created. The order no longer owes it. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
+    public function getTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
 }

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# MoneyMovementBlockedReasonPreviousAttributes to OrderEditPreview
+# MoneyMovementHistoryMeta to OrderEditPreviewAddition
 
-- [MoneyMovementBlockedReasonPreviousAttributes](MoneyMovementBlockedReasonPreviousAttributes.md)
 - [MoneyMovementHistoryMeta](MoneyMovementHistoryMeta.md)
 - [MoneyMovementListMeta](MoneyMovementListMeta.md)
 - [MoneyValue](MoneyValue.md)
@@ -102,4 +101,5 @@
 - [OrderEditLineRemovalPreviousAttributes](OrderEditLineRemovalPreviousAttributes.md)
 - [OrderEditListResponse](OrderEditListResponse.md)
 - [OrderEditPreview](OrderEditPreview.md)
+- [OrderEditPreviewAddition](OrderEditPreviewAddition.md)
 

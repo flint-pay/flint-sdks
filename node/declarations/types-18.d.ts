@@ -44,18 +44,6 @@ import type {
     DeliveryScheduleWindowRulePreviousAttributes,
     DeliveryScheduleWindowRuleRequestInput
 } from './types-23.js';
-export type DeliveryBusinessDayRangePreviousAttributes = {
-    /**
-     * Most business days, from `minimum` to 365. anyOf[1] (Value): integer. Most business days,
-     * from `minimum` to 365. anyOf[2] (Value): null.
-     */
-    "maximum"?: ((number) | (null));
-    /**
-     * Fewest business days, from 0. anyOf[1] (Value): integer. Fewest business days, from 0.
-     * anyOf[2] (Value): null.
-     */
-    "minimum"?: ((number) | (null));
-};
 /** A minimum and maximum number of business days, used in transit time estimates. */
 export type DeliveryBusinessDayRangeRequestInput = DeliveryBusinessDayRange;
 /** The `address` variant of `DeliveryBuyerLocationInput`. */
@@ -277,12 +265,12 @@ export type DeliveryBuyerLocationResourceAddressPreviousAttributes = ({
      * The buyer location as an address. Set only when `type` is `address`. anyOf[1] (Value):
      * {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * The buyer location as a coordinate. Set only when `type` is `coordinate`. anyOf[1] (Value):
      * {@link DeliveryCoordinateRequestPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "coordinate"?: ((DeliveryCoordinateRequestPreviousAttributes) | (null) | (unknown));
+    "coordinate"?: ((DeliveryCoordinateRequestPreviousAttributes) | (null));
     /**
      * Whether the buyer location is an address or a coordinate. Value enum: "address". anyOf[1]
      * (Value): string. Whether the buyer location is an address or a coordinate. Value enum:
@@ -331,12 +319,12 @@ export type DeliveryBuyerLocationResourceCoordinatePreviousAttributes = ({
      * The buyer location as an address. Set only when `type` is `address`. anyOf[1] (Value):
      * {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * The buyer location as a coordinate. Set only when `type` is `coordinate`. anyOf[1] (Value):
      * {@link DeliveryCoordinateRequestPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "coordinate"?: ((DeliveryCoordinateRequestPreviousAttributes) | (null) | (unknown));
+    "coordinate"?: ((DeliveryCoordinateRequestPreviousAttributes) | (null));
     /**
      * Whether the buyer location is an address or a coordinate. Value enum: "coordinate". anyOf[1]
      * (Value): string. Whether the buyer location is an address or a coordinate. Value enum:
@@ -357,12 +345,12 @@ export type DeliveryBuyerLocationResourcePreviousAttributes = ({
      * The buyer location as an address. Set only when `type` is `address`. anyOf[1] (Value):
      * {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * The buyer location as a coordinate. Set only when `type` is `coordinate`. anyOf[1] (Value):
      * {@link DeliveryCoordinateRequestPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "coordinate"?: ((DeliveryCoordinateRequestPreviousAttributes) | (null) | (unknown));
+    "coordinate"?: ((DeliveryCoordinateRequestPreviousAttributes) | (null));
     /**
      * Whether the buyer location is an address or a coordinate. Value enum: "address",
      * "coordinate". anyOf[1] (Value): string. Whether the buyer location is an address or a
@@ -424,7 +412,7 @@ export type DeliveryCalculatedPricingStrategyPreviousAttributes = {
      * Charge per unit of distance between the origin and the destination. anyOf[1] (Value): {@link
      * DeliveryDistanceUnitPricePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "distance"?: ((DeliveryDistanceUnitPricePreviousAttributes) | (null) | (unknown));
+    "distance"?: ((DeliveryDistanceUnitPricePreviousAttributes) | (null));
     /**
      * Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency.
      * anyOf[1] (Value): Map of {@link MoneyValuePreviousAttributes}. anyOf[1].* (Value): {@link
@@ -447,7 +435,7 @@ export type DeliveryCalculatedPricingStrategyPreviousAttributes = {
      * Charge per unit of weight of the items. anyOf[1] (Value): {@link
      * DeliveryWeightUnitPricePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "weight"?: ((DeliveryWeightUnitPricePreviousAttributes) | (null) | (unknown));
+    "weight"?: ((DeliveryWeightUnitPricePreviousAttributes) | (null));
 };
 /**
  * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
@@ -834,7 +822,7 @@ export type DeliveryCandidateOutcomeResourceAvailablePreviousAttributes = ({
      * amounts. Pickup-location previews do not carry this field. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -916,7 +904,7 @@ export type DeliveryCandidateOutcomeResourceAvailablePreviousAttributes = ({
      * The option the method produced. Set only when `type` is `available`. anyOf[1] (Value):
      * {@link DeliveryOptionProjectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null) | (unknown));
+    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null));
     /**
      * Whether trying again later can succeed. Set only when `type` is `cannot_calculate`. anyOf[1]
      * (Value): boolean. Whether trying again later can succeed. Set only when `type` is
@@ -1151,7 +1139,7 @@ export type DeliveryCandidateOutcomeResourceCannotCalculatePreviousAttributes = 
      * amounts. Pickup-location previews do not carry this field. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -1233,7 +1221,7 @@ export type DeliveryCandidateOutcomeResourceCannotCalculatePreviousAttributes = 
      * The option the method produced. Set only when `type` is `available`. anyOf[1] (Value):
      * {@link DeliveryOptionProjectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null) | (unknown));
+    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null));
     /**
      * Whether trying again later can succeed. Set only when `type` is `cannot_calculate`. anyOf[1]
      * (Value): boolean. Whether trying again later can succeed. Set only when `type` is
@@ -1428,7 +1416,7 @@ export type DeliveryCandidateOutcomeResourceInputRequiredPreviousAttributes = ({
      * amounts. Pickup-location previews do not carry this field. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -1510,7 +1498,7 @@ export type DeliveryCandidateOutcomeResourceInputRequiredPreviousAttributes = ({
      * The option the method produced. Set only when `type` is `available`. anyOf[1] (Value):
      * {@link DeliveryOptionProjectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null) | (unknown));
+    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null));
     /**
      * Whether trying again later can succeed. Set only when `type` is `cannot_calculate`. anyOf[1]
      * (Value): boolean. Whether trying again later can succeed. Set only when `type` is
@@ -1591,7 +1579,7 @@ export type DeliveryCandidateOutcomeResourcePreviousAttributes = ({
      * amounts. Pickup-location previews do not carry this field. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -1673,7 +1661,7 @@ export type DeliveryCandidateOutcomeResourcePreviousAttributes = ({
      * The option the method produced. Set only when `type` is `available`. anyOf[1] (Value):
      * {@link DeliveryOptionProjectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null) | (unknown));
+    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null));
     /**
      * Whether trying again later can succeed. Set only when `type` is `cannot_calculate`. anyOf[1]
      * (Value): boolean. Whether trying again later can succeed. Set only when `type` is
@@ -1874,7 +1862,7 @@ export type DeliveryCandidateOutcomeResourceRequiresCheckoutContextPreviousAttri
      * amounts. Pickup-location previews do not carry this field. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -1956,7 +1944,7 @@ export type DeliveryCandidateOutcomeResourceRequiresCheckoutContextPreviousAttri
      * The option the method produced. Set only when `type` is `available`. anyOf[1] (Value):
      * {@link DeliveryOptionProjectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null) | (unknown));
+    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null));
     /**
      * Whether trying again later can succeed. Set only when `type` is `cannot_calculate`. anyOf[1]
      * (Value): boolean. Whether trying again later can succeed. Set only when `type` is
@@ -2171,7 +2159,7 @@ export type DeliveryCandidateOutcomeResourceUnavailablePreviousAttributes = ({
      * amounts. Pickup-location previews do not carry this field. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "expected_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -2253,7 +2241,7 @@ export type DeliveryCandidateOutcomeResourceUnavailablePreviousAttributes = ({
      * The option the method produced. Set only when `type` is `available`. anyOf[1] (Value):
      * {@link DeliveryOptionProjectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null) | (unknown));
+    "option"?: ((DeliveryOptionProjectionPreviousAttributes) | (null));
     /**
      * Whether trying again later can succeed. Set only when `type` is `cannot_calculate`. anyOf[1]
      * (Value): boolean. Whether trying again later can succeed. Set only when `type` is
@@ -2752,63 +2740,63 @@ export type DeliveryEligibilityExpressionPreviousAttributes = ({
      * Matches when the address is in one of the listed countries. anyOf[1] (Value): {@link
      * DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "country"?: ((DeliveryStateConditionPreviousAttributes) | (null) | (unknown));
+    "country"?: ((DeliveryStateConditionPreviousAttributes) | (null));
     /**
      * Matches when whether the customer has an email address equals `value`. anyOf[1] (Value):
      * {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "customer_has_email"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null) | (unknown));
+    "customer_has_email"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
     /**
      * Matches when whether the customer has a phone number equals `value`. anyOf[1] (Value):
      * {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "customer_has_phone"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null) | (unknown));
+    "customer_has_phone"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
     /**
      * Matches the is_merchant_verified flag you set on the customer against value. anyOf[1]
      * (Value): {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "customer_merchant_verified"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null) | (unknown));
+    "customer_merchant_verified"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
     /**
      * Matches the free-form segment you assign to the customer against values. anyOf[1] (Value):
      * {@link DeliveryCustomerSegmentConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "customer_segment"?: ((DeliveryCustomerSegmentConditionPreviousAttributes) | (null) | (unknown));
+    "customer_segment"?: ((DeliveryCustomerSegmentConditionPreviousAttributes) | (null));
     /**
      * Matches when the nested expression does not match. anyOf[1] (Value): {@link
      * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "not"?: ((DeliveryEligibilityExpressionPreviousAttributes) | (null) | (unknown));
+    "not"?: ((DeliveryEligibilityExpressionPreviousAttributes) | (null));
     /**
      * Matches when the address postal code matches one of the listed codes. anyOf[1] (Value):
      * {@link DeliveryPostalCodeConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "postal_code"?: ((DeliveryPostalCodeConditionPreviousAttributes) | (null) | (unknown));
+    "postal_code"?: ((DeliveryPostalCodeConditionPreviousAttributes) | (null));
     /**
      * Matches when the address is within a set distance of an origin. anyOf[1] (Value): {@link
      * DeliveryRadiusConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "radius"?: ((DeliveryRadiusConditionPreviousAttributes) | (null) | (unknown));
+    "radius"?: ((DeliveryRadiusConditionPreviousAttributes) | (null));
     /**
      * Matches when the address is in one of the listed states or provinces. anyOf[1] (Value):
      * {@link DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "state"?: ((DeliveryStateConditionPreviousAttributes) | (null) | (unknown));
+    "state"?: ((DeliveryStateConditionPreviousAttributes) | (null));
     /**
      * Matches when whether the purchase is a subscription purchase equals `value`. anyOf[1]
      * (Value): {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "subscription_purchase"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null) | (unknown));
+    "subscription_purchase"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
     /**
      * Matches when the delivery window falls on the listed weekdays and within the listed time of
      * day, in the window's timezone. anyOf[1] (Value): {@link
      * DeliveryWindowTimeConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "window_time"?: ((DeliveryWindowTimeConditionPreviousAttributes) | (null) | (unknown));
+    "window_time"?: ((DeliveryWindowTimeConditionPreviousAttributes) | (null));
     /**
      * Matches when the address is inside the delivery zone you name. anyOf[1] (Value): {@link
      * DeliveryZoneConditionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "zone"?: ((DeliveryZoneConditionPreviousAttributes) | (null) | (unknown));
+    "zone"?: ((DeliveryZoneConditionPreviousAttributes) | (null));
 })
     & (((unknown)
     | (unknown)
@@ -4252,12 +4240,12 @@ export type DeliveryEstimateRulePreviousAttributes = {
      * Weekly schedule of delivery windows. Set only when `type` is `schedule_window`. anyOf[1]
      * (Value): {@link DeliveryScheduleWindowRulePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "schedule_window"?: ((DeliveryScheduleWindowRulePreviousAttributes) | (null) | (unknown));
+    "schedule_window"?: ((DeliveryScheduleWindowRulePreviousAttributes) | (null));
     /**
      * Handling and transit time. Set only when `type` is `transit_time`. anyOf[1] (Value): {@link
      * DeliveryTransitTimeRulePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "transit_time"?: ((DeliveryTransitTimeRulePreviousAttributes) | (null) | (unknown));
+    "transit_time"?: ((DeliveryTransitTimeRulePreviousAttributes) | (null));
     /**
      * How Flint estimates timing. Set the property named by this value. Value enum: "none",
      * "transit_time", "schedule_window". anyOf[1] (Value): string. How Flint estimates timing. Set
@@ -4379,4 +4367,91 @@ export type DeliveryFixedPricingStrategyRequestInput = {
      * ISO 4217 currency code.
      */
     "currency_options": Record<string, MoneyValueInput>;
+};
+/**
+ * Details of a local delivery fulfillment: courier, timing window, instructions, and tracking.
+ * Some fields are omitted for credentials that don't act for the verified customer.
+ */
+export type DeliveryFulfillmentDetails = {
+    /** Carrier responsible for the local delivery. */
+    "carrier"?: string;
+    /**
+     * Time at which the courier collected the order. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "courier_pickup_at"?: string;
+    /**
+     * Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "courier_pickup_window_duration_seconds"?: number;
+    /** Delivery network or merchant fleet provider handling the job. maxLength: 255. */
+    "courier_provider_name"?: string;
+    /** Buyer-safe support number for the courier or merchant fleet. maxLength: 30. */
+    "courier_support_phone"?: string;
+    /**
+     * When the items were delivered, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "delivered_at"?: string;
+    /**
+     * Time by which the order should be delivered. Passing it does not change status or emit an
+     * event automatically; the merchant decides how to follow up. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "delivery_due_at"?: string;
+    /**
+     * When the delivery was dispatched, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "dispatched_at"?: string;
+    /**
+     * Driver-facing notes for the final handoff. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. maxLength: 2048.
+     */
+    "dropoff_notes"?: string;
+    /**
+     * Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_delivery_id"?: string;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified.
+     */
+    "instructions"?: string;
+    /**
+     * Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified.
+     */
+    "no_contact"?: boolean;
+    /**
+     * Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /**
+     * Time at which the order became ready for courier pickup. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "ready_at"?: string;
+    /** Delivery service area assigned to this fulfillment. Example: "boston-north". */
+    "service_area_id"?: string;
+    /** Timezone used to display the local delivery window. Uses an IANA time zone name. */
+    "timezone"?: string;
+    /**
+     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
+     * checkout session credential that doesn't act for the customer the buyer verified.
+     */
+    "tracking_url"?: string;
+    /**
+     * End of the promised delivery window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "window_end_at"?: string;
+    /**
+     * Start of the promised delivery window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "window_start_at"?: string;
 };

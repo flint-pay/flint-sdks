@@ -385,7 +385,7 @@ export type CapabilityReadinessPreviousAttributes = {
      * Merchant requirements that affect this capability. anyOf[1] (Value): {@link
      * ReadinessRequirementsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "requirements"?: ((ReadinessRequirementsPreviousAttributes) | (null) | (unknown));
+    "requirements"?: ((ReadinessRequirementsPreviousAttributes) | (null));
     /**
      * Current readiness status for this capability. Value enum: "ready", "pending", "blocked",
      * "not_requested", "not_available". anyOf[1] (Value): string. Current readiness status for
@@ -755,17 +755,17 @@ export type CatalogPricing = {
 export type CatalogPricingPreviousAttributes = {
     /**
      * Minimum quantity of the applied break. Null when the base price applies. anyOf[1] (Value):
-     * integer or null. Minimum quantity of the applied break. Null when the base price applies.
-     * Format: int64. anyOf[2] (Value): null.
+     * integer. Minimum quantity of the applied break. Null when the base price applies. Format:
+     * int64. anyOf[2] (Value): null.
      */
-    "minimum_quantity"?: ((number | null) | (null) | (unknown));
+    "minimum_quantity"?: ((number) | (null));
     /**
      * Price list providing the selected schedule. Null when the variant's default schedule
-     * applies. anyOf[1] (Value): string or null. Price list providing the selected schedule. Null
-     * when the variant's default schedule applies. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-     * anyOf[2] (Value): null.
+     * applies. anyOf[1] (Value): string. Price list providing the selected schedule. Null when the
+     * variant's default schedule applies. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2]
+     * (Value): null.
      */
-    "price_list_id"?: ((string | null) | (null) | (unknown));
+    "price_list_id"?: ((string) | (null));
     /**
      * Source of the selected schedule. New source values may be added. Value enum: "variant",
      * "price_list". anyOf[1] (Value): string. Source of the selected schedule. New source values
@@ -1736,7 +1736,7 @@ export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "external_reference_id"?: ((string) | (null));
             "handle"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "deleted" | (string & {})) | (null));
             "targeting_reference_count"?: ((number) | (null));
@@ -1778,7 +1778,7 @@ export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "external_reference_id"?: ((string) | (null));
             "handle"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "deleted" | (string & {})) | (null));
             "targeting_reference_count"?: ((number) | (null));
@@ -2090,7 +2090,7 @@ export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Category name shown to buyers. anyOf[1] (Value): string. Category name shown to
              * buyers. anyOf[2] (Value): null.
@@ -2458,7 +2458,7 @@ export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Category name shown to buyers. anyOf[1] (Value): string. Category name shown to
              * buyers. anyOf[2] (Value): null.
@@ -2751,12 +2751,11 @@ export type CheckoutBuyerContact = {
 export type CheckoutBuyerContactPreviousAttributes = {
     /**
      * Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared
-     * distinguishes an explicit clear. anyOf[1] (Value): string or null. Email supplied for the
-     * buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an
-     * explicit clear. Format: email. maxLength: 255. Example: "buyer@example.com". anyOf[2]
-     * (Value): null.
+     * distinguishes an explicit clear. anyOf[1] (Value): string. Email supplied for the buyer,
+     * exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit
+     * clear. Format: email. maxLength: 255. Example: "buyer@example.com". anyOf[2] (Value): null.
      */
-    "email"?: ((string | null) | (null) | (unknown));
+    "email"?: ((string) | (null));
     /**
      * True when the buyer explicitly cleared the email, including before entering one. Saving an
      * email resets it to false. Do not restore a prefilled email while true. anyOf[1] (Value):
@@ -2775,11 +2774,11 @@ export type CheckoutBuyerContactPreviousAttributes = {
     "is_phone_cleared"?: ((boolean) | (null));
     /**
      * Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared
-     * distinguishes an explicit clear. anyOf[1] (Value): string or null. Phone supplied for the
-     * buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an
-     * explicit clear. pattern: ^\+[1-9][0-9]{1,14}$. anyOf[2] (Value): null.
+     * distinguishes an explicit clear. anyOf[1] (Value): string. Phone supplied for the buyer, in
+     * E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear.
+     * pattern: ^\+[1-9][0-9]{1,14}$. anyOf[2] (Value): null.
      */
-    "phone"?: ((string | null) | (null) | (unknown));
+    "phone"?: ((string) | (null));
     /**
      * When the buyer last changed the saved checkout contact. Omitted on order buyer contact.
      * anyOf[1] (Value): string. When the buyer last changed the saved checkout contact. Omitted on

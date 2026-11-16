@@ -1,15 +1,4 @@
-import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput } from './types-28.js';
-import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-41.js';
-import type {
-    UpdateDeliveryFulfillmentDetails,
-    UpdateDigitalFulfillmentDetails,
-    UpdateDeliveryFulfillmentDetailsInput
-} from './types-73.js';
-import type {
-    UpdateServiceFulfillmentDetails,
-    UpdateServiceFulfillmentDetailsInput,
-    UpdateProductOptionValueRequest
-} from './types-75.js';
+import type { UpdateGiftCardRequest } from './types-73.js';
 import type {
     InventoryAllocationConfigurationValue,
     InventoryAllocationPolicyConfigurationRequestInput,
@@ -20,6 +9,7 @@ import type {
     ImageRequest,
     ImageRequestInput
 } from './types-31.js';
+import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-41.js';
 import type {
     InventorySourceSystemRequest,
     InventorySourceSystemRequestInput,
@@ -105,228 +95,6 @@ import type {
     PaymentLinkThemePatchRequestInput
 } from './types-51.js';
 import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-57.js';
-/**
- * Digital fulfillment fields to change when updating a fulfillment: delivery time and URL. Send
- * null to clear a field.
- */
-export type UpdateDigitalFulfillmentDetailsInput = {
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "delivered_at"?: string | globalThis.Date | null;
-    /** Send null to clear it. minLength: 1. */
-    "delivery_url"?: string | null;
-};
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages. A supplied detail field must match the stored fulfillment type. Omit details for
- * metadata-only updates. Even null detail fields count toward exclusivity. minProperties: 1.
- */
-export type UpdateFulfillmentRequest = ({
-    /**
-     * Completion evidence timestamp. Use only to correct completion evidence on an already
-     * completed fulfillment; complete pending fulfillments with POST
-     * /v1/fulfillments/{fulfillment_id}/complete. Send null to clear it. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string | null;
-    /** Send null to clear it. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id"?: string | null;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. Send null to clear it. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string | null;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. anyOf[1] (Value): {@link
-     * UpdateDigitalFulfillmentDetails}. Digital fulfillment fields to change when updating a
-     * fulfillment: delivery time and URL. Send null to clear a field. anyOf[2] (Value): null.
-     */
-    "digital_details"?: ((UpdateDigitalFulfillmentDetails) | (null));
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. anyOf[1]
-     * (Value): {@link UpdateDeliveryFulfillmentDetails}. Delivery fulfillment fields to change
-     * when updating a fulfillment, such as courier, tracking, and delivery times. Send null to
-     * clear a field. anyOf[2] (Value): null.
-     */
-    "local_delivery_details"?: ((UpdateDeliveryFulfillmentDetails) | (null));
-    /** Send null to clear it. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-    /**
-     * Details of a `pickup` fulfillment. anyOf[1] (Value): {@link UpdatePickupFulfillmentDetails}.
-     * Pickup fulfillment fields to change when updating a fulfillment, such as location, pickup
-     * window, and curbside details. Send null to clear a field. anyOf[2] (Value): null.
-     */
-    "pickup_details"?: ((UpdatePickupFulfillmentDetails) | (null));
-    /**
-     * Who receives the fulfillment. anyOf[1] (Value): {@link FulfillmentRecipientRequest}.
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions. anyOf[2] (Value): null.
-     */
-    "recipient"?: ((FulfillmentRecipientRequest) | (null));
-    /**
-     * Details of a `service` fulfillment. anyOf[1] (Value): {@link
-     * UpdateServiceFulfillmentDetails}. Service fulfillment fields to change when updating a
-     * fulfillment: scheduled times, completion time, and notes. Send null to clear a field.
-     * anyOf[2] (Value): null.
-     */
-    "service_details"?: ((UpdateServiceFulfillmentDetails) | (null));
-});
-/**
- * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
- * digital_details, or service_details. Shipment execution details belong to shipments and
- * packages. A supplied detail field must match the stored fulfillment type. Omit details for
- * metadata-only updates. Even null detail fields count toward exclusivity. minProperties: 1.
- */
-export type UpdateFulfillmentRequestInput = ({
-    /**
-     * Completion evidence timestamp. Use only to correct completion evidence on an already
-     * completed fulfillment; complete pending fulfillments with POST
-     * /v1/fulfillments/{fulfillment_id}/complete. Send null to clear it. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string | globalThis.Date | null;
-    /** Send null to clear it. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id"?: string | null;
-    /**
-     * Device used for this fulfillment. It must be active. When location_id is also set, the
-     * device must belong to that Location. Send null to clear it. minLength: 1. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string | null;
-    /**
-     * Details of a `digital` fulfillment, such as the download link. anyOf[1] (Value): {@link
-     * UpdateDigitalFulfillmentDetailsInput}. Digital fulfillment fields to change when updating a
-     * fulfillment: delivery time and URL. Send null to clear a field. anyOf[2] (Value): null.
-     */
-    "digital_details"?: ((UpdateDigitalFulfillmentDetailsInput) | (null));
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. anyOf[1]
-     * (Value): {@link UpdateDeliveryFulfillmentDetailsInput}. Delivery fulfillment fields to
-     * change when updating a fulfillment, such as courier, tracking, and delivery times. Send null
-     * to clear a field. anyOf[2] (Value): null.
-     */
-    "local_delivery_details"?: ((UpdateDeliveryFulfillmentDetailsInput) | (null));
-    /** Send null to clear it. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * Details of a `pickup` fulfillment. anyOf[1] (Value): {@link
-     * UpdatePickupFulfillmentDetailsInput}. Pickup fulfillment fields to change when updating a
-     * fulfillment, such as location, pickup window, and curbside details. Send null to clear a
-     * field. anyOf[2] (Value): null.
-     */
-    "pickup_details"?: ((UpdatePickupFulfillmentDetailsInput) | (null));
-    /**
-     * Who receives the fulfillment. anyOf[1] (Value): {@link FulfillmentRecipientRequestInput}.
-     * Recipient details you supply when creating or updating a fulfillment: name, email, phone,
-     * address, and handling instructions. anyOf[2] (Value): null.
-     */
-    "recipient"?: ((FulfillmentRecipientRequestInput) | (null));
-    /**
-     * Details of a `service` fulfillment. anyOf[1] (Value): {@link
-     * UpdateServiceFulfillmentDetailsInput}. Service fulfillment fields to change when updating a
-     * fulfillment: scheduled times, completion time, and notes. Send null to clear a field.
-     * anyOf[2] (Value): null.
-     */
-    "service_details"?: ((UpdateServiceFulfillmentDetailsInput) | (null));
-})
-    & (({
-    "pickup_details"?: never;
-} | {
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-} | {
-    "digital_details"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-} | {
-    "service_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-} | {
-    "digital_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-} | {
-    "service_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-} | {
-    "service_details"?: never;
-}));
-/** The request body for: Update a gift card. minProperties: 1. */
-export type UpdateGiftCardRequest = {
-    /**
-     * Omission preserves the association; null clears it. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string | null;
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission preserves the
-     * association; null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-};
 /** The request body for: Update a gift card. minProperties: 1. */
 export type UpdateGiftCardRequestInput = UpdateGiftCardRequest;
 /** The request body for: Update inventory allocation policy. minProperties: 1. */
@@ -4000,3 +3768,197 @@ export type UpdateProductOptionRequest = {
      */
     "values"?: Array<UpdateProductOptionValueRequest>;
 };
+/**
+ * A product option to keep or add when updating a product, with its name, position, status, and
+ * values.
+ */
+export type UpdateProductOptionRequestInput = {
+    /**
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Complete caller-owned metadata for this option. Retained options are replaced as members of
+     * the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Identifier of an existing option to retain. Omit it to create a new option. minLength: 1.
+     * pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
+     */
+    "option_id"?: string;
+    /**
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link UpdateProductOptionValueRequestInput}. A value to keep or add on a product option
+     * when updating a product, with its position and status.
+     */
+    "values"?: Array<UpdateProductOptionValueRequestInput>;
+};
+/**
+ * A value to keep or add on a product option when updating a product, with its position and
+ * status.
+ */
+export type UpdateProductOptionValueRequest = {
+    /**
+     * Complete caller-owned metadata for this option value. Retained option values are replaced as
+     * members of the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /**
+     * Identifier of an existing option value to retain. Omit it to create a new value. minLength:
+     * 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
+     */
+    "option_value_id"?: string;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/**
+ * A value to keep or add on a product option when updating a product, with its position and
+ * status.
+ */
+export type UpdateProductOptionValueRequestInput = {
+    /**
+     * Complete caller-owned metadata for this option value. Retained option values are replaced as
+     * members of the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /**
+     * Identifier of an existing option value to retain. Omit it to create a new value. minLength:
+     * 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
+     */
+    "option_value_id"?: string;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE.
+ * Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
+ */
+export type UpdateProductRequest = ({
+    /**
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /** Send null to clear it. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "default_variant_id"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Resource version last read by the caller. Required when options or images is present.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
+     * by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. This operation also limits the metadata object you send, before merging: at most 50
+     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
+     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
+     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
+     * value, a null value deletes the key, and an empty object makes no change; send null for the
+     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
+     * a key that does not exist is allowed, so the number of operations is not itself the
+     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
+     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
+     * object makes no change; send null for the whole field to clear all caller-owned metadata.
+     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
+     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
+     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
+     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
+     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Replaces all product options and values atomically. Include existing option_id and
+     * option_value_id values to retain members. Omitted members are archived. Null is not
+     * accepted. [] (Value): {@link UpdateProductOptionRequest}. A product option to keep or add
+     * when updating a product, with its name, position, status, and values.
+     */
+    "options"?: Array<UpdateProductOptionRequest>;
+    /**
+     * Kind of goods or service this product represents. Changing to digital fills variants' unset
+     * line_item_tax_category with digital_goods and advances their versions. Explicit categories
+     * are preserved. Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and
+     * blocking_resources if a containing bundle would become mixed. Value enum: "physical",
+     * "service", "fee", "digital", "gift_card".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+});

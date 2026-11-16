@@ -82,8 +82,8 @@ export type {
 export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { GiftCardCustomAmountBoundsRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
 export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, ModifierOverride, NextAction } from '../declarations/types-42.js';
-export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
-export type { ImageInputFileInput, ImageAttachment } from '../declarations/types-30.js';
+export type { ImageRequestInput } from '../declarations/types-31.js';
+export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-30.js';
 export type { InventoryItemCreateRequestInput } from '../declarations/types-32.js';
 export type {
     MetadataRequestInput,
@@ -102,12 +102,8 @@ export type { TextModifierConfig } from '../declarations/types-72.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { InventoryRoutingSource } from '../declarations/types-33.js';
 export type { SelectedProductOption } from '../declarations/types-65.js';
-export type {
-    UpdateProductRequestInput,
-    UpdateProductOptionRequestInput,
-    UpdateProductOptionValueRequestInput,
-    UpdateProductVariantRequestInput
-} from '../declarations/types-75.js';
+export type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-75.js';
+export type { UpdateProductOptionRequestInput, UpdateProductOptionValueRequestInput } from '../declarations/types-74.js';
 export {
     makeCreateProductOptionRequest,
     makeCreateProductOptionValueRequest,
@@ -115,8 +111,8 @@ export {
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
 } from '../declarations/types-81.js';
+export { makeDimensionsRequest } from '../declarations/types-83.js';
 export {
-    makeDimensionsRequest,
     makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
@@ -124,8 +120,8 @@ export {
     makeImageRequest,
     makeInventoryItemCreateRequest
 } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-87.js';
 export { makeQuantityPriceBreakRequest } from '../declarations/types-88.js';
 export {

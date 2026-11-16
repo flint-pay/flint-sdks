@@ -1,15 +1,10 @@
 import type { ResponseMeta } from './types-60.js';
-import type { ReturnLineItem } from './types-61.js';
 import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-62.js';
 import type { ReturnResolution, ReturnResource } from './types-63.js';
 import type { Address, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { MetadataMap } from './types-41.js';
 import type { InputValue } from '../runtime.js';
-import type {
-    CreateLocationRequestInput,
-    CreateMeCheckoutSessionRequestInput,
-    CreateMeSubscriptionPreviewRequestInput
-} from './types-11.js';
+import type { CreateLocationRequestInput } from './types-10.js';
 import type { InventoryAllocationPoliciesDeleteParams } from './types-31.js';
 import type { DisputesAcceptParams } from './types-25.js';
 import type { UpdateLocationRequestInput } from './types-74.js';
@@ -19,32 +14,10 @@ import type { CancelMeSubscriptionRequestInput } from './types-4.js';
 import type { ChangeMeSubscriptionPlanRequestInput, ChangeMeSubscriptionQuantityRequestInput } from './types-5.js';
 import type { ConfirmEmailChangeRequestInput } from './types-7.js';
 import type { CreateCustomerAddressRequestInput } from './types-8.js';
+import type { CreateMeCheckoutSessionRequestInput, CreateMeSubscriptionPreviewRequestInput } from './types-11.js';
 import type { CreateEmailChangeRequestInput } from './types-9.js';
 import type { SaveMePaymentMethodRequestInput } from './types-65.js';
 import type { BuyerCreateReturnRequestInput, BuyerCreateReturnPreviewRequestInput } from './types-2.js';
-/** A page of `ReturnLineItem` objects. */
-export type ListReturnLineItemsResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * ReturnLineItem}. An item included in a return request.
-     */
-    "data": Array<ReturnLineItem>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
 /** A page of `ReturnPolicy` objects. */
 export type ListReturnPoliciesResponse = {
     /**
@@ -725,3 +698,4 @@ export type MeGetCreditNotePDFResponse = Uint8Array;
 export type MeGetCreditNoteParams = {};
 export type MeGetDeletionRequestParams = {};
 export type MeGetEmailChangeRequestParams = {};
+export type MeGetEmailPreferencesParams = {};

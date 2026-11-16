@@ -35,8 +35,7 @@ export type {
     ShipmentsListParams,
     ShipmentListResponse,
     ShipmentsUpdateParams,
-    ShipmentsVoidParams,
-    SettlementAmounts
+    ShipmentsVoidParams
 } from '../declarations/types-66.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-77.js';
@@ -61,19 +60,15 @@ export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { MoneyValue, NextAction } from '../declarations/types-42.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
+export type { SettlementAmounts } from '../declarations/types-65.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-61.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { UpdateShipmentRequestInput } from '../declarations/types-75.js';
+export { makeCreatePackageItemRequest } from '../declarations/types-80.js';
+export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-81.js';
+export { makeDimensionsRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
 export {
-    makeCreatePackageItemRequest,
-    makeCreateShipmentRequest,
-    makeCreateShipmentRequestOutbound,
-    makeCreateShipmentRequestReturn
-} from '../declarations/types-81.js';
-export { makeDimensionsRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export {
-    makeMetadataRequest,
     makeMoneyValue,
     makePackageCreateInputCreated,
     makePackageCreateInputShipped,

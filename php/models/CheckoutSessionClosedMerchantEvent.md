@@ -108,10 +108,6 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.buyer_contact](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesbuyer_contact).
 
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.buyer_fields
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.buyer_fields](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesbuyer_fields).
-
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.can_apply_promotion_code
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.can_apply_promotion_code](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescan_apply_promotion_code).
@@ -135,10 +131,6 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.custom_field_answers
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.custom_field_answers](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustom_field_answers).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.custom_text
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.custom_text](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustom_text).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.customer
 
@@ -192,10 +184,6 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.is_in_recovery](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesis_in_recovery).
 
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.legal
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.legal](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal).
-
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.merchant_id
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id).
@@ -215,10 +203,6 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.page_origin
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.page_origin](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespage_origin).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.payment_collection
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_collection](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_collection).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.payment_intent_ids
 
@@ -240,21 +224,9 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_return_url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_return_url).
 
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.payments
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payments](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayments).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.prefill
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.prefill](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesprefill).
-
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.problems
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.problems](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesproblems).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.promotion_config
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.promotion_config](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespromotion_config).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.redirects
 
@@ -263,10 +235,6 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.refunds
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.refunds](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesrefunds).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.setup_collection
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.setup_collection](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessetup_collection).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.status
 
@@ -292,21 +260,9 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.surface](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessurface).
 
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.tax
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tax](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestax).
-
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.terminal_reason
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.terminal_reason](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesterminal_reason).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.theme
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.theme](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestheme).
-
-### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.tip
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.type
 

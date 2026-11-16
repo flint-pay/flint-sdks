@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read int|null $first_cycle
  * @property-read string|null $name
- * @property-read mixed $promotion_code_id
+ * @property-read string|null $promotion_code_id
  * @property-read string|null $promotion_id
- * @property-read mixed $recurrence
- * @property-read mixed $remaining_cycles
+ * @property-read \stdClass|null $recurrence
+ * @property-read int|null $remaining_cycles
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPromotionPreviousAttributes extends Model {
     /** @param array{'first_cycle'?: mixed, 'name'?: mixed, 'promotion_code_id'?: mixed, 'promotion_id'?: mixed, 'recurrence'?: mixed, 'remaining_cycles'?: mixed, ...}|object $values */
@@ -22,10 +22,10 @@ final class SubscriptionPromotionPreviousAttributes extends Model {
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** ID of the promotion code used to attach the promotion. Null when no promotion code was used. anyOf[1] (Value): string or null. ID of the promotion code used to attach the promotion. Null when no promotion code was used. anyOf[2] (Value): null.
-     * @return mixed
+    /** ID of the promotion code used to attach the promotion. Null when no promotion code was used. anyOf[1] (Value): string. ID of the promotion code used to attach the promotion. Null when no promotion code was used. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getPromotionCodeId(): mixed { return $this->get('promotion_code_id'); }
+    public function getPromotionCodeId(): string|null { return $this->get('promotion_code_id'); }
     public function hasPromotionCodeId(): bool { return $this->has('promotion_code_id'); }
     /** ID of the promotion attached to the subscription. anyOf[1] (Value): string. ID of the promotion attached to the subscription. anyOf[2] (Value): null.
      * @return string|null
@@ -33,13 +33,13 @@ final class SubscriptionPromotionPreviousAttributes extends Model {
     public function getPromotionId(): string|null { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
     /** How often the promotion's discount repeats, frozen when the promotion was attached. anyOf[1] (Value): {@see PromotionRecurrencePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return \stdClass|null
      */
-    public function getRecurrence(): mixed { return $this->get('recurrence'); }
+    public function getRecurrence(): \stdClass|null { return $this->get('recurrence'); }
     public function hasRecurrence(): bool { return $this->has('recurrence'); }
-    /** Discounted paid cycles remaining, capped by any replacement handoff. Null when the promotion lasts forever and no replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. anyOf[1] (Value): integer or null. Discounted paid cycles remaining, capped by any replacement handoff. Null when the promotion lasts forever and no replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. Format: int64. anyOf[2] (Value): null.
-     * @return mixed
+    /** Discounted paid cycles remaining, capped by any replacement handoff. Null when the promotion lasts forever and no replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. anyOf[1] (Value): integer. Discounted paid cycles remaining, capped by any replacement handoff. Null when the promotion lasts forever and no replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. Format: int64. anyOf[2] (Value): null.
+     * @return int|null
      */
-    public function getRemainingCycles(): mixed { return $this->get('remaining_cycles'); }
+    public function getRemainingCycles(): int|null { return $this->get('remaining_cycles'); }
     public function hasRemainingCycles(): bool { return $this->has('remaining_cycles'); }
 }

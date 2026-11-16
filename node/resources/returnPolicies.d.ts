@@ -6,11 +6,13 @@ import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '.
 import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-39.js';
 import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-57.js';
 import type { RequestOptions } from '../declarations/types-60.js';
-import type { ReturnPoliciesCreateParams } from '../declarations/types-61.js';
 import type {
+    ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
-    ReturnPoliciesGetParams,
+    ReturnPoliciesGetParams
+} from '../declarations/types-61.js';
+import type {
     ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
@@ -34,13 +36,15 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { ReturnPoliciesCreateParams } from '../declarations/types-61.js';
+export type {
+    ReturnPoliciesCreateParams,
+    ReturnPoliciesCreateRevisionParams,
+    ReturnPoliciesDeleteParams,
+    ReturnPoliciesGetParams
+} from '../declarations/types-61.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
     ReturnPolicy,
-    ReturnPoliciesCreateRevisionParams,
-    ReturnPoliciesDeleteParams,
-    ReturnPoliciesGetParams,
     ReturnPoliciesGetRevisionParams,
     ReturnPolicyRevision,
     ReturnPoliciesListParams,
@@ -78,8 +82,8 @@ export type { Credentials } from '../declarations/types-14.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateReturnPolicyRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makePublishReturnPolicyRevisionRequest,
     makeReturnPolicyRevisionInputIneligible,

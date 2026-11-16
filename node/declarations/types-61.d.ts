@@ -1,18 +1,14 @@
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
-import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
 import type {
-    ReturnActor,
     ReturnActorPreviousAttributes,
+    ReturnActor,
     RetryReturnDispositionRequestInput,
     ReturnDisposition
 } from './types-60.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelReturnDispositionRequestInput } from './types-5.js';
-import type {
-    CreateReturnDispositionRequestInput,
-    CreateReturnInspectionRequestInput,
-    CreateReturnPolicyRequestInput
-} from './types-13.js';
+import type { CreateReturnDispositionRequestInput } from './types-12.js';
 import type { DisputesAcceptParams } from './types-25.js';
 import type {
     ReturnPolicyEvaluation,
@@ -29,770 +25,12 @@ import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } f
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-65.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
+import type { CreateReturnInspectionRequestInput, CreateReturnPolicyRequestInput } from './types-13.js';
 import type { DecideReturnInspectionLineItemRequestInput } from './types-17.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { Fulfillment, FulfillmentPreviousAttributes } from './types-27.js';
 import type { ImagePreviousAttributes } from './types-31.js';
-export type ReturnDispositionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "canceled_at"?: string;
-            "canceled_by"?: ReturnActor;
-            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
-            "cancellation_reason_message"?: string;
-            "created_at": string;
-            "created_by": ReturnActor;
-            "disposition_type": "sellable"
-                | "quality_control"
-                | "damaged"
-                | "quarantined"
-                | "repair"
-                | "refurbish"
-                | "liquidate"
-                | "donate"
-                | "discard"
-                | "return_to_buyer"
-                | "lost"
-                | (string & {});
-            "external_reference_id"?: string;
-            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
-            "failure_message"?: string;
-            "inventory_location_id"?: string;
-            "inventory_movement_ids": Array<string>;
-            "inventory_receipt_id"?: string;
-            "metadata": MetadataMap;
-            "occurred_at": string;
-            "quantity": number;
-            "reason": "inspection_result"
-                | "return_policy"
-                | "warehouse_override"
-                | "safety_requirement"
-                | "other"
-                | (string & {});
-            "reason_message"?: string;
-            "replaced_by_return_disposition_id"?: string;
-            "replaces_return_disposition_id"?: string;
-            "return_disposition_id": string;
-            "return_id": string;
-            "return_inspection_id": string | null;
-            "return_inspection_line_item_id"?: string;
-            "return_line_item_id"?: string;
-            "return_receipt_id": string | null;
-            "return_receipt_line_item_id"?: string;
-            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "return_disposition.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "canceled_at"?: string;
-            "canceled_by"?: ReturnActor;
-            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
-            "cancellation_reason_message"?: string;
-            "created_at": string;
-            "created_by": ReturnActor;
-            "disposition_type": "sellable"
-                | "quality_control"
-                | "damaged"
-                | "quarantined"
-                | "repair"
-                | "refurbish"
-                | "liquidate"
-                | "donate"
-                | "discard"
-                | "return_to_buyer"
-                | "lost"
-                | (string & {});
-            "external_reference_id"?: string;
-            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
-            "failure_message"?: string;
-            "inventory_location_id"?: string;
-            "inventory_movement_ids": Array<string>;
-            "inventory_receipt_id"?: string;
-            "metadata": MetadataMap;
-            "occurred_at": string;
-            "quantity": number;
-            "reason": "inspection_result"
-                | "return_policy"
-                | "warehouse_override"
-                | "safety_requirement"
-                | "other"
-                | (string & {});
-            "reason_message"?: string;
-            "replaced_by_return_disposition_id"?: string;
-            "replaces_return_disposition_id"?: string;
-            "return_disposition_id": string;
-            "return_id": string;
-            "return_inspection_id": string | null;
-            "return_inspection_line_item_id"?: string;
-            "return_line_item_id"?: string;
-            "return_receipt_id": string | null;
-            "return_receipt_line_item_id"?: string;
-            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "return_disposition.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "return_disposition.created";
-});
-/**
- * The `return_disposition.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type ReturnDispositionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.canceled_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by (Optional): {@link
-     * ReturnActor}. Who canceled the disposition. Merchant reads only. Who performed a return
-     * action: a buyer, merchant, integration, or the system, with an optional ID.
-     * object.cancellation_reason (Optional): string. Why the disposition was canceled. Value enum:
-     * "created_in_error", "changed_disposition", "duplicate", "other".
-     * object.cancellation_reason_message (Optional): string. Detail sent with the cancellation.
-     * Merchant reads only. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_by (Required): {@link
-     * ReturnActor}. Who created the disposition. Who performed a return action: a buyer, merchant,
-     * integration, or the system, with an optional ID. object.disposition_type (Required): string.
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost". object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.failure_code (Optional): string. Reason code for a failed merchandise disposition,
-     * when available. Value enum: "inventory_effect_failed", "inventory_item_unmapped".
-     * object.failure_message (Optional): string. Explanation of a failed merchandise disposition,
-     * when available. object.inventory_location_id (Optional): string. ID of the Location whose
-     * stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`,
-     * `quarantined`, and `lost`; rejected for the other types. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.inventory_movement_ids (Required): Array of string.
-     * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
-     * object.inventory_movement_ids[] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-     * object.inventory_receipt_id (Optional): string. ID of the inventory receipt the disposition
-     * recorded. Absent when it recorded none. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
-     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.occurred_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.quantity (Required): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. object.reason
-     * (Required): string. Why the disposition was made. Value enum: "inspection_result",
-     * "return_policy", "warehouse_override", "safety_requirement", "other". object.reason_message
-     * (Optional): string. Optional detail about `reason`, kept with the record.
-     * object.replaced_by_return_disposition_id (Optional): string. ID of the disposition that took
-     * over this one. Present when a replacement canceled it. Example:
-     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.replaces_return_disposition_id (Optional):
-     * string. ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     * object.return_disposition_id (Required): string. Unique identifier for this return
-     * disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     * object.return_id (Required): string. ID of the Return the disposition belongs to. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string or null.
-     * Inspection that owns return_inspection_line_item_id. `null` when
-     * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     * object.return_inspection_line_item_id (Optional): string. ID of the inspection line the
-     * disposition covers. Absent when it covers a receipt line. Example:
-     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". object.return_line_item_id (Optional): string. ID of
-     * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     * object.return_receipt_id (Required): string or null. Receipt that owns
-     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipt_line_item_id (Optional): string.
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". object.status (Required): string. Whether
-     * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
-     * "canceled". object.supported_actions (Required): Array of string. Actions that can succeed
-     * now. Empty unless the parent Return is open. cancel is listed only before the inventory
-     * effect starts. [] enum: "cancel", "retry". object.supported_actions[] (Value): string. Value
-     * enum: "cancel", "retry". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current
-     * version of this resource's owned state. Send it as `expected_version` when changing the
-     * resource to reject a stale write. Format: int64. minimum: 0.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
-         * disposition. Merchant reads only. Who performed a return action: a buyer, merchant,
-         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
-         * Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition",
-         * "duplicate", "other". cancellation_reason_message (Optional): string. Detail sent with
-         * the cancellation. Merchant reads only. created_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_by (Required): {@link
-         * ReturnActor}. Who created the disposition. Who performed a return action: a buyer,
-         * merchant, integration, or the system, with an optional ID. disposition_type (Required):
-         * string. What happens to the received units. Value enum: "sellable", "quality_control",
-         * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
-         * "return_to_buyer", "lost". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". failure_code (Optional): string. Reason code for a failed merchandise
-         * disposition, when available. Value enum: "inventory_effect_failed",
-         * "inventory_item_unmapped". failure_message (Optional): string. Explanation of a failed
-         * merchandise disposition, when available. inventory_location_id (Optional): string. ID of
-         * the Location whose stock the disposition changes. Required for `sellable`,
-         * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inventory_movement_ids (Required): Array of
-         * string. IDs of the inventory movements the disposition wrote. Empty when it moved no
-         * stock. inventory_movement_ids[] (Value): string. Example:
-         * "invm_01KEZF7C00DYPFT9PS0NZY805Z". inventory_receipt_id (Optional): string. ID of the
-         * inventory receipt the disposition recorded. Absent when it recorded none. Example:
-         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". metadata (Required): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. occurred_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". quantity (Required): integer. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. reason (Required): string. Why the
-         * disposition was made. Value enum: "inspection_result", "return_policy",
-         * "warehouse_override", "safety_requirement", "other". reason_message (Optional): string.
-         * Optional detail about `reason`, kept with the record. replaced_by_return_disposition_id
-         * (Optional): string. ID of the disposition that took over this one. Present when a
-         * replacement canceled it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-         * replaces_return_disposition_id (Optional): string. ID of the `failed` or `canceled`
-         * disposition this one replaces. It takes over that disposition's unused capacity.
-         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_id (Required): string.
-         * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
-         * "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_id (Required): string. ID of the Return the
-         * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id
-         * (Required): string or null. Inspection that owns return_inspection_line_item_id. `null`
-         * when return_inspection_line_item_id is null. Example:
-         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_line_item_id (Optional): string.
-         * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-         * Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". return_line_item_id (Optional): string.
-         * ID of the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-         * return_receipt_id (Required): string or null. Receipt that owns
-         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
-         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_line_item_id (Optional): string. ID
-         * of the receipt line the disposition covers. Absent when it covers an inspection line.
-         * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". status (Required): string. Whether
-         * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
-         * "canceled". supported_actions (Required): Array of string. Actions that can succeed now.
-         * Empty unless the parent Return is open. cancel is listed only before the inventory
-         * effect starts. [] enum: "cancel", "retry". supported_actions[] (Value): string. Value
-         * enum: "cancel", "retry". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. Format: int64. minimum: 0.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who canceled the disposition. Merchant reads only. Who performed a return action: a
-             * buyer, merchant, integration, or the system, with an optional ID.
-             */
-            "canceled_by"?: ReturnActor;
-            /**
-             * Why the disposition was canceled. Value enum: "created_in_error",
-             * "changed_disposition", "duplicate", "other".
-             */
-            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
-            /** Detail sent with the cancellation. Merchant reads only. */
-            "cancellation_reason_message"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Who created the disposition. Who performed a return action: a buyer, merchant,
-             * integration, or the system, with an optional ID.
-             */
-            "created_by": ReturnActor;
-            /**
-             * What happens to the received units. Value enum: "sellable", "quality_control",
-             * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
-             * "return_to_buyer", "lost".
-             */
-            "disposition_type": "sellable"
-                | "quality_control"
-                | "damaged"
-                | "quarantined"
-                | "repair"
-                | "refurbish"
-                | "liquidate"
-                | "donate"
-                | "discard"
-                | "return_to_buyer"
-                | "lost"
-                | (string & {});
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Reason code for a failed merchandise disposition, when available. Value enum:
-             * "inventory_effect_failed", "inventory_item_unmapped".
-             */
-            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
-            /** Explanation of a failed merchandise disposition, when available. */
-            "failure_message"?: string;
-            /**
-             * ID of the Location whose stock the disposition changes. Required for `sellable`,
-             * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other
-             * types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "inventory_location_id"?: string;
-            /**
-             * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
-             * [] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-             */
-            "inventory_movement_ids": Array<string>;
-            /**
-             * ID of the inventory receipt the disposition recorded. Absent when it recorded none.
-             * Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
-             */
-            "inventory_receipt_id"?: string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata": MetadataMap;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "occurred_at": string;
-            /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-            "quantity": number;
-            /**
-             * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-             * "warehouse_override", "safety_requirement", "other".
-             */
-            "reason": "inspection_result"
-                | "return_policy"
-                | "warehouse_override"
-                | "safety_requirement"
-                | "other"
-                | (string & {});
-            /** Optional detail about `reason`, kept with the record. */
-            "reason_message"?: string;
-            /**
-             * ID of the disposition that took over this one. Present when a replacement canceled
-             * it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-             */
-            "replaced_by_return_disposition_id"?: string;
-            /**
-             * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-             * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-             */
-            "replaces_return_disposition_id"?: string;
-            /**
-             * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
-             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-             */
-            "return_disposition_id": string;
-            /**
-             * ID of the Return the disposition belongs to. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id": string;
-            /**
-             * Inspection that owns return_inspection_line_item_id. `null` when
-             * return_inspection_line_item_id is null. Example:
-             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-             */
-            "return_inspection_id": string | null;
-            /**
-             * ID of the inspection line the disposition covers. Absent when it covers a receipt
-             * line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-             */
-            "return_inspection_line_item_id"?: string;
-            /**
-             * ID of the Return line the units belong to. Example:
-             * "retli_01KEZF7C00R813VR7ECXS062QG".
-             */
-            "return_line_item_id"?: string;
-            /**
-             * Receipt that owns return_receipt_line_item_id. `null` when
-             * return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-             */
-            "return_receipt_id": string | null;
-            /**
-             * ID of the receipt line the disposition covers. Absent when it covers an inspection
-             * line. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-             */
-            "return_receipt_line_item_id"?: string;
-            /**
-             * Whether inventory has applied the disposition. Value enum: "pending", "succeeded",
-             * "failed", "canceled".
-             */
-            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
-            /**
-             * Actions that can succeed now. Empty unless the parent Return is open. cancel is
-             * listed only before the inventory effect starts. [] enum: "cancel", "retry". []
-             * (Value): string. Value enum: "cancel", "retry".
-             */
-            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: int64. minimum: 0.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "return_disposition.created". */
-    "event_type"?: "return_disposition.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `return_disposition.created` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type ReturnDispositionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.canceled_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by (Optional): {@link
-     * ReturnActor}. Who canceled the disposition. Merchant reads only. Who performed a return
-     * action: a buyer, merchant, integration, or the system, with an optional ID.
-     * object.cancellation_reason (Optional): string. Why the disposition was canceled. Value enum:
-     * "created_in_error", "changed_disposition", "duplicate", "other".
-     * object.cancellation_reason_message (Optional): string. Detail sent with the cancellation.
-     * Merchant reads only. object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.created_by (Required): {@link
-     * ReturnActor}. Who created the disposition. Who performed a return action: a buyer, merchant,
-     * integration, or the system, with an optional ID. object.disposition_type (Required): string.
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost". object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.failure_code (Optional): string. Reason code for a failed merchandise disposition,
-     * when available. Value enum: "inventory_effect_failed", "inventory_item_unmapped".
-     * object.failure_message (Optional): string. Explanation of a failed merchandise disposition,
-     * when available. object.inventory_location_id (Optional): string. ID of the Location whose
-     * stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`,
-     * `quarantined`, and `lost`; rejected for the other types. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.inventory_movement_ids (Required): Array of string.
-     * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
-     * object.inventory_movement_ids[] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-     * object.inventory_receipt_id (Optional): string. ID of the inventory receipt the disposition
-     * recorded. Absent when it recorded none. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
-     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
-     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.occurred_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.quantity (Required): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. object.reason
-     * (Required): string. Why the disposition was made. Value enum: "inspection_result",
-     * "return_policy", "warehouse_override", "safety_requirement", "other". object.reason_message
-     * (Optional): string. Optional detail about `reason`, kept with the record.
-     * object.replaced_by_return_disposition_id (Optional): string. ID of the disposition that took
-     * over this one. Present when a replacement canceled it. Example:
-     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.replaces_return_disposition_id (Optional):
-     * string. ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     * object.return_disposition_id (Required): string. Unique identifier for this return
-     * disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     * object.return_id (Required): string. ID of the Return the disposition belongs to. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string or null.
-     * Inspection that owns return_inspection_line_item_id. `null` when
-     * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     * object.return_inspection_line_item_id (Optional): string. ID of the inspection line the
-     * disposition covers. Absent when it covers a receipt line. Example:
-     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". object.return_line_item_id (Optional): string. ID of
-     * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     * object.return_receipt_id (Required): string or null. Receipt that owns
-     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipt_line_item_id (Optional): string.
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". object.status (Required): string. Whether
-     * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
-     * "canceled". object.supported_actions (Required): Array of string. Actions that can succeed
-     * now. Empty unless the parent Return is open. cancel is listed only before the inventory
-     * effect starts. [] enum: "cancel", "retry". object.supported_actions[] (Value): string. Value
-     * enum: "cancel", "retry". object.updated_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current
-     * version of this resource's owned state. Send it as `expected_version` when changing the
-     * resource to reject a stale write. Format: int64. minimum: 0.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
-         * disposition. Merchant reads only. Who performed a return action: a buyer, merchant,
-         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
-         * Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition",
-         * "duplicate", "other". cancellation_reason_message (Optional): string. Detail sent with
-         * the cancellation. Merchant reads only. created_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_by (Required): {@link
-         * ReturnActor}. Who created the disposition. Who performed a return action: a buyer,
-         * merchant, integration, or the system, with an optional ID. disposition_type (Required):
-         * string. What happens to the received units. Value enum: "sellable", "quality_control",
-         * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
-         * "return_to_buyer", "lost". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". failure_code (Optional): string. Reason code for a failed merchandise
-         * disposition, when available. Value enum: "inventory_effect_failed",
-         * "inventory_item_unmapped". failure_message (Optional): string. Explanation of a failed
-         * merchandise disposition, when available. inventory_location_id (Optional): string. ID of
-         * the Location whose stock the disposition changes. Required for `sellable`,
-         * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inventory_movement_ids (Required): Array of
-         * string. IDs of the inventory movements the disposition wrote. Empty when it moved no
-         * stock. inventory_movement_ids[] (Value): string. Example:
-         * "invm_01KEZF7C00DYPFT9PS0NZY805Z". inventory_receipt_id (Optional): string. ID of the
-         * inventory receipt the disposition recorded. Absent when it recorded none. Example:
-         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". metadata (Required): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. occurred_at
-         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". quantity (Required): integer. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. reason (Required): string. Why the
-         * disposition was made. Value enum: "inspection_result", "return_policy",
-         * "warehouse_override", "safety_requirement", "other". reason_message (Optional): string.
-         * Optional detail about `reason`, kept with the record. replaced_by_return_disposition_id
-         * (Optional): string. ID of the disposition that took over this one. Present when a
-         * replacement canceled it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-         * replaces_return_disposition_id (Optional): string. ID of the `failed` or `canceled`
-         * disposition this one replaces. It takes over that disposition's unused capacity.
-         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_id (Required): string.
-         * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
-         * "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_id (Required): string. ID of the Return the
-         * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id
-         * (Required): string or null. Inspection that owns return_inspection_line_item_id. `null`
-         * when return_inspection_line_item_id is null. Example:
-         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_line_item_id (Optional): string.
-         * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-         * Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". return_line_item_id (Optional): string.
-         * ID of the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-         * return_receipt_id (Required): string or null. Receipt that owns
-         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
-         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_line_item_id (Optional): string. ID
-         * of the receipt line the disposition covers. Absent when it covers an inspection line.
-         * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". status (Required): string. Whether
-         * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
-         * "canceled". supported_actions (Required): Array of string. Actions that can succeed now.
-         * Empty unless the parent Return is open. cancel is listed only before the inventory
-         * effect starts. [] enum: "cancel", "retry". supported_actions[] (Value): string. Value
-         * enum: "cancel", "retry". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. Format: int64. minimum: 0.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who canceled the disposition. Merchant reads only. Who performed a return action: a
-             * buyer, merchant, integration, or the system, with an optional ID.
-             */
-            "canceled_by"?: ReturnActor;
-            /**
-             * Why the disposition was canceled. Value enum: "created_in_error",
-             * "changed_disposition", "duplicate", "other".
-             */
-            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
-            /** Detail sent with the cancellation. Merchant reads only. */
-            "cancellation_reason_message"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Who created the disposition. Who performed a return action: a buyer, merchant,
-             * integration, or the system, with an optional ID.
-             */
-            "created_by": ReturnActor;
-            /**
-             * What happens to the received units. Value enum: "sellable", "quality_control",
-             * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
-             * "return_to_buyer", "lost".
-             */
-            "disposition_type": "sellable"
-                | "quality_control"
-                | "damaged"
-                | "quarantined"
-                | "repair"
-                | "refurbish"
-                | "liquidate"
-                | "donate"
-                | "discard"
-                | "return_to_buyer"
-                | "lost"
-                | (string & {});
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Reason code for a failed merchandise disposition, when available. Value enum:
-             * "inventory_effect_failed", "inventory_item_unmapped".
-             */
-            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
-            /** Explanation of a failed merchandise disposition, when available. */
-            "failure_message"?: string;
-            /**
-             * ID of the Location whose stock the disposition changes. Required for `sellable`,
-             * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other
-             * types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "inventory_location_id"?: string;
-            /**
-             * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
-             * [] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
-             */
-            "inventory_movement_ids": Array<string>;
-            /**
-             * ID of the inventory receipt the disposition recorded. Absent when it recorded none.
-             * Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
-             */
-            "inventory_receipt_id"?: string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata": MetadataMap;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "occurred_at": string;
-            /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-            "quantity": number;
-            /**
-             * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-             * "warehouse_override", "safety_requirement", "other".
-             */
-            "reason": "inspection_result"
-                | "return_policy"
-                | "warehouse_override"
-                | "safety_requirement"
-                | "other"
-                | (string & {});
-            /** Optional detail about `reason`, kept with the record. */
-            "reason_message"?: string;
-            /**
-             * ID of the disposition that took over this one. Present when a replacement canceled
-             * it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-             */
-            "replaced_by_return_disposition_id"?: string;
-            /**
-             * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-             * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-             */
-            "replaces_return_disposition_id"?: string;
-            /**
-             * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
-             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-             */
-            "return_disposition_id": string;
-            /**
-             * ID of the Return the disposition belongs to. Example:
-             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id": string;
-            /**
-             * Inspection that owns return_inspection_line_item_id. `null` when
-             * return_inspection_line_item_id is null. Example:
-             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-             */
-            "return_inspection_id": string | null;
-            /**
-             * ID of the inspection line the disposition covers. Absent when it covers a receipt
-             * line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-             */
-            "return_inspection_line_item_id"?: string;
-            /**
-             * ID of the Return line the units belong to. Example:
-             * "retli_01KEZF7C00R813VR7ECXS062QG".
-             */
-            "return_line_item_id"?: string;
-            /**
-             * Receipt that owns return_receipt_line_item_id. `null` when
-             * return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-             */
-            "return_receipt_id": string | null;
-            /**
-             * ID of the receipt line the disposition covers. Absent when it covers an inspection
-             * line. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-             */
-            "return_receipt_line_item_id"?: string;
-            /**
-             * Whether inventory has applied the disposition. Value enum: "pending", "succeeded",
-             * "failed", "canceled".
-             */
-            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
-            /**
-             * Actions that can succeed now. Empty unless the parent Return is open. cancel is
-             * listed only before the inventory effect starts. [] enum: "cancel", "retry". []
-             * (Value): string. Value enum: "cancel", "retry".
-             */
-            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: int64. minimum: 0.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "return_disposition.created". */
-    "event_type"?: "return_disposition.created";
-});
+import type { PublishReturnPolicyRevisionRequestInput } from './types-57.js';
 export type ReturnDispositionPreviousAttributes = {
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
@@ -803,7 +41,7 @@ export type ReturnDispositionPreviousAttributes = {
      * Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@link
      * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+    "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
     /**
      * Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition",
      * "duplicate", "other". anyOf[1] (Value): string. Why the disposition was canceled. Value
@@ -825,7 +63,7 @@ export type ReturnDispositionPreviousAttributes = {
      * Who created the disposition. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "created_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+    "created_by"?: ((ReturnActorPreviousAttributes) | (null));
     /**
      * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
      * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
@@ -889,7 +127,7 @@ export type ReturnDispositionPreviousAttributes = {
      * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
      * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -946,11 +184,11 @@ export type ReturnDispositionPreviousAttributes = {
     "return_id"?: ((string) | (null));
     /**
      * Inspection that owns return_inspection_line_item_id. `null` when
-     * return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection that
-     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
-     * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+     * return_inspection_line_item_id is null. anyOf[1] (Value): string. Inspection that owns
+     * return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
      */
-    "return_inspection_id"?: ((string | null) | (null) | (unknown));
+    "return_inspection_id"?: ((string) | (null));
     /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * anyOf[1] (Value): string. ID of the inspection line the disposition covers. Absent when it
@@ -965,11 +203,11 @@ export type ReturnDispositionPreviousAttributes = {
     "return_line_item_id"?: ((string) | (null));
     /**
      * Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is
-     * null. anyOf[1] (Value): string or null. Receipt that owns return_receipt_line_item_id.
-     * `null` when return_receipt_line_item_id is null. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     * null. anyOf[1] (Value): string. Receipt that owns return_receipt_line_item_id. `null` when
+     * return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2]
+     * (Value): null.
      */
-    "return_receipt_id"?: ((string | null) | (null) | (unknown));
+    "return_receipt_id"?: ((string) | (null));
     /**
      * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
      * anyOf[1] (Value): string. ID of the receipt line the disposition covers. Absent when it
@@ -1061,11 +299,11 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {})) | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "created_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "created_by"?: ((ReturnActorPreviousAttributes) | (null));
             "disposition_type"?: (("sellable"
                 | "quality_control"
                 | "damaged"
@@ -1085,7 +323,7 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "inventory_location_id"?: ((string) | (null));
             "inventory_movement_ids"?: ((Array<string>) | (null));
             "inventory_receipt_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "occurred_at"?: ((string) | (null));
             "quantity"?: ((number) | (null));
             "reason"?: (("inspection_result"
@@ -1100,10 +338,10 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "replaces_return_disposition_id"?: ((string) | (null));
             "return_disposition_id"?: ((string) | (null));
             "return_id"?: ((string) | (null));
-            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            "return_inspection_id"?: ((string) | (null));
             "return_inspection_line_item_id"?: ((string) | (null));
             "return_line_item_id"?: ((string) | (null));
-            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            "return_receipt_id"?: ((string) | (null));
             "return_receipt_line_item_id"?: ((string) | (null));
             "status"?: (("pending" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
@@ -1171,11 +409,11 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {})) | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "created_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "created_by"?: ((ReturnActorPreviousAttributes) | (null));
             "disposition_type"?: (("sellable"
                 | "quality_control"
                 | "damaged"
@@ -1195,7 +433,7 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "inventory_location_id"?: ((string) | (null));
             "inventory_movement_ids"?: ((Array<string>) | (null));
             "inventory_receipt_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "occurred_at"?: ((string) | (null));
             "quantity"?: ((number) | (null));
             "reason"?: (("inspection_result"
@@ -1210,10 +448,10 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "replaces_return_disposition_id"?: ((string) | (null));
             "return_disposition_id"?: ((string) | (null));
             "return_id"?: ((string) | (null));
-            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            "return_inspection_id"?: ((string) | (null));
             "return_inspection_line_item_id"?: ((string) | (null));
             "return_line_item_id"?: ((string) | (null));
-            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            "return_receipt_id"?: ((string) | (null));
             "return_receipt_line_item_id"?: ((string) | (null));
             "status"?: (("pending" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
@@ -1412,15 +650,14 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * belongs to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the
      * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * previous_attributes.return_id.anyOf[2] (Value): null.
-     * previous_attributes.return_inspection_id (Optional): string or null or null. Inspection that
-     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
-     * previous_attributes.return_inspection_id.anyOf[1] (Value): string or null. Inspection that
-     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
-     * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
-     * previous_attributes.return_inspection_line_item_id (Optional): string or null. ID of the
-     * inspection line the disposition covers. Absent when it covers a receipt line.
-     * previous_attributes.return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
+     * previous_attributes.return_inspection_id (Optional): string or null. Inspection that owns
+     * return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Inspection that owns
+     * return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_id.anyOf[2]
+     * (Value): null. previous_attributes.return_inspection_line_item_id (Optional): string or
+     * null. ID of the inspection line the disposition covers. Absent when it covers a receipt
+     * line. previous_attributes.return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
      * inspection line the disposition covers. Absent when it covers a receipt line. Example:
      * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * previous_attributes.return_inspection_line_item_id.anyOf[2] (Value): null.
@@ -1428,9 +665,9 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * the units belong to. previous_attributes.return_line_item_id.anyOf[1] (Value): string. ID of
      * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * previous_attributes.return_line_item_id.anyOf[2] (Value): null.
-     * previous_attributes.return_receipt_id (Optional): string or null or null. Receipt that owns
+     * previous_attributes.return_receipt_id (Optional): string or null. Receipt that owns
      * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
-     * previous_attributes.return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+     * previous_attributes.return_receipt_id.anyOf[1] (Value): string. Receipt that owns
      * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
      * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_id.anyOf[2] (Value):
      * null. previous_attributes.return_receipt_line_item_id (Optional): string or null. ID of the
@@ -1772,10 +1009,10 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * return_disposition_id.anyOf[2] (Value): null. return_id (Optional): string or null. ID
          * of the Return the disposition belongs to. return_id.anyOf[1] (Value): string. ID of the
          * Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_id.anyOf[2] (Value): null. return_inspection_id (Optional): string or null or
-         * null. Inspection that owns return_inspection_line_item_id. `null` when
-         * return_inspection_line_item_id is null. return_inspection_id.anyOf[1] (Value): string or
-         * null. Inspection that owns return_inspection_line_item_id. `null` when
+         * return_id.anyOf[2] (Value): null. return_inspection_id (Optional): string or null.
+         * Inspection that owns return_inspection_line_item_id. `null` when
+         * return_inspection_line_item_id is null. return_inspection_id.anyOf[1] (Value): string.
+         * Inspection that owns return_inspection_line_item_id. `null` when
          * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
          * return_inspection_id.anyOf[2] (Value): null. return_inspection_line_item_id (Optional):
          * string or null. ID of the inspection line the disposition covers. Absent when it covers
@@ -1785,9 +1022,9 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * null. return_line_item_id (Optional): string or null. ID of the Return line the units
          * belong to. return_line_item_id.anyOf[1] (Value): string. ID of the Return line the units
          * belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG". return_line_item_id.anyOf[2]
-         * (Value): null. return_receipt_id (Optional): string or null or null. Receipt that owns
+         * (Value): null. return_receipt_id (Optional): string or null. Receipt that owns
          * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
-         * return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+         * return_receipt_id.anyOf[1] (Value): string. Receipt that owns
          * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
          * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_id.anyOf[2] (Value): null.
          * return_receipt_line_item_id (Optional): string or null. ID of the receipt line the
@@ -1827,7 +1064,7 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              * Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@link
              * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the disposition was canceled. Value enum: "created_in_error",
              * "changed_disposition", "duplicate", "other". anyOf[1] (Value): string. Why the
@@ -1849,7 +1086,7 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              * Who created the disposition. anyOf[1] (Value): {@link
              * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "created_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "created_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What happens to the received units. Value enum: "sellable", "quality_control",
              * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
@@ -1917,7 +1154,7 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1975,11 +1212,11 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
             "return_id"?: ((string) | (null));
             /**
              * Inspection that owns return_inspection_line_item_id. `null` when
-             * return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection
-             * that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id
-             * is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             * return_inspection_line_item_id is null. anyOf[1] (Value): string. Inspection that
+             * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is
+             * null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
              */
-            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            "return_inspection_id"?: ((string) | (null));
             /**
              * ID of the inspection line the disposition covers. Absent when it covers a receipt
              * line. anyOf[1] (Value): string. ID of the inspection line the disposition covers.
@@ -1995,11 +1232,11 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
             "return_line_item_id"?: ((string) | (null));
             /**
              * Receipt that owns return_receipt_line_item_id. `null` when
-             * return_receipt_line_item_id is null. anyOf[1] (Value): string or null. Receipt that
-             * owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+             * return_receipt_line_item_id is null. anyOf[1] (Value): string. Receipt that owns
+             * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
              * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
              */
-            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            "return_receipt_id"?: ((string) | (null));
             /**
              * ID of the receipt line the disposition covers. Absent when it covers an inspection
              * line. anyOf[1] (Value): string. ID of the receipt line the disposition covers.
@@ -2255,15 +1492,14 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * belongs to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the
      * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * previous_attributes.return_id.anyOf[2] (Value): null.
-     * previous_attributes.return_inspection_id (Optional): string or null or null. Inspection that
-     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
-     * previous_attributes.return_inspection_id.anyOf[1] (Value): string or null. Inspection that
-     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
-     * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
-     * previous_attributes.return_inspection_line_item_id (Optional): string or null. ID of the
-     * inspection line the disposition covers. Absent when it covers a receipt line.
-     * previous_attributes.return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
+     * previous_attributes.return_inspection_id (Optional): string or null. Inspection that owns
+     * return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Inspection that owns
+     * return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_id.anyOf[2]
+     * (Value): null. previous_attributes.return_inspection_line_item_id (Optional): string or
+     * null. ID of the inspection line the disposition covers. Absent when it covers a receipt
+     * line. previous_attributes.return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
      * inspection line the disposition covers. Absent when it covers a receipt line. Example:
      * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * previous_attributes.return_inspection_line_item_id.anyOf[2] (Value): null.
@@ -2271,9 +1507,9 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * the units belong to. previous_attributes.return_line_item_id.anyOf[1] (Value): string. ID of
      * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * previous_attributes.return_line_item_id.anyOf[2] (Value): null.
-     * previous_attributes.return_receipt_id (Optional): string or null or null. Receipt that owns
+     * previous_attributes.return_receipt_id (Optional): string or null. Receipt that owns
      * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
-     * previous_attributes.return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+     * previous_attributes.return_receipt_id.anyOf[1] (Value): string. Receipt that owns
      * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
      * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_id.anyOf[2] (Value):
      * null. previous_attributes.return_receipt_line_item_id (Optional): string or null. ID of the
@@ -2615,10 +1851,10 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * return_disposition_id.anyOf[2] (Value): null. return_id (Optional): string or null. ID
          * of the Return the disposition belongs to. return_id.anyOf[1] (Value): string. ID of the
          * Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_id.anyOf[2] (Value): null. return_inspection_id (Optional): string or null or
-         * null. Inspection that owns return_inspection_line_item_id. `null` when
-         * return_inspection_line_item_id is null. return_inspection_id.anyOf[1] (Value): string or
-         * null. Inspection that owns return_inspection_line_item_id. `null` when
+         * return_id.anyOf[2] (Value): null. return_inspection_id (Optional): string or null.
+         * Inspection that owns return_inspection_line_item_id. `null` when
+         * return_inspection_line_item_id is null. return_inspection_id.anyOf[1] (Value): string.
+         * Inspection that owns return_inspection_line_item_id. `null` when
          * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
          * return_inspection_id.anyOf[2] (Value): null. return_inspection_line_item_id (Optional):
          * string or null. ID of the inspection line the disposition covers. Absent when it covers
@@ -2628,9 +1864,9 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * null. return_line_item_id (Optional): string or null. ID of the Return line the units
          * belong to. return_line_item_id.anyOf[1] (Value): string. ID of the Return line the units
          * belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG". return_line_item_id.anyOf[2]
-         * (Value): null. return_receipt_id (Optional): string or null or null. Receipt that owns
+         * (Value): null. return_receipt_id (Optional): string or null. Receipt that owns
          * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
-         * return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+         * return_receipt_id.anyOf[1] (Value): string. Receipt that owns
          * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
          * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_id.anyOf[2] (Value): null.
          * return_receipt_line_item_id (Optional): string or null. ID of the receipt line the
@@ -2670,7 +1906,7 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              * Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@link
              * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the disposition was canceled. Value enum: "created_in_error",
              * "changed_disposition", "duplicate", "other". anyOf[1] (Value): string. Why the
@@ -2692,7 +1928,7 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              * Who created the disposition. anyOf[1] (Value): {@link
              * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "created_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "created_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What happens to the received units. Value enum: "sellable", "quality_control",
              * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
@@ -2760,7 +1996,7 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2818,11 +2054,11 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
             "return_id"?: ((string) | (null));
             /**
              * Inspection that owns return_inspection_line_item_id. `null` when
-             * return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection
-             * that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id
-             * is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             * return_inspection_line_item_id is null. anyOf[1] (Value): string. Inspection that
+             * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is
+             * null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
              */
-            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            "return_inspection_id"?: ((string) | (null));
             /**
              * ID of the inspection line the disposition covers. Absent when it covers a receipt
              * line. anyOf[1] (Value): string. ID of the inspection line the disposition covers.
@@ -2838,11 +2074,11 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
             "return_line_item_id"?: ((string) | (null));
             /**
              * Receipt that owns return_receipt_line_item_id. `null` when
-             * return_receipt_line_item_id is null. anyOf[1] (Value): string or null. Receipt that
-             * owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+             * return_receipt_line_item_id is null. anyOf[1] (Value): string. Receipt that owns
+             * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
              * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
              */
-            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            "return_receipt_id"?: ((string) | (null));
             /**
              * ID of the receipt line the disposition covers. Absent when it covers an inspection
              * line. anyOf[1] (Value): string. ID of the receipt line the disposition covers.
@@ -3429,57 +2665,57 @@ export type ReturnFinancialSummaryPreviousAttributes = {
      * Balances collected from the buyer. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "collected_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "collected_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Credits added by confirmed, non-canceled resolutions. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "credit_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "credit_adjustment_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Fees withheld by confirmed, non-canceled resolutions. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "deduction_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "deduction_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Balances the buyer owes on confirmed, non-canceled resolutions whose payment has not
      * succeeded. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "due_from_buyer_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "due_from_buyer_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Refund amounts on confirmed, non-canceled resolutions whose Refund has not succeeded.
      * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "due_to_buyer_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "due_to_buyer_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Refund amounts that succeeded. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Value of replacement merchandise on confirmed, non-canceled resolutions. anyOf[1] (Value):
      * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "replacement_total_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "replacement_total_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Sum of return_value.discount_money across the Return's line items. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "returned_discount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "returned_discount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Sum of return_value.subtotal_money across the Return's line items. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "returned_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "returned_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Sum of return_value.tax_money across the Return's line items. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "returned_tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "returned_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Sum of return_value.total_money across the Return's line items. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "returned_total_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "returned_total_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /**
  * Where the buyer sends returned merchandise: their own address, a merchant location, or an
@@ -3512,7 +2748,7 @@ export type ReturnHandoffDestinationPreviousAttributes = {
      * Postal address the buyer sends the merchandise to. anyOf[1] (Value): {@link
      * AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * What kind of place the destination is. Value enum: "buyer_address", "location",
      * "external_location". anyOf[1] (Value): string. What kind of place the destination is. Value
@@ -3591,7 +2827,7 @@ export type ReturnHandoffRequirementPreviousAttributes = {
      * Where the buyer sends the merchandise. anyOf[1] (Value): {@link
      * ReturnHandoffDestinationPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "destination"?: ((ReturnHandoffDestinationPreviousAttributes) | (null) | (unknown));
+    "destination"?: ((ReturnHandoffDestinationPreviousAttributes) | (null));
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3759,7 +2995,7 @@ export type ReturnInspectionAcceptanceDecidedEvent = ((((Exclude<MerchantWebhook
             "return_id"?: ((string) | (null));
             "return_inspection_id"?: ((string) | (null));
             "return_receipt_id"?: ((string) | (null));
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             "status"?: (("current" | "superseded" | (string & {})) | (null));
             "superseded_at"?: ((string) | (null));
             "superseded_by_return_inspection_id"?: ((string) | (null));
@@ -3822,7 +3058,7 @@ export type ReturnInspectionAcceptanceDecidedEvent = ((((Exclude<MerchantWebhook
             "return_id"?: ((string) | (null));
             "return_inspection_id"?: ((string) | (null));
             "return_receipt_id"?: ((string) | (null));
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             "status"?: (("current" | "superseded" | (string & {})) | (null));
             "superseded_at"?: ((string) | (null));
             "superseded_by_return_inspection_id"?: ((string) | (null));
@@ -3957,16 +3193,12 @@ export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<
      * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
      * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
-     * previous_attributes.source_system (Optional): ({@link ReturnSourceSystemPreviousAttributes}
-     * or null) or null. System that recorded the observation. `null` when no source system was
-     * recorded. previous_attributes.source_system.anyOf[1] (Value): ({@link
-     * ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null`
-     * when no source system was recorded. previous_attributes.source_system.anyOf[1].anyOf[1]
-     * (Value): {@link ReturnSourceSystemPreviousAttributes}.
-     * previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether this is the current observation of these units or a
-     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
      * of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
@@ -4174,23 +3406,20 @@ export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<
          * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
          * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
          * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): ({@link
-         * ReturnSourceSystemPreviousAttributes} or null) or null. System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1] (Value):
-         * ({@link ReturnSourceSystemPreviousAttributes} or null). System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1].anyOf[1]
-         * (Value): {@link ReturnSourceSystemPreviousAttributes}. source_system.anyOf[1].anyOf[2]
-         * (Value): null. source_system.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether this is the current observation of these units or a correction replaced it.
-         * Value enum: "current", "superseded". status.anyOf[1] (Value): string. Whether this is
-         * the current observation of these units or a correction replaced it. Value enum:
-         * "current", "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string
-         * or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value):
-         * null. superseded_by_return_inspection_id (Optional): string or null. ID of the
-         * inspection that corrected this one. Absent while it is current.
-         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
-         * corrected this one. Absent while it is current. Example:
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
          * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
          * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
          * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
@@ -4293,12 +3522,10 @@ export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<
             "return_receipt_id"?: ((string) | (null));
             /**
              * System that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1] (Value): ({@link ReturnSourceSystemPreviousAttributes} or null). System
-             * that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             /**
              * Whether this is the current observation of these units or a correction replaced it.
              * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
@@ -4490,16 +3717,12 @@ export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWe
      * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
      * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
-     * previous_attributes.source_system (Optional): ({@link ReturnSourceSystemPreviousAttributes}
-     * or null) or null. System that recorded the observation. `null` when no source system was
-     * recorded. previous_attributes.source_system.anyOf[1] (Value): ({@link
-     * ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null`
-     * when no source system was recorded. previous_attributes.source_system.anyOf[1].anyOf[1]
-     * (Value): {@link ReturnSourceSystemPreviousAttributes}.
-     * previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether this is the current observation of these units or a
-     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
      * of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
@@ -4707,23 +3930,20 @@ export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWe
          * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
          * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
          * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): ({@link
-         * ReturnSourceSystemPreviousAttributes} or null) or null. System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1] (Value):
-         * ({@link ReturnSourceSystemPreviousAttributes} or null). System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1].anyOf[1]
-         * (Value): {@link ReturnSourceSystemPreviousAttributes}. source_system.anyOf[1].anyOf[2]
-         * (Value): null. source_system.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether this is the current observation of these units or a correction replaced it.
-         * Value enum: "current", "superseded". status.anyOf[1] (Value): string. Whether this is
-         * the current observation of these units or a correction replaced it. Value enum:
-         * "current", "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string
-         * or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value):
-         * null. superseded_by_return_inspection_id (Optional): string or null. ID of the
-         * inspection that corrected this one. Absent while it is current.
-         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
-         * corrected this one. Absent while it is current. Example:
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
          * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
          * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
          * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
@@ -4826,12 +4046,10 @@ export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWe
             "return_receipt_id"?: ((string) | (null));
             /**
              * System that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1] (Value): ({@link ReturnSourceSystemPreviousAttributes} or null). System
-             * that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             /**
              * Whether this is the current observation of these units or a correction replaced it.
              * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
@@ -5449,7 +4667,7 @@ export type ReturnInspectionLineItemPreviousAttributes = {
      * Who made the acceptance decision. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "acceptance_decided_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+    "acceptance_decided_by"?: ((ReturnActorPreviousAttributes) | (null));
     /**
      * Why the units were accepted or rejected after review. Value enum: "inspection_result",
      * "return_policy", "manual_review", "other". anyOf[1] (Value): string. Why the units were
@@ -5526,11 +4744,10 @@ export type ReturnInspectionLineItemPreviousAttributes = {
     "quantity"?: ((number) | (null));
     /**
      * Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1]
-     * (Value): string or null. Return that owns return_line_item_id. `null` when
-     * return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value):
-     * null.
+     * (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is
+     * null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
      */
-    "return_id"?: ((string | null) | (null) | (unknown));
+    "return_id"?: ((string) | (null));
     /**
      * ID of the inspection the line belongs to. anyOf[1] (Value): string. ID of the inspection the
      * line belongs to. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
@@ -5773,12 +4990,9 @@ export type ReturnInspectionPreviousAttributes = {
     "return_receipt_id"?: ((string) | (null));
     /**
      * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
-     * (Value): ({@link ReturnSourceSystemPreviousAttributes} or null). System that recorded the
-     * observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@link
-     * ReturnSourceSystemPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value):
-     * null.
+     * (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
     /**
      * Whether this is the current observation of these units or a correction replaced it. Value
      * enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the current
@@ -5866,7 +5080,7 @@ export type ReturnInspectionSupersededEvent = ((((Exclude<MerchantWebhookEnvelop
             "return_id"?: ((string) | (null));
             "return_inspection_id"?: ((string) | (null));
             "return_receipt_id"?: ((string) | (null));
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             "status"?: (("current" | "superseded" | (string & {})) | (null));
             "superseded_at"?: ((string) | (null));
             "superseded_by_return_inspection_id"?: ((string) | (null));
@@ -5929,7 +5143,7 @@ export type ReturnInspectionSupersededEvent = ((((Exclude<MerchantWebhookEnvelop
             "return_id"?: ((string) | (null));
             "return_inspection_id"?: ((string) | (null));
             "return_receipt_id"?: ((string) | (null));
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             "status"?: (("current" | "superseded" | (string & {})) | (null));
             "superseded_at"?: ((string) | (null));
             "superseded_by_return_inspection_id"?: ((string) | (null));
@@ -6064,16 +5278,12 @@ export type ReturnInspectionSupersededInstalledMerchantsEvent = (Exclude<Partner
      * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
      * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
-     * previous_attributes.source_system (Optional): ({@link ReturnSourceSystemPreviousAttributes}
-     * or null) or null. System that recorded the observation. `null` when no source system was
-     * recorded. previous_attributes.source_system.anyOf[1] (Value): ({@link
-     * ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null`
-     * when no source system was recorded. previous_attributes.source_system.anyOf[1].anyOf[1]
-     * (Value): {@link ReturnSourceSystemPreviousAttributes}.
-     * previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether this is the current observation of these units or a
-     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
      * of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
@@ -6281,23 +5491,20 @@ export type ReturnInspectionSupersededInstalledMerchantsEvent = (Exclude<Partner
          * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
          * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
          * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): ({@link
-         * ReturnSourceSystemPreviousAttributes} or null) or null. System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1] (Value):
-         * ({@link ReturnSourceSystemPreviousAttributes} or null). System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1].anyOf[1]
-         * (Value): {@link ReturnSourceSystemPreviousAttributes}. source_system.anyOf[1].anyOf[2]
-         * (Value): null. source_system.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether this is the current observation of these units or a correction replaced it.
-         * Value enum: "current", "superseded". status.anyOf[1] (Value): string. Whether this is
-         * the current observation of these units or a correction replaced it. Value enum:
-         * "current", "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string
-         * or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value):
-         * null. superseded_by_return_inspection_id (Optional): string or null. ID of the
-         * inspection that corrected this one. Absent while it is current.
-         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
-         * corrected this one. Absent while it is current. Example:
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
          * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
          * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
          * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
@@ -6400,12 +5607,10 @@ export type ReturnInspectionSupersededInstalledMerchantsEvent = (Exclude<Partner
             "return_receipt_id"?: ((string) | (null));
             /**
              * System that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1] (Value): ({@link ReturnSourceSystemPreviousAttributes} or null). System
-             * that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             /**
              * Whether this is the current observation of these units or a correction replaced it.
              * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
@@ -6597,16 +5802,12 @@ export type ReturnInspectionSupersededMerchantEvent = (Exclude<MerchantWebhookEn
      * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
      * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
-     * previous_attributes.source_system (Optional): ({@link ReturnSourceSystemPreviousAttributes}
-     * or null) or null. System that recorded the observation. `null` when no source system was
-     * recorded. previous_attributes.source_system.anyOf[1] (Value): ({@link
-     * ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null`
-     * when no source system was recorded. previous_attributes.source_system.anyOf[1].anyOf[1]
-     * (Value): {@link ReturnSourceSystemPreviousAttributes}.
-     * previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether this is the current observation of these units or a
-     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
      * of these units or a correction replaced it. Value enum: "current", "superseded".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
@@ -6814,23 +6015,20 @@ export type ReturnInspectionSupersededMerchantEvent = (Exclude<MerchantWebhookEn
          * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
          * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
          * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): ({@link
-         * ReturnSourceSystemPreviousAttributes} or null) or null. System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1] (Value):
-         * ({@link ReturnSourceSystemPreviousAttributes} or null). System that recorded the
-         * observation. `null` when no source system was recorded. source_system.anyOf[1].anyOf[1]
-         * (Value): {@link ReturnSourceSystemPreviousAttributes}. source_system.anyOf[1].anyOf[2]
-         * (Value): null. source_system.anyOf[2] (Value): null. status (Optional): string or null.
-         * Whether this is the current observation of these units or a correction replaced it.
-         * Value enum: "current", "superseded". status.anyOf[1] (Value): string. Whether this is
-         * the current observation of these units or a correction replaced it. Value enum:
-         * "current", "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string
-         * or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value):
-         * null. superseded_by_return_inspection_id (Optional): string or null. ID of the
-         * inspection that corrected this one. Absent while it is current.
-         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
-         * corrected this one. Absent while it is current. Example:
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
          * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
          * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
          * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
@@ -6933,12 +6131,10 @@ export type ReturnInspectionSupersededMerchantEvent = (Exclude<MerchantWebhookEn
             "return_receipt_id"?: ((string) | (null));
             /**
              * System that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1] (Value): ({@link ReturnSourceSystemPreviousAttributes} or null). System
-             * that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "source_system"?: (((((ReturnSourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
             /**
              * Whether this is the current observation of these units or a correction replaced it.
              * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
@@ -8013,7 +7209,7 @@ export type ReturnLineItemEligibilityPreviousAttributes = {
      * anyOf[1] (Value): {@link ReturnLineItemDecisionProposalPreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "decision_proposal"?: ((ReturnLineItemDecisionProposalPreviousAttributes) | (null) | (unknown));
+    "decision_proposal"?: ((ReturnLineItemDecisionProposalPreviousAttributes) | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
      * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
@@ -8095,12 +7291,12 @@ export type ReturnLineItemEligibilityPreviousAttributes = {
     /**
      * Who pays return shipping under the policy. Null when the line is not eligible, requires no
      * merchandise return, or the policy does not specify a payer. This field does not promise a
-     * prepaid label. Value enum: "merchant", "buyer", null. anyOf[1] (Value): string or null. Who
-     * pays return shipping under the policy. Null when the line is not eligible, requires no
+     * prepaid label. Value enum: "merchant", "buyer", null. anyOf[1] (Value): string. Who pays
+     * return shipping under the policy. Null when the line is not eligible, requires no
      * merchandise return, or the policy does not specify a payer. This field does not promise a
      * prepaid label. Value enum: "merchant", "buyer", null. anyOf[2] (Value): null.
      */
-    "return_shipping_payer"?: (("merchant" | "buyer" | null | (string & {}) | null) | (null) | (unknown));
+    "return_shipping_payer"?: (("merchant" | "buyer" | null | (string & {})) | (null));
     /**
      * Whether the policy lets the buyer return this. `review_required` means the merchant decides.
      * Value enum: "eligible", "ineligible", "review_required". anyOf[1] (Value): string. Whether
@@ -8183,7 +7379,7 @@ export type ReturnLineItemPreviousAttributes = {
      * Who recorded the decision on this line. anyOf[1] (Value): {@link
      * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "decided_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+    "decided_by"?: ((ReturnActorPreviousAttributes) | (null));
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -8231,15 +7427,13 @@ export type ReturnLineItemPreviousAttributes = {
      * revision it used. anyOf[1] (Value): {@link ReturnLineItemEligibilityPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "eligibility"?: ((ReturnLineItemEligibilityPreviousAttributes) | (null) | (unknown));
+    "eligibility"?: ((ReturnLineItemEligibilityPreviousAttributes) | (null));
     /**
      * Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there
-     * is no related fulfillment. anyOf[1] (Value): ({@link FulfillmentPreviousAttributes} or
-     * null). Present only when `expand` includes `line_items.fulfillment`; `null` when expanded
-     * and there is no related fulfillment. anyOf[1].anyOf[1] (Value): {@link
-     * FulfillmentPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * is no related fulfillment. anyOf[1] (Value): {@link FulfillmentPreviousAttributes}. anyOf[2]
+     * (Value): null.
      */
-    "fulfillment"?: (((((FulfillmentPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "fulfillment"?: ((FulfillmentPreviousAttributes) | (null));
     /**
      * ID of the fulfillment the units were delivered in. anyOf[1] (Value): string. ID of the
      * fulfillment the units were delivered in. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
@@ -8257,7 +7451,7 @@ export type ReturnLineItemPreviousAttributes = {
      * Image of the item as sold. anyOf[1] (Value): {@link ImagePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "image"?: ((ImagePreviousAttributes) | (null) | (unknown));
+    "image"?: ((ImagePreviousAttributes) | (null));
     /**
      * Units that have been inspected. Whole-number quantity; fractional quantities are not
      * supported. anyOf[1] (Value): integer. Units that have been inspected. Whole-number quantity;
@@ -8273,7 +7467,7 @@ export type ReturnLineItemPreviousAttributes = {
      * Who waived inspection for this line. anyOf[1] (Value): {@link
      * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "inspection_waived_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+    "inspection_waived_by"?: ((ReturnActorPreviousAttributes) | (null));
     /**
      * Why inspection was waived for this line. Value enum: "policy_override",
      * "trusted_in_store_handoff", "merchant_review", "other". anyOf[1] (Value): string. Why
@@ -8350,7 +7544,7 @@ export type ReturnLineItemPreviousAttributes = {
      * Who recorded the override. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "overridden_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+    "overridden_by"?: ((ReturnActorPreviousAttributes) | (null));
     /**
      * Why the decision overrode the pinned return policy's proposal. Value enum:
      * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
@@ -8453,12 +7647,10 @@ export type ReturnLineItemPreviousAttributes = {
     "return_line_item_id"?: ((string) | (null));
     /**
      * Present only when `expand` includes `line_items.return_reason`; `null` when expanded and
-     * there is no related return reason. anyOf[1] (Value): ({@link ReturnReasonPreviousAttributes}
-     * or null). Present only when `expand` includes `line_items.return_reason`; `null` when
-     * expanded and there is no related return reason. anyOf[1].anyOf[1] (Value): {@link
-     * ReturnReasonPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * there is no related return reason. anyOf[1] (Value): {@link ReturnReasonPreviousAttributes}.
+     * anyOf[2] (Value): null.
      */
-    "return_reason"?: (((((ReturnReasonPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "return_reason"?: ((ReturnReasonPreviousAttributes) | (null));
     /**
      * Handle of the chosen reason, captured when the line is created or its reason changes. Later
      * renames, deactivation or archiving don't change it. anyOf[1] (Value): string. Handle of the
@@ -8499,7 +7691,7 @@ export type ReturnLineItemPreviousAttributes = {
      * less what was already refunded or returned. anyOf[1] (Value): {@link
      * ReturnLineItemValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "return_value"?: ((ReturnLineItemValuePreviousAttributes) | (null) | (unknown));
+    "return_value"?: ((ReturnLineItemValuePreviousAttributes) | (null));
     /**
      * Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional
      * quantities are not supported. anyOf[1] (Value): integer. Inspected units still waiting for
@@ -8649,30 +7841,105 @@ export type ReturnLineItemValuePreviousAttributes = {
      * Discount on the returned units. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "discount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Subtotal of the returned units, before discount and tax. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Tax on the returned units. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Subtotal minus discount, plus tax. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "total_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Price of one returned unit. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 export type ReturnPoliciesCreateParams = (InputValue<CreateReturnPolicyRequestInput>)
     & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnPoliciesCreateRevisionParams = (InputValue<PublishReturnPolicyRevisionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnPoliciesDeleteParams = {
+    /**
+     * Optional. The policy's current version. If it changed, the archive fails with 409
+     * VERSION_CONFLICT and nothing changes. Format: int64. minimum: 1. maximum: 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnPoliciesGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: current_revision. Expanded
+     * relationships are returned only when explicitly requested and authorized. Limits: at most 10
+     * unique expand paths per request. [] enum: "current_revision". Value enum:
+     * "current_revision". anyOf[1] (Value): Array of string. [] enum: "current_revision".
+     * anyOf[1][] (Value): string. Value enum: "current_revision". anyOf[2] (Value): string. Value
+     * enum: "current_revision".
+     */
+    "expand"?: InputValue<("current_revision") | readonly ("current_revision")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

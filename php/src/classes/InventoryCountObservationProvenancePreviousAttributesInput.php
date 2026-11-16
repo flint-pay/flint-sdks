@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read string|null $external_actor_id
  * @property-read string|\DateTimeInterface|null $occurred_at
- * @property-read InventorySourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $source_system
+ * @property-read InventorySourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $source_system
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountObservationProvenancePreviousAttributesInput extends Model {
-    /** @param array{'external_actor_id'?: string|null, 'occurred_at'?: string|\DateTimeInterface|null, 'source_system'?: InventorySourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, ...}|object $values */
+    /** @param array{'external_actor_id'?: string|null, 'occurred_at'?: string|\DateTimeInterface|null, 'source_system'?: InventorySourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountObservationProvenancePreviousAttributesInput')); }
     /** Your identifier for the actor who recorded the event. Don't put secrets in this field. anyOf[1] (Value): string. Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
      * @return string|null
@@ -21,8 +21,8 @@ final class InventoryCountObservationProvenancePreviousAttributesInput extends M
      */
     public function getOccurredAt(): mixed { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): ({@see InventorySourceSystemPreviousAttributesInput} or null). System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1].anyOf[1] (Value): {@see InventorySourceSystemPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return InventorySourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystemPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return InventorySourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */
     public function getSourceSystem(): mixed { return $this->get('source_system'); }

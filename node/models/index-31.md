@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# RefundLineItemAutomaticRefundPreviousAttributes to ReturnCompletedInstalledMerchantsEvent
+# RefundListResponse to ReturnCompletionBlockerPreviousAttributes
 
-- [RefundLineItemAutomaticRefundPreviousAttributes](RefundLineItemAutomaticRefundPreviousAttributes.md)
-- [RefundLineItemModifierAllocation](RefundLineItemModifierAllocation.md)
-- [RefundLineItemModifierAllocationPreviousAttributes](RefundLineItemModifierAllocationPreviousAttributes.md)
 - [RefundListResponse](RefundListResponse.md)
 - [RefundPartiallySucceededInstalledMerchantsEvent](RefundPartiallySucceededInstalledMerchantsEvent.md)
 - [RefundPartiallySucceededMerchantEvent](RefundPartiallySucceededMerchantEvent.md)
@@ -102,4 +99,7 @@
 - [ReturnCanceledInstalledMerchantsEvent](ReturnCanceledInstalledMerchantsEvent.md)
 - [ReturnCanceledMerchantEvent](ReturnCanceledMerchantEvent.md)
 - [ReturnCompletedInstalledMerchantsEvent](ReturnCompletedInstalledMerchantsEvent.md)
+- [ReturnCompletedMerchantEvent](ReturnCompletedMerchantEvent.md)
+- [ReturnCompletionBlocker](ReturnCompletionBlocker.md)
+- [ReturnCompletionBlockerPreviousAttributes](ReturnCompletionBlockerPreviousAttributes.md)
 

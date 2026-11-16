@@ -37,27 +37,7 @@ import type { LegalSettings } from './types-38.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-54.js';
 import type { ThemeConfig, ThemeConfigRequestInput, TaxIdentityPatch, TaxIdentityRequestInput } from './types-72.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
-/**
- * A context the CLI is authorized to use: a sandbox or live account, with its ID, merchant ID, and
- * name.
- */
-export type ContextSummary = ({
-    /**
-     * Deprecated: use mode. sandbox corresponds to test, and live corresponds to live. Value enum:
-     * "sandbox", "live".
-     */
-    "environment": "sandbox" | "live" | (string & {});
-    /** ID of the context. Name it as `context_id` when you refresh a token. */
-    "id": string;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /** Whether this context uses test or live data. Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /** Name of the context. */
-    "name": string;
-    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
-    "sandbox_id"?: string;
-});
+import type { CustomerTaxExemptionCoverage } from './types-16.js';
 /** The request body for: Create an API key. */
 export type CreateAPIKeyRequest = ({
     /**
@@ -5195,3 +5175,66 @@ export type CreateCustomerSessionRequest = {
 };
 /** The request body for: Create a customer session. */
 export type CreateCustomerSessionRequestInput = CreateCustomerSessionRequest;
+/** The request body for: Create a customer tax exemption. */
+export type CreateCustomerTaxExemptionRequest = {
+    /**
+     * Merchant's exemption certificate number. Null when none is recorded. minLength: 1.
+     * maxLength: 255.
+     */
+    "certificate_number"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Replaced as a whole: send every
+     * field you want to keep. Covers all US states or an explicit list of US states and DC.
+     */
+    "coverage": CustomerTaxExemptionCoverage;
+    /**
+     * Explanation of the exemption. Required for other. Null when none is recorded. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string | null;
+    /**
+     * Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no
+     * end date. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "end_date"?: string | null;
+    /**
+     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
+     * buyer documents. Null when none is recorded. minLength: 1. maxLength: 1024.
+     */
+    "evidence_reference"?: string | null;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Exemption reason. Other requires a description. Value enum: "federal_government",
+     * "state_or_local_government", "tribal_government", "foreign_diplomat",
+     * "charitable_organization", "religious_organization", "educational_organization", "resale",
+     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
+     * "other".
+     */
+    "reason": "federal_government"
+        | "state_or_local_government"
+        | "tribal_government"
+        | "foreign_diplomat"
+        | "charitable_organization"
+        | "religious_organization"
+        | "educational_organization"
+        | "resale"
+        | "agricultural_production"
+        | "industrial_production"
+        | "direct_pay_permit"
+        | "direct_mail"
+        | "other"
+        | (string & {});
+    /**
+     * First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the
+     * future. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "start_date": string;
+};

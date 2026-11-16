@@ -2,26 +2,26 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read bool|null $can_respond_with_evidence
  * @property-read string|null $case_type
  * @property-read string|null $created_at
- * @property-read mixed $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $dispute_id
- * @property-read mixed $evidence_due_at
+ * @property-read string|null $evidence_due_at
  * @property-read int|null $evidence_submission_count
  * @property-read string|null $fraud_warning_id
  * @property-read bool|null $has_evidence
  * @property-read bool|null $is_action_required
  * @property-read bool|null $is_evidence_deadline_passed
  * @property-read string|null $merchant_id
- * @property-read mixed $network_reason_code
- * @property-read mixed $order
+ * @property-read string|null $network_reason_code
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
- * @property-read mixed $payment_intent
+ * @property-read ExpandedPaymentIntentSummaryPreviousAttributes|null $payment_intent
  * @property-read string|null $payment_intent_id
- * @property-read mixed $payment_option
+ * @property-read string|null $payment_option
  * @property-read string|null $reason
  * @property-read list<string>|null $recommended_evidence_types
  * @property-read string|null $response_unavailable_reason
@@ -35,9 +35,9 @@ final class DisputeWonMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'can_respond_with_evidence'?: mixed, 'case_type'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'dispute_id'?: mixed, 'evidence_due_at'?: mixed, 'evidence_submission_count'?: mixed, 'fraud_warning_id'?: mixed, 'has_evidence'?: mixed, 'is_action_required'?: mixed, 'is_evidence_deadline_passed'?: mixed, 'merchant_id'?: mixed, 'network_reason_code'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_option'?: mixed, 'reason'?: mixed, 'recommended_evidence_types'?: mixed, 'response_unavailable_reason'?: mixed, 'split_reversals'?: mixed, 'status'?: mixed, 'status_changed_at'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputeWonMerchantEventDataPreviousAttributes')); }
     /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. anyOf[1] (Value): boolean. Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. anyOf[2] (Value): null.
      * @return bool|null
@@ -54,10 +54,10 @@ final class DisputeWonMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributes|null
      */
-    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function getCustomer(): ExpandedCustomerSummaryPreviousAttributes|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
     /** The customer on the disputed payment. Absent when the payment has none. anyOf[1] (Value): string. The customer on the disputed payment. Absent when the payment has none. anyOf[2] (Value): null.
      * @return string|null
@@ -69,10 +69,10 @@ final class DisputeWonMerchantEventDataPreviousAttributes extends Model {
      */
     public function getDisputeId(): string|null { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getEvidenceDueAt(): mixed { return $this->get('evidence_due_at'); }
+    public function getEvidenceDueAt(): string|null { return $this->get('evidence_due_at'); }
     public function hasEvidenceDueAt(): bool { return $this->has('evidence_due_at'); }
     /** How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1] (Value): integer. How many times evidence was submitted for this dispute. 0 until you submit. Format: int32. anyOf[2] (Value): null.
      * @return int|null
@@ -104,35 +104,35 @@ final class DisputeWonMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
-     * @return mixed
+    /** Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getNetworkReasonCode(): mixed { return $this->get('network_reason_code'); }
+    public function getNetworkReasonCode(): string|null { return $this->get('network_reason_code'); }
     public function hasNetworkReasonCode(): bool { return $this->has('network_reason_code'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** ID of the order the disputed payment was for. Absent when Flint can't link the dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment was for. Absent when Flint can't link the dispute to an order. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedPaymentIntentSummaryPreviousAttributes|null
      */
-    public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
+    public function getPaymentIntent(): ExpandedPaymentIntentSummaryPreviousAttributes|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
     /** ID of the payment intent that took the disputed payment. Absent when Flint can't link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment intent that took the disputed payment. Absent when Flint can't link the dispute to a payment intent. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getPaymentOption(): mixed { return $this->get('payment_option'); }
+    public function getPaymentOption(): string|null { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
     /** Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1] (Value): string. Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[2] (Value): null.
      * @return string|null

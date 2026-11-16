@@ -8,10 +8,10 @@ namespace Flint;
  * @property-read string|null $customer_id
  * @property-read list<DeferredPromotionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $deferred_promotions
  * @property-read string|null $fulfillment_status
- * @property-read string|null|null $governing_delivery_selection_id
+ * @property-read string|null $governing_delivery_selection_id
  * @property-read string|null $order_id
  * @property-read string|null $order_number
- * @property-read string|\DateTimeInterface|null|null $paid_at
+ * @property-read string|\DateTimeInterface|null $paid_at
  * @property-read list<string>|null $payment_intent_ids
  * @property-read string|null $payment_status
  * @property-read PricingAmountsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $pricing_amounts
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerExpandedOrderSummaryPreviousAttributesInput extends Model {
-    /** @param array{'closed_at'?: string|\DateTimeInterface|null, 'closed_reason'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'customer_id'?: string|null, 'deferred_promotions'?: list<DeferredPromotionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'fulfillment_status'?: string|null, 'governing_delivery_selection_id'?: string|null|null, 'order_id'?: string|null, 'order_number'?: string|null, 'paid_at'?: string|\DateTimeInterface|null|null, 'payment_intent_ids'?: list<string>|null, 'payment_status'?: string|null, 'pricing_amounts'?: PricingAmountsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refund_status'?: string|null, 'settlement_amounts'?: OrderSettlementAmountsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'closed_at'?: string|\DateTimeInterface|null, 'closed_reason'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'customer_id'?: string|null, 'deferred_promotions'?: list<DeferredPromotionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'fulfillment_status'?: string|null, 'governing_delivery_selection_id'?: string|null, 'order_id'?: string|null, 'order_number'?: string|null, 'paid_at'?: string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>|null, 'payment_status'?: string|null, 'pricing_amounts'?: PricingAmountsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refund_status'?: string|null, 'settlement_amounts'?: OrderSettlementAmountsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedOrderSummaryPreviousAttributesInput')); }
     /** When the order closed. Present exactly when status is closed. Set once at the transition and never changed. anyOf[1] (Value): string. When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
@@ -59,8 +59,8 @@ final class BuyerExpandedOrderSummaryPreviousAttributesInput extends Model {
      */
     public function getFulfillmentStatus(): mixed { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
-    /** ID of the delivery selection that governs this order. Null when no selection governs the order. anyOf[1] (Value): string or null. ID of the delivery selection that governs this order. Null when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** ID of the delivery selection that governs this order. Null when no selection governs the order. anyOf[1] (Value): string. ID of the delivery selection that governs this order. Null when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When governing_delivery_selection_id is omitted; use hasGoverningDeliverySelectionId() or valueOrDefault().
      */
     public function getGoverningDeliverySelectionId(): mixed { return $this->get('governing_delivery_selection_id'); }
@@ -77,8 +77,8 @@ final class BuyerExpandedOrderSummaryPreviousAttributesInput extends Model {
      */
     public function getOrderNumber(): mixed { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. anyOf[1] (Value): string or null. When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When paid_at is omitted; use hasPaidAt() or valueOrDefault().
      */
     public function getPaidAt(): mixed { return $this->get('paid_at'); }

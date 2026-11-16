@@ -11,7 +11,7 @@ Response model.
 | `correction_reason` | Optional | string or null | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. `correction_reason`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributescorrection_reason). |
 | `correction_reason_message` | Optional | string or null | Detail about `correction_reason`. `correction_reason_message`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributescorrection_reason_message). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesexternal_actor_id). |
+| `external_actor_id` | Optional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributesexternal_actor_id). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `generated_dispositions` | Optional | Array of [ReturnDispositionPreviousAttributes](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributes) or null | Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. `generated_dispositions`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions). |
 | `inspected_at` | Optional | string or null | RFC3339 timestamp. `inspected_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
@@ -20,7 +20,7 @@ Response model.
 | `return_id` | Optional | string or null | ID of the Return the goods belong to. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesreturn_id). |
 | `return_inspection_id` | Optional | string or null | Unique identifier for this return inspection, prefixed `retins_`. `return_inspection_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesreturn_inspection_id). |
 | `return_receipt_id` | Optional | string or null | ID of the receipt being inspected. `return_receipt_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesreturn_receipt_id). |
-| `source_system` | Optional | Alternative shapes (see declared variants) or null | System that recorded the observation. `null` when no source system was recorded. `source_system`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system). |
+| `source_system` | Optional | [ReturnSourceSystemPreviousAttributes](../models/ReturnSourceSystemPreviousAttributes.md#returnsourcesystempreviousattributes) or null | System that recorded the observation. `null` when no source system was recorded. `source_system`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system). |
 | `status` | Optional | string or null | Whether this is the current observation of these units or a correction replaced it. Values: `"current"`, `"superseded"`. `status`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesstatus). |
 | `superseded_at` | Optional | string or null | RFC3339 timestamp. `superseded_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `superseded_by_return_inspection_id` | Optional | string or null | ID of the inspection that corrected this one. Absent while it is current. `superseded_by_return_inspection_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessuperseded_by_return_inspection_id). |
@@ -62,17 +62,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnInspectionPreviousAttributes.external_actor_id
 
-### ReturnInspectionPreviousAttributes.external_actor_id variant 1
-
-anyOf variant 1: Your identifier for the actor who recorded the event. Don't put secrets in this field..
-
-- Value shape: string. Your identifier for the actor who recorded the event. Don't put secrets in this field. Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: `255`. 
-
-### ReturnInspectionPreviousAttributes.external_actor_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Your identifier for the actor who recorded the event. Don't put secrets in this field. 
+Declared alternatives: [InventoryCountObservationProvenancePreviousAttributes.external_actor_id](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributesexternal_actor_id).
 
 ### ReturnInspectionPreviousAttributes.external_reference_id
 
@@ -97,11 +87,11 @@ anyOf variant 2.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `canceled_at` | Optional | string or null | RFC3339 timestamp. `canceled_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `canceled_by` | Optional | Alternative shapes (see declared variants) | Who canceled the disposition. Merchant reads only. `canceled_by`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescanceled_by). |
+| `canceled_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who canceled the disposition. Merchant reads only. `canceled_by`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescanceled_by). |
 | `cancellation_reason` | Optional | string or null | Why the disposition was canceled. Values: `"created_in_error"`, `"changed_disposition"`, `"duplicate"`, `"other"`. `cancellation_reason`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescancellation_reason). |
 | `cancellation_reason_message` | Optional | string or null | Detail sent with the cancellation. Merchant reads only. `cancellation_reason_message`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescancellation_reason_message). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `created_by` | Optional | Alternative shapes (see declared variants) | Who created the disposition. `created_by`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescreated_by). |
+| `created_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who created the disposition. `created_by`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributescreated_by). |
 | `disposition_type` | Optional | string or null | What happens to the received units. Values: `"sellable"`, `"quality_control"`, `"damaged"`, `"quarantined"`, `"repair"`, `"refurbish"`, `"liquidate"`, `"donate"`, `"discard"`, `"return_to_buyer"`, `"lost"`. `disposition_type`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesdisposition_type). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1external_reference_id). |
 | `failure_code` | Optional | string or null | Reason code for a failed merchandise disposition, when available. Values: `"inventory_effect_failed"`, `"inventory_item_unmapped"`. `failure_code`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesfailure_code). |
@@ -118,10 +108,10 @@ anyOf variant 2.
 | `replaces_return_disposition_id` | Optional | string or null | ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity. `replaces_return_disposition_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1replaces_return_disposition_id). |
 | `return_disposition_id` | Optional | string or null | Unique identifier for this return disposition, prefixed `retdsp_`. `return_disposition_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_disposition_id). |
 | `return_id` | Optional | string or null | ID of the Return the disposition belongs to. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_id). |
-| `return_inspection_id` | Optional | string or null or null | Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. `return_inspection_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_inspection_id). |
+| `return_inspection_id` | Optional | string or null | Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. `return_inspection_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_inspection_id). |
 | `return_inspection_line_item_id` | Optional | string or null | ID of the inspection line the disposition covers. Absent when it covers a receipt line. `return_inspection_line_item_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_inspection_line_item_id). |
 | `return_line_item_id` | Optional | string or null | ID of the Return line the units belong to. `return_line_item_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_line_item_id). |
-| `return_receipt_id` | Optional | string or null or null | Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. `return_receipt_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_receipt_id). |
+| `return_receipt_id` | Optional | string or null | Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. `return_receipt_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_receipt_id). |
 | `return_receipt_line_item_id` | Optional | string or null | ID of the receipt line the disposition covers. Absent when it covers an inspection line. `return_receipt_line_item_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions-variant-1-fields-1return_receipt_line_item_id). |
 | `status` | Optional | string or null | Whether inventory has applied the disposition. Values: `"pending"`, `"succeeded"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Actions that can succeed now. Empty unless the parent Return is open. cancel is listed only before the inventory effect starts. Items values: `"cancel"`, `"retry"`. `supported_actions`: [declared alternatives](../models/ReturnDispositionPreviousAttributes.md#returndispositionpreviousattributessupported_actions). |
@@ -292,7 +282,7 @@ anyOf variant 2.
 
 anyOf variant 1: Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null..
 
-- Value shape: (string or null). Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: `"retins_01KEZF7C00WPB0BR4WTT7CMSB8"`. 
+- Value shape: string. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: `"retins_01KEZF7C00WPB0BR4WTT7CMSB8"`. 
 
 ### ReturnInspectionPreviousAttributes.generated_dispositions variant 1.[] fields 1.return_inspection_id variant 2
 
@@ -334,7 +324,7 @@ anyOf variant 2.
 
 anyOf variant 1: Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null..
 
-- Value shape: (string or null). Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
+- Value shape: string. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
 
 ### ReturnInspectionPreviousAttributes.generated_dispositions variant 1.[] fields 1.return_receipt_id variant 2
 
@@ -409,7 +399,7 @@ anyOf variant 2.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `acceptance_decided_at` | Optional | string or null | RFC3339 timestamp. `acceptance_decided_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `acceptance_decided_by` | Optional | Alternative shapes (see declared variants) | Who made the acceptance decision. `acceptance_decided_by`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesacceptance_decided_by). |
+| `acceptance_decided_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who made the acceptance decision. `acceptance_decided_by`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesacceptance_decided_by). |
 | `acceptance_decision_reason` | Optional | string or null | Why the units were accepted or rejected after review. Values: `"inspection_result"`, `"return_policy"`, `"manual_review"`, `"other"`. `acceptance_decision_reason`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesacceptance_decision_reason). |
 | `acceptance_decision_reason_message` | Optional | string or null | Detail about `acceptance_decision_reason`. `acceptance_decision_reason_message`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesacceptance_decision_reason_message). |
 | `acceptance_status` | Optional | string or null | Whether the inspected units were accepted, rejected, or need a merchant's decision. Values: `"accepted"`, `"rejected"`, `"review_required"`. `acceptance_status`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesacceptance_status). |
@@ -418,7 +408,7 @@ anyOf variant 2.
 | `finding_codes` | Optional | Array of string or null | What the inspection found. Up to 50 values, none repeated. Items values: `"matches_expected_item"`, `"wrong_item"`, `"damaged"`, `"defective"`, `"used"`, `"missing_parts"`, `"empty_package"`, `"counterfeit_suspected"`, `"other"`. `finding_codes`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesfinding_codes). |
 | `internal_note` | Optional | string or null | Note for your own team about this line. `internal_note`: [declared alternatives](../models/ReturnInspectionLineItemPreviousAttributes.md#returninspectionlineitempreviousattributesinternal_note). |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
-| `return_id` | Optional | string or null or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_id). |
+| `return_id` | Optional | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. `return_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_id). |
 | `return_inspection_id` | Optional | string or null | ID of the inspection the line belongs to. `return_inspection_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_inspection_id). |
 | `return_inspection_line_item_id` | Optional | string or null | Unique identifier for this return inspection line item, prefixed `retinli_`. `return_inspection_line_item_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_inspection_line_item_id). |
 | `return_line_item_id` | Optional | string or null | ID of the Return line inspected. `return_line_item_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesline_items-variant-1-fields-1return_line_item_id). |
@@ -472,7 +462,7 @@ Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous
 
 anyOf variant 1: Return that owns return_line_item_id. `null` when return_line_item_id is null..
 
-- Value shape: (string or null). Return that owns return_line_item_id. `null` when return_line_item_id is null. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. 
+- Value shape: string. Return that owns return_line_item_id. `null` when return_line_item_id is null. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. 
 
 ### ReturnInspectionPreviousAttributes.line_items variant 1.[] fields 1.return_id variant 2
 
@@ -603,17 +593,17 @@ System that recorded the observation. `null` when no source system was recorded.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `external_source_id` | Conditional | string or null | Your source system's identifier. Required when source_system_type is pos, wms, erp, or other; not allowed when source_system_type is manual. Don't put secrets in this field. `external_source_id`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system-variant-1external_source_id). |
-| `source_system_type` | Conditional | string or null | Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. `source_system_type`: [declared alternatives](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributessource_system-variant-1source_system_type). |
+| `source_system_type` | Conditional | string or null | Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. `source_system_type`: [declared alternatives](../models/ReturnSourceSystemPreviousAttributes.md#returnsourcesystempreviousattributessource_system_type). |
 
 ### ReturnInspectionPreviousAttributes.source_system variant 1
 
-anyOf variant 1: System that recorded the observation. `null` when no source system was recorded.; anyOf ReturnSourceSystemPreviousAttributes.
+anyOf ReturnSourceSystemPreviousAttributes.
 
 - Optional: `external_source_id`, `source_system_type`.
 
-### ReturnInspectionPreviousAttributes.source_system variant 2, 3
+### ReturnInspectionPreviousAttributes.source_system variant 2
 
-anyOf variant 1: System that recorded the observation. `null` when no source system was recorded.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `external_source_id`, `source_system_type`.
 - Value shape: null. System that recorded the observation. `null` when no source system was recorded. 
@@ -634,17 +624,7 @@ anyOf variant 2.
 
 ### ReturnInspectionPreviousAttributes.source_system variant 1.source_system_type
 
-### ReturnInspectionPreviousAttributes.source_system variant 1.source_system_type variant 1
-
-anyOf variant 1: Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses..
-
-- Value shape: string. Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`.
-
-### ReturnInspectionPreviousAttributes.source_system variant 1.source_system_type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. 
+Declared alternatives: [ReturnSourceSystemPreviousAttributes.source_system_type](../models/ReturnSourceSystemPreviousAttributes.md#returnsourcesystempreviousattributessource_system_type).
 
 ### ReturnInspectionPreviousAttributes.status
 

@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read int|null $available_disposition_quantity
  * @property-read int|null $quantity
- * @property-read string|null|null $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_line_item_id
  * @property-read string|null $return_receipt_id
  * @property-read string|null $return_receipt_line_item_id
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $verified_by
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptLineItemPreviousAttributesInput extends Model {
-    /** @param array{'available_disposition_quantity'?: int|null, 'quantity'?: int|null, 'return_id'?: string|null|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_receipt_line_item_id'?: string|null, 'supported_actions'?: list<string>|null, 'unverified_item'?: ReturnUnverifiedItemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'verification_reason'?: string|null, 'verification_reason_message'?: string|null, 'verification_status'?: string|null, 'verified_at'?: string|\DateTimeInterface|null, 'verified_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
+    /** @param array{'available_disposition_quantity'?: int|null, 'quantity'?: int|null, 'return_id'?: string|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_receipt_line_item_id'?: string|null, 'supported_actions'?: list<string>|null, 'unverified_item'?: ReturnUnverifiedItemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'verification_reason'?: string|null, 'verification_reason_message'?: string|null, 'verification_status'?: string|null, 'verified_at'?: string|\DateTimeInterface|null, 'verified_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptLineItemPreviousAttributesInput')); }
     /** Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
      * @return int|null
@@ -31,8 +31,8 @@ final class ReturnReceiptLineItemPreviousAttributesInput extends Model {
      */
     public function getQuantity(): mixed { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): mixed { return $this->get('return_id'); }

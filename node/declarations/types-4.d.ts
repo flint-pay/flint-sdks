@@ -24,7 +24,7 @@ import type { PaymentErrorSummary, PayOrderResponse } from './types-49.js';
 import type { OrderLineItemTax } from './types-45.js';
 import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
 import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-73.js';
-import type { ContextSummary } from './types-8.js';
+import type { ContextSummary } from './types-7.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-24.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { Order } from './types-43.js';

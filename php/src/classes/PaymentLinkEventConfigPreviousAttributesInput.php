@@ -4,14 +4,14 @@ namespace Flint;
 /**
  * @property-read bool|null $collect_attendee_names
  * @property-read string|\DateTimeInterface|null $event_at
- * @property-read int|null|null $max_total_quantity
+ * @property-read int|null $max_total_quantity
  * @property-read bool|null $send_ticket_emails
  * @property-read string|null $ticket_prefix
  * @property-read string|null $timezone
  * @property-read string|null $venue
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkEventConfigPreviousAttributesInput extends Model {
-    /** @param array{'collect_attendee_names'?: bool|null, 'event_at'?: string|\DateTimeInterface|null, 'max_total_quantity'?: int|null|null, 'send_ticket_emails'?: bool|null, 'ticket_prefix'?: string|null, 'timezone'?: string|null, 'venue'?: string|null, ...}|object $values */
+    /** @param array{'collect_attendee_names'?: bool|null, 'event_at'?: string|\DateTimeInterface|null, 'max_total_quantity'?: int|null, 'send_ticket_emails'?: bool|null, 'ticket_prefix'?: string|null, 'timezone'?: string|null, 'venue'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkEventConfigPreviousAttributesInput')); }
     /** Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false. anyOf[1] (Value): boolean. Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false. anyOf[2] (Value): null.
      * @return bool|null
@@ -25,8 +25,8 @@ final class PaymentLinkEventConfigPreviousAttributesInput extends Model {
      */
     public function getEventAt(): mixed { return $this->get('event_at'); }
     public function hasEventAt(): bool { return $this->has('event_at'); }
-    /** Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer or null. Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2] (Value): null.
-     * @return int|null|null
+    /** Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2] (Value): null.
+     * @return int|null
      * @throws SdkError When max_total_quantity is omitted; use hasMaxTotalQuantity() or valueOrDefault().
      */
     public function getMaxTotalQuantity(): mixed { return $this->get('max_total_quantity'); }

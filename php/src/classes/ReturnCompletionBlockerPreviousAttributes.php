@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string|null $code
  * @property-read string|null $message
- * @property-read mixed $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_line_item_id
  * @property-read string|null $return_receipt_id
  * @property-read string|null $return_resolution_id
@@ -22,10 +22,10 @@ final class ReturnCompletionBlockerPreviousAttributes extends Model {
      */
     public function getMessage(): string|null { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReturnId(): mixed { return $this->get('return_id'); }
+    public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the entry is about. anyOf[1] (Value): string. ID of the Return line the entry is about. anyOf[2] (Value): null.
      * @return string|null

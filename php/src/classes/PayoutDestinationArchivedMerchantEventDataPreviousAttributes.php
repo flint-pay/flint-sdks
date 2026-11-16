@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read bool|null $is_default_for_currency
  * @property-read string|null $last4
  * @property-read string|null $merchant_id
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $payout_destination_id
  * @property-read string|null $status
  * @property-read string|null $status_updated_at
@@ -74,9 +74,9 @@ final class PayoutDestinationArchivedMerchantEventDataPreviousAttributes extends
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Stable identifier of the payout destination. anyOf[1] (Value): string. Stable identifier of the payout destination. anyOf[2] (Value): null.
      * @return string|null

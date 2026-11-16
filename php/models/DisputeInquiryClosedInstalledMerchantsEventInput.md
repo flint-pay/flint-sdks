@@ -106,7 +106,7 @@ anyOf variant 2.
 
 anyOf variant 1: Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for..
 
-- Value shape: (string or null). Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.evidence_due_at variant 2
 
@@ -194,7 +194,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.merchan
 
 anyOf variant 1: Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape..
 
-- Value shape: (string or null). Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. pattern: `^[A-Z0-9.]{1,8}$`. 
+- Value shape: string. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. pattern: `^[A-Z0-9.]{1,8}$`. 
 
 ### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.network_reason_code variant 2
 
@@ -236,7 +236,7 @@ anyOf variant 2.
 
 anyOf variant 1: How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option..
 
-- Value shape: (string or null). How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `null`.
+- Value shape: string. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `null`.
 
 ### DisputeInquiryClosedInstalledMerchantsEventInput.data.previous_attributes.payment_option variant 2
 

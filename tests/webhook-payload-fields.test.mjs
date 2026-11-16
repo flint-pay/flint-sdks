@@ -58,9 +58,13 @@ test("TypeScript webhook snapshots and previous attributes exclude GET-only fiel
   try {
     const fixture = join(directory, "consumer.mts");
     const imports = [
-      ...new Set(
-        cases.flatMap(({ event, resource }) => [event + "Event", resource]),
-      ),
+      ...new Set([
+        ...cases.flatMap(({ event, resource }) => [event + "Event", resource]),
+        "OrderUpdatedEvent",
+        "OrderPartiallyRefundedEvent",
+        "OrderRefundedEvent",
+        "CustomerUpdatedEvent",
+      ]),
     ];
     const checks = cases.map(
       ({ event, resource, omitted, getFields, previous }, index) => {
@@ -82,6 +86,16 @@ type Declared<T> = { [K in keyof T as string extends K ? never : number extends 
 type DeclaredKeys<T> = T extends unknown ? keyof Declared<T> : never;
 type Missing<T, K extends PropertyKey> = Extract<K, DeclaredKeys<T>> extends never ? true : false;
 ${checks.join("\n")}
+${["OrderUpdatedEvent", "OrderPartiallyRefundedEvent", "OrderRefundedEvent"]
+  .map(
+    (name, index) => `declare const priorOrder${index}: ${name};
+const priorAmount${index}: string | null | undefined = priorOrder${index}.data.previous_attributes?.line_items?.[0]?.total_money?.amount;
+// @ts-expect-error Supplied prior exact amounts remain strings.
+const wrongAmount${index}: number = priorOrder${index}.data.previous_attributes?.line_items?.[0]?.total_money?.amount;`,
+  )
+  .join("\n")}
+declare const priorCustomer: CustomerUpdatedEvent;
+const priorLegalName: string | null | undefined = priorCustomer.data.previous_attributes?.tax_identity?.legal_name;
 declare const intent: NonNullable<NonNullable<PaymentIntentCanceledEvent["data"]>["object"]>;
 const status: string = intent.status;
 `,
@@ -287,6 +301,17 @@ test("PHP delivery verifier recognizes every catalog event with previous attribu
     writeFileSync(samples, JSON.stringify(webhookSamples));
     const script = String.raw`
 require 'php/src/autoload.php';
+foreach ([\Flint\OrderUpdatedMerchantEventDataPreviousAttributes::class, \Flint\OrderPartiallyRefundedMerchantEventDataPreviousAttributes::class, \Flint\OrderRefundedMerchantEventDataPreviousAttributes::class] as $class) {
+    $previous = new $class(['line_items' => [(object) ['total_money' => (object) ['amount' => '9007199254740993']]]]);
+    $money = $previous->getLineItems()[0]->getTotalMoney();
+    if (!$money instanceof \Flint\MoneyValuePreviousAttributes || $money->getAmount() !== '9007199254740993' || !$money->hasAmount() || $money->hasCurrency() || $money->getCurrency() !== null)
+        throw new \RuntimeException($class . ': nested partial money must retain its model and field presence');
+}
+
+$previousCustomer = new \Flint\CustomerUpdatedMerchantEventDataPreviousAttributes(['tax_identity' => (object) ['legal_name' => 'Before']]);
+$identity = $previousCustomer->getTaxIdentity();
+if (!$identity instanceof \Flint\TaxIdentityPreviousAttributes || $identity->getLegalName() !== 'Before' || $identity->hasTaxIds())
+    throw new \RuntimeException('already-nullable previous tax identity lost its model or presence');
 $cases = json_decode(file_get_contents($argv[1]), true, 512, JSON_THROW_ON_ERROR);
 foreach ($cases as $case) {
     try {

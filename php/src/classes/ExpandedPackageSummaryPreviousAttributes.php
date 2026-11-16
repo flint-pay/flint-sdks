@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $carrier
  * @property-read string|null $created_at
  * @property-read string|null $delivered_at
- * @property-read mixed $expected_delivery_at
+ * @property-read string|null $expected_delivery_at
  * @property-read string|null $fulfillment_id
  * @property-read string|null $package_id
  * @property-read string|null $service_code
@@ -36,10 +36,10 @@ final class ExpandedPackageSummaryPreviousAttributes extends Model {
      */
     public function getDeliveredAt(): string|null { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. anyOf[1] (Value): string. When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getExpectedDeliveryAt(): mixed { return $this->get('expected_delivery_at'); }
+    public function getExpectedDeliveryAt(): string|null { return $this->get('expected_delivery_at'); }
     public function hasExpectedDeliveryAt(): bool { return $this->has('expected_delivery_at'); }
     /** Fulfillment whose items are in the package. anyOf[1] (Value): string. Fulfillment whose items are in the package. anyOf[2] (Value): null.
      * @return string|null

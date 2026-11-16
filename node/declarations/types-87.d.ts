@@ -1,10 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { PartnerAppCredentialPublicKeyRequestInput, PartnerAppCredentialWorkloadIdentityRequestInput } from './types-47.js';
-import type {
-    PartnerAppPaymentSplitsRequestInput,
-    PartnerAppPermissionManifestEntryRequestInput,
-    PartnerAppPlatformProfileRequestInput
-} from './types-48.js';
+import type { PartnerAppPlatformProfileRequestInput } from './types-48.js';
 import type {
     PauseSubscriptionRequestInput,
     PayOrderRequestInput,
@@ -23,11 +18,11 @@ import type {
     PaymentLinkEventConfigRequestInput,
     PaymentLinkLegalConfigInput,
     PaymentLinkLegalPatchRequestInput,
-    PaymentLinkLineItemInputBundleInput
+    PaymentLinkLineItemInputBundleInput,
+    PaymentLinkLineItemInputCustomFixedInput,
+    PaymentLinkLineItemInputCustomVariableInput
 } from './types-50.js';
 import type {
-    PaymentLinkLineItemInputCustomFixedInput,
-    PaymentLinkLineItemInputCustomVariableInput,
     PaymentLinkLineItemInputVariantInput,
     PaymentLinkLineItemPatchInputBundleInput,
     PaymentLinkLineItemPatchInputCustomFixedInput,
@@ -56,10 +51,10 @@ import type {
     ProcessExistingReturnLineItemRequestInput,
     ProcessExistingReturnRequestInput,
     ProductVariantRequestInput,
-    ProductVariantSelectedOptionRequestInput
+    ProductVariantSelectedOptionRequestInput,
+    PromotionAmountOffMethodRequestInput
 } from './types-55.js';
 import type {
-    PromotionAmountOffMethodRequestInput,
     PromotionApplicationMethodPatchInput,
     PromotionApplicationMethodRequestInput,
     PromotionBuyXGetYMethodRequestInput,
@@ -72,11 +67,14 @@ import type {
     PromotionRecurrenceForeverRequestInput,
     PromotionRecurrenceOnceRequestInput
 } from './types-56.js';
-import type { PromotionRecurrenceRepeatingRequestInput, PromotionRecurrenceRequestInput } from './types-57.js';
-export declare function makePartnerAppCredentialPublicKeyRequest(value: InputValue<PartnerAppCredentialPublicKeyRequestInput>): Model<PartnerAppCredentialPublicKeyRequestInput>;
-export declare function makePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<PartnerAppCredentialWorkloadIdentityRequestInput>): Model<PartnerAppCredentialWorkloadIdentityRequestInput>;
-export declare function makePartnerAppPaymentSplitsRequest(value: InputValue<PartnerAppPaymentSplitsRequestInput>): Model<PartnerAppPaymentSplitsRequestInput>;
-export declare function makePartnerAppPermissionManifestEntryRequest(value: InputValue<PartnerAppPermissionManifestEntryRequestInput>): Model<PartnerAppPermissionManifestEntryRequestInput>;
+import type {
+    PromotionRecurrenceRepeatingRequestInput,
+    PromotionRecurrenceRequestInput,
+    PromotionRefInputPromotionCodeInput,
+    PromotionRefInputPromotionIDInput,
+    PromotionRefRequestInput,
+    PromotionRuleGroupRequestInput
+} from './types-57.js';
 export declare function makePartnerAppPlatformProfileRequest(value: InputValue<PartnerAppPlatformProfileRequestInput>): Model<PartnerAppPlatformProfileRequestInput>;
 export declare function makePauseSubscriptionRequest(value: InputValue<PauseSubscriptionRequestInput>): Model<PauseSubscriptionRequestInput>;
 export declare function makePayOrderRequest(value: InputValue<Exclude<PayOrderRequestInput & object, readonly unknown[]>>): Model<Exclude<PayOrderRequestInput & object, readonly unknown[]>>;
@@ -140,3 +138,8 @@ export declare function makePromotionRecurrenceForeverRequest(value: InputValue<
 export declare function makePromotionRecurrenceOnceRequest(value: InputValue<PromotionRecurrenceOnceRequestInput>): Model<PromotionRecurrenceOnceRequestInput>;
 export declare function makePromotionRecurrenceRepeatingRequest(value: InputValue<PromotionRecurrenceRepeatingRequestInput>): Model<PromotionRecurrenceRepeatingRequestInput>;
 export declare function makePromotionRecurrenceRequest(value: InputValue<PromotionRecurrenceRequestInput>): Model<PromotionRecurrenceRequestInput>;
+export declare function makePromotionRefInputPromotionCode(value: InputValue<PromotionRefInputPromotionCodeInput>): Model<PromotionRefInputPromotionCodeInput>;
+export declare function makePromotionRefInputPromotionID(value: InputValue<PromotionRefInputPromotionIDInput>): Model<PromotionRefInputPromotionIDInput>;
+export declare function makePromotionRefRequest(value: InputValue<PromotionRefRequestInput>): Model<PromotionRefRequestInput>;
+export declare function makePromotionRuleGroupRequest(value: InputValue<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>;
+export declare function makePromotionRuleGroupRequest(value: InputValue<PromotionRuleGroupRequestInput>): Model<PromotionRuleGroupRequestInput>;

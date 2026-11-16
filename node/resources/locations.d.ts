@@ -41,7 +41,7 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateLocationRequestInput } from '../declarations/types-11.js';
+export type { CreateLocationRequestInput } from '../declarations/types-10.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -53,8 +53,8 @@ export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/ty
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeAddressRequest } from '../declarations/types-77.js';
 export { makeCreateLocationRequest } from '../declarations/types-80.js';
-export { makeLocationCoordinateRequest, makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdateLocationRequest } from '../declarations/types-91.js';
 export interface LocationsResource {
     /**

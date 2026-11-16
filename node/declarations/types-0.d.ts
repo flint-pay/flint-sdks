@@ -2020,13 +2020,13 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "access"?: (("full" | "read_only" | "restricted" | (string & {})) | (null));
             "api_key_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "created_by"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+            "created_by"?: ((ResourceReferencePreviousAttributes) | (null));
             "expires_at"?: ((string) | (null));
             "key_prefix"?: ((string) | (null));
             "last_used_at"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "name"?: ((string) | (null));
-            "partner_app_install_id"?: ((string | null) | (null) | (unknown));
+            "partner_app_install_id"?: ((string) | (null));
             "revoked_at"?: ((string) | (null));
             "sandbox_id"?: ((string) | (null));
             "scopes"?: ((Array<"accounts.api_keys.read"
@@ -2276,13 +2276,13 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
             "access"?: (("full" | "read_only" | "restricted" | (string & {})) | (null));
             "api_key_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "created_by"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+            "created_by"?: ((ResourceReferencePreviousAttributes) | (null));
             "expires_at"?: ((string) | (null));
             "key_prefix"?: ((string) | (null));
             "last_used_at"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "name"?: ((string) | (null));
-            "partner_app_install_id"?: ((string | null) | (null) | (unknown));
+            "partner_app_install_id"?: ((string) | (null));
             "revoked_at"?: ((string) | (null));
             "sandbox_id"?: ((string) | (null));
             "scopes"?: ((Array<"accounts.api_keys.read"

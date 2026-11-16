@@ -10,50 +10,36 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Optional | ([CheckoutTaxCalculationPreviousAttributes](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes) or null) or null | How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic. `calculation`: [declared alternatives](../models/SubscriptionTaxPreviousAttributes.md#subscriptiontaxpreviousattributescalculation). |
-| `enabled` | Optional | boolean or null | Whether the subscription's orders calculate tax. `enabled`: [declared alternatives](../models/SubscriptionTaxPreviousAttributes.md#subscriptiontaxpreviousattributesenabled). |
+| `calculation` | Optional | [CheckoutTaxCalculationPreviousAttributes](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes) or null | `calculation`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax-variant-1calculation), [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributestax-variant-1calculation). |
+| `enabled` | Optional | boolean or null | `enabled`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax-variant-1enabled), [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributestax-variant-1enabled). |
 
-### SubscriptionTaxPreviousAttributes.calculation
+### SubscriptionTaxPreviousAttributes variant 1
 
-How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic.
+anyOf variant 1: Declared schema CheckoutTaxConfigPreviousAttributes. .
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `components_source` | Conditional | string or null | Where external tax comes from. Only `callback` is accepted: Flint asks the tax calculation callback selected in `tax.calculation_callback_id`. Required with mode `external`; not allowed with `automatic`. Values: `"callback"`. `components_source`: [declared alternatives](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes-variant-2components_source). |
-| `mode` | Conditional | string or null | How the subscription's orders calculate tax. Values: `"automatic"`, `"external"`. `mode`: [declared alternatives](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes-variant-2mode). |
+- Constraints for `calculation`: How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again.
+- Constraints for `enabled`: Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings.
 
-### SubscriptionTaxPreviousAttributes.calculation variant 1: `components_source` = `"callback"`
+### SubscriptionTaxPreviousAttributes variant 2
 
-anyOf variant 1: How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic.; anyOf SubscriptionTaxCalculationPreviousAttributes.
+anyOf variant 2: Declared schema SubscriptionTaxPreviousAttributes. .
 
-- Optional: `components_source`, `mode`.
+- Constraints for `calculation`: How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic.
+- Constraints for `enabled`: Whether the subscription's orders calculate tax.
 
-### SubscriptionTaxPreviousAttributes.calculation variant 2, 3
+### SubscriptionTaxPreviousAttributes variant 1.calculation
 
-anyOf variant 1: How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic.; anyOf variant 2; anyOf variant 2.
+Declared alternatives: [PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax-variant-1calculation).
 
-- Undeclared: `components_source`, `mode`.
-- Value shape: null. How the subscription's orders calculate tax. `null` when they use `tax.default_calculation` from your settings, where a `provided` default means automatic. 
+### SubscriptionTaxPreviousAttributes variant 1.enabled
 
-### SubscriptionTaxPreviousAttributes.calculation variant 1.components_source
+Declared alternatives: [PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.enabled](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax-variant-1enabled).
 
-Declared alternatives: [CheckoutTaxCalculationPreviousAttributes variant 2.components_source](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes-variant-2components_source).
+### SubscriptionTaxPreviousAttributes variant 2.calculation
 
-### SubscriptionTaxPreviousAttributes.calculation variant 1.mode
+Declared alternatives: [SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributestax-variant-1calculation).
 
-Declared alternatives: [CheckoutTaxCalculationPreviousAttributes variant 2.mode](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes-variant-2mode).
+### SubscriptionTaxPreviousAttributes variant 2.enabled
 
-### SubscriptionTaxPreviousAttributes.enabled
-
-### SubscriptionTaxPreviousAttributes.enabled variant 1
-
-anyOf variant 1: Whether the subscription's orders calculate tax..
-
-- Value shape: boolean. Whether the subscription's orders calculate tax. 
-
-### SubscriptionTaxPreviousAttributes.enabled variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the subscription's orders calculate tax. 
+Declared alternatives: [SubscriptionActivatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.enabled](../models/SubscriptionActivatedInstalledMerchantsEvent.md#subscriptionactivatedinstalledmerchantseventdataprevious_attributestax-variant-1enabled).
 

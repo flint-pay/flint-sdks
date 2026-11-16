@@ -43,10 +43,10 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `checkout_reminders` | Optional | boolean or null | A reminder after leaving checkout without paying. `true` unless the buyer turned it off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. `checkout_reminders`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributescheckout_reminders). |
-| `customer_id` | Optional | string or null or null | ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. `customer_id`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributescustomer_id). |
+| `customer_id` | Optional | string or null | ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. `customer_id`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributescustomer_id). |
 | `email` | Optional | string or null | The customer's current email address. The preferences belong to this address, so they also apply to guest checkouts and other customers with the same address, and they change when the customer's email changes. On address lookup, the address as sent, trimmed. `email`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesemail). |
 | `shipping_updates` | Optional | boolean or null | Emails about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this email when it is `false`; if you send this kind of email yourself, do not send it either. `shipping_updates`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesshipping_updates). |
-| `version` | Optional | integer or null or null | The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. `version`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesversion). |
+| `version` | Optional | integer or null | The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. `version`: [declared alternatives](../models/CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.md#customeremailpreferencesupdatedinstalledmerchantseventinputdataprevious_attributesversion). |
 
 ### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.checkout_reminders
 
@@ -68,7 +68,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer..
 
-- Value shape: (string or null). ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. 
+- Value shape: string. ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. ID of the customer whose current email address these preferences belong to. `null` when the address has no current customer. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. 
 
 ### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.customer_id variant 2
 
@@ -110,7 +110,7 @@ anyOf variant 2.
 
 anyOf variant 1: The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer..
 
-- Value shape: (integer or null). The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. Format: `uint64`. minimum: `1`. 
+- Value shape: integer. The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. The customer's preference version. Advances when either category changes for this address or the customer's email address changes. `null` when the address has no current customer. Format: `uint64`. minimum: `1`. 
 
 ### CustomerEmailPreferencesUpdatedInstalledMerchantsEventInput.data.previous_attributes.version variant 2
 

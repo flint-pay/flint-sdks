@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
- * @property-read mixed $applied_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $applied_money
  * @property-read string|null $customer_facing_name
  * @property-read string|null $discount_class
  * @property-read list<string>|null $order_charge_ids
@@ -19,14 +19,14 @@ final class OrderDiscountPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'applied_money'?: mixed, 'customer_facing_name'?: mixed, 'discount_class'?: mixed, 'order_charge_ids'?: mixed, 'order_discount_id'?: mixed, 'order_id'?: mixed, 'order_line_item_ids'?: mixed, 'promotion_code'?: mixed, 'promotion_id'?: mixed, 'source'?: mixed, 'status'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDiscountPreviousAttributes')); }
     /** Discount amount before limits apply, such as 20% of $100 resolving to $20. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Amount the discount took off. It is less than `amount_money` when a limit applies, such as a discount that would take the order below zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAppliedMoney(): mixed { return $this->get('applied_money'); }
+    public function getAppliedMoney(): MoneyValuePreviousAttributes|null { return $this->get('applied_money'); }
     public function hasAppliedMoney(): bool { return $this->has('applied_money'); }
     /** Name the buyer sees for the discount. anyOf[1] (Value): string. Name the buyer sees for the discount. anyOf[2] (Value): null.
      * @return string|null

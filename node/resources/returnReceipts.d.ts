@@ -60,9 +60,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateReturnReceiptRequest } from '../declarations/types-81.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeReturnReceiptLineItemInputExcess, makeReturnReceiptLineItemInputMatched } from '../declarations/types-88.js';
 export {
-    makeReturnReceiptLineItemInputExcess,
-    makeReturnReceiptLineItemInputMatched,
     makeReturnReceiptLineItemInputUnverified,
     makeReturnReceiptLineItemRequest,
     makeReturnSourceSystemRequest,

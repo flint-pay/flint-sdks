@@ -1,0 +1,1 @@
+{"shared":"TaxDisclosureStatementPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"text":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["SharedCodec0","TaxDisclosureStatementPreviousAttributes"]}

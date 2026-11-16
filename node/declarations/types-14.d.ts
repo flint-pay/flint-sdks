@@ -1,6 +1,6 @@
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-41.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-47.js';
-import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-63.js';
+import type { MetadataRequestInput, MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
+import type { PackageCreateRequestInput } from './types-47.js';
+import type { ReturnShipmentLineItemAllocationRequestInput } from './types-63.js';
 import type {
     SubscriptionIntervalOption,
     SubscriptionIntervalOptionRequestInput,
@@ -22,17 +22,17 @@ import type {
     SubscriptionPlanChangeOptionRequestInput,
     SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanChangeLineItemRequest,
-    SubscriptionPlanChangeLineItemRequestInput
+    SubscriptionPlanChangeLineItemRequestInput,
+    SubscriptionPromotionRequest,
+    SubscriptionPromotionRequestInput
 } from './types-69.js';
 import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-73.js';
 import type {
     SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
     SubscriptionQuantityChangeLineItemRequestInput,
-    SubscriptionPromotionRequest,
     SubscriptionTaxRequest,
     SubscriptionTermsRequest,
-    SubscriptionPromotionRequestInput,
     SubscriptionServiceLocationRequestInput,
     SubscriptionTaxRequestInput,
     SubscriptionTermsRequestInput
@@ -59,57 +59,6 @@ import type { TaxCurrencyConversion, TaxIdentity } from './types-72.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { ResponseMeta } from './types-60.js';
 import type { Invoice } from './types-34.js';
-/** The `return` variant of `CreateShipmentRequest`. */
-export type CreateShipmentRequestReturn = ({
-    /**
-     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
-     * "return".
-     */
-    "direction": "return" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
-     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Creates packages atomically with an outbound shipment. Items are optional per package.
-     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
-     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
-     * Set status to created before handoff, or shipped to report handoff during creation.
-     */
-    "packages"?: Array<PackageCreateRequest>;
-    /**
-     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items": Array<ReturnResolutionLineItemRequest>;
-});
 /** The `return` variant of `CreateShipmentRequest`. */
 export type CreateShipmentRequestReturnInput = ({
     /**
@@ -3690,7 +3639,7 @@ export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvel
         })
             & ({
             "allocated_at"?: ((string) | (null));
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "credit_note_allocation_id"?: ((string) | (null));
             "credit_note_id"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
@@ -3720,7 +3669,7 @@ export type CreditNoteAllocationReversedEvent = ((((Exclude<MerchantWebhookEnvel
         })
             & ({
             "allocated_at"?: ((string) | (null));
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "credit_note_allocation_id"?: ((string) | (null));
             "credit_note_id"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
@@ -3923,7 +3872,7 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
              * Credit applied to the invoice balance. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of
              * the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". anyOf[2] (Value): null.
@@ -4006,4 +3955,235 @@ export type CreditNoteAllocationReversedInstalledMerchantsEvent = (Exclude<Partn
          */
         "sandbox_id"?: string;
     });
+});
+/**
+ * The `credit_note_allocation.reversed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type CreditNoteAllocationReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.allocated_at (Required): string. When the credit was applied to
+     * the invoice balance. Format: date-time. Example: "2026-08-02T16:00:00Z". object.amount_money
+     * (Required): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.credit_note_allocation_id (Required): string. Unique identifier of the allocation.
+     * Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". object.credit_note_id (Required): string. The
+     * credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     * object.idempotency_key (Required): string. The Idempotency-Key the caller sent when
+     * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
+     * Filterable on the allocations list. object.invoice_id (Required): string. The invoice whose
+     * balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.reversed_at
+     * (Optional): string. When the allocation was reversed and its credit returned. Absent while
+     * the allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.supported_actions (Required): Array of string. Lifecycle actions Flint accepts for
+     * this resource now, based on stored state. Independent of the caller's permissions; each
+     * action still requires its route's scope. Always [] when no action is available. [] enum:
+     * "reverse". object.supported_actions[] (Value): string. Value enum: "reverse".
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.allocated_at (Optional): string or null. When the credit was applied to
+     * the invoice balance. previous_attributes.allocated_at.anyOf[1] (Value): string. When the
+     * credit was applied to the invoice balance. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.allocated_at.anyOf[2] (Value): null.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * Credit applied to the invoice balance. previous_attributes.amount_money.anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_allocation_id (Optional): string or null. Unique
+     * identifier of the allocation. previous_attributes.credit_note_allocation_id.anyOf[1]
+     * (Value): string. Unique identifier of the allocation. Example:
+     * "cna_01KEZF7C00EH6DMS9BD8F72CMA". previous_attributes.credit_note_allocation_id.anyOf[2]
+     * (Value): null. previous_attributes.credit_note_id (Optional): string or null. The credit
+     * note whose credit was applied. previous_attributes.credit_note_id.anyOf[1] (Value): string.
+     * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     * previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key the
+     * caller sent when allocating, or the issue request's Idempotency-Key for an allocation made
+     * on issue. Filterable on the allocations list. previous_attributes.idempotency_key.anyOf[1]
+     * (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's
+     * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * (Optional): string or null. The invoice whose balance the credit reduced.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. The invoice whose balance the
+     * credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.reversed_at
+     * (Optional): string or null. When the allocation was reversed and its credit returned. Absent
+     * while the allocation stands. previous_attributes.reversed_at.anyOf[1] (Value): string. When
+     * the allocation was reversed and its credit returned. Absent while the allocation stands.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.reversed_at.anyOf[2]
+     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
+     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
+     * the caller's permissions; each action still requires its route's scope. Always [] when no
+     * action is available. [] enum: "reverse". previous_attributes.supported_actions.anyOf[1]
+     * (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based on
+     * stored state. Independent of the caller's permissions; each action still requires its
+     * route's scope. Always [] when no action is available. [] enum: "reverse".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "reverse".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * allocated_at (Required): string. When the credit was applied to the invoice balance.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". amount_money (Required): {@link
+         * MoneyValue}. Credit applied to the invoice balance. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. credit_note_allocation_id
+         * (Required): string. Unique identifier of the allocation. Example:
+         * "cna_01KEZF7C00EH6DMS9BD8F72CMA". credit_note_id (Required): string. The credit note
+         * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". idempotency_key
+         * (Required): string. The Idempotency-Key the caller sent when allocating, or the issue
+         * request's Idempotency-Key for an allocation made on issue. Filterable on the allocations
+         * list. invoice_id (Required): string. The invoice whose balance the credit reduced.
+         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". reversed_at (Optional): string. When the
+         * allocation was reversed and its credit returned. Absent while the allocation stands.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". supported_actions (Required): Array
+         * of string. Lifecycle actions Flint accepts for this resource now, based on stored state.
+         * Independent of the caller's permissions; each action still requires its route's scope.
+         * Always [] when no action is available. [] enum: "reverse". supported_actions[] (Value):
+         * string. Value enum: "reverse".
+         */
+        "object": {
+            /**
+             * When the credit was applied to the invoice balance. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "allocated_at": string;
+            /**
+             * Credit applied to the invoice balance. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /** Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". */
+            "credit_note_allocation_id": string;
+            /**
+             * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+             */
+            "credit_note_id": string;
+            /**
+             * The Idempotency-Key the caller sent when allocating, or the issue request's
+             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+             */
+            "idempotency_key": string;
+            /**
+             * The invoice whose balance the credit reduced. Example:
+             * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             */
+            "invoice_id": string;
+            /**
+             * When the allocation was reversed and its credit returned. Absent while the
+             * allocation stands. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "reversed_at"?: string;
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "reverse". [] (Value):
+             * string. Value enum: "reverse".
+             */
+            "supported_actions": Array<"reverse" | (string & {})>;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. allocated_at (Optional): string or null. When
+         * the credit was applied to the invoice balance. allocated_at.anyOf[1] (Value): string.
+         * When the credit was applied to the invoice balance. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". allocated_at.anyOf[2] (Value): null. amount_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Credit applied to the invoice balance.
+         * amount_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+         * amount_money.anyOf[2] (Value): null. credit_note_allocation_id (Optional): string or
+         * null. Unique identifier of the allocation. credit_note_allocation_id.anyOf[1] (Value):
+         * string. Unique identifier of the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA".
+         * credit_note_allocation_id.anyOf[2] (Value): null. credit_note_id (Optional): string or
+         * null. The credit note whose credit was applied. credit_note_id.anyOf[1] (Value): string.
+         * The credit note whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+         * credit_note_id.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key
+         * for an allocation made on issue. Filterable on the allocations list.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key the caller sent when
+         * allocating, or the issue request's Idempotency-Key for an allocation made on issue.
+         * Filterable on the allocations list. idempotency_key.anyOf[2] (Value): null. invoice_id
+         * (Optional): string or null. The invoice whose balance the credit reduced.
+         * invoice_id.anyOf[1] (Value): string. The invoice whose balance the credit reduced.
+         * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null.
+         * reversed_at (Optional): string or null. When the allocation was reversed and its credit
+         * returned. Absent while the allocation stands. reversed_at.anyOf[1] (Value): string. When
+         * the allocation was reversed and its credit returned. Absent while the allocation stands.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". reversed_at.anyOf[2] (Value): null.
+         * supported_actions (Optional): Array of string or null. Lifecycle actions Flint accepts
+         * for this resource now, based on stored state. Independent of the caller's permissions;
+         * each action still requires its route's scope. Always [] when no action is available. []
+         * enum: "reverse". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+         * Flint accepts for this resource now, based on stored state. Independent of the caller's
+         * permissions; each action still requires its route's scope. Always [] when no action is
+         * available. [] enum: "reverse". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "reverse". supported_actions.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the credit was applied to the invoice balance. anyOf[1] (Value): string. When
+             * the credit was applied to the invoice balance. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "allocated_at"?: ((string) | (null));
+            /**
+             * Credit applied to the invoice balance. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            /**
+             * Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of
+             * the allocation. Example: "cna_01KEZF7C00EH6DMS9BD8F72CMA". anyOf[2] (Value): null.
+             */
+            "credit_note_allocation_id"?: ((string) | (null));
+            /**
+             * The credit note whose credit was applied. anyOf[1] (Value): string. The credit note
+             * whose credit was applied. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2]
+             * (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key the caller sent when allocating, or the issue request's
+             * Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
+             * anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or
+             * the issue request's Idempotency-Key for an allocation made on issue. Filterable on
+             * the allocations list. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * The invoice whose balance the credit reduced. anyOf[1] (Value): string. The invoice
+             * whose balance the credit reduced. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+             * anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * When the allocation was reversed and its credit returned. Absent while the
+             * allocation stands. anyOf[1] (Value): string. When the allocation was reversed and
+             * its credit returned. Absent while the allocation stands. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reversed_at"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts for this resource now, based on stored state.
+             * Independent of the caller's permissions; each action still requires its route's
+             * scope. Always [] when no action is available. [] enum: "reverse". anyOf[1] (Value):
+             * Array of string. Lifecycle actions Flint accepts for this resource now, based on
+             * stored state. Independent of the caller's permissions; each action still requires
+             * its route's scope. Always [] when no action is available. [] enum: "reverse".
+             * anyOf[1][] (Value): string. Value enum: "reverse". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"reverse" | (string & {})>) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "credit_note_allocation.reversed". */
+    "event_type"?: "credit_note_allocation.reversed";
 });

@@ -1,0 +1,50 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## ModifierSetPreviousAttributes
+
+
+
+Response model.
+
+Field definitions: [shared fields](ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributes).
+
+### ModifierSetPreviousAttributes.created_at
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.created_at](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributescreated_at).
+
+### ModifierSetPreviousAttributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### ModifierSetPreviousAttributes.merchant_id
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.merchant_id](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesmerchant_id).
+
+### ModifierSetPreviousAttributes.metadata
+
+Declared alternatives: [OrderLineItemModifierPreviousAttributes.metadata](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributesmetadata).
+
+### ModifierSetPreviousAttributes.modifier_groups
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.modifier_groups](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesmodifier_groups).
+
+### ModifierSetPreviousAttributes.modifier_set_id
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.modifier_set_id](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesmodifier_set_id).
+
+### ModifierSetPreviousAttributes.name
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.name](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesname).
+
+### ModifierSetPreviousAttributes.status
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.status](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesstatus).
+
+### ModifierSetPreviousAttributes.updated_at
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.updated_at](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesupdated_at).
+
+### ModifierSetPreviousAttributes.version
+
+Declared alternatives: [ModifierSetArchivedMerchantEventDataPreviousAttributes.version](../models/ModifierSetArchivedMerchantEventDataPreviousAttributes.md#modifiersetarchivedmerchanteventdatapreviousattributesversion).
+

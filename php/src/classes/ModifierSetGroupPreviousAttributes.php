@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $display_name
  * @property-read int|null $max_selected
  * @property-read int|null $min_selected
- * @property-read mixed $modifier_group
+ * @property-read ModifierGroupPreviousAttributes|null $modifier_group
  * @property-read string|null $modifier_group_id
  * @property-read list<ModifierOverridePreviousAttributes>|null $modifier_overrides
  * @property-read string|null $modifier_set_group_id
@@ -34,9 +34,9 @@ final class ModifierSetGroupPreviousAttributes extends Model {
     public function getMinSelected(): int|null { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
     /** Full modifier group for this entry, with the same representation as GET /v1/modifier-groups/{modifier_group_id}. Archived modifiers are excluded for either source, including when the group is archived. anyOf[1] (Value): {@see ModifierGroupPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ModifierGroupPreviousAttributes|null
      */
-    public function getModifierGroup(): mixed { return $this->get('modifier_group'); }
+    public function getModifierGroup(): ModifierGroupPreviousAttributes|null { return $this->get('modifier_group'); }
     public function hasModifierGroup(): bool { return $this->has('modifier_group'); }
     /** Stable identifier of the group contained in this entry, for either source. anyOf[1] (Value): string. Stable identifier of the group contained in this entry, for either source. anyOf[2] (Value): null.
      * @return string|null

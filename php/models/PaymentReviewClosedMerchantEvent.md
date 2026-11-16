@@ -132,10 +132,6 @@ Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.r
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.resolution_started_by](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesresolution_started_by).
 
-### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.risk
-
-Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.risk](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesrisk).
-
 ### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.status
 
 Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.status](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesstatus).

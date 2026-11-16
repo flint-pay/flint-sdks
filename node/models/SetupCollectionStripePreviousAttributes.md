@@ -10,30 +10,36 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `account_id` | Optional | string or null | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. `account_id`: [declared alternatives](../models/SetupCollectionStripePreviousAttributes.md#setupcollectionstripepreviousattributesaccount_id). |
+| `account_id` | Optional | string or null | `account_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1account_id), [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributessetup_collection-variant-1stripe-variant-1account_id). |
 | `elements` | Optional | [PaymentCollectionStripeElementsPreviousAttributes](../models/PaymentCollectionStripeElementsPreviousAttributes.md#paymentcollectionstripeelementspreviousattributes) or null | Stripe Elements configuration for the available payment methods and amounts. |
-| `publishable_key` | Optional | string or null | Publishable Stripe key for initializing the payment client. `publishable_key`: [declared alternatives](../models/PaymentCollectionStripePreviousAttributes.md#paymentcollectionstripepreviousattributespublishable_key). |
-| `return_url` | Optional | string or null | URL the buyer returns to after a redirect payment step. `return_url`: [declared alternatives](../models/PaymentCollectionStripePreviousAttributes.md#paymentcollectionstripepreviousattributesreturn_url). |
+| `publishable_key` | Optional | string or null | Publishable Stripe key for initializing the payment client. `publishable_key`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1publishable_key). |
+| `return_url` | Optional | string or null | URL the buyer returns to after a redirect payment step. `return_url`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1return_url). |
 
-### SetupCollectionStripePreviousAttributes.account_id
+### SetupCollectionStripePreviousAttributes variant 1
 
-### SetupCollectionStripePreviousAttributes.account_id variant 1
+anyOf variant 1: Declared schema PaymentCollectionStripePreviousAttributes. .
 
-anyOf variant 1: Stripe connected account ID to pass as stripeAccount when initializing Stripe.js..
+- Constraints for `account_id`: Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount.
 
-- Value shape: string. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example: `"acct_1234567890"`. 
+### SetupCollectionStripePreviousAttributes variant 2
 
-### SetupCollectionStripePreviousAttributes.account_id variant 2
+anyOf variant 2: Declared schema SetupCollectionStripePreviousAttributes. .
 
-anyOf variant 2.
+- Constraints for `account_id`: Stripe connected account ID to pass as stripeAccount when initializing Stripe.js.
 
-- Value shape: null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. 
+### SetupCollectionStripePreviousAttributes variant 1.account_id
+
+Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.account_id](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1account_id).
 
 ### SetupCollectionStripePreviousAttributes.publishable_key
 
-Declared alternatives: [PaymentCollectionStripePreviousAttributes.publishable_key](../models/PaymentCollectionStripePreviousAttributes.md#paymentcollectionstripepreviousattributespublishable_key).
+Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.publishable_key](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1publishable_key).
 
 ### SetupCollectionStripePreviousAttributes.return_url
 
-Declared alternatives: [PaymentCollectionStripePreviousAttributes.return_url](../models/PaymentCollectionStripePreviousAttributes.md#paymentcollectionstripepreviousattributesreturn_url).
+Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.payment_collection variant 1.stripe variant 1.return_url](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributespayment_collection-variant-1stripe-variant-1return_url).
+
+### SetupCollectionStripePreviousAttributes variant 2.account_id
+
+Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.setup_collection variant 1.stripe variant 1.account_id](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributessetup_collection-variant-1stripe-variant-1account_id).
 

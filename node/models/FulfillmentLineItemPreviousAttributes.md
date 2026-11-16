@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `bundle_component_id` | Optional | string or null or null | Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. `bundle_component_id`: [declared alternatives](../models/FulfillmentLineItemPreviousAttributes.md#fulfillmentlineitempreviousattributesbundle_component_id). |
+| `bundle_component_id` | Optional | string or null | Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. `bundle_component_id`: [declared alternatives](../models/FulfillmentLineItemPreviousAttributes.md#fulfillmentlineitempreviousattributesbundle_component_id). |
 | `modifiers` | Optional | Array of [OrderLineItemModifierPreviousAttributes](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributes) or null | Modifier selections snapshotted from the order line for fulfillment. `modifiers`: [declared alternatives](../models/FulfillmentLineItemPreviousAttributes.md#fulfillmentlineitempreviousattributesmodifiers). |
 | `order_id` | Optional | string or null | Order that owns the referenced line item. `order_id`: [declared alternatives](../models/FulfillmentLineItemPreviousAttributes.md#fulfillmentlineitempreviousattributesorder_id). |
 | `order_line_item_id` | Optional | string or null | Order line whose quantity is allocated to the fulfillment. `order_line_item_id`: [declared alternatives](../models/FulfillmentLineItemPreviousAttributes.md#fulfillmentlineitempreviousattributesorder_line_item_id). |
@@ -22,7 +22,7 @@
 
 anyOf variant 1: Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components..
 
-- Value shape: (string or null). Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. 
+- Value shape: string. Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. 
 
 ### FulfillmentLineItemPreviousAttributes.bundle_component_id variant 2
 

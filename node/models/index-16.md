@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# FeedbackReportingClient to GiftCardFundingSourceGiftCardPurchaseRefundRecovery
+# FeedbackReportingClientRequestInput to GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes
 
-- [FeedbackReportingClient](FeedbackReportingClient.md)
 - [FeedbackReportingClientRequestInput](FeedbackReportingClientRequestInput.md)
 - [FeedbackReportListResponse](FeedbackReportListResponse.md)
 - [FeedbackReportNarrative](FeedbackReportNarrative.md)
@@ -102,4 +101,5 @@
 - [GiftCardFundingSourceFlintPaymentPreviousAttributes](GiftCardFundingSourceFlintPaymentPreviousAttributes.md)
 - [GiftCardFundingSourceFlintPaymentRequestInput](GiftCardFundingSourceFlintPaymentRequestInput.md)
 - [GiftCardFundingSourceGiftCardPurchaseRefundRecovery](GiftCardFundingSourceGiftCardPurchaseRefundRecovery.md)
+- [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes.md)
 

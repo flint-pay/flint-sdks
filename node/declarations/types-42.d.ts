@@ -1,6 +1,6 @@
 import type { MerchantWebhookEnvelope, MetadataMap, Modifier, ModifierGroup, MetadataRequestInput } from './types-41.js';
-import type { TextModifierConfig, TextModifierConfigPreviousAttributes } from './types-72.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { TextModifierConfig, TextModifierConfigPreviousAttributes } from './types-72.js';
 import type { ResponseMeta, ResponseWarning, ResourceReference, ResourceReferencePreviousAttributes } from './types-60.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateModifierGroupRequestInput, CreateModifierSetRequestInput } from './types-11.js';
@@ -9,556 +9,6 @@ import type { UpdateModifierGroupRequestInput, UpdateModifierSetRequestInput } f
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
 import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-58.js';
 import type { OAuthTokenRequestRefreshToken, OAuthTokenRequestTokenExchange } from './types-43.js';
-/**
- * The `modifier_group.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierGroupArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object and {@link ModifierGroupPreviousAttributes}. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.allow_quantities (Optional): boolean or null. Whether buyers can select
-     * more than one unit of a list modifier. previous_attributes.allow_quantities.anyOf[1]
-     * (Value): boolean. Whether buyers can select more than one unit of a list modifier.
-     * previous_attributes.allow_quantities.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the modifier group was created, as an RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the modifier group was
-     * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.max_quantity (Optional): integer or null. Maximum whole-number quantity
-     * for each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. previous_attributes.max_quantity.anyOf[1] (Value): integer. Maximum whole-number
-     * quantity for each selected list modifier when allow_quantities is true; fractional
-     * quantities are not supported. Format: int64. previous_attributes.max_quantity.anyOf[2]
-     * (Value): null. previous_attributes.max_selected (Optional): integer or null. Maximum number
-     * of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier
-     * set can override this value. previous_attributes.max_selected.anyOf[1] (Value): integer.
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
-     * previous_attributes.max_selected.anyOf[2] (Value): null.
-     * previous_attributes.max_total_quantity (Optional): integer or null. Maximum combined
-     * whole-number quantity across selected list modifiers; fractional quantities are not
-     * supported. previous_attributes.max_total_quantity.anyOf[1] (Value): integer. Maximum
-     * combined whole-number quantity across selected list modifiers; fractional quantities are not
-     * supported. Format: int64. previous_attributes.max_total_quantity.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
-     * owns this modifier group. previous_attributes.merchant_id.anyOf[1] (Value): string.
-     * Identifier of the merchant that owns this modifier group. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.min_quantity
-     * (Optional): integer or null. Minimum whole-number quantity for each selected list modifier
-     * when allow_quantities is true; fractional quantities are not supported.
-     * previous_attributes.min_quantity.anyOf[1] (Value): integer. Minimum whole-number quantity
-     * for each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. previous_attributes.min_quantity.anyOf[2] (Value): null.
-     * previous_attributes.min_selected (Optional): integer or null. Minimum number of distinct
-     * modifiers buyers must select from a list group. Omit it to require no selections. A modifier
-     * set can override this value. previous_attributes.min_selected.anyOf[1] (Value): integer.
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
-     * previous_attributes.min_selected.anyOf[2] (Value): null.
-     * previous_attributes.modifier_group_id (Optional): string or null. Stable identifier of the
-     * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
-     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
-     * previous_attributes.modifier_group_id.anyOf[1] (Value): string. Stable identifier of the
-     * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
-     * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
-     * "mg_01KEZF7C00XKJJATARG7KDBYM9". previous_attributes.modifier_group_id.anyOf[2] (Value):
-     * null. previous_attributes.modifier_group_type (Optional): string or null. Whether buyers
-     * choose from a list of modifiers or enter text. On create, inferred as text when text
-     * configuration is supplied, otherwise list. Value enum: "list", "text".
-     * previous_attributes.modifier_group_type.anyOf[1] (Value): string. Whether buyers choose from
-     * a list of modifiers or enter text. On create, inferred as text when text configuration is
-     * supplied, otherwise list. Value enum: "list", "text".
-     * previous_attributes.modifier_group_type.anyOf[2] (Value): null.
-     * previous_attributes.modifiers (Optional): Array of {@link ModifierPreviousAttributes} or
-     * null. Choices in a list group. Only active modifiers whose set override's available is not
-     * false are offered to buyers. Text groups do not have choices.
-     * previous_attributes.modifiers.anyOf[1] (Value): Array of {@link ModifierPreviousAttributes}.
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices.
-     * previous_attributes.modifiers.anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
-     * previous_attributes.modifiers.anyOf[2] (Value): null. previous_attributes.name (Optional):
-     * string or null. Name of the modifier group shown to buyers.
-     * previous_attributes.name.anyOf[1] (Value): string. Name of the modifier group shown to
-     * buyers. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.show_on_fulfillment (Optional): boolean or null. Whether selections from
-     * this group appear in fulfillment details unless overridden for a modifier set.
-     * previous_attributes.show_on_fulfillment.anyOf[1] (Value): boolean. Whether selections from
-     * this group appear in fulfillment details unless overridden for a modifier set.
-     * previous_attributes.show_on_fulfillment.anyOf[2] (Value): null.
-     * previous_attributes.show_on_receipt (Optional): boolean or null. Whether selections from
-     * this group appear on buyer receipts unless overridden for a modifier set.
-     * previous_attributes.show_on_receipt.anyOf[1] (Value): boolean. Whether selections from this
-     * group appear on buyer receipts unless overridden for a modifier set.
-     * previous_attributes.show_on_receipt.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Lifecycle status of the modifier group. Only active groups can
-     * be offered to buyers; archived groups remain readable and cannot be edited. Value enum:
-     * "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string.
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
-     * "archived". previous_attributes.status.anyOf[2] (Value): null. previous_attributes.text
-     * (Optional): {@link TextModifierConfigPreviousAttributes} or null. Text entry rules for a
-     * text group. Use text.required to require a value; list groups use min_selected instead.
-     * previous_attributes.text.anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
-     * previous_attributes.text.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
-     * string or null. When the modifier group or its modifiers last changed, as an RFC3339
-     * timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the modifier group
-     * or its modifiers last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.version (Optional): integer or null. Version of the modifier group and
-     * its modifiers. previous_attributes.version.anyOf[1] (Value): integer. Version of the
-     * modifier group and its modifiers. Format: uint64. minimum: 1.
-     * previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. allow_quantities (Optional): boolean or null.
-         * Whether buyers can select more than one unit of a list modifier.
-         * allow_quantities.anyOf[1] (Value): boolean. Whether buyers can select more than one unit
-         * of a list modifier. allow_quantities.anyOf[2] (Value): null. created_at (Optional):
-         * string or null. When the modifier group was created, as an RFC3339 timestamp.
-         * created_at.anyOf[1] (Value): string. When the modifier group was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
-         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
-         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. max_quantity
-         * (Optional): integer or null. Maximum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported.
-         * max_quantity.anyOf[1] (Value): integer. Maximum whole-number quantity for each selected
-         * list modifier when allow_quantities is true; fractional quantities are not supported.
-         * Format: int64. max_quantity.anyOf[2] (Value): null. max_selected (Optional): integer or
-         * null. Maximum number of distinct modifiers buyers can select from a list group. Omit it
-         * for no limit. A modifier set can override this value. max_selected.anyOf[1] (Value):
-         * integer. Maximum number of distinct modifiers buyers can select from a list group. Omit
-         * it for no limit. A modifier set can override this value. Format: int32.
-         * max_selected.anyOf[2] (Value): null. max_total_quantity (Optional): integer or null.
-         * Maximum combined whole-number quantity across selected list modifiers; fractional
-         * quantities are not supported. max_total_quantity.anyOf[1] (Value): integer. Maximum
-         * combined whole-number quantity across selected list modifiers; fractional quantities are
-         * not supported. Format: int64. max_total_quantity.anyOf[2] (Value): null. merchant_id
-         * (Optional): string or null. Identifier of the merchant that owns this modifier group.
-         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
-         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be
-         * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-         * cannot be written through the public API. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. min_quantity (Optional): integer or null.
-         * Minimum whole-number quantity for each selected list modifier when allow_quantities is
-         * true; fractional quantities are not supported. min_quantity.anyOf[1] (Value): integer.
-         * Minimum whole-number quantity for each selected list modifier when allow_quantities is
-         * true; fractional quantities are not supported. Format: int64. min_quantity.anyOf[2]
-         * (Value): null. min_selected (Optional): integer or null. Minimum number of distinct
-         * modifiers buyers must select from a list group. Omit it to require no selections. A
-         * modifier set can override this value. min_selected.anyOf[1] (Value): integer. Minimum
-         * number of distinct modifiers buyers must select from a list group. Omit it to require no
-         * selections. A modifier set can override this value. Format: int32. min_selected.anyOf[2]
-         * (Value): null. modifier_group_id (Optional): string or null. Stable identifier of the
-         * modifier group. For a group a modifier set owns (`source: inline`), read it through `GET
-         * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
-         * modifier_group_id.anyOf[1] (Value): string. Stable identifier of the modifier group. For
-         * a group a modifier set owns (`source: inline`), read it through `GET
-         * /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example:
-         * "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_id.anyOf[2] (Value): null.
-         * modifier_group_type (Optional): string or null. Whether buyers choose from a list of
-         * modifiers or enter text. On create, inferred as text when text configuration is
-         * supplied, otherwise list. Value enum: "list", "text". modifier_group_type.anyOf[1]
-         * (Value): string. Whether buyers choose from a list of modifiers or enter text. On
-         * create, inferred as text when text configuration is supplied, otherwise list. Value
-         * enum: "list", "text". modifier_group_type.anyOf[2] (Value): null. modifiers (Optional):
-         * Array of {@link ModifierPreviousAttributes} or null. Choices in a list group. Only
-         * active modifiers whose set override's available is not false are offered to buyers. Text
-         * groups do not have choices. modifiers.anyOf[1] (Value): Array of {@link
-         * ModifierPreviousAttributes}. Choices in a list group. Only active modifiers whose set
-         * override's available is not false are offered to buyers. Text groups do not have
-         * choices. modifiers.anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
-         * modifiers.anyOf[2] (Value): null. name (Optional): string or null. Name of the modifier
-         * group shown to buyers. name.anyOf[1] (Value): string. Name of the modifier group shown
-         * to buyers. name.anyOf[2] (Value): null. show_on_fulfillment (Optional): boolean or null.
-         * Whether selections from this group appear in fulfillment details unless overridden for a
-         * modifier set. show_on_fulfillment.anyOf[1] (Value): boolean. Whether selections from
-         * this group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_fulfillment.anyOf[2] (Value): null. show_on_receipt (Optional): boolean or null.
-         * Whether selections from this group appear on buyer receipts unless overridden for a
-         * modifier set. show_on_receipt.anyOf[1] (Value): boolean. Whether selections from this
-         * group appear on buyer receipts unless overridden for a modifier set.
-         * show_on_receipt.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". status.anyOf[1] (Value): string. Lifecycle status of the modifier group.
-         * Only active groups can be offered to buyers; archived groups remain readable and cannot
-         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
-         * text (Optional): {@link TextModifierConfigPreviousAttributes} or null. Text entry rules
-         * for a text group. Use text.required to require a value; list groups use min_selected
-         * instead. text.anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
-         * text.anyOf[2] (Value): null. updated_at (Optional): string or null. When the modifier
-         * group or its modifiers last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
-         * (Value): string. When the modifier group or its modifiers last changed, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
-         * (Value): null. version (Optional): integer or null. Version of the modifier group and
-         * its modifiers. version.anyOf[1] (Value): integer. Version of the modifier group and its
-         * modifiers. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Whether buyers can select more than one unit of a list modifier. anyOf[1] (Value):
-             * boolean. Whether buyers can select more than one unit of a list modifier. anyOf[2]
-             * (Value): null.
-             */
-            "allow_quantities"?: ((boolean) | (null));
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the modifier group was created, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Maximum
-             * whole-number quantity for each selected list modifier when allow_quantities is true;
-             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "max_quantity"?: ((number) | (null));
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. anyOf[1] (Value): integer.
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32. anyOf[2]
-             * (Value): null.
-             */
-            "max_selected"?: ((number) | (null));
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. anyOf[1] (Value): integer. Maximum combined
-             * whole-number quantity across selected list modifiers; fractional quantities are not
-             * supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "max_total_quantity"?: ((number) | (null));
-            /**
-             * Identifier of the merchant that owns this modifier group. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Minimum
-             * whole-number quantity for each selected list modifier when allow_quantities is true;
-             * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
-             */
-            "min_quantity"?: ((number) | (null));
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. anyOf[1] (Value):
-             * integer. Minimum number of distinct modifiers buyers must select from a list group.
-             * Omit it to require no selections. A modifier set can override this value. Format:
-             * int32. anyOf[2] (Value): null.
-             */
-            "min_selected"?: ((number) | (null));
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. anyOf[1] (Value): string. Stable identifier
-             * of the modifier group. For a group a modifier set owns (`source: inline`), read it
-             * through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-             * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
-             */
-            "modifier_group_id"?: ((string) | (null));
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text". anyOf[1] (Value): string. Whether buyers choose from a list of modifiers or
-             * enter text. On create, inferred as text when text configuration is supplied,
-             * otherwise list. Value enum: "list", "text". anyOf[2] (Value): null.
-             */
-            "modifier_group_type"?: (("list" | "text" | (string & {})) | (null));
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. anyOf[1] (Value):
-             * Array of {@link ModifierPreviousAttributes}. Choices in a list group. Only active
-             * modifiers whose set override's available is not false are offered to buyers. Text
-             * groups do not have choices. anyOf[1][] (Value): {@link ModifierPreviousAttributes}.
-             * anyOf[2] (Value): null.
-             */
-            "modifiers"?: ((Array<ModifierPreviousAttributes>) | (null));
-            /**
-             * Name of the modifier group shown to buyers. anyOf[1] (Value): string. Name of the
-             * modifier group shown to buyers. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set. anyOf[1] (Value): boolean. Whether selections from this group
-             * appear in fulfillment details unless overridden for a modifier set. anyOf[2]
-             * (Value): null.
-             */
-            "show_on_fulfillment"?: ((boolean) | (null));
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set. anyOf[1] (Value): boolean. Whether selections from this group appear
-             * on buyer receipts unless overridden for a modifier set. anyOf[2] (Value): null.
-             */
-            "show_on_receipt"?: ((boolean) | (null));
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
-             * group. Only active groups can be offered to buyers; archived groups remain readable
-             * and cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. anyOf[1] (Value): {@link
-             * TextModifierConfigPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "text"?: ((TextModifierConfigPreviousAttributes) | (null) | (unknown));
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * anyOf[1] (Value): string. When the modifier group or its modifiers last changed, as
-             * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Version of the modifier group and its modifiers. anyOf[1] (Value): integer. Version
-             * of the modifier group and its modifiers. Format: uint64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_group.archived". */
-    "event_type"?: "modifier_group.archived";
-});
 export type ModifierGroupCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -1153,7 +603,7 @@ export type ModifierGroupPreviousAttributes = {
      * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
      * {@link MetadataMap}. anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
      * fractional quantities are not supported. anyOf[1] (Value): integer. Minimum whole-number
@@ -1224,7 +674,7 @@ export type ModifierGroupPreviousAttributes = {
      * min_selected instead. anyOf[1] (Value): {@link TextModifierConfigPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "text"?: ((TextModifierConfigPreviousAttributes) | (null) | (unknown));
+    "text"?: ((TextModifierConfigPreviousAttributes) | (null));
     /**
      * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. anyOf[1]
      * (Value): string. When the modifier group or its modifiers last changed, as an RFC3339
@@ -1289,7 +739,7 @@ export type ModifierGroupUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "max_selected"?: ((number) | (null));
             "max_total_quantity"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "min_quantity"?: ((number) | (null));
             "min_selected"?: ((number) | (null));
             "modifier_group_id"?: ((string) | (null));
@@ -1299,7 +749,7 @@ export type ModifierGroupUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "show_on_fulfillment"?: ((boolean) | (null));
             "show_on_receipt"?: ((boolean) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "text"?: ((TextModifierConfigPreviousAttributes) | (null) | (unknown));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -1343,7 +793,7 @@ export type ModifierGroupUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "max_selected"?: ((number) | (null));
             "max_total_quantity"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "min_quantity"?: ((number) | (null));
             "min_selected"?: ((number) | (null));
             "modifier_group_id"?: ((string) | (null));
@@ -1353,7 +803,7 @@ export type ModifierGroupUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "show_on_fulfillment"?: ((boolean) | (null));
             "show_on_receipt"?: ((boolean) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "text"?: ((TextModifierConfigPreviousAttributes) | (null) | (unknown));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -1826,7 +1276,7 @@ export type ModifierGroupUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Minimum whole-number quantity for each selected list modifier when allow_quantities
              * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Minimum
@@ -1900,7 +1350,7 @@ export type ModifierGroupUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * use min_selected instead. anyOf[1] (Value): {@link
              * TextModifierConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "text"?: ((TextModifierConfigPreviousAttributes) | (null) | (unknown));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
             /**
              * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
              * anyOf[1] (Value): string. When the modifier group or its modifiers last changed, as
@@ -2410,7 +1860,7 @@ export type ModifierGroupUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Minimum whole-number quantity for each selected list modifier when allow_quantities
              * is true; fractional quantities are not supported. anyOf[1] (Value): integer. Minimum
@@ -2484,7 +1934,7 @@ export type ModifierGroupUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * use min_selected instead. anyOf[1] (Value): {@link
              * TextModifierConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "text"?: ((TextModifierConfigPreviousAttributes) | (null) | (unknown));
+            "text"?: ((TextModifierConfigPreviousAttributes) | (null));
             /**
              * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
              * anyOf[1] (Value): string. When the modifier group or its modifiers last changed, as
@@ -2765,7 +2215,7 @@ export type ModifierOverridePreviousAttributes = {
      * Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's
      * value. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /**
  * Settings for one modifier that apply only within a modifier set group, overriding the modifier
@@ -2862,7 +2312,7 @@ export type ModifierPreviousAttributes = {
      * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
      * {@link MetadataMap}. anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Identifier of the group that owns this modifier. For an inline group, read the group through
      * its modifier set. anyOf[1] (Value): string. Identifier of the group that owns this modifier.
@@ -2924,7 +2374,7 @@ export type ModifierPreviousAttributes = {
      * override this value. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * When the modifier last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When the
      * modifier last changed, as an RFC3339 timestamp. Format: date-time. Example:
@@ -3152,7 +2602,7 @@ export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "created_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
             "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
@@ -3186,7 +2636,7 @@ export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "created_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
             "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
@@ -3443,7 +2893,7 @@ export type ModifierSetArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Ordered group entries in this set, including the full content of reusable groups and
              * groups owned by the set. anyOf[1] (Value): Array of {@link
@@ -3761,7 +3211,7 @@ export type ModifierSetArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Ordered group entries in this set, including the full content of reusable groups and
              * groups owned by the set. anyOf[1] (Value): Array of {@link
@@ -4506,7 +3956,7 @@ export type ModifierSetGroupPreviousAttributes = {
      * including when the group is archived. anyOf[1] (Value): {@link
      * ModifierGroupPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "modifier_group"?: ((ModifierGroupPreviousAttributes) | (null) | (unknown));
+    "modifier_group"?: ((ModifierGroupPreviousAttributes) | (null));
     /**
      * Stable identifier of the group contained in this entry, for either source. anyOf[1] (Value):
      * string. Stable identifier of the group contained in this entry, for either source. Example:
@@ -4742,7 +4192,7 @@ export type ModifierSetPreviousAttributes = {
      * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
      * {@link MetadataMap}. anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Ordered group entries in this set, including the full content of reusable groups and groups
      * owned by the set. anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
@@ -4824,7 +4274,7 @@ export type ModifierSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "created_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
             "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
@@ -4858,7 +4308,7 @@ export type ModifierSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "created_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
             "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
@@ -5115,7 +4565,7 @@ export type ModifierSetUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Ordered group entries in this set, including the full content of reusable groups and
              * groups owned by the set. anyOf[1] (Value): Array of {@link
@@ -5433,7 +4883,7 @@ export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Ordered group entries in this set, including the full content of reusable groups and
              * groups owned by the set. anyOf[1] (Value): Array of {@link
@@ -6428,7 +5878,7 @@ export type NextActionPreviousAttributes = {
      * session body. anyOf[1] (Value): {@link ReadinessMerchantAccountSessionPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "merchant_account_session"?: ((ReadinessMerchantAccountSessionPreviousAttributes) | (null) | (unknown));
+    "merchant_account_session"?: ((ReadinessMerchantAccountSessionPreviousAttributes) | (null));
     /**
      * HTTP method for the recovery read. Value enum: "GET". anyOf[1] (Value): string. HTTP method
      * for the recovery read. Value enum: "GET". anyOf[2] (Value): null.
@@ -6655,7 +6105,7 @@ export type NextActionPreviousAttributes = {
      * cannot carry the target. anyOf[1] (Value): {@link ResourceReferencePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "target_resource"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+    "target_resource"?: ((ResourceReferencePreviousAttributes) | (null));
     /**
      * Public endpoint or launch URL for this remediation action, when applicable. anyOf[1]
      * (Value): string. Public endpoint or launch URL for this remediation action, when applicable.
@@ -7337,6 +6787,106 @@ export type OAuthTokenRequestDeviceCode = ({
     & ({
     /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
     "grant_type"?: unknown;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+});
+/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestDeviceCodeInput = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     * Example: "flint-cli".
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier"?: string;
+    /**
+     * flint-cli only. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code": string;
+    /**
+     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
+     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
+     * enum: "urn:ietf:params:oauth:grant-type:device_code".
+     */
+    "grant_type": "urn:ietf:params:oauth:grant-type:device_code";
+    /**
+     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
+     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
+     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
+     * token is for one mode. Value enum: "test", "live".
+     */
+    "mode"?: "test" | "live";
+    /**
+     * The redirect URI the authorization request used, character for character. Required for a
+     * code from the consent screen. Omit it for a code from a merchant signup, which had no
+     * authorization request: a signup code sent with one, or a consent-screen code sent without
+     * one, returns invalid_grant.
+     */
+    "redirect_uri"?: string;
+    /**
+     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
+     * tokens; a partner client that sends this grant gets unauthorized_client.
+     */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
+     * client_credentials refuses scope with invalid_scope.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
+    "grant_type"?: ("urn:ietf:params:oauth:grant-type:device_code") & ("urn:ietf:params:oauth:grant-type:device_code");
     /** flint-cli device code, required for the device_code grant. */
     "device_code": string;
 });

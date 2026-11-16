@@ -103,10 +103,10 @@ export type {
     InventoryReservationActionRequiredEvent,
     InventoryReservationAtRiskEvent,
     InventoryReservationClosedEvent,
-    InventoryReservationCommittedEvent
+    InventoryReservationCommittedEvent,
+    InventoryReservationConsumedEvent
 } from './declarations/types-32.js';
 export type {
-    InventoryReservationConsumedEvent,
     InventoryReservationCreatedEvent,
     InventoryReservationHoldExpiredEvent,
     InventoryReservationReleasedEvent,
@@ -137,7 +137,8 @@ export type {
     InvoiceLateFeeWaivedEvent,
     InvoiceMarkedUncollectibleEvent,
     InvoiceOverdueEvent,
-    InvoicePaidEvent
+    InvoicePaidEvent,
+    InvoicePartiallyPaidEvent
 } from './declarations/types-35.js';
 export type {
     InvoicePaymentAttemptCanceledEvent,
@@ -145,7 +146,6 @@ export type {
     InvoicePaymentAttemptFailedEvent,
     InvoicePaymentAttemptProcessingEvent,
     InvoicePaymentAttemptSucceededEvent,
-    InvoicePartiallyPaidEvent,
     InvoicePartiallyRefundedEvent
 } from './declarations/types-36.js';
 export type { InvoiceRefundedEvent, InvoiceReminderDueEvent, InvoiceReopenedEvent, InvoiceSentEvent } from './declarations/types-37.js';
@@ -164,10 +164,15 @@ export type {
     ModifierSetCreatedEvent,
     ModifierSetUpdatedEvent
 } from './declarations/types-42.js';
-export type { OrderEditCanceledEvent, OrderEditCompletedEvent, OrderEditCreatedEvent, OrderEditUpdatedEvent } from './declarations/types-44.js';
+export type {
+    OrderEditCanceledEvent,
+    OrderEditCompletedEvent,
+    OrderEditCreatedEvent,
+    OrderEditUpdatedEvent,
+    OrderInventoryExceptionCreatedEvent
+} from './declarations/types-44.js';
 export type { OrderClosedEvent, OrderCreatedEvent } from './declarations/types-43.js';
 export type {
-    OrderInventoryExceptionCreatedEvent,
     OrderInventoryExceptionResolvedEvent,
     OrderPaidEvent,
     OrderPartiallyPaidEvent,
@@ -195,10 +200,10 @@ export type {
     PaymentIntentCreatedEvent,
     PaymentIntentExpiredEvent,
     PaymentIntentFulfillmentHoldUpdatedEvent,
-    PaymentIntentPaymentFailedEvent
+    PaymentIntentPaymentFailedEvent,
+    PaymentIntentProcessingEvent
 } from './declarations/types-49.js';
 export type {
-    PaymentIntentProcessingEvent,
     PaymentIntentRequiresActionEvent,
     PaymentIntentRequiresCaptureEvent,
     PaymentIntentSucceededEvent,
@@ -209,10 +214,10 @@ export type {
     PaymentLinkUpdatedEvent,
     PaymentMethodActivatedEvent,
     PaymentMethodArchivedEvent,
-    PaymentMethodFailedEvent
+    PaymentMethodFailedEvent,
+    PaymentMethodUpdatedEvent
 } from './declarations/types-51.js';
 export type {
-    PaymentMethodUpdatedEvent,
     PaymentReviewClosedEvent,
     PaymentReviewOpenedEvent,
     PaymentReviewReopenedEvent,
@@ -262,31 +267,29 @@ export type {
     PromotionArchivedEvent,
     PromotionCreatedEvent
 } from './declarations/types-56.js';
-export type { PromotionUpdatedEvent, ReaderArchivedEvent } from './declarations/types-57.js';
-export type { ReaderCreatedEvent, ReaderUpdatedEvent, RefundCreatedEvent, RefundFailedEvent } from './declarations/types-58.js';
-export type { RefundPartiallySucceededEvent, RefundSucceededEvent, RefundUpdatedEvent, ReportFailedEvent } from './declarations/types-59.js';
+export type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent } from './declarations/types-57.js';
+export type { ReaderUpdatedEvent, RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './declarations/types-58.js';
+export type { RefundSucceededEvent, RefundUpdatedEvent, ReportFailedEvent, ReportSucceededEvent } from './declarations/types-59.js';
 export type {
-    ReportSucceededEvent,
+    ReturnDispositionCreatedEvent,
     ReturnCanceledEvent,
     ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent
 } from './declarations/types-60.js';
 export type {
-    ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
     ReturnInspectionAcceptanceDecidedEvent,
     ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent
 } from './declarations/types-61.js';
-export type { ReturnReceiptCreatedEvent, ReturnReceiptSupersededEvent } from './declarations/types-62.js';
+export type { ReturnReceiptCreatedEvent, ReturnReceiptSupersededEvent, ReturnReceiptVerifiedEvent } from './declarations/types-62.js';
 export type {
-    ReturnReceiptVerifiedEvent,
     ReturnResolutionCreatedEvent,
     ReturnResolutionUpdatedEvent,
-    ReturnReopenedEvent
+    ReturnReopenedEvent,
+    ReturnUpdatedEvent
 } from './declarations/types-63.js';
-export type { ReturnUpdatedEvent } from './declarations/types-64.js';
 export type { ShipmentCreatedEvent, ShipmentUpdatedEvent, SubscriptionActivatedEvent } from './declarations/types-66.js';
 export type {
     SubscriptionDeliveryMigrationCompletedEvent,
@@ -298,14 +301,6 @@ export type {
 } from './declarations/types-67.js';
 export type {
     SubscriptionPaymentRetryCreatedEvent,
-    SubscriptionPaymentRetryFailedEvent,
-    SubscriptionPaymentRetrySucceededEvent,
-    SubscriptionPaymentSucceededEvent,
-    SubscriptionPlanChangeCanceledEvent,
-    SubscriptionPlanChangeScheduledEvent,
-    SubscriptionPlanChangedEvent
-} from './declarations/types-69.js';
-export type {
     SubscriptionDeliveryPauseUpcomingEvent,
     SubscriptionDeliveryUpdatedEvent,
     SubscriptionDunningExhaustedEvent,
@@ -313,6 +308,14 @@ export type {
     SubscriptionPastDueEvent,
     SubscriptionPausedEvent
 } from './declarations/types-68.js';
+export type {
+    SubscriptionPaymentRetryFailedEvent,
+    SubscriptionPaymentRetrySucceededEvent,
+    SubscriptionPaymentSucceededEvent,
+    SubscriptionPlanChangeCanceledEvent,
+    SubscriptionPlanChangeScheduledEvent,
+    SubscriptionPlanChangedEvent
+} from './declarations/types-69.js';
 export type {
     SubscriptionReactivatedEvent,
     SubscriptionRenewalUpcomingEvent,
@@ -335,6 +338,7 @@ export type {
     TestClockFailedEvent,
     TestClockReadyEvent,
     TicketCheckedInEvent,
-    TicketCreatedEvent
+    TicketCreatedEvent,
+    TicketUpdatedEvent
 } from './declarations/types-72.js';
-export type { TicketUpdatedEvent, TicketVoidedEvent } from './declarations/types-73.js';
+export type { TicketVoidedEvent } from './declarations/types-73.js';

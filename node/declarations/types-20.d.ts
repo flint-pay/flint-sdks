@@ -73,26 +73,6 @@ import type {
 } from './types-18.js';
 import type { DeliveryPricingStrategyFixed, DeliveryPricingStrategyRateTable, DeliveryPricingStrategyTiered } from './types-21.js';
 /** The Locations selector for a allocated_origin_group delivery origin. */
-export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations = ({
-    /**
-     * ID of the delivery location set that names the Locations in the group. minLength: 1.
-     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
-     */
-    "delivery_location_set_id"?: string;
-    /**
-     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
-     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_ids": Array<string>;
-    /** Where delivery starts. Value enum: "allocated_origin_group". */
-    "type": "allocated_origin_group" | (string & {});
-});
-/** The Locations selector for a allocated_origin_group delivery origin. */
 export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput = ({
     /**
      * ID of the delivery location set that names the Locations in the group. minLength: 1.
@@ -606,19 +586,19 @@ export type DeliveryMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -652,19 +632,19 @@ export type DeliveryMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -743,16 +723,16 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -918,16 +898,16 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -974,7 +954,7 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -996,14 +976,14 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -1024,7 +1004,7 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -1050,7 +1030,7 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -1169,16 +1149,16 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -1344,16 +1324,16 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -1400,7 +1380,7 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1422,14 +1402,14 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -1450,7 +1430,7 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -1476,7 +1456,7 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -1767,18 +1747,18 @@ export type DeliveryOptionProjectionPreviousAttributes = {
      * Delivery charge for this option. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Estimated arrival dates. Omitted when the method makes no timing promise. anyOf[1] (Value):
      * {@link DeliveryArrivalEstimatePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "arrival_estimate"?: ((DeliveryArrivalEstimatePreviousAttributes) | (null) | (unknown));
+    "arrival_estimate"?: ((DeliveryArrivalEstimatePreviousAttributes) | (null));
     /**
      * The instructions field checkout collects for this option: whether it is enabled and
      * required, and its label and placeholder. anyOf[1] (Value): {@link
      * BuyerInstructionsConfigPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "buyer_instructions"?: ((BuyerInstructionsConfigPreviousAttributes) | (null) | (unknown));
+    "buyer_instructions"?: ((BuyerInstructionsConfigPreviousAttributes) | (null));
     /**
      * Flint charge tax category. Value enum: "service_fee", "shipping", "delivery", "handling",
      * "surcharge". anyOf[1] (Value): string. Flint charge tax category. Value enum: "service_fee",
@@ -1814,7 +1794,7 @@ export type DeliveryOptionProjectionPreviousAttributes = {
      * How the option divides the items into deliveries. anyOf[1] (Value): {@link
      * DeliveryPlanPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "delivery_plan"?: ((DeliveryPlanPreviousAttributes) | (null) | (unknown));
+    "delivery_plan"?: ((DeliveryPlanPreviousAttributes) | (null));
     /**
      * Buyer-visible description of the option. Omitted when the method has none. anyOf[1] (Value):
      * string. Buyer-visible description of the option. Omitted when the method has none. anyOf[2]
@@ -1856,7 +1836,7 @@ export type DeliveryOptionProjectionPreviousAttributes = {
      * Local delivery details. Set only when `type` is `local_delivery`. anyOf[1] (Value): {@link
      * DeliveryShipmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "local_delivery"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null) | (unknown));
+    "local_delivery"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null));
     /**
      * Buyer-visible name of the option. anyOf[1] (Value): string. Buyer-visible name of the
      * option. anyOf[2] (Value): null.
@@ -1873,7 +1853,7 @@ export type DeliveryOptionProjectionPreviousAttributes = {
      * Pickup details. Set only when `type` is `pickup`. anyOf[1] (Value): {@link
      * DeliveryPickupDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "pickup"?: ((DeliveryPickupDetailsPreviousAttributes) | (null) | (unknown));
+    "pickup"?: ((DeliveryPickupDetailsPreviousAttributes) | (null));
     /**
      * Recipient fields this option asks for. A selection can leave out required fields, but
      * payment needs them. anyOf[1] (Value): Array of {@link
@@ -1893,7 +1873,7 @@ export type DeliveryOptionProjectionPreviousAttributes = {
      * Shipment details. Set only when `type` is `shipment`. anyOf[1] (Value): {@link
      * DeliveryShipmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "shipment"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null) | (unknown));
+    "shipment"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null));
     /**
      * Whether tax applies to the delivery charge. anyOf[1] (Value): boolean. Whether tax applies
      * to the delivery charge. anyOf[2] (Value): null.
@@ -2173,7 +2153,7 @@ export type DeliveryPickupDetailsPreviousAttributes = {
      * Location where the buyer collects the items. anyOf[1] (Value): {@link
      * DeliveryLocationSummaryResourcePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "location"?: ((DeliveryLocationSummaryResourcePreviousAttributes) | (null) | (unknown));
+    "location"?: ((DeliveryLocationSummaryResourcePreviousAttributes) | (null));
     /**
      * How the buyer collects the items at this Location. Value enum: "in_store", "curbside",
      * "locker", "other". anyOf[1] (Value): string. How the buyer collects the items at this
@@ -2612,7 +2592,7 @@ export type DeliveryPricingRatePreviousAttributes = {
      * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
      * (Value): null.
      */
-    "when"?: (((((DeliveryEligibilityExpressionPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "when"?: (((((DeliveryEligibilityExpressionPreviousAttributes) | (null)))) | (null) | (unknown));
 };
 /**
  * A rate in a rate table pricing strategy you send when updating a delivery method. Include
@@ -2784,32 +2764,32 @@ export type DeliveryPricingStrategyCalculatedPreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum:
      * "calculated". anyOf[1] (Value): string. How the method sets its price. Set the property
@@ -2884,32 +2864,32 @@ export type DeliveryPricingStrategyCallbackPreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum: "callback".
      * anyOf[1] (Value): string. How the method sets its price. Set the property named by this
@@ -2986,32 +2966,32 @@ export type DeliveryPricingStrategyCallerSuppliedPreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum:
      * "caller_supplied". anyOf[1] (Value): string. How the method sets its price. Set the property
@@ -3208,3 +3188,72 @@ export type DeliveryPricingStrategyCreateInputCallback = ({
      */
     "callback": DeliveryCallbackPricingStrategyRequest;
 }));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallbackInput = ({
+    /**
+     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
+     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
+     * handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
+     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
+     * maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /**
+     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
+     * supplied for a delivery method.
+     */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
+     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
+     * a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
+     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
+     * when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": "callback";
+})
+    & (({
+    /**
+     * How the method sets its price. Set the property named by this value. Value enum: "callback".
+     */
+    "type": ("callback") & ("callback");
+    /**
+     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
+     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
+     * and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));

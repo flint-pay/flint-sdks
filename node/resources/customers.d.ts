@@ -157,8 +157,8 @@ export {
     makeCustomerTaxExemptionCoverageStatesRequest
 } from '../declarations/types-82.js';
 export { makeDocumentTaxIDRequest } from '../declarations/types-84.js';
-export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,

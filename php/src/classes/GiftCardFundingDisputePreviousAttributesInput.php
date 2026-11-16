@@ -5,13 +5,13 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read string|null $dispute_id
  * @property-read bool|null $requires_resolution
- * @property-read GiftCardFundingLossResolutionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $resolution
+ * @property-read GiftCardFundingLossResolutionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $resolution
  * @property-read string|null $status
  * @property-read string|\DateTimeInterface|null $updated_at
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardFundingDisputePreviousAttributesInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface|null, 'dispute_id'?: string|null, 'requires_resolution'?: bool|null, 'resolution'?: GiftCardFundingLossResolutionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface|null, 'dispute_id'?: string|null, 'requires_resolution'?: bool|null, 'resolution'?: GiftCardFundingLossResolutionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDisputePreviousAttributesInput')); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
@@ -31,8 +31,8 @@ final class GiftCardFundingDisputePreviousAttributesInput extends Model {
      */
     public function getRequiresResolution(): mixed { return $this->get('requires_resolution'); }
     public function hasRequiresResolution(): bool { return $this->has('requires_resolution'); }
-    /** The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1] (Value): ({@see GiftCardFundingLossResolutionPreviousAttributesInput} or null). The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1].anyOf[1] (Value): {@see GiftCardFundingLossResolutionPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return GiftCardFundingLossResolutionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1] (Value): {@see GiftCardFundingLossResolutionPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return GiftCardFundingLossResolutionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When resolution is omitted; use hasResolution() or valueOrDefault().
      */
     public function getResolution(): mixed { return $this->get('resolution'); }

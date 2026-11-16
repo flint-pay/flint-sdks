@@ -42,7 +42,8 @@ export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-42.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { CreateCustomerVerificationRequestInput } from '../declarations/types-9.js';
-export { makeConfirmCustomerVerificationRequest, makeCreateCustomerVerificationRequest } from '../declarations/types-79.js';
+export { makeConfirmCustomerVerificationRequest } from '../declarations/types-78.js';
+export { makeCreateCustomerVerificationRequest } from '../declarations/types-79.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export interface CustomerVerificationsResource {
     /**

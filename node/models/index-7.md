@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# CreateGiftCardResultResponse to CreateOrderTipInput
+# CreateInlineModifierGroupRequestInput to CreateOrderTipAmount
 
-- [CreateGiftCardResultResponse](CreateGiftCardResultResponse.md)
 - [CreateInlineModifierGroupRequestInput](CreateInlineModifierGroupRequestInput.md)
 - [CreateIntervalReportRequest](CreateIntervalReportRequest.md)
 - [CreateIntervalReportRequestInput](CreateIntervalReportRequestInput.md)
@@ -102,4 +101,5 @@
 - [CreateOrderRequestInput](CreateOrderRequestInput.md)
 - [CreateOrderTip](CreateOrderTip.md)
 - [CreateOrderTipInput](CreateOrderTipInput.md)
+- [CreateOrderTipAmount](CreateOrderTipAmount.md)
 

@@ -6,14 +6,10 @@ import type {
     DisputeResponse,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
-    DisputesAcceptParams
+    DisputesAcceptParams,
+    DisputesCreateResponseSessionParams
 } from '../declarations/types-25.js';
-import type {
-    DisputesCreateResponseSessionParams,
-    DisputesGetParams,
-    DisputesListParams,
-    DisputesSimulateParams
-} from '../declarations/types-26.js';
+import type { DisputesGetParams, DisputesListParams, DisputesSimulateParams } from '../declarations/types-26.js';
 import type { RequestOptions } from '../declarations/types-60.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -34,6 +30,7 @@ export type {
     DisputesAcceptParams,
     Dispute,
     DisputeResponse,
+    DisputesCreateResponseSessionParams,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
     DisputeListResponse,
@@ -44,7 +41,6 @@ export type {
 } from '../declarations/types-25.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
-    DisputesCreateResponseSessionParams,
     DisputesGetParams,
     DisputesListParams,
     DisputesSimulateParams,
@@ -61,13 +57,14 @@ export type { CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts, SplitReversalReference, SimulateDisputeRequestInput } from '../declarations/types-66.js';
+export type { SettlementAmounts } from '../declarations/types-65.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-52.js';
+export type { SplitReversalReference, SimulateDisputeRequestInput } from '../declarations/types-66.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeSimulateDisputeRequest } from '../declarations/types-89.js';

@@ -2,13 +2,13 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $closed_reason
+ * @property-read string|null $closed_reason
  * @property-read string|null $created_at
- * @property-read mixed $expires_at
+ * @property-read string|null $expires_at
  * @property-read string|null $idempotency_key
- * @property-read mixed $inventory_action_required
+ * @property-read InventoryActionRequiredPreviousAttributes|null $inventory_action_required
  * @property-read string|null $inventory_reservation_id
- * @property-read mixed $inventory_routing_source
+ * @property-read InventoryRoutingSourcePreviousAttributes|null $inventory_routing_source
  * @property-read list<InventoryReservationLinePreviousAttributes>|null $lines
  * @property-read mixed $owner
  * @property-read string|null $replacement_inventory_reservation_id
@@ -21,20 +21,20 @@ namespace Flint;
 final class InventoryReservationActionRequiredInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'closed_reason'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'idempotency_key'?: mixed, 'inventory_action_required'?: mixed, 'inventory_reservation_id'?: mixed, 'inventory_routing_source'?: mixed, 'lines'?: mixed, 'owner'?: mixed, 'replacement_inventory_reservation_id'?: mixed, 'source_inventory_reservation_id'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationActionRequiredInstalledMerchantsEventDataPreviousAttributes')); }
-    /** How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getClosedReason(): mixed { return $this->get('closed_reason'); }
+    public function getClosedReason(): string|null { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. anyOf[1] (Value): string or null. When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. anyOf[1] (Value): string. When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getExpiresAt(): mixed { return $this->get('expires_at'); }
+    public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. anyOf[2] (Value): null.
      * @return string|null
@@ -42,9 +42,9 @@ final class InventoryReservationActionRequiredInstalledMerchantsEventDataPreviou
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Present when the claim needs a merchant action before commerce can continue. anyOf[1] (Value): {@see InventoryActionRequiredPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return InventoryActionRequiredPreviousAttributes|null
      */
-    public function getInventoryActionRequired(): mixed { return $this->get('inventory_action_required'); }
+    public function getInventoryActionRequired(): InventoryActionRequiredPreviousAttributes|null { return $this->get('inventory_action_required'); }
     public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
     /** Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1] (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[2] (Value): null.
      * @return string|null
@@ -52,9 +52,9 @@ final class InventoryReservationActionRequiredInstalledMerchantsEventDataPreviou
     public function getInventoryReservationId(): string|null { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
     /** How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. anyOf[1] (Value): {@see InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return InventoryRoutingSourcePreviousAttributes|null
      */
-    public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
+    public function getInventoryRoutingSource(): InventoryRoutingSourcePreviousAttributes|null { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
     /** Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value): Array of {@see InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for each item and Location. anyOf[1][] (Value): {@see InventoryReservationLinePreviousAttributes}. anyOf[2] (Value): null.
      * @return list<InventoryReservationLinePreviousAttributes>|null

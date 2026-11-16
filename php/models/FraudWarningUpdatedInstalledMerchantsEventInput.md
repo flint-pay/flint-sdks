@@ -41,12 +41,12 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `dispute` | Optional | ([DisputePreviousAttributesInput](../models/DisputePreviousAttributesInput.md#disputepreviousattributesinput) or null) or null | Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. |
-| `dispute_id` | Optional | string or null or null | The dispute that opened on this payment after the warning. `null` when no dispute has opened. `dispute_id`: [declared alternatives](../models/FraudWarningUpdatedInstalledMerchantsEventInput.md#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributesdispute_id). |
+| `dispute` | Optional | [DisputePreviousAttributesInput](../models/DisputePreviousAttributesInput.md#disputepreviousattributesinput) or null | Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. |
+| `dispute_id` | Optional | string or null | The dispute that opened on this payment after the warning. `null` when no dispute has opened. `dispute_id`: [declared alternatives](../models/FraudWarningUpdatedInstalledMerchantsEventInput.md#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributesdispute_id). |
 | `fraud_type` | Optional | string or null | The kind of fraud the card network reported. Values: [7 declared values](#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributes-fraud_type-values). `fraud_type`: [declared alternatives](../models/FraudWarningUpdatedInstalledMerchantsEventInput.md#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributesfraud_type). |
 | `fraud_warning_id` | Optional | string or null | Unique identifier for this fraud warning, prefixed `frw_`. `fraud_warning_id`: [declared alternatives](../models/FraudWarningUpdatedInstalledMerchantsEventInput.md#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributesfraud_warning_id). |
 | `is_actionable` | Optional | boolean or null | true until the payment is refunded in full, a dispute opens on it, or the card network marks the warning resolved; after that it stays false. A partial refund doesn't change it. `is_actionable`: [declared alternatives](../models/FraudWarningUpdatedInstalledMerchantsEventInput.md#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributesis_actionable). |
-| `payment_intent` | Optional | ([ExpandedPaymentIntentSummaryPreviousAttributesInput](../models/ExpandedPaymentIntentSummaryPreviousAttributesInput.md#expandedpaymentintentsummarypreviousattributesinput) or null) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
+| `payment_intent` | Optional | [ExpandedPaymentIntentSummaryPreviousAttributesInput](../models/ExpandedPaymentIntentSummaryPreviousAttributesInput.md#expandedpaymentintentsummarypreviousattributesinput) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Optional | string or null | ID of the payment the warning is about. `payment_intent_id`: [declared alternatives](../models/FraudWarningUpdatedInstalledMerchantsEventInput.md#fraudwarningupdatedinstalledmerchantseventinputdataprevious_attributespayment_intent_id). |
 | `payment_summary` | Optional | [FraudWarningPaymentSummaryPreviousAttributesInput](../models/FraudWarningPaymentSummaryPreviousAttributesInput.md#fraudwarningpaymentsummarypreviousattributesinput) or null | The payment's amount, buyer email, and card, for recognizing it. |
 | `reported_at` | Optional | string or null | RFC3339 timestamp. `reported_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
@@ -72,7 +72,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 anyOf variant 1: The dispute that opened on this payment after the warning. `null` when no dispute has opened..
 
-- Value shape: (string or null). The dispute that opened on this payment after the warning. `null` when no dispute has opened. The dispute that opened on this payment after the warning. `null` when no dispute has opened. Example: `"du_01KEZF7C00DEJSF1KTXRT4BBQD"`. 
+- Value shape: string. The dispute that opened on this payment after the warning. `null` when no dispute has opened. The dispute that opened on this payment after the warning. `null` when no dispute has opened. Example: `"du_01KEZF7C00DEJSF1KTXRT4BBQD"`. 
 
 ### FraudWarningUpdatedInstalledMerchantsEventInput.data.previous_attributes.dispute_id variant 2
 

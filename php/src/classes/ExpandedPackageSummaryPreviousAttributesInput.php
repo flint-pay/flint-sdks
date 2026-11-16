@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $carrier
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read string|\DateTimeInterface|null $delivered_at
- * @property-read string|\DateTimeInterface|null|null $expected_delivery_at
+ * @property-read string|\DateTimeInterface|null $expected_delivery_at
  * @property-read string|null $fulfillment_id
  * @property-read string|null $package_id
  * @property-read string|null $service_code
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedPackageSummaryPreviousAttributesInput extends Model {
-    /** @param array{'carrier'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'delivered_at'?: string|\DateTimeInterface|null, 'expected_delivery_at'?: string|\DateTimeInterface|null|null, 'fulfillment_id'?: string|null, 'package_id'?: string|null, 'service_code'?: string|null, 'shipment_id'?: string|null, 'shipped_at'?: string|\DateTimeInterface|null, 'status'?: string|null, 'supported_actions'?: list<string>|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'carrier'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'delivered_at'?: string|\DateTimeInterface|null, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'fulfillment_id'?: string|null, 'package_id'?: string|null, 'service_code'?: string|null, 'shipment_id'?: string|null, 'shipped_at'?: string|\DateTimeInterface|null, 'status'?: string|null, 'supported_actions'?: list<string>|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPackageSummaryPreviousAttributesInput')); }
     /** Carrier transporting the package. anyOf[1] (Value): string. Carrier transporting the package. anyOf[2] (Value): null.
      * @return string|null
@@ -39,8 +39,8 @@ final class ExpandedPackageSummaryPreviousAttributesInput extends Model {
      */
     public function getDeliveredAt(): mixed { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. anyOf[1] (Value): string. When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When expected_delivery_at is omitted; use hasExpectedDeliveryAt() or valueOrDefault().
      */
     public function getExpectedDeliveryAt(): mixed { return $this->get('expected_delivery_at'); }

@@ -3,14 +3,14 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $created_at
- * @property-read mixed $dispute
- * @property-read mixed $dispute_id
+ * @property-read DisputePreviousAttributes|null $dispute
+ * @property-read string|null $dispute_id
  * @property-read string|null $fraud_type
  * @property-read string|null $fraud_warning_id
  * @property-read bool|null $is_actionable
- * @property-read mixed $payment_intent
+ * @property-read ExpandedPaymentIntentSummaryPreviousAttributes|null $payment_intent
  * @property-read string|null $payment_intent_id
- * @property-read mixed $payment_summary
+ * @property-read FraudWarningPaymentSummaryPreviousAttributes|null $payment_summary
  * @property-read string|null $reported_at
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
@@ -22,15 +22,15 @@ final class FraudWarningUpdatedMerchantEventDataPreviousAttributes extends Model
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1] (Value): ({@see DisputePreviousAttributes} or null). Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1].anyOf[1] (Value): {@see DisputePreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. anyOf[1] (Value): {@see DisputePreviousAttributes}. anyOf[2] (Value): null.
+     * @return DisputePreviousAttributes|null
      */
-    public function getDispute(): mixed { return $this->get('dispute'); }
+    public function getDispute(): DisputePreviousAttributes|null { return $this->get('dispute'); }
     public function hasDispute(): bool { return $this->has('dispute'); }
-    /** The dispute that opened on this payment after the warning. `null` when no dispute has opened. anyOf[1] (Value): string or null. The dispute that opened on this payment after the warning. `null` when no dispute has opened. anyOf[2] (Value): null.
-     * @return mixed
+    /** The dispute that opened on this payment after the warning. `null` when no dispute has opened. anyOf[1] (Value): string. The dispute that opened on this payment after the warning. `null` when no dispute has opened. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getDisputeId(): mixed { return $this->get('dispute_id'); }
+    public function getDisputeId(): string|null { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
     /** The kind of fraud the card network reported. Value enum: "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other". anyOf[1] (Value): string. The kind of fraud the card network reported. Value enum: "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -47,10 +47,10 @@ final class FraudWarningUpdatedMerchantEventDataPreviousAttributes extends Model
      */
     public function getIsActionable(): bool|null { return $this->get('is_actionable'); }
     public function hasIsActionable(): bool { return $this->has('is_actionable'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedPaymentIntentSummaryPreviousAttributes|null
      */
-    public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
+    public function getPaymentIntent(): ExpandedPaymentIntentSummaryPreviousAttributes|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
     /** ID of the payment the warning is about. anyOf[1] (Value): string. ID of the payment the warning is about. anyOf[2] (Value): null.
      * @return string|null
@@ -58,9 +58,9 @@ final class FraudWarningUpdatedMerchantEventDataPreviousAttributes extends Model
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
     /** The payment's amount, buyer email, and card, for recognizing it. anyOf[1] (Value): {@see FraudWarningPaymentSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return FraudWarningPaymentSummaryPreviousAttributes|null
      */
-    public function getPaymentSummary(): mixed { return $this->get('payment_summary'); }
+    public function getPaymentSummary(): FraudWarningPaymentSummaryPreviousAttributes|null { return $this->get('payment_summary'); }
     public function hasPaymentSummary(): bool { return $this->has('payment_summary'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

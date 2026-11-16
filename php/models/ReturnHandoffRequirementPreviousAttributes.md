@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `destination` | Optional | Alternative shapes (see declared variants) | Where the buyer sends the merchandise. `destination`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesdestination). |
+| `destination` | Optional | [ReturnHandoffDestinationPreviousAttributes](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributes) or null | Where the buyer sends the merchandise. `destination`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesdestination). |
 | `expires_at` | Optional | string or null | RFC3339 timestamp. `expires_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `instructions` | Optional | string or null | Instructions for the buyer on sending the merchandise. `instructions`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesinstructions). |
 | `line_items` | Optional | Array of [ReturnHandoffRequirementLineItemPreviousAttributes](../models/ReturnHandoffRequirementLineItemPreviousAttributes.md#returnhandoffrequirementlineitempreviousattributes) or null | Return lines and the quantities still expected. `line_items`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesline_items). |
@@ -21,10 +21,10 @@ Where the buyer sends the merchandise.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Conditional | Alternative shapes (see declared variants) | Postal address the buyer sends the merchandise to. `address`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesdestination-variant-1address). |
-| `destination_type` | Conditional | string or null | What kind of place the destination is. Values: `"buyer_address"`, `"location"`, `"external_location"`. `destination_type`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesdestination-variant-1destination_type). |
+| `address` | Conditional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | Postal address the buyer sends the merchandise to. `address`: [declared alternatives](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributesaddress). |
+| `destination_type` | Conditional | string or null | What kind of place the destination is. Values: `"buyer_address"`, `"location"`, `"external_location"`. `destination_type`: [declared alternatives](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributesdestination_type). |
 | `location_id` | Conditional | string or null | ID of the Location that receives the merchandise. `location_id`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesdestination-variant-1location_id). |
-| `name` | Conditional | string or null | Name of the destination. `name`: [declared alternatives](../models/ReturnHandoffRequirementPreviousAttributes.md#returnhandoffrequirementpreviousattributesdestination-variant-1name). |
+| `name` | Conditional | string or null | Name of the destination. `name`: [declared alternatives](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributesname). |
 
 ### ReturnHandoffRequirementPreviousAttributes.destination variant 1
 
@@ -41,60 +41,11 @@ anyOf variant 2.
 
 ### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address
 
-Postal address the buyer sends the merchandise to.
-
-Field definitions: [shared fields](TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address).
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1
-
-anyOf AddressPreviousAttributes.
-
-- Optional: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 2
-
-anyOf variant 2.
-
-- Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
-- Value shape: null. Postal address the buyer sends the merchandise to. 
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1.city
-
-Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.city](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1city).
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1.country
-
-Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.country](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1country).
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1.line1
-
-Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.line1](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1line1).
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1.line2
-
-Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.line2](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1line2).
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1.postal_code
-
-Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.postal_code](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1postal_code).
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.address variant 1.state
-
-Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1.state](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address-variant-1state).
+Declared alternatives: [ReturnHandoffDestinationPreviousAttributes.address](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributesaddress).
 
 ### ReturnHandoffRequirementPreviousAttributes.destination variant 1.destination_type
 
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.destination_type variant 1
-
-anyOf variant 1: What kind of place the destination is..
-
-- Value shape: string. What kind of place the destination is. Values: `"buyer_address"`, `"location"`, `"external_location"`.
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.destination_type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. What kind of place the destination is. 
+Declared alternatives: [ReturnHandoffDestinationPreviousAttributes.destination_type](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributesdestination_type).
 
 ### ReturnHandoffRequirementPreviousAttributes.destination variant 1.location_id
 
@@ -112,17 +63,7 @@ anyOf variant 2.
 
 ### ReturnHandoffRequirementPreviousAttributes.destination variant 1.name
 
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.name variant 1
-
-anyOf variant 1: Name of the destination..
-
-- Value shape: string. Name of the destination. 
-
-### ReturnHandoffRequirementPreviousAttributes.destination variant 1.name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name of the destination. 
+Declared alternatives: [ReturnHandoffDestinationPreviousAttributes.name](../models/ReturnHandoffDestinationPreviousAttributes.md#returnhandoffdestinationpreviousattributesname).
 
 ### ReturnHandoffRequirementPreviousAttributes.expires_at
 

@@ -65,8 +65,8 @@ export type { UpdateModifierGroupRequestInput } from '../declarations/types-74.j
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-10.js';
 export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-80.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeModifierRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-90.js';
 export { makeUpdateModifierGroupRequest } from '../declarations/types-91.js';
 export interface ModifierGroupsResource {

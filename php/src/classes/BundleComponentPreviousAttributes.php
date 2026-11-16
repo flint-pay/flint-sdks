@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read int|null $position
  * @property-read string|null $product_id
  * @property-read int|null $quantity
- * @property-read mixed $variant
+ * @property-read BundleComponentVariantSummaryPreviousAttributes|null $variant
  * @property-read string|null $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class BundleComponentPreviousAttributes extends Model {
@@ -51,9 +51,9 @@ final class BundleComponentPreviousAttributes extends Model {
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
     /** Summary of the component's variant and its selected options. anyOf[1] (Value): {@see BundleComponentVariantSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return BundleComponentVariantSummaryPreviousAttributes|null
      */
-    public function getVariant(): mixed { return $this->get('variant'); }
+    public function getVariant(): BundleComponentVariantSummaryPreviousAttributes|null { return $this->get('variant'); }
     public function hasVariant(): bool { return $this->has('variant'); }
     /** Identifier of the product variant included in the bundle. anyOf[1] (Value): string. Identifier of the product variant included in the bundle. anyOf[2] (Value): null.
      * @return string|null

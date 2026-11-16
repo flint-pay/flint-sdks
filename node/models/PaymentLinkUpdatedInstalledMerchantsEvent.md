@@ -70,9 +70,9 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `sales_end_at` | Optional | string or null | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. `sales_end_at`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributessales_end_at). |
 | `sales_summary` | Optional | [PaymentLinkSalesSummaryPreviousAttributes](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributes) or null | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. |
 | `status` | Optional | string or null | Whether the link can start new checkouts. Values: `"active"`, `"inactive"`. `status`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesstatus). |
-| `subscription_plan` | Optional | ([ExpandedSubscriptionPlanSummaryPreviousAttributes](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributes) or null) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
+| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryPreviousAttributes](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributes) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. |
 | `subscription_plan_id` | Optional | string or null | ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. `subscription_plan_id`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributessubscription_plan_id). |
-| `tax` | Optional | [CheckoutTaxConfigPreviousAttributes](../models/CheckoutTaxConfigPreviousAttributes.md#checkouttaxconfigpreviousattributes) or null | Tax settings for checkouts started from this link. |
+| `tax` | Optional | [SubscriptionTaxPreviousAttributes](../models/SubscriptionTaxPreviousAttributes.md#subscriptiontaxpreviousattributes) or null | Tax settings for checkouts started from this link. `tax`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax). |
 | `theme` | Optional | [ThemeConfigPreviousAttributes](../models/ThemeConfigPreviousAttributes.md#themeconfigpreviousattributes) or null | The title and colors for checkouts started from this link, over your branding settings. |
 | `tip` | Optional | [CheckoutTipConfigPreviousAttributes](../models/CheckoutTipConfigPreviousAttributes.md#checkouttipconfigpreviousattributes) or null | Tip options for checkouts started from this link. |
 | `total_quantity_sold` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `total_quantity_sold`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
@@ -293,6 +293,69 @@ Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.status](../
 ### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.subscription_plan_id
 
 Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.subscription_plan_id](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributessubscription_plan_id).
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax
+
+Tax settings for checkouts started from this link.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `calculation` | Conditional | [CheckoutTaxCalculationPreviousAttributes](../models/CheckoutTaxCalculationPreviousAttributes.md#checkouttaxcalculationpreviousattributes) or null | How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. `calculation`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax-variant-1calculation). |
+| `enabled` | Conditional | boolean or null | Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. `enabled`: [declared alternatives](../models/PaymentLinkUpdatedInstalledMerchantsEvent.md#paymentlinkupdatedinstalledmerchantseventdataprevious_attributestax-variant-1enabled). |
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1
+
+anyOf CheckoutTaxConfigPreviousAttributes.
+
+- Optional: `calculation`, `enabled`.
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 2
+
+anyOf variant 2.
+
+- Undeclared: `calculation`, `enabled`.
+- Value shape: null. Tax settings for checkouts started from this link. 
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation
+
+How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again.
+
+Field definitions: [shared fields](CheckoutSessionTaxPreviousAttributes.md#checkoutsessiontaxpreviousattributescalculation).
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation variant 1: `components_source` = `"callback"`
+
+anyOf CheckoutTaxCalculationPreviousAttributes.
+
+- Optional: `components_source`, `mode`.
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation variant 2
+
+anyOf variant 2.
+
+- Undeclared: `components_source`, `mode`.
+- Value shape: null. How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. 
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation variant 1.components_source
+
+Declared alternatives: [CheckoutSessionTaxPreviousAttributes.calculation variant 1.components_source](../models/CheckoutSessionTaxPreviousAttributes.md#checkoutsessiontaxpreviousattributescalculation-variant-1components_source).
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.calculation variant 1.mode
+
+Declared alternatives: [CheckoutSessionTaxPreviousAttributes.calculation variant 1.mode](../models/CheckoutSessionTaxPreviousAttributes.md#checkoutsessiontaxpreviousattributescalculation-variant-1mode).
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.enabled
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.enabled variant 1
+
+anyOf variant 1: Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings..
+
+- Value shape: boolean. Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. 
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.tax variant 1.enabled variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. 
 
 ### PaymentLinkUpdatedInstalledMerchantsEvent.data.previous_attributes.total_quantity_sold
 

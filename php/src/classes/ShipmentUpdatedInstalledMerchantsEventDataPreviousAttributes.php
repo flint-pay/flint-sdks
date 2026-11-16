@@ -9,8 +9,8 @@ namespace Flint;
  * @property-read string|null $external_system
  * @property-read string|null $fulfillment_id
  * @property-read string|null $handed_off_at
- * @property-read mixed $metadata
- * @property-read mixed $order
+ * @property-read array<array-key, string>|null $metadata
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
  * @property-read int|null $package_count
  * @property-read list<ExpandedPackageSummaryPreviousAttributes>|null $packages
@@ -62,14 +62,14 @@ final class ShipmentUpdatedInstalledMerchantsEventDataPreviousAttributes extends
     public function getHandedOffAt(): string|null { return $this->get('handed_off_at'); }
     public function hasHandedOffAt(): bool { return $this->has('handed_off_at'); }
     /** Caller-owned key-value metadata associated with the shipment. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** Order whose items are transported by the shipment. anyOf[1] (Value): string. Order whose items are transported by the shipment. anyOf[2] (Value): null.
      * @return string|null

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string|null $modifier_id
  * @property-read bool|null $selected_by_default
  * @property-read bool|null $taxable
- * @property-read mixed $unit_price_delta_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_delta_money
  * Presence-aware response; omitted optional fields return null. */
 final class ModifierOverridePreviousAttributes extends Model {
     /** @param array{'available'?: mixed, 'default_quantity'?: mixed, 'line_item_tax_category'?: mixed, 'modifier_id'?: mixed, 'selected_by_default'?: mixed, 'taxable'?: mixed, 'unit_price_delta_money'?: mixed, ...}|object $values */
@@ -44,8 +44,8 @@ final class ModifierOverridePreviousAttributes extends Model {
     public function getTaxable(): bool|null { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
     /** Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's value. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceDeltaMoney(): mixed { return $this->get('unit_price_delta_money'); }
+    public function getUnitPriceDeltaMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_delta_money'); }
     public function hasUnitPriceDeltaMoney(): bool { return $this->has('unit_price_delta_money'); }
 }

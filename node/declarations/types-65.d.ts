@@ -1,38 +1,17 @@
-import type {
-    RiskPredicateNodeAllRequest,
-    RiskPredicateNodeAnyRequest,
-    RiskPredicateNodeComparison,
-    RiskPredicateNodeIn,
-    RiskPredicateNodeInList,
-    RiskPredicateNodeIsMissing,
-    RiskPredicateNodeMoneyComparison,
-    RiskPredicateNodeNotRequest,
-    RiskPredicateNodeAllRequestInput,
-    RiskPredicateNodeAnyRequestInput,
-    RiskPredicateNodeComparisonRequestInput,
-    RiskPredicateNodeInListRequestInput,
-    RiskPredicateNodeInRequestInput,
-    RiskPredicateNodeIsMissingRequestInput,
-    RiskPredicateNodeMoneyComparisonRequestInput,
-    RiskPredicateNode
-} from './types-64.js';
 import type { ResponseWarning, ResponseMeta, ResourceReference } from './types-60.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-13.js';
+import type { RiskPredicateNode } from './types-64.js';
 import type { DisputesAcceptParams } from './types-25.js';
-import type { UpdateRiskRuleRequestInput } from './types-75.js';
+import type { UpdateRiskRuleRequestInput, UpdateSettingsRequestInput } from './types-75.js';
 import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput, GiftCardNotification } from './types-29.js';
 import type { GiftCard, FulfillmentSettings } from './types-28.js';
 import type { PartnerAppWithRotatedSecret, PartnerAppsListParams } from './types-48.js';
 import type { CreateDeveloperSandboxResult } from './types-9.js';
 import type { PaymentMethodWithSetup, PaymentSettings } from './types-52.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
-import type {
-    PaymentCollection,
-    PaymentErrorSummary,
-    PaymentCollectionPreviousAttributes,
-    PaymentErrorSummaryPreviousAttributes
-} from './types-49.js';
+import type { PaymentCollection, PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-49.js';
+import type { SetupCollectionPreviousAttributes } from './types-66.js';
 import type { BrandingSettings } from './types-1.js';
 import type { CheckoutSettings } from './types-7.js';
 import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-16.js';
@@ -44,39 +23,6 @@ import type { PromotionSettings } from './types-57.js';
 import type { SubscriptionSettings } from './types-70.js';
 import type { TaxIdentity, TaxSettings } from './types-72.js';
 import type { TippingSettings } from './types-73.js';
-/** The `Not` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeNotRequestInput = {
-    /**
-     * The predicate that must not match. A node in a risk rule condition: a comparison of an
-     * attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "not": RiskPredicateNodeRequestInput;
-};
-/**
- * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
- * group of other nodes.
- */
-export type RiskPredicateNodeRequest = ((RiskPredicateNodeAllRequest)
-    | (RiskPredicateNodeAnyRequest)
-    | (RiskPredicateNodeNotRequest)
-    | (RiskPredicateNodeComparison)
-    | (RiskPredicateNodeMoneyComparison)
-    | (RiskPredicateNodeIn)
-    | (RiskPredicateNodeInList)
-    | (RiskPredicateNodeIsMissing)
-    | (Record<string, unknown>));
-/**
- * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
- * group of other nodes.
- */
-export type RiskPredicateNodeRequestInput = ((RiskPredicateNodeAllRequestInput)
-    | (RiskPredicateNodeAnyRequestInput)
-    | (RiskPredicateNodeNotRequestInput)
-    | (RiskPredicateNodeComparisonRequestInput)
-    | (RiskPredicateNodeMoneyComparisonRequestInput)
-    | (RiskPredicateNodeInRequestInput)
-    | (RiskPredicateNodeInListRequestInput)
-    | (RiskPredicateNodeIsMissingRequestInput));
 /**
  * The result of validating a proposed risk rule: whether it is valid, any issues found, warnings,
  * and an analysis of the rule.
@@ -1230,17 +1176,17 @@ export type SelectableOrderPaymentIntentPreviousAttributes = {
      * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
      * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Most recent payment failure, when one is recorded. anyOf[1] (Value): {@link
      * PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null) | (unknown));
+    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
     /**
      * Client setup details for collecting this payment. anyOf[1] (Value): {@link
-     * PaymentCollectionPreviousAttributes}. anyOf[2] (Value): null.
+     * SetupCollectionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null) | (unknown));
+    "payment_collection"?: ((SetupCollectionPreviousAttributes) | (null));
     /**
      * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
      * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
@@ -1272,7 +1218,7 @@ export type SelectableOrderPaymentIntentPreviousAttributes = {
      * Portion of this payment's amount allocated to a tip. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tip_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /** An option and value chosen for a product variant, such as size Large. */
 export type SelectedProductOption = {
@@ -1545,4 +1491,86 @@ export type SettingsResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+export type SettingsUpdateParams = (InputValue<UpdateSettingsRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Money collected, returned, waived, and still owed on a bill. */
+export type SettlementAmounts = {
+    /**
+     * paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "net_collected_money": MoneyValue;
+    /**
+     * Money still owed on the bill, never below zero. Refunds return money already collected and
+     * do not add to it. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "outstanding_money": MoneyValue;
+    /**
+     * Money collected toward the bill, net of reversed payments. Excludes written-off debt. On
+     * orders, dispute losses do not reduce this amount. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "paid_money": MoneyValue;
+    /**
+     * Money returned to the buyer from what was collected toward the bill. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Owed money waived as uncollectible. Reduces outstanding_money without increasing paid_money
+     * or net_collected_money. Cannot be refunded or used to fund an exchange. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "written_off_money": MoneyValue;
+};
+export type SettlementAmountsPreviousAttributes = {
+    /**
+     * paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "net_collected_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money still owed on the bill, never below zero. Refunds return money already collected and
+     * do not add to it. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money collected toward the bill, net of reversed payments. Excludes written-off debt. On
+     * orders, dispute losses do not reduce this amount. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "paid_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Money returned to the buyer from what was collected toward the bill. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Owed money waived as uncollectible. Reduces outstanding_money without increasing paid_money
+     * or net_collected_money. Cannot be refunded or used to fund an exchange. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "written_off_money"?: ((MoneyValuePreviousAttributes) | (null));
 };

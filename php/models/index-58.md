@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# BuyerCustomerSession to PartnerAppPlatformLimitedEventRequest
+# BuyerCustomerSession to PartnerAppMerchantActionRoutingPreviousAttributes
 
 - [BuyerCustomerSession](BuyerCustomerSession.md)
 - [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
@@ -17,6 +17,7 @@
 - [ApiKeyCreatedEventData](ApiKeyCreatedEventData.md)
 - [ApiKeyCreatedEventRequest](ApiKeyCreatedEventRequest.md)
 - [ApiKeyRevokedEventDataObject](ApiKeyRevokedEventDataObject.md)
+- [ResourceReferencePreviousAttributes](ResourceReferencePreviousAttributes.md)
 - [ApiKeyRevokedEventDataPreviousAttributes](ApiKeyRevokedEventDataPreviousAttributes.md)
 - [ApiKeyRevokedEventData](ApiKeyRevokedEventData.md)
 - [ApiKeyRevokedEventRequest](ApiKeyRevokedEventRequest.md)
@@ -58,6 +59,11 @@
 - [EnvironmentGrantCreatedEventSource](EnvironmentGrantCreatedEventSource.md)
 - [EnvironmentGrantRevokedEventDataObject](EnvironmentGrantRevokedEventDataObject.md)
 - [PartnerAppPermissionManifestEntryPreviousAttributes](PartnerAppPermissionManifestEntryPreviousAttributes.md)
+- [PartnerAppMerchantReadinessAxisPreviousAttributes](PartnerAppMerchantReadinessAxisPreviousAttributes.md)
+- [PartnerAppMerchantReadinessPreviousAttributes](PartnerAppMerchantReadinessPreviousAttributes.md)
+- [PartnerEnvironmentGrantPaymentSplitsPreviousAttributes](PartnerEnvironmentGrantPaymentSplitsPreviousAttributes.md)
+- [MoneyValuePreviousAttributes](MoneyValuePreviousAttributes.md)
+- [PlatformFeeCapPreviousAttributes](PlatformFeeCapPreviousAttributes.md)
 - [EnvironmentGrantRevokedEventDataPreviousAttributes](EnvironmentGrantRevokedEventDataPreviousAttributes.md)
 - [EnvironmentGrantRevokedEventData](EnvironmentGrantRevokedEventData.md)
 - [EnvironmentGrantRevokedEventSource](EnvironmentGrantRevokedEventSource.md)
@@ -95,11 +101,5 @@
 - [PartnerAppInstallUpdatedEventData](PartnerAppInstallUpdatedEventData.md)
 - [PartnerAppInstallUpdatedEventSource](PartnerAppInstallUpdatedEventSource.md)
 - [PartnerAppPlatformApprovedEventDataObject](PartnerAppPlatformApprovedEventDataObject.md)
-- [PartnerAppPlatformApprovedEventDataPreviousAttributes](PartnerAppPlatformApprovedEventDataPreviousAttributes.md)
-- [PartnerAppPlatformApprovedEventData](PartnerAppPlatformApprovedEventData.md)
-- [PartnerAppPlatformApprovedEventRequest](PartnerAppPlatformApprovedEventRequest.md)
-- [PartnerAppPlatformLimitedEventDataObject](PartnerAppPlatformLimitedEventDataObject.md)
-- [PartnerAppPlatformLimitedEventDataPreviousAttributes](PartnerAppPlatformLimitedEventDataPreviousAttributes.md)
-- [PartnerAppPlatformLimitedEventData](PartnerAppPlatformLimitedEventData.md)
-- [PartnerAppPlatformLimitedEventRequest](PartnerAppPlatformLimitedEventRequest.md)
+- [PartnerAppMerchantActionRoutingPreviousAttributes](PartnerAppMerchantActionRoutingPreviousAttributes.md)
 

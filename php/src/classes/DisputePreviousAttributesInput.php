@@ -6,22 +6,22 @@ namespace Flint;
  * @property-read bool|null $can_respond_with_evidence
  * @property-read string|null $case_type
  * @property-read string|\DateTimeInterface|null $created_at
- * @property-read ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $dispute_id
- * @property-read string|\DateTimeInterface|null|null $evidence_due_at
+ * @property-read string|\DateTimeInterface|null $evidence_due_at
  * @property-read int|null $evidence_submission_count
  * @property-read string|null $fraud_warning_id
  * @property-read bool|null $has_evidence
  * @property-read bool|null $is_action_required
  * @property-read bool|null $is_evidence_deadline_passed
  * @property-read string|null $merchant_id
- * @property-read string|null|null $network_reason_code
- * @property-read ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $order
+ * @property-read string|null $network_reason_code
+ * @property-read ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $order
  * @property-read string|null $order_id
- * @property-read ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $payment_intent
+ * @property-read ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payment_intent
  * @property-read string|null $payment_intent_id
- * @property-read string|null|null $payment_option
+ * @property-read string|null $payment_option
  * @property-read string|null $reason
  * @property-read list<string>|null $recommended_evidence_types
  * @property-read string|null $response_unavailable_reason
@@ -32,7 +32,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class DisputePreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'can_respond_with_evidence'?: bool|null, 'case_type'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'customer_id'?: string|null, 'dispute_id'?: string|null, 'evidence_due_at'?: string|\DateTimeInterface|null|null, 'evidence_submission_count'?: int|null, 'fraud_warning_id'?: string|null, 'has_evidence'?: bool|null, 'is_action_required'?: bool|null, 'is_evidence_deadline_passed'?: bool|null, 'merchant_id'?: string|null, 'network_reason_code'?: string|null|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'payment_intent_id'?: string|null, 'payment_option'?: string|null|null, 'reason'?: string|null, 'recommended_evidence_types'?: list<string>|null, 'response_unavailable_reason'?: string|null, 'split_reversals'?: list<SplitReversalReferencePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'status'?: string|null, 'status_changed_at'?: string|\DateTimeInterface|null, 'supported_actions'?: list<string>|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'can_respond_with_evidence'?: bool|null, 'case_type'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_id'?: string|null, 'dispute_id'?: string|null, 'evidence_due_at'?: string|\DateTimeInterface|null, 'evidence_submission_count'?: int|null, 'fraud_warning_id'?: string|null, 'has_evidence'?: bool|null, 'is_action_required'?: bool|null, 'is_evidence_deadline_passed'?: bool|null, 'merchant_id'?: string|null, 'network_reason_code'?: string|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'payment_option'?: string|null, 'reason'?: string|null, 'recommended_evidence_types'?: list<string>|null, 'response_unavailable_reason'?: string|null, 'split_reversals'?: list<SplitReversalReferencePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'status'?: string|null, 'status_changed_at'?: string|\DateTimeInterface|null, 'supported_actions'?: list<string>|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputePreviousAttributesInput')); }
     /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -58,8 +58,8 @@ final class DisputePreviousAttributesInput extends Model {
      */
     public function getCreatedAt(): mixed { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributesInput} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -76,8 +76,8 @@ final class DisputePreviousAttributesInput extends Model {
      */
     public function getDisputeId(): mixed { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When evidence_due_at is omitted; use hasEvidenceDueAt() or valueOrDefault().
      */
     public function getEvidenceDueAt(): mixed { return $this->get('evidence_due_at'); }
@@ -118,14 +118,14 @@ final class DisputePreviousAttributesInput extends Model {
      */
     public function getMerchantId(): mixed { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When network_reason_code is omitted; use hasNetworkReasonCode() or valueOrDefault().
      */
     public function getNetworkReasonCode(): mixed { return $this->get('network_reason_code'); }
     public function hasNetworkReasonCode(): bool { return $this->has('network_reason_code'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributesInput} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -136,8 +136,8 @@ final class DisputePreviousAttributesInput extends Model {
      */
     public function getOrderId(): mixed { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributesInput} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
@@ -148,8 +148,8 @@ final class DisputePreviousAttributesInput extends Model {
      */
     public function getPaymentIntentId(): mixed { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When payment_option is omitted; use hasPaymentOption() or valueOrDefault().
      */
     public function getPaymentOption(): mixed { return $this->get('payment_option'); }

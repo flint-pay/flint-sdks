@@ -33,8 +33,7 @@ import type { BuyerSubscriptionPlanLineItem, BuyerTip } from './types-4.js';
 import type { SubscriptionIntervalOption } from './types-68.js';
 import type { CardDetails, CheckoutBuyerContact, CategoryReference } from './types-5.js';
 import type { StripeClientSetup, ShipmentFulfillmentDetails, SubscribedLine } from './types-66.js';
-import type { FulfillmentChargeLink } from './types-27.js';
-import type { FulfillmentRecipient } from './types-28.js';
+import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-27.js';
 import type { PickupFulfillmentDetails } from './types-54.js';
 import type { ServiceFulfillmentDetails, SelectedProductOption } from './types-65.js';
 import type { CheckoutMerchantSupport } from './types-6.js';
@@ -1007,11 +1006,11 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
         | (null));
     /**
      * ID of the delivery selection that governs this order. Null when no selection governs the
-     * order. anyOf[1] (Value): string or null. ID of the delivery selection that governs this
-     * order. Null when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     * anyOf[2] (Value): null.
+     * order. anyOf[1] (Value): string. ID of the delivery selection that governs this order. Null
+     * when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2]
+     * (Value): null.
      */
-    "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
+    "governing_delivery_selection_id"?: ((string) | (null));
     /**
      * Stable identifier of the expanded order. anyOf[1] (Value): string. Stable identifier of the
      * expanded order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
@@ -1026,12 +1025,12 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
      * When `payment_status` became `paid`, including a final capture that releases the remaining
      * balance. Set once and never changed, including after refunds. `null` when `payment_status`
      * isn't `paid`, including an order whose balance was written off without being paid. anyOf[1]
-     * (Value): string or null. When `payment_status` became `paid`, including a final capture that
+     * (Value): string. When `payment_status` became `paid`, including a final capture that
      * releases the remaining balance. Set once and never changed, including after refunds. `null`
      * when `payment_status` isn't `paid`, including an order whose balance was written off without
      * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "paid_at"?: ((string | null) | (null) | (unknown));
+    "paid_at"?: ((string) | (null));
     /**
      * Payment intents associated with the order. anyOf[1] (Value): Array of string. Payment
      * intents associated with the order. anyOf[1][] (Value): string. Example:
@@ -1050,7 +1049,7 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
      * Order totals before accounting for collected payments and refunds. anyOf[1] (Value): {@link
      * PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null) | (unknown));
+    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
     /**
      * Refund progress for collected money. Refunds with `reason` `payment_returned` return money
      * the order never received and don't count. Value enum: "none", "partially_refunded",
@@ -1063,7 +1062,7 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
      * Payments, refunds, credits, and amounts still owed for the order. anyOf[1] (Value): {@link
      * OrderSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null) | (unknown));
+    "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
     /**
      * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
      * returns, and metadata or note edits continue on a closed order. Value enum: "open",
@@ -1249,7 +1248,7 @@ export type BuyerExpandedPaymentIntentSummaryPreviousAttributes = {
      * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
      * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[1]
      * (Value): string. When money is collected. Defaults to automatic. Value enum: "automatic",
@@ -1312,7 +1311,7 @@ export type BuyerExpandedPaymentIntentSummaryPreviousAttributes = {
      * attached. anyOf[1] (Value): {@link PaymentSourceSummaryPreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "payment_source"?: ((PaymentSourceSummaryPreviousAttributes) | (null) | (unknown));
+    "payment_source"?: ((PaymentSourceSummaryPreviousAttributes) | (null));
     /**
      * How much of captured_money has been refunded, including value issued as store credit, based
      * on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value):

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $created_at
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $option_value_id
  * @property-read int|null $position
  * @property-read string|null $status
@@ -19,9 +19,9 @@ final class ProductOptionValuePreviousAttributes extends Model {
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Stable identifier of the option value. anyOf[1] (Value): string. Stable identifier of the option value. anyOf[2] (Value): null.
      * @return string|null

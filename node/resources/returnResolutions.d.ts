@@ -121,15 +121,14 @@ export type {
     RefundLineItemModifierAllocation,
     ReadinessMerchantAccountSession
 } from '../declarations/types-58.js';
-export type { SelectedProductOption } from '../declarations/types-65.js';
+export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-65.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-66.js';
+export type { SplitReversalReference } from '../declarations/types-66.js';
 export type { OrderGiftCardAllocation } from '../declarations/types-44.js';
 export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-38.js';
-export { makeCancelReturnRequest, makeCancelReturnResolutionRequest } from '../declarations/types-78.js';
-export { makeConfirmReturnResolutionRequest } from '../declarations/types-79.js';
+export { makeCancelReturnRequest, makeCancelReturnResolutionRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-78.js';
 export {
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
@@ -138,9 +137,10 @@ export {
 export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMetadataRequest
 } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-88.js';
 export {
     makeReturnReplacementLineItemInputBundle,

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string|null $inventory_count_id
  * @property-read list<InventoryCountLinePreviousAttributes>|null $lines
  * @property-read string|null $location_id
- * @property-read mixed $observation_provenance
+ * @property-read InventoryCountObservationProvenancePreviousAttributes|null $observation_provenance
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $updated_at
@@ -48,9 +48,9 @@ final class InventoryCountUpdatedInstalledMerchantsEventDataPreviousAttributes e
     public function getLocationId(): string|null { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
     /** Source system, actor, and time reported with the count's observations. anyOf[1] (Value): {@see InventoryCountObservationProvenancePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return InventoryCountObservationProvenancePreviousAttributes|null
      */
-    public function getObservationProvenance(): mixed { return $this->get('observation_provenance'); }
+    public function getObservationProvenance(): InventoryCountObservationProvenancePreviousAttributes|null { return $this->get('observation_provenance'); }
     public function hasObservationProvenance(): bool { return $this->has('observation_provenance'); }
     /** Whether the count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled". anyOf[2] (Value): null.
      * @return string|null

@@ -36,10 +36,10 @@ import type {
     OrdersListChargesParams,
     OrdersListEditsParams,
     OrdersListLineItemsParams,
-    OrdersListParams
+    OrdersListParams,
+    OrdersListPaymentAttemptsParams
 } from '../declarations/types-46.js';
 import type {
-    OrdersListPaymentAttemptsParams,
     OrdersPayParams,
     OrdersRemoveDiscountsParams,
     OrdersRemoveGiftCardParams,
@@ -90,8 +90,8 @@ export type {
     OrdersListChargesParams,
     OrdersListEditsParams,
     OrdersListLineItemsParams,
+    OrdersListPaymentAttemptsParams,
     OrdersListParams,
-    OrderTax,
     OrderTaxCallbackEvaluation,
     OrderTaxExemption,
     OrderTaxLocation,
@@ -153,6 +153,7 @@ export type {
     OrderSettlementAmounts,
     OrderReturnCreditSettlement,
     OrderLineItemTax,
+    OrderTax,
     OrderLineItemModifierRequestModelInput,
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
@@ -253,7 +254,6 @@ export type {
     OrderEditRemovalRequest
 } from '../declarations/types-44.js';
 export type {
-    OrdersListPaymentAttemptsParams,
     OrdersPayParams,
     OrdersRemoveDiscountsParams,
     OrdersRemoveGiftCardParams,
@@ -291,15 +291,13 @@ export type {
     CheckoutBuyerContactRequestInput,
     CheckoutBuyerContactRequest
 } from '../declarations/types-5.js';
-export type { CustomFieldAnswer, CustomFieldAnswerText, CustomFieldAnswerDropdown, CustomFieldAnswerCheckbox } from '../declarations/types-15.js';
 export type {
+    CustomFieldAnswer,
+    CustomFieldAnswerText,
     CustomFieldAnswerTextarea,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxExemptionCoverageRequestInput,
-    CustomerTaxExemptionCoverageAllStatesRequestInput
-} from '../declarations/types-16.js';
+    CustomFieldAnswerDropdown,
+    CustomFieldAnswerCheckbox
+} from '../declarations/types-15.js';
 export type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
@@ -323,6 +321,7 @@ export type {
     FulfillmentChargeLink,
     FulfillmentLineItem,
     FulfillmentOutcome,
+    FulfillmentRecipient,
     FilesCompleteParams
 } from '../declarations/types-27.js';
 export type { DigitalFulfillmentDetails, DimensionsRequestInput, Dimensions, DisputesAcceptParams } from '../declarations/types-25.js';
@@ -335,10 +334,27 @@ export type {
     TaxJurisdictionRequestModelInput,
     TaxJurisdictionRequestInput
 } from '../declarations/types-72.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
+export type {
+    DeliveryFulfillmentDetails,
+    DeliveryChargeTaxCalculationRequest,
+    DeliveryChargeTaxCalculationRequestModelInput
+} from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type {
     SettlementAmounts,
+    ServiceFulfillmentDetails,
+    SelectableOrderPaymentIntent,
+    SelectedProductOption,
+    SendOrderReceiptRequestInput,
+    SendOrderReceiptRequest
+} from '../declarations/types-65.js';
+export type {
+    PickupFulfillmentDetails,
+    PendingPaymentActionSubject,
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PlatformFeeRequestInput
+} from '../declarations/types-54.js';
+export type {
     ShipmentFulfillmentDetails,
     SetupCollection,
     SetupCollectionStripe,
@@ -349,21 +365,6 @@ export type {
     StripeTerminalPaymentIntentClientAction,
     SubscribedLine
 } from '../declarations/types-66.js';
-export type {
-    PickupFulfillmentDetails,
-    PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
-    PendingPaymentActionSetupPaymentSourceSubject,
-    PlatformFeeRequestInput
-} from '../declarations/types-54.js';
-export type { FulfillmentRecipient, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
-export type {
-    ServiceFulfillmentDetails,
-    SelectableOrderPaymentIntent,
-    SelectedProductOption,
-    SendOrderReceiptRequestInput,
-    SendOrderReceiptRequest
-} from '../declarations/types-65.js';
 export type {
     InventoryRoutingSource,
     InventoryRoutingSourceRequestInput,
@@ -407,7 +408,6 @@ export type {
     SubscriptionPlanLineItemCustom
 } from '../declarations/types-69.js';
 export type { Image, GiftCardPurchaseSnapshot } from '../declarations/types-30.js';
-export type { DeliveryChargeTaxCalculationRequest, DeliveryChargeTaxCalculationRequestModelInput } from '../declarations/types-18.js';
 export type {
     TaxComponentRequest,
     TaxBreakdown,
@@ -419,6 +419,13 @@ export type {
     TaxCalculationRequest,
     TaxCalculationRequestModelInput
 } from '../declarations/types-71.js';
+export type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoverageAllStatesRequestInput
+} from '../declarations/types-16.js';
 export type { TicketedEvent, Tip, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-73.js';
 export type {
     SubscriptionDeliveryDestinationRequestInput,
@@ -446,7 +453,8 @@ export type {
     RefundUnissuedGiftCardRecovery,
     RemoveDiscountsRequestInput
 } from '../declarations/types-59.js';
-export type { PendingPaymentAction } from '../declarations/types-53.js';
+export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/types-28.js';
 export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-74.js';
 export {
     makeAddLineItemsRequest,
@@ -472,18 +480,19 @@ export {
     makeCreateOrderLineItemInputCustom,
     makeCreateOrderLineItemInputVariant,
     makeCreateOrderLineItemRequest,
-    makeCreateOrderRequest
+    makeCreateOrderRequest,
+    makeCreateOrderTip,
+    makeCreateOrderTipAmount,
+    makeCreateOrderTipPercent
 } from '../declarations/types-80.js';
-export { makeCreateOrderTip, makeCreateOrderTipAmount, makeCreateOrderTipPercent } from '../declarations/types-81.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest,
     makeDeliveryChargeTaxCalculationRequestModel
 } from '../declarations/types-82.js';
-export { makeDeliverySelectionRecipientRequest } from '../declarations/types-83.js';
+export { makeDeliverySelectionRecipientRequest, makeDimensionsRequest } from '../declarations/types-83.js';
 export {
-    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientPatchRequest,
     makeGiftCardPurchaseRecipientRequest,
@@ -497,10 +506,10 @@ export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
     makeManualDiscountRequest,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMetadataRequest
 } from '../declarations/types-85.js';
 export {
-    makeMetadataRequest,
     makeMoneyValue,
     makeOrderCalculatedChargeTaxRequest,
     makeOrderCalculatedLineItemTaxRequest,
@@ -553,12 +562,12 @@ export {
     makePayOrderRequestPay,
     makePayOrderRequestResume,
     makePayOrderRequestSetup,
-    makePlatformFeeRequest
-} from '../declarations/types-87.js';
-export {
+    makePlatformFeeRequest,
     makePromotionRefInputPromotionCode,
     makePromotionRefInputPromotionID,
-    makePromotionRefRequest,
+    makePromotionRefRequest
+} from '../declarations/types-87.js';
+export {
     makeReaderPaymentSourceTip,
     makeRefundCharge,
     makeRefundDestinations,
@@ -571,10 +580,10 @@ export {
     makeSendOrderReceiptRequest,
     makeSubscribedLineRequestModel,
     makeSubscriptionDeliveryDestinationInputAddress,
-    makeSubscriptionDeliveryDestinationInputCustomerAddress
+    makeSubscriptionDeliveryDestinationInputCustomerAddress,
+    makeSubscriptionDeliveryDestinationRequest
 } from '../declarations/types-89.js';
 export {
-    makeSubscriptionDeliveryDestinationRequest,
     makeTaxCalculationRequestModel,
     makeTaxCalculationRequestRequest,
     makeTaxComponentRequestModel,

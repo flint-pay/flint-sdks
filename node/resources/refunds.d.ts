@@ -73,12 +73,12 @@ export type {
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { SplitReversalRequestInput, SettlementAmounts, SplitReversalReference } from '../declarations/types-66.js';
+export type { SplitReversalRequestInput, SplitReversalReference } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-26.js';
 export type { CategoryReference, CheckoutBuyerContact } from '../declarations/types-5.js';
-export type { SelectedProductOption } from '../declarations/types-65.js';
+export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-65.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
@@ -98,8 +98,8 @@ export {
     makeCreateRefundRequestFull,
     makeCreateRefundRequestTargets
 } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export {
     makeRefundAdjustmentAudit,
     makeRefundAdjustmentReasonRequest,

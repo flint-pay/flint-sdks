@@ -1,1 +1,1 @@
-{"shared":"RefundTenderAllocationInputPaymentIntent","dependencies":["MoneyValue","RefundTenderAllocationInputPaymentIntent","SharedCodec221","SharedCodec2559"]}
+{"shared":"RefundTenderAllocationInputPaymentIntent","dependencies":["MoneyValue","RefundTenderAllocationInputPaymentIntent","SharedCodec211","SharedCodec2488"]}

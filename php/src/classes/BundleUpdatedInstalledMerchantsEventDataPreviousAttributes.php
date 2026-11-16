@@ -14,12 +14,12 @@ namespace Flint;
  * @property-read list<ImageAttachmentPreviousAttributes>|null $images
  * @property-read bool|null $is_available_for_sale
  * @property-read string|null $merchant_id
- * @property-read mixed $metadata
- * @property-read mixed $modifier_set_id
+ * @property-read array<array-key, string>|null $metadata
+ * @property-read string|null $modifier_set_id
  * @property-read string|null $name
  * @property-read string|null $sku
  * @property-read string|null $status
- * @property-read mixed $unit_price_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_money
  * @property-read string|null $updated_at
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
@@ -87,14 +87,14 @@ final class BundleUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Caller-owned metadata stored on this resource. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** ID of the modifier set attached to the bundle. `null` when no modifier set is attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. anyOf[2] (Value): null.
-     * @return mixed
+    /** ID of the modifier set attached to the bundle. `null` when no modifier set is attached. anyOf[1] (Value): string. ID of the modifier set attached to the bundle. `null` when no modifier set is attached. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getModifierSetId(): mixed { return $this->get('modifier_set_id'); }
+    public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }
     public function hasModifierSetId(): bool { return $this->has('modifier_set_id'); }
     /** Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers. anyOf[2] (Value): null.
      * @return string|null
@@ -112,9 +112,9 @@ final class BundleUpdatedInstalledMerchantsEventDataPreviousAttributes extends M
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
     /** Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
     /** When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When this resource last changed, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

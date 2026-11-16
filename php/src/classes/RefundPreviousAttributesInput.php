@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $amount_money
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read string|null $credit_note_id
- * @property-read ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_reason
@@ -15,16 +15,16 @@ namespace Flint;
  * @property-read list<RefundLineItemAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $line_item_allocations
  * @property-read string|null $merchant_id
  * @property-read MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $metadata
- * @property-read ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $order
+ * @property-read ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $order
  * @property-read string|null $order_edit_id
  * @property-read string|null $order_id
- * @property-read ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $payment_intent
+ * @property-read ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payment_intent
  * @property-read string|null $payment_intent_id
  * @property-read list<PaymentRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $payment_refunds
  * @property-read string|null $payment_review_id
- * @property-read string|null|null $pending_reason
+ * @property-read string|null $pending_reason
  * @property-read string|null $processed_by
- * @property-read string|null|null $reason
+ * @property-read string|null $reason
  * @property-read string|null $reason_message
  * @property-read string|null $refund_id
  * @property-read bool|null $refund_platform_fee
@@ -42,7 +42,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundPreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'created_at'?: string|\DateTimeInterface|null, 'credit_note_id'?: string|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'customer_id'?: string|null, 'external_reference_id'?: string|null, 'failure_reason'?: string|null, 'idempotency_key'?: string|null, 'initiated_by'?: string|null, 'invoice_id'?: string|null, 'line_item_allocations'?: list<RefundLineItemAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'order_edit_id'?: string|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'payment_intent_id'?: string|null, 'payment_refunds'?: list<PaymentRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'payment_review_id'?: string|null, 'pending_reason'?: string|null|null, 'processed_by'?: string|null, 'reason'?: string|null|null, 'reason_message'?: string|null, 'refund_id'?: string|null, 'refund_platform_fee'?: bool|null, 'refund_reference'?: string|null, 'refunded_at'?: string|\DateTimeInterface|null, 'refunded_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'return_id'?: string|null, 'return_resolution_id'?: string|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, 'tax_breakdown_refunds'?: list<RefundTaxBreakdownRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tender_allocations'?: list<RefundTenderAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'unissued_gift_card_recoveries'?: list<RefundUnissuedGiftCardRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'created_at'?: string|\DateTimeInterface|null, 'credit_note_id'?: string|null, 'customer'?: ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_id'?: string|null, 'external_reference_id'?: string|null, 'failure_reason'?: string|null, 'idempotency_key'?: string|null, 'initiated_by'?: string|null, 'invoice_id'?: string|null, 'line_item_allocations'?: list<RefundLineItemAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_edit_id'?: string|null, 'order_id'?: string|null, 'payment_intent'?: ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'payment_refunds'?: list<PaymentRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'payment_review_id'?: string|null, 'pending_reason'?: string|null, 'processed_by'?: string|null, 'reason'?: string|null, 'reason_message'?: string|null, 'refund_id'?: string|null, 'refund_platform_fee'?: bool|null, 'refund_reference'?: string|null, 'refunded_at'?: string|\DateTimeInterface|null, 'refunded_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'return_id'?: string|null, 'return_resolution_id'?: string|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, 'tax_breakdown_refunds'?: list<RefundTaxBreakdownRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tender_allocations'?: list<RefundTenderAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'unissued_gift_card_recoveries'?: list<RefundUnissuedGiftCardRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundPreviousAttributesInput')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -62,8 +62,8 @@ final class RefundPreviousAttributesInput extends Model {
      */
     public function getCreditNoteId(): mixed { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributesInput} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -122,8 +122,8 @@ final class RefundPreviousAttributesInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributesInput} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -140,8 +140,8 @@ final class RefundPreviousAttributesInput extends Model {
      */
     public function getOrderId(): mixed { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): ({@see ExpandedPaymentIntentSummaryPreviousAttributesInput} or null). Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. anyOf[1] (Value): {@see ExpandedPaymentIntentSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
@@ -164,8 +164,8 @@ final class RefundPreviousAttributesInput extends Model {
      */
     public function getPaymentReviewId(): mixed { return $this->get('payment_review_id'); }
     public function hasPaymentReviewId(): bool { return $this->has('payment_review_id'); }
-    /** Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[1] (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[1] (Value): string. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When pending_reason is omitted; use hasPendingReason() or valueOrDefault().
      */
     public function getPendingReason(): mixed { return $this->get('pending_reason'); }
@@ -176,8 +176,8 @@ final class RefundPreviousAttributesInput extends Model {
      */
     public function getProcessedBy(): mixed { return $this->get('processed_by'); }
     public function hasProcessedBy(): bool { return $this->has('processed_by'); }
-    /** Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned", null. anyOf[1] (Value): string. Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): mixed { return $this->get('reason'); }

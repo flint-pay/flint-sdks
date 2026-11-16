@@ -7,10 +7,10 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $completed_at
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read string|null $customer_id
- * @property-read string|null|null $delivery_choice_group_id
- * @property-read string|null|null $delivery_execution_leg_id
- * @property-read string|null|null $delivery_method_id
- * @property-read string|null|null $delivery_selection_id
+ * @property-read string|null $delivery_choice_group_id
+ * @property-read string|null $delivery_execution_leg_id
+ * @property-read string|null $delivery_method_id
+ * @property-read string|null $delivery_selection_id
  * @property-read string|null $device_id
  * @property-read DigitalFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $digital_details
  * @property-read string|\DateTimeInterface|null $dispatched_at
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read DeliveryFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $local_delivery_details
  * @property-read string|null $location_id
  * @property-read MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $metadata
- * @property-read ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $order
+ * @property-read ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $order
  * @property-read string|null $order_id
  * @property-read string|null $order_number
  * @property-read FulfillmentOutcomePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $outcome
@@ -29,7 +29,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $picked_at
  * @property-read PickupFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $pickup_details
  * @property-read FulfillmentRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $recipient
- * @property-read string|\DateTimeInterface|null|null $scheduled_start_at
+ * @property-read string|\DateTimeInterface|null $scheduled_start_at
  * @property-read ServiceFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $service_details
  * @property-read ShipmentFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $shipment_details
  * @property-read list<ExpandedShipmentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $shipments
@@ -41,7 +41,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentPreviousAttributesInput extends Model {
-    /** @param array{'active_hold'?: FulfillmentHoldPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'charges'?: list<FulfillmentChargeLinkPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'completed_at'?: string|\DateTimeInterface|null, 'created_at'?: string|\DateTimeInterface|null, 'customer_id'?: string|null, 'delivery_choice_group_id'?: string|null|null, 'delivery_execution_leg_id'?: string|null|null, 'delivery_method_id'?: string|null|null, 'delivery_selection_id'?: string|null|null, 'device_id'?: string|null, 'digital_details'?: DigitalFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'dispatched_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string|null, 'fulfillment_id'?: string|null, 'line_items'?: list<FulfillmentLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'local_delivery_details'?: DeliveryFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'location_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'order_id'?: string|null, 'order_number'?: string|null, 'outcome'?: FulfillmentOutcomePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'packages'?: list<ExpandedPackageSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'packed_at'?: string|\DateTimeInterface|null, 'picked_at'?: string|\DateTimeInterface|null, 'pickup_details'?: PickupFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'recipient'?: FulfillmentRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'scheduled_start_at'?: string|\DateTimeInterface|null|null, 'service_details'?: ServiceFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'shipment_details'?: ShipmentFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'shipments'?: list<ExpandedShipmentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'status'?: string|null, 'supported_actions'?: list<string>|null, 'terminal_at'?: string|\DateTimeInterface|null, 'type'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'active_hold'?: FulfillmentHoldPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'charges'?: list<FulfillmentChargeLinkPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'completed_at'?: string|\DateTimeInterface|null, 'created_at'?: string|\DateTimeInterface|null, 'customer_id'?: string|null, 'delivery_choice_group_id'?: string|null, 'delivery_execution_leg_id'?: string|null, 'delivery_method_id'?: string|null, 'delivery_selection_id'?: string|null, 'device_id'?: string|null, 'digital_details'?: DigitalFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'dispatched_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string|null, 'fulfillment_id'?: string|null, 'line_items'?: list<FulfillmentLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'local_delivery_details'?: DeliveryFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'location_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order'?: ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'order_id'?: string|null, 'order_number'?: string|null, 'outcome'?: FulfillmentOutcomePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'packages'?: list<ExpandedPackageSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'packed_at'?: string|\DateTimeInterface|null, 'picked_at'?: string|\DateTimeInterface|null, 'pickup_details'?: PickupFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'recipient'?: FulfillmentRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'scheduled_start_at'?: string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'shipment_details'?: ShipmentFulfillmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'shipments'?: list<ExpandedShipmentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'status'?: string|null, 'supported_actions'?: list<string>|null, 'terminal_at'?: string|\DateTimeInterface|null, 'type'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentPreviousAttributesInput')); }
     /** Current hold details. Present exactly when status is on_hold. anyOf[1] (Value): {@see FulfillmentHoldPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return FulfillmentHoldPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -73,26 +73,26 @@ final class FulfillmentPreviousAttributesInput extends Model {
      */
     public function getCustomerId(): mixed { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. anyOf[1] (Value): string or null. Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. anyOf[1] (Value): string. Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): mixed { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. anyOf[1] (Value): string or null. Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. anyOf[1] (Value): string. Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When delivery_execution_leg_id is omitted; use hasDeliveryExecutionLegId() or valueOrDefault().
      */
     public function getDeliveryExecutionLegId(): mixed { return $this->get('delivery_execution_leg_id'); }
     public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
-    /** Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials. anyOf[1] (Value): string or null. Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials. anyOf[1] (Value): string. Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): mixed { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. anyOf[1] (Value): string or null. Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. anyOf[1] (Value): string. Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): mixed { return $this->get('delivery_selection_id'); }
@@ -151,8 +151,8 @@ final class FulfillmentPreviousAttributesInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributesInput} or null). Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
@@ -205,8 +205,8 @@ final class FulfillmentPreviousAttributesInput extends Model {
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. anyOf[1] (Value): string or null. Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. anyOf[1] (Value): string. Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_start_at is omitted; use hasScheduledStartAt() or valueOrDefault().
      */
     public function getScheduledStartAt(): mixed { return $this->get('scheduled_start_at'); }

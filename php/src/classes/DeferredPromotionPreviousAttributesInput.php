@@ -4,11 +4,11 @@ namespace Flint;
 /**
  * @property-read string|null $customer_facing_name
  * @property-read string|null $deferred_promotion_id
- * @property-read string|null|null $promotion_code
+ * @property-read string|null $promotion_code
  * @property-read string|null $promotion_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeferredPromotionPreviousAttributesInput extends Model {
-    /** @param array{'customer_facing_name'?: string|null, 'deferred_promotion_id'?: string|null, 'promotion_code'?: string|null|null, 'promotion_id'?: string|null, ...}|object $values */
+    /** @param array{'customer_facing_name'?: string|null, 'deferred_promotion_id'?: string|null, 'promotion_code'?: string|null, 'promotion_id'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeferredPromotionPreviousAttributesInput')); }
     /** Name the buyer sees for the promotion, fixed when it was accepted at signup. anyOf[1] (Value): string. Name the buyer sees for the promotion, fixed when it was accepted at signup. anyOf[2] (Value): null.
      * @return string|null
@@ -22,8 +22,8 @@ final class DeferredPromotionPreviousAttributesInput extends Model {
      */
     public function getDeferredPromotionId(): mixed { return $this->get('deferred_promotion_id'); }
     public function hasDeferredPromotionId(): bool { return $this->has('deferred_promotion_id'); }
-    /** Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1] (Value): string or null. Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1] (Value): string. Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When promotion_code is omitted; use hasPromotionCode() or valueOrDefault().
      */
     public function getPromotionCode(): mixed { return $this->get('promotion_code'); }

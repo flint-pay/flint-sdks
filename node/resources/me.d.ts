@@ -111,10 +111,10 @@ import type {
     MeGetCreditNotePDFResponse,
     MeGetCreditNoteParams,
     MeGetDeletionRequestParams,
-    MeGetEmailChangeRequestParams
+    MeGetEmailChangeRequestParams,
+    MeGetEmailPreferencesParams
 } from '../declarations/types-39.js';
 import type {
-    MeGetEmailPreferencesParams,
     MeGetFulfillmentParams,
     MeGetGiftCardParams,
     MeGetInvoicePDFParams,
@@ -177,10 +177,10 @@ import type {
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
-    MerchantAccountSessionResponse
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionStripe
 } from '../declarations/types-40.js';
 import type {
-    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
@@ -278,7 +278,8 @@ export type {
     MeGetCreditNotePDFParams,
     MeGetCreditNotePDFResponse,
     MeGetDeletionRequestParams,
-    MeGetEmailChangeRequestParams
+    MeGetEmailChangeRequestParams,
+    MeGetEmailPreferencesParams
 } from '../declarations/types-39.js';
 export type {
     RequestOptions,
@@ -481,7 +482,6 @@ export type {
 } from '../declarations/types-70.js';
 export type {
     MeGetParams,
-    MeGetEmailPreferencesParams,
     MeGetFulfillmentParams,
     MeGetGiftCardParams,
     MeGetInvoiceParams,
@@ -543,7 +543,8 @@ export type {
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
-    MerchantAccountSessionResponse
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionStripe
 } from '../declarations/types-40.js';
 export type {
     OrderActivityListResponse,
@@ -554,7 +555,6 @@ export type {
     OrderCalculatedLineItemTax
 } from '../declarations/types-43.js';
 export type {
-    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
@@ -645,6 +645,7 @@ export type {
     SelectedProductOption,
     SaveMePaymentMethodRequestInput,
     ServiceFulfillmentDetails,
+    SettlementAmounts,
     SaveMeGiftCardRequestInput,
     SaveMeGiftCardRequestCodeInput,
     SaveMeGiftCardRequestRecipientAccessInput
@@ -655,6 +656,7 @@ export type {
     GiftCardPurchaseSnapshot,
     ImageAttachment,
     ImageAttachmentPreviousAttributes,
+    ImageInputSourceURLInput,
     ImageInputFileInput
 } from '../declarations/types-30.js';
 export type {
@@ -701,7 +703,6 @@ export type {
     StripeClientSetupStripe,
     StripeClientAuthority,
     ShipmentFulfillmentDetails,
-    SettlementAmounts,
     SubscribedLine,
     SkipMeSubscriptionCycleRequestInput
 } from '../declarations/types-66.js';
@@ -730,8 +731,12 @@ export type {
     OrderReturnCreditSettlement,
     OrderSettlementAmounts
 } from '../declarations/types-45.js';
-export type { PromotionRecurrence, PromotionRecurrenceOnce, PromotionRecurrenceForever } from '../declarations/types-56.js';
-export type { PromotionRecurrenceRepeating, PurchasedGiftCard } from '../declarations/types-57.js';
+export type {
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever
+} from '../declarations/types-56.js';
 export type {
     PaymentAttemptGiftCardRedemption,
     PaymentClientAction,
@@ -743,10 +748,9 @@ export type {
     PartnerWebhookEnvelope,
     PauseSubscriptionRequest
 } from '../declarations/types-49.js';
-export type { PendingPaymentAction } from '../declarations/types-53.js';
+export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
 export type {
     PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
     PickupFulfillmentDetails,
     PlatformFeeCap
@@ -832,8 +836,7 @@ export type {
     CreditNoteCorrectionRequestQuantity,
     CreditNoteCorrectionRequestAmount
 } from '../declarations/types-15.js';
-export type { FulfillmentChargeLink } from '../declarations/types-27.js';
-export type { FulfillmentRecipient, GiftCardCustomAmountBounds } from '../declarations/types-28.js';
+export type { FulfillmentChargeLink, FulfillmentRecipient } from '../declarations/types-27.js';
 export type {
     InvoiceDocumentRow,
     InvoiceLateFeePolicy,
@@ -882,6 +885,8 @@ export type {
     OrderGiftCardSelection
 } from '../declarations/types-44.js';
 export type { GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-29.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/types-28.js';
+export type { PurchasedGiftCard } from '../declarations/types-57.js';
 export type { Dimensions, DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-25.js';
 export type {
     TicketedEvent,
@@ -907,17 +912,17 @@ export type {
     UpdateMeSubscriptionLineItemRequest
 } from '../declarations/types-74.js';
 export type { WebhookEventSource, VerifyMerchantSignupRequestInput } from '../declarations/types-76.js';
-export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
+export type { ImageRequestInput } from '../declarations/types-31.js';
 export {
     makeAddressRequest,
     makeBuyerCancelReturnRequest,
     makeBuyerCreateReturnPreviewRequest,
     makeBuyerCreateReturnPreviewRequestEligibility,
-    makeBuyerCreateReturnPreviewRequestResolution
+    makeBuyerCreateReturnPreviewRequestResolution,
+    makeBuyerCreateReturnRequest,
+    makeBuyerCreateReturnResolutionPreviewRequest
 } from '../declarations/types-77.js';
 export {
-    makeBuyerCreateReturnRequest,
-    makeBuyerCreateReturnResolutionPreviewRequest,
     makeBuyerReturnReplacementLineItemInputBundle,
     makeBuyerReturnReplacementLineItemInputVariant,
     makeBuyerReturnReplacementLineItemRequest,
@@ -925,14 +930,11 @@ export {
     makeChangeMeSubscriptionPlanRequest,
     makeChangeMeSubscriptionQuantityRequest,
     makeCheckoutRedirectsRequest,
-    makeConfigurationVersionRequest
-} from '../declarations/types-78.js';
-export {
+    makeConfigurationVersionRequest,
     makeConfirmEmailChangeRequest,
-    makeConfirmReturnResolutionRequest,
-    makeCreateCustomerAddressRequest,
-    makeCreateEmailChangeRequest
-} from '../declarations/types-79.js';
+    makeConfirmReturnResolutionRequest
+} from '../declarations/types-78.js';
+export { makeCreateCustomerAddressRequest, makeCreateEmailChangeRequest } from '../declarations/types-79.js';
 export {
     makeCreateMeCheckoutSessionInvoice,
     makeCreateMeCheckoutSessionRequest,
@@ -953,9 +955,10 @@ export {
     makeMerchantSignupOwnerRequest,
     makeMerchantSignupTermsAcceptanceRequest,
     makeMerchantSignupVersionRequest,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMetadataRequest
 } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makePauseSubscriptionRequest } from '../declarations/types-87.js';
 export {
     makeRenewSubscriptionRequest,
@@ -974,11 +977,11 @@ export {
     makeSaveMePaymentMethodRequest,
     makeSkipMeSubscriptionCycleRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
-    makeSubscriptionDeliveryDestinationInputCustomerAddress
+    makeSubscriptionDeliveryDestinationInputCustomerAddress,
+    makeSubscriptionDeliveryDestinationRequest,
+    makeSubscriptionDeliveryRequest
 } from '../declarations/types-89.js';
 export {
-    makeSubscriptionDeliveryDestinationRequest,
-    makeSubscriptionDeliveryRequest,
     makeSubscriptionQuantityChangeLineItemRequest,
     makeSubscriptionSwapPreviewRequest,
     makeTextModifierRequest,
@@ -989,9 +992,9 @@ export {
     makeUpdateMerchantRequest,
     makeUpdateMeRequest,
     makeUpdateMeSubscriptionLineItemRequest,
-    makeUpdateMeSubscriptionRequest
+    makeUpdateMeSubscriptionRequest,
+    makeVerifyMerchantSignupRequest
 } from '../declarations/types-91.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-92.js';
 export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a

@@ -11,7 +11,7 @@ Response model.
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `dispute_id` | Optional | string or null | The dispute on the payment that funded this load. `dispute_id`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesdispute_id). |
 | `requires_resolution` | Optional | boolean or null | true when the dispute is lost and no funding disposition exists for it yet. Create one with POST /v1/gift-card-funding-dispositions. `requires_resolution`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesrequires_resolution). |
-| `resolution` | Optional | Alternative shapes (see declared variants) or null | The funding disposition recorded for this lost dispute. `null` when you have not created one yet. `resolution`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesresolution). |
+| `resolution` | Optional | [GiftCardFundingLossResolutionPreviousAttributes](../models/GiftCardFundingLossResolutionPreviousAttributes.md#giftcardfundinglossresolutionpreviousattributes) or null | The funding disposition recorded for this lost dispute. `null` when you have not created one yet. `resolution`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesresolution). |
 | `status` | Optional | string or null | Where the dispute on the funding payment stands. Spending of the value it funded stays restricted while it is `open` or `lost`. Values: `"open"`, `"won"`, `"lost"`. `status`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesstatus). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributesversion). |
@@ -55,19 +55,19 @@ The funding disposition recorded for this lost dispute. `null` when you have not
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Conditional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `disposition` | Conditional | string or null | What the merchant decided about the card's value after the funding payment lost a dispute. Values: `"honor_value"`. `disposition`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesresolution-variant-1disposition). |
+| `disposition` | Conditional | string or null | What the merchant decided about the card's value after the funding payment lost a dispute. Values: `"honor_value"`. `disposition`: [declared alternatives](../models/GiftCardFundingLossResolutionPreviousAttributes.md#giftcardfundinglossresolutionpreviousattributesdisposition). |
 | `gift_card_funding_disposition_id` | Conditional | string or null | ID of the funding disposition recorded for the lost dispute. `gift_card_funding_disposition_id`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesresolution-variant-1gift_card_funding_disposition_id). |
-| `reason_message` | Conditional | string or null | The note you gave when you created the disposition. `reason_message`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributes.md#giftcardfundingdisputepreviousattributesresolution-variant-1reason_message). |
+| `reason_message` | Conditional | string or null | The note you gave when you created the disposition. `reason_message`: [declared alternatives](../models/GiftCardFundingLossResolutionPreviousAttributes.md#giftcardfundinglossresolutionpreviousattributesreason_message). |
 
 ### GiftCardFundingDisputePreviousAttributes.resolution variant 1: `disposition` = `"honor_value"`
 
-anyOf variant 1: The funding disposition recorded for this lost dispute. `null` when you have not created one yet.; anyOf GiftCardFundingLossResolutionPreviousAttributes.
+anyOf GiftCardFundingLossResolutionPreviousAttributes.
 
 - Optional: `created_at`, `disposition`, `gift_card_funding_disposition_id`, `reason_message`.
 
-### GiftCardFundingDisputePreviousAttributes.resolution variant 2, 3
+### GiftCardFundingDisputePreviousAttributes.resolution variant 2
 
-anyOf variant 1: The funding disposition recorded for this lost dispute. `null` when you have not created one yet.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `created_at`, `disposition`, `gift_card_funding_disposition_id`, `reason_message`.
 - Value shape: null. The funding disposition recorded for this lost dispute. `null` when you have not created one yet. 
@@ -78,17 +78,7 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### GiftCardFundingDisputePreviousAttributes.resolution variant 1.disposition
 
-### GiftCardFundingDisputePreviousAttributes.resolution variant 1.disposition variant 1
-
-anyOf variant 1: What the merchant decided about the card's value after the funding payment lost a dispute..
-
-- Value shape: string. What the merchant decided about the card's value after the funding payment lost a dispute. Values: `"honor_value"`.
-
-### GiftCardFundingDisputePreviousAttributes.resolution variant 1.disposition variant 2
-
-anyOf variant 2.
-
-- Value shape: null. What the merchant decided about the card's value after the funding payment lost a dispute. 
+Declared alternatives: [GiftCardFundingLossResolutionPreviousAttributes.disposition](../models/GiftCardFundingLossResolutionPreviousAttributes.md#giftcardfundinglossresolutionpreviousattributesdisposition).
 
 ### GiftCardFundingDisputePreviousAttributes.resolution variant 1.gift_card_funding_disposition_id
 
@@ -106,17 +96,7 @@ anyOf variant 2.
 
 ### GiftCardFundingDisputePreviousAttributes.resolution variant 1.reason_message
 
-### GiftCardFundingDisputePreviousAttributes.resolution variant 1.reason_message variant 1
-
-anyOf variant 1: The note you gave when you created the disposition..
-
-- Value shape: string. The note you gave when you created the disposition. 
-
-### GiftCardFundingDisputePreviousAttributes.resolution variant 1.reason_message variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The note you gave when you created the disposition. 
+Declared alternatives: [GiftCardFundingLossResolutionPreviousAttributes.reason_message](../models/GiftCardFundingLossResolutionPreviousAttributes.md#giftcardfundinglossresolutionpreviousattributesreason_message).
 
 ### GiftCardFundingDisputePreviousAttributes.status
 

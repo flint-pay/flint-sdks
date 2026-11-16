@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int|null $minimum_quantity
- * @property-read mixed $unit_price_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_money
  * Presence-aware response; omitted optional fields return null. */
 final class QuantityPriceBreakPreviousAttributes extends Model {
     /** @param array{'minimum_quantity'?: mixed, 'unit_price_money'?: mixed, ...}|object $values */
@@ -14,8 +14,8 @@ final class QuantityPriceBreakPreviousAttributes extends Model {
     public function getMinimumQuantity(): int|null { return $this->get('minimum_quantity'); }
     public function hasMinimumQuantity(): bool { return $this->has('minimum_quantity'); }
     /** Net unit price in the base unit price's currency. Must be greater than zero and below the preceding price, starting with the base unit price. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
 }

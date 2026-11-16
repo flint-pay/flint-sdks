@@ -17,15 +17,7 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type {
-    RiskPreviewsCreateParams,
-    RiskPreview,
-    RiskPreviewResponse,
-    RiskPredicateNodeRequestInput,
-    RiskPredicateNodeNotRequestInput,
-    RiskRuleAnalysis,
-    RiskRuleIssue
-} from '../declarations/types-65.js';
+export type { RiskPreviewsCreateParams, RiskPreview, RiskPreviewResponse, RiskRuleAnalysis, RiskRuleIssue } from '../declarations/types-65.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { RequestOptions, ResponseWarning, ResourceReference, ResponseMeta } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-7.js';
@@ -35,8 +27,10 @@ export type {
     CreateRiskPreviewRequestStoredRuleInput
 } from '../declarations/types-13.js';
 export type {
+    RiskPredicateNodeRequestInput,
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
+    RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeMoneyComparisonRequestInput,
     RiskPredicateNodeInRequestInput,

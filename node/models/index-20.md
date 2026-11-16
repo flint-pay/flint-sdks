@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# InvoiceLateFeePolicyFixedRequestInput to InvoiceReminderRuleInput
+# InvoiceLateFeePolicyPercentage to InvoiceReopenedInstalledMerchantsEvent
 
-- [InvoiceLateFeePolicyFixedRequestInput](InvoiceLateFeePolicyFixedRequestInput.md)
 - [InvoiceLateFeePolicyPercentage](InvoiceLateFeePolicyPercentage.md)
 - [InvoiceLateFeePolicyPercentagePreviousAttributes](InvoiceLateFeePolicyPercentagePreviousAttributes.md)
 - [InvoiceLateFeePolicyPercentageRequestInput](InvoiceLateFeePolicyPercentageRequestInput.md)
@@ -102,4 +101,5 @@
 - [InvoiceReminderPolicyInput](InvoiceReminderPolicyInput.md)
 - [InvoiceReminderRule](InvoiceReminderRule.md)
 - [InvoiceReminderRuleInput](InvoiceReminderRuleInput.md)
+- [InvoiceReopenedInstalledMerchantsEvent](InvoiceReopenedInstalledMerchantsEvent.md)
 

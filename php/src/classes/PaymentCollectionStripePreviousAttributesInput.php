@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|null|null $account_id
+ * @property-read string|null $account_id
  * @property-read PaymentCollectionStripeElementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $elements
  * @property-read string|null $publishable_key
  * @property-read string|null $return_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentCollectionStripePreviousAttributesInput extends Model {
-    /** @param array{'account_id'?: string|null|null, 'elements'?: PaymentCollectionStripeElementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'publishable_key'?: string|null, 'return_url'?: string|null, ...}|object $values */
+    /** @param array{'account_id'?: string|null, 'elements'?: PaymentCollectionStripeElementsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'publishable_key'?: string|null, 'return_url'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripePreviousAttributesInput')); }
-    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. anyOf[1] (Value): string or null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. Example: "acct_1234567890". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. anyOf[1] (Value): string. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. Example: "acct_1234567890". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */
     public function getAccountId(): mixed { return $this->get('account_id'); }

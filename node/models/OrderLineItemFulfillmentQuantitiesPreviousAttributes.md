@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `assigned_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold. `assigned_quantity`: [declared alternatives](../models/OrderLineItemFulfillmentQuantitiesPreviousAttributes.md#orderlineitemfulfillmentquantitiespreviousattributesassigned_quantity). |
-| `bundle_component_id` | Optional | string or null or null | ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. `bundle_component_id`: [declared alternatives](../models/OrderLineItemFulfillmentQuantitiesPreviousAttributes.md#orderlineitemfulfillmentquantitiespreviousattributesbundle_component_id). |
+| `bundle_component_id` | Optional | string or null | ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. `bundle_component_id`: [declared alternatives](../models/OrderLineItemFulfillmentQuantitiesPreviousAttributes.md#orderlineitemfulfillmentquantitiespreviousattributesbundle_component_id). |
 | `canceled_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled or no_show fulfillments. `canceled_quantity`: [declared alternatives](../models/OrderLineItemFulfillmentQuantitiesPreviousAttributes.md#orderlineitemfulfillmentquantitiespreviousattributescanceled_quantity). |
 | `failed_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. Quantity owned by failed fulfillments that kept their quantity. Failed fulfillments that released quantity own nothing; their quantity becomes unassigned again. `failed_quantity`: [declared alternatives](../models/OrderLineItemFulfillmentQuantitiesPreviousAttributes.md#orderlineitemfulfillmentquantitiespreviousattributesfailed_quantity). |
 | `fulfilled_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. Quantity owned by completed fulfillments. `fulfilled_quantity`: [declared alternatives](../models/OrderLineItemFulfillmentQuantitiesPreviousAttributes.md#orderlineitemfulfillmentquantitiespreviousattributesfulfilled_quantity). |
@@ -39,7 +39,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the bundle component these quantities describe. `null` when the line isn't a bundle component..
 
-- Value shape: (string or null). ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. 
+- Value shape: string. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. 
 
 ### OrderLineItemFulfillmentQuantitiesPreviousAttributes.bundle_component_id variant 2
 

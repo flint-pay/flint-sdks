@@ -1,1 +1,1 @@
-{"shared":"CreateReturnResolutionPreviewRequestCorrection","dependencies":["CreateReturnResolutionPreviewRequestCorrection","MoneyValue","ReturnResolutionAdjustmentRequest","SharedCodec565","SharedCodec569","SharedCodec570","SharedCodec98"]}
+{"shared":"CreateReturnResolutionPreviewRequestCorrection","dependencies":["CreateReturnResolutionPreviewRequestCorrection","MoneyValue","ReturnResolutionAdjustmentRequest","SharedCodec545","SharedCodec549","SharedCodec550","SharedCodec95"]}

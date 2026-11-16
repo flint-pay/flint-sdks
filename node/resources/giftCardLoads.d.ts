@@ -41,6 +41,7 @@ export type {
     GiftCardFundingSourceStoreCreditRequestInput,
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundRecovery,
+    GiftCardPurchaseRefundRecoveryDestination,
     GiftCardFundingSourceFlintPayment,
     GiftCardFundingSourceImport,
     GiftCardFundingSourceGiftCardRefund,
@@ -69,7 +70,6 @@ export type {
     GiftCardRestriction,
     GiftCardTransaction,
     GiftCardPurchaseRefundValueHold,
-    GiftCardPurchaseRefundRecoveryDestination,
     GiftCardPurchaseRefundValueAllocation,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance

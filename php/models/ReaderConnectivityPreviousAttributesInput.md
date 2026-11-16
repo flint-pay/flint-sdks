@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `last_seen_at` | Optional | string or null or null | When the reader last reached Stripe. Omitted when it never has. `last_seen_at`: [declared alternatives](../models/ReaderConnectivityPreviousAttributesInput.md#readerconnectivitypreviousattributesinputlast_seen_at). |
+| `last_seen_at` | Optional | string or null | When the reader last reached Stripe. Omitted when it never has. `last_seen_at`: [declared alternatives](../models/ReaderConnectivityPreviousAttributesInput.md#readerconnectivitypreviousattributesinputlast_seen_at). |
 | `observed_at` | Optional | string or null | When Flint observed this. `observed_at`: [declared alternatives](../models/ReaderConnectivityPreviousAttributesInput.md#readerconnectivitypreviousattributesinputobserved_at). |
 | `status` | Optional | string or null | Whether the reader was reaching Stripe when Flint last observed it. Values: `"online"`, `"offline"`. `status`: [declared alternatives](../models/ReaderConnectivityPreviousAttributesInput.md#readerconnectivitypreviousattributesinputstatus). |
 
@@ -18,7 +18,7 @@ Request input.
 
 anyOf variant 1: When the reader last reached Stripe. Omitted when it never has..
 
-- Value shape: (string or null). When the reader last reached Stripe. Omitted when it never has. When the reader last reached Stripe. Omitted when it never has. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the reader last reached Stripe. Omitted when it never has. When the reader last reached Stripe. Omitted when it never has. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### ReaderConnectivityPreviousAttributesInput.last_seen_at variant 2
 

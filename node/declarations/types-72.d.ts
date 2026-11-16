@@ -1,6 +1,3 @@
-import type { ResponseMeta } from './types-60.js';
-import type { TaxConnection, TaxConnectionDisclosure, TaxConnectionDisclosurePreviousAttributes } from './types-71.js';
-import type { UpdateTaxRegistrationRequestInput } from './types-76.js';
 import type {
     Address,
     AddressPreviousAttributes,
@@ -9,6 +6,12 @@ import type {
     AdvanceTestClockRequestInput
 } from './types-0.js';
 import type { MerchantWebhookEnvelope } from './types-41.js';
+import type {
+    TaxConnectionDisclosure,
+    TaxConnectionDisclosurePreviousAttributes,
+    TaxConnectionSellerAttestation,
+    TaxConnectionSellerAttestationPreviousAttributes
+} from './types-71.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
 import type {
     DocumentTaxID,
@@ -17,55 +20,11 @@ import type {
     ExpandedOrderSummary,
     ExpandedOrderSummaryPreviousAttributes
 } from './types-26.js';
+import type { ResponseMeta } from './types-60.js';
 import type { CustomerTaxID, CustomerTaxIDPreviousAttributes } from './types-17.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateTestClockRequestInput } from './types-14.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
-/** A response containing `TaxConnection` data. */
-export type TaxConnectionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The environment's
-     * automatic sales tax connection. Before a record exists, identity, version and timestamps are
-     * omitted. Read-time business-detail changes and provider pauses do not advance version or
-     * send webhooks. Status_reason and supported_actions can also change with the clock as
-     * registrations end, without a version change or webhook.
-     */
-    "data": TaxConnection;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The disclosure the seller agreed to and when Flint recorded that agreement. */
-export type TaxConnectionSellerAttestation = {
-    /**
-     * When Flint recorded the seller's agreement. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "attested_at": string;
-    /** Opaque version of the disclosure the seller agreed to. */
-    "disclosure_version": string;
-};
-export type TaxConnectionSellerAttestationPreviousAttributes = {
-    /**
-     * When Flint recorded the seller's agreement. anyOf[1] (Value): string. When Flint recorded
-     * the seller's agreement. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-     * (Value): null.
-     */
-    "attested_at"?: ((string) | (null));
-    /**
-     * Opaque version of the disclosure the seller agreed to. anyOf[1] (Value): string. Opaque
-     * version of the disclosure the seller agreed to. anyOf[2] (Value): null.
-     */
-    "disclosure_version"?: ((string) | (null));
-};
-export type TaxConnectionUpdateRegistrationParams = (UpdateTaxRegistrationRequestInput);
 export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -102,10 +61,10 @@ export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & obje
             & ({
             "coverage"?: ((Array<TaxCountryCoveragePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
-            "disclosure"?: ((TaxConnectionDisclosurePreviousAttributes) | (null) | (unknown));
-            "legal_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "disclosure"?: ((TaxConnectionDisclosurePreviousAttributes) | (null));
+            "legal_address"?: ((AddressPreviousAttributes) | (null));
             "legal_business_name"?: ((string) | (null));
-            "seller_attestation"?: (((((TaxConnectionSellerAttestationPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "seller_attestation"?: ((TaxConnectionSellerAttestationPreviousAttributes) | (null));
             "status"?: (("not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {}))
                 | (null));
             "status_reason"?: (("not_offered"
@@ -120,10 +79,8 @@ export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & obje
                 | "disconnected"
                 | "other"
                 | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+                | (string & {}))
+                | (null));
             "supported_actions"?: ((Array<"connect" | "disconnect" | (string & {})>) | (null));
             "tax_connection_id"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
@@ -235,12 +192,12 @@ export type TaxCurrencyConversionPreviousAttributes = {
      * exchange_rate, rounded half up to the currency's minor units. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * The amount the VAT was charged on, converted the same way. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /** The calculation an order uses when its request leaves `tax.calculation` unset. */
 export type TaxDefaultCalculation = {
@@ -378,19 +335,17 @@ export type TaxIdentityPatchInput = {
 export type TaxIdentityPreviousAttributes = {
     /**
      * The merchant's legal name, printed on invoices and credit notes. `null` when no legal name
-     * is set. anyOf[1] (Value): string or null. The merchant's legal name, printed on invoices and
-     * credit notes. `null` when no legal name is set. minLength: 1. maxLength: 255. anyOf[2]
-     * (Value): null.
+     * is set. anyOf[1] (Value): string. The merchant's legal name, printed on invoices and credit
+     * notes. `null` when no legal name is set. minLength: 1. maxLength: 255. anyOf[2] (Value):
+     * null.
      */
-    "legal_name"?: ((string | null) | (null) | (unknown));
+    "legal_name"?: ((string) | (null));
     /**
      * The merchant's registered business address, printed on invoices and credit notes. `null`
-     * when no address is set. anyOf[1] (Value): ({@link AddressPreviousAttributes} or null). The
-     * merchant's registered business address, printed on invoices and credit notes. `null` when no
-     * address is set. anyOf[1].anyOf[1] (Value): {@link AddressPreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * when no address is set. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2]
+     * (Value): null.
      */
-    "registered_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "registered_address"?: ((AddressPreviousAttributes) | (null));
     /**
      * Tax IDs printed on invoices and credit notes, in display order. Empty when none are set.
      * anyOf[1] (Value): Array of {@link DocumentTaxIDPreviousAttributes}. Tax IDs printed on
@@ -675,13 +630,9 @@ export type TaxReverseChargePreviousAttributes = {
      * The customer's tax ID the reverse charge relied on. Frozen once the order is paid;
      * recalculating tax before payment reads the customer's current tax IDs again. `null` when
      * external tax sent a reverse charge and the customer has no tax ID for that country. anyOf[1]
-     * (Value): ({@link CustomerTaxIDPreviousAttributes} or null). The customer's tax ID the
-     * reverse charge relied on. Frozen once the order is paid; recalculating tax before payment
-     * reads the customer's current tax IDs again. `null` when external tax sent a reverse charge
-     * and the customer has no tax ID for that country. anyOf[1].anyOf[1] (Value): {@link
-     * CustomerTaxIDPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * (Value): {@link CustomerTaxIDPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "customer_tax_id"?: (((((CustomerTaxIDPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "customer_tax_id"?: ((CustomerTaxIDPreviousAttributes) | (null));
 };
 /**
  * Tax settings: whether tax is calculated by default and the default tax categories for line items
@@ -1458,11 +1409,11 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             & ({
             "admission_code"?: ((string) | (null));
             "admission_code_last4"?: ((string) | (null));
-            "attendee_name"?: ((string | null) | (null) | (unknown));
-            "check_in_method"?: ((((("admission_code" | "manual" | (string & {})) | (null)))) | (null) | (unknown));
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
+            "attendee_name"?: ((string) | (null));
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
@@ -1472,7 +1423,7 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "ticket_number"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
-            "voided_at"?: ((string | null) | (null) | (unknown));
+            "voided_at"?: ((string) | (null));
         });
     };
     "event_source"?: ("merchant") & ("merchant");
@@ -1506,11 +1457,11 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             & ({
             "admission_code"?: ((string) | (null));
             "admission_code_last4"?: ((string) | (null));
-            "attendee_name"?: ((string | null) | (null) | (unknown));
-            "check_in_method"?: ((((("admission_code" | "manual" | (string & {})) | (null)))) | (null) | (unknown));
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
+            "attendee_name"?: ((string) | (null));
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
@@ -1520,7 +1471,7 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "ticket_number"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
-            "voided_at"?: ((string | null) | (null) | (unknown));
+            "voided_at"?: ((string) | (null));
         });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
@@ -1597,35 +1548,31 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * the current admission code. previous_attributes.admission_code_last4.anyOf[1] (Value):
      * string. Last four characters of the current admission code.
      * previous_attributes.admission_code_last4.anyOf[2] (Value): null.
-     * previous_attributes.attendee_name (Optional): string or null or null. Optional attendee
-     * name. Null when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string or
-     * null. Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
+     * previous_attributes.attendee_name (Optional): string or null. Optional attendee name. Null
+     * when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string. Optional
+     * attendee name. Null when not supplied. minLength: 1. maxLength: 200.
      * previous_attributes.attendee_name.anyOf[2] (Value): null.
-     * previous_attributes.check_in_method (Optional): (string or null) or null. How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1] (Value): (string or null). How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum:
-     * "admission_code", "manual". previous_attributes.check_in_method.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.check_in_method.anyOf[2] (Value): null.
-     * previous_attributes.checked_in_at (Optional): string or null or null. When the ticket was
-     * admitted. Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1]
-     * (Value): string or null. When the ticket was admitted. Null when the ticket is not checked
-     * in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.checked_in_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the ticket was issued.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was issued. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
-     * or null. Order summary, present only with expand=order. Requires commerce.orders.read.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. The order that purchased this ticket. previous_attributes.order_id.anyOf[1]
-     * (Value): string. The order that purchased this ticket. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.order_line_item_id (Optional): string or null. The purchased ticket
-     * tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The purchased ticket
-     * tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * previous_attributes.check_in_method (Optional): string or null. How the ticket was admitted.
+     * Null when the ticket is not checked in. Value enum: "admission_code", "manual".
+     * previous_attributes.check_in_method.anyOf[1] (Value): string. Value enum: "admission_code",
+     * "manual". previous_attributes.check_in_method.anyOf[2] (Value): null.
+     * previous_attributes.checked_in_at (Optional): string or null. When the ticket was admitted.
+     * Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1] (Value):
+     * string. When the ticket was admitted. Null when the ticket is not checked in. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.checked_in_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the ticket
+     * was issued. previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was
+     * issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+     * expand=order. Requires commerce.orders.read. previous_attributes.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
+     * null. previous_attributes.order_id (Optional): string or null. The order that purchased this
+     * ticket. previous_attributes.order_id.anyOf[1] (Value): string. The order that purchased this
+     * ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.order_line_item_id (Optional): string or null. The
+     * purchased ticket tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The
+     * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * previous_attributes.order_line_item_id.anyOf[2] (Value): null.
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
@@ -1656,10 +1603,10 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
      * this resource's owned state. Expanded resources and external observations can change
      * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null. previous_attributes.voided_at (Optional): string or null or null. When the ticket was
+     * null. previous_attributes.voided_at (Optional): string or null. When the ticket was
      * permanently voided. Null when the ticket has not been voided.
-     * previous_attributes.voided_at.anyOf[1] (Value): string or null. When the ticket was
-     * permanently voided. Null when the ticket has not been voided. Format: date-time. Example:
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the ticket was permanently
+     * voided. Null when the ticket has not been voided. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
      */
     "data"?: {
@@ -1785,23 +1732,20 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * null. admission_code_last4 (Optional): string or null. Last four characters of the
          * current admission code. admission_code_last4.anyOf[1] (Value): string. Last four
          * characters of the current admission code. admission_code_last4.anyOf[2] (Value): null.
-         * attendee_name (Optional): string or null or null. Optional attendee name. Null when not
-         * supplied. attendee_name.anyOf[1] (Value): string or null. Optional attendee name. Null
-         * when not supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
-         * check_in_method (Optional): (string or null) or null. How the ticket was admitted. Null
-         * when the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1] (Value): (string or null). How the ticket was admitted. Null
-         * when the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code",
-         * "manual". check_in_method.anyOf[1].anyOf[2] (Value): null. check_in_method.anyOf[2]
-         * (Value): null. checked_in_at (Optional): string or null or null. When the ticket was
-         * admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1] (Value): string
-         * or null. When the ticket was admitted. Null when the ticket is not checked in. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When the ticket was issued. created_at.anyOf[1]
-         * (Value): string. When the ticket was issued. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional): {@link
-         * ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+         * attendee_name (Optional): string or null. Optional attendee name. Null when not
+         * supplied. attendee_name.anyOf[1] (Value): string. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
+         * check_in_method (Optional): string or null. How the ticket was admitted. Null when the
+         * ticket is not checked in. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[1] (Value): string. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[2] (Value): null. checked_in_at (Optional): string or null. When
+         * the ticket was admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1]
+         * (Value): string. When the ticket was admitted. Null when the ticket is not checked in.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the ticket was issued.
+         * created_at.anyOf[1] (Value): string. When the ticket was issued. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional):
+         * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
          * expand=order. Requires commerce.orders.read. order.anyOf[1] (Value): {@link
          * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. The order that purchased this ticket. order_id.anyOf[1]
@@ -1833,10 +1777,10 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * owned state. Expanded resources and external observations can change independently.
          * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
          * Expanded resources and external observations can change independently. Format: uint64.
-         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null or
-         * null. When the ticket was permanently voided. Null when the ticket has not been voided.
-         * voided_at.anyOf[1] (Value): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
@@ -1863,26 +1807,23 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              */
             "admission_code_last4"?: ((string) | (null));
             /**
-             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string or null.
-             * Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
-             * anyOf[2] (Value): null.
+             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string. Optional
+             * attendee name. Null when not supplied. minLength: 1. maxLength: 200. anyOf[2]
+             * (Value): null.
              */
-            "attendee_name"?: ((string | null) | (null) | (unknown));
+            "attendee_name"?: ((string) | (null));
             /**
              * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): (string or null). How the ticket was
-             * admitted. Null when the ticket is not checked in. Value enum: "admission_code",
-             * "manual". anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code", "manual".
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
              */
-            "check_in_method"?: ((((("admission_code" | "manual" | (string & {})) | (null)))) | (null) | (unknown));
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
             /**
              * When the ticket was admitted. Null when the ticket is not checked in. anyOf[1]
-             * (Value): string or null. When the ticket was admitted. Null when the ticket is not
-             * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
+             * (Value): string. When the ticket was admitted. Null when the ticket is not checked
+             * in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
+            "checked_in_at"?: ((string) | (null));
             /**
              * When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1893,7 +1834,7 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * The order that purchased this ticket. anyOf[1] (Value): string. The order that
              * purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -1949,11 +1890,11 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "version"?: ((number) | (null));
             /**
              * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * anyOf[1] (Value): string or null. When the ticket was permanently voided. Null when
-             * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[1] (Value): string. When the ticket was permanently voided. Null when the
+             * ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
              * anyOf[2] (Value): null.
              */
-            "voided_at"?: ((string | null) | (null) | (unknown));
+            "voided_at"?: ((string) | (null));
         });
     };
     /** Value enum: "installed_merchants". */
@@ -2056,35 +1997,31 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * the current admission code. previous_attributes.admission_code_last4.anyOf[1] (Value):
      * string. Last four characters of the current admission code.
      * previous_attributes.admission_code_last4.anyOf[2] (Value): null.
-     * previous_attributes.attendee_name (Optional): string or null or null. Optional attendee
-     * name. Null when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string or
-     * null. Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
+     * previous_attributes.attendee_name (Optional): string or null. Optional attendee name. Null
+     * when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string. Optional
+     * attendee name. Null when not supplied. minLength: 1. maxLength: 200.
      * previous_attributes.attendee_name.anyOf[2] (Value): null.
-     * previous_attributes.check_in_method (Optional): (string or null) or null. How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1] (Value): (string or null). How the ticket was
-     * admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual".
-     * previous_attributes.check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum:
-     * "admission_code", "manual". previous_attributes.check_in_method.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.check_in_method.anyOf[2] (Value): null.
-     * previous_attributes.checked_in_at (Optional): string or null or null. When the ticket was
-     * admitted. Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1]
-     * (Value): string or null. When the ticket was admitted. Null when the ticket is not checked
-     * in. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.checked_in_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the ticket was issued.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was issued. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
-     * or null. Order summary, present only with expand=order. Requires commerce.orders.read.
-     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
-     * string or null. The order that purchased this ticket. previous_attributes.order_id.anyOf[1]
-     * (Value): string. The order that purchased this ticket. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.order_line_item_id (Optional): string or null. The purchased ticket
-     * tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The purchased ticket
-     * tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * previous_attributes.check_in_method (Optional): string or null. How the ticket was admitted.
+     * Null when the ticket is not checked in. Value enum: "admission_code", "manual".
+     * previous_attributes.check_in_method.anyOf[1] (Value): string. Value enum: "admission_code",
+     * "manual". previous_attributes.check_in_method.anyOf[2] (Value): null.
+     * previous_attributes.checked_in_at (Optional): string or null. When the ticket was admitted.
+     * Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1] (Value):
+     * string. When the ticket was admitted. Null when the ticket is not checked in. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.checked_in_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the ticket
+     * was issued. previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was
+     * issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+     * expand=order. Requires commerce.orders.read. previous_attributes.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
+     * null. previous_attributes.order_id (Optional): string or null. The order that purchased this
+     * ticket. previous_attributes.order_id.anyOf[1] (Value): string. The order that purchased this
+     * ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.order_line_item_id (Optional): string or null. The
+     * purchased ticket tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The
+     * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * previous_attributes.order_line_item_id.anyOf[2] (Value): null.
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
@@ -2115,10 +2052,10 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
      * this resource's owned state. Expanded resources and external observations can change
      * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null. previous_attributes.voided_at (Optional): string or null or null. When the ticket was
+     * null. previous_attributes.voided_at (Optional): string or null. When the ticket was
      * permanently voided. Null when the ticket has not been voided.
-     * previous_attributes.voided_at.anyOf[1] (Value): string or null. When the ticket was
-     * permanently voided. Null when the ticket has not been voided. Format: date-time. Example:
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the ticket was permanently
+     * voided. Null when the ticket has not been voided. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
      */
     "data"?: {
@@ -2244,23 +2181,20 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * null. admission_code_last4 (Optional): string or null. Last four characters of the
          * current admission code. admission_code_last4.anyOf[1] (Value): string. Last four
          * characters of the current admission code. admission_code_last4.anyOf[2] (Value): null.
-         * attendee_name (Optional): string or null or null. Optional attendee name. Null when not
-         * supplied. attendee_name.anyOf[1] (Value): string or null. Optional attendee name. Null
-         * when not supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
-         * check_in_method (Optional): (string or null) or null. How the ticket was admitted. Null
-         * when the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1] (Value): (string or null). How the ticket was admitted. Null
-         * when the ticket is not checked in. Value enum: "admission_code", "manual".
-         * check_in_method.anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code",
-         * "manual". check_in_method.anyOf[1].anyOf[2] (Value): null. check_in_method.anyOf[2]
-         * (Value): null. checked_in_at (Optional): string or null or null. When the ticket was
-         * admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1] (Value): string
-         * or null. When the ticket was admitted. Null when the ticket is not checked in. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When the ticket was issued. created_at.anyOf[1]
-         * (Value): string. When the ticket was issued. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional): {@link
-         * ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+         * attendee_name (Optional): string or null. Optional attendee name. Null when not
+         * supplied. attendee_name.anyOf[1] (Value): string. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
+         * check_in_method (Optional): string or null. How the ticket was admitted. Null when the
+         * ticket is not checked in. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[1] (Value): string. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[2] (Value): null. checked_in_at (Optional): string or null. When
+         * the ticket was admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1]
+         * (Value): string. When the ticket was admitted. Null when the ticket is not checked in.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the ticket was issued.
+         * created_at.anyOf[1] (Value): string. When the ticket was issued. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional):
+         * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
          * expand=order. Requires commerce.orders.read. order.anyOf[1] (Value): {@link
          * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. The order that purchased this ticket. order_id.anyOf[1]
@@ -2292,10 +2226,10 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * owned state. Expanded resources and external observations can change independently.
          * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
          * Expanded resources and external observations can change independently. Format: uint64.
-         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null or
-         * null. When the ticket was permanently voided. Null when the ticket has not been voided.
-         * voided_at.anyOf[1] (Value): string or null. When the ticket was permanently voided. Null
-         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
@@ -2322,26 +2256,23 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              */
             "admission_code_last4"?: ((string) | (null));
             /**
-             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string or null.
-             * Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200.
-             * anyOf[2] (Value): null.
+             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string. Optional
+             * attendee name. Null when not supplied. minLength: 1. maxLength: 200. anyOf[2]
+             * (Value): null.
              */
-            "attendee_name"?: ((string | null) | (null) | (unknown));
+            "attendee_name"?: ((string) | (null));
             /**
              * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
-             * "admission_code", "manual". anyOf[1] (Value): (string or null). How the ticket was
-             * admitted. Null when the ticket is not checked in. Value enum: "admission_code",
-             * "manual". anyOf[1].anyOf[1] (Value): string. Value enum: "admission_code", "manual".
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
              */
-            "check_in_method"?: ((((("admission_code" | "manual" | (string & {})) | (null)))) | (null) | (unknown));
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
             /**
              * When the ticket was admitted. Null when the ticket is not checked in. anyOf[1]
-             * (Value): string or null. When the ticket was admitted. Null when the ticket is not
-             * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
+             * (Value): string. When the ticket was admitted. Null when the ticket is not checked
+             * in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "checked_in_at"?: ((string | null) | (null) | (unknown));
+            "checked_in_at"?: ((string) | (null));
             /**
              * When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2352,7 +2283,7 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * The order that purchased this ticket. anyOf[1] (Value): string. The order that
              * purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -2408,11 +2339,11 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "version"?: ((number) | (null));
             /**
              * When the ticket was permanently voided. Null when the ticket has not been voided.
-             * anyOf[1] (Value): string or null. When the ticket was permanently voided. Null when
-             * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[1] (Value): string. When the ticket was permanently voided. Null when the
+             * ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
              * anyOf[2] (Value): null.
              */
-            "voided_at"?: ((string | null) | (null) | (unknown));
+            "voided_at"?: ((string) | (null));
         });
     };
     /** Value enum: "merchant". */
@@ -2868,4 +2799,983 @@ export type TicketResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "admission_code"?: ((string) | (null));
+            "admission_code_last4"?: ((string) | (null));
+            "attendee_name"?: ((string) | (null));
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "order_line_item_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
+            "ticket_id"?: ((string) | (null));
+            "ticket_number"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "admission_code"?: ((string) | (null));
+            "admission_code_last4"?: ((string) | (null));
+            "attendee_name"?: ((string) | (null));
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "order_line_item_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
+            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
+            "ticket_id"?: ((string) | (null));
+            "ticket_number"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.updated";
+});
+/**
+ * The `ticket.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.admission_code (Optional): string or null. The
+     * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer
+     * secret: only the paid checkout session's own paying credential receives it, on its own
+     * order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads
+     * or requests after payment never does. Returned only to the checkout credential; never in
+     * webhook payloads. previous_attributes.admission_code.anyOf[1] (Value): string. The ticket's
+     * 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret:
+     * only the paid checkout session's own paying credential receives it, on its own order's
+     * tickets that aren't voided. A checkout credential from a launch URL a merchant reads or
+     * requests after payment never does. Returned only to the checkout credential; never in
+     * webhook payloads. minLength: 16. previous_attributes.admission_code.anyOf[2] (Value): null.
+     * previous_attributes.admission_code_last4 (Optional): string or null. Last four characters of
+     * the current admission code. previous_attributes.admission_code_last4.anyOf[1] (Value):
+     * string. Last four characters of the current admission code.
+     * previous_attributes.admission_code_last4.anyOf[2] (Value): null.
+     * previous_attributes.attendee_name (Optional): string or null. Optional attendee name. Null
+     * when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string. Optional
+     * attendee name. Null when not supplied. minLength: 1. maxLength: 200.
+     * previous_attributes.attendee_name.anyOf[2] (Value): null.
+     * previous_attributes.check_in_method (Optional): string or null. How the ticket was admitted.
+     * Null when the ticket is not checked in. Value enum: "admission_code", "manual".
+     * previous_attributes.check_in_method.anyOf[1] (Value): string. Value enum: "admission_code",
+     * "manual". previous_attributes.check_in_method.anyOf[2] (Value): null.
+     * previous_attributes.checked_in_at (Optional): string or null. When the ticket was admitted.
+     * Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1] (Value):
+     * string. When the ticket was admitted. Null when the ticket is not checked in. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.checked_in_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the ticket
+     * was issued. previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was
+     * issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+     * expand=order. Requires commerce.orders.read. previous_attributes.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
+     * null. previous_attributes.order_id (Optional): string or null. The order that purchased this
+     * ticket. previous_attributes.order_id.anyOf[1] (Value): string. The order that purchased this
+     * ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.order_line_item_id (Optional): string or null. The
+     * purchased ticket tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The
+     * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * previous_attributes.order_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
+     * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. The admission
+     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
+     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
+     * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
+     * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+     * "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1][] (Value): string.
+     * Value enum: "check_in", "undo_check_in", "void".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.ticket_id
+     * (Optional): string or null. Unique ticket identity with the tkt_ prefix.
+     * previous_attributes.ticket_id.anyOf[1] (Value): string. Unique ticket identity with the tkt_
+     * prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". previous_attributes.ticket_id.anyOf[2]
+     * (Value): null. previous_attributes.ticket_number (Optional): string or null. The event
+     * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * previous_attributes.ticket_number.anyOf[1] (Value): string. The event prefix and sequence,
+     * such as GAL001. Numbers are never reused and do not authorize entry.
+     * previous_attributes.ticket_number.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the ticket last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the ticket last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null. previous_attributes.voided_at (Optional): string or null. When the ticket was
+     * permanently voided. Null when the ticket has not been voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the ticket was permanently
+     * voided. Null when the ticket has not been voided. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. admission_code (Optional): string or null. The
+         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
+         * bearer secret: only the paid checkout session's own paying credential receives it, on
+         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
+         * merchant reads or requests after payment never does. Returned only to the checkout
+         * credential; never in webhook payloads. admission_code.anyOf[1] (Value): string. The
+         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
+         * bearer secret: only the paid checkout session's own paying credential receives it, on
+         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
+         * merchant reads or requests after payment never does. Returned only to the checkout
+         * credential; never in webhook payloads. minLength: 16. admission_code.anyOf[2] (Value):
+         * null. admission_code_last4 (Optional): string or null. Last four characters of the
+         * current admission code. admission_code_last4.anyOf[1] (Value): string. Last four
+         * characters of the current admission code. admission_code_last4.anyOf[2] (Value): null.
+         * attendee_name (Optional): string or null. Optional attendee name. Null when not
+         * supplied. attendee_name.anyOf[1] (Value): string. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
+         * check_in_method (Optional): string or null. How the ticket was admitted. Null when the
+         * ticket is not checked in. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[1] (Value): string. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[2] (Value): null. checked_in_at (Optional): string or null. When
+         * the ticket was admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1]
+         * (Value): string. When the ticket was admitted. Null when the ticket is not checked in.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the ticket was issued.
+         * created_at.anyOf[1] (Value): string. When the ticket was issued. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional):
+         * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order that purchased this ticket. order_id.anyOf[1]
+         * (Value): string. The order that purchased this ticket. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_line_item_id
+         * (Optional): string or null. The purchased ticket tier. order_line_item_id.anyOf[1]
+         * (Value): string. The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+         * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
+         * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
+         * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
+         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
+         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
+         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
+         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
+         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
+         * string. Unique ticket identity with the tkt_ prefix. Example:
+         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
+         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
+         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
+         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[2] (Value): null. updated_at (Optional): string or null. When
+         * the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket last
+         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. anyOf[1] (Value):
+             * string. The ticket's 16-character Crockford base32 admission code, the value its QR
+             * code holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16. anyOf[2]
+             * (Value): null.
+             */
+            "admission_code"?: ((string) | (null));
+            /**
+             * Last four characters of the current admission code. anyOf[1] (Value): string. Last
+             * four characters of the current admission code. anyOf[2] (Value): null.
+             */
+            "admission_code_last4"?: ((string) | (null));
+            /**
+             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string. Optional
+             * attendee name. Null when not supplied. minLength: 1. maxLength: 200. anyOf[2]
+             * (Value): null.
+             */
+            "attendee_name"?: ((string) | (null));
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. anyOf[1]
+             * (Value): string. When the ticket was admitted. Null when the ticket is not checked
+             * in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "checked_in_at"?: ((string) | (null));
+            /**
+             * When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The order that purchased this ticket. anyOf[1] (Value): string. The order that
+             * purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * The purchased ticket tier. anyOf[1] (Value): string. The purchased ticket tier.
+             * Example: "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
+             */
+            "order_line_item_id"?: ((string) | (null));
+            /**
+             * The event payment link. anyOf[1] (Value): string. The event payment link. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
+             * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
+             * "voided". anyOf[2] (Value): null.
+             */
+            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". anyOf[1] (Value): Array of string. Actions currently offered for this
+             * ticket. [] enum: "check_in", "undo_check_in", "void". anyOf[1][] (Value): string.
+             * Value enum: "check_in", "undo_check_in", "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
+            /**
+             * Unique ticket identity with the tkt_ prefix. anyOf[1] (Value): string. Unique ticket
+             * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". anyOf[2]
+             * (Value): null.
+             */
+            "ticket_id"?: ((string) | (null));
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry. anyOf[1] (Value): string. The event prefix and sequence, such as
+             * GAL001. Numbers are never reused and do not authorize entry. anyOf[2] (Value): null.
+             */
+            "ticket_number"?: ((string) | (null));
+            /**
+             * When the ticket last changed. anyOf[1] (Value): string. When the ticket last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * anyOf[1] (Value): string. When the ticket was permanently voided. Null when the
+             * ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.updated". */
+    "event_type"?: "ticket.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.admission_code (Optional): string or null. The
+     * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer
+     * secret: only the paid checkout session's own paying credential receives it, on its own
+     * order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads
+     * or requests after payment never does. Returned only to the checkout credential; never in
+     * webhook payloads. previous_attributes.admission_code.anyOf[1] (Value): string. The ticket's
+     * 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret:
+     * only the paid checkout session's own paying credential receives it, on its own order's
+     * tickets that aren't voided. A checkout credential from a launch URL a merchant reads or
+     * requests after payment never does. Returned only to the checkout credential; never in
+     * webhook payloads. minLength: 16. previous_attributes.admission_code.anyOf[2] (Value): null.
+     * previous_attributes.admission_code_last4 (Optional): string or null. Last four characters of
+     * the current admission code. previous_attributes.admission_code_last4.anyOf[1] (Value):
+     * string. Last four characters of the current admission code.
+     * previous_attributes.admission_code_last4.anyOf[2] (Value): null.
+     * previous_attributes.attendee_name (Optional): string or null. Optional attendee name. Null
+     * when not supplied. previous_attributes.attendee_name.anyOf[1] (Value): string. Optional
+     * attendee name. Null when not supplied. minLength: 1. maxLength: 200.
+     * previous_attributes.attendee_name.anyOf[2] (Value): null.
+     * previous_attributes.check_in_method (Optional): string or null. How the ticket was admitted.
+     * Null when the ticket is not checked in. Value enum: "admission_code", "manual".
+     * previous_attributes.check_in_method.anyOf[1] (Value): string. Value enum: "admission_code",
+     * "manual". previous_attributes.check_in_method.anyOf[2] (Value): null.
+     * previous_attributes.checked_in_at (Optional): string or null. When the ticket was admitted.
+     * Null when the ticket is not checked in. previous_attributes.checked_in_at.anyOf[1] (Value):
+     * string. When the ticket was admitted. Null when the ticket is not checked in. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.checked_in_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the ticket
+     * was issued. previous_attributes.created_at.anyOf[1] (Value): string. When the ticket was
+     * issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+     * expand=order. Requires commerce.orders.read. previous_attributes.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
+     * null. previous_attributes.order_id (Optional): string or null. The order that purchased this
+     * ticket. previous_attributes.order_id.anyOf[1] (Value): string. The order that purchased this
+     * ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
+     * (Value): null. previous_attributes.order_line_item_id (Optional): string or null. The
+     * purchased ticket tier. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The
+     * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * previous_attributes.order_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
+     * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. The admission
+     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
+     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
+     * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
+     * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+     * "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1][] (Value): string.
+     * Value enum: "check_in", "undo_check_in", "void".
+     * previous_attributes.supported_actions.anyOf[2] (Value): null. previous_attributes.ticket_id
+     * (Optional): string or null. Unique ticket identity with the tkt_ prefix.
+     * previous_attributes.ticket_id.anyOf[1] (Value): string. Unique ticket identity with the tkt_
+     * prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". previous_attributes.ticket_id.anyOf[2]
+     * (Value): null. previous_attributes.ticket_number (Optional): string or null. The event
+     * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * previous_attributes.ticket_number.anyOf[1] (Value): string. The event prefix and sequence,
+     * such as GAL001. Numbers are never reused and do not authorize entry.
+     * previous_attributes.ticket_number.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the ticket last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When the ticket last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null. previous_attributes.voided_at (Optional): string or null. When the ticket was
+     * permanently voided. Null when the ticket has not been voided.
+     * previous_attributes.voided_at.anyOf[1] (Value): string. When the ticket was permanently
+     * voided. Null when the ticket has not been voided. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.voided_at.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. admission_code (Optional): string or null. The
+         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
+         * bearer secret: only the paid checkout session's own paying credential receives it, on
+         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
+         * merchant reads or requests after payment never does. Returned only to the checkout
+         * credential; never in webhook payloads. admission_code.anyOf[1] (Value): string. The
+         * ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
+         * bearer secret: only the paid checkout session's own paying credential receives it, on
+         * its own order's tickets that aren't voided. A checkout credential from a launch URL a
+         * merchant reads or requests after payment never does. Returned only to the checkout
+         * credential; never in webhook payloads. minLength: 16. admission_code.anyOf[2] (Value):
+         * null. admission_code_last4 (Optional): string or null. Last four characters of the
+         * current admission code. admission_code_last4.anyOf[1] (Value): string. Last four
+         * characters of the current admission code. admission_code_last4.anyOf[2] (Value): null.
+         * attendee_name (Optional): string or null. Optional attendee name. Null when not
+         * supplied. attendee_name.anyOf[1] (Value): string. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. attendee_name.anyOf[2] (Value): null.
+         * check_in_method (Optional): string or null. How the ticket was admitted. Null when the
+         * ticket is not checked in. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[1] (Value): string. Value enum: "admission_code", "manual".
+         * check_in_method.anyOf[2] (Value): null. checked_in_at (Optional): string or null. When
+         * the ticket was admitted. Null when the ticket is not checked in. checked_in_at.anyOf[1]
+         * (Value): string. When the ticket was admitted. Null when the ticket is not checked in.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". checked_in_at.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the ticket was issued.
+         * created_at.anyOf[1] (Value): string. When the ticket was issued. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. order (Optional):
+         * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The order that purchased this ticket. order_id.anyOf[1]
+         * (Value): string. The order that purchased this ticket. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_line_item_id
+         * (Optional): string or null. The purchased ticket tier. order_line_item_id.anyOf[1]
+         * (Value): string. The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+         * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
+         * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
+         * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
+         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
+         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
+         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
+         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
+         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
+         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
+         * string. Unique ticket identity with the tkt_ prefix. Example:
+         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
+         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
+         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
+         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[2] (Value): null. updated_at (Optional): string or null. When
+         * the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket last
+         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. anyOf[1] (Value):
+             * string. The ticket's 16-character Crockford base32 admission code, the value its QR
+             * code holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16. anyOf[2]
+             * (Value): null.
+             */
+            "admission_code"?: ((string) | (null));
+            /**
+             * Last four characters of the current admission code. anyOf[1] (Value): string. Last
+             * four characters of the current admission code. anyOf[2] (Value): null.
+             */
+            "admission_code_last4"?: ((string) | (null));
+            /**
+             * Optional attendee name. Null when not supplied. anyOf[1] (Value): string. Optional
+             * attendee name. Null when not supplied. minLength: 1. maxLength: 200. anyOf[2]
+             * (Value): null.
+             */
+            "attendee_name"?: ((string) | (null));
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method"?: (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. anyOf[1]
+             * (Value): string. When the ticket was admitted. Null when the ticket is not checked
+             * in. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "checked_in_at"?: ((string) | (null));
+            /**
+             * When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The order that purchased this ticket. anyOf[1] (Value): string. The order that
+             * purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * The purchased ticket tier. anyOf[1] (Value): string. The purchased ticket tier.
+             * Example: "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
+             */
+            "order_line_item_id"?: ((string) | (null));
+            /**
+             * The event payment link. anyOf[1] (Value): string. The event payment link. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
+             */
+            "payment_link_id"?: ((string) | (null));
+            /**
+             * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
+             * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
+             * "voided". anyOf[2] (Value): null.
+             */
+            "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". anyOf[1] (Value): Array of string. Actions currently offered for this
+             * ticket. [] enum: "check_in", "undo_check_in", "void". anyOf[1][] (Value): string.
+             * Value enum: "check_in", "undo_check_in", "void". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
+            /**
+             * Unique ticket identity with the tkt_ prefix. anyOf[1] (Value): string. Unique ticket
+             * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". anyOf[2]
+             * (Value): null.
+             */
+            "ticket_id"?: ((string) | (null));
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry. anyOf[1] (Value): string. The event prefix and sequence, such as
+             * GAL001. Numbers are never reused and do not authorize entry. anyOf[2] (Value): null.
+             */
+            "ticket_number"?: ((string) | (null));
+            /**
+             * When the ticket last changed. anyOf[1] (Value): string. When the ticket last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * anyOf[1] (Value): string. When the ticket was permanently voided. Null when the
+             * ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * anyOf[2] (Value): null.
+             */
+            "voided_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.updated". */
+    "event_type"?: "ticket.updated";
+});
+/** An optional version fence for the ticket. */
+export type TicketVersionRequestInput = {
+    /**
+     * The ticket version last read. The change applies only while the ticket is at this version; a
+     * stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse
+     * the change. Door scanners usually omit it. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
 };

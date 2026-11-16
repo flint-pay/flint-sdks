@@ -1,0 +1,1 @@
+{"shared":"CheckoutPromotionConfigPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"automatic_enabled":{"kind":"nullable","value":{"kind":"value","type":"bool"}},"codes_enabled":{"kind":"nullable","value":{"kind":"value","type":"bool"}}}},"dependencies":["CheckoutPromotionConfigPreviousAttributes","SharedCodec37"]}

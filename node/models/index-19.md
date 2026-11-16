@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationResult to InvoiceLateFeePolicyFixedPreviousAttributes
+# InventoryReservationResultResponse to InvoiceLateFeePolicyFixedRequestInput
 
-- [InventoryReservationResult](InventoryReservationResult.md)
 - [InventoryReservationResultResponse](InventoryReservationResultResponse.md)
 - [InventoryReservationUpdatedInstalledMerchantsEvent](InventoryReservationUpdatedInstalledMerchantsEvent.md)
 - [InventoryReservationUpdatedMerchantEvent](InventoryReservationUpdatedMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [InvoiceLateFeePolicy](InvoiceLateFeePolicy.md)
 - [InvoiceLateFeePolicyFixed](InvoiceLateFeePolicyFixed.md)
 - [InvoiceLateFeePolicyFixedPreviousAttributes](InvoiceLateFeePolicyFixedPreviousAttributes.md)
+- [InvoiceLateFeePolicyFixedRequestInput](InvoiceLateFeePolicyFixedRequestInput.md)
 

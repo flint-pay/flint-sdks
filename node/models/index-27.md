@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkLineItemInputVariantInput to PaymentSplitReversal
+# PaymentLinkLineItemPatchInputCustomFixed to PaymentSplitUpdatedEvent
 
-- [PaymentLinkLineItemInputVariantInput](PaymentLinkLineItemInputVariantInput.md)
-- [PaymentLinkLineItemPatchInputBundle](PaymentLinkLineItemPatchInputBundle.md)
-- [PaymentLinkLineItemPatchInputBundleInput](PaymentLinkLineItemPatchInputBundleInput.md)
 - [PaymentLinkLineItemPatchInputCustomFixed](PaymentLinkLineItemPatchInputCustomFixed.md)
 - [PaymentLinkLineItemPatchInputCustomFixedInput](PaymentLinkLineItemPatchInputCustomFixedInput.md)
 - [PaymentLinkLineItemPatchInputCustomVariable](PaymentLinkLineItemPatchInputCustomVariable.md)
@@ -102,4 +99,7 @@
 - [PaymentSplitRequestInput](PaymentSplitRequestInput.md)
 - [PaymentSplitResponse](PaymentSplitResponse.md)
 - [PaymentSplitReversal](PaymentSplitReversal.md)
+- [PaymentSplitReversalPreviousAttributes](PaymentSplitReversalPreviousAttributes.md)
+- [PaymentSplitSucceededEvent](PaymentSplitSucceededEvent.md)
+- [PaymentSplitUpdatedEvent](PaymentSplitUpdatedEvent.md)
 

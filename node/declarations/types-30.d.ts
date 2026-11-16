@@ -1,4 +1,4 @@
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
+import type { MoneyValuePreviousAttributes, MoneyValue } from './types-42.js';
 import type {
     GiftCardPurchaseRecipient,
     GiftCardProductConfiguration,
@@ -21,21 +21,6 @@ import type { LookupGiftCardRequestInput } from './types-39.js';
 import type { RotateGiftCardCodeRequestInput } from './types-65.js';
 import type { UnfreezeGiftCardRequestInput } from './types-73.js';
 import type { UpdateGiftCardRequestInput } from './types-74.js';
-/**
- * A gift card and load that received recovered value in a gift card purchase refund recovery, with
- * the amount.
- */
-export type GiftCardPurchaseRefundRecoveryDestination = {
-    /** ID of the gift card that received the value. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
-    "gift_card_id": string;
-    /** ID of the load that holds the value. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". */
-    "gift_card_load_id": string;
-    /**
-     * The value restored to the card. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "value_money": MoneyValue;
-};
 export type GiftCardPurchaseRefundRecoveryDestinationPreviousAttributes = {
     /**
      * ID of the gift card that received the value. anyOf[1] (Value): string. ID of the gift card
@@ -51,7 +36,7 @@ export type GiftCardPurchaseRefundRecoveryDestinationPreviousAttributes = {
      * The value restored to the card. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "value_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 export type GiftCardPurchaseRefundRecoveryPreviousAttributes = {
     /**
@@ -90,7 +75,7 @@ export type GiftCardPurchaseRefundValueAllocationPreviousAttributes = {
      * The value allocated to the card. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the gift card that received the value. anyOf[1] (Value): string. ID of the gift card
      * that received the value. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
@@ -159,7 +144,7 @@ export type GiftCardPurchaseRefundValueHoldPreviousAttributes = {
      * The unspent value held. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "value_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /**
  * Gift card details for an order line item: the `face_value_money` and the `recipient` who
@@ -297,30 +282,30 @@ export type GiftCardPurchaseSnapshotPreviousAttributes = {
      * and any custom amount bounds. anyOf[1] (Value): {@link
      * GiftCardProductConfigurationPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+    "configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
     /**
      * Price paid per unit for this gift card purchase. Currency must be USD. Amount must be
      * between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "consideration_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "consideration_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Gift card value issued per unit for this purchase. Currency must be USD. Amount must be
      * between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "face_value_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "face_value_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Who receives the gift card. `null` when no recipient was set. anyOf[1] (Value): {@link
      * GiftCardPurchaseRecipientPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null) | (unknown));
+    "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null));
     /**
      * Reference price per unit from the frozen gift card offer. Currency must be USD. Amount must
      * be between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "reference_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "reference_price_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /**
  * Independent redemption resource. Operational reservations are separate from immutable posted
@@ -1048,19 +1033,19 @@ export type GiftCardRedemptionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
         })
             & ({
             "capture_mode"?: (("automatic" | "manual" | (string & {})) | (null));
-            "captured_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "gift_card_id"?: ((string) | (null));
             "gift_card_redemption_id"?: ((string) | (null));
-            "idempotency_key"?: ((string | null) | (null) | (unknown));
-            "order_id"?: ((string | null) | (null) | (unknown));
-            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "requested_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "sale_reference"?: ((string | null) | (null) | (unknown));
+            "idempotency_key"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "order_payment_attempt_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "sale_reference"?: ((string) | (null));
             "source_type"?: (("external" | "flint_order" | (string & {})) | (null));
             "status"?: (("reserved" | "succeeded" | "canceled" | "expired" | (string & {})) | (null));
             "supported_actions"?: ((Array<"capture" | "cancel" | (string & {})>) | (null));
@@ -1100,19 +1085,19 @@ export type GiftCardRedemptionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
         })
             & ({
             "capture_mode"?: (("automatic" | "manual" | (string & {})) | (null));
-            "captured_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "gift_card_id"?: ((string) | (null));
             "gift_card_redemption_id"?: ((string) | (null));
-            "idempotency_key"?: ((string | null) | (null) | (unknown));
-            "order_id"?: ((string | null) | (null) | (unknown));
-            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "requested_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "sale_reference"?: ((string | null) | (null) | (unknown));
+            "idempotency_key"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "order_payment_attempt_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "sale_reference"?: ((string) | (null));
             "source_type"?: (("external" | "flint_order" | (string & {})) | (null));
             "status"?: (("reserved" | "succeeded" | "canceled" | "expired" | (string & {})) | (null));
             "supported_actions"?: ((Array<"capture" | "cancel" | (string & {})>) | (null));
@@ -1199,41 +1184,40 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When an uncaptured
-     * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
-     * immediately. previous_attributes.expires_at.anyOf[1] (Value): string or null. When an
-     * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which
-     * posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.expires_at.anyOf[2] (Value): null. previous_attributes.gift_card_id
-     * (Optional): string or null. ID of the gift card the value is spent from.
-     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the value is
-     * spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * null. previous_attributes.expires_at (Optional): string or null. When an uncaptured manual
+     * reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately.
+     * previous_attributes.expires_at.anyOf[1] (Value): string. When an uncaptured manual
+     * reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_id (Optional): string or null. ID of the gift
+     * card the value is spent from. previous_attributes.gift_card_id.anyOf[1] (Value): string. ID
+     * of the gift card the value is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * previous_attributes.gift_card_id.anyOf[2] (Value): null.
      * previous_attributes.gift_card_redemption_id (Optional): string or null. Unique identifier
      * for this gift card redemption, prefixed `gcr_`.
      * previous_attributes.gift_card_redemption_id.anyOf[1] (Value): string. Unique identifier for
      * this gift card redemption, prefixed `gcr_`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * previous_attributes.gift_card_redemption_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null or null. Your Idempotency-Key
-     * for the command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key
-     * for the command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key (Optional): string or null. Your Idempotency-Key for the
+     * command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the
+     * command that created this record. `null` when Flint created it or no key was sent.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null or null. ID of the Flint order the redemption pays for. `null`
-     * when `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string or
-     * null. ID of the Flint order the redemption pays for. `null` when `source_type` is
-     * `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
-     * (Value): null. previous_attributes.order_payment_attempt_id (Optional): string or null or
-     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
-     * `null` when `source_type` is `external`.
-     * previous_attributes.order_payment_attempt_id.anyOf[1] (Value): string or null. The order
-     * payment attempt the redemption belongs to. Set for source_type flint_order. `null` when
-     * `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * previous_attributes.order_payment_attempt_id.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Total refunded against this redemption across all refunds. Each refund lists its share in
-     * `tender_allocations`. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
+     * (Optional): string or null. ID of the Flint order the redemption pays for. `null` when
+     * `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the Flint order the redemption pays for. `null` when `source_type` is `external`. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.order_payment_attempt_id (Optional): string or null. The order payment
+     * attempt the redemption belongs to. Set for source_type flint_order. `null` when
+     * `source_type` is `external`. previous_attributes.order_payment_attempt_id.anyOf[1] (Value):
+     * string. The order payment attempt the redemption belongs to. Set for source_type
+     * flint_order. `null` when `source_type` is `external`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". previous_attributes.order_payment_attempt_id.anyOf[2]
+     * (Value): null. previous_attributes.refunded_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Total refunded against this redemption across all
+     * refunds. Each refund lists its share in `tender_allocations`.
+     * previous_attributes.refunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.refunded_money.anyOf[2] (Value): null.
      * previous_attributes.remaining_refundable_money (Optional): {@link
      * MoneyValuePreviousAttributes} or null. Captured value not yet refunded. A refund allocation
      * to this redemption can be at most this amount. Zero while the redemption is reserved,
@@ -1248,10 +1232,10 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * The value held on the card for this redemption while it is reserved.
      * previous_attributes.reserved_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.reserved_money.anyOf[2] (Value): null.
-     * previous_attributes.sale_reference (Optional): string or null or null. Your reference for
-     * the sale the redemption pays for. Set for source_type external. `null` when `source_type` is
-     * `flint_order`. previous_attributes.sale_reference.anyOf[1] (Value): string or null. Your
-     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * previous_attributes.sale_reference (Optional): string or null. Your reference for the sale
+     * the redemption pays for. Set for source_type external. `null` when `source_type` is
+     * `flint_order`. previous_attributes.sale_reference.anyOf[1] (Value): string. Your reference
+     * for the sale the redemption pays for. Set for source_type external. `null` when
      * `source_type` is `flint_order`. maxLength: 255. previous_attributes.sale_reference.anyOf[2]
      * (Value): null. previous_attributes.source_type (Optional): string or null. What the
      * redemption pays for: a sale you record, or a Flint order's payment. Value enum: "external",
@@ -1442,10 +1426,10 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * captured_money.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
          * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
          * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null or null. When an uncaptured manual reservation expires.
-         * `null` when `capture_mode` is `automatic`, which posts immediately. expires_at.anyOf[1]
-         * (Value): string or null. When an uncaptured manual reservation expires. `null` when
-         * `capture_mode` is `automatic`, which posts immediately. Format: date-time. Example:
+         * (Optional): string or null. When an uncaptured manual reservation expires. `null` when
+         * `capture_mode` is `automatic`, which posts immediately. expires_at.anyOf[1] (Value):
+         * string. When an uncaptured manual reservation expires. `null` when `capture_mode` is
+         * `automatic`, which posts immediately. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. gift_card_id (Optional):
          * string or null. ID of the gift card the value is spent from. gift_card_id.anyOf[1]
          * (Value): string. ID of the gift card the value is spent from. Example:
@@ -1454,19 +1438,19 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * redemption, prefixed `gcr_`. gift_card_redemption_id.anyOf[1] (Value): string. Unique
          * identifier for this gift card redemption, prefixed `gcr_`. Example:
          * "gcr_01KEZF7C002YD2G2J734RRZTWT". gift_card_redemption_id.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null or null. Your Idempotency-Key for the command
-         * that created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key for the command
-         * that created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null or null. ID
-         * of the Flint order the redemption pays for. `null` when `source_type` is `external`.
-         * order_id.anyOf[1] (Value): string or null. ID of the Flint order the redemption pays
-         * for. `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null or
-         * null. The order payment attempt the redemption belongs to. Set for source_type
-         * flint_order. `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1]
-         * (Value): string or null. The order payment attempt the redemption belongs to. Set for
-         * source_type flint_order. `null` when `source_type` is `external`. Example:
+         * idempotency_key (Optional): string or null. Your Idempotency-Key for the command that
+         * created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the command that
+         * created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * Flint order the redemption pays for. `null` when `source_type` is `external`.
+         * order_id.anyOf[1] (Value): string. ID of the Flint order the redemption pays for. `null`
+         * when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null.
+         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
+         * `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1] (Value):
+         * string. The order payment attempt the redemption belongs to. Set for source_type
+         * flint_order. `null` when `source_type` is `external`. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". order_payment_attempt_id.anyOf[2] (Value): null.
          * refunded_money (Optional): {@link MoneyValuePreviousAttributes} or null. Total refunded
          * against this redemption across all refunds. Each refund lists its share in
@@ -1483,36 +1467,36 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * MoneyValuePreviousAttributes} or null. The value held on the card for this redemption
          * while it is reserved. reserved_money.anyOf[1] (Value): {@link
          * MoneyValuePreviousAttributes}. reserved_money.anyOf[2] (Value): null. sale_reference
-         * (Optional): string or null or null. Your reference for the sale the redemption pays for.
-         * Set for source_type external. `null` when `source_type` is `flint_order`.
-         * sale_reference.anyOf[1] (Value): string or null. Your reference for the sale the
-         * redemption pays for. Set for source_type external. `null` when `source_type` is
-         * `flint_order`. maxLength: 255. sale_reference.anyOf[2] (Value): null. source_type
-         * (Optional): string or null. What the redemption pays for: a sale you record, or a Flint
-         * order's payment. Value enum: "external", "flint_order". source_type.anyOf[1] (Value):
-         * string. What the redemption pays for: a sale you record, or a Flint order's payment.
-         * Value enum: "external", "flint_order". source_type.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the redemption is in its lifecycle. Value enum:
-         * "reserved", "succeeded", "canceled", "expired". status.anyOf[1] (Value): string. Where
-         * the redemption is in its lifecycle. Value enum: "reserved", "succeeded", "canceled",
-         * "expired". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions accepted for the stored redemption, independent of the
+         * (Optional): string or null. Your reference for the sale the redemption pays for. Set for
+         * source_type external. `null` when `source_type` is `flint_order`.
+         * sale_reference.anyOf[1] (Value): string. Your reference for the sale the redemption pays
+         * for. Set for source_type external. `null` when `source_type` is `flint_order`.
+         * maxLength: 255. sale_reference.anyOf[2] (Value): null. source_type (Optional): string or
+         * null. What the redemption pays for: a sale you record, or a Flint order's payment. Value
+         * enum: "external", "flint_order". source_type.anyOf[1] (Value): string. What the
+         * redemption pays for: a sale you record, or a Flint order's payment. Value enum:
+         * "external", "flint_order". source_type.anyOf[2] (Value): null. status (Optional): string
+         * or null. Where the redemption is in its lifecycle. Value enum: "reserved", "succeeded",
+         * "canceled", "expired". status.anyOf[1] (Value): string. Where the redemption is in its
+         * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired". status.anyOf[2]
+         * (Value): null. supported_actions (Optional): Array of string or null. Lifecycle actions
+         * accepted for the stored redemption, independent of the caller's credentials. capture is
+         * available only before expires_at; cancel remains available until the reservation is
+         * resolved. Reservations for Flint orders are resolved through their payment attempt and
+         * list no actions. [] enum: "capture", "cancel". supported_actions.anyOf[1] (Value): Array
+         * of string. Lifecycle actions accepted for the stored redemption, independent of the
          * caller's credentials. capture is available only before expires_at; cancel remains
          * available until the reservation is resolved. Reservations for Flint orders are resolved
          * through their payment attempt and list no actions. [] enum: "capture", "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions accepted for the
-         * stored redemption, independent of the caller's credentials. capture is available only
-         * before expires_at; cancel remains available until the reservation is resolved.
-         * Reservations for Flint orders are resolved through their payment attempt and list no
-         * actions. [] enum: "capture", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "capture", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "capture", "cancel".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -1529,7 +1513,7 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              * The value captured from the card so far. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "captured_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1537,12 +1521,12 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
             "created_at"?: ((string) | (null));
             /**
              * When an uncaptured manual reservation expires. `null` when `capture_mode` is
-             * `automatic`, which posts immediately. anyOf[1] (Value): string or null. When an
-             * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`,
-             * which posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
+             * `automatic`, which posts immediately. anyOf[1] (Value): string. When an uncaptured
+             * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
+             * immediately. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * ID of the gift card the value is spent from. anyOf[1] (Value): string. ID of the
              * gift card the value is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
@@ -1557,55 +1541,55 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
             "gift_card_redemption_id"?: ((string) | (null));
             /**
              * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent. anyOf[1] (Value): string or null. Your
-             * Idempotency-Key for the command that created this record. `null` when Flint created
-             * it or no key was sent. anyOf[2] (Value): null.
+             * created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for
+             * the command that created this record. `null` when Flint created it or no key was
+             * sent. anyOf[2] (Value): null.
              */
-            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "idempotency_key"?: ((string) | (null));
             /**
              * ID of the Flint order the redemption pays for. `null` when `source_type` is
-             * `external`. anyOf[1] (Value): string or null. ID of the Flint order the redemption
-             * pays for. `null` when `source_type` is `external`. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             * `external`. anyOf[1] (Value): string. ID of the Flint order the redemption pays for.
+             * `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             * anyOf[2] (Value): null.
              */
-            "order_id"?: ((string | null) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
             /**
              * The order payment attempt the redemption belongs to. Set for source_type
-             * flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string or
-             * null. The order payment attempt the redemption belongs to. Set for source_type
-             * flint_order. `null` when `source_type` is `external`. Example:
-             * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
+             * flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string. The
+             * order payment attempt the redemption belongs to. Set for source_type flint_order.
+             * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+             * anyOf[2] (Value): null.
              */
-            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
+            "order_payment_attempt_id"?: ((string) | (null));
             /**
              * Total refunded against this redemption across all refunds. Each refund lists its
              * share in `tender_allocations`. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Captured value not yet refunded. A refund allocation to this redemption can be at
              * most this amount. Zero while the redemption is reserved, canceled, or expired.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The amount requested when the redemption was created. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "requested_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "requested_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The value held on the card for this redemption while it is reserved. anyOf[1]
              * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Your reference for the sale the redemption pays for. Set for source_type external.
-             * `null` when `source_type` is `flint_order`. anyOf[1] (Value): string or null. Your
-             * reference for the sale the redemption pays for. Set for source_type external. `null`
-             * when `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
+             * `null` when `source_type` is `flint_order`. anyOf[1] (Value): string. Your reference
+             * for the sale the redemption pays for. Set for source_type external. `null` when
+             * `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
              */
-            "sale_reference"?: ((string | null) | (null) | (unknown));
+            "sale_reference"?: ((string) | (null));
             /**
              * What the redemption pays for: a sale you record, or a Flint order's payment. Value
              * enum: "external", "flint_order". anyOf[1] (Value): string. What the redemption pays
@@ -1752,41 +1736,40 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When an uncaptured
-     * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
-     * immediately. previous_attributes.expires_at.anyOf[1] (Value): string or null. When an
-     * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`, which
-     * posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.expires_at.anyOf[2] (Value): null. previous_attributes.gift_card_id
-     * (Optional): string or null. ID of the gift card the value is spent from.
-     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the value is
-     * spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * null. previous_attributes.expires_at (Optional): string or null. When an uncaptured manual
+     * reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately.
+     * previous_attributes.expires_at.anyOf[1] (Value): string. When an uncaptured manual
+     * reservation expires. `null` when `capture_mode` is `automatic`, which posts immediately.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_id (Optional): string or null. ID of the gift
+     * card the value is spent from. previous_attributes.gift_card_id.anyOf[1] (Value): string. ID
+     * of the gift card the value is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * previous_attributes.gift_card_id.anyOf[2] (Value): null.
      * previous_attributes.gift_card_redemption_id (Optional): string or null. Unique identifier
      * for this gift card redemption, prefixed `gcr_`.
      * previous_attributes.gift_card_redemption_id.anyOf[1] (Value): string. Unique identifier for
      * this gift card redemption, prefixed `gcr_`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * previous_attributes.gift_card_redemption_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null or null. Your Idempotency-Key
-     * for the command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key
-     * for the command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key (Optional): string or null. Your Idempotency-Key for the
+     * command that created this record. `null` when Flint created it or no key was sent.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the
+     * command that created this record. `null` when Flint created it or no key was sent.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null or null. ID of the Flint order the redemption pays for. `null`
-     * when `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string or
-     * null. ID of the Flint order the redemption pays for. `null` when `source_type` is
-     * `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
-     * (Value): null. previous_attributes.order_payment_attempt_id (Optional): string or null or
-     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
-     * `null` when `source_type` is `external`.
-     * previous_attributes.order_payment_attempt_id.anyOf[1] (Value): string or null. The order
-     * payment attempt the redemption belongs to. Set for source_type flint_order. `null` when
-     * `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * previous_attributes.order_payment_attempt_id.anyOf[2] (Value): null.
-     * previous_attributes.refunded_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-     * Total refunded against this redemption across all refunds. Each refund lists its share in
-     * `tender_allocations`. previous_attributes.refunded_money.anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.refunded_money.anyOf[2] (Value): null.
+     * (Optional): string or null. ID of the Flint order the redemption pays for. `null` when
+     * `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the Flint order the redemption pays for. `null` when `source_type` is `external`. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.order_payment_attempt_id (Optional): string or null. The order payment
+     * attempt the redemption belongs to. Set for source_type flint_order. `null` when
+     * `source_type` is `external`. previous_attributes.order_payment_attempt_id.anyOf[1] (Value):
+     * string. The order payment attempt the redemption belongs to. Set for source_type
+     * flint_order. `null` when `source_type` is `external`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". previous_attributes.order_payment_attempt_id.anyOf[2]
+     * (Value): null. previous_attributes.refunded_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Total refunded against this redemption across all
+     * refunds. Each refund lists its share in `tender_allocations`.
+     * previous_attributes.refunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.refunded_money.anyOf[2] (Value): null.
      * previous_attributes.remaining_refundable_money (Optional): {@link
      * MoneyValuePreviousAttributes} or null. Captured value not yet refunded. A refund allocation
      * to this redemption can be at most this amount. Zero while the redemption is reserved,
@@ -1801,10 +1784,10 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * The value held on the card for this redemption while it is reserved.
      * previous_attributes.reserved_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.reserved_money.anyOf[2] (Value): null.
-     * previous_attributes.sale_reference (Optional): string or null or null. Your reference for
-     * the sale the redemption pays for. Set for source_type external. `null` when `source_type` is
-     * `flint_order`. previous_attributes.sale_reference.anyOf[1] (Value): string or null. Your
-     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * previous_attributes.sale_reference (Optional): string or null. Your reference for the sale
+     * the redemption pays for. Set for source_type external. `null` when `source_type` is
+     * `flint_order`. previous_attributes.sale_reference.anyOf[1] (Value): string. Your reference
+     * for the sale the redemption pays for. Set for source_type external. `null` when
      * `source_type` is `flint_order`. maxLength: 255. previous_attributes.sale_reference.anyOf[2]
      * (Value): null. previous_attributes.source_type (Optional): string or null. What the
      * redemption pays for: a sale you record, or a Flint order's payment. Value enum: "external",
@@ -1995,10 +1978,10 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * captured_money.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
          * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
          * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
-         * (Optional): string or null or null. When an uncaptured manual reservation expires.
-         * `null` when `capture_mode` is `automatic`, which posts immediately. expires_at.anyOf[1]
-         * (Value): string or null. When an uncaptured manual reservation expires. `null` when
-         * `capture_mode` is `automatic`, which posts immediately. Format: date-time. Example:
+         * (Optional): string or null. When an uncaptured manual reservation expires. `null` when
+         * `capture_mode` is `automatic`, which posts immediately. expires_at.anyOf[1] (Value):
+         * string. When an uncaptured manual reservation expires. `null` when `capture_mode` is
+         * `automatic`, which posts immediately. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null. gift_card_id (Optional):
          * string or null. ID of the gift card the value is spent from. gift_card_id.anyOf[1]
          * (Value): string. ID of the gift card the value is spent from. Example:
@@ -2007,19 +1990,19 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * redemption, prefixed `gcr_`. gift_card_redemption_id.anyOf[1] (Value): string. Unique
          * identifier for this gift card redemption, prefixed `gcr_`. Example:
          * "gcr_01KEZF7C002YD2G2J734RRZTWT". gift_card_redemption_id.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null or null. Your Idempotency-Key for the command
-         * that created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[1] (Value): string or null. Your Idempotency-Key for the command
-         * that created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null or null. ID
-         * of the Flint order the redemption pays for. `null` when `source_type` is `external`.
-         * order_id.anyOf[1] (Value): string or null. ID of the Flint order the redemption pays
-         * for. `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null or
-         * null. The order payment attempt the redemption belongs to. Set for source_type
-         * flint_order. `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1]
-         * (Value): string or null. The order payment attempt the redemption belongs to. Set for
-         * source_type flint_order. `null` when `source_type` is `external`. Example:
+         * idempotency_key (Optional): string or null. Your Idempotency-Key for the command that
+         * created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the command that
+         * created this record. `null` when Flint created it or no key was sent.
+         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * Flint order the redemption pays for. `null` when `source_type` is `external`.
+         * order_id.anyOf[1] (Value): string. ID of the Flint order the redemption pays for. `null`
+         * when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null.
+         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
+         * `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1] (Value):
+         * string. The order payment attempt the redemption belongs to. Set for source_type
+         * flint_order. `null` when `source_type` is `external`. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". order_payment_attempt_id.anyOf[2] (Value): null.
          * refunded_money (Optional): {@link MoneyValuePreviousAttributes} or null. Total refunded
          * against this redemption across all refunds. Each refund lists its share in
@@ -2036,36 +2019,36 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * MoneyValuePreviousAttributes} or null. The value held on the card for this redemption
          * while it is reserved. reserved_money.anyOf[1] (Value): {@link
          * MoneyValuePreviousAttributes}. reserved_money.anyOf[2] (Value): null. sale_reference
-         * (Optional): string or null or null. Your reference for the sale the redemption pays for.
-         * Set for source_type external. `null` when `source_type` is `flint_order`.
-         * sale_reference.anyOf[1] (Value): string or null. Your reference for the sale the
-         * redemption pays for. Set for source_type external. `null` when `source_type` is
-         * `flint_order`. maxLength: 255. sale_reference.anyOf[2] (Value): null. source_type
-         * (Optional): string or null. What the redemption pays for: a sale you record, or a Flint
-         * order's payment. Value enum: "external", "flint_order". source_type.anyOf[1] (Value):
-         * string. What the redemption pays for: a sale you record, or a Flint order's payment.
-         * Value enum: "external", "flint_order". source_type.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the redemption is in its lifecycle. Value enum:
-         * "reserved", "succeeded", "canceled", "expired". status.anyOf[1] (Value): string. Where
-         * the redemption is in its lifecycle. Value enum: "reserved", "succeeded", "canceled",
-         * "expired". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions accepted for the stored redemption, independent of the
+         * (Optional): string or null. Your reference for the sale the redemption pays for. Set for
+         * source_type external. `null` when `source_type` is `flint_order`.
+         * sale_reference.anyOf[1] (Value): string. Your reference for the sale the redemption pays
+         * for. Set for source_type external. `null` when `source_type` is `flint_order`.
+         * maxLength: 255. sale_reference.anyOf[2] (Value): null. source_type (Optional): string or
+         * null. What the redemption pays for: a sale you record, or a Flint order's payment. Value
+         * enum: "external", "flint_order". source_type.anyOf[1] (Value): string. What the
+         * redemption pays for: a sale you record, or a Flint order's payment. Value enum:
+         * "external", "flint_order". source_type.anyOf[2] (Value): null. status (Optional): string
+         * or null. Where the redemption is in its lifecycle. Value enum: "reserved", "succeeded",
+         * "canceled", "expired". status.anyOf[1] (Value): string. Where the redemption is in its
+         * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired". status.anyOf[2]
+         * (Value): null. supported_actions (Optional): Array of string or null. Lifecycle actions
+         * accepted for the stored redemption, independent of the caller's credentials. capture is
+         * available only before expires_at; cancel remains available until the reservation is
+         * resolved. Reservations for Flint orders are resolved through their payment attempt and
+         * list no actions. [] enum: "capture", "cancel". supported_actions.anyOf[1] (Value): Array
+         * of string. Lifecycle actions accepted for the stored redemption, independent of the
          * caller's credentials. capture is available only before expires_at; cancel remains
          * available until the reservation is resolved. Reservations for Flint orders are resolved
          * through their payment attempt and list no actions. [] enum: "capture", "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions accepted for the
-         * stored redemption, independent of the caller's credentials. capture is available only
-         * before expires_at; cancel remains available until the reservation is resolved.
-         * Reservations for Flint orders are resolved through their payment attempt and list no
-         * actions. [] enum: "capture", "cancel". supported_actions.anyOf[1][] (Value): string.
-         * Value enum: "capture", "cancel". supported_actions.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. version.anyOf[1] (Value): integer. Current version of this
-         * resource's owned state. Send it as `expected_version` when changing the resource to
-         * reject a stale write. Format: int64. version.anyOf[2] (Value): null.
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "capture", "cancel".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -2082,7 +2065,7 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * The value captured from the card so far. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "captured_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2090,12 +2073,12 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
             "created_at"?: ((string) | (null));
             /**
              * When an uncaptured manual reservation expires. `null` when `capture_mode` is
-             * `automatic`, which posts immediately. anyOf[1] (Value): string or null. When an
-             * uncaptured manual reservation expires. `null` when `capture_mode` is `automatic`,
-             * which posts immediately. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
+             * `automatic`, which posts immediately. anyOf[1] (Value): string. When an uncaptured
+             * manual reservation expires. `null` when `capture_mode` is `automatic`, which posts
+             * immediately. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * ID of the gift card the value is spent from. anyOf[1] (Value): string. ID of the
              * gift card the value is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
@@ -2110,55 +2093,55 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
             "gift_card_redemption_id"?: ((string) | (null));
             /**
              * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent. anyOf[1] (Value): string or null. Your
-             * Idempotency-Key for the command that created this record. `null` when Flint created
-             * it or no key was sent. anyOf[2] (Value): null.
+             * created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for
+             * the command that created this record. `null` when Flint created it or no key was
+             * sent. anyOf[2] (Value): null.
              */
-            "idempotency_key"?: ((string | null) | (null) | (unknown));
+            "idempotency_key"?: ((string) | (null));
             /**
              * ID of the Flint order the redemption pays for. `null` when `source_type` is
-             * `external`. anyOf[1] (Value): string or null. ID of the Flint order the redemption
-             * pays for. `null` when `source_type` is `external`. Example:
-             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             * `external`. anyOf[1] (Value): string. ID of the Flint order the redemption pays for.
+             * `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             * anyOf[2] (Value): null.
              */
-            "order_id"?: ((string | null) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
             /**
              * The order payment attempt the redemption belongs to. Set for source_type
-             * flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string or
-             * null. The order payment attempt the redemption belongs to. Set for source_type
-             * flint_order. `null` when `source_type` is `external`. Example:
-             * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
+             * flint_order. `null` when `source_type` is `external`. anyOf[1] (Value): string. The
+             * order payment attempt the redemption belongs to. Set for source_type flint_order.
+             * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+             * anyOf[2] (Value): null.
              */
-            "order_payment_attempt_id"?: ((string | null) | (null) | (unknown));
+            "order_payment_attempt_id"?: ((string) | (null));
             /**
              * Total refunded against this redemption across all refunds. Each refund lists its
              * share in `tender_allocations`. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Captured value not yet refunded. A refund allocation to this redemption can be at
              * most this amount. Zero while the redemption is reserved, canceled, or expired.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The amount requested when the redemption was created. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "requested_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "requested_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The value held on the card for this redemption while it is reserved. anyOf[1]
              * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Your reference for the sale the redemption pays for. Set for source_type external.
-             * `null` when `source_type` is `flint_order`. anyOf[1] (Value): string or null. Your
-             * reference for the sale the redemption pays for. Set for source_type external. `null`
-             * when `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
+             * `null` when `source_type` is `flint_order`. anyOf[1] (Value): string. Your reference
+             * for the sale the redemption pays for. Set for source_type external. `null` when
+             * `source_type` is `flint_order`. maxLength: 255. anyOf[2] (Value): null.
              */
-            "sale_reference"?: ((string | null) | (null) | (unknown));
+            "sale_reference"?: ((string) | (null));
             /**
              * What the redemption pays for: a sale you record, or a Flint order's payment. Value
              * enum: "external", "flint_order". anyOf[1] (Value): string. What the redemption pays
@@ -2434,13 +2417,10 @@ export type GiftCardRefundProvenance = {
 export type GiftCardRefundProvenancePreviousAttributes = {
     /**
      * What the buyer paid for the original funding load. It describes that load, never a new
-     * payment. `null` when no payment amount was recorded. anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). What the buyer paid for the original funding load.
-     * It describes that load, never a new payment. `null` when no payment amount was recorded.
-     * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2] (Value):
-     * null. anyOf[2] (Value): null.
+     * payment. `null` when no payment amount was recorded. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "original_consideration_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "original_consideration_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * When the original funding load was created. RFC3339 timestamp. anyOf[1] (Value): string.
      * When the original funding load was created. RFC3339 timestamp. Format: date-time. Example:
@@ -2523,11 +2503,11 @@ export type GiftCardRefundProvenancePreviousAttributes = {
         | (null));
     /**
      * When the original funding value was received, as recorded on that load. `null` when no
-     * source time was recorded. anyOf[1] (Value): string or null. When the original funding value
-     * was received, as recorded on that load. `null` when no source time was recorded. Format:
+     * source time was recorded. anyOf[1] (Value): string. When the original funding value was
+     * received, as recorded on that load. `null` when no source time was recorded. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "original_source_created_at"?: ((string | null) | (null) | (unknown));
+    "original_source_created_at"?: ((string) | (null));
     /**
      * ID of the refund tender allocation that created this load. Empty when a failed gift card
      * purchase refund created it. anyOf[1] (Value): string. ID of the refund tender allocation
@@ -3449,19 +3429,19 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             [key: string]: unknown;
         })
             & ({
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "balance_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "balance_money"?: ((MoneyValuePreviousAttributes) | (null));
             "code_source"?: (("generated" | "imported" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
             "currency"?: (("USD" | (string & {})) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
             "gift_card_id"?: ((string) | (null));
-            "last_loaded_at"?: ((string | null) | (null) | (unknown));
-            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            "last_loaded_at"?: ((string) | (null));
+            "last_redeemed_at"?: ((string) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
             "restrictions"?: ((Array<GiftCardRestrictionPreviousAttributes>) | (null));
             "status"?: (("pending" | "active" | "frozen" | "closed" | (string & {})) | (null));
             "supported_actions"?: ((Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>) | (null));
@@ -3499,19 +3479,19 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             [key: string]: unknown;
         })
             & ({
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "balance_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "balance_money"?: ((MoneyValuePreviousAttributes) | (null));
             "code_source"?: (("generated" | "imported" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
             "currency"?: (("USD" | (string & {})) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
             "gift_card_id"?: ((string) | (null));
-            "last_loaded_at"?: ((string | null) | (null) | (unknown));
-            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            "last_loaded_at"?: ((string) | (null));
+            "last_redeemed_at"?: ((string) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
             "restrictions"?: ((Array<GiftCardRestrictionPreviousAttributes>) | (null));
             "status"?: (("pending" | "active" | "frozen" | "closed" | (string & {})) | (null));
             "supported_actions"?: ((Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>) | (null));
@@ -3606,35 +3586,35 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * enum: "USD". previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
      * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". Value enum: "USD".
      * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null or null. ID of the customer associated with the card. `null` when
-     * no customer is associated. previous_attributes.customer_id.anyOf[1] (Value): string or null.
-     * ID of the customer associated with the card. `null` when no customer is associated. Example:
+     * (Optional): string or null. ID of the customer associated with the card. `null` when no
+     * customer is associated. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer associated with the card. `null` when no customer is associated. Example:
      * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. `null` when none is set.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when none is set. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.gift_card_id (Optional): string or null. Unique identifier for this gift
-     * card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string. Unique
-     * identifier for this gift card, prefixed `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     * previous_attributes.gift_card_id.anyOf[2] (Value): null. previous_attributes.last_loaded_at
-     * (Optional): string or null or null. RFC3339 timestamp. `null` when no value has been loaded
-     * onto the card. previous_attributes.last_loaded_at.anyOf[1] (Value): string or null. RFC3339
-     * timestamp. `null` when no value has been loaded onto the card. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.last_loaded_at.anyOf[2] (Value): null.
-     * previous_attributes.last_redeemed_at (Optional): string or null or null. RFC3339 timestamp.
-     * `null` when the card has never been redeemed. previous_attributes.last_redeemed_at.anyOf[1]
-     * (Value): string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when none is set. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value):
+     * null. previous_attributes.gift_card_id (Optional): string or null. Unique identifier for
+     * this gift card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string.
+     * Unique identifier for this gift card, prefixed `gc_`. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG". previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.last_loaded_at (Optional): string or null. RFC3339 timestamp. `null`
+     * when no value has been loaded onto the card. previous_attributes.last_loaded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the card.
      * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.last_redeemed_at.anyOf[2] (Value): null. previous_attributes.last4
-     * (Optional): string or null. Last four characters of the card's current code.
-     * previous_attributes.last4.anyOf[1] (Value): string. Last four characters of the card's
-     * current code. minLength: 4. maxLength: 4. previous_attributes.last4.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.last_loaded_at.anyOf[2] (Value): null.
+     * previous_attributes.last_redeemed_at (Optional): string or null. RFC3339 timestamp. `null`
+     * when the card has never been redeemed. previous_attributes.last_redeemed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. `null` when the card has never been redeemed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.last_redeemed_at.anyOf[2]
+     * (Value): null. previous_attributes.last4 (Optional): string or null. Last four characters of
+     * the card's current code. previous_attributes.last4.anyOf[1] (Value): string. Last four
+     * characters of the card's current code. minLength: 4. maxLength: 4.
+     * previous_attributes.last4.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.reserved_money
      * (Optional): {@link MoneyValuePreviousAttributes} or null. Value held for redemptions in
      * progress. It isn't available to other payments until the redemption succeeds or is released.
@@ -3830,33 +3810,33 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * string or null. ISO 4217 currency code. Value enum: "USD". currency.anyOf[1] (Value):
          * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
          * Example: "USD". Value enum: "USD". currency.anyOf[2] (Value): null. customer_id
-         * (Optional): string or null or null. ID of the customer associated with the card. `null`
-         * when no customer is associated. customer_id.anyOf[1] (Value): string or null. ID of the
-         * customer associated with the card. `null` when no customer is associated. Example:
+         * (Optional): string or null. ID of the customer associated with the card. `null` when no
+         * customer is associated. customer_id.anyOf[1] (Value): string. ID of the customer
+         * associated with the card. `null` when no customer is associated. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null or null. Caller-owned identifier for
-         * this resource in an external system. `null` when none is set.
-         * external_reference_id.anyOf[1] (Value): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when none is set. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. gift_card_id
-         * (Optional): string or null. Unique identifier for this gift card, prefixed `gc_`.
-         * gift_card_id.anyOf[1] (Value): string. Unique identifier for this gift card, prefixed
-         * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
-         * last_loaded_at (Optional): string or null or null. RFC3339 timestamp. `null` when no
-         * value has been loaded onto the card. last_loaded_at.anyOf[1] (Value): string or null.
-         * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". last_loaded_at.anyOf[2] (Value): null.
-         * last_redeemed_at (Optional): string or null or null. RFC3339 timestamp. `null` when the
-         * card has never been redeemed. last_redeemed_at.anyOf[1] (Value): string or null. RFC3339
-         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". last_redeemed_at.anyOf[2] (Value): null. last4 (Optional):
-         * string or null. Last four characters of the card's current code. last4.anyOf[1] (Value):
-         * string. Last four characters of the card's current code. minLength: 4. maxLength: 4.
-         * last4.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the merchant
-         * this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
-         * (Value): null. reserved_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-         * Value held for redemptions in progress. It isn't available to other payments until the
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when none is set. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. gift_card_id (Optional): string or null.
+         * Unique identifier for this gift card, prefixed `gc_`. gift_card_id.anyOf[1] (Value):
+         * string. Unique identifier for this gift card, prefixed `gc_`. Example:
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null. last_loaded_at
+         * (Optional): string or null. RFC3339 timestamp. `null` when no value has been loaded onto
+         * the card. last_loaded_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when no
+         * value has been loaded onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * last_loaded_at.anyOf[2] (Value): null. last_redeemed_at (Optional): string or null.
+         * RFC3339 timestamp. `null` when the card has never been redeemed.
+         * last_redeemed_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when the card has
+         * never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * last_redeemed_at.anyOf[2] (Value): null. last4 (Optional): string or null. Last four
+         * characters of the card's current code. last4.anyOf[1] (Value): string. Last four
+         * characters of the card's current code. minLength: 4. maxLength: 4. last4.anyOf[2]
+         * (Value): null. merchant_id (Optional): string or null. ID of the merchant this resource
+         * belongs to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
+         * null. reserved_money (Optional): {@link MoneyValuePreviousAttributes} or null. Value
+         * held for redemptions in progress. It isn't available to other payments until the
          * redemption succeeds or is released. reserved_money.anyOf[1] (Value): {@link
          * MoneyValuePreviousAttributes}. reserved_money.anyOf[2] (Value): null. restrictions
          * (Optional): Array of {@link GiftCardRestrictionPreviousAttributes} or null. The
@@ -3895,12 +3875,12 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The posted balance, including value reserved for redemptions in progress. anyOf[1]
              * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "balance_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "balance_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Origin of the current code: generated means Flint issued a random code; imported
              * means the merchant supplied an existing code during import. Rotating the code resets
@@ -3923,18 +3903,18 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "currency"?: (("USD" | (string & {})) | (null));
             /**
              * ID of the customer associated with the card. `null` when no customer is associated.
-             * anyOf[1] (Value): string or null. ID of the customer associated with the card.
-             * `null` when no customer is associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. ID of the customer associated with the card. `null` when
+             * no customer is associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
              */
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. `null` when none is
-             * set. anyOf[1] (Value): string or null. Caller-owned identifier for this resource in
-             * an external system. `null` when none is set. minLength: 1. maxLength: 255. Example:
+             * set. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
+             * external system. `null` when none is set. minLength: 1. maxLength: 255. Example:
              * "warehouse-1842". anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Unique identifier for this gift card, prefixed `gc_`. anyOf[1] (Value): string.
              * Unique identifier for this gift card, prefixed `gc_`. Example:
@@ -3943,17 +3923,16 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "gift_card_id"?: ((string) | (null));
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1]
-             * (Value): string or null. RFC3339 timestamp. `null` when no value has been loaded
-             * onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
+             * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the
+             * card. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "last_loaded_at"?: ((string | null) | (null) | (unknown));
+            "last_loaded_at"?: ((string) | (null));
             /**
              * RFC3339 timestamp. `null` when the card has never been redeemed. anyOf[1] (Value):
-             * string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * string. RFC3339 timestamp. `null` when the card has never been redeemed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            "last_redeemed_at"?: ((string) | (null));
             /**
              * Last four characters of the card's current code. anyOf[1] (Value): string. Last four
              * characters of the card's current code. minLength: 4. maxLength: 4. anyOf[2] (Value):
@@ -3971,7 +3950,7 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * the redemption succeeds or is released. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The restrictions that keep the card frozen. unfreeze is supported only when every
              * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a
@@ -4127,35 +4106,35 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * enum: "USD". previous_attributes.currency.anyOf[1] (Value): string. ISO 4217 currency code.
      * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". Value enum: "USD".
      * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null or null. ID of the customer associated with the card. `null` when
-     * no customer is associated. previous_attributes.customer_id.anyOf[1] (Value): string or null.
-     * ID of the customer associated with the card. `null` when no customer is associated. Example:
+     * (Optional): string or null. ID of the customer associated with the card. `null` when no
+     * customer is associated. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer associated with the card. `null` when no customer is associated. Example:
      * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. `null` when none is set.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when none is set. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.gift_card_id (Optional): string or null. Unique identifier for this gift
-     * card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string. Unique
-     * identifier for this gift card, prefixed `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     * previous_attributes.gift_card_id.anyOf[2] (Value): null. previous_attributes.last_loaded_at
-     * (Optional): string or null or null. RFC3339 timestamp. `null` when no value has been loaded
-     * onto the card. previous_attributes.last_loaded_at.anyOf[1] (Value): string or null. RFC3339
-     * timestamp. `null` when no value has been loaded onto the card. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.last_loaded_at.anyOf[2] (Value): null.
-     * previous_attributes.last_redeemed_at (Optional): string or null or null. RFC3339 timestamp.
-     * `null` when the card has never been redeemed. previous_attributes.last_redeemed_at.anyOf[1]
-     * (Value): string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when none is set. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value):
+     * null. previous_attributes.gift_card_id (Optional): string or null. Unique identifier for
+     * this gift card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string.
+     * Unique identifier for this gift card, prefixed `gc_`. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG". previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.last_loaded_at (Optional): string or null. RFC3339 timestamp. `null`
+     * when no value has been loaded onto the card. previous_attributes.last_loaded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the card.
      * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.last_redeemed_at.anyOf[2] (Value): null. previous_attributes.last4
-     * (Optional): string or null. Last four characters of the card's current code.
-     * previous_attributes.last4.anyOf[1] (Value): string. Last four characters of the card's
-     * current code. minLength: 4. maxLength: 4. previous_attributes.last4.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
-     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
-     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.last_loaded_at.anyOf[2] (Value): null.
+     * previous_attributes.last_redeemed_at (Optional): string or null. RFC3339 timestamp. `null`
+     * when the card has never been redeemed. previous_attributes.last_redeemed_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. `null` when the card has never been redeemed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.last_redeemed_at.anyOf[2]
+     * (Value): null. previous_attributes.last4 (Optional): string or null. Last four characters of
+     * the card's current code. previous_attributes.last4.anyOf[1] (Value): string. Last four
+     * characters of the card's current code. minLength: 4. maxLength: 4.
+     * previous_attributes.last4.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.reserved_money
      * (Optional): {@link MoneyValuePreviousAttributes} or null. Value held for redemptions in
      * progress. It isn't available to other payments until the redemption succeeds or is released.
@@ -4351,33 +4330,33 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * string or null. ISO 4217 currency code. Value enum: "USD". currency.anyOf[1] (Value):
          * string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
          * Example: "USD". Value enum: "USD". currency.anyOf[2] (Value): null. customer_id
-         * (Optional): string or null or null. ID of the customer associated with the card. `null`
-         * when no customer is associated. customer_id.anyOf[1] (Value): string or null. ID of the
-         * customer associated with the card. `null` when no customer is associated. Example:
+         * (Optional): string or null. ID of the customer associated with the card. `null` when no
+         * customer is associated. customer_id.anyOf[1] (Value): string. ID of the customer
+         * associated with the card. `null` when no customer is associated. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null or null. Caller-owned identifier for
-         * this resource in an external system. `null` when none is set.
-         * external_reference_id.anyOf[1] (Value): string or null. Caller-owned identifier for this
-         * resource in an external system. `null` when none is set. minLength: 1. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. gift_card_id
-         * (Optional): string or null. Unique identifier for this gift card, prefixed `gc_`.
-         * gift_card_id.anyOf[1] (Value): string. Unique identifier for this gift card, prefixed
-         * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null.
-         * last_loaded_at (Optional): string or null or null. RFC3339 timestamp. `null` when no
-         * value has been loaded onto the card. last_loaded_at.anyOf[1] (Value): string or null.
-         * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". last_loaded_at.anyOf[2] (Value): null.
-         * last_redeemed_at (Optional): string or null or null. RFC3339 timestamp. `null` when the
-         * card has never been redeemed. last_redeemed_at.anyOf[1] (Value): string or null. RFC3339
-         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". last_redeemed_at.anyOf[2] (Value): null. last4 (Optional):
-         * string or null. Last four characters of the card's current code. last4.anyOf[1] (Value):
-         * string. Last four characters of the card's current code. minLength: 4. maxLength: 4.
-         * last4.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the merchant
-         * this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
-         * (Value): null. reserved_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-         * Value held for redemptions in progress. It isn't available to other payments until the
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when none is set. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. gift_card_id (Optional): string or null.
+         * Unique identifier for this gift card, prefixed `gc_`. gift_card_id.anyOf[1] (Value):
+         * string. Unique identifier for this gift card, prefixed `gc_`. Example:
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null. last_loaded_at
+         * (Optional): string or null. RFC3339 timestamp. `null` when no value has been loaded onto
+         * the card. last_loaded_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when no
+         * value has been loaded onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * last_loaded_at.anyOf[2] (Value): null. last_redeemed_at (Optional): string or null.
+         * RFC3339 timestamp. `null` when the card has never been redeemed.
+         * last_redeemed_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when the card has
+         * never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * last_redeemed_at.anyOf[2] (Value): null. last4 (Optional): string or null. Last four
+         * characters of the card's current code. last4.anyOf[1] (Value): string. Last four
+         * characters of the card's current code. minLength: 4. maxLength: 4. last4.anyOf[2]
+         * (Value): null. merchant_id (Optional): string or null. ID of the merchant this resource
+         * belongs to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
+         * null. reserved_money (Optional): {@link MoneyValuePreviousAttributes} or null. Value
+         * held for redemptions in progress. It isn't available to other payments until the
          * redemption succeeds or is released. reserved_money.anyOf[1] (Value): {@link
          * MoneyValuePreviousAttributes}. reserved_money.anyOf[2] (Value): null. restrictions
          * (Optional): Array of {@link GiftCardRestrictionPreviousAttributes} or null. The
@@ -4416,12 +4395,12 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The posted balance, including value reserved for redemptions in progress. anyOf[1]
              * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "balance_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "balance_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Origin of the current code: generated means Flint issued a random code; imported
              * means the merchant supplied an existing code during import. Rotating the code resets
@@ -4444,18 +4423,18 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "currency"?: (("USD" | (string & {})) | (null));
             /**
              * ID of the customer associated with the card. `null` when no customer is associated.
-             * anyOf[1] (Value): string or null. ID of the customer associated with the card.
-             * `null` when no customer is associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             * anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. ID of the customer associated with the card. `null` when
+             * no customer is associated. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
              */
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. `null` when none is
-             * set. anyOf[1] (Value): string or null. Caller-owned identifier for this resource in
-             * an external system. `null` when none is set. minLength: 1. maxLength: 255. Example:
+             * set. anyOf[1] (Value): string. Caller-owned identifier for this resource in an
+             * external system. `null` when none is set. minLength: 1. maxLength: 255. Example:
              * "warehouse-1842". anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Unique identifier for this gift card, prefixed `gc_`. anyOf[1] (Value): string.
              * Unique identifier for this gift card, prefixed `gc_`. Example:
@@ -4464,17 +4443,16 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "gift_card_id"?: ((string) | (null));
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1]
-             * (Value): string or null. RFC3339 timestamp. `null` when no value has been loaded
-             * onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
+             * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the
+             * card. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "last_loaded_at"?: ((string | null) | (null) | (unknown));
+            "last_loaded_at"?: ((string) | (null));
             /**
              * RFC3339 timestamp. `null` when the card has never been redeemed. anyOf[1] (Value):
-             * string or null. RFC3339 timestamp. `null` when the card has never been redeemed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * string. RFC3339 timestamp. `null` when the card has never been redeemed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "last_redeemed_at"?: ((string | null) | (null) | (unknown));
+            "last_redeemed_at"?: ((string) | (null));
             /**
              * Last four characters of the card's current code. anyOf[1] (Value): string. Last four
              * characters of the card's current code. minLength: 4. maxLength: 4. anyOf[2] (Value):
@@ -4492,7 +4470,7 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * the redemption succeeds or is released. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserved_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The restrictions that keep the card frozen. unfreeze is supported only when every
              * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a
@@ -5038,3 +5016,29 @@ export type ImageInputSourceURL = ({
      */
     "source_url": string;
 });
+/** The `Source URL` variant of `ImageInput`. */
+export type ImageInputSourceURLInput = ({
+    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
+    "alt"?: string;
+    /**
+     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
+     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "file_01KEZF7C00BZ179303GY9R0P03".
+     */
+    "file_id"?: string;
+    /**
+     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
+     * preserved. minLength: 1. maxLength: 255.
+     */
+    "source_reference"?: string;
+    /**
+     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
+     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
+     * another fetch. Flint doesn't download a source_url again while the image it produced is
+     * still in this field. minLength: 1. maxLength: 8192.
+     */
+    "source_url": string;
+})
+    & (({
+    "file_id"?: never;
+}));

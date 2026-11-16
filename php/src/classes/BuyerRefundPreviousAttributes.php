@@ -2,29 +2,29 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $created_at
  * @property-read string|null $credit_note_id
- * @property-read mixed $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $failure_reason
  * @property-read string|null $idempotency_key
  * @property-read string|null $invoice_id
  * @property-read list<RefundLineItemAllocationPreviousAttributes>|null $line_item_allocations
- * @property-read mixed $order
+ * @property-read BuyerExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_edit_id
  * @property-read string|null $order_id
- * @property-read mixed $payment_intent
+ * @property-read BuyerExpandedPaymentIntentSummaryPreviousAttributes|null $payment_intent
  * @property-read string|null $payment_intent_id
  * @property-read list<BuyerPaymentRefundPreviousAttributes>|null $payment_refunds
- * @property-read mixed $pending_reason
+ * @property-read string|null $pending_reason
  * @property-read string|null $processed_by
- * @property-read mixed $reason
+ * @property-read string|null $reason
  * @property-read string|null $reason_message
  * @property-read string|null $refund_id
  * @property-read string|null $refund_reference
  * @property-read string|null $refunded_at
- * @property-read mixed $refunded_tip_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_tip_money
  * @property-read string|null $return_id
  * @property-read string|null $return_resolution_id
  * @property-read string|null $status
@@ -38,9 +38,9 @@ final class BuyerRefundPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'created_at'?: mixed, 'credit_note_id'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'failure_reason'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'line_item_allocations'?: mixed, 'order'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'payment_refunds'?: mixed, 'pending_reason'?: mixed, 'processed_by'?: mixed, 'reason'?: mixed, 'reason_message'?: mixed, 'refund_id'?: mixed, 'refund_reference'?: mixed, 'refunded_at'?: mixed, 'refunded_tip_money'?: mixed, 'return_id'?: mixed, 'return_resolution_id'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'tax_breakdown_refunds'?: mixed, 'tender_allocations'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerRefundPreviousAttributes')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -52,10 +52,10 @@ final class BuyerRefundPreviousAttributes extends Model {
      */
     public function getCreditNoteId(): string|null { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributes|null
      */
-    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function getCustomer(): ExpandedCustomerSummaryPreviousAttributes|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
     /** ID of the customer on the refunded order or payment. Absent when neither has one. anyOf[1] (Value): string. ID of the customer on the refunded order or payment. Absent when neither has one. anyOf[2] (Value): null.
      * @return string|null
@@ -82,10 +82,10 @@ final class BuyerRefundPreviousAttributes extends Model {
      */
     public function getLineItemAllocations(): array|null { return $this->get('line_item_allocations'); }
     public function hasLineItemAllocations(): bool { return $this->has('line_item_allocations'); }
-    /** The order summary for `order_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): ({@see BuyerExpandedOrderSummaryPreviousAttributes} or null). The order summary for `order_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value): {@see BuyerExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The order summary for `order_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see BuyerExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return BuyerExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): BuyerExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** ID of the paid-order edit that created this refund. Present only on refunds issued through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that created this refund. Present only on refunds issued through an order edit. anyOf[2] (Value): null.
      * @return string|null
@@ -97,10 +97,10 @@ final class BuyerRefundPreviousAttributes extends Model {
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): ({@see BuyerExpandedPaymentIntentSummaryPreviousAttributes} or null). The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return BuyerExpandedPaymentIntentSummaryPreviousAttributes|null
      */
-    public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
+    public function getPaymentIntent(): BuyerExpandedPaymentIntentSummaryPreviousAttributes|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
     /** ID of the payment the refund was issued against, when it targeted one payment. `payment_refunds` lists every payment it returned money through. anyOf[1] (Value): string. ID of the payment the refund was issued against, when it targeted one payment. `payment_refunds` lists every payment it returned money through. anyOf[2] (Value): null.
      * @return string|null
@@ -112,20 +112,20 @@ final class BuyerRefundPreviousAttributes extends Model {
      */
     public function getPaymentRefunds(): array|null { return $this->get('payment_refunds'); }
     public function hasPaymentRefunds(): bool { return $this->has('payment_refunds'); }
-    /** Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[1] (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[1] (Value): string. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getPendingReason(): mixed { return $this->get('pending_reason'); }
+    public function getPendingReason(): string|null { return $this->get('pending_reason'); }
     public function hasPendingReason(): bool { return $this->has('pending_reason'); }
     /** Who moved or is moving the money for this refund. Flint processes refunds through a processor or a gift card; merchant means the merchant returned the money outside Flint and recorded it here. Existing refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for this refund. Flint processes refunds through a processor or a gift card; merchant means the merchant returned the money outside Flint and recorded it here. Existing refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getProcessedBy(): string|null { return $this->get('processed_by'); }
     public function hasProcessedBy(): bool { return $this->has('processed_by'); }
-    /** `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when the store made the refund, because a store's reasons aren't shared with buyers. Value enum: "payment_returned", null. anyOf[1] (Value): string or null. `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when the store made the refund, because a store's reasons aren't shared with buyers. Value enum: "payment_returned", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when the store made the refund, because a store's reasons aren't shared with buyers. Value enum: "payment_returned", null. anyOf[1] (Value): string. `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when the store made the refund, because a store's reasons aren't shared with buyers. Value enum: "payment_returned", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReason(): mixed { return $this->get('reason'); }
+    public function getReason(): string|null { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
     /** Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
      * @return string|null
@@ -148,9 +148,9 @@ final class BuyerRefundPreviousAttributes extends Model {
     public function getRefundedAt(): string|null { return $this->get('refunded_at'); }
     public function hasRefundedAt(): bool { return $this->has('refunded_at'); }
     /** Share of `amount_money` that refunds tips. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedTipMoney(): mixed { return $this->get('refunded_tip_money'); }
+    public function getRefundedTipMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_tip_money'); }
     public function hasRefundedTipMoney(): bool { return $this->has('refunded_tip_money'); }
     /** ID of the return this refund paid out. Present only on refunds issued by a return. anyOf[1] (Value): string. ID of the return this refund paid out. Present only on refunds issued by a return. anyOf[2] (Value): null.
      * @return string|null

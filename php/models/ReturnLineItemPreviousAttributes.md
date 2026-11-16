@@ -18,21 +18,21 @@ Response model.
 | `buyer_note` | Optional | string or null | Note the buyer gave about this line. Some return reasons require one. `buyer_note`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesbuyer_note). |
 | `canceled_quantity` | Optional | integer or null | Approved units canceled later. Whole-number quantity; fractional quantities are not supported. `canceled_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributescanceled_quantity). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `decided_by` | Optional | Alternative shapes (see declared variants) | Who recorded the decision on this line. `decided_by`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesdecided_by). |
+| `decided_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who recorded the decision on this line. `decided_by`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesdecided_by). |
 | `decision_at` | Optional | string or null | RFC3339 timestamp. `decision_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `decline_reason` | Optional | string or null | Why the line's declined quantity was declined. Values: `"not_eligible"`, `"quantity_unavailable"`, `"evidence_missing"`, `"suspected_abuse"`, `"merchant_discretion"`, `"other"`. `decline_reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesdecline_reason). |
 | `decline_reason_message` | Optional | string or null | Detail sent with the decline. `decline_reason_message`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesdecline_reason_message). |
 | `declined_quantity` | Optional | integer or null | Units the decision declined. Whole-number quantity; fractional quantities are not supported. `declined_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesdeclined_quantity). |
 | `description` | Optional | string or null | Description of the item as sold. `description`: [declared alternatives](../models/OrderLineItemPreviousAttributes.md#orderlineitempreviousattributesdescription). |
 | `dispositioned_quantity` | Optional | integer or null | Units with a successful disposition. Whole-number quantity; fractional quantities are not supported. `dispositioned_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesdispositioned_quantity). |
-| `eligibility` | Optional | Alternative shapes (see declared variants) | How the pinned return policy judged this line when the Return was created, with the policy revision it used. `eligibility`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility). |
-| `fulfillment` | Optional | ([FulfillmentPreviousAttributes](../models/FulfillmentPreviousAttributes.md#fulfillmentpreviousattributes) or null) or null | Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment. `fulfillment`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesfulfillment). |
+| `eligibility` | Optional | [ReturnLineItemEligibilityPreviousAttributes](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributes) or null | How the pinned return policy judged this line when the Return was created, with the policy revision it used. `eligibility`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility). |
+| `fulfillment` | Optional | [FulfillmentPreviousAttributes](../models/FulfillmentPreviousAttributes.md#fulfillmentpreviousattributes) or null | Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment. `fulfillment`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesfulfillment). |
 | `fulfillment_id` | Optional | string or null | ID of the fulfillment the units were delivered in. `fulfillment_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesfulfillment_id). |
 | `handed_off_quantity` | Optional | integer or null | Units the buyer handed off for the trip back. Whole-number quantity; fractional quantities are not supported. `handed_off_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeshanded_off_quantity). |
-| `image` | Optional | Alternative shapes (see declared variants) | Image of the item as sold. `image`: [declared alternatives](../models/OrderLineItemPreviousAttributes.md#orderlineitempreviousattributesimage). |
+| `image` | Optional | [ImagePreviousAttributes](../models/ImagePreviousAttributes.md#imagepreviousattributes) or null | Image of the item as sold. |
 | `inspected_quantity` | Optional | integer or null | Units that have been inspected. Whole-number quantity; fractional quantities are not supported. `inspected_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesinspected_quantity). |
 | `inspection_waived_at` | Optional | string or null | RFC3339 timestamp. `inspection_waived_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `inspection_waived_by` | Optional | Alternative shapes (see declared variants) | Who waived inspection for this line. `inspection_waived_by`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesinspection_waived_by). |
+| `inspection_waived_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who waived inspection for this line. `inspection_waived_by`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesinspection_waived_by). |
 | `inspection_waiver_reason` | Optional | string or null | Why inspection was waived for this line. Values: `"policy_override"`, `"trusted_in_store_handoff"`, `"merchant_review"`, `"other"`. `inspection_waiver_reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesinspection_waiver_reason). |
 | `inspection_waiver_reason_message` | Optional | string or null | Detail sent when inspection was waived. `inspection_waiver_reason_message`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesinspection_waiver_reason_message). |
 | `is_inspection_required` | Optional | boolean or null | Whether returned units of this line must be inspected. `is_inspection_required`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesis_inspection_required). |
@@ -43,7 +43,7 @@ Response model.
 | `order_id` | Optional | string or null | Order that owns order_line_item_id. `order_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesorder_id). |
 | `order_line_item_id` | Optional | string or null | ID of the order line item the units come from. `order_line_item_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesorder_line_item_id). |
 | `overridden_at` | Optional | string or null | RFC3339 timestamp. `overridden_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `overridden_by` | Optional | Alternative shapes (see declared variants) | Who recorded the override. `overridden_by`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesoverridden_by). |
+| `overridden_by` | Optional | [ReturnActorPreviousAttributes](../models/ReturnActorPreviousAttributes.md#returnactorpreviousattributes) or null | Who recorded the override. `overridden_by`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesoverridden_by). |
 | `override_reason` | Optional | string or null | Why the decision overrode the pinned return policy's proposal. Values: `"customer_service_exception"`, `"policy_correction"`, `"risk_review"`, `"merchant_discretion"`, `"other"`. `override_reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesoverride_reason). |
 | `override_reason_message` | Optional | string or null | Detail sent with the override. `override_reason_message`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesoverride_reason_message). |
 | `product_id` | Optional | string or null | ID of the catalog product the item was sold from. `product_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesproduct_id). |
@@ -57,13 +57,13 @@ Response model.
 | `resolved_quantity` | Optional | integer or null | Units whose resolution has finished. Whole-number quantity; fractional quantities are not supported. `resolved_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesresolved_quantity). |
 | `return_id` | Optional | string or null | ID of the Return this line belongs to. `return_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_id). |
 | `return_line_item_id` | Optional | string or null | Unique identifier for this return line item, prefixed `retli_`. `return_line_item_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_line_item_id). |
-| `return_reason` | Optional | Alternative shapes (see declared variants) or null | Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason. `return_reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason). |
+| `return_reason` | Optional | [ReturnReasonPreviousAttributes](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributes) or null | Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason. `return_reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason). |
 | `return_reason_handle` | Optional | string or null | Handle of the chosen reason, captured when the line is created or its reason changes. Later renames, deactivation or archiving don't change it. `return_reason_handle`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason_handle). |
 | `return_reason_id` | Optional | string or null | ID of the reason chosen for this line. `return_reason_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason_id). |
 | `return_reason_name` | Optional | string or null | Name of the chosen reason, captured when the line is created or its reason changes. Later renames, deactivation or archiving don't change it. `return_reason_name`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason_name). |
 | `return_required_quantity` | Optional | integer or null | How much of the approved quantity the buyer must physically send back; fractional quantities are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and the Return still settles the money. `return_required_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_required_quantity). |
 | `return_resolution_ids` | Optional | Array of string or null | IDs of the resolutions that include this line, oldest first, including failed and canceled resolutions. `return_resolution_ids`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_resolution_ids). |
-| `return_value` | Optional | Alternative shapes (see declared variants) | Value of the line's units, fixed when the line was created: what the buyer paid for them, less what was already refunded or returned. `return_value`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_value). |
+| `return_value` | Optional | [ReturnLineItemValuePreviousAttributes](../models/ReturnLineItemValuePreviousAttributes.md#returnlineitemvaluepreviousattributes) or null | Value of the line's units, fixed when the line was created: what the buyer paid for them, less what was already refunded or returned. |
 | `review_required_quantity` | Optional | integer or null | Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional quantities are not supported. `review_required_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreview_required_quantity). |
 | `selected_options` | Optional | Array of [SelectedProductOptionPreviousAttributes](../models/SelectedProductOptionPreviousAttributes.md#selectedproductoptionpreviousattributes) or null | Variant options selected for the item, such as size and color. `selected_options`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesselected_options). |
 | `sku` | Optional | string or null | SKU of the item as sold. `sku`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributessku). |
@@ -328,19 +328,19 @@ How the pinned return policy judged this line when the Return was created, with 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `allowed_resolution_types` | Conditional | Array of string or null | Resolution types the policy allows for this line. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. `allowed_resolution_types`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1allowed_resolution_types). |
-| `decision_proposal` | Conditional | Alternative shapes (see declared variants) | Terms the policy proposes if the line is approved. Absent when the policy can't propose any. `decision_proposal`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1decision_proposal). |
+| `allowed_resolution_types` | Conditional | Array of string or null | Resolution types the policy allows for this line. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. `allowed_resolution_types`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesallowed_resolution_types). |
+| `decision_proposal` | Conditional | [ReturnLineItemDecisionProposalPreviousAttributes](../models/ReturnLineItemDecisionProposalPreviousAttributes.md#returnlineitemdecisionproposalpreviousattributes) or null | Terms the policy proposes if the line is approved. Absent when the policy can't propose any. `decision_proposal`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesdecision_proposal). |
 | `eligible_quantity` | Conditional | integer or null | Whole-number quantity; fractional quantities are not supported. `eligible_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
 | `evaluated_at` | Conditional | string or null | RFC3339 timestamp. `evaluated_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
 | `expires_at` | Conditional | string or null | RFC3339 timestamp. `expires_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `ineligibility_reason` | Conditional | string or null | The matched policy's declared exclusion reason. Present exactly when reason is policy_ineligible. Values: `"final_sale"`, `"product_excluded"`, `"category_excluded"`, `"market_restricted"`, `"channel_restricted"`, `"outside_return_window"`, `"other"`. `ineligibility_reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1ineligibility_reason). |
-| `policy_adjustment_proposals` | Conditional | Array of object or null | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. `policy_adjustment_proposals`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1policy_adjustment_proposals). |
-| `reason` | Conditional | string or null | Why the line got this result. Values: [9 declared values](#returnlineitempreviousattributeseligibility-reason-values). `reason`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1reason). |
-| `reason_message` | Conditional | string or null | Explanation of `reason`. `reason_message`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1reason_message). |
+| `ineligibility_reason` | Conditional | string or null | The matched policy's declared exclusion reason. Present exactly when reason is policy_ineligible. Values: `"final_sale"`, `"product_excluded"`, `"category_excluded"`, `"market_restricted"`, `"channel_restricted"`, `"outside_return_window"`, `"other"`. `ineligibility_reason`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesineligibility_reason). |
+| `policy_adjustment_proposals` | Conditional | Array of [ReturnPolicyAdjustmentProposalPreviousAttributes](../models/ReturnPolicyAdjustmentProposalPreviousAttributes.md#returnpolicyadjustmentproposalpreviousattributes) or null | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. `policy_adjustment_proposals`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributespolicy_adjustment_proposals). |
+| `reason` | Conditional | string or null | Why the line got this result. Values: [9 declared values](#returnlineitempreviousattributeseligibility-reason-values). `reason`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesreason). |
+| `reason_message` | Conditional | string or null | Explanation of `reason`. `reason_message`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesreason_message). |
 | `return_policy_id` | Conditional | string or null | ID of the policy that judged the line. Absent when none matched. `return_policy_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1return_policy_id). |
 | `return_policy_revision_id` | Conditional | string or null | ID of the policy revision that judged the line. Absent when none matched. `return_policy_revision_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1return_policy_revision_id). |
-| `return_shipping_payer` | Conditional | string or null or null | Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Values: `"merchant"`, `"buyer"`, `null`. `return_shipping_payer`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1return_shipping_payer). |
-| `status` | Conditional | string or null | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. `status`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1status). |
+| `return_shipping_payer` | Conditional | string or null | Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Values: `"merchant"`, `"buyer"`, `null`. `return_shipping_payer`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesreturn_shipping_payer). |
+| `status` | Conditional | string or null | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. `status`: [declared alternatives](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesstatus). |
 
 #### ReturnLineItemPreviousAttributes.eligibility reason values
 
@@ -369,122 +369,11 @@ anyOf variant 2.
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.allowed_resolution_types
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.allowed_resolution_types variant 1
-
-anyOf variant 1: Resolution types the policy allows for this line..
-
-- Value shape: Array of string. Resolution types the policy allows for this line. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.allowed_resolution_types variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Resolution types the policy allows for this line. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.allowed_resolution_types](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesallowed_resolution_types).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal
 
-Terms the policy proposes if the line is approved. Absent when the policy can't propose any.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `allowed_resolution_types` | Conditional | Array of string or null | Resolution types the proposal allows. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. `allowed_resolution_types`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1decision_proposal-variant-1allowed_resolution_types). |
-| `automatic_resolution_type` | Conditional | string or null | The refund, store_credit, or no_monetary_action that Flint creates and confirms automatically, using the policy default or buyer request according to the policy selection mode. Absent for manual resolution, including buyer_requested when the line has no requested_resolution_type. Values: `"refund"`, `"store_credit"`, `"no_monetary_action"`. `automatic_resolution_type`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1decision_proposal-variant-1automatic_resolution_type). |
-| `based_on_quantity` | Conditional | integer or null | Whole-number quantity; fractional quantities are not supported. `based_on_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
-| `is_inspection_required` | Conditional | boolean or null | Whether the proposal requires inspection of the returned units. `is_inspection_required`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1decision_proposal-variant-1is_inspection_required). |
-| `receiving_location_id` | Conditional | string or null | ID of the Location the proposal sends returned merchandise to. `receiving_location_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1decision_proposal-variant-1receiving_location_id). |
-| `release_timing` | Conditional | string or null | The policy timing, or after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. This fill never counts as a policy deviation. Applies to every resolution type, including exchanges and replacements. manual is held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. `release_timing`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1decision_proposal-variant-1release_timing). |
-| `return_required_quantity` | Conditional | integer or null | Whole-number quantity; fractional quantities are not supported. `return_required_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1
-
-anyOf ReturnLineItemDecisionProposalPreviousAttributes.
-
-- Optional: `allowed_resolution_types`, `automatic_resolution_type`, `based_on_quantity`, `is_inspection_required`, `receiving_location_id`, `release_timing`, `return_required_quantity`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 2
-
-anyOf variant 2.
-
-- Undeclared: `allowed_resolution_types`, `automatic_resolution_type`, `based_on_quantity`, `is_inspection_required`, `receiving_location_id`, `release_timing`, `return_required_quantity`.
-- Value shape: null. Terms the policy proposes if the line is approved. Absent when the policy can't propose any. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.allowed_resolution_types
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.allowed_resolution_types variant 1
-
-anyOf variant 1: Resolution types the proposal allows..
-
-- Value shape: Array of string. Resolution types the proposal allows. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.allowed_resolution_types variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Resolution types the proposal allows. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.automatic_resolution_type
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.automatic_resolution_type variant 1
-
-anyOf variant 1: The refund, store_credit, or no_monetary_action that Flint creates and confirms automatically, using the policy default or buyer request according to the policy selection mode. Absent for manual resolution, including buyer_requested when the line has no requested_resolution_type..
-
-- Value shape: string. The refund, store_credit, or no_monetary_action that Flint creates and confirms automatically, using the policy default or buyer request according to the policy selection mode. Absent for manual resolution, including buyer_requested when the line has no requested_resolution_type. The refund, store_credit, or no_monetary_action that Flint creates and confirms automatically, using the policy default or buyer request according to the policy selection mode. Absent for manual resolution, including buyer_requested when the line has no requested_resolution_type. Example: `"refund"`. Values: `"refund"`, `"store_credit"`, `"no_monetary_action"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.automatic_resolution_type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The refund, store_credit, or no_monetary_action that Flint creates and confirms automatically, using the policy default or buyer request according to the policy selection mode. Absent for manual resolution, including buyer_requested when the line has no requested_resolution_type. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.based_on_quantity
-
-Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.is_inspection_required
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.is_inspection_required variant 1
-
-anyOf variant 1: Whether the proposal requires inspection of the returned units..
-
-- Value shape: boolean. Whether the proposal requires inspection of the returned units. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.is_inspection_required variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the proposal requires inspection of the returned units. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.receiving_location_id
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.receiving_location_id variant 1
-
-anyOf variant 1: ID of the Location the proposal sends returned merchandise to..
-
-- Value shape: string. ID of the Location the proposal sends returned merchandise to. ID of the Location the proposal sends returned merchandise to. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.receiving_location_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the Location the proposal sends returned merchandise to. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.release_timing
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.release_timing variant 1
-
-anyOf variant 1: The policy timing, or after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. This fill never counts as a policy deviation. Applies to every resolution type, including exchanges and replacements. manual is held until a merchant calls POST /v1/return-resolutions/{id}/release..
-
-- Value shape: string. The policy timing, or after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. This fill never counts as a policy deviation. Applies to every resolution type, including exchanges and replacements. manual is held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.release_timing variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The policy timing, or after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. This fill never counts as a policy deviation. Applies to every resolution type, including exchanges and replacements. manual is held until a merchant calls POST /v1/return-resolutions/{id}/release. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.decision_proposal variant 1.return_required_quantity
-
-Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.decision_proposal](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesdecision_proposal).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.eligible_quantity
 
@@ -500,131 +389,19 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.ineligibility_reason
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.ineligibility_reason variant 1
-
-anyOf variant 1: The matched policy's declared exclusion reason. Present exactly when reason is policy_ineligible..
-
-- Value shape: string. The matched policy's declared exclusion reason. Present exactly when reason is policy_ineligible. Values: `"final_sale"`, `"product_excluded"`, `"category_excluded"`, `"market_restricted"`, `"channel_restricted"`, `"outside_return_window"`, `"other"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.ineligibility_reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The matched policy's declared exclusion reason. Present exactly when reason is policy_ineligible. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.ineligibility_reason](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesineligibility_reason).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1
-
-anyOf variant 1: Fees or credits the policy proposes for this line, to add to a resolution as adjustments..
-
-- Value shape: Array of object. Fees or credits the policy proposes for this line, to add to a resolution as adjustments. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Fees or credits the policy proposes for this line, to add to a resolution as adjustments. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `adjustment_type` | Optional | string or null | What the fee or credit is for. Values: `"return_shipping_fee"`, `"restocking_fee"`, `"other_fee"`, `"goodwill_credit"`, `"price_correction"`, `"other"`. `adjustment_type`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1policy_adjustment_proposals-variant-1-fields-1adjustment_type). |
-| `based_on_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `based_on_quantity`: [declared alternatives](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity). |
-| `calculated_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount worked out for the line's returned quantity. |
-| `calculation_type` | Optional | string or null | How the amount is worked out. Values: `"flat"`, `"percent"`. `calculation_type`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1policy_adjustment_proposals-variant-1-fields-1calculation_type). |
-| `flat_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Fixed amount proposed for the line, whatever the quantity. |
-| `percent` | Optional | number or null | Percentage points of the returned units' subtotal, such as `10` for 10%. `percent`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1policy_adjustment_proposals-variant-1-fields-1percent). |
-| `value_effect` | Optional | string or null | Whether the amount reduces or increases what the buyer receives. Values: `"deduction"`, `"credit"`. `value_effect`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributeseligibility-variant-1policy_adjustment_proposals-variant-1-fields-1value_effect). |
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.adjustment_type
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.adjustment_type variant 1
-
-anyOf variant 1: What the fee or credit is for..
-
-- Value shape: string. What the fee or credit is for. Values: `"return_shipping_fee"`, `"restocking_fee"`, `"other_fee"`, `"goodwill_credit"`, `"price_correction"`, `"other"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.adjustment_type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. What the fee or credit is for. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.based_on_quantity
-
-Declared alternatives: [MerchantBillingInvoiceIssuedEvent.data fields 1.previous_attributes.line_items variant 1.[] fields 1.quantity](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1previous_attributesline_items-variant-1-fields-1quantity).
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.calculation_type
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.calculation_type variant 1
-
-anyOf variant 1: How the amount is worked out..
-
-- Value shape: string. How the amount is worked out. Values: `"flat"`, `"percent"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.calculation_type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. How the amount is worked out. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.percent
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.percent variant 1
-
-anyOf variant 1: Percentage points of the returned units' subtotal, such as `10` for 10%..
-
-- Value shape: number. Percentage points of the returned units' subtotal, such as `10` for 10%. Percentage points of the returned units' subtotal, such as `10` for 10%. Format: `double`. multipleOf: `0.0001`. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.percent variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Percentage points of the returned units' subtotal, such as `10` for 10%. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.value_effect
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.value_effect variant 1
-
-anyOf variant 1: Whether the amount reduces or increases what the buyer receives..
-
-- Value shape: string. Whether the amount reduces or increases what the buyer receives. Values: `"deduction"`, `"credit"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.policy_adjustment_proposals variant 1.[] fields 1.value_effect variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the amount reduces or increases what the buyer receives. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.policy_adjustment_proposals](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributespolicy_adjustment_proposals).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.reason
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.reason variant 1
-
-anyOf variant 1: Why the line got this result..
-
-- Value shape: string. Why the line got this result. Values: `"eligible_under_policy"`, `"manual_review_required"`, `"return_window_expired"`, `"quantity_unavailable"`, `"policy_ineligible"`, `"resolution_not_allowed"`, `"reason_not_allowed"`, `"policy_conflict"`, `"no_matching_policy"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Why the line got this result. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.reason](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesreason).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.reason_message
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.reason_message variant 1
-
-anyOf variant 1: Explanation of `reason`..
-
-- Value shape: string. Explanation of `reason`. 
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.reason_message variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Explanation of `reason`. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.reason_message](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesreason_message).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.return_policy_id
 
@@ -656,31 +433,11 @@ anyOf variant 2.
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.return_shipping_payer
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.return_shipping_payer variant 1
-
-anyOf variant 1: Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label..
-
-- Value shape: (string or null). Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Values: `"merchant"`, `"buyer"`, `null`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.return_shipping_payer variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.return_shipping_payer](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesreturn_shipping_payer).
 
 ### ReturnLineItemPreviousAttributes.eligibility variant 1.status
 
-### ReturnLineItemPreviousAttributes.eligibility variant 1.status variant 1
-
-anyOf variant 1: Whether the policy lets the buyer return this. `review_required` means the merchant decides..
-
-- Value shape: string. Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`.
-
-### ReturnLineItemPreviousAttributes.eligibility variant 1.status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the policy lets the buyer return this. `review_required` means the merchant decides. 
+Declared alternatives: [ReturnLineItemEligibilityPreviousAttributes.status](../models/ReturnLineItemEligibilityPreviousAttributes.md#returnlineitemeligibilitypreviousattributesstatus).
 
 ### ReturnLineItemPreviousAttributes.fulfillment
 
@@ -688,36 +445,36 @@ Present only when `expand` includes `line_items.fulfillment`; `null` when expand
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_hold` | Conditional | Alternative shapes (see declared variants) | Current hold details. Present exactly when status is on_hold. `active_hold`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesactive_hold). |
+| `active_hold` | Conditional | [FulfillmentHoldPreviousAttributes](../models/FulfillmentHoldPreviousAttributes.md#fulfillmentholdpreviousattributes) or null | Current hold details. Present exactly when status is on_hold. `active_hold`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesactive_hold). |
 | `charges` | Conditional | Array of [FulfillmentChargeLinkPreviousAttributes](../models/FulfillmentChargeLinkPreviousAttributes.md#fulfillmentchargelinkpreviousattributes) or null | Order charges associated with this fulfillment. `charges`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributescharges). |
 | `completed_at` | Conditional | string or null | When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. `completed_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1completed_at). |
 | `created_at` | Conditional | string or null | When the fulfillment was created, in RFC3339 format. `created_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1created_at). |
 | `customer_id` | Conditional | string or null | Customer receiving this fulfillment, when one is set. `customer_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1customer_id). |
-| `delivery_choice_group_id` | Conditional | string or null or null | Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. `delivery_choice_group_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_choice_group_id). |
-| `delivery_execution_leg_id` | Conditional | string or null or null | Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. `delivery_execution_leg_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_execution_leg_id). |
-| `delivery_method_id` | Conditional | string or null or null | Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials. `delivery_method_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_method_id). |
-| `delivery_selection_id` | Conditional | string or null or null | Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. `delivery_selection_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_selection_id). |
+| `delivery_choice_group_id` | Conditional | string or null | Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. `delivery_choice_group_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_choice_group_id). |
+| `delivery_execution_leg_id` | Conditional | string or null | Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. `delivery_execution_leg_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_execution_leg_id). |
+| `delivery_method_id` | Conditional | string or null | Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials. `delivery_method_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_method_id). |
+| `delivery_selection_id` | Conditional | string or null | Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials. `delivery_selection_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1delivery_selection_id). |
 | `device_id` | Conditional | string or null | Device associated with the fulfillment, when one is recorded. `device_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1device_id). |
-| `digital_details` | Conditional | Alternative shapes (see declared variants) | Delivery URL and completion time for a digital fulfillment. `digital_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesdigital_details). |
+| `digital_details` | Conditional | [DigitalFulfillmentDetailsPreviousAttributes](../models/DigitalFulfillmentDetailsPreviousAttributes.md#digitalfulfillmentdetailspreviousattributes) or null | Delivery URL and completion time for a digital fulfillment. `digital_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesdigital_details). |
 | `dispatched_at` | Conditional | string or null | First time this fulfillment reached dispatched. `dispatched_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1dispatched_at). |
 | `external_reference_id` | Conditional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1external_reference_id). |
 | `fulfillment_id` | Conditional | string or null | Stable identifier of the fulfillment. `fulfillment_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1fulfillment_id). |
 | `line_items` | Conditional | Array of [FulfillmentLineItemPreviousAttributes](../models/FulfillmentLineItemPreviousAttributes.md#fulfillmentlineitempreviousattributes) or null | Order lines and quantities allocated to this fulfillment. `line_items`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesline_items). |
-| `local_delivery_details` | Conditional | Alternative shapes (see declared variants) | Courier, delivery window, and handoff details for a local delivery fulfillment. `local_delivery_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributeslocal_delivery_details). |
+| `local_delivery_details` | Conditional | [DeliveryFulfillmentDetailsPreviousAttributes](../models/DeliveryFulfillmentDetailsPreviousAttributes.md#deliveryfulfillmentdetailspreviousattributes) or null | Courier, delivery window, and handoff details for a local delivery fulfillment. `local_delivery_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributeslocal_delivery_details). |
 | `location_id` | Conditional | string or null | Merchant location responsible for this fulfillment. `location_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1location_id). |
 | `metadata` | Conditional | Map of string or null | Caller-owned key-value metadata associated with the fulfillment. `metadata`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesmetadata). |
-| `order` | Conditional | Alternative shapes (see declared variants) or null | Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. `order`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesorder). |
+| `order` | Conditional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. `order`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesorder). |
 | `order_id` | Conditional | string or null | Order whose items this fulfillment delivers. `order_id`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1order_id). |
 | `order_number` | Conditional | string or null | Human-readable number of the order this fulfillment belongs to. Omitted when the order has no number. `order_number`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesorder_number). |
-| `outcome` | Conditional | Alternative shapes (see declared variants) | Terminal outcome details. Present exactly when status is no_show. `outcome`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesoutcome). |
+| `outcome` | Conditional | [FulfillmentOutcomePreviousAttributes](../models/FulfillmentOutcomePreviousAttributes.md#fulfillmentoutcomepreviousattributes) or null | Terminal outcome details. Present exactly when status is no_show. `outcome`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesoutcome). |
 | `packages` | Conditional | Array of [ExpandedPackageSummaryPreviousAttributes](../models/ExpandedPackageSummaryPreviousAttributes.md#expandedpackagesummarypreviousattributes) or null | Packages associated with this fulfillment. `packages`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributespackages). |
 | `packed_at` | Conditional | string or null | First time this fulfillment reached packed. `packed_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1packed_at). |
 | `picked_at` | Conditional | string or null | First time this fulfillment reached picked. `picked_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1picked_at). |
-| `pickup_details` | Conditional | Alternative shapes (see declared variants) | Pickup window, pickup mode, and handoff times for a pickup fulfillment. `pickup_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributespickup_details). |
-| `recipient` | Conditional | Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `recipient`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesrecipient). |
-| `scheduled_start_at` | Conditional | string or null or null | Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. `scheduled_start_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1scheduled_start_at). |
-| `service_details` | Conditional | Alternative shapes (see declared variants) | Schedule and completion details for a service fulfillment. `service_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesservice_details). |
-| `shipment_details` | Conditional | Alternative shapes (see declared variants) | Shipping schedule and ship time for a shipment fulfillment. Present only on shipment fulfillments with at least one value. `shipment_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesshipment_details). |
+| `pickup_details` | Conditional | [PickupFulfillmentDetailsPreviousAttributes](../models/PickupFulfillmentDetailsPreviousAttributes.md#pickupfulfillmentdetailspreviousattributes) or null | Pickup window, pickup mode, and handoff times for a pickup fulfillment. `pickup_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributespickup_details). |
+| `recipient` | Conditional | [FulfillmentRecipientPreviousAttributes](../models/FulfillmentRecipientPreviousAttributes.md#fulfillmentrecipientpreviousattributes) or null | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `scheduled_start_at` | Conditional | string or null | Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. `scheduled_start_at`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1scheduled_start_at). |
+| `service_details` | Conditional | [ServiceFulfillmentDetailsPreviousAttributes](../models/ServiceFulfillmentDetailsPreviousAttributes.md#servicefulfillmentdetailspreviousattributes) or null | Schedule and completion details for a service fulfillment. `service_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesservice_details). |
+| `shipment_details` | Conditional | [ShipmentFulfillmentDetailsPreviousAttributes](../models/ShipmentFulfillmentDetailsPreviousAttributes.md#shipmentfulfillmentdetailspreviousattributes) or null | Shipping schedule and ship time for a shipment fulfillment. Present only on shipment fulfillments with at least one value. `shipment_details`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesshipment_details). |
 | `shipments` | Conditional | Array of [ExpandedShipmentSummaryPreviousAttributes](../models/ExpandedShipmentSummaryPreviousAttributes.md#expandedshipmentsummarypreviousattributes) or null | Shipments associated with this fulfillment. `shipments`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesshipments). |
 | `status` | Conditional | string or null | Current fulfillment lifecycle status. Read supported_actions for available transitions. - `pending`: Work has not started and has not been accepted. Approval may be required before work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a supported forward action. - `in_progress`: Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. - `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was intentionally canceled and will not continue. - `failed`: The fulfillment could not be completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned items have been picked. - `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded reason. Values: [14 declared values](#returnlineitempreviousattributesfulfillment-status-values). `status`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesstatus). |
 | `supported_actions` | Conditional | Array of string or null | Read-only lifecycle actions accepted now, based on the fulfillment, its order payment status, holds, and shipment progress. Empty when none are available. Values name the verb route with hyphens replaced by underscores. Always present with merchant credentials. Items values: [14 declared values](#returnlineitempreviousattributesfulfillment-supported_actions--values). `supported_actions`: [declared alternatives](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributessupported_actions). |
@@ -762,13 +519,13 @@ Present only when `expand` includes `line_items.fulfillment`; `null` when expand
 
 ### ReturnLineItemPreviousAttributes.fulfillment variant 1
 
-anyOf variant 1: Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment.; anyOf FulfillmentPreviousAttributes.
+anyOf FulfillmentPreviousAttributes.
 
 - Optional: `active_hold`, `charges`, `completed_at`, `created_at`, `customer_id`, `delivery_choice_group_id`, `delivery_execution_leg_id`, `delivery_method_id`, `delivery_selection_id`, `device_id`, `digital_details`, `dispatched_at`, `external_reference_id`, `fulfillment_id`, `line_items`, `local_delivery_details`, `location_id`, `metadata`, `order`, `order_id`, `order_number`, `outcome`, `packages`, `packed_at`, `picked_at`, `pickup_details`, `recipient`, `scheduled_start_at`, `service_details`, `shipment_details`, `shipments`, `status`, `supported_actions`, `terminal_at`, `type`, `updated_at`, `version`.
 
-### ReturnLineItemPreviousAttributes.fulfillment variant 2, 3
+### ReturnLineItemPreviousAttributes.fulfillment variant 2
 
-anyOf variant 1: Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `active_hold`, `charges`, `completed_at`, `created_at`, `customer_id`, `delivery_choice_group_id`, `delivery_execution_leg_id`, `delivery_method_id`, `delivery_selection_id`, `device_id`, `digital_details`, `dispatched_at`, `external_reference_id`, `fulfillment_id`, `line_items`, `local_delivery_details`, `location_id`, `metadata`, `order`, `order_id`, `order_number`, `outcome`, `packages`, `packed_at`, `picked_at`, `pickup_details`, `recipient`, `scheduled_start_at`, `service_details`, `shipment_details`, `shipments`, `status`, `supported_actions`, `terminal_at`, `type`, `updated_at`, `version`.
 - Value shape: null. Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment. 
@@ -877,10 +634,6 @@ Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.fulfillme
 
 Declared alternatives: [FulfillmentCanceledMerchantEventDataPreviousAttributes.pickup_details](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributespickup_details).
 
-### ReturnLineItemPreviousAttributes.fulfillment variant 1.recipient
-
-Declared alternatives: [FulfillmentCanceledMerchantEventDataPreviousAttributes.recipient](../models/FulfillmentCanceledMerchantEventDataPreviousAttributes.md#fulfillmentcanceledmerchanteventdatapreviousattributesrecipient).
-
 ### ReturnLineItemPreviousAttributes.fulfillment variant 1.scheduled_start_at
 
 Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.fulfillments variant 1.[] fields 1.scheduled_start_at](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributesfulfillments-variant-1-fields-1scheduled_start_at).
@@ -948,10 +701,6 @@ anyOf variant 1: Units the buyer handed off for the trip back. Whole-number quan
 anyOf variant 2.
 
 - Value shape: null. Units the buyer handed off for the trip back. Whole-number quantity; fractional quantities are not supported. 
-
-### ReturnLineItemPreviousAttributes.image
-
-Declared alternatives: [OrderLineItemPreviousAttributes.image](../models/OrderLineItemPreviousAttributes.md#orderlineitempreviousattributesimage).
 
 ### ReturnLineItemPreviousAttributes.inspected_quantity
 
@@ -1337,45 +1086,35 @@ Present only when `expand` includes `line_items.return_reason`; `null` when expa
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `category_handles` | Conditional | Array of string or null | Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories. `category_handles`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1category_handles). |
+| `category_handles` | Conditional | Array of string or null | Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories. `category_handles`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributescategory_handles). |
 | `created_at` | Conditional | string or null | When the reason was created. Built-in Flint reasons use their release time, 2026-07-27T00:00:00Z. Their updated_at is the merchant availability change time, or the same release time if unchanged. `created_at`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1created_at). |
-| `description` | Conditional | string or null | Longer explanation of when to use the reason. `description`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1description). |
+| `description` | Conditional | string or null | Longer explanation of when to use the reason. `description`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesdescription). |
 | `external_reference_id` | Conditional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/InventoryLevelShortageDetectedMerchantEventDataPreviousAttributes.md#inventorylevelshortagedetectedmerchanteventdatapreviousattributesinventory_item-variant-1external_reference_id). |
-| `handle` | Conditional | string or null | Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed handles. Can't be changed after create, and an archived reason keeps its handle reserved. `handle`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1handle). |
-| `is_note_required` | Conditional | boolean or null | Whether a Return line with this reason needs a buyer_note. `is_note_required`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1is_note_required). |
-| `name` | Conditional | string or null | Name buyers and staff see. `name`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1name). |
+| `handle` | Conditional | string or null | Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed handles. Can't be changed after create, and an archived reason keeps its handle reserved. `handle`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributeshandle). |
+| `is_note_required` | Conditional | boolean or null | Whether a Return line with this reason needs a buyer_note. `is_note_required`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesis_note_required). |
+| `name` | Conditional | string or null | Name buyers and staff see. `name`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesname). |
 | `return_reason_id` | Conditional | string or null | Flint's ID for the reason. Send it as return_reason_id on a Return line. `return_reason_id`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1return_reason_id). |
-| `source` | Conditional | string or null | Whether Flint provides the reason or you created it. Values: `"flint"`, `"merchant"`. `source`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1source). |
-| `status` | Conditional | string or null | Whether the reason is offered. An active reason is offered and accepted on new Return lines. An inactive reason is not offered or accepted until you set it back to active. An archived reason is retired for good and stays readable on Returns that recorded it. Archive a merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be deleted, but you can set them inactive. Values: `"active"`, `"archived"`, `"inactive"`. `status`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1status). |
+| `source` | Conditional | string or null | Whether Flint provides the reason or you created it. Values: `"flint"`, `"merchant"`. `source`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributessource). |
+| `status` | Conditional | string or null | Whether the reason is offered. An active reason is offered and accepted on new Return lines. An inactive reason is not offered or accepted until you set it back to active. An archived reason is retired for good and stays readable on Returns that recorded it. Archive a merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be deleted, but you can set them inactive. Values: `"active"`, `"archived"`, `"inactive"`. `status`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesstatus). |
 | `updated_at` | Conditional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `version` | Conditional | integer or null | Increases whenever the reason changes. Send it as expected_version to update or archive the reason only if it hasn't changed since you read it. `version`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesreturn_reason-variant-1version). |
+| `version` | Conditional | integer or null | Increases whenever the reason changes. Send it as expected_version to update or archive the reason only if it hasn't changed since you read it. `version`: [declared alternatives](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesversion). |
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1
 
-anyOf variant 1: Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason.; anyOf ReturnReasonPreviousAttributes.
+anyOf ReturnReasonPreviousAttributes.
 
 - Optional: `category_handles`, `created_at`, `description`, `external_reference_id`, `handle`, `is_note_required`, `name`, `return_reason_id`, `source`, `status`, `updated_at`, `version`.
 
-### ReturnLineItemPreviousAttributes.return_reason variant 2, 3
+### ReturnLineItemPreviousAttributes.return_reason variant 2
 
-anyOf variant 1: Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `category_handles`, `created_at`, `description`, `external_reference_id`, `handle`, `is_note_required`, `name`, `return_reason_id`, `source`, `status`, `updated_at`, `version`.
 - Value shape: null. Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason. 
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.category_handles
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.category_handles variant 1
-
-anyOf variant 1: Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories..
-
-- Value shape: Array of string. Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories. 
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.category_handles variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories. 
+Declared alternatives: [ReturnReasonPreviousAttributes.category_handles](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributescategory_handles).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.created_at
 
@@ -1393,17 +1132,7 @@ anyOf variant 2.
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.description
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.description variant 1
-
-anyOf variant 1: Longer explanation of when to use the reason..
-
-- Value shape: string. Longer explanation of when to use the reason. 
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.description variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Longer explanation of when to use the reason. 
+Declared alternatives: [ReturnReasonPreviousAttributes.description](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesdescription).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.external_reference_id
 
@@ -1411,45 +1140,15 @@ Declared alternatives: [InventoryLevelShortageDetectedMerchantEventDataPreviousA
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.handle
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.handle variant 1
-
-anyOf variant 1: Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed handles. Can't be changed after create, and an archived reason keeps its handle reserved..
-
-- Value shape: string. Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed handles. Can't be changed after create, and an archived reason keeps its handle reserved. Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed handles. Can't be changed after create, and an archived reason keeps its handle reserved. minLength: `1`. maxLength: `100`. pattern: `^[a-z][a-z0-9_]{0,99}$`. 
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.handle variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed handles. Can't be changed after create, and an archived reason keeps its handle reserved. 
+Declared alternatives: [ReturnReasonPreviousAttributes.handle](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributeshandle).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.is_note_required
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.is_note_required variant 1
-
-anyOf variant 1: Whether a Return line with this reason needs a buyer_note..
-
-- Value shape: boolean. Whether a Return line with this reason needs a buyer_note. 
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.is_note_required variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether a Return line with this reason needs a buyer_note. 
+Declared alternatives: [ReturnReasonPreviousAttributes.is_note_required](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesis_note_required).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.name
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.name variant 1
-
-anyOf variant 1: Name buyers and staff see..
-
-- Value shape: string. Name buyers and staff see. 
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name buyers and staff see. 
+Declared alternatives: [ReturnReasonPreviousAttributes.name](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesname).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.return_reason_id
 
@@ -1467,31 +1166,11 @@ anyOf variant 2.
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.source
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.source variant 1
-
-anyOf variant 1: Whether Flint provides the reason or you created it..
-
-- Value shape: string. Whether Flint provides the reason or you created it. Values: `"flint"`, `"merchant"`.
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.source variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether Flint provides the reason or you created it. 
+Declared alternatives: [ReturnReasonPreviousAttributes.source](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributessource).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.status
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.status variant 1
-
-anyOf variant 1: Whether the reason is offered. An active reason is offered and accepted on new Return lines. An inactive reason is not offered or accepted until you set it back to active. An archived reason is retired for good and stays readable on Returns that recorded it. Archive a merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be deleted, but you can set them inactive..
-
-- Value shape: string. Whether the reason is offered. An active reason is offered and accepted on new Return lines. An inactive reason is not offered or accepted until you set it back to active. An archived reason is retired for good and stays readable on Returns that recorded it. Archive a merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be deleted, but you can set them inactive. Values: `"active"`, `"archived"`, `"inactive"`.
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the reason is offered. An active reason is offered and accepted on new Return lines. An inactive reason is not offered or accepted until you set it back to active. An archived reason is retired for good and stays readable on Returns that recorded it. Archive a merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be deleted, but you can set them inactive. 
+Declared alternatives: [ReturnReasonPreviousAttributes.status](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesstatus).
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.updated_at
 
@@ -1499,17 +1178,7 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### ReturnLineItemPreviousAttributes.return_reason variant 1.version
 
-### ReturnLineItemPreviousAttributes.return_reason variant 1.version variant 1
-
-anyOf variant 1: Increases whenever the reason changes. Send it as expected_version to update or archive the reason only if it hasn't changed since you read it..
-
-- Value shape: integer. Increases whenever the reason changes. Send it as expected_version to update or archive the reason only if it hasn't changed since you read it. Increases whenever the reason changes. Send it as expected_version to update or archive the reason only if it hasn't changed since you read it. Format: `int64`. minimum: `1`. 
-
-### ReturnLineItemPreviousAttributes.return_reason variant 1.version variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Increases whenever the reason changes. Send it as expected_version to update or archive the reason only if it hasn't changed since you read it. 
+Declared alternatives: [ReturnReasonPreviousAttributes.version](../models/ReturnReasonPreviousAttributes.md#returnreasonpreviousattributesversion).
 
 ### ReturnLineItemPreviousAttributes.return_reason_handle
 
@@ -1580,31 +1249,6 @@ anyOf variant 1: IDs of the resolutions that include this line, oldest first, in
 anyOf variant 2.
 
 - Value shape: null. IDs of the resolutions that include this line, oldest first, including failed and canceled resolutions. 
-
-### ReturnLineItemPreviousAttributes.return_value
-
-Value of the line's units, fixed when the line was created: what the buyer paid for them, less what was already refunded or returned.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `discount_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Discount on the returned units. |
-| `subtotal_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Subtotal of the returned units, before discount and tax. |
-| `tax_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Tax on the returned units. |
-| `total_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Subtotal minus discount, plus tax. |
-| `unit_price_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price of one returned unit. |
-
-### ReturnLineItemPreviousAttributes.return_value variant 1
-
-anyOf ReturnLineItemValuePreviousAttributes.
-
-- Optional: `discount_money`, `subtotal_money`, `tax_money`, `total_money`, `unit_price_money`.
-
-### ReturnLineItemPreviousAttributes.return_value variant 2
-
-anyOf variant 2.
-
-- Undeclared: `discount_money`, `subtotal_money`, `tax_money`, `total_money`, `unit_price_money`.
-- Value shape: null. Value of the line's units, fixed when the line was created: what the buyer paid for them, less what was already refunded or returned. 
 
 ### ReturnLineItemPreviousAttributes.review_required_quantity
 

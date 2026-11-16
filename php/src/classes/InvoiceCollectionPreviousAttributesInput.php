@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $mode
- * @property-read string|null|null $payment_method_id
+ * @property-read string|null $payment_method_id
  * @property-read InvoicePaymentPolicyPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payment_policy
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceCollectionPreviousAttributesInput extends Model {
@@ -15,8 +15,8 @@ final class InvoiceCollectionPreviousAttributesInput extends Model {
      */
     public function getMode(): mixed { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** The saved card Flint charges. Present only with automatic. `null` when the draft will use the customer's default card, selected at issue. After issue it is the selected card. anyOf[1] (Value): string or null. The saved card Flint charges. Present only with automatic. `null` when the draft will use the customer's default card, selected at issue. After issue it is the selected card. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** The saved card Flint charges. Present only with automatic. `null` when the draft will use the customer's default card, selected at issue. After issue it is the selected card. anyOf[1] (Value): string. The saved card Flint charges. Present only with automatic. `null` when the draft will use the customer's default card, selected at issue. After issue it is the selected card. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): mixed { return $this->get('payment_method_id'); }

@@ -14,7 +14,7 @@ Response model.
 | `inventory_count_id` | Optional | string or null | Unique identifier for this inventory count, prefixed `invc_`. `inventory_count_id`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesinventory_count_id). |
 | `lines` | Optional | Array of [InventoryCountLinePreviousAttributes](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributes) or null | Count lines, one for each inventory item being counted. `lines`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributeslines). |
 | `location_id` | Optional | string or null | ID of the Location whose stock is counted. `location_id`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributeslocation_id). |
-| `observation_provenance` | Optional | Alternative shapes (see declared variants) | Source system, actor, and time reported with the count's observations. `observation_provenance`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance). |
+| `observation_provenance` | Optional | [InventoryCountObservationProvenancePreviousAttributes](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributes) or null | Source system, actor, and time reported with the count's observations. `observation_provenance`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance). |
 | `status` | Optional | string or null | Whether the count is still open. Applying or canceling a `draft` count ends it. Values: `"draft"`, `"applied"`, `"canceled"`. `status`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Actions that can change this count now. A draft can be canceled, and applied once every line has an observation. Empty after the count is applied or canceled. Items values: `"apply"`, `"cancel"`. `supported_actions`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributessupported_actions). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
@@ -88,7 +88,7 @@ anyOf variant 2.
 | `inventory_item_id` | Optional | string or null | ID of the inventory item counted. `inventory_item_id`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributeslines-variant-1-fields-1inventory_item_id). |
 | `inventory_movement_id` | Optional | string or null | Movement this line wrote when the count was applied. Absent on a draft or canceled count. `inventory_movement_id`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributeslines-variant-1-fields-1inventory_movement_id). |
 | `on_hand_variance` | Optional | integer or null | The difference this line applied to the on-hand quantity. Present once the count is applied. A draft or canceled count omits it. `on_hand_variance`: [declared alternatives](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributeson_hand_variance). |
-| `physical_version` | Optional | integer or null or null | Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. `physical_version`: [declared alternatives](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributesphysical_version). |
+| `physical_version` | Optional | integer or null | Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. `physical_version`: [declared alternatives](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributesphysical_version). |
 | `quality_control_variance` | Optional | integer or null | The difference this line applied to the quality-control quantity. Present once the count is applied. A draft or canceled count omits it. `quality_control_variance`: [declared alternatives](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributesquality_control_variance). |
 | `quarantined_variance` | Optional | integer or null | The difference this line applied to the quarantined quantity. Present once the count is applied. A draft or canceled count omits it. `quarantined_variance`: [declared alternatives](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributesquarantined_variance). |
 | `source_observation_sequence` | Optional | integer or null | `source_observation_sequence`: [declared alternatives](../models/InventoryCountLinePreviousAttributes.md#inventorycountlinepreviousattributessource_observation_sequence). |
@@ -217,7 +217,7 @@ Source system, actor, and time reported with the count's observations.
 | --- | --- | --- | --- |
 | `external_actor_id` | Conditional | string or null | Your identifier for the actor who recorded the event. Don't put secrets in this field. `external_actor_id`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance-variant-1external_actor_id). |
 | `occurred_at` | Conditional | string or null | When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. `occurred_at`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance-variant-1occurred_at). |
-| `source_system` | Conditional | Alternative shapes (see declared variants) or null | System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. `source_system`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance-variant-1source_system). |
+| `source_system` | Conditional | [InventorySourceSystemPreviousAttributes](../models/InventorySourceSystemPreviousAttributes.md#inventorysourcesystempreviousattributes) or null | System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. `source_system`: [declared alternatives](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributessource_system). |
 
 ### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1
 
@@ -262,53 +262,7 @@ anyOf variant 2.
 
 ### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system
 
-System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `external_source_id` | Conditional | string or null | Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field. `external_source_id`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance-variant-1source_system-variant-1external_source_id). |
-| `type` | Conditional | string or null | Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. `type`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesobservation_provenance-variant-1source_system-variant-1type). |
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1
-
-anyOf variant 1: System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system.; anyOf InventorySourceSystemPreviousAttributes.
-
-- Optional: `external_source_id`, `type`.
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 2, 3
-
-anyOf variant 1: System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system.; anyOf variant 2; anyOf variant 2.
-
-- Undeclared: `external_source_id`, `type`.
-- Value shape: null. System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. 
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1.external_source_id
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1.external_source_id variant 1
-
-anyOf variant 1: Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field..
-
-- Value shape: string. Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field. Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field. maxLength: `255`. Example: `"warehouse-1842"`. 
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1.external_source_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field. 
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1.type
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1.type variant 1
-
-anyOf variant 1: Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses..
-
-- Value shape: string. Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`.
-
-### InventoryCountAppliedMerchantEventDataPreviousAttributes.observation_provenance variant 1.source_system variant 1.type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse management system, erp for an enterprise resource planning system, or other for another external system. Flint-authored events use flint in responses. 
+Declared alternatives: [InventoryCountObservationProvenancePreviousAttributes.source_system](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributessource_system).
 
 ### InventoryCountAppliedMerchantEventDataPreviousAttributes.status
 

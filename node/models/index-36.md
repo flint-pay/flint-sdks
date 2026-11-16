@@ -1,11 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPausedInstalledMerchantsEvent to SubscriptionUpcomingDeliveryHold
+# SubscriptionPaymentRetryCreatedMerchantEvent to SubscriptionWindowMetrics
 
-- [SubscriptionPausedInstalledMerchantsEvent](SubscriptionPausedInstalledMerchantsEvent.md)
-- [SubscriptionPausedMerchantEvent](SubscriptionPausedMerchantEvent.md)
-- [SubscriptionPaymentRetry](SubscriptionPaymentRetry.md)
-- [SubscriptionPaymentRetryCreatedInstalledMerchantsEvent](SubscriptionPaymentRetryCreatedInstalledMerchantsEvent.md)
 - [SubscriptionPaymentRetryCreatedMerchantEvent](SubscriptionPaymentRetryCreatedMerchantEvent.md)
 - [SubscriptionPaymentRetryFailedInstalledMerchantsEvent](SubscriptionPaymentRetryFailedInstalledMerchantsEvent.md)
 - [SubscriptionPaymentRetryFailedMerchantEvent](SubscriptionPaymentRetryFailedMerchantEvent.md)
@@ -102,4 +98,8 @@
 - [SubscriptionTrialEndingInstalledMerchantsEvent](SubscriptionTrialEndingInstalledMerchantsEvent.md)
 - [SubscriptionTrialEndingMerchantEvent](SubscriptionTrialEndingMerchantEvent.md)
 - [SubscriptionUpcomingDeliveryHold](SubscriptionUpcomingDeliveryHold.md)
+- [SubscriptionUpcomingDeliveryHoldPreviousAttributes](SubscriptionUpcomingDeliveryHoldPreviousAttributes.md)
+- [SubscriptionUpdatedInstalledMerchantsEvent](SubscriptionUpdatedInstalledMerchantsEvent.md)
+- [SubscriptionUpdatedMerchantEvent](SubscriptionUpdatedMerchantEvent.md)
+- [SubscriptionWindowMetrics](SubscriptionWindowMetrics.md)
 

@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# OrderEditPreviewAddition to OrderTaxExemptionPreviousAttributes
+# OrderEditPreviewRequest to OrderTaxExemptionRequest
 
-- [OrderEditPreviewAddition](OrderEditPreviewAddition.md)
 - [OrderEditPreviewRequest](OrderEditPreviewRequest.md)
 - [OrderEditPreviewRequestInput](OrderEditPreviewRequestInput.md)
 - [OrderEditPreviewResponse](OrderEditPreviewResponse.md)
@@ -102,4 +101,5 @@
 - [OrderTaxExemptionInputOrder](OrderTaxExemptionInputOrder.md)
 - [OrderTaxExemptionInputOrderInput](OrderTaxExemptionInputOrderInput.md)
 - [OrderTaxExemptionPreviousAttributes](OrderTaxExemptionPreviousAttributes.md)
+- [OrderTaxExemptionRequest](OrderTaxExemptionRequest.md)
 

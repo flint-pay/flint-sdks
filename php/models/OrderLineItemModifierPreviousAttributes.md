@@ -17,7 +17,7 @@ Response model.
 | `show_on_fulfillment` | Optional | boolean or null | Whether this selection appears in fulfillment details, recorded when selected. `show_on_fulfillment`: [declared alternatives](../models/RefundLineItemModifierAllocationPreviousAttributes.md#refundlineitemmodifierallocationpreviousattributesshow_on_fulfillment). |
 | `show_on_receipt` | Optional | boolean or null | Whether this selection appears on buyer receipts, recorded when selected. `show_on_receipt`: [declared alternatives](../models/RefundLineItemModifierAllocationPreviousAttributes.md#refundlineitemmodifierallocationpreviousattributesshow_on_receipt). |
 | `source_type` | Optional | string or null | Whether the selection is a catalog list modifier or buyer-entered text. Values: `"catalog_modifier"`, `"text"`. `source_type`: [declared alternatives](../models/RefundLineItemModifierAllocationPreviousAttributes.md#refundlineitemmodifierallocationpreviousattributessource_type). |
-| `text` | Optional | Alternative shapes (see declared variants) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. `text`: [declared alternatives](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributestext). |
+| `text` | Optional | [TextModifierRequestPreviousAttributes](../models/TextModifierRequestPreviousAttributes.md#textmodifierrequestpreviousattributes) or null | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. `text`: [declared alternatives](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributestext). |
 | `text_value` | Optional | string or null | Buyer-entered text recorded for a text modifier selection. `text_value`: [declared alternatives](../models/RefundLineItemModifierAllocationPreviousAttributes.md#refundlineitemmodifierallocationpreviousattributestext_value). |
 | `total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. |
 | `unit_price_delta_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount added to the item's unit price for each unit of this selection, recorded when selected. |
@@ -105,7 +105,7 @@ Selected text group and buyer-entered value. Read an inline text group through i
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `modifier_group_id` | Conditional | string or null | Identifier of the text modifier group. For a group a modifier set owns (source: inline), read it through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. `modifier_group_id`: [declared alternatives](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributestext-variant-1modifier_group_id). |
-| `value` | Conditional | string or null | Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the group's `text.multiline` is true. `value`: [declared alternatives](../models/OrderLineItemModifierPreviousAttributes.md#orderlineitemmodifierpreviousattributestext-variant-1value). |
+| `value` | Conditional | string or null | Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the group's `text.multiline` is true. `value`: [declared alternatives](../models/TextModifierRequestPreviousAttributes.md#textmodifierrequestpreviousattributesvalue). |
 
 ### OrderLineItemModifierPreviousAttributes.text variant 1
 
@@ -136,17 +136,7 @@ anyOf variant 2.
 
 ### OrderLineItemModifierPreviousAttributes.text variant 1.value
 
-### OrderLineItemModifierPreviousAttributes.text variant 1.value variant 1
-
-anyOf variant 1: Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the group's `text.multiline` is true..
-
-- Value shape: string. Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the group's `text.multiline` is true. Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the group's `text.multiline` is true. minLength: `1`. 
-
-### OrderLineItemModifierPreviousAttributes.text variant 1.value variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the group's `text.multiline` is true. 
+Declared alternatives: [TextModifierRequestPreviousAttributes.value](../models/TextModifierRequestPreviousAttributes.md#textmodifierrequestpreviousattributesvalue).
 
 ### OrderLineItemModifierPreviousAttributes.text_value
 

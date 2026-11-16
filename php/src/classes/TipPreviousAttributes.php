@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $created_at
  * @property-read string|null $description
- * @property-read mixed $effective_amount_money
- * @property-read mixed $metadata
+ * @property-read MoneyValuePreviousAttributes|null $effective_amount_money
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $name
  * @property-read string|null $order_tip_id
  * @property-read list<TipPaymentIntentAllocationPreviousAttributes>|null $payment_intent_allocations
  * @property-read float|null $percent
- * @property-read mixed $refunded_money
- * @property-read mixed $settled_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_money
+ * @property-read MoneyValuePreviousAttributes|null $settled_amount_money
  * @property-read string|null $status
  * @property-read string|null $updated_at
  * @property-read list<TipValueSettlementAllocationPreviousAttributes>|null $value_settlement_allocations
@@ -21,9 +21,9 @@ final class TipPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'created_at'?: mixed, 'description'?: mixed, 'effective_amount_money'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'order_tip_id'?: mixed, 'payment_intent_allocations'?: mixed, 'percent'?: mixed, 'refunded_money'?: mixed, 'settled_amount_money'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'value_settlement_allocations'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipPreviousAttributes')); }
     /** Fixed tip amount, when the tip is set as an amount. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -36,14 +36,14 @@ final class TipPreviousAttributes extends Model {
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
     /** The tip amount the order collects. For a percent tip, the resolved amount. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getEffectiveAmountMoney(): mixed { return $this->get('effective_amount_money'); }
+    public function getEffectiveAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('effective_amount_money'); }
     public function hasEffectiveAmountMoney(): bool { return $this->has('effective_amount_money'); }
     /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Optional name that stays on the tip for your reporting. anyOf[1] (Value): string. Optional name that stays on the tip for your reporting. anyOf[2] (Value): null.
      * @return string|null
@@ -66,14 +66,14 @@ final class TipPreviousAttributes extends Model {
     public function getPercent(): float|null { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
     /** How much of the tip has been refunded. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
+    public function getRefundedMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
     /** How much of the tip has been paid. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getSettledAmountMoney(): mixed { return $this->get('settled_amount_money'); }
+    public function getSettledAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('settled_amount_money'); }
     public function hasSettledAmountMoney(): bool { return $this->has('settled_amount_money'); }
     /** Whether the tip is awaiting payment, paid in full, refunded in part or in full, or canceled before collection. Value enum: "requested", "paid", "partially_refunded", "refunded", "canceled". anyOf[1] (Value): string. Whether the tip is awaiting payment, paid in full, refunded in part or in full, or canceled before collection. Value enum: "requested", "paid", "partially_refunded", "refunded", "canceled". anyOf[2] (Value): null.
      * @return string|null

@@ -128,10 +128,6 @@ Declared alternatives: [ProductArchivedMerchantEventDataPreviousAttributes.optio
 
 Declared alternatives: [ProductArchivedMerchantEventDataPreviousAttributes.options](../models/ProductArchivedMerchantEventDataPreviousAttributes.md#productarchivedmerchanteventdatapreviousattributesoptions).
 
-### ProductArchivedMerchantEvent.data fields 1.previous_attributes.price_range
-
-Declared alternatives: [ProductArchivedMerchantEventDataPreviousAttributes.price_range](../models/ProductArchivedMerchantEventDataPreviousAttributes.md#productarchivedmerchanteventdatapreviousattributesprice_range).
-
 ### ProductArchivedMerchantEvent.data fields 1.previous_attributes.product_id
 
 Declared alternatives: [ProductArchivedMerchantEventDataPreviousAttributes.product_id](../models/ProductArchivedMerchantEventDataPreviousAttributes.md#productarchivedmerchanteventdatapreviousattributesproduct_id).

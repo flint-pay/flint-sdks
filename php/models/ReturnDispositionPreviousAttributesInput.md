@@ -30,10 +30,10 @@ Request input.
 | `replaces_return_disposition_id` | Optional | string or null | ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity. `replaces_return_disposition_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreplaces_return_disposition_id). |
 | `return_disposition_id` | Optional | string or null | Unique identifier for this return disposition, prefixed `retdsp_`. `return_disposition_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_disposition_id). |
 | `return_id` | Optional | string or null | ID of the Return the disposition belongs to. `return_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_id). |
-| `return_inspection_id` | Optional | string or null or null | Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. `return_inspection_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_inspection_id). |
+| `return_inspection_id` | Optional | string or null | Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. `return_inspection_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_inspection_id). |
 | `return_inspection_line_item_id` | Optional | string or null | ID of the inspection line the disposition covers. Absent when it covers a receipt line. `return_inspection_line_item_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_inspection_line_item_id). |
 | `return_line_item_id` | Optional | string or null | ID of the Return line the units belong to. `return_line_item_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_line_item_id). |
-| `return_receipt_id` | Optional | string or null or null | Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. `return_receipt_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_receipt_id). |
+| `return_receipt_id` | Optional | string or null | Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. `return_receipt_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_receipt_id). |
 | `return_receipt_line_item_id` | Optional | string or null | ID of the receipt line the disposition covers. Absent when it covers an inspection line. `return_receipt_line_item_id`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputreturn_receipt_line_item_id). |
 | `status` | Optional | string or null | Whether inventory has applied the disposition. Values: `"pending"`, `"succeeded"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputstatus). |
 | `supported_actions` | Optional | Array of string or null | Actions that can succeed now. Empty unless the parent Return is open. cancel is listed only before the inventory effect starts. Items values: `"cancel"`, `"retry"`. `supported_actions`: [declared alternatives](../models/ReturnDispositionPreviousAttributesInput.md#returndispositionpreviousattributesinputsupported_actions). |
@@ -252,7 +252,7 @@ anyOf variant 2.
 
 anyOf variant 1: Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null..
 
-- Value shape: (string or null). Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: `"retins_01KEZF7C00WPB0BR4WTT7CMSB8"`. 
+- Value shape: string. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: `"retins_01KEZF7C00WPB0BR4WTT7CMSB8"`. 
 
 ### ReturnDispositionPreviousAttributesInput.return_inspection_id variant 2
 
@@ -294,7 +294,7 @@ anyOf variant 2.
 
 anyOf variant 1: Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null..
 
-- Value shape: (string or null). Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
+- Value shape: string. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. 
 
 ### ReturnDispositionPreviousAttributesInput.return_receipt_id variant 2
 

@@ -46,10 +46,6 @@ Field definitions: [shared fields](GiftCardNotificationUpdatedMerchantEventDataP
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 
-### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.delivery
-
-Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.delivery](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesdelivery).
-
 ### GiftCardNotificationUpdatedMerchantEvent.data fields 1.previous_attributes.gift_card_id
 
 Declared alternatives: [GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.gift_card_id](../models/GiftCardNotificationUpdatedMerchantEventDataPreviousAttributes.md#giftcardnotificationupdatedmerchanteventdatapreviousattributesgift_card_id).

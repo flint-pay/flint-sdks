@@ -1,8 +1,7 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-60.js';
-import type { Settings, SettingsGetEffectiveParams, SettingsGetParams, SettingsResponse } from '../declarations/types-65.js';
-import type { SettingsUpdateParams } from '../declarations/types-66.js';
+import type { Settings, SettingsGetEffectiveParams, SettingsGetParams, SettingsResponse, SettingsUpdateParams } from '../declarations/types-65.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -18,10 +17,9 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { SettingsGetEffectiveParams, Settings, SettingsResponse, SettingsGetParams } from '../declarations/types-65.js';
+export type { SettingsGetEffectiveParams, Settings, SettingsResponse, SettingsGetParams, SettingsUpdateParams } from '../declarations/types-65.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { SettingsUpdateParams } from '../declarations/types-66.js';
 export type { ClientOptions, CheckoutSettings, CheckoutSettingsRequestInput } from '../declarations/types-7.js';
 export type {
     AuthMode,
@@ -100,9 +98,13 @@ export type { TippingSettings, TippingSettingsPatchInput } from '../declarations
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { UpdateSettingsRequestInput } from '../declarations/types-75.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeAddressRequest, makeBrandingSettingsRequest, makeBuyerCapabilitiesRequest } from '../declarations/types-77.js';
 export {
-    makeBuyerPauseCapability,
+    makeAddressRequest,
+    makeBrandingSettingsRequest,
+    makeBuyerCapabilitiesRequest,
+    makeBuyerPauseCapability
+} from '../declarations/types-77.js';
+export {
     makeBuyerRetentionOfferRequest,
     makeBuyerSkipCapability,
     makeCheckoutRecoveryEmailSettingsRequest,

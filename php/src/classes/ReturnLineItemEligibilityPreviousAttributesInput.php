@@ -13,11 +13,11 @@ namespace Flint;
  * @property-read string|null $reason_message
  * @property-read string|null $return_policy_id
  * @property-read string|null $return_policy_revision_id
- * @property-read string|null|null $return_shipping_payer
+ * @property-read string|null $return_shipping_payer
  * @property-read string|null $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnLineItemEligibilityPreviousAttributesInput extends Model {
-    /** @param array{'allowed_resolution_types'?: list<string>|null, 'decision_proposal'?: ReturnLineItemDecisionProposalPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'eligible_quantity'?: int|null, 'evaluated_at'?: string|\DateTimeInterface|null, 'expires_at'?: string|\DateTimeInterface|null, 'ineligibility_reason'?: string|null, 'policy_adjustment_proposals'?: list<ReturnPolicyAdjustmentProposalPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'reason'?: string|null, 'reason_message'?: string|null, 'return_policy_id'?: string|null, 'return_policy_revision_id'?: string|null, 'return_shipping_payer'?: string|null|null, 'status'?: string|null, ...}|object $values */
+    /** @param array{'allowed_resolution_types'?: list<string>|null, 'decision_proposal'?: ReturnLineItemDecisionProposalPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'eligible_quantity'?: int|null, 'evaluated_at'?: string|\DateTimeInterface|null, 'expires_at'?: string|\DateTimeInterface|null, 'ineligibility_reason'?: string|null, 'policy_adjustment_proposals'?: list<ReturnPolicyAdjustmentProposalPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'reason'?: string|null, 'reason_message'?: string|null, 'return_policy_id'?: string|null, 'return_policy_revision_id'?: string|null, 'return_shipping_payer'?: string|null, 'status'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnLineItemEligibilityPreviousAttributesInput')); }
     /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[1] (Value): Array of string. Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[1][] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[2] (Value): null.
      * @return list<string>|null
@@ -85,8 +85,8 @@ final class ReturnLineItemEligibilityPreviousAttributesInput extends Model {
      */
     public function getReturnPolicyRevisionId(): mixed { return $this->get('return_policy_revision_id'); }
     public function hasReturnPolicyRevisionId(): bool { return $this->has('return_policy_revision_id'); }
-    /** Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Value enum: "merchant", "buyer", null. anyOf[1] (Value): string or null. Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Value enum: "merchant", "buyer", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Value enum: "merchant", "buyer", null. anyOf[1] (Value): string. Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Value enum: "merchant", "buyer", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_shipping_payer is omitted; use hasReturnShippingPayer() or valueOrDefault().
      */
     public function getReturnShippingPayer(): mixed { return $this->get('return_shipping_payer'); }

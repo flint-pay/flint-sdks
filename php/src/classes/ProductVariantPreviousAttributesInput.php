@@ -19,13 +19,13 @@ namespace Flint;
  * @property-read string|null $line_item_tax_category
  * @property-read string|null $merchant_id
  * @property-read MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $metadata
- * @property-read ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $modifier_set
- * @property-read string|null|null $modifier_set_id
+ * @property-read ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $modifier_set
+ * @property-read string|null $modifier_set_id
  * @property-read string|null $name
  * @property-read int|null $position
  * @property-read string|null $product_id
  * @property-read list<QuantityPriceBreakPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $quantity_price_breaks
- * @property-read string|null|null $release_date
+ * @property-read string|null $release_date
  * @property-read list<SelectedProductOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $selected_options
  * @property-read string|null $sku
  * @property-read string|null $status
@@ -38,7 +38,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductVariantPreviousAttributesInput extends Model {
-    /** @param array{'barcode'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'delivery_configuration_reason'?: string|null, 'delivery_configuration_status'?: string|null, 'delivery_profile_id'?: string|null, 'effective_images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'external_reference_id'?: string|null, 'gift_card_configuration'?: GiftCardProductConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inventory_availability'?: ProductVariantInventoryAvailabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'inventory_item_id'?: string|null, 'inventory_tracking'?: string|null, 'is_available_for_sale'?: bool|null, 'is_inheriting_product_images'?: bool|null, 'line_item_tax_category'?: string|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set'?: ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'modifier_set_id'?: string|null|null, 'name'?: string|null, 'position'?: int|null, 'product_id'?: string|null, 'quantity_price_breaks'?: list<QuantityPriceBreakPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'release_date'?: string|null|null, 'selected_options'?: list<SelectedProductOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'sku'?: string|null, 'status'?: string|null, 'taxable'?: bool|null, 'unit_dimensions'?: DimensionsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_weight'?: WeightPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'updated_at'?: string|\DateTimeInterface|null, 'variant_id'?: string|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'barcode'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'delivery_configuration_reason'?: string|null, 'delivery_configuration_status'?: string|null, 'delivery_profile_id'?: string|null, 'effective_images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'external_reference_id'?: string|null, 'gift_card_configuration'?: GiftCardProductConfigurationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'images'?: list<ImageAttachmentPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inventory_availability'?: ProductVariantInventoryAvailabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'inventory_item_id'?: string|null, 'inventory_tracking'?: string|null, 'is_available_for_sale'?: bool|null, 'is_inheriting_product_images'?: bool|null, 'line_item_tax_category'?: string|null, 'merchant_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set'?: ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string|null, 'position'?: int|null, 'product_id'?: string|null, 'quantity_price_breaks'?: list<QuantityPriceBreakPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'release_date'?: string|null, 'selected_options'?: list<SelectedProductOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'sku'?: string|null, 'status'?: string|null, 'taxable'?: bool|null, 'unit_dimensions'?: DimensionsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'unit_weight'?: WeightPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'updated_at'?: string|\DateTimeInterface|null, 'variant_id'?: string|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantPreviousAttributesInput')); }
     /** Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned to this sellable item. anyOf[2] (Value): null.
      * @return string|null
@@ -142,14 +142,14 @@ final class ProductVariantPreviousAttributesInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. Also included when `expand` includes `variants.modifier_set`. anyOf[1] (Value): ({@see ModifierSetPreviousAttributesInput} or null). Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. Also included when `expand` includes `variants.modifier_set`. anyOf[1].anyOf[1] (Value): {@see ModifierSetPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. Also included when `expand` includes `variants.modifier_set`. anyOf[1] (Value): {@see ModifierSetPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ModifierSetPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When modifier_set is omitted; use hasModifierSet() or valueOrDefault().
      */
     public function getModifierSet(): mixed { return $this->get('modifier_set'); }
     public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** ID of the modifier set attached to the variant. `null` when no modifier set is attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the variant. `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** ID of the modifier set attached to the variant. `null` when no modifier set is attached. anyOf[1] (Value): string. ID of the modifier set attached to the variant. `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
     public function getModifierSetId(): mixed { return $this->get('modifier_set_id'); }
@@ -178,8 +178,8 @@ final class ProductVariantPreviousAttributesInput extends Model {
      */
     public function getQuantityPriceBreaks(): mixed { return $this->get('quantity_price_breaks'); }
     public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
-    /** Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. anyOf[1] (Value): string or null. Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When release_date is omitted; use hasReleaseDate() or valueOrDefault().
      */
     public function getReleaseDate(): mixed { return $this->get('release_date'); }

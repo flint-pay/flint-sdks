@@ -2,21 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|null|null $legal_name
- * @property-read AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $registered_address
+ * @property-read string|null $legal_name
+ * @property-read AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $registered_address
  * @property-read list<DocumentTaxIDPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $tax_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class TaxIdentityPreviousAttributesInput extends Model {
-    /** @param array{'legal_name'?: string|null|null, 'registered_address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'tax_ids'?: list<DocumentTaxIDPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
+    /** @param array{'legal_name'?: string|null, 'registered_address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_ids'?: list<DocumentTaxIDPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxIdentityPreviousAttributesInput')); }
-    /** The merchant's legal name, printed on invoices and credit notes. `null` when no legal name is set. anyOf[1] (Value): string or null. The merchant's legal name, printed on invoices and credit notes. `null` when no legal name is set. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** The merchant's legal name, printed on invoices and credit notes. `null` when no legal name is set. anyOf[1] (Value): string. The merchant's legal name, printed on invoices and credit notes. `null` when no legal name is set. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When legal_name is omitted; use hasLegalName() or valueOrDefault().
      */
     public function getLegalName(): mixed { return $this->get('legal_name'); }
     public function hasLegalName(): bool { return $this->has('legal_name'); }
-    /** The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set. anyOf[1] (Value): ({@see AddressPreviousAttributesInput} or null). The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set. anyOf[1].anyOf[1] (Value): {@see AddressPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set. anyOf[1] (Value): {@see AddressPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When registered_address is omitted; use hasRegisteredAddress() or valueOrDefault().
      */
     public function getRegisteredAddress(): mixed { return $this->get('registered_address'); }

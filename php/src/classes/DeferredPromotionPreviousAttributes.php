@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string|null $customer_facing_name
  * @property-read string|null $deferred_promotion_id
- * @property-read mixed $promotion_code
+ * @property-read string|null $promotion_code
  * @property-read string|null $promotion_id
  * Presence-aware response; omitted optional fields return null. */
 final class DeferredPromotionPreviousAttributes extends Model {
@@ -20,10 +20,10 @@ final class DeferredPromotionPreviousAttributes extends Model {
      */
     public function getDeferredPromotionId(): string|null { return $this->get('deferred_promotion_id'); }
     public function hasDeferredPromotionId(): bool { return $this->has('deferred_promotion_id'); }
-    /** Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1] (Value): string or null. Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[2] (Value): null.
-     * @return mixed
+    /** Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1] (Value): string. Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getPromotionCode(): mixed { return $this->get('promotion_code'); }
+    public function getPromotionCode(): string|null { return $this->get('promotion_code'); }
     public function hasPromotionCode(): bool { return $this->has('promotion_code'); }
     /** ID of the promotion accepted for the subscription. anyOf[1] (Value): string. ID of the promotion accepted for the subscription. anyOf[2] (Value): null.
      * @return string|null

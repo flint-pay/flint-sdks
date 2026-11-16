@@ -1,13 +1,3 @@
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
-import type { PublicDownload, PublicDownloadPreviousAttributes } from './types-57.js';
-import type {
-    ReportFailed,
-    ReportFailedPreviousAttributes,
-    ReportPending,
-    ReportPendingPreviousAttributes,
-    ReportSucceeded
-} from './types-59.js';
-import type { CreateReportRequestInput } from './types-12.js';
 import type { InputValue, RequestOptions as RuntimeRequestOptions, CredentialProvider } from '../runtime.js';
 import type { AuthMode, BuyerCheckoutSessionWithSecret } from './types-1.js';
 import type { Credentials } from './types-14.js';
@@ -32,6 +22,7 @@ import type {
     ExpandedShipmentSummary,
     ExpandedShipmentSummaryPreviousAttributes
 } from './types-26.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
 import type {
     ReturnDispositionPreviousAttributes,
@@ -51,187 +42,6 @@ import type {
     ReturnReceiptPreviousAttributes
 } from './types-62.js';
 import type { ReturnResolution, ReturnResolutionPreviousAttributes } from './types-63.js';
-export type ReportSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ({
-            "as_of_date"?: string;
-            "created_at": string;
-            "currency": string;
-            "download"?: PublicDownload;
-            "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-            "interval_end_at": string;
-            "interval_start_at": string;
-            "report_id": string;
-            "report_type": "receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {});
-            "status": "pending" | "succeeded" | "failed" | (string & {});
-            "timezone": string;
-        })
-            & ((Exclude<ReportPending & object, readonly unknown[]>)
-            | (Exclude<ReportSucceeded & object, readonly unknown[]>)
-            | (Exclude<ReportFailed & object, readonly unknown[]>)
-            | (Record<string, unknown>));
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & (({
-            "as_of_date"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "currency"?: ((string) | (null));
-            "download"?: ((PublicDownloadPreviousAttributes) | (null) | (unknown));
-            "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-            "interval_end_at"?: ((string) | (null));
-            "interval_start_at"?: ((string) | (null));
-            "report_id"?: ((string) | (null));
-            "report_type"?: (("receivables_aging_v1"
-                | "invoices_itemized_v1"
-                | "gift_card_liability_v1"
-                | "orders_itemized_v1"
-                | "orders_itemized_v2"
-                | "payments_itemized_v1"
-                | "balance_transactions_itemized_v1"
-                | "payouts_itemized_v1"
-                | "tax_itemized_v1"
-                | "tax_summarized_v1"
-                | "merchant_billing_itemized_v1"
-                | "tax_transactions_itemized_v1"
-                | "tax_transactions_itemized_v2"
-                | (string & {}))
-                | (null));
-            "status"?: (("pending" | "succeeded" | "failed" | (string & {})) | (null));
-            "timezone"?: ((string) | (null));
-        })
-            & (((Exclude<ReportPendingPreviousAttributes & object, readonly unknown[]>)
-            | (Exclude<ReportSucceededPreviousAttributes & object, readonly unknown[]>)
-            | (Exclude<ReportFailedPreviousAttributes & object, readonly unknown[]>)
-            | (Record<string, unknown>))));
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "report.succeeded";
-})
-    & {
-    "event_type": "report.succeeded";
-});
-export type ReportSucceededPreviousAttributes = ({
-    /**
-     * Present only for receivables_aging_v1. The calendar date in timezone whose receivables are
-     * reported. anyOf[1] (Value): string. Present only for receivables_aging_v1. The calendar date
-     * in timezone whose receivables are reported. Format: date. Example: "2026-08-02". anyOf[2]
-     * (Value): null.
-     */
-    "as_of_date"?: ((string) | (null));
-    /**
-     * When the report was requested. anyOf[1] (Value): string. When the report was requested.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Currency the report covers. A report never combines currencies. Uses ISO 4217 currency
-     * codes. anyOf[1] (Value): string. Currency the report covers. A report never combines
-     * currencies. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD". anyOf[2] (Value): null.
-     */
-    "currency"?: ((string) | (null));
-    /**
-     * Link to download the generated report. Present only when status is succeeded. anyOf[1]
-     * (Value): {@link PublicDownloadPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "download"?: ((PublicDownloadPreviousAttributes) | (null) | (unknown));
-    /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded". anyOf[1] (Value): string.
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded". anyOf[2] (Value): null.
-     */
-    "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-    /**
-     * Exclusive interval end instant. Each report type matches its own occurrence time. anyOf[1]
-     * (Value): string. Exclusive interval end instant. Each report type matches its own occurrence
-     * time. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "interval_end_at"?: ((string) | (null));
-    /**
-     * Inclusive interval start instant. Each report type matches its own occurrence time. anyOf[1]
-     * (Value): string. Inclusive interval start instant. Each report type matches its own
-     * occurrence time. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "interval_start_at"?: ((string) | (null));
-    /**
-     * Stable identifier of the report. anyOf[1] (Value): string. Stable identifier of the report.
-     * pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rep_01KEZF7C00M947R0GYFMT8VXKJ". anyOf[2]
-     * (Value): null.
-     */
-    "report_id"?: ((string) | (null));
-    /**
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2". anyOf[1] (Value): string. The report's type and column
-     * version. See the Reports guide for its columns. Value enum: "receivables_aging_v1",
-     * "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1",
-     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
-     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
-     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2". anyOf[2] (Value): null.
-     */
-    "report_type"?: (("receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | (string & {}))
-        | (null));
-    /**
-     * pending while Flint generates the report, then succeeded with a download or failed with a
-     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
-     * "succeeded". anyOf[1] (Value): string. pending while Flint generates the report, then
-     * succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or
-     * report.failed when it finishes. Value enum: "succeeded". anyOf[2] (Value): null.
-     */
-    "status"?: (("succeeded" | (string & {})) | (null));
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone. anyOf[1] (Value): string. IANA timezone used for timestamps
-     * and date bucketing. A payout occurs at the start of its arrival_date in this timezone.
-     * anyOf[2] (Value): null.
-     */
-    "timezone"?: ((string) | (null));
-})
-    & ({
-    /**
-     * Value enum: "succeeded". anyOf[1] (Value): string. Value enum: "succeeded". anyOf[2]
-     * (Value): null.
-     */
-    "status"?: (("succeeded" | (string & {})) | (null));
-});
-export type ReportsCreateParams = (CreateReportRequestInput);
 export type ReportsGetParams = {};
 export type ReportsListParams = {
     /**
@@ -3228,7 +3038,7 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("buyer_request"
                 | "merchant_request"
                 | "duplicate"
@@ -3239,18 +3049,18 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
             "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
             "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
             "completion_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "decision_at"?: ((string) | (null));
             "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
             "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
             "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
             "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
@@ -3266,10 +3076,10 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | "exception"
                 | (string & {}))
                 | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             "resolution_status"?: (("not_selected"
                 | "pending"
                 | "partially_completed"
@@ -3373,7 +3183,7 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("buyer_request"
                 | "merchant_request"
                 | "duplicate"
@@ -3384,18 +3194,18 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
             "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
             "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
             "completion_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "decision_at"?: ((string) | (null));
             "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
             "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
             "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
             "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
@@ -3411,10 +3221,10 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | "exception"
                 | (string & {}))
                 | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             "resolution_status"?: (("not_selected"
                 | "pending"
                 | "partially_completed"
@@ -3641,18 +3451,14 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
      * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer the Return belongs
-     * to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -3708,14 +3514,10 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or
-     * null) or null. Present only when `expand` includes `order`; `null` when expanded and there
-     * is no related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
      * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
      * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
@@ -4274,18 +4076,15 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
-         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
-         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
          * the requested units were approved. `pending` until one decision covers every line. Value
          * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
@@ -4331,15 +4130,12 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
          * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
          * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null.
-         * Present only when `expand` includes `order`; `null` when expanded and there is no
-         * related order. order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-         * or null). Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
-         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
-         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
          * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
          * How your return policies judged the request when the Return was created.
          * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
@@ -4474,7 +4270,7 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
              * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
@@ -4503,7 +4299,7 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
              * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
              * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
@@ -4540,13 +4336,10 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
              * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
@@ -4577,7 +4370,7 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
              * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
              * What the buyer still has to send back and where. Each entry leaves the list once it
              * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
@@ -4630,16 +4423,13 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
              * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -4650,7 +4440,7 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * How your return policies judged the request when the Return was created. anyOf[1]
              * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             /**
              * Whether the buyer has received the value they are owed. Combines the Return's
              * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
@@ -5044,18 +4834,14 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
      * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer the Return belongs
-     * to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -5111,14 +4897,10 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or
-     * null) or null. Present only when `expand` includes `order`; `null` when expanded and there
-     * is no related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
      * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
      * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
@@ -5677,18 +5459,15 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
-         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
-         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
          * the requested units were approved. `pending` until one decision covers every line. Value
          * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
@@ -5734,15 +5513,12 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
          * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
          * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null.
-         * Present only when `expand` includes `order`; `null` when expanded and there is no
-         * related order. order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-         * or null). Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
-         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
-         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
          * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
          * How your return policies judged the request when the Return was created.
          * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
@@ -5877,7 +5653,7 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
              * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
@@ -5906,7 +5682,7 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
              * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
              * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
@@ -5943,13 +5719,10 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
              * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
@@ -5980,7 +5753,7 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
              * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
              * What the buyer still has to send back and where. Each entry leaves the list once it
              * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
@@ -6033,16 +5806,13 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
              * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -6053,7 +5823,7 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * How your return policies judged the request when the Return was created. anyOf[1]
              * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             /**
              * Whether the buyer has received the value they are owed. Combines the Return's
              * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
@@ -6300,7 +6070,7 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("buyer_request"
                 | "merchant_request"
                 | "duplicate"
@@ -6311,18 +6081,18 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
                 | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
             "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
             "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
             "completion_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "decision_at"?: ((string) | (null));
             "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
             "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
             "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
             "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
@@ -6338,10 +6108,10 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
                 | "exception"
                 | (string & {}))
                 | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             "resolution_status"?: (("not_selected"
                 | "pending"
                 | "partially_completed"
@@ -6445,7 +6215,7 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("buyer_request"
                 | "merchant_request"
                 | "duplicate"
@@ -6456,18 +6226,18 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
                 | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
             "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
             "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
             "completion_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "decision_at"?: ((string) | (null));
             "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
             "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
             "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
             "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
@@ -6483,10 +6253,10 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
                 | "exception"
                 | (string & {}))
                 | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             "resolution_status"?: (("not_selected"
                 | "pending"
                 | "partially_completed"
@@ -6713,18 +6483,14 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
      * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer the Return belongs
-     * to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -6780,14 +6546,10 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or
-     * null) or null. Present only when `expand` includes `order`; `null` when expanded and there
-     * is no related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
      * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
      * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
@@ -7346,18 +7108,15 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
-         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
-         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
          * the requested units were approved. `pending` until one decision covers every line. Value
          * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
@@ -7403,15 +7162,12 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
          * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
          * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null.
-         * Present only when `expand` includes `order`; `null` when expanded and there is no
-         * related order. order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-         * or null). Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
-         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
-         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
          * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
          * How your return policies judged the request when the Return was created.
          * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
@@ -7546,7 +7302,7 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
              * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
@@ -7575,7 +7331,7 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
              * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
              * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
@@ -7612,13 +7368,10 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
              * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
@@ -7649,7 +7402,7 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
              * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
              * What the buyer still has to send back and where. Each entry leaves the list once it
              * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
@@ -7702,16 +7455,13 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
              * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -7722,7 +7472,7 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * How your return policies judged the request when the Return was created. anyOf[1]
              * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             /**
              * Whether the buyer has received the value they are owed. Combines the Return's
              * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
@@ -8116,18 +7866,14 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
      * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer the Return belongs
-     * to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -8183,14 +7929,10 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or
-     * null) or null. Present only when `expand` includes `order`; `null` when expanded and there
-     * is no related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
      * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
      * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
@@ -8749,18 +8491,15 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
-         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
-         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
          * the requested units were approved. `pending` until one decision covers every line. Value
          * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
@@ -8806,15 +8545,12 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
          * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
          * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null.
-         * Present only when `expand` includes `order`; `null` when expanded and there is no
-         * related order. order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-         * or null). Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
-         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
-         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
          * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
          * How your return policies judged the request when the Return was created.
          * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
@@ -8949,7 +8685,7 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
              * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
@@ -8978,7 +8714,7 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
              * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
              * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
@@ -9015,13 +8751,10 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
              * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
@@ -9052,7 +8785,7 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
              * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
              * What the buyer still has to send back and where. Each entry leaves the list once it
              * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
@@ -9105,16 +8838,13 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
              * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -9125,7 +8855,7 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * How your return policies judged the request when the Return was created. anyOf[1]
              * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             /**
              * Whether the buyer has received the value they are owed. Combines the Return's
              * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
@@ -9380,11 +9110,10 @@ export type ReturnCompletionBlockerPreviousAttributes = {
     "message"?: ((string) | (null));
     /**
      * Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1]
-     * (Value): string or null. Return that owns return_line_item_id. `null` when
-     * return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value):
-     * null.
+     * (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is
+     * null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
      */
-    "return_id"?: ((string | null) | (null) | (unknown));
+    "return_id"?: ((string) | (null));
     /**
      * ID of the Return line the entry is about. anyOf[1] (Value): string. ID of the Return line
      * the entry is about. Example: "retli_01KEZF7C00R813VR7ECXS062QG". anyOf[2] (Value): null.
@@ -10689,7 +10418,7 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("buyer_request"
                 | "merchant_request"
                 | "duplicate"
@@ -10700,18 +10429,18 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
             "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
             "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
             "completion_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "decision_at"?: ((string) | (null));
             "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
             "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
             "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
             "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
@@ -10727,10 +10456,10 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | "exception"
                 | (string & {}))
                 | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             "resolution_status"?: (("not_selected"
                 | "pending"
                 | "partially_completed"
@@ -10834,7 +10563,7 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
         })
             & ({
             "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             "cancellation_reason"?: (("buyer_request"
                 | "merchant_request"
                 | "duplicate"
@@ -10845,18 +10574,18 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | (null));
             "cancellation_reason_message"?: ((string) | (null));
             "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
             "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
             "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
             "completion_reason_message"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "decision_at"?: ((string) | (null));
             "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
             "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
             "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
             "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
@@ -10872,10 +10601,10 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | "exception"
                 | (string & {}))
                 | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             "resolution_status"?: (("not_selected"
                 | "pending"
                 | "partially_completed"
@@ -11102,18 +10831,14 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
      * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer the Return belongs
-     * to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -11169,14 +10894,10 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or
-     * null) or null. Present only when `expand` includes `order`; `null` when expanded and there
-     * is no related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
      * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
      * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
@@ -11735,18 +11456,15 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
-         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
-         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
          * the requested units were approved. `pending` until one decision covers every line. Value
          * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
@@ -11792,15 +11510,12 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
          * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
          * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null.
-         * Present only when `expand` includes `order`; `null` when expanded and there is no
-         * related order. order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-         * or null). Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
-         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
-         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
          * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
          * How your return policies judged the request when the Return was created.
          * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
@@ -11935,7 +11650,7 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
              * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
@@ -11964,7 +11679,7 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
              * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
              * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
@@ -12001,13 +11716,10 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
              * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
@@ -12038,7 +11750,7 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
              * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
              * What the buyer still has to send back and where. Each entry leaves the list once it
              * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
@@ -12091,16 +11803,13 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
              * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -12111,7 +11820,7 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * How your return policies judged the request when the Return was created. anyOf[1]
              * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             /**
              * Whether the buyer has received the value they are owed. Combines the Return's
              * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
@@ -12505,18 +12214,14 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer (Optional): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
      * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer the Return belongs
-     * to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return
-     * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer the Return
+     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. The customer the
+     * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.decision_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.decision_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -12572,14 +12277,10 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or
-     * null) or null. Present only when `expand` includes `order`; `null` when expanded and there
-     * is no related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or
+     * null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the Order the Return is
      * against. previous_attributes.order_id.anyOf[1] (Value): string. ID of the Order the Return
      * is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
@@ -13138,18 +12839,15 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * completed by hand. completion_reason_message.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
-         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
-         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
-         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
-         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer the Return belongs to.
+         * customer_id.anyOf[1] (Value): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. decision_at
+         * (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
          * the requested units were approved. `pending` until one decision covers every line. Value
          * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
@@ -13195,15 +12893,12 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
          * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
          * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * order (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null.
-         * Present only when `expand` includes `order`; `null` when expanded and there is no
-         * related order. order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-         * or null). Present only when `expand` includes `order`; `null` when expanded and there is
-         * no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
-         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
-         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Present only
+         * when `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Order the Return is
+         * against. order_id.anyOf[1] (Value): string. ID of the Order the Return is against.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
          * policy_evaluation (Optional): {@link ReturnPolicyEvaluationPreviousAttributes} or null.
          * How your return policies judged the request when the Return was created.
          * policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluationPreviousAttributes}.
@@ -13338,7 +13033,7 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Who canceled the Return. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
              * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
@@ -13367,7 +13062,7 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
              * (Value): {@link ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null) | (unknown));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
             /**
              * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
              * (Value): Array of {@link ReturnCompletionBlockerPreviousAttributes}. What is still
@@ -13404,13 +13099,10 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
              * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
@@ -13441,7 +13133,7 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
              * ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null) | (unknown));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
             /**
              * What the buyer still has to send back and where. Each entry leaves the list once it
              * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
@@ -13494,16 +13186,13 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
              * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -13514,7 +13203,7 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * How your return policies judged the request when the Return was created. anyOf[1]
              * (Value): {@link ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null) | (unknown));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
             /**
              * Whether the buyer has received the value they are owed. Combines the Return's
              * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
@@ -13836,3 +13525,763 @@ export type ReturnDisposition = {
      */
     "version": number;
 };
+export type ReturnDispositionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
+            "cancellation_reason_message"?: string;
+            "created_at": string;
+            "created_by": ReturnActor;
+            "disposition_type": "sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {});
+            "external_reference_id"?: string;
+            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
+            "failure_message"?: string;
+            "inventory_location_id"?: string;
+            "inventory_movement_ids": Array<string>;
+            "inventory_receipt_id"?: string;
+            "metadata": MetadataMap;
+            "occurred_at": string;
+            "quantity": number;
+            "reason": "inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {});
+            "reason_message"?: string;
+            "replaced_by_return_disposition_id"?: string;
+            "replaces_return_disposition_id"?: string;
+            "return_disposition_id": string;
+            "return_id": string;
+            "return_inspection_id": string | null;
+            "return_inspection_line_item_id"?: string;
+            "return_line_item_id"?: string;
+            "return_receipt_id": string | null;
+            "return_receipt_line_item_id"?: string;
+            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return_disposition.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
+            "cancellation_reason_message"?: string;
+            "created_at": string;
+            "created_by": ReturnActor;
+            "disposition_type": "sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {});
+            "external_reference_id"?: string;
+            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
+            "failure_message"?: string;
+            "inventory_location_id"?: string;
+            "inventory_movement_ids": Array<string>;
+            "inventory_receipt_id"?: string;
+            "metadata": MetadataMap;
+            "occurred_at": string;
+            "quantity": number;
+            "reason": "inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {});
+            "reason_message"?: string;
+            "replaced_by_return_disposition_id"?: string;
+            "replaces_return_disposition_id"?: string;
+            "return_disposition_id": string;
+            "return_id": string;
+            "return_inspection_id": string | null;
+            "return_inspection_line_item_id"?: string;
+            "return_line_item_id"?: string;
+            "return_receipt_id": string | null;
+            "return_receipt_line_item_id"?: string;
+            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return_disposition.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return_disposition.created";
+});
+/**
+ * The `return_disposition.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnDispositionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.canceled_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by (Optional): {@link
+     * ReturnActor}. Who canceled the disposition. Merchant reads only. Who performed a return
+     * action: a buyer, merchant, integration, or the system, with an optional ID.
+     * object.cancellation_reason (Optional): string. Why the disposition was canceled. Value enum:
+     * "created_in_error", "changed_disposition", "duplicate", "other".
+     * object.cancellation_reason_message (Optional): string. Detail sent with the cancellation.
+     * Merchant reads only. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_by (Required): {@link
+     * ReturnActor}. Who created the disposition. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID. object.disposition_type (Required): string.
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost". object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.failure_code (Optional): string. Reason code for a failed merchandise disposition,
+     * when available. Value enum: "inventory_effect_failed", "inventory_item_unmapped".
+     * object.failure_message (Optional): string. Explanation of a failed merchandise disposition,
+     * when available. object.inventory_location_id (Optional): string. ID of the Location whose
+     * stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`,
+     * `quarantined`, and `lost`; rejected for the other types. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.inventory_movement_ids (Required): Array of string.
+     * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+     * object.inventory_movement_ids[] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+     * object.inventory_receipt_id (Optional): string. ID of the inventory receipt the disposition
+     * recorded. Absent when it recorded none. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.occurred_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.quantity (Required): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. object.reason
+     * (Required): string. Why the disposition was made. Value enum: "inspection_result",
+     * "return_policy", "warehouse_override", "safety_requirement", "other". object.reason_message
+     * (Optional): string. Optional detail about `reason`, kept with the record.
+     * object.replaced_by_return_disposition_id (Optional): string. ID of the disposition that took
+     * over this one. Present when a replacement canceled it. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.replaces_return_disposition_id (Optional):
+     * string. ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * object.return_disposition_id (Required): string. Unique identifier for this return
+     * disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * object.return_id (Required): string. ID of the Return the disposition belongs to. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string or null.
+     * Inspection that owns return_inspection_line_item_id. `null` when
+     * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * object.return_inspection_line_item_id (Optional): string. ID of the inspection line the
+     * disposition covers. Absent when it covers a receipt line. Example:
+     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". object.return_line_item_id (Optional): string. ID of
+     * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     * object.return_receipt_id (Required): string or null. Receipt that owns
+     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipt_line_item_id (Optional): string.
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". object.status (Required): string. Whether
+     * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
+     * "canceled". object.supported_actions (Required): Array of string. Actions that can succeed
+     * now. Empty unless the parent Return is open. cancel is listed only before the inventory
+     * effect starts. [] enum: "cancel", "retry". object.supported_actions[] (Value): string. Value
+     * enum: "cancel", "retry". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current
+     * version of this resource's owned state. Send it as `expected_version` when changing the
+     * resource to reject a stale write. Format: int64. minimum: 0.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
+         * disposition. Merchant reads only. Who performed a return action: a buyer, merchant,
+         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
+         * Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition",
+         * "duplicate", "other". cancellation_reason_message (Optional): string. Detail sent with
+         * the cancellation. Merchant reads only. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_by (Required): {@link
+         * ReturnActor}. Who created the disposition. Who performed a return action: a buyer,
+         * merchant, integration, or the system, with an optional ID. disposition_type (Required):
+         * string. What happens to the received units. Value enum: "sellable", "quality_control",
+         * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+         * "return_to_buyer", "lost". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". failure_code (Optional): string. Reason code for a failed merchandise
+         * disposition, when available. Value enum: "inventory_effect_failed",
+         * "inventory_item_unmapped". failure_message (Optional): string. Explanation of a failed
+         * merchandise disposition, when available. inventory_location_id (Optional): string. ID of
+         * the Location whose stock the disposition changes. Required for `sellable`,
+         * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inventory_movement_ids (Required): Array of
+         * string. IDs of the inventory movements the disposition wrote. Empty when it moved no
+         * stock. inventory_movement_ids[] (Value): string. Example:
+         * "invm_01KEZF7C00DYPFT9PS0NZY805Z". inventory_receipt_id (Optional): string. ID of the
+         * inventory receipt the disposition recorded. Absent when it recorded none. Example:
+         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". metadata (Required): {@link MetadataMap}. Stored
+         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. occurred_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". quantity (Required): integer. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. reason (Required): string. Why the
+         * disposition was made. Value enum: "inspection_result", "return_policy",
+         * "warehouse_override", "safety_requirement", "other". reason_message (Optional): string.
+         * Optional detail about `reason`, kept with the record. replaced_by_return_disposition_id
+         * (Optional): string. ID of the disposition that took over this one. Present when a
+         * replacement canceled it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * replaces_return_disposition_id (Optional): string. ID of the `failed` or `canceled`
+         * disposition this one replaces. It takes over that disposition's unused capacity.
+         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_id (Required): string.
+         * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+         * "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_id (Required): string. ID of the Return the
+         * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id
+         * (Required): string or null. Inspection that owns return_inspection_line_item_id. `null`
+         * when return_inspection_line_item_id is null. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_line_item_id (Optional): string.
+         * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+         * Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". return_line_item_id (Optional): string.
+         * ID of the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+         * return_receipt_id (Required): string or null. Receipt that owns
+         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_line_item_id (Optional): string. ID
+         * of the receipt line the disposition covers. Absent when it covers an inspection line.
+         * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". status (Required): string. Whether
+         * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
+         * "canceled". supported_actions (Required): Array of string. Actions that can succeed now.
+         * Empty unless the parent Return is open. cancel is listed only before the inventory
+         * effect starts. [] enum: "cancel", "retry". supported_actions[] (Value): string. Value
+         * enum: "cancel", "retry". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. Format: int64. minimum: 0.
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the disposition. Merchant reads only. Who performed a return action: a
+             * buyer, merchant, integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the disposition was canceled. Value enum: "created_in_error",
+             * "changed_disposition", "duplicate", "other".
+             */
+            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Who created the disposition. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "created_by": ReturnActor;
+            /**
+             * What happens to the received units. Value enum: "sellable", "quality_control",
+             * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+             * "return_to_buyer", "lost".
+             */
+            "disposition_type": "sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {});
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Reason code for a failed merchandise disposition, when available. Value enum:
+             * "inventory_effect_failed", "inventory_item_unmapped".
+             */
+            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
+            /** Explanation of a failed merchandise disposition, when available. */
+            "failure_message"?: string;
+            /**
+             * ID of the Location whose stock the disposition changes. Required for `sellable`,
+             * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other
+             * types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inventory_location_id"?: string;
+            /**
+             * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+             * [] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+             */
+            "inventory_movement_ids": Array<string>;
+            /**
+             * ID of the inventory receipt the disposition recorded. Absent when it recorded none.
+             * Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+             */
+            "inventory_receipt_id"?: string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "occurred_at": string;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+            "quantity": number;
+            /**
+             * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+             * "warehouse_override", "safety_requirement", "other".
+             */
+            "reason": "inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {});
+            /** Optional detail about `reason`, kept with the record. */
+            "reason_message"?: string;
+            /**
+             * ID of the disposition that took over this one. Present when a replacement canceled
+             * it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "replaced_by_return_disposition_id"?: string;
+            /**
+             * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+             * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "replaces_return_disposition_id"?: string;
+            /**
+             * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "return_disposition_id": string;
+            /**
+             * ID of the Return the disposition belongs to. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /**
+             * Inspection that owns return_inspection_line_item_id. `null` when
+             * return_inspection_line_item_id is null. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string | null;
+            /**
+             * ID of the inspection line the disposition covers. Absent when it covers a receipt
+             * line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+             */
+            "return_inspection_line_item_id"?: string;
+            /**
+             * ID of the Return line the units belong to. Example:
+             * "retli_01KEZF7C00R813VR7ECXS062QG".
+             */
+            "return_line_item_id"?: string;
+            /**
+             * Receipt that owns return_receipt_line_item_id. `null` when
+             * return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+             */
+            "return_receipt_id": string | null;
+            /**
+             * ID of the receipt line the disposition covers. Absent when it covers an inspection
+             * line. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+             */
+            "return_receipt_line_item_id"?: string;
+            /**
+             * Whether inventory has applied the disposition. Value enum: "pending", "succeeded",
+             * "failed", "canceled".
+             */
+            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
+            /**
+             * Actions that can succeed now. Empty unless the parent Return is open. cancel is
+             * listed only before the inventory effect starts. [] enum: "cancel", "retry". []
+             * (Value): string. Value enum: "cancel", "retry".
+             */
+            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 0.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "return_disposition.created". */
+    "event_type"?: "return_disposition.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `return_disposition.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type ReturnDispositionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.canceled_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by (Optional): {@link
+     * ReturnActor}. Who canceled the disposition. Merchant reads only. Who performed a return
+     * action: a buyer, merchant, integration, or the system, with an optional ID.
+     * object.cancellation_reason (Optional): string. Why the disposition was canceled. Value enum:
+     * "created_in_error", "changed_disposition", "duplicate", "other".
+     * object.cancellation_reason_message (Optional): string. Detail sent with the cancellation.
+     * Merchant reads only. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_by (Required): {@link
+     * ReturnActor}. Who created the disposition. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID. object.disposition_type (Required): string.
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost". object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.failure_code (Optional): string. Reason code for a failed merchandise disposition,
+     * when available. Value enum: "inventory_effect_failed", "inventory_item_unmapped".
+     * object.failure_message (Optional): string. Explanation of a failed merchandise disposition,
+     * when available. object.inventory_location_id (Optional): string. ID of the Location whose
+     * stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`,
+     * `quarantined`, and `lost`; rejected for the other types. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.inventory_movement_ids (Required): Array of string.
+     * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+     * object.inventory_movement_ids[] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+     * object.inventory_receipt_id (Optional): string. ID of the inventory receipt the disposition
+     * recorded. Absent when it recorded none. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.occurred_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.quantity (Required): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. object.reason
+     * (Required): string. Why the disposition was made. Value enum: "inspection_result",
+     * "return_policy", "warehouse_override", "safety_requirement", "other". object.reason_message
+     * (Optional): string. Optional detail about `reason`, kept with the record.
+     * object.replaced_by_return_disposition_id (Optional): string. ID of the disposition that took
+     * over this one. Present when a replacement canceled it. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.replaces_return_disposition_id (Optional):
+     * string. ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * object.return_disposition_id (Required): string. Unique identifier for this return
+     * disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * object.return_id (Required): string. ID of the Return the disposition belongs to. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string or null.
+     * Inspection that owns return_inspection_line_item_id. `null` when
+     * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * object.return_inspection_line_item_id (Optional): string. ID of the inspection line the
+     * disposition covers. Absent when it covers a receipt line. Example:
+     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". object.return_line_item_id (Optional): string. ID of
+     * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     * object.return_receipt_id (Required): string or null. Receipt that owns
+     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipt_line_item_id (Optional): string.
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". object.status (Required): string. Whether
+     * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
+     * "canceled". object.supported_actions (Required): Array of string. Actions that can succeed
+     * now. Empty unless the parent Return is open. cancel is listed only before the inventory
+     * effect starts. [] enum: "cancel", "retry". object.supported_actions[] (Value): string. Value
+     * enum: "cancel", "retry". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current
+     * version of this resource's owned state. Send it as `expected_version` when changing the
+     * resource to reject a stale write. Format: int64. minimum: 0.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
+         * disposition. Merchant reads only. Who performed a return action: a buyer, merchant,
+         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
+         * Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition",
+         * "duplicate", "other". cancellation_reason_message (Optional): string. Detail sent with
+         * the cancellation. Merchant reads only. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_by (Required): {@link
+         * ReturnActor}. Who created the disposition. Who performed a return action: a buyer,
+         * merchant, integration, or the system, with an optional ID. disposition_type (Required):
+         * string. What happens to the received units. Value enum: "sellable", "quality_control",
+         * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+         * "return_to_buyer", "lost". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". failure_code (Optional): string. Reason code for a failed merchandise
+         * disposition, when available. Value enum: "inventory_effect_failed",
+         * "inventory_item_unmapped". failure_message (Optional): string. Explanation of a failed
+         * merchandise disposition, when available. inventory_location_id (Optional): string. ID of
+         * the Location whose stock the disposition changes. Required for `sellable`,
+         * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inventory_movement_ids (Required): Array of
+         * string. IDs of the inventory movements the disposition wrote. Empty when it moved no
+         * stock. inventory_movement_ids[] (Value): string. Example:
+         * "invm_01KEZF7C00DYPFT9PS0NZY805Z". inventory_receipt_id (Optional): string. ID of the
+         * inventory receipt the disposition recorded. Absent when it recorded none. Example:
+         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". metadata (Required): {@link MetadataMap}. Stored
+         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. occurred_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". quantity (Required): integer. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. reason (Required): string. Why the
+         * disposition was made. Value enum: "inspection_result", "return_policy",
+         * "warehouse_override", "safety_requirement", "other". reason_message (Optional): string.
+         * Optional detail about `reason`, kept with the record. replaced_by_return_disposition_id
+         * (Optional): string. ID of the disposition that took over this one. Present when a
+         * replacement canceled it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * replaces_return_disposition_id (Optional): string. ID of the `failed` or `canceled`
+         * disposition this one replaces. It takes over that disposition's unused capacity.
+         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_id (Required): string.
+         * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+         * "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_id (Required): string. ID of the Return the
+         * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id
+         * (Required): string or null. Inspection that owns return_inspection_line_item_id. `null`
+         * when return_inspection_line_item_id is null. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_line_item_id (Optional): string.
+         * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+         * Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". return_line_item_id (Optional): string.
+         * ID of the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+         * return_receipt_id (Required): string or null. Receipt that owns
+         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_line_item_id (Optional): string. ID
+         * of the receipt line the disposition covers. Absent when it covers an inspection line.
+         * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". status (Required): string. Whether
+         * inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
+         * "canceled". supported_actions (Required): Array of string. Actions that can succeed now.
+         * Empty unless the parent Return is open. cancel is listed only before the inventory
+         * effect starts. [] enum: "cancel", "retry". supported_actions[] (Value): string. Value
+         * enum: "cancel", "retry". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
+         * of this resource's owned state. Send it as `expected_version` when changing the resource
+         * to reject a stale write. Format: int64. minimum: 0.
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the disposition. Merchant reads only. Who performed a return action: a
+             * buyer, merchant, integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the disposition was canceled. Value enum: "created_in_error",
+             * "changed_disposition", "duplicate", "other".
+             */
+            "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Who created the disposition. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "created_by": ReturnActor;
+            /**
+             * What happens to the received units. Value enum: "sellable", "quality_control",
+             * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+             * "return_to_buyer", "lost".
+             */
+            "disposition_type": "sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {});
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Reason code for a failed merchandise disposition, when available. Value enum:
+             * "inventory_effect_failed", "inventory_item_unmapped".
+             */
+            "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
+            /** Explanation of a failed merchandise disposition, when available. */
+            "failure_message"?: string;
+            /**
+             * ID of the Location whose stock the disposition changes. Required for `sellable`,
+             * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other
+             * types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inventory_location_id"?: string;
+            /**
+             * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+             * [] (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+             */
+            "inventory_movement_ids": Array<string>;
+            /**
+             * ID of the inventory receipt the disposition recorded. Absent when it recorded none.
+             * Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+             */
+            "inventory_receipt_id"?: string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "occurred_at": string;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+            "quantity": number;
+            /**
+             * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+             * "warehouse_override", "safety_requirement", "other".
+             */
+            "reason": "inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {});
+            /** Optional detail about `reason`, kept with the record. */
+            "reason_message"?: string;
+            /**
+             * ID of the disposition that took over this one. Present when a replacement canceled
+             * it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "replaced_by_return_disposition_id"?: string;
+            /**
+             * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+             * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "replaces_return_disposition_id"?: string;
+            /**
+             * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "return_disposition_id": string;
+            /**
+             * ID of the Return the disposition belongs to. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /**
+             * Inspection that owns return_inspection_line_item_id. `null` when
+             * return_inspection_line_item_id is null. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string | null;
+            /**
+             * ID of the inspection line the disposition covers. Absent when it covers a receipt
+             * line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+             */
+            "return_inspection_line_item_id"?: string;
+            /**
+             * ID of the Return line the units belong to. Example:
+             * "retli_01KEZF7C00R813VR7ECXS062QG".
+             */
+            "return_line_item_id"?: string;
+            /**
+             * Receipt that owns return_receipt_line_item_id. `null` when
+             * return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+             */
+            "return_receipt_id": string | null;
+            /**
+             * ID of the receipt line the disposition covers. Absent when it covers an inspection
+             * line. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+             */
+            "return_receipt_line_item_id"?: string;
+            /**
+             * Whether inventory has applied the disposition. Value enum: "pending", "succeeded",
+             * "failed", "canceled".
+             */
+            "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
+            /**
+             * Actions that can succeed now. Empty unless the parent Return is open. cancel is
+             * listed only before the inventory effect starts. [] enum: "cancel", "retry". []
+             * (Value): string. Value enum: "cancel", "retry".
+             */
+            "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 0.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "return_disposition.created". */
+    "event_type"?: "return_disposition.created";
+});

@@ -12,17 +12,13 @@ import type {
     TaxConnectionDisconnectParams,
     TaxConnectionGetParams,
     TaxConnectionGetRegistrationParams,
-    TaxConnectionListRegistrationsParams
-} from '../declarations/types-71.js';
-import type {
+    TaxConnectionListRegistrationsParams,
     TaxConnectionResponse,
     TaxConnectionSellerAttestation,
     TaxConnectionSellerAttestationPreviousAttributes,
-    TaxConnectionUpdateRegistrationParams,
-    TaxRegistration,
-    TaxRegistrationListResponse,
-    TaxRegistrationResponse
-} from '../declarations/types-72.js';
+    TaxConnectionUpdateRegistrationParams
+} from '../declarations/types-71.js';
+import type { TaxRegistration, TaxRegistrationListResponse, TaxRegistrationResponse } from '../declarations/types-72.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -41,24 +37,24 @@ export type {
 export type {
     TaxConnectionConnectParams,
     TaxConnection,
+    TaxConnectionResponse,
     TaxConnectionCreateRegistrationParams,
     TaxConnectionDeleteRegistrationParams,
     TaxConnectionDisconnectParams,
     TaxConnectionGetParams,
     TaxConnectionGetRegistrationParams,
     TaxConnectionListRegistrationsParams,
+    TaxConnectionUpdateRegistrationParams,
     TaxConnectionDisclosure,
-    TaxConnectionDisclosurePreviousAttributes
+    TaxConnectionDisclosurePreviousAttributes,
+    TaxConnectionSellerAttestation,
+    TaxConnectionSellerAttestationPreviousAttributes
 } from '../declarations/types-71.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
-    TaxConnectionResponse,
     TaxRegistration,
     TaxRegistrationResponse,
     TaxRegistrationListResponse,
-    TaxConnectionUpdateRegistrationParams,
-    TaxConnectionSellerAttestation,
-    TaxConnectionSellerAttestationPreviousAttributes,
     TaxCountryCoverage,
     TaxSettings,
     TaxDefaultCalculation,
@@ -103,10 +99,12 @@ export type { SubscriptionSettings } from '../declarations/types-70.js';
 export type { DocumentTaxID } from '../declarations/types-26.js';
 export type { TippingSettings } from '../declarations/types-73.js';
 export type { UpdateTaxRegistrationRequestInput } from '../declarations/types-76.js';
-export { makeBuyerPauseCapability, makeBuyerSkipCapability } from '../declarations/types-78.js';
+export { makeBuyerPauseCapability } from '../declarations/types-77.js';
+export { makeBuyerSkipCapability } from '../declarations/types-78.js';
 export { makeConnectTaxConnectionRequest } from '../declarations/types-79.js';
 export { makeCreateTaxRegistrationRequest } from '../declarations/types-82.js';
-export { makeDisconnectTaxConnectionRequest, makeInvoiceAutopayRetryPolicy } from '../declarations/types-84.js';
+export { makeDisconnectTaxConnectionRequest } from '../declarations/types-83.js';
+export { makeInvoiceAutopayRetryPolicy } from '../declarations/types-84.js';
 export { makeInvoiceReminderPolicy, makeInvoiceReminderRule } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeSellerTaxAttestationRequest } from '../declarations/types-89.js';

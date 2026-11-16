@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|null|null $bundle_component_id
+ * @property-read string|null $bundle_component_id
  * @property-read list<OrderLineItemModifierPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $modifiers
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read int|null $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentLineItemPreviousAttributesInput extends Model {
-    /** @param array{'bundle_component_id'?: string|null|null, 'modifiers'?: list<OrderLineItemModifierPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'order_id'?: string|null, 'order_line_item_id'?: string|null, 'quantity'?: int|null, ...}|object $values */
+    /** @param array{'bundle_component_id'?: string|null, 'modifiers'?: list<OrderLineItemModifierPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'order_id'?: string|null, 'order_line_item_id'?: string|null, 'quantity'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentLineItemPreviousAttributesInput')); }
-    /** Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. anyOf[1] (Value): string or null. Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. anyOf[1] (Value): string. Bundle component this row counts, in component units. `null` when the line isn't a bundle component. Look it up in the order line's bundle_components. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
     public function getBundleComponentId(): mixed { return $this->get('bundle_component_id'); }

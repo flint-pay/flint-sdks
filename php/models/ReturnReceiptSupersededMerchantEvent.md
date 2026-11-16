@@ -56,7 +56,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.external_actor_id
 
-Declared alternatives: [ReturnInspectionPreviousAttributes.external_actor_id](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesexternal_actor_id).
+Declared alternatives: [InventoryCountObservationProvenancePreviousAttributes.external_actor_id](../models/InventoryCountObservationProvenancePreviousAttributes.md#inventorycountobservationprovenancepreviousattributesexternal_actor_id).
 
 ### ReturnReceiptSupersededMerchantEvent.data fields 1.previous_attributes.external_reference_id
 

@@ -49,8 +49,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-75.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateSubscriptionOfferRequest } from '../declarations/types-82.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeSubscriptionIntervalOptionRequest } from '../declarations/types-90.js';
 export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-91.js';
 export interface SubscriptionOffersResource {

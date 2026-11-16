@@ -1,5 +1,4 @@
 import type { InputValue } from '../runtime.js';
-import type { CancelInventoryCountRequestInput } from './types-4.js';
 import type {
     CreateInventoryCountRequestInput,
     CreateInventoryItemRequestInput,
@@ -31,29 +30,6 @@ import type {
     InventoryReservationOwnerPreviousAttributes,
     InventoryRoutingSourcePreviousAttributes
 } from './types-33.js';
-export type InventoryCountsCancelParams = (InputValue<CancelInventoryCountRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 export type InventoryCountsCreateParams = (InputValue<CreateInventoryCountRequestInput>)
     & {
     /**
@@ -271,7 +247,7 @@ export type InventoryItemPreviousAttributes = {
      * Backorder settings shared by every variant using this inventory item. anyOf[1] (Value):
      * {@link BackorderPolicyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "backorder"?: ((BackorderPolicyPreviousAttributes) | (null) | (unknown));
+    "backorder"?: ((BackorderPolicyPreviousAttributes) | (null));
     /**
      * Optional searchable barcode. anyOf[1] (Value): string. Optional searchable barcode. anyOf[2]
      * (Value): null.
@@ -294,7 +270,7 @@ export type InventoryItemPreviousAttributes = {
      */
     "inventory_item_id"?: ((string) | (null));
     /** Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null. */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Merchant-facing inventory item name. anyOf[1] (Value): string. Merchant-facing inventory
      * item name. anyOf[2] (Value): null.
@@ -612,7 +588,7 @@ export type InventoryLevelShortageDetectedEvent = ((((Exclude<MerchantWebhookEnv
             "damaged_quantity"?: ((number) | (null));
             "held_quantity"?: ((number) | (null));
             "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_level_id"?: ((string) | (null));
             "location_id"?: ((string) | (null));
@@ -668,7 +644,7 @@ export type InventoryLevelShortageDetectedEvent = ((((Exclude<MerchantWebhookEnv
             "damaged_quantity"?: ((number) | (null));
             "held_quantity"?: ((number) | (null));
             "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_level_id"?: ((string) | (null));
             "location_id"?: ((string) | (null));
@@ -1178,7 +1154,7 @@ export type InventoryLevelShortageDetectedInstalledMerchantsEvent = (Exclude<Par
              * for expand=inventory_item. anyOf[1] (Value): {@link
              * InventoryItemPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             /**
              * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
              * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
@@ -1787,7 +1763,7 @@ export type InventoryLevelShortageDetectedMerchantEvent = (Exclude<MerchantWebho
              * for expand=inventory_item. anyOf[1] (Value): {@link
              * InventoryItemPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             /**
              * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
              * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
@@ -1918,7 +1894,7 @@ export type InventoryLevelUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "damaged_quantity"?: ((number) | (null));
             "held_quantity"?: ((number) | (null));
             "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_level_id"?: ((string) | (null));
             "location_id"?: ((string) | (null));
@@ -1974,7 +1950,7 @@ export type InventoryLevelUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "damaged_quantity"?: ((number) | (null));
             "held_quantity"?: ((number) | (null));
             "incoming_quantity"?: ((number) | (null));
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_level_id"?: ((string) | (null));
             "location_id"?: ((string) | (null));
@@ -2484,7 +2460,7 @@ export type InventoryLevelUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * for expand=inventory_item. anyOf[1] (Value): {@link
              * InventoryItemPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             /**
              * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
              * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
@@ -3093,7 +3069,7 @@ export type InventoryLevelUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * for expand=inventory_item. anyOf[1] (Value): {@link
              * InventoryItemPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null) | (unknown));
+            "inventory_item"?: ((InventoryItemPreviousAttributes) | (null));
             /**
              * ID of the inventory item the stock is for. anyOf[1] (Value): string. ID of the
              * inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
@@ -4576,23 +4552,14 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -4638,23 +4605,14 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -4733,28 +4691,27 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -4971,47 +4928,47 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -5062,23 +5019,14 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -5088,13 +5036,13 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -5108,7 +5056,7 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -5120,7 +5068,7 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -5281,28 +5229,27 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -5519,47 +5466,47 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -5610,23 +5557,14 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -5636,13 +5574,13 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -5656,7 +5594,7 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -5668,7 +5606,7 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -5772,23 +5710,14 @@ export type InventoryReservationAtRiskEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -5834,23 +5763,14 @@ export type InventoryReservationAtRiskEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -5929,28 +5849,27 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -6167,47 +6086,47 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -6258,23 +6177,14 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -6284,13 +6194,13 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -6304,7 +6214,7 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -6316,7 +6226,7 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -6477,28 +6387,27 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -6715,47 +6624,47 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -6806,23 +6715,14 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -6832,13 +6732,13 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -6852,7 +6752,7 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -6864,7 +6764,7 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -6968,23 +6868,14 @@ export type InventoryReservationClosedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -7030,23 +6921,14 @@ export type InventoryReservationClosedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -7125,28 +7007,27 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -7363,47 +7244,47 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -7454,23 +7335,14 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -7480,13 +7352,13 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -7500,7 +7372,7 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -7512,7 +7384,7 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -7673,28 +7545,27 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -7911,47 +7782,47 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -8002,23 +7873,14 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -8028,13 +7890,13 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -8048,7 +7910,7 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -8060,7 +7922,7 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -8164,23 +8026,14 @@ export type InventoryReservationCommittedEvent = ((((Exclude<MerchantWebhookEnve
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -8226,23 +8079,14 @@ export type InventoryReservationCommittedEvent = ((((Exclude<MerchantWebhookEnve
             [key: string]: unknown;
         })
             & ({
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             "created_at"?: ((string) | (null));
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             "idempotency_key"?: ((string) | (null));
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             "inventory_reservation_id"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
             "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
             "replacement_inventory_reservation_id"?: ((string) | (null));
@@ -8321,28 +8165,27 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -8559,47 +8402,47 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -8650,23 +8493,14 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -8676,13 +8510,13 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -8696,7 +8530,7 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -8708,7 +8542,7 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -8869,28 +8703,27 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
      * including synthetic test events. previous_attributes.closed_reason (Optional): string or
-     * null or null. How the reservation ended. adopted when its remaining held stock moved to a
-     * delivery selection. mixed when more than one terminal outcome applied. `null` when the
-     * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-     * "adopted", "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string or
      * null. How the reservation ended. adopted when its remaining held stock moved to a delivery
      * selection. mixed when more than one terminal outcome applied. `null` when the reservation
      * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-     * "mixed", null. previous_attributes.closed_reason.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.expires_at (Optional): string or null or null. When held quantity
-     * is released if it isn't committed first. Backordered quantity that payment hasn't confirmed
-     * yet carries the same deadline. Committed and consumed quantity never expire. `null` when no
-     * line holds quantity or has unconfirmed backordered quantity.
-     * previous_attributes.expires_at.anyOf[1] (Value): string or null. When held quantity is
-     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
-     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
-     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource; on a movement, of the command that wrote it. Omitted
+     * "mixed", null. previous_attributes.closed_reason.anyOf[1] (Value): string. How the
+     * reservation ended. adopted when its remaining held stock moved to a delivery selection.
+     * mixed when more than one terminal outcome applied. `null` when the reservation isn't closed.
+     * Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * previous_attributes.closed_reason.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.expires_at
+     * (Optional): string or null. When held quantity is released if it isn't committed first.
+     * Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed
+     * and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
+     * backordered quantity. previous_attributes.expires_at.anyOf[1] (Value): string. When held
+     * quantity is released if it isn't committed first. Backordered quantity that payment hasn't
+     * confirmed yet carries the same deadline. Committed and consumed quantity never expire.
+     * `null` when no line holds quantity or has unconfirmed backordered quantity. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.expires_at.anyOf[2] (Value):
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
      * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
      * The Idempotency-Key of the request that created this resource; on a movement, of the command
      * that wrote it. Omitted when that request had no key.
@@ -9107,47 +8940,47 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. closed_reason (Optional): string or null or
-         * null. How the reservation ended. adopted when its remaining held stock moved to a
-         * delivery selection. mixed when more than one terminal outcome applied. `null` when the
+         * state, including synthetic test events. closed_reason (Optional): string or null. How
+         * the reservation ended. adopted when its remaining held stock moved to a delivery
+         * selection. mixed when more than one terminal outcome applied. `null` when the
          * reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated",
-         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string or null. How the
-         * reservation ended. adopted when its remaining held stock moved to a delivery selection.
-         * mixed when more than one terminal outcome applied. `null` when the reservation isn't
-         * closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
-         * "mixed", null. closed_reason.anyOf[2] (Value): null. created_at (Optional): string or
-         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null or null. When held quantity is released if it
-         * isn't committed first. Backordered quantity that payment hasn't confirmed yet carries
-         * the same deadline. Committed and consumed quantity never expire. `null` when no line
-         * holds quantity or has unconfirmed backordered quantity. expires_at.anyOf[1] (Value):
-         * string or null. When held quantity is released if it isn't committed first. Backordered
-         * quantity that payment hasn't confirmed yet carries the same deadline. Committed and
-         * consumed quantity never expire. `null` when no line holds quantity or has unconfirmed
-         * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * expires_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_action_required (Optional): {@link
-         * InventoryActionRequiredPreviousAttributes} or null. Present when the claim needs a
-         * merchant action before commerce can continue. inventory_action_required.anyOf[1]
-         * (Value): {@link InventoryActionRequiredPreviousAttributes}.
-         * inventory_action_required.anyOf[2] (Value): null. inventory_reservation_id (Optional):
-         * string or null. Unique identifier for this inventory reservation, prefixed `invr_`.
-         * inventory_reservation_id.anyOf[1] (Value): string. Unique identifier for this inventory
-         * reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-         * inventory_reservation_id.anyOf[2] (Value): null. inventory_routing_source (Optional):
-         * {@link InventoryRoutingSourcePreviousAttributes} or null. How Flint chooses the
-         * Locations that serve the reservation: one fixed Location, an allocation policy, or a
-         * specific policy revision. inventory_routing_source.anyOf[1] (Value): {@link
-         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
-         * null. lines (Optional): Array of {@link InventoryReservationLinePreviousAttributes} or
-         * null. Allocations of the reserved stock, one for each item and Location. lines.anyOf[1]
-         * (Value): Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
-         * reserved stock, one for each item and Location. lines.anyOf[1][] (Value): {@link
+         * "adopted", "mixed", null. closed_reason.anyOf[1] (Value): string. How the reservation
+         * ended. adopted when its remaining held stock moved to a delivery selection. mixed when
+         * more than one terminal outcome applied. `null` when the reservation isn't closed. Value
+         * enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+         * closed_reason.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When held quantity is released if it isn't committed first.
+         * Backordered quantity that payment hasn't confirmed yet carries the same deadline.
+         * Committed and consumed quantity never expire. `null` when no line holds quantity or has
+         * unconfirmed backordered quantity. expires_at.anyOf[1] (Value): string. When held
+         * quantity is released if it isn't committed first. Backordered quantity that payment
+         * hasn't confirmed yet carries the same deadline. Committed and consumed quantity never
+         * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource; on a movement, of the command that wrote it. Omitted when that
+         * request had no key. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. idempotency_key.anyOf[2] (Value): null.
+         * inventory_action_required (Optional): {@link InventoryActionRequiredPreviousAttributes}
+         * or null. Present when the claim needs a merchant action before commerce can continue.
+         * inventory_action_required.anyOf[1] (Value): {@link
+         * InventoryActionRequiredPreviousAttributes}. inventory_action_required.anyOf[2] (Value):
+         * null. inventory_reservation_id (Optional): string or null. Unique identifier for this
+         * inventory reservation, prefixed `invr_`. inventory_reservation_id.anyOf[1] (Value):
+         * string. Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_reservation_id.anyOf[2] (Value): null.
+         * inventory_routing_source (Optional): {@link InventoryRoutingSourcePreviousAttributes} or
+         * null. How Flint chooses the Locations that serve the reservation: one fixed Location, an
+         * allocation policy, or a specific policy revision. inventory_routing_source.anyOf[1]
+         * (Value): {@link InventoryRoutingSourcePreviousAttributes}.
+         * inventory_routing_source.anyOf[2] (Value): null. lines (Optional): Array of {@link
+         * InventoryReservationLinePreviousAttributes} or null. Allocations of the reserved stock,
+         * one for each item and Location. lines.anyOf[1] (Value): Array of {@link
+         * InventoryReservationLinePreviousAttributes}. Allocations of the reserved stock, one for
+         * each item and Location. lines.anyOf[1][] (Value): {@link
          * InventoryReservationLinePreviousAttributes}. lines.anyOf[2] (Value): null. owner
          * (Optional): {@link InventoryReservationOwnerPreviousAttributes} or null. Who holds the
          * reservation: a `key` you choose, or an order Flint holds the stock for. owner.anyOf[1]
@@ -9198,23 +9031,14 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
              * How the reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
-             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string or null. How the
+             * "reallocated", "adopted", "mixed", null. anyOf[1] (Value): string. How the
              * reservation ended. adopted when its remaining held stock moved to a delivery
              * selection. mixed when more than one terminal outcome applied. `null` when the
              * reservation isn't closed. Value enum: "consumed", "released", "expired",
              * "reallocated", "adopted", "mixed", null. anyOf[2] (Value): null.
              */
-            "closed_reason"?: (("consumed"
-                | "released"
-                | "expired"
-                | "reallocated"
-                | "adopted"
-                | "mixed"
-                | null
-                | (string & {})
-                | null)
-                | (null)
-                | (unknown));
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -9224,13 +9048,13 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
              * When held quantity is released if it isn't committed first. Backordered quantity
              * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
              * quantity never expire. `null` when no line holds quantity or has unconfirmed
-             * backordered quantity. anyOf[1] (Value): string or null. When held quantity is
-             * released if it isn't committed first. Backordered quantity that payment hasn't
-             * confirmed yet carries the same deadline. Committed and consumed quantity never
-             * expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * backordered quantity. anyOf[1] (Value): string. When held quantity is released if it
+             * isn't committed first. Backordered quantity that payment hasn't confirmed yet
+             * carries the same deadline. Committed and consumed quantity never expire. `null` when
+             * no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "expires_at"?: ((string | null) | (null) | (unknown));
+            "expires_at"?: ((string) | (null));
             /**
              * The Idempotency-Key of the request that created this resource; on a movement, of the
              * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
@@ -9244,7 +9068,7 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
              * anyOf[1] (Value): {@link InventoryActionRequiredPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null) | (unknown));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
             /**
              * Unique identifier for this inventory reservation, prefixed `invr_`. anyOf[1]
              * (Value): string. Unique identifier for this inventory reservation, prefixed `invr_`.
@@ -9256,7 +9080,7 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
              * allocation policy, or a specific policy revision. anyOf[1] (Value): {@link
              * InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * Allocations of the reserved stock, one for each item and Location. anyOf[1] (Value):
              * Array of {@link InventoryReservationLinePreviousAttributes}. Allocations of the
@@ -9327,4 +9151,120 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
     "event_source"?: "merchant" | (string & {});
     /** Value enum: "inventory_reservation.committed". */
     "event_type"?: "inventory_reservation.committed";
+});
+export type InventoryReservationConsumedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
+            "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            "source_inventory_reservation_id"?: ((string) | (null));
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.consumed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
+            "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            "source_inventory_reservation_id"?: ((string) | (null));
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.consumed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.consumed";
 });

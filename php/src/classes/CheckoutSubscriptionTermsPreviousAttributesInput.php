@@ -7,11 +7,11 @@ namespace Flint;
  * @property-read list<SubscriptionIntervalOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $billing_interval_options
  * @property-read int|null $contract_term_months
  * @property-read int|null $deliveries_per_period
- * @property-read string|null|null $delivery_interval
- * @property-read int|null|null $delivery_interval_count
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read bool|null $delivery_required
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $early_termination_fee_money
- * @property-read SubscriptionGiftRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $gift_recipient
+ * @property-read SubscriptionGiftRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $gift_recipient
  * @property-read bool|null $gifts_enabled
  * @property-read list<array{'allow_quantity_adjustment'?: bool|null, 'max_quantity'?: int|null, 'min_quantity'?: int|null, 'name'?: string|null, 'quantity'?: int|null, 'subscription_plan_line_item_id'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object>|null $line_items
  * @property-read string|null $plan_name
@@ -22,7 +22,7 @@ namespace Flint;
  * @property-read int|null $trial_period_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSubscriptionTermsPreviousAttributesInput extends Model {
-    /** @param array{'billing_interval'?: string|null, 'billing_interval_count'?: int|null, 'billing_interval_options'?: list<SubscriptionIntervalOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'contract_term_months'?: int|null, 'deliveries_per_period'?: int|null, 'delivery_interval'?: string|null|null, 'delivery_interval_count'?: int|null|null, 'delivery_required'?: bool|null, 'early_termination_fee_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'gift_recipient'?: SubscriptionGiftRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'gifts_enabled'?: bool|null, 'line_items'?: list<array{'allow_quantity_adjustment'?: bool|null, 'max_quantity'?: int|null, 'min_quantity'?: int|null, 'name'?: string|null, 'quantity'?: int|null, 'subscription_plan_line_item_id'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object>|null, 'plan_name'?: string|null, 'recurring_shipping'?: CheckoutSubscriptionRecurringShippingPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'recurring_total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'setup_fee_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'subscription_plan_id'?: string|null, 'trial_period_days'?: int|null, ...}|object $values */
+    /** @param array{'billing_interval'?: string|null, 'billing_interval_count'?: int|null, 'billing_interval_options'?: list<SubscriptionIntervalOptionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'contract_term_months'?: int|null, 'deliveries_per_period'?: int|null, 'delivery_interval'?: string|null, 'delivery_interval_count'?: int|null, 'delivery_required'?: bool|null, 'early_termination_fee_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'gift_recipient'?: SubscriptionGiftRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'gifts_enabled'?: bool|null, 'line_items'?: list<array{'allow_quantity_adjustment'?: bool|null, 'max_quantity'?: int|null, 'min_quantity'?: int|null, 'name'?: string|null, 'quantity'?: int|null, 'subscription_plan_line_item_id'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object>|null, 'plan_name'?: string|null, 'recurring_shipping'?: CheckoutSubscriptionRecurringShippingPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'recurring_total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'setup_fee_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'subscription_plan_id'?: string|null, 'trial_period_days'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTermsPreviousAttributesInput')); }
     /** Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[1] (Value): string. Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value): null.
      * @return string|null
@@ -54,14 +54,14 @@ final class CheckoutSubscriptionTermsPreviousAttributesInput extends Model {
      */
     public function getDeliveriesPerPeriod(): mixed { return $this->get('deliveries_per_period'); }
     public function hasDeliveriesPerPeriod(): bool { return $this->has('deliveries_per_period'); }
-    /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[1] (Value): string or null. Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[1] (Value): string. Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When delivery_interval is omitted; use hasDeliveryInterval() or valueOrDefault().
      */
     public function getDeliveryInterval(): mixed { return $this->get('delivery_interval'); }
     public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
-    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. anyOf[1] (Value): integer or null. Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1. anyOf[2] (Value): null.
-     * @return int|null|null
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. anyOf[1] (Value): integer. Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1. anyOf[2] (Value): null.
+     * @return int|null
      * @throws SdkError When delivery_interval_count is omitted; use hasDeliveryIntervalCount() or valueOrDefault().
      */
     public function getDeliveryIntervalCount(): mixed { return $this->get('delivery_interval_count'); }
@@ -78,8 +78,8 @@ final class CheckoutSubscriptionTermsPreviousAttributesInput extends Model {
      */
     public function getEarlyTerminationFeeMoney(): mixed { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
-    /** Who receives the gift. The subscription this checkout starts gets it, and the buyer stays the purchaser. Null when the buyer hasn't named one. anyOf[1] (Value): ({@see SubscriptionGiftRecipientPreviousAttributesInput} or null). Who receives the gift. The subscription this checkout starts gets it, and the buyer stays the purchaser. Null when the buyer hasn't named one. anyOf[1].anyOf[1] (Value): {@see SubscriptionGiftRecipientPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return SubscriptionGiftRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Who receives the gift. The subscription this checkout starts gets it, and the buyer stays the purchaser. Null when the buyer hasn't named one. anyOf[1] (Value): {@see SubscriptionGiftRecipientPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return SubscriptionGiftRecipientPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When gift_recipient is omitted; use hasGiftRecipient() or valueOrDefault().
      */
     public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }

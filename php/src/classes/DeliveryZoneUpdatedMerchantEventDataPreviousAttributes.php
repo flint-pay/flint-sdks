@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $configuration
+ * @property-read \stdClass|null $configuration
  * @property-read string|null $created_at
  * @property-read string|null $current_delivery_zone_revision_id
  * @property-read string|null $delivery_zone_id
  * @property-read string|null $external_reference_id
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $name
  * @property-read string|null $status
  * @property-read string|null $updated_at
@@ -17,9 +17,9 @@ final class DeliveryZoneUpdatedMerchantEventDataPreviousAttributes extends Model
     /** @param array{'configuration'?: mixed, 'created_at'?: mixed, 'current_delivery_zone_revision_id'?: mixed, 'delivery_zone_id'?: mixed, 'external_reference_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZoneUpdatedMerchantEventDataPreviousAttributes')); }
     /** Current geographic eligibility conditions. anyOf[1] (Value): {@see DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return \stdClass|null
      */
-    public function getConfiguration(): mixed { return $this->get('configuration'); }
+    public function getConfiguration(): \stdClass|null { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** Time the zone was created. anyOf[1] (Value): string. Time the zone was created. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -42,9 +42,9 @@ final class DeliveryZoneUpdatedMerchantEventDataPreviousAttributes extends Model
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name. anyOf[2] (Value): null.
      * @return string|null

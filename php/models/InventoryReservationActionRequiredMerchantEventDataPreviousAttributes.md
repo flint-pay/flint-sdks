@@ -8,13 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `closed_reason` | Optional | string or null or null | How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"adopted"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesclosed_reason). |
+| `closed_reason` | Optional | string or null | How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"adopted"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesclosed_reason). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `expires_at` | Optional | string or null or null | When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. `expires_at`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesexpires_at). |
+| `expires_at` | Optional | string or null | When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. `expires_at`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesexpires_at). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesidempotency_key). |
-| `inventory_action_required` | Optional | Alternative shapes (see declared variants) | Present when the claim needs a merchant action before commerce can continue. `inventory_action_required`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_action_required). |
+| `inventory_action_required` | Optional | [InventoryActionRequiredPreviousAttributes](../models/InventoryActionRequiredPreviousAttributes.md#inventoryactionrequiredpreviousattributes) or null | Present when the claim needs a merchant action before commerce can continue. `inventory_action_required`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_action_required). |
 | `inventory_reservation_id` | Optional | string or null | Unique identifier for this inventory reservation, prefixed `invr_`. `inventory_reservation_id`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_reservation_id). |
-| `inventory_routing_source` | Optional | Alternative shapes (see declared variants) | How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. `inventory_routing_source`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source). |
+| `inventory_routing_source` | Optional | [InventoryRoutingSourcePreviousAttributes](../models/InventoryRoutingSourcePreviousAttributes.md#inventoryroutingsourcepreviousattributes) or null | How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. `inventory_routing_source`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source). |
 | `lines` | Optional | Array of [InventoryReservationLinePreviousAttributes](../models/InventoryReservationLinePreviousAttributes.md#inventoryreservationlinepreviousattributes) or null | Allocations of the reserved stock, one for each item and Location. `lines`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributeslines). |
 | `owner` | Optional | Alternative shapes (see declared variants) or null | Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. `owner`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesowner). |
 | `replacement_inventory_reservation_id` | Optional | string or null | Set on a reservation whose claim Flint moved when it rerouted an order: the replacement reservation that now holds the quantity named in this reservation's reallocated_quantity. `replacement_inventory_reservation_id`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesreplacement_inventory_reservation_id). |
@@ -30,7 +30,7 @@ Response model.
 
 anyOf variant 1: How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed..
 
-- Value shape: (string or null). How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"adopted"`, `"mixed"`, `null`.
+- Value shape: string. How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"adopted"`, `"mixed"`, `null`.
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.closed_reason variant 2
 
@@ -48,7 +48,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 anyOf variant 1: When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity..
 
-- Value shape: (string or null). When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: `date-time`. 
+- Value shape: string. When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: `date-time`. 
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.expires_at variant 2
 
@@ -67,7 +67,7 @@ Present when the claim needs a merchant action before commerce can continue.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_reservation_line_ids` | Conditional | Array of string or null | IDs of the reservation lines that need action. `inventory_reservation_line_ids`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_action_required-variant-1inventory_reservation_line_ids). |
-| `reason` | Conditional | string or null | Why the reservation needs action. Values: `"inventory_shortage"`, `"hold_expired"`, `"payment_pending"`, `"other"`. `reason`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_action_required-variant-1reason). |
+| `reason` | Conditional | string or null | Why the reservation needs action. Values: `"inventory_shortage"`, `"hold_expired"`, `"payment_pending"`, `"other"`. `reason`: [declared alternatives](../models/InventoryActionRequiredPreviousAttributes.md#inventoryactionrequiredpreviousattributesreason). |
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_action_required variant 1
 
@@ -98,17 +98,7 @@ anyOf variant 2.
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_action_required variant 1.reason
 
-### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_action_required variant 1.reason variant 1
-
-anyOf variant 1: Why the reservation needs action..
-
-- Value shape: string. Why the reservation needs action. Values: `"inventory_shortage"`, `"hold_expired"`, `"payment_pending"`, `"other"`.
-
-### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_action_required variant 1.reason variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Why the reservation needs action. 
+Declared alternatives: [InventoryActionRequiredPreviousAttributes.reason](../models/InventoryActionRequiredPreviousAttributes.md#inventoryactionrequiredpreviousattributesreason).
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_reservation_id
 
@@ -133,7 +123,7 @@ How Flint chooses the Locations that serve the reservation: one fixed Location, 
 | `inventory_allocation_policy_id` | Conditional | string or null | ID of the allocation policy that routes demand. `inventory_allocation_policy_id`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source-variant-1inventory_allocation_policy_id). |
 | `inventory_allocation_policy_revision_id` | Conditional | string or null | ID of the allocation policy revision that routes demand. `inventory_allocation_policy_revision_id`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source-variant-1inventory_allocation_policy_revision_id). |
 | `location_id` | Conditional | string or null | ID of the fixed Location that serves all demand. `location_id`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source-variant-1location_id). |
-| `type` | Conditional | string or null | How Flint routes demand to Locations. Values: `"fixed_location"`, `"policy"`, `"policy_revision"`. `type`: [declared alternatives](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source-variant-1type). |
+| `type` | Conditional | string or null | How Flint routes demand to Locations. Values: `"fixed_location"`, `"policy"`, `"policy_revision"`. `type`: [declared alternatives](../models/InventoryRoutingSourcePreviousAttributes.md#inventoryroutingsourcepreviousattributestype). |
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_routing_source variant 1
 
@@ -192,17 +182,7 @@ anyOf variant 2.
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_routing_source variant 1.type
 
-### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_routing_source variant 1.type variant 1
-
-anyOf variant 1: How Flint routes demand to Locations..
-
-- Value shape: string. How Flint routes demand to Locations. Values: `"fixed_location"`, `"policy"`, `"policy_revision"`.
-
-### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_routing_source variant 1.type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. How Flint routes demand to Locations. 
+Declared alternatives: [InventoryRoutingSourcePreviousAttributes.type](../models/InventoryRoutingSourcePreviousAttributes.md#inventoryroutingsourcepreviousattributestype).
 
 ### InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.lines
 

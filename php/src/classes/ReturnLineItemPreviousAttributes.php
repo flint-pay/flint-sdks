@@ -12,21 +12,21 @@ namespace Flint;
  * @property-read string|null $buyer_note
  * @property-read int|null $canceled_quantity
  * @property-read string|null $created_at
- * @property-read mixed $decided_by
+ * @property-read ReturnActorPreviousAttributes|null $decided_by
  * @property-read string|null $decision_at
  * @property-read string|null $decline_reason
  * @property-read string|null $decline_reason_message
  * @property-read int|null $declined_quantity
  * @property-read string|null $description
  * @property-read int|null $dispositioned_quantity
- * @property-read mixed $eligibility
- * @property-read mixed $fulfillment
+ * @property-read ReturnLineItemEligibilityPreviousAttributes|null $eligibility
+ * @property-read FulfillmentPreviousAttributes|null $fulfillment
  * @property-read string|null $fulfillment_id
  * @property-read int|null $handed_off_quantity
- * @property-read mixed $image
+ * @property-read ImagePreviousAttributes|null $image
  * @property-read int|null $inspected_quantity
  * @property-read string|null $inspection_waived_at
- * @property-read mixed $inspection_waived_by
+ * @property-read ReturnActorPreviousAttributes|null $inspection_waived_by
  * @property-read string|null $inspection_waiver_reason
  * @property-read string|null $inspection_waiver_reason_message
  * @property-read bool|null $is_inspection_required
@@ -37,7 +37,7 @@ namespace Flint;
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read string|null $overridden_at
- * @property-read mixed $overridden_by
+ * @property-read ReturnActorPreviousAttributes|null $overridden_by
  * @property-read string|null $override_reason
  * @property-read string|null $override_reason_message
  * @property-read string|null $product_id
@@ -51,13 +51,13 @@ namespace Flint;
  * @property-read int|null $resolved_quantity
  * @property-read string|null $return_id
  * @property-read string|null $return_line_item_id
- * @property-read mixed $return_reason
+ * @property-read ReturnReasonPreviousAttributes|null $return_reason
  * @property-read string|null $return_reason_handle
  * @property-read string|null $return_reason_id
  * @property-read string|null $return_reason_name
  * @property-read int|null $return_required_quantity
  * @property-read list<string>|null $return_resolution_ids
- * @property-read mixed $return_value
+ * @property-read ReturnLineItemValuePreviousAttributes|null $return_value
  * @property-read int|null $review_required_quantity
  * @property-read list<SelectedProductOptionPreviousAttributes>|null $selected_options
  * @property-read string|null $sku
@@ -120,9 +120,9 @@ final class ReturnLineItemPreviousAttributes extends Model {
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Who recorded the decision on this line. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getDecidedBy(): mixed { return $this->get('decided_by'); }
+    public function getDecidedBy(): ReturnActorPreviousAttributes|null { return $this->get('decided_by'); }
     public function hasDecidedBy(): bool { return $this->has('decided_by'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -155,14 +155,14 @@ final class ReturnLineItemPreviousAttributes extends Model {
     public function getDispositionedQuantity(): int|null { return $this->get('dispositioned_quantity'); }
     public function hasDispositionedQuantity(): bool { return $this->has('dispositioned_quantity'); }
     /** How the pinned return policy judged this line when the Return was created, with the policy revision it used. anyOf[1] (Value): {@see ReturnLineItemEligibilityPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnLineItemEligibilityPreviousAttributes|null
      */
-    public function getEligibility(): mixed { return $this->get('eligibility'); }
+    public function getEligibility(): ReturnLineItemEligibilityPreviousAttributes|null { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
-    /** Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment. anyOf[1] (Value): ({@see FulfillmentPreviousAttributes} or null). Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment. anyOf[1].anyOf[1] (Value): {@see FulfillmentPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there is no related fulfillment. anyOf[1] (Value): {@see FulfillmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return FulfillmentPreviousAttributes|null
      */
-    public function getFulfillment(): mixed { return $this->get('fulfillment'); }
+    public function getFulfillment(): FulfillmentPreviousAttributes|null { return $this->get('fulfillment'); }
     public function hasFulfillment(): bool { return $this->has('fulfillment'); }
     /** ID of the fulfillment the units were delivered in. anyOf[1] (Value): string. ID of the fulfillment the units were delivered in. anyOf[2] (Value): null.
      * @return string|null
@@ -175,9 +175,9 @@ final class ReturnLineItemPreviousAttributes extends Model {
     public function getHandedOffQuantity(): int|null { return $this->get('handed_off_quantity'); }
     public function hasHandedOffQuantity(): bool { return $this->has('handed_off_quantity'); }
     /** Image of the item as sold. anyOf[1] (Value): {@see ImagePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ImagePreviousAttributes|null
      */
-    public function getImage(): mixed { return $this->get('image'); }
+    public function getImage(): ImagePreviousAttributes|null { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
     /** Units that have been inspected. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Units that have been inspected. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
      * @return int|null
@@ -190,9 +190,9 @@ final class ReturnLineItemPreviousAttributes extends Model {
     public function getInspectionWaivedAt(): string|null { return $this->get('inspection_waived_at'); }
     public function hasInspectionWaivedAt(): bool { return $this->has('inspection_waived_at'); }
     /** Who waived inspection for this line. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getInspectionWaivedBy(): mixed { return $this->get('inspection_waived_by'); }
+    public function getInspectionWaivedBy(): ReturnActorPreviousAttributes|null { return $this->get('inspection_waived_by'); }
     public function hasInspectionWaivedBy(): bool { return $this->has('inspection_waived_by'); }
     /** Why inspection was waived for this line. Value enum: "policy_override", "trusted_in_store_handoff", "merchant_review", "other". anyOf[1] (Value): string. Why inspection was waived for this line. Value enum: "policy_override", "trusted_in_store_handoff", "merchant_review", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -245,9 +245,9 @@ final class ReturnLineItemPreviousAttributes extends Model {
     public function getOverriddenAt(): string|null { return $this->get('overridden_at'); }
     public function hasOverriddenAt(): bool { return $this->has('overridden_at'); }
     /** Who recorded the override. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getOverriddenBy(): mixed { return $this->get('overridden_by'); }
+    public function getOverriddenBy(): ReturnActorPreviousAttributes|null { return $this->get('overridden_by'); }
     public function hasOverriddenBy(): bool { return $this->has('overridden_by'); }
     /** Why the decision overrode the pinned return policy's proposal. Value enum: "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion", "other". anyOf[1] (Value): string. Why the decision overrode the pinned return policy's proposal. Value enum: "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -314,10 +314,10 @@ final class ReturnLineItemPreviousAttributes extends Model {
      */
     public function getReturnLineItemId(): string|null { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason. anyOf[1] (Value): ({@see ReturnReasonPreviousAttributes} or null). Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason. anyOf[1].anyOf[1] (Value): {@see ReturnReasonPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `line_items.return_reason`; `null` when expanded and there is no related return reason. anyOf[1] (Value): {@see ReturnReasonPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnReasonPreviousAttributes|null
      */
-    public function getReturnReason(): mixed { return $this->get('return_reason'); }
+    public function getReturnReason(): ReturnReasonPreviousAttributes|null { return $this->get('return_reason'); }
     public function hasReturnReason(): bool { return $this->has('return_reason'); }
     /** Handle of the chosen reason, captured when the line is created or its reason changes. Later renames, deactivation or archiving don't change it. anyOf[1] (Value): string. Handle of the chosen reason, captured when the line is created or its reason changes. Later renames, deactivation or archiving don't change it. anyOf[2] (Value): null.
      * @return string|null
@@ -345,9 +345,9 @@ final class ReturnLineItemPreviousAttributes extends Model {
     public function getReturnResolutionIds(): array|null { return $this->get('return_resolution_ids'); }
     public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
     /** Value of the line's units, fixed when the line was created: what the buyer paid for them, less what was already refunded or returned. anyOf[1] (Value): {@see ReturnLineItemValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnLineItemValuePreviousAttributes|null
      */
-    public function getReturnValue(): mixed { return $this->get('return_value'); }
+    public function getReturnValue(): ReturnLineItemValuePreviousAttributes|null { return $this->get('return_value'); }
     public function hasReturnValue(): bool { return $this->has('return_value'); }
     /** Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
      * @return int|null

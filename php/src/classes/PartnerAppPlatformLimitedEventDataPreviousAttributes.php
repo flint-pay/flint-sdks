@@ -9,18 +9,18 @@ namespace Flint;
  * @property-read string|null $api_version_rollback_expires_at
  * @property-read string|null $client_id
  * @property-read bool|null $client_secret_enabled
- * @property-read mixed $client_secret_last_used_at
+ * @property-read string|null $client_secret_last_used_at
  * @property-read string|null $created_at
  * @property-read list<string>|null $default_requested_permissions
- * @property-read mixed $merchant_action_routing
+ * @property-read PartnerAppMerchantActionRoutingPreviousAttributes|null $merchant_action_routing
  * @property-read string|null $merchant_action_url
  * @property-read string|null $name
  * @property-read string|null $partner_app_id
- * @property-read mixed $payment_splits
+ * @property-read PartnerAppPaymentSplitsPreviousAttributes|null $payment_splits
  * @property-read list<PartnerAppPermissionManifestEntryPreviousAttributes>|null $permission_manifest
- * @property-read mixed $platform
- * @property-read mixed $platform_fee_cap
- * @property-read mixed $platform_profile
+ * @property-read PartnerAppPlatformPreviousAttributes|null $platform
+ * @property-read PlatformFeeCapPreviousAttributes|null $platform_fee_cap
+ * @property-read PartnerAppPlatformProfilePreviousAttributes|null $platform_profile
  * @property-read string|null $previous_secret_expires_at
  * @property-read list<string>|null $redirect_uris
  * @property-read string|null $status
@@ -66,10 +66,10 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
      */
     public function getClientSecretEnabled(): bool|null { return $this->get('client_secret_enabled'); }
     public function hasClientSecretEnabled(): bool { return $this->has('client_secret_enabled'); }
-    /** When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. anyOf[1] (Value): string or null. When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. anyOf[1] (Value): string. When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getClientSecretLastUsedAt(): mixed { return $this->get('client_secret_last_used_at'); }
+    public function getClientSecretLastUsedAt(): string|null { return $this->get('client_secret_last_used_at'); }
     public function hasClientSecretLastUsedAt(): bool { return $this->has('client_secret_last_used_at'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -82,9 +82,9 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
     public function getDefaultRequestedPermissions(): array|null { return $this->get('default_requested_permissions'); }
     public function hasDefaultRequestedPermissions(): bool { return $this->has('default_requested_permissions'); }
     /** Present only while a change to merchant_action_url or platform_profile.website_url is waiting to move routing to another registrable domain; omitted otherwise. url is the previous destination emails still use, and expires_at is when routing switches to the current merchant_action_url. While the app had no merchant action URL before the change, this is Flint's own page. anyOf[1] (Value): {@see PartnerAppMerchantActionRoutingPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PartnerAppMerchantActionRoutingPreviousAttributes|null
      */
-    public function getMerchantActionRouting(): mixed { return $this->get('merchant_action_routing'); }
+    public function getMerchantActionRouting(): PartnerAppMerchantActionRoutingPreviousAttributes|null { return $this->get('merchant_action_routing'); }
     public function hasMerchantActionRouting(): bool { return $this->has('merchant_action_routing'); }
     /** Where Flint sends an owner of a merchant this app created through a merchant signup when an email asks them to act, such as to finish verification. Flint adds `flint_*` query parameters. Setting it requests the `create_merchants` platform capability, which merchant signups need. Absent until set. anyOf[1] (Value): string. Where Flint sends an owner of a merchant this app created through a merchant signup when an email asks them to act, such as to finish verification. Flint adds `flint_*` query parameters. Setting it requests the `create_merchants` platform capability, which merchant signups need. Absent until set. Format: uri. minLength: 1. maxLength: 2048. pattern: ^https://. anyOf[2] (Value): null.
      * @return string|null
@@ -102,9 +102,9 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
     public function getPartnerAppId(): string|null { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
     /** The app's declaration that its owner sends splits of the payments it collects to sellers that install the app. Every authorization of the app asks the merchant to approve receiving split funds under these seller terms, and the environment grant records the approval. Declaring it requests the payment_splits platform capability, which live splits need. Absent when the app sends no splits. anyOf[1] (Value): {@see PartnerAppPaymentSplitsPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PartnerAppPaymentSplitsPreviousAttributes|null
      */
-    public function getPaymentSplits(): mixed { return $this->get('payment_splits'); }
+    public function getPaymentSplits(): PartnerAppPaymentSplitsPreviousAttributes|null { return $this->get('payment_splits'); }
     public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
     /** Permissions the app can request from merchants. Each lists the Flint scopes it grants. anyOf[1] (Value): Array of {@see PartnerAppPermissionManifestEntryPreviousAttributes}. Permissions the app can request from merchants. Each lists the Flint scopes it grants. anyOf[1][] (Value): {@see PartnerAppPermissionManifestEntryPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<PartnerAppPermissionManifestEntryPreviousAttributes>|null
@@ -112,19 +112,19 @@ final class PartnerAppPlatformLimitedEventDataPreviousAttributes extends Model {
     public function getPermissionManifest(): array|null { return $this->get('permission_manifest'); }
     public function hasPermissionManifest(): bool { return $this->has('permission_manifest'); }
     /** The app's platform onboarding: status, outstanding requirements, platform capabilities, terms acceptance, and once Flint approves or limits it, the platform's limits and reserve. anyOf[1] (Value): {@see PartnerAppPlatformPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PartnerAppPlatformPreviousAttributes|null
      */
-    public function getPlatform(): mixed { return $this->get('platform'); }
+    public function getPlatform(): PartnerAppPlatformPreviousAttributes|null { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
     /** The most a platform fee can take from one payment the app creates with a partner app token. Merchants see it on the consent screen and approve it for each mode they install. Absent when the app charges no platform fees. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PlatformFeeCapPreviousAttributes|null
      */
-    public function getPlatformFeeCap(): mixed { return $this->get('platform_fee_cap'); }
+    public function getPlatformFeeCap(): PlatformFeeCapPreviousAttributes|null { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
     /** What the app told Flint for its platform review. Absent until set. anyOf[1] (Value): {@see PartnerAppPlatformProfilePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PartnerAppPlatformProfilePreviousAttributes|null
      */
-    public function getPlatformProfile(): mixed { return $this->get('platform_profile'); }
+    public function getPlatformProfile(): PartnerAppPlatformProfilePreviousAttributes|null { return $this->get('platform_profile'); }
     public function hasPlatformProfile(): bool { return $this->has('platform_profile'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

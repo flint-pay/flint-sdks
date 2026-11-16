@@ -7,9 +7,9 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $assessed_amount_money
  * @property-read string|null $reason
  * @property-read string|null $reason_message
- * @property-read string|null|null $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_line_item_id
- * @property-read string|null|null $return_policy_id
+ * @property-read string|null $return_policy_id
  * @property-read string|null $return_policy_revision_id
  * @property-read string|null $return_resolution_adjustment_id
  * @property-read string|null $status
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string|null $waiver_reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionAdjustmentPreviousAttributesInput extends Model {
-    /** @param array{'adjustment_type'?: string|null, 'applied_amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'assessed_amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'reason'?: string|null, 'reason_message'?: string|null, 'return_id'?: string|null|null, 'return_line_item_id'?: string|null, 'return_policy_id'?: string|null|null, 'return_policy_revision_id'?: string|null, 'return_resolution_adjustment_id'?: string|null, 'status'?: string|null, 'value_effect'?: string|null, 'waived_at'?: string|\DateTimeInterface|null, 'waived_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'waiver_reason'?: string|null, 'waiver_reason_message'?: string|null, ...}|object $values */
+    /** @param array{'adjustment_type'?: string|null, 'applied_amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'assessed_amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'reason'?: string|null, 'reason_message'?: string|null, 'return_id'?: string|null, 'return_line_item_id'?: string|null, 'return_policy_id'?: string|null, 'return_policy_revision_id'?: string|null, 'return_resolution_adjustment_id'?: string|null, 'status'?: string|null, 'value_effect'?: string|null, 'waived_at'?: string|\DateTimeInterface|null, 'waived_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'waiver_reason'?: string|null, 'waiver_reason_message'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionAdjustmentPreviousAttributesInput')); }
     /** What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other". anyOf[1] (Value): string. What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -52,8 +52,8 @@ final class ReturnResolutionAdjustmentPreviousAttributesInput extends Model {
      */
     public function getReasonMessage(): mixed { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): mixed { return $this->get('return_id'); }
@@ -64,8 +64,8 @@ final class ReturnResolutionAdjustmentPreviousAttributesInput extends Model {
      */
     public function getReturnLineItemId(): mixed { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. anyOf[1] (Value): string or null. Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. anyOf[1] (Value): string. Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_policy_id is omitted; use hasReturnPolicyId() or valueOrDefault().
      */
     public function getReturnPolicyId(): mixed { return $this->get('return_policy_id'); }

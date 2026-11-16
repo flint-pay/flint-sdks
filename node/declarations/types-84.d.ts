@@ -1,12 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { DeliveryZoneConfigurationRequestInput } from './types-24.js';
-import type {
-    DepartInventoryTransferRequestInput,
-    DimensionsRequestInput,
-    DisconnectTaxConnectionRequestInput,
-    DiscountPreviewRequestInput,
-    DispatchFulfillmentRequestInput
-} from './types-25.js';
+import type { DiscountPreviewRequestInput, DispatchFulfillmentRequestInput } from './types-25.js';
 import type {
     DocumentTaxIDRequestInput,
     EmailPreferenceLinkRequestInput,
@@ -41,9 +34,13 @@ import type {
     GiftCardPurchaseRecipientPatchRequestInput,
     GiftCardPurchaseRecipientRequestInput
 } from './types-29.js';
-import type { GiftCardVersionRequestInput, HoldFulfillmentRequestInput, ImageInputFileInput } from './types-30.js';
 import type {
-    ImageInputSourceURLInput,
+    GiftCardVersionRequestInput,
+    HoldFulfillmentRequestInput,
+    ImageInputFileInput,
+    ImageInputSourceURLInput
+} from './types-30.js';
+import type {
     ImageReferenceRequestInput,
     ImageRequestInput,
     InitialGiftCardFundingInput,
@@ -77,12 +74,11 @@ import type {
     InvoiceAutopayRetryPolicyInput,
     InvoiceCollectionInputAutomaticInput,
     InvoiceCollectionInputBuyerInitiatedInput,
-    InvoiceCollectionInputExternalInput
+    InvoiceCollectionInputExternalInput,
+    InvoiceCollectionInputMerchantDefaultInput,
+    InvoiceCollectionRequestInput
 } from './types-34.js';
-export declare function makeDeliveryZoneConfigurationRequest(value: InputValue<DeliveryZoneConfigurationRequestInput>): Model<DeliveryZoneConfigurationRequestInput>;
-export declare function makeDepartInventoryTransferRequest(value: InputValue<DepartInventoryTransferRequestInput>): Model<DepartInventoryTransferRequestInput>;
-export declare function makeDimensionsRequest(value: InputValue<DimensionsRequestInput>): Model<DimensionsRequestInput>;
-export declare function makeDisconnectTaxConnectionRequest(value: InputValue<DisconnectTaxConnectionRequestInput>): Model<DisconnectTaxConnectionRequestInput>;
+import type { InvoiceLateFeePolicyFixedRequestInput, InvoiceLateFeePolicyPercentageRequestInput } from './types-35.js';
 export declare function makeDiscountPreviewRequest(value: InputValue<DiscountPreviewRequestInput>): Model<DiscountPreviewRequestInput>;
 export declare function makeDispatchFulfillmentRequest(value: InputValue<DispatchFulfillmentRequestInput>): Model<DispatchFulfillmentRequestInput>;
 export declare function makeDocumentTaxIDRequest(value: InputValue<DocumentTaxIDRequestInput>): Model<DocumentTaxIDRequestInput>;
@@ -144,3 +140,7 @@ export declare function makeInvoiceAutopayRetryPolicy(value: InputValue<InvoiceA
 export declare function makeInvoiceCollectionInputAutomatic(value: InputValue<InvoiceCollectionInputAutomaticInput>): Model<InvoiceCollectionInputAutomaticInput>;
 export declare function makeInvoiceCollectionInputBuyerInitiated(value: InputValue<InvoiceCollectionInputBuyerInitiatedInput>): Model<InvoiceCollectionInputBuyerInitiatedInput>;
 export declare function makeInvoiceCollectionInputExternal(value: InputValue<InvoiceCollectionInputExternalInput>): Model<InvoiceCollectionInputExternalInput>;
+export declare function makeInvoiceCollectionInputMerchantDefault(value: InputValue<InvoiceCollectionInputMerchantDefaultInput>): Model<InvoiceCollectionInputMerchantDefaultInput>;
+export declare function makeInvoiceCollectionRequest(value: InputValue<InvoiceCollectionRequestInput>): Model<InvoiceCollectionRequestInput>;
+export declare function makeInvoiceLateFeePolicyFixedRequest(value: InputValue<InvoiceLateFeePolicyFixedRequestInput>): Model<InvoiceLateFeePolicyFixedRequestInput>;
+export declare function makeInvoiceLateFeePolicyPercentageRequest(value: InputValue<InvoiceLateFeePolicyPercentageRequestInput>): Model<InvoiceLateFeePolicyPercentageRequestInput>;

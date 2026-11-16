@@ -4,17 +4,17 @@ namespace Flint;
 /**
  * @property-read int|null $available_disposition_quantity
  * @property-read int|null $quantity
- * @property-read mixed $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_line_item_id
  * @property-read string|null $return_receipt_id
  * @property-read string|null $return_receipt_line_item_id
  * @property-read list<string>|null $supported_actions
- * @property-read mixed $unverified_item
+ * @property-read ReturnUnverifiedItemPreviousAttributes|null $unverified_item
  * @property-read string|null $verification_reason
  * @property-read string|null $verification_reason_message
  * @property-read string|null $verification_status
  * @property-read string|null $verified_at
- * @property-read mixed $verified_by
+ * @property-read ReturnActorPreviousAttributes|null $verified_by
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnReceiptLineItemPreviousAttributes extends Model {
     /** @param array{'available_disposition_quantity'?: mixed, 'quantity'?: mixed, 'return_id'?: mixed, 'return_line_item_id'?: mixed, 'return_receipt_id'?: mixed, 'return_receipt_line_item_id'?: mixed, 'supported_actions'?: mixed, 'unverified_item'?: mixed, 'verification_reason'?: mixed, 'verification_reason_message'?: mixed, 'verification_status'?: mixed, 'verified_at'?: mixed, 'verified_by'?: mixed, ...}|object $values */
@@ -29,10 +29,10 @@ final class ReturnReceiptLineItemPreviousAttributes extends Model {
      */
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReturnId(): mixed { return $this->get('return_id'); }
+    public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the units were matched to. Absent for unverified units. anyOf[1] (Value): string. ID of the Return line the units were matched to. Absent for unverified units. anyOf[2] (Value): null.
      * @return string|null
@@ -55,9 +55,9 @@ final class ReturnReceiptLineItemPreviousAttributes extends Model {
     public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** What the operator recorded for units that match no line. Present on `unverified` lines. anyOf[1] (Value): {@see ReturnUnverifiedItemPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnUnverifiedItemPreviousAttributes|null
      */
-    public function getUnverifiedItem(): mixed { return $this->get('unverified_item'); }
+    public function getUnverifiedItem(): ReturnUnverifiedItemPreviousAttributes|null { return $this->get('unverified_item'); }
     public function hasUnverifiedItem(): bool { return $this->has('unverified_item'); }
     /** Why the units were verified against the line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other". anyOf[1] (Value): string. Why the units were verified against the line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -80,8 +80,8 @@ final class ReturnReceiptLineItemPreviousAttributes extends Model {
     public function getVerifiedAt(): string|null { return $this->get('verified_at'); }
     public function hasVerifiedAt(): bool { return $this->has('verified_at'); }
     /** Who verified the line. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getVerifiedBy(): mixed { return $this->get('verified_by'); }
+    public function getVerifiedBy(): ReturnActorPreviousAttributes|null { return $this->get('verified_by'); }
     public function hasVerifiedBy(): bool { return $this->has('verified_by'); }
 }

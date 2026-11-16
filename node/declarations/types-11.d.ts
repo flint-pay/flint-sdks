@@ -1,6 +1,3 @@
-import type { AddressRequestInput } from './types-0.js';
-import type { LocationCoordinateRequestInput, ManualDiscountRequest, ManualDiscountRequestInput } from './types-39.js';
-import type { MetadataRequestInput, MerchantSignupOwner, MerchantSignupOwnerRequestInput, MetadataMap } from './types-41.js';
 import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6.js';
 import type { CreateSubscriptionPreviewRequestQuantityChange } from './types-14.js';
 import type {
@@ -11,9 +8,11 @@ import type {
 } from './types-70.js';
 import type { SubscriptionDeliveryDestinationRequestInput } from './types-67.js';
 import type { SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-68.js';
+import type { MerchantSignupOwner, MerchantSignupOwnerRequestInput, MetadataMap, MetadataRequestInput } from './types-41.js';
 import type { TextModifierConfigRequest } from './types-72.js';
 import type { CreateInlineModifierGroupRequestInput } from './types-10.js';
 import type { MoneyValue, MoneyValueInput, ModifierOverride, ModifierOverrideRequestInput } from './types-42.js';
+import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-39.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-57.js';
 import type {
     OrderEditRemovalRequest,
@@ -42,60 +41,8 @@ import type { Weight, WeightRequestInput } from './types-77.js';
 import type { GiftCardPurchaseDetailsRequestInput } from './types-29.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-46.js';
-/** The request body for: Create location. */
-export type CreateLocationRequestInput = {
-    /**
-     * Postal address of the Location. A complete postal address. State and postal_code are
-     * required for US addresses and optional for other countries. Send null or omit line2, state,
-     * and postal_code when the address has none.
-     */
-    "address": AddressRequestInput;
-    /**
-     * Latitude and longitude of the Location. Send it with `coordinate_source`. A latitude and
-     * longitude for a merchant location.
-     */
-    "coordinate"?: LocationCoordinateRequestInput;
-    /**
-     * Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if
-     * you got it by geocoding the address. Send it with `coordinate`: it is required when
-     * `coordinate` is present and rejected when `coordinate` is absent. `null` counts as omitted,
-     * so it is accepted only when `coordinate` is also omitted. Value enum: "merchant_supplied",
-     * "geocoded", null.
-     */
-    "coordinate_source"?: "merchant_supplied" | "geocoded" | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Whether this Location accepts inventory allocation. Sending this field requires
-     * commerce.inventory.allocation.write in addition to the route scope. Default: false.
-     */
-    "inventory_allocation_enabled"?: boolean;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Merchant-facing Location name, from 1 to 255 characters. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Status the Location starts in. Defaults to `active`. Default: "active". Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to
-     * the merchant's timezone, then UTC, and is saved on the Location at creation. A live Location
-     * sets an unset merchant business time zone; sandbox Locations do not. minLength: 1.
-     */
-    "timezone"?: string;
-};
+import type { CreatePackageRequestCreated, CreatePackageRequestShipped } from './types-12.js';
+import type { ReturnResolutionLineItemRequest } from './types-63.js';
 /** The `invoice` variant of `CreateMeCheckoutSessionRequest`. */
 export type CreateMeCheckoutSessionInvoice = ({
     /**
@@ -4262,3 +4209,96 @@ export type CreatePackageItemRequestInput = {
      */
     "quantity": number;
 };
+/**
+ * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
+ * enclosing create supplies the shipment.
+ */
+export type CreatePackageRequest = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: Dimensions;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequest>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped" | (string & {});
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: Weight;
+})
+    & ((Exclude<CreatePackageRequestCreated & object, readonly unknown[]>)
+    | (Exclude<CreatePackageRequestShipped & object, readonly unknown[]>)
+    | (Record<string, unknown>));

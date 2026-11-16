@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string|null $name
  * @property-read string|null $payment_link_line_item_id
  * @property-read string|null $product_id
- * @property-read string|null|null $product_type
+ * @property-read string|null $product_type
  * @property-read int|null $quantity
  * @property-read string|null $resolved_name
  * @property-read ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $resolved_price_range
@@ -29,7 +29,7 @@ namespace Flint;
  * @property-read list<string>|null $variant_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLineItemCustomVariablePreviousAttributesInput extends Model {
-    /** @param array{'allow_quantity_adjustment'?: bool|null, 'allow_unit_price_adjustment'?: bool|null, 'bundle_id'?: string|null, 'default_variant_id'?: string|null, 'description'?: string|null, 'is_catalog_item_unavailable'?: bool|null, 'key'?: string|null, 'max_quantity'?: int|null, 'max_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'min_quantity'?: int|null, 'min_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, 'payment_link_line_item_id'?: string|null, 'product_id'?: string|null, 'product_type'?: string|null|null, 'quantity'?: int|null, 'resolved_name'?: string|null, 'resolved_price_range'?: ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'resolved_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'suggested_unit_price_money_options'?: list<MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax'?: OrderLineItemTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'variant_id'?: string|null, 'variant_ids'?: list<string>|null, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool|null, 'allow_unit_price_adjustment'?: bool|null, 'bundle_id'?: string|null, 'default_variant_id'?: string|null, 'description'?: string|null, 'is_catalog_item_unavailable'?: bool|null, 'key'?: string|null, 'max_quantity'?: int|null, 'max_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'min_quantity'?: int|null, 'min_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, 'payment_link_line_item_id'?: string|null, 'product_id'?: string|null, 'product_type'?: string|null, 'quantity'?: int|null, 'resolved_name'?: string|null, 'resolved_price_range'?: ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'resolved_unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'suggested_unit_price_money_options'?: list<MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax'?: OrderLineItemTaxPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'unit_price_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'variant_id'?: string|null, 'variant_ids'?: list<string>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemCustomVariablePreviousAttributesInput')); }
     /** Whether the buyer can change the quantity in checkout. anyOf[1] (Value): boolean. Whether the buyer can change the quantity in checkout. anyOf[2] (Value): null.
      * @return bool|null
@@ -115,8 +115,8 @@ final class PaymentLinkLineItemCustomVariablePreviousAttributesInput extends Mod
      */
     public function getProductId(): mixed { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string or null. Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string. Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
      */
     public function getProductType(): mixed { return $this->get('product_type'); }

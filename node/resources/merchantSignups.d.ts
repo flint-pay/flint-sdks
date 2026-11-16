@@ -69,7 +69,7 @@ export {
     makeMerchantSignupVersionRequest
 } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-92.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-91.js';
 export interface MerchantSignupsResource {
     /**
  * Cancels a `pending` signup and voids its code, so a code email still queued is never sent. A

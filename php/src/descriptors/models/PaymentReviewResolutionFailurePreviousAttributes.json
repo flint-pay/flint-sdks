@@ -1,0 +1,1 @@
+{"shared":"PaymentReviewResolutionFailurePreviousAttributes","phpRepresentation":{"kind":"record","fields":{"failed_at":{"kind":"nullable","value":{"kind":"value","type":"string"}},"refund_id":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PaymentReviewResolutionFailurePreviousAttributes","SharedCodec0","SharedCodec20"]}

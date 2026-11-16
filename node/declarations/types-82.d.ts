@@ -1,9 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateSubscriptionDeliveryMigrationRequestInput,
-    CreateSubscriptionLineItemRequestInput,
-    CreateSubscriptionLineItemRequestBundleInput,
-    CreateSubscriptionLineItemRequestVariantInput,
     CreateSubscriptionOfferRequestInput,
     CreateSubscriptionPlanRequestInput,
     CreateSubscriptionPreviewRequestInput,
@@ -73,12 +69,14 @@ import type {
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequestInput,
     DeliveryMethodConfigurationPatchRequestInput,
-    DeliveryMethodConfigurationRequestInput
+    DeliveryMethodConfigurationRequestInput,
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput
 } from './types-19.js';
-export declare function makeCreateSubscriptionDeliveryMigrationRequest(value: InputValue<CreateSubscriptionDeliveryMigrationRequestInput>): Model<CreateSubscriptionDeliveryMigrationRequestInput>;
-export declare function makeCreateSubscriptionLineItemRequest(value: InputValue<CreateSubscriptionLineItemRequestInput>): Model<CreateSubscriptionLineItemRequestInput>;
-export declare function makeCreateSubscriptionLineItemRequestBundle(value: InputValue<CreateSubscriptionLineItemRequestBundleInput>): Model<CreateSubscriptionLineItemRequestBundleInput>;
-export declare function makeCreateSubscriptionLineItemRequestVariant(value: InputValue<CreateSubscriptionLineItemRequestVariantInput>): Model<CreateSubscriptionLineItemRequestVariantInput>;
+import type {
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput,
+    DeliveryMethodOriginSelectorInputFixedLocationInput
+} from './types-20.js';
 export declare function makeCreateSubscriptionOfferRequest(value: InputValue<CreateSubscriptionOfferRequestInput>): Model<CreateSubscriptionOfferRequestInput>;
 export declare function makeCreateSubscriptionPlanRequest(value: InputValue<CreateSubscriptionPlanRequestInput>): Model<CreateSubscriptionPlanRequestInput>;
 export declare function makeCreateSubscriptionPreviewRequest(value: InputValue<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateSubscriptionPreviewRequestInput & object, readonly unknown[]>>;
@@ -140,3 +138,7 @@ export declare function makeDeliveryLocationSetConfiguration(value: InputValue<D
 export declare function makeDeliveryMethodConfigurationCreateRequest(value: InputValue<DeliveryMethodConfigurationCreateRequestInput>): Model<DeliveryMethodConfigurationCreateRequestInput>;
 export declare function makeDeliveryMethodConfigurationPatchRequest(value: InputValue<DeliveryMethodConfigurationPatchRequestInput>): Model<DeliveryMethodConfigurationPatchRequestInput>;
 export declare function makeDeliveryMethodConfigurationRequest(value: InputValue<DeliveryMethodConfigurationRequestInput>): Model<DeliveryMethodConfigurationRequestInput>;
+export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>;
+export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>;
+export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>;
+export declare function makeDeliveryMethodOriginSelectorInputFixedLocation(value: InputValue<DeliveryMethodOriginSelectorInputFixedLocationInput>): Model<DeliveryMethodOriginSelectorInputFixedLocationInput>;

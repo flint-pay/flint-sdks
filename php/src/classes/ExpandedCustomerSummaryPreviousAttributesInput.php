@@ -4,14 +4,14 @@ namespace Flint;
 /**
  * @property-read string|\DateTimeInterface|null $created_at
  * @property-read string|null $customer_id
- * @property-read string|null|null $email
- * @property-read string|null|null $name
- * @property-read string|null|null $phone
+ * @property-read string|null $email
+ * @property-read string|null $name
+ * @property-read string|null $phone
  * @property-read string|null $status
  * @property-read string|\DateTimeInterface|null $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedCustomerSummaryPreviousAttributesInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface|null, 'customer_id'?: string|null, 'email'?: string|null|null, 'name'?: string|null|null, 'phone'?: string|null|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface|null, 'customer_id'?: string|null, 'email'?: string|null, 'name'?: string|null, 'phone'?: string|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedCustomerSummaryPreviousAttributesInput')); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
@@ -25,20 +25,20 @@ final class ExpandedCustomerSummaryPreviousAttributesInput extends Model {
      */
     public function getCustomerId(): mixed { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Customer email. `null` when the customer has none. Unique among the environment's customers. anyOf[1] (Value): string or null. Customer email. `null` when the customer has none. Unique among the environment's customers. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Customer email. `null` when the customer has none. Unique among the environment's customers. anyOf[1] (Value): string. Customer email. `null` when the customer has none. Unique among the environment's customers. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): mixed { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer name. `null` when none is set. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Customer name. `null` when none is set. anyOf[1] (Value): string. Customer name. `null` when none is set. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): mixed { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Customer phone number. `null` when none is set. anyOf[1] (Value): string or null. Customer phone number. `null` when none is set. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Customer phone number. `null` when none is set. anyOf[1] (Value): string. Customer phone number. `null` when none is set. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
     public function getPhone(): mixed { return $this->get('phone'); }

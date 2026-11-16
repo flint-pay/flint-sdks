@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# CreateCreditNoteRequest to CreateGiftCardResult
+# CreateCreditNoteRequestInput to CreateGiftCardResultResponse
 
-- [CreateCreditNoteRequest](CreateCreditNoteRequest.md)
 - [CreateCreditNoteRequestInput](CreateCreditNoteRequestInput.md)
 - [CreateCustomDomainRequest](CreateCustomDomainRequest.md)
 - [CreateCustomDomainRequestInput](CreateCustomDomainRequestInput.md)
@@ -102,4 +101,5 @@
 - [CreateGiftCardRequest](CreateGiftCardRequest.md)
 - [CreateGiftCardRequestInput](CreateGiftCardRequestInput.md)
 - [CreateGiftCardResult](CreateGiftCardResult.md)
+- [CreateGiftCardResultResponse](CreateGiftCardResultResponse.md)
 

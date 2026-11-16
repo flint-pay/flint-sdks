@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# MarkFulfillmentPickedRequestInput to MoneyMovementBlockedReason
+# MarkFulfillmentPreparingRequestInput to MoneyMovementBlockedReasonPreviousAttributes
 
-- [MarkFulfillmentPickedRequestInput](MarkFulfillmentPickedRequestInput.md)
 - [MarkFulfillmentPreparingRequestInput](MarkFulfillmentPreparingRequestInput.md)
 - [MarkFulfillmentReadyRequestInput](MarkFulfillmentReadyRequestInput.md)
 - [MarkPackageDeliveredRequestInput](MarkPackageDeliveredRequestInput.md)
@@ -102,4 +101,5 @@
 - [ModifierSetUpdatedInstalledMerchantsEvent](ModifierSetUpdatedInstalledMerchantsEvent.md)
 - [ModifierSetUpdatedMerchantEvent](ModifierSetUpdatedMerchantEvent.md)
 - [MoneyMovementBlockedReason](MoneyMovementBlockedReason.md)
+- [MoneyMovementBlockedReasonPreviousAttributes](MoneyMovementBlockedReasonPreviousAttributes.md)
 

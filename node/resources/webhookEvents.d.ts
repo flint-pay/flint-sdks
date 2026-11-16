@@ -1,14 +1,15 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-60.js';
-import type { WebhookEvent, WebhookEventListResponse, WebhookEventResponse } from '../declarations/types-76.js';
 import type {
+    WebhookEvent,
+    WebhookEventListResponse,
+    WebhookEventResponse,
     WebhookEventsGetParams,
     WebhookEventsListParams,
-    WebhookEventsStreamParams,
-    WebhookEventsStreamResponse,
-    _SdkWithoutIdempotency
-} from '../declarations/types-77.js';
+    WebhookEventsStreamParams
+} from '../declarations/types-76.js';
+import type { WebhookEventsStreamResponse, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,13 +26,15 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookEventsGetParams,
-    _SdkWithoutIdempotency,
+    WebhookEvent,
+    WebhookEventResponse,
     WebhookEventsListParams,
+    WebhookEventListResponse,
     WebhookEventsStreamParams,
-    WebhookEventsStreamResponse
-} from '../declarations/types-77.js';
+    WebhookEventSource
+} from '../declarations/types-76.js';
+export type { _SdkWithoutIdempotency, WebhookEventsStreamResponse } from '../declarations/types-77.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { WebhookEvent, WebhookEventResponse, WebhookEventListResponse, WebhookEventSource } from '../declarations/types-76.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';

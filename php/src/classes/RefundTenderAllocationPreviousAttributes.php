@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $destination
  * @property-read list<RefundGiftCardDestinationPreviousAttributes>|null $destination_cards
  * @property-read string|null $failure_reason
@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string|null $gift_card_redemption_id
  * @property-read string|null $payment_intent_id
  * @property-read string|null $refund_allocation_id
- * @property-read mixed $refunded_tip_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_tip_money
  * @property-read string|null $status
  * @property-read string|null $succeeded_at
  * @property-read string|null $tender_type
@@ -19,9 +19,9 @@ final class RefundTenderAllocationPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'destination'?: mixed, 'destination_cards'?: mixed, 'failure_reason'?: mixed, 'gift_card_id'?: mixed, 'gift_card_redemption_id'?: mixed, 'payment_intent_id'?: mixed, 'refund_allocation_id'?: mixed, 'refunded_tip_money'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, 'tender_type'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTenderAllocationPreviousAttributes')); }
     /** Amount of the refund that went to this tender, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Where this allocation is refunded. original returns value to the tender that paid; new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the existing dispute refusal. Gift card redemption destinations are unaffected by the payment restrictions. Value enum: "original", "new_gift_card". anyOf[1] (Value): string. Where this allocation is refunded. original returns value to the tender that paid; new_gift_card issues new Flint gift cards. Payment intent store credit requires a succeeded USD card, Apple Pay, Google Pay, or Link payment that belongs to an order, with no open chargeback. Affirm, ACH debit, other payment options, non-USD payments, and payments without an order return INVALID_REQUEST with a NOT_ALLOWED detail. Payment chargebacks use the existing dispute refusal. Gift card redemption destinations are unaffected by the payment restrictions. Default: "original". Value enum: "original", "new_gift_card". anyOf[2] (Value): null.
      * @return string|null
@@ -59,9 +59,9 @@ final class RefundTenderAllocationPreviousAttributes extends Model {
     public function getRefundAllocationId(): string|null { return $this->get('refund_allocation_id'); }
     public function hasRefundAllocationId(): bool { return $this->has('refund_allocation_id'); }
     /** Share of this allocation's `amount_money` that refunds tips. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedTipMoney(): mixed { return $this->get('refunded_tip_money'); }
+    public function getRefundedTipMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_tip_money'); }
     public function hasRefundedTipMoney(): bool { return $this->has('refunded_tip_money'); }
     /** Status of this payment refund or tender allocation. A succeeded refund can still fail after a bank rejection. Parent status transitions send refund.succeeded, refund.partially_succeeded, or refund.failed; other public changes send refund.updated. Value enum: "pending", "requires_action", "succeeded", "failed", "canceled". anyOf[1] (Value): string. Status of this payment refund or tender allocation. A succeeded refund can still fail after a bank rejection. Parent status transitions send refund.succeeded, refund.partially_succeeded, or refund.failed; other public changes send refund.updated. Value enum: "pending", "requires_action", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
      * @return string|null

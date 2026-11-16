@@ -1,0 +1,75 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read BackorderPolicyPreviousAttributes|null $backorder
+ * @property-read string|null $barcode
+ * @property-read string|null $created_at
+ * @property-read string|null $external_reference_id
+ * @property-read string|null $inventory_item_id
+ * @property-read array<array-key, string>|null $metadata
+ * @property-read string|null $name
+ * @property-read string|null $sku
+ * @property-read string|null $status
+ * @property-read string|null $updated_at
+ * @property-read int|null $version
+ * Presence-aware response; omitted optional fields return null. */
+final class InventoryItemPreviousAttributes extends Model {
+    /** @param array{'backorder'?: mixed, 'barcode'?: mixed, 'created_at'?: mixed, 'external_reference_id'?: mixed, 'inventory_item_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'sku'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemPreviousAttributes')); }
+    /** Backorder settings shared by every variant using this inventory item. anyOf[1] (Value): {@see BackorderPolicyPreviousAttributes}. anyOf[2] (Value): null.
+     * @return BackorderPolicyPreviousAttributes|null
+     */
+    public function getBackorder(): BackorderPolicyPreviousAttributes|null { return $this->get('backorder'); }
+    public function hasBackorder(): bool { return $this->has('backorder'); }
+    /** Optional searchable barcode. anyOf[1] (Value): string. Optional searchable barcode. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getBarcode(): string|null { return $this->get('barcode'); }
+    public function hasBarcode(): bool { return $this->has('barcode'); }
+    /** Time the inventory item was created. anyOf[1] (Value): string. Time the inventory item was created. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreatedAt(): string|null { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Stable inventory item ID. anyOf[1] (Value): string. Stable inventory item ID. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getInventoryItemId(): string|null { return $this->get('inventory_item_id'); }
+    public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
+    /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
+     * @return array<array-key, string>|null
+     */
+    public function getMetadata(): array|null { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Merchant-facing inventory item name. anyOf[1] (Value): string. Merchant-facing inventory item name. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getName(): string|null { return $this->get('name'); }
+    public function hasName(): bool { return $this->has('name'); }
+    /** Optional searchable stock-keeping unit. anyOf[1] (Value): string. Optional searchable stock-keeping unit. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSku(): string|null { return $this->get('sku'); }
+    public function hasSku(): bool { return $this->has('sku'); }
+    /** Current inventory item lifecycle status. Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Current inventory item lifecycle status. Value enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getStatus(): string|null { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Time the inventory item last changed. anyOf[1] (Value): string. Time the inventory item last changed. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getUpdatedAt(): string|null { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Optimistic-concurrency version for item writes. anyOf[1] (Value): integer. Optimistic-concurrency version for item writes. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getVersion(): int|null { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

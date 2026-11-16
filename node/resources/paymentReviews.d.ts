@@ -52,7 +52,7 @@ export type { DeferredPromotion, DeclinePaymentReviewRequestInput, DeclinePaymen
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { MoneyValue, NextAction } from '../declarations/types-42.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-66.js';
+export type { SettlementAmounts } from '../declarations/types-65.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeDeclinePaymentReviewRequest } from '../declarations/types-82.js';

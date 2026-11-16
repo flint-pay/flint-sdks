@@ -50,7 +50,6 @@ export type {
     GiftCardsUnfreezeParams,
     GiftCardsUpdateParams,
     GiftCardPurchaseRefundValueHold,
-    GiftCardPurchaseRefundRecoveryDestination,
     GiftCardPurchaseRefundValueAllocation,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance,
@@ -82,6 +81,7 @@ export type {
     GiftCardLoad,
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundRecovery,
+    GiftCardPurchaseRefundRecoveryDestination,
     GiftCardFundingSourceFlintPayment,
     GiftCardFundingSourceImport,
     GiftCardFundingSourceGiftCardRefund,
@@ -111,8 +111,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { InitialGiftCardFundingInput } from '../declarations/types-31.js';
 export type { FreezeGiftCardRequestInput } from '../declarations/types-27.js';
 export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-39.js';
-export type { UnfreezeGiftCardRequestInput } from '../declarations/types-73.js';
-export type { UpdateGiftCardRequestInput, UpdateGiftCardRequest } from '../declarations/types-74.js';
+export type { UnfreezeGiftCardRequestInput, UpdateGiftCardRequest } from '../declarations/types-73.js';
+export type { UpdateGiftCardRequestInput } from '../declarations/types-74.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-77.js';
 export { makeCashOutGiftCardRequest, makeCloseGiftCardRequest } from '../declarations/types-78.js';
@@ -134,8 +134,7 @@ export {
 export { makeLookupGiftCardRequest } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeRotateGiftCardCodeRequest, makeSignedMoneyRequest } from '../declarations/types-89.js';
-export { makeUnfreezeGiftCardRequest } from '../declarations/types-90.js';
-export { makeUpdateGiftCardRequest } from '../declarations/types-91.js';
+export { makeUnfreezeGiftCardRequest, makeUpdateGiftCardRequest } from '../declarations/types-90.js';
 export interface GiftCardsResource {
     /**
  * Posts a relative correction with a typed reason and separate administrative authority.

@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $address
  * @property-read string|null $customer_address_id
- * @property-read string|null|null $customer_id
+ * @property-read string|null $customer_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionServiceLocationPreviousAttributesInput extends Model {
-    /** @param array{'address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_address_id'?: string|null, 'customer_id'?: string|null|null, ...}|object $values */
+    /** @param array{'address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'customer_address_id'?: string|null, 'customer_id'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionServiceLocationPreviousAttributesInput')); }
     /** The address where the service is performed. Flint copies it when the subscription is created, so later edits to the customer's saved address don't change it. anyOf[1] (Value): {@see AddressPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -21,8 +21,8 @@ final class SubscriptionServiceLocationPreviousAttributesInput extends Model {
      */
     public function getCustomerAddressId(): mixed { return $this->get('customer_address_id'); }
     public function hasCustomerAddressId(): bool { return $this->has('customer_address_id'); }
-    /** Customer that owns customer_address_id. Null when customer_address_id is absent or withheld from the buyer projection. anyOf[1] (Value): string or null. Customer that owns customer_address_id. Null when customer_address_id is absent or withheld from the buyer projection. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Customer that owns customer_address_id. Null when customer_address_id is absent or withheld from the buyer projection. anyOf[1] (Value): string. Customer that owns customer_address_id. Null when customer_address_id is absent or withheld from the buyer projection. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): mixed { return $this->get('customer_id'); }

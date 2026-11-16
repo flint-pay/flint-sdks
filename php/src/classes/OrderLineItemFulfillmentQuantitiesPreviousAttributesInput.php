@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int|null $assigned_quantity
- * @property-read string|null|null $bundle_component_id
+ * @property-read string|null $bundle_component_id
  * @property-read int|null $canceled_quantity
  * @property-read int|null $failed_quantity
  * @property-read int|null $fulfilled_quantity
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read int|null $unassigned_quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemFulfillmentQuantitiesPreviousAttributesInput extends Model {
-    /** @param array{'assigned_quantity'?: int|null, 'bundle_component_id'?: string|null|null, 'canceled_quantity'?: int|null, 'failed_quantity'?: int|null, 'fulfilled_quantity'?: int|null, 'removed_quantity'?: int|null, 'required_quantity'?: int|null, 'unassigned_quantity'?: int|null, ...}|object $values */
+    /** @param array{'assigned_quantity'?: int|null, 'bundle_component_id'?: string|null, 'canceled_quantity'?: int|null, 'failed_quantity'?: int|null, 'fulfilled_quantity'?: int|null, 'removed_quantity'?: int|null, 'required_quantity'?: int|null, 'unassigned_quantity'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemFulfillmentQuantitiesPreviousAttributesInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold. Format: int64. anyOf[2] (Value): null.
      * @return int|null
@@ -20,8 +20,8 @@ final class OrderLineItemFulfillmentQuantitiesPreviousAttributesInput extends Mo
      */
     public function getAssignedQuantity(): mixed { return $this->get('assigned_quantity'); }
     public function hasAssignedQuantity(): bool { return $this->has('assigned_quantity'); }
-    /** ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. anyOf[1] (Value): string or null. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. anyOf[1] (Value): string. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
     public function getBundleComponentId(): mixed { return $this->get('bundle_component_id'); }

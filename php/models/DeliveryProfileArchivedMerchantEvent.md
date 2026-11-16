@@ -48,10 +48,6 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 Field definitions: [shared fields](DeliveryProfileArchivedMerchantEventDataPreviousAttributes.md#deliveryprofilearchivedmerchanteventdatapreviousattributes).
 
-### DeliveryProfileArchivedMerchantEvent.data fields 1.previous_attributes.configuration
-
-Declared alternatives: [DeliveryProfileArchivedMerchantEventDataPreviousAttributes.configuration](../models/DeliveryProfileArchivedMerchantEventDataPreviousAttributes.md#deliveryprofilearchivedmerchanteventdatapreviousattributesconfiguration).
-
 ### DeliveryProfileArchivedMerchantEvent.data fields 1.previous_attributes.created_at
 
 Declared alternatives: [DeliveryProfileArchivedMerchantEventDataPreviousAttributes.created_at](../models/DeliveryProfileArchivedMerchantEventDataPreviousAttributes.md#deliveryprofilearchivedmerchanteventdatapreviousattributescreated_at).

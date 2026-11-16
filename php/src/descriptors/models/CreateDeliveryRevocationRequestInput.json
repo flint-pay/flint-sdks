@@ -1,1 +1,1 @@
-{"shared":"CreateDeliveryRevocationRequest","dependencies":["CreateDeliveryRevocationRequest","CreateDeliveryRevocationTarget","SharedCodec422","SharedCodec423","SharedCodec424","SharedCodec425"]}
+{"shared":"CreateDeliveryRevocationRequest","dependencies":["CreateDeliveryRevocationRequest","CreateDeliveryRevocationTarget","SharedCodec402","SharedCodec403","SharedCodec404","SharedCodec405"]}

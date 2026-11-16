@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# InvoiceReopenedInstalledMerchantsEvent to MarkFulfillmentPackedRequestInput
+# InvoiceReopenedMerchantEvent to MarkFulfillmentPickedRequestInput
 
-- [InvoiceReopenedInstalledMerchantsEvent](InvoiceReopenedInstalledMerchantsEvent.md)
 - [InvoiceReopenedMerchantEvent](InvoiceReopenedMerchantEvent.md)
 - [InvoiceResponse](InvoiceResponse.md)
 - [InvoiceScheduleAmountSpecification](InvoiceScheduleAmountSpecification.md)
@@ -102,4 +101,5 @@
 - [MarkFulfillmentNoShowRequest](MarkFulfillmentNoShowRequest.md)
 - [MarkFulfillmentNoShowRequestInput](MarkFulfillmentNoShowRequestInput.md)
 - [MarkFulfillmentPackedRequestInput](MarkFulfillmentPackedRequestInput.md)
+- [MarkFulfillmentPickedRequestInput](MarkFulfillmentPickedRequestInput.md)
 

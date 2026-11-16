@@ -1,7 +1,7 @@
-import { d8930 as c0 } from '../descriptors/data/400.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8930 as d8930 } from '../descriptors/data/400.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8840 as c0 } from '../descriptors/data/397.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8840 as d8840 } from '../descriptors/data/397.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8930;
+const read = d8840;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SignedMoneyRequest"]:c0()}); }
 export { codec as _validate };

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<MoneyMovementBlockedReasonPreviousAttributes>|null $blocked_reasons
- * @property-read mixed $created_at
+ * @property-read string|null $created_at
  * @property-read array<array-key, string>|null $default_payout_destinations
  * @property-read int|null $delay_days
  * @property-read int|null $delay_days_override
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string|null $payout_settings_id
  * @property-read string|null $statement_descriptor
  * @property-read string|null $status
- * @property-read mixed $updated_at
+ * @property-read string|null $updated_at
  * @property-read int|null $version
  * @property-read list<string>|null $weekly_payout_days
  * Presence-aware response; omitted optional fields return null. */
@@ -27,10 +27,10 @@ final class PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getBlockedReasons(): array|null { return $this->get('blocked_reasons'); }
     public function hasBlockedReasons(): bool { return $this->has('blocked_reasons'); }
-    /** When Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no stored settings record exists. anyOf[1] (Value): string or null. When Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no stored settings record exists. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no stored settings record exists. anyOf[1] (Value): string. When Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no stored settings record exists. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getCreatedAt(): mixed { return $this->get('created_at'); }
+    public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Default payout destination for each currency, as a map from currency code to payout_destination_id. Empty when no defaults are configured. Change a currency's default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded component. anyOf[1] (Value): Map of string. anyOf[1].* (Value): string. anyOf[2] (Value): null.
      * @return array<array-key, string>|null
@@ -87,10 +87,10 @@ final class PayoutSettingsUpdatedInstalledMerchantsEventDataPreviousAttributes e
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When the stored payout settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this is your processor's update time. `null` when there is no stored record and your processor supplied no update time. anyOf[1] (Value): string or null. When the stored payout settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this is your processor's update time. `null` when there is no stored record and your processor supplied no update time. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When the stored payout settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this is your processor's update time. `null` when there is no stored record and your processor supplied no update time. anyOf[1] (Value): string. When the stored payout settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this is your processor's update time. `null` when there is no stored record and your processor supplied no update time. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getUpdatedAt(): mixed { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string|null { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Persisted version of this resource's owned state. Expanded resources and external observations can change independently. anyOf[1] (Value): integer. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
      * @return int|null

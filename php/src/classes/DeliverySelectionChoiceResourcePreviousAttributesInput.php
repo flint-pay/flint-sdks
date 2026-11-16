@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read DeliveryLocalDeliveryDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $local_delivery
  * @property-read string|null $merchant_reference
  * @property-read string|null $name
- * @property-read string|null|null $order_charge_id
+ * @property-read string|null $order_charge_id
  * @property-read string|null $order_id
  * @property-read DeliveryPickupDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $pickup
  * @property-read DeliveryShipmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $shipment
@@ -27,7 +27,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliverySelectionChoiceResourcePreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'delivery_choice_group_id'?: string|null, 'delivery_method_id'?: string|null, 'delivery_option_id'?: string|null, 'delivery_plan'?: DeliveryPlanPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'delivery_window_id'?: string|null, 'description'?: string|null, 'discount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'input'?: DeliverySelectionInstructionsRequestPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'local_delivery'?: DeliveryLocalDeliveryDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'merchant_reference'?: string|null, 'name'?: string|null, 'order_charge_id'?: string|null|null, 'order_id'?: string|null, 'pickup'?: DeliveryPickupDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'shipment'?: DeliveryShipmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'stable_key'?: string|null, 'tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'timezone'?: string|null, 'total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'delivery_choice_group_id'?: string|null, 'delivery_method_id'?: string|null, 'delivery_option_id'?: string|null, 'delivery_plan'?: DeliveryPlanPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'delivery_window_id'?: string|null, 'description'?: string|null, 'discount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'input'?: DeliverySelectionInstructionsRequestPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'local_delivery'?: DeliveryLocalDeliveryDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'merchant_reference'?: string|null, 'name'?: string|null, 'order_charge_id'?: string|null, 'order_id'?: string|null, 'pickup'?: DeliveryPickupDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'shipment'?: DeliveryShipmentDetailsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'stable_key'?: string|null, 'tax_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'timezone'?: string|null, 'total_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'type'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionChoiceResourcePreviousAttributesInput')); }
     /** Delivery price before discounts and tax. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -101,8 +101,8 @@ final class DeliverySelectionChoiceResourcePreviousAttributesInput extends Model
      */
     public function getName(): mixed { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Always present with an API key or dashboard credential. Null when the choice has no order charge. anyOf[1] (Value): string or null. Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Always present with an API key or dashboard credential. Null when the choice has no order charge. anyOf[1] (Value): string. Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */
     public function getOrderChargeId(): mixed { return $this->get('order_charge_id'); }

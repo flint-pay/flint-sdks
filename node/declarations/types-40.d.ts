@@ -9,8 +9,8 @@ import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesR
 import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from './types-74.js';
 import type { Address } from './types-0.js';
 import type { ImageAttachment } from './types-30.js';
-import type { MerchantReadiness, MetadataMap, MerchantAccountSessionStripe } from './types-41.js';
-export type MeGetEmailPreferencesParams = {};
+import type { MerchantReadiness, MetadataMap, MerchantAccountSessionStripeComponent } from './types-41.js';
+import type { DisputeResponseSessionStripeAccountSession } from './types-25.js';
 export type MeGetFulfillmentParams = {};
 export type MeGetGiftCardParams = {};
 export type MeGetInvoicePDFParams = {};
@@ -1646,4 +1646,24 @@ export type MerchantAccountSessionResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+/**
+ * Stripe Connect initialization data for a merchant account session: the account session,
+ * publishable key, and authorized components.
+ */
+export type MerchantAccountSessionStripe = {
+    /**
+     * Account session authority for initializing Stripe Connect in the browser. The account
+     * session authority for initializing Stripe Connect in the browser, including the client
+     * secret.
+     */
+    "account_session": DisputeResponseSessionStripeAccountSession;
+    /**
+     * Authorized Stripe component names and collection options to apply when mounting each
+     * component. [] (Value): {@link MerchantAccountSessionStripeComponent}. One embedded component
+     * a merchant account session authorizes, with the collection options to apply to it.
+     */
+    "components": Array<MerchantAccountSessionStripeComponent>;
+    /** Stripe publishable key to pass as publishableKey to loadConnectAndInitialize. */
+    "publishable_key": string;
 };

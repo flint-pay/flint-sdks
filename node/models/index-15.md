@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryZoneCreatedInstalledMerchantsEvent to FeedbackReport
+# DeliveryZoneCreatedMerchantEvent to FeedbackReportingClient
 
-- [DeliveryZoneCreatedInstalledMerchantsEvent](DeliveryZoneCreatedInstalledMerchantsEvent.md)
 - [DeliveryZoneCreatedMerchantEvent](DeliveryZoneCreatedMerchantEvent.md)
 - [DeliveryZoneListResponse](DeliveryZoneListResponse.md)
 - [DeliveryZoneResponse](DeliveryZoneResponse.md)
@@ -102,4 +101,5 @@
 - [FailFulfillmentRequest](FailFulfillmentRequest.md)
 - [FailFulfillmentRequestInput](FailFulfillmentRequestInput.md)
 - [FeedbackReport](FeedbackReport.md)
+- [FeedbackReportingClient](FeedbackReportingClient.md)
 

@@ -6,9 +6,9 @@ namespace Flint;
  * @property-read string|null $merchant_billing_invoice_line_item_id
  * @property-read string|null $name
  * @property-read int|null $quantity
- * @property-read mixed $total_money
+ * @property-read MoneyValuePreviousAttributes|null $total_money
  * @property-read string|null $type
- * @property-read mixed $unit_price_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_money
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantBillingInvoiceLineItemPreviousAttributes extends Model {
     /** @param array{'created_at'?: mixed, 'merchant_billing_invoice_line_item_id'?: mixed, 'name'?: mixed, 'quantity'?: mixed, 'total_money'?: mixed, 'type'?: mixed, 'unit_price_money'?: mixed, ...}|object $values */
@@ -34,9 +34,9 @@ final class MerchantBillingInvoiceLineItemPreviousAttributes extends Model {
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
     /** Unsigned line total, calculated as quantity multiplied by unit_price_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
+    public function getTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** Whether the line adds a subscription charge or applies credit. Value enum: "subscription", "credit". anyOf[1] (Value): string. Whether the line adds a subscription charge or applies credit. Value enum: "subscription", "credit". anyOf[2] (Value): null.
      * @return string|null
@@ -44,8 +44,8 @@ final class MerchantBillingInvoiceLineItemPreviousAttributes extends Model {
     public function getType(): string|null { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
     /** Unsigned price of one unit. total_money is quantity times this amount. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
 }

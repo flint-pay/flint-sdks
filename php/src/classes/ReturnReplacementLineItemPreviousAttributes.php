@@ -4,17 +4,17 @@ namespace Flint;
 /**
  * @property-read string|null $bundle_id
  * @property-read string|null $description
- * @property-read mixed $discount_money
+ * @property-read MoneyValuePreviousAttributes|null $discount_money
  * @property-read string|null $name
  * @property-read string|null $product_id
  * @property-read int|null $quantity
  * @property-read string|null $return_replacement_line_item_id
  * @property-read string|null $return_resolution_id
  * @property-read string|null $sku
- * @property-read mixed $subtotal_money
- * @property-read mixed $tax_money
- * @property-read mixed $total_money
- * @property-read mixed $unit_price_money
+ * @property-read MoneyValuePreviousAttributes|null $subtotal_money
+ * @property-read MoneyValuePreviousAttributes|null $tax_money
+ * @property-read MoneyValuePreviousAttributes|null $total_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_money
  * @property-read string|null $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnReplacementLineItemPreviousAttributes extends Model {
@@ -31,9 +31,9 @@ final class ReturnReplacementLineItemPreviousAttributes extends Model {
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
     /** Discount on the replacement units. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getDiscountMoney(): mixed { return $this->get('discount_money'); }
+    public function getDiscountMoney(): MoneyValuePreviousAttributes|null { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
     /** Name of the replacement item. anyOf[1] (Value): string. Name of the replacement item. anyOf[2] (Value): null.
      * @return string|null
@@ -66,24 +66,24 @@ final class ReturnReplacementLineItemPreviousAttributes extends Model {
     public function getSku(): string|null { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
     /** Subtotal of the replacement units, before discount and tax. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
+    public function getSubtotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
     /** Tax on the replacement units. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTaxMoney(): mixed { return $this->get('tax_money'); }
+    public function getTaxMoney(): MoneyValuePreviousAttributes|null { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
     /** Subtotal minus discount, plus tax. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
+    public function getTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** Price of one replacement unit. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
     /** ID of the variant the replacement line is for. anyOf[1] (Value): string. ID of the variant the replacement line is for. anyOf[2] (Value): null.
      * @return string|null

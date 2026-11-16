@@ -48,8 +48,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { UpdateCategoryRequestInput } from '../declarations/types-73.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateCategoryRequest } from '../declarations/types-79.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdateCategoryRequest } from '../declarations/types-90.js';
 export interface CategoriesResource {
     /**

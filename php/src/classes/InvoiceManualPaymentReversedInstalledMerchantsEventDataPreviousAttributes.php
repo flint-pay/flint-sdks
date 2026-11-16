@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $invoice_id
  * @property-read string|null $invoice_manual_payment_id
  * @property-read string|null $note
@@ -17,9 +17,9 @@ final class InvoiceManualPaymentReversedInstalledMerchantsEventDataPreviousAttri
     /** @param array{'amount_money'?: mixed, 'invoice_id'?: mixed, 'invoice_manual_payment_id'?: mixed, 'note'?: mixed, 'payment_reference'?: mixed, 'received_at'?: mixed, 'reversal_note'?: mixed, 'reversed_at'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentReversedInstalledMerchantsEventDataPreviousAttributes')); }
     /** Full amount received, including any principal and late fees covered. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** The invoice this payment was recorded against. anyOf[1] (Value): string. The invoice this payment was recorded against. anyOf[2] (Value): null.
      * @return string|null

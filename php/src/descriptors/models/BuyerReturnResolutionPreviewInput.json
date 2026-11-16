@@ -1,1 +1,1 @@
-{"shared":"BuyerReturnResolutionPreview","dependencies":["BuyerReturnResolutionAdjustment","BuyerReturnResolutionPreview","MoneyValue","ReturnReplacementLineItem","ReturnResolutionLineItem","SharedCodec130"]}
+{"shared":"BuyerReturnResolutionPreview","dependencies":["BuyerReturnResolutionAdjustment","BuyerReturnResolutionPreview","MoneyValue","ReturnReplacementLineItem","ReturnResolutionLineItem","SharedCodec126"]}

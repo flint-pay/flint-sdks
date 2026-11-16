@@ -108,100 +108,12 @@ import type {
 } from './types-59.js';
 import type { SplitReversalRequest, SplitReversalRequestInput } from './types-66.js';
 import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
-import type { CreateReturnDispositionRequestInspectionLine, CreateReturnDispositionRequestReceiptLine } from './types-13.js';
-/**
- * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
- * enclosing create supplies the shipment.
- */
-export type CreatePackageRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Independent package-item collection. Inline creation uses the child-create shape and commits
-     * atomically; edit items through the package item routes after creation. Each order line and
-     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
-     * CreatePackageItemRequest}. The request body for: Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequest>;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Required for a package on a return shipment: allocates quantities from the shipment's
-     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
-     * shipment or package. The enclosing Return or shipment determines its parent.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /** Shipment that owns this package. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
-    "shipment_id": string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<CreatePackageRequestCreated & object, readonly unknown[]>)
-    | (Exclude<CreatePackageRequestShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
+import type {
+    CreateReturnDispositionRequestInspectionLine,
+    CreateReturnDispositionRequestReceiptLine,
+    CreateReturnDispositionRequestInspectionLineInput,
+    CreateReturnDispositionRequestReceiptLineInput
+} from './types-13.js';
 /**
  * Creates one package belonging to shipment_id. Inline packages omit shipment_id because their
  * enclosing create supplies the shipment.
@@ -4832,3 +4744,75 @@ export type CreateReturnDispositionRequest = ({
     & ((Exclude<CreateReturnDispositionRequestReceiptLine & object, readonly unknown[]>)
     | (Exclude<CreateReturnDispositionRequestInspectionLine & object, readonly unknown[]>)
     | (Record<string, unknown>));
+/** The request body for: Create return disposition. */
+export type CreateReturnDispositionRequestInput = ({
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string | globalThis.Date;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+})
+    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));

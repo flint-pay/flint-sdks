@@ -1,19 +1,15 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { MetadataRequestInput } from './types-41.js';
 import type {
-    ModifierOverrideRequestInput,
-    ModifierRequestInput,
-    ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput,
     ModifierSetGroupRequestInput,
     MoneyValueInput,
     OAuthRevokeRequestInput,
     OAuthTokenRequestAuthorizationCodeInput,
-    OAuthTokenRequestClientCredentialsInput
+    OAuthTokenRequestClientCredentialsInput,
+    OAuthTokenRequestDeviceCodeInput
 } from './types-42.js';
 import type {
     OAuthTokenRequestInput,
-    OAuthTokenRequestDeviceCodeInput,
     OAuthTokenRequestRefreshTokenInput,
     OAuthTokenRequestTokenExchangeInput,
     OnboardingAdvanceRequestInput,
@@ -73,12 +69,11 @@ import type {
     PackageCreateInputCreatedInput,
     PackageCreateInputShippedInput,
     PackageCreateRequestInput,
-    PartnerAppCredentialJWKSURLRequestInput
+    PartnerAppCredentialJWKSURLRequestInput,
+    PartnerAppCredentialPublicKeyRequestInput,
+    PartnerAppCredentialWorkloadIdentityRequestInput
 } from './types-47.js';
-export declare function makeMetadataRequest(value: InputValue<MetadataRequestInput>): Model<MetadataRequestInput>;
-export declare function makeModifierOverrideRequest(value: InputValue<ModifierOverrideRequestInput>): Model<ModifierOverrideRequestInput>;
-export declare function makeModifierRequest(value: InputValue<ModifierRequestInput>): Model<ModifierRequestInput>;
-export declare function makeModifierSetGroupInputExisting(value: InputValue<ModifierSetGroupInputExistingInput>): Model<ModifierSetGroupInputExistingInput>;
+import type { PartnerAppPaymentSplitsRequestInput, PartnerAppPermissionManifestEntryRequestInput } from './types-48.js';
 export declare function makeModifierSetGroupInputInline(value: InputValue<ModifierSetGroupInputInlineInput>): Model<ModifierSetGroupInputInlineInput>;
 export declare function makeModifierSetGroupRequest(value: InputValue<ModifierSetGroupRequestInput>): Model<ModifierSetGroupRequestInput>;
 export declare function makeMoneyValue(value: InputValue<MoneyValueInput>): Model<MoneyValueInput>;
@@ -140,3 +135,7 @@ export declare function makePackageCreateInputCreated(value: InputValue<PackageC
 export declare function makePackageCreateInputShipped(value: InputValue<PackageCreateInputShippedInput>): Model<PackageCreateInputShippedInput>;
 export declare function makePackageCreateRequest(value: InputValue<PackageCreateRequestInput>): Model<PackageCreateRequestInput>;
 export declare function makePartnerAppCredentialJWKSURLRequest(value: InputValue<PartnerAppCredentialJWKSURLRequestInput>): Model<PartnerAppCredentialJWKSURLRequestInput>;
+export declare function makePartnerAppCredentialPublicKeyRequest(value: InputValue<PartnerAppCredentialPublicKeyRequestInput>): Model<PartnerAppCredentialPublicKeyRequestInput>;
+export declare function makePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<PartnerAppCredentialWorkloadIdentityRequestInput>): Model<PartnerAppCredentialWorkloadIdentityRequestInput>;
+export declare function makePartnerAppPaymentSplitsRequest(value: InputValue<PartnerAppPaymentSplitsRequestInput>): Model<PartnerAppPaymentSplitsRequestInput>;
+export declare function makePartnerAppPermissionManifestEntryRequest(value: InputValue<PartnerAppPermissionManifestEntryRequestInput>): Model<PartnerAppPermissionManifestEntryRequestInput>;

@@ -17,21 +17,21 @@ Request input.
 anyOf InvoiceCollectionBuyerInitiatedPreviousAttributes.
 
 - Constraints for `mode`: Values: `"buyer_initiated"`.
-- Constraints for `payment_method_id`: string or null or null.
+- Constraints for `payment_method_id`: string or null.
 
 ### InvoiceCollectionPreviousAttributesInput variant 2: `mode` = `"automatic"`
 
 anyOf InvoiceCollectionAutomaticPreviousAttributes.
 
 - Constraints for `mode`: Values: `"automatic"`.
-- Constraints for `payment_method_id`: (string or null or null).
+- Constraints for `payment_method_id`: (string or null).
 
 ### InvoiceCollectionPreviousAttributesInput variant 3: `mode` = `"external"`
 
 anyOf InvoiceCollectionExternalPreviousAttributes.
 
 - Constraints for `mode`: Values: `"external"`.
-- Constraints for `payment_method_id`: string or null or null.
+- Constraints for `payment_method_id`: string or null.
 
 ### InvoiceCollectionPreviousAttributesInput variant 1.mode
 

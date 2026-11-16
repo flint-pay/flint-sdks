@@ -45,15 +45,15 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `add_line_items` | Optional | Array of [OrderEditLineAdditionPreviousAttributesInput](../models/OrderEditLineAdditionPreviousAttributesInput.md#ordereditlineadditionpreviousattributesinput) or null | Added order lines, in request order, with their quantities and values frozen at creation. Empty when the edit added nothing. `add_line_items`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesadd_line_items). |
 | `added_total_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. |
 | `amount_due_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | What the added lines cost beyond the removed value and released charges, tax included, frozen when the edit was created. Zero when the edit had no balance. |
-| `canceled_at` | Optional | string or null or null | When the edit was canceled. `null` when the edit is not canceled. `canceled_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescanceled_at). |
-| `cancellation_reason` | Optional | string or null or null | Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`. `cancellation_reason`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescancellation_reason). |
+| `canceled_at` | Optional | string or null | When the edit was canceled. `null` when the edit is not canceled. `canceled_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescanceled_at). |
+| `cancellation_reason` | Optional | string or null | Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`. `cancellation_reason`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescancellation_reason). |
 | `charge_refunds` | Optional | Array of [OrderEditChargeRefundPreviousAttributesInput](../models/OrderEditChargeRefundPreviousAttributesInput.md#ordereditchargerefundpreviousattributesinput) or null | Charges released by this edit, frozen at creation. Empty when no charges were released. `charge_refunds`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescharge_refunds). |
-| `completed_at` | Optional | string or null or null | When the item changes were applied to the order. `null` when the edit is pending or canceled. `completed_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescompleted_at). |
+| `completed_at` | Optional | string or null | When the item changes were applied to the order. `null` when the edit is pending or canceled. `completed_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescompleted_at). |
 | `created_at` | Optional | string or null | When the edit was created. `created_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributescreated_at). |
-| `expires_at` | Optional | string or null or null | When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. `expires_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesexpires_at). |
+| `expires_at` | Optional | string or null | When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. `expires_at`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesexpires_at). |
 | `order_edit_id` | Optional | string or null | Stable ID of this order edit. `order_edit_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesorder_edit_id). |
 | `order_id` | Optional | string or null | The order this edit belongs to. `order_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesorder_id). |
-| `payment_intent_id` | Optional | string or null or null | The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. `payment_intent_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributespayment_intent_id). |
+| `payment_intent_id` | Optional | string or null | The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. `payment_intent_id`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributespayment_intent_id). |
 | `reason` | Optional | string or null | Reason for the edit and its refund. Values: [13 declared values](CreateOrderEditRequestInput.md#createordereditrequestinput-reason-values). `reason`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesreason). |
 | `refund_ids` | Optional | Array of string or null | Refunds created for this edit. Empty when no refund is needed or processing has not created it yet. `refund_ids`: [declared alternatives](../models/OrderEditCanceledInstalledMerchantsEventInput.md#ordereditcanceledinstalledmerchantseventinputdataprevious_attributesrefund_ids). |
 | `refund_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. |
@@ -84,7 +84,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the edit was canceled. `null` when the edit is not canceled..
 
-- Value shape: (string or null). When the edit was canceled. `null` when the edit is not canceled. When the edit was canceled. `null` when the edit is not canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the edit was canceled. `null` when the edit is not canceled. When the edit was canceled. `null` when the edit is not canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### OrderEditCanceledInstalledMerchantsEventInput.data.previous_attributes.canceled_at variant 2
 
@@ -98,7 +98,7 @@ anyOf variant 2.
 
 anyOf variant 1: Why the edit was canceled. `null` when the edit is not canceled..
 
-- Value shape: (string or null). Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`.
+- Value shape: string. Why the edit was canceled. `null` when the edit is not canceled. Values: `"merchant_request"`, `"expired"`, `"payment_disputed"`, `"payment_returned"`, `null`.
 
 ### OrderEditCanceledInstalledMerchantsEventInput.data.previous_attributes.cancellation_reason variant 2
 
@@ -126,7 +126,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the item changes were applied to the order. `null` when the edit is pending or canceled..
 
-- Value shape: (string or null). When the item changes were applied to the order. `null` when the edit is pending or canceled. When the item changes were applied to the order. `null` when the edit is pending or canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the item changes were applied to the order. `null` when the edit is pending or canceled. When the item changes were applied to the order. `null` when the edit is pending or canceled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### OrderEditCanceledInstalledMerchantsEventInput.data.previous_attributes.completed_at variant 2
 
@@ -154,7 +154,7 @@ anyOf variant 2.
 
 anyOf variant 1: When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance..
 
-- Value shape: (string or null). When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a balance. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### OrderEditCanceledInstalledMerchantsEventInput.data.previous_attributes.expires_at variant 2
 
@@ -196,7 +196,7 @@ anyOf variant 2.
 
 anyOf variant 1: The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it..
 
-- Value shape: (string or null). The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. 
+- Value shape: string. The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. The payment intent that collects amount_due_money. Confirm it to pay the balance. `null` when the edit has no balance, and for a moment while Flint is still creating it. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. 
 
 ### OrderEditCanceledInstalledMerchantsEventInput.data.previous_attributes.payment_intent_id variant 2
 

@@ -6,9 +6,10 @@ import type {
     SubscriptionPlanChangePreview,
     SubscriptionPreview,
     SubscriptionPreviewResponse,
-    SubscriptionPreviewsCreateParams
+    SubscriptionPreviewsCreateParams,
+    SubscriptionPromotionApplyPreview
 } from '../declarations/types-69.js';
-import type { SubscriptionPromotionApplyPreview, SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from '../declarations/types-70.js';
+import type { SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from '../declarations/types-70.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -28,7 +29,9 @@ export type {
     SubscriptionPreviewsCreateParams,
     SubscriptionPreview,
     SubscriptionPlanChangePreview,
+    SubscriptionPromotionApplyPreview,
     SubscriptionPreviewResponse,
+    SubscriptionPromotionRequestInput,
     SubscriptionPlanTermsRequestInput,
     SubscriptionPlanChangeLineItemRequestInput,
     SubscriptionPreviewError,
@@ -56,8 +59,6 @@ export type {
 export type {
     SubscriptionRenewalPreview,
     SubscriptionQuantityChangePreview,
-    SubscriptionPromotionApplyPreview,
-    SubscriptionPromotionRequestInput,
     SubscriptionServiceLocationRequestInput,
     SubscriptionServiceLocationInputCustomerAddressInput,
     SubscriptionServiceLocationInputAddressInput,
@@ -115,15 +116,13 @@ export type {
     PromotionRefRequestInput,
     PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput,
-    QuotaDetails,
-    PromotionRecurrenceRepeating
+    QuotaDetails
 } from '../declarations/types-57.js';
 export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-73.js';
 export type {
     DeliveryMethodConfigurationPatchRequestInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput,
-    DeliveryFulfillmentDetails
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput
 } from '../declarations/types-19.js';
 export type {
     DeliveryEligibilityExpressionRequestInput,
@@ -137,6 +136,7 @@ export type {
     DeliveryCallbackPricingStrategyRequestInput,
     DeliveryCallerSuppliedPricingStrategyRequestInput,
     DeliveryFixedPricingStrategyRequestInput,
+    DeliveryFulfillmentDetails,
     DeliveryCustomerBooleanCondition
 } from '../declarations/types-18.js';
 export type {
@@ -191,28 +191,40 @@ export type {
     ExpandedShipmentSummary,
     ErrorRemediation
 } from '../declarations/types-26.js';
-export type { Fulfillment, FulfillmentHold, FulfillmentChargeLink, FulfillmentLineItem, FulfillmentOutcome } from '../declarations/types-27.js';
+export type {
+    Fulfillment,
+    FulfillmentHold,
+    FulfillmentChargeLink,
+    FulfillmentLineItem,
+    FulfillmentOutcome,
+    FulfillmentRecipient
+} from '../declarations/types-27.js';
 export type { DigitalFulfillmentDetails, Dimensions } from '../declarations/types-25.js';
 export type { OrderLineItemModifier, OrderSettlementAmounts } from '../declarations/types-45.js';
 export type { TextModifierRequest } from '../declarations/types-72.js';
 export type { CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
-export type { SettlementAmounts, ShipmentFulfillmentDetails, Shipment, SubscriptionAddressVerification } from '../declarations/types-66.js';
-export type { PickupFulfillmentDetails } from '../declarations/types-54.js';
-export type { FulfillmentRecipient } from '../declarations/types-28.js';
 export type {
+    SettlementAmounts,
     ServiceFulfillmentDetails,
     ScopeRequirement,
     SelectableErrorResource,
     SelectableOrderPaymentIntent
 } from '../declarations/types-65.js';
+export type { PickupFulfillmentDetails } from '../declarations/types-54.js';
+export type { ShipmentFulfillmentDetails, Shipment, SubscriptionAddressVerification } from '../declarations/types-66.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-61.js';
 export type { Package } from '../declarations/types-47.js';
 export type { CustomDomain, CustomDomainDNSRecord } from '../declarations/types-15.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { GiftCardRestriction } from '../declarations/types-30.js';
 export type { PaymentErrorSummary, PaymentCollection, PaymentCollectionStripe, PaymentCollectionStripeElements } from '../declarations/types-49.js';
-export type { PromotionRecurrence, PromotionRecurrenceOnce, PromotionRecurrenceForever } from '../declarations/types-56.js';
+export type {
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever
+} from '../declarations/types-56.js';
 export { makeAddressRequest } from '../declarations/types-77.js';
 export {
     makeCreateSubscriptionPreviewRequest,
@@ -237,13 +249,13 @@ export {
     makeDeliveryDistanceUnitPriceRequest,
     makeDeliveryEligibilityExpressionRequest,
     makeDeliveryFixedPricingStrategyRequest,
-    makeDeliveryMethodConfigurationPatchRequest
-} from '../declarations/types-82.js';
-export {
+    makeDeliveryMethodConfigurationPatchRequest,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations,
-    makeDeliveryMethodOriginSelectorInputFixedLocation,
+    makeDeliveryMethodOriginSelectorInputFixedLocation
+} from '../declarations/types-82.js';
+export {
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations,
@@ -275,9 +287,9 @@ export {
     makeDeliveryWindowTimeCondition,
     makeDeliveryZoneConditionRequest
 } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-87.js';
 export {
     makeSubscriptionBillingScheduleInputExternal,
     makeSubscriptionBillingScheduleInputFlint,
@@ -287,13 +299,13 @@ export {
     makeSubscriptionBillingStartInputScheduled,
     makeSubscriptionBillingStartRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
-    makeSubscriptionDeliveryDestinationInputCustomerAddress
-} from '../declarations/types-89.js';
-export {
+    makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
     makeSubscriptionDeliveryRequest,
     makeSubscriptionEndAfterCyclesRequest,
-    makeSubscriptionEndAfterDateRequest,
+    makeSubscriptionEndAfterDateRequest
+} from '../declarations/types-89.js';
+export {
     makeSubscriptionEndAfterRequest,
     makeSubscriptionGiftRecipientRequest,
     makeSubscriptionOfferLineItemRequest,

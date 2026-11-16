@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string|null $return_id
  * @property-read string|null $return_receipt_id
  * @property-read string|null $shipment_id
- * @property-read mixed $source_system
+ * @property-read ReturnSourceSystemPreviousAttributes|null $source_system
  * @property-read string|null $status
  * @property-read string|null $superseded_at
  * @property-read string|null $superseded_by_return_receipt_id
@@ -85,10 +85,10 @@ final class ReturnReceiptVerifiedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getShipmentId(): string|null { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): ({@see ReturnSourceSystemPreviousAttributes} or null). System that recorded the observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@see ReturnSourceSystemPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ReturnSourceSystemPreviousAttributes|null
      */
-    public function getSourceSystem(): mixed { return $this->get('source_system'); }
+    public function getSourceSystem(): ReturnSourceSystemPreviousAttributes|null { return $this->get('source_system'); }
     public function hasSourceSystem(): bool { return $this->has('source_system'); }
     /** Whether this is the current observation of these units or a correction replaced it. Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the current observation of these units or a correction replaced it. Value enum: "current", "superseded". anyOf[2] (Value): null.
      * @return string|null

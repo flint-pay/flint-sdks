@@ -48,8 +48,8 @@ export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference }
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-8.js';
-export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
-export type { ImageInputFileInput, ImageAttachment } from '../declarations/types-30.js';
+export type { ImageRequestInput } from '../declarations/types-31.js';
+export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-30.js';
 export type {
     MetadataRequestInput,
     MetadataMap,
@@ -67,8 +67,8 @@ export type { SelectedProductOption } from '../declarations/types-65.js';
 export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-73.js';
 export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-79.js';
 export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-90.js';
 export interface BundlesResource {
     /**

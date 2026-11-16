@@ -111,76 +111,6 @@ anyOf variant 2.
 
 - Value shape: null. When the connection record was created. 
 
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure
-
-Current statements the seller must agree to before connecting.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `statements` | Conditional | Array of object or null | Statements in display order. The seller must agree to every statement. `statements`: [declared alternatives](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributesdisclosure-variant-1statements). |
-| `version` | Conditional | string or null | Opaque version of the exact rendered statements. Do not parse it. `version`: [declared alternatives](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributesdisclosure-variant-1version). |
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1
-
-anyOf TaxConnectionDisclosurePreviousAttributes.
-
-- Optional: `statements`, `version`.
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 2
-
-anyOf variant 2.
-
-- Undeclared: `statements`, `version`.
-- Value shape: null. Current statements the seller must agree to before connecting. 
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements variant 1
-
-anyOf variant 1: Statements in display order. The seller must agree to every statement..
-
-- Value shape: Array of object. Statements in display order. The seller must agree to every statement. 
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Statements in display order. The seller must agree to every statement. 
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements variant 1.[] fields 1
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `text` | Optional | string or null | Text to show the seller verbatim. `text`: [declared alternatives](../models/TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributesdisclosure-variant-1statements-variant-1-fields-1text). |
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements variant 1.[] fields 1.text
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements variant 1.[] fields 1.text variant 1
-
-anyOf variant 1: Text to show the seller verbatim..
-
-- Value shape: string. Text to show the seller verbatim. 
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.statements variant 1.[] fields 1.text variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Text to show the seller verbatim. 
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.version
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.version variant 1
-
-anyOf variant 1: Opaque version of the exact rendered statements. Do not parse it..
-
-- Value shape: string. Opaque version of the exact rendered statements. Do not parse it. 
-
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.disclosure variant 1.version variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Opaque version of the exact rendered statements. Do not parse it. 
-
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address
 
 Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete.
@@ -196,13 +126,13 @@ Legal business address used as the tax origin. In live mode, comes from processo
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 1
 
-anyOf variant 1: Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete.; anyOf AddressPreviousAttributes.
+anyOf AddressPreviousAttributes.
 
 - Optional: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
 
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 2, 3
+### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.legal_address variant 2
 
-anyOf variant 1: Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
 - Value shape: null. Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, comes from the merchant profile. `null` when no legal address is available or the sandbox profile address is incomplete. 
@@ -316,13 +246,13 @@ The seller's recorded agreement to the disclosure. `null` when no connect has re
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.seller_attestation variant 1
 
-anyOf variant 1: The seller's recorded agreement to the disclosure. `null` when no connect has recorded one.; anyOf TaxConnectionSellerAttestationPreviousAttributes.
+anyOf TaxConnectionSellerAttestationPreviousAttributes.
 
 - Optional: `attested_at`, `disclosure_version`.
 
-### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.seller_attestation variant 2, 3
+### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.seller_attestation variant 2
 
-anyOf variant 1: The seller's recorded agreement to the disclosure. `null` when no connect has recorded one.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `attested_at`, `disclosure_version`.
 - Value shape: null. The seller's recorded agreement to the disclosure. `null` when no connect has recorded one. 
@@ -375,7 +305,7 @@ anyOf variant 2.
 
 anyOf variant 1: Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`..
 
-- Value shape: (string or null). Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: `"not_offered"`, `"onboarding_required"`, `"tax_category_required"`, `"registration_required"`, `"temporarily_unavailable"`, `"setup_incomplete"`, `"registration_rejected"`, `"business_details_changed"`, `"support_required"`, `"disconnected"`, `"other"`, `null`.
+- Value shape: string. Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: `"not_offered"`, `"onboarding_required"`, `"tax_category_required"`, `"registration_required"`, `"temporarily_unavailable"`, `"setup_incomplete"`, `"registration_rejected"`, `"business_details_changed"`, `"support_required"`, `"disconnected"`, `"other"`, `null`.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.status_reason variant 2
 

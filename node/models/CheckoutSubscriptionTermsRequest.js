@@ -1,10 +1,10 @@
-import { d8071 as c0, d8066 as c1, d8067 as c2, d8076 as c3 } from '../descriptors/data/351.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8077 as c4, d8078 as c5 } from '../descriptors/data/352.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8071 as d8071 } from '../descriptors/data/351.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d7981 as c0, d7976 as c1, d7977 as c2, d7986 as c3 } from '../descriptors/data/348.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7987 as c4, d7988 as c5 } from '../descriptors/data/349.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7981 as d7981 } from '../descriptors/data/348.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8071;
+const read = d7981;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CheckoutSubscriptionTermsRequest"]:c0(),["SharedCodec238"]:c1(),["SharedCodec239"]:c2(),["SharedCodec327"]:c3(),["SharedCodec328"]:c4(),["SubscriptionPlanChangeLineItemRequest"]:c5()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CheckoutSubscriptionTermsRequest"]:c0(),["SharedCodec227"]:c1(),["SharedCodec228"]:c2(),["SharedCodec307"]:c3(),["SharedCodec308"]:c4(),["SubscriptionPlanChangeLineItemRequest"]:c5()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCheckoutSubscriptionTermsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -4,11 +4,11 @@ namespace Flint;
 /**
  * @property-read string|null $country
  * @property-read string|null $identifier_type
- * @property-read string|null|null $region
+ * @property-read string|null $region
  * @property-read string|null $value
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerTaxIDPreviousAttributesInput extends Model {
-    /** @param array{'country'?: string|null, 'identifier_type'?: string|null, 'region'?: string|null|null, 'value'?: string|null, ...}|object $values */
+    /** @param array{'country'?: string|null, 'identifier_type'?: string|null, 'region'?: string|null, 'value'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerTaxIDPreviousAttributesInput')); }
     /** Country of the tax ID, as entered on the customer. Greek VAT IDs may use EL. anyOf[1] (Value): string. Country of the tax ID, as entered on the customer. Greek VAT IDs may use EL. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". anyOf[2] (Value): null.
      * @return string|null
@@ -22,8 +22,8 @@ final class CustomerTaxIDPreviousAttributesInput extends Model {
      */
     public function getIdentifierType(): mixed { return $this->get('identifier_type'); }
     public function hasIdentifierType(): bool { return $this->has('identifier_type'); }
-    /** Region of the tax ID. `null` when the tax ID has no region. anyOf[1] (Value): string or null. Region of the tax ID. `null` when the tax ID has no region. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Region of the tax ID. `null` when the tax ID has no region. anyOf[1] (Value): string. Region of the tax ID. `null` when the tax ID has no region. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When region is omitted; use hasRegion() or valueOrDefault().
      */
     public function getRegion(): mixed { return $this->get('region'); }

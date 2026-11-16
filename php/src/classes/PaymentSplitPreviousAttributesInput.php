@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string|null $description
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_reason
- * @property-read string|\DateTimeInterface|null|null $funds_available_at
+ * @property-read string|\DateTimeInterface|null $funds_available_at
  * @property-read string|null $partner_app_id
  * @property-read string|null $partner_app_install_id
  * @property-read string|null $payment_intent_id
@@ -25,7 +25,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentSplitPreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'canceled_reason'?: string|null, 'collecting_merchant_id'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'description'?: string|null, 'external_reference_id'?: string|null, 'failure_reason'?: string|null, 'funds_available_at'?: string|\DateTimeInterface|null|null, 'partner_app_id'?: string|null, 'partner_app_install_id'?: string|null, 'payment_intent_id'?: string|null, 'payment_split_id'?: string|null, 'pending_reason'?: string|null, 'reversals'?: list<PaymentSplitReversalPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'reversed_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'seller_merchant_id'?: string|null, 'shortfall_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'canceled_reason'?: string|null, 'collecting_merchant_id'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'description'?: string|null, 'external_reference_id'?: string|null, 'failure_reason'?: string|null, 'funds_available_at'?: string|\DateTimeInterface|null, 'partner_app_id'?: string|null, 'partner_app_install_id'?: string|null, 'payment_intent_id'?: string|null, 'payment_split_id'?: string|null, 'pending_reason'?: string|null, 'reversals'?: list<PaymentSplitReversalPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'reversed_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'seller_merchant_id'?: string|null, 'shortfall_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSplitPreviousAttributesInput')); }
     /** The admitted amount, or its final amount set at capture. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -69,8 +69,8 @@ final class PaymentSplitPreviousAttributesInput extends Model {
      */
     public function getFailureReason(): mixed { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. anyOf[1] (Value): string or null. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. anyOf[1] (Value): string. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When funds_available_at is omitted; use hasFundsAvailableAt() or valueOrDefault().
      */
     public function getFundsAvailableAt(): mixed { return $this->get('funds_available_at'); }

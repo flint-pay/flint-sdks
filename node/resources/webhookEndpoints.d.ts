@@ -70,7 +70,8 @@ export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-82.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-89.js';
-export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-92.js';
+export { makeUpdateWebhookEndpointRequest } from '../declarations/types-91.js';
+export { makeWebhookSigningMethod } from '../declarations/types-92.js';
 export interface WebhookEndpointsResource {
     /**
  * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and

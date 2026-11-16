@@ -3,30 +3,30 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $canceled_at
- * @property-read mixed $canceled_by
+ * @property-read ReturnActorPreviousAttributes|null $canceled_by
  * @property-read string|null $cancellation_reason
  * @property-read string|null $cancellation_reason_message
  * @property-read string|null $completed_at
- * @property-read mixed $completed_by
+ * @property-read ReturnActorPreviousAttributes|null $completed_by
  * @property-read list<ReturnCompletionBlockerPreviousAttributes>|null $completion_blockers
  * @property-read string|null $completion_mode
  * @property-read string|null $completion_reason
  * @property-read string|null $completion_reason_message
  * @property-read string|null $created_at
- * @property-read mixed $customer
+ * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $decision_at
  * @property-read string|null $decision_status
  * @property-read string|null $external_reference_id
- * @property-read mixed $financial_summary
+ * @property-read ReturnFinancialSummaryPreviousAttributes|null $financial_summary
  * @property-read list<ReturnHandoffRequirementPreviousAttributes>|null $handoff_requirements
  * @property-read string|null $initiated_by
  * @property-read list<ReturnLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $merchandise_status
- * @property-read mixed $metadata
- * @property-read mixed $order
+ * @property-read array<array-key, string>|null $metadata
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
- * @property-read mixed $policy_evaluation
+ * @property-read ReturnPolicyEvaluationPreviousAttributes|null $policy_evaluation
  * @property-read string|null $resolution_status
  * @property-read list<string>|null $return_disposition_ids
  * @property-read list<ReturnDispositionPreviousAttributes>|null $return_dispositions
@@ -54,9 +54,9 @@ final class ReturnUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getCanceledAt(): string|null { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
     /** Who canceled the Return. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCanceledBy(): mixed { return $this->get('canceled_by'); }
+    public function getCanceledBy(): ReturnActorPreviousAttributes|null { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
     /** Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -74,9 +74,9 @@ final class ReturnUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getCompletedAt(): string|null { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
     /** Who completed the Return. `system` when Flint completed it automatically. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCompletedBy(): mixed { return $this->get('completed_by'); }
+    public function getCompletedBy(): ReturnActorPreviousAttributes|null { return $this->get('completed_by'); }
     public function hasCompletedBy(): bool { return $this->has('completed_by'); }
     /** What is still owed before the Return can complete. Empty when nothing is. anyOf[1] (Value): Array of {@see ReturnCompletionBlockerPreviousAttributes}. What is still owed before the Return can complete. Empty when nothing is. anyOf[1][] (Value): {@see ReturnCompletionBlockerPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<ReturnCompletionBlockerPreviousAttributes>|null
@@ -103,10 +103,10 @@ final class ReturnUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): ({@see ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1].anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummaryPreviousAttributes|null
      */
-    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function getCustomer(): ExpandedCustomerSummaryPreviousAttributes|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
     /** The customer the Return belongs to. anyOf[1] (Value): string. The customer the Return belongs to. anyOf[2] (Value): null.
      * @return string|null
@@ -129,9 +129,9 @@ final class ReturnUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. anyOf[1] (Value): {@see ReturnFinancialSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnFinancialSummaryPreviousAttributes|null
      */
-    public function getFinancialSummary(): mixed { return $this->get('financial_summary'); }
+    public function getFinancialSummary(): ReturnFinancialSummaryPreviousAttributes|null { return $this->get('financial_summary'); }
     public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
     /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1] (Value): Array of {@see ReturnHandoffRequirementPreviousAttributes}. What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1][] (Value): {@see ReturnHandoffRequirementPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<ReturnHandoffRequirementPreviousAttributes>|null
@@ -154,14 +154,14 @@ final class ReturnUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getMerchandiseStatus(): string|null { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
     /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the Return is against. anyOf[2] (Value): null.
      * @return string|null
@@ -169,9 +169,9 @@ final class ReturnUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
     /** How your return policies judged the request when the Return was created. anyOf[1] (Value): {@see ReturnPolicyEvaluationPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnPolicyEvaluationPreviousAttributes|null
      */
-    public function getPolicyEvaluation(): mixed { return $this->get('policy_evaluation'); }
+    public function getPolicyEvaluation(): ReturnPolicyEvaluationPreviousAttributes|null { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
     /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value): string. Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2] (Value): null.
      * @return string|null

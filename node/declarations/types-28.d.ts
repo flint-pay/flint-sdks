@@ -1,10 +1,4 @@
-import type {
-    Address,
-    AddressPreviousAttributes,
-    AddressRequest,
-    AddressRequestInput,
-    AcceptFulfillmentRequestInput
-} from './types-0.js';
+import type { AddressPreviousAttributes, AddressRequest, AddressRequestInput, AcceptFulfillmentRequestInput } from './types-0.js';
 import type {
     Fulfillment,
     FulfillmentChargeLink,
@@ -14,7 +8,8 @@ import type {
     FulfillmentLineItem,
     FulfillmentLineItemPreviousAttributes,
     FulfillmentOutcome,
-    FulfillmentOutcomePreviousAttributes
+    FulfillmentOutcomePreviousAttributes,
+    FulfillmentRecipient
 } from './types-27.js';
 import type { ResponseMeta, ReturnDisposition } from './types-60.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-11.js';
@@ -27,7 +22,8 @@ import type {
     ShipmentFulfillmentDetailsPreviousAttributes,
     StartFulfillmentRequestInput
 } from './types-66.js';
-import type { DeliveryFulfillmentDetails, DeliveryFulfillmentDetailsPreviousAttributes } from './types-19.js';
+import type { DeliveryFulfillmentDetails } from './types-18.js';
+import type { DeliveryFulfillmentDetailsPreviousAttributes } from './types-19.js';
 import type {
     DigitalFulfillmentDetails,
     DigitalFulfillmentDetailsPreviousAttributes,
@@ -63,7 +59,7 @@ import type {
     MarkFulfillmentReadyRequestInput
 } from './types-39.js';
 import type { ReleaseFulfillmentHoldRequestInput } from './types-59.js';
-import type { UpdateFulfillmentRequestInput } from './types-74.js';
+import type { UpdateFulfillmentRequestInput } from './types-73.js';
 import type { ReturnInspection, ReturnLineItem } from './types-61.js';
 import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-62.js';
 import type { ReturnResolution, ReturnResource } from './types-63.js';
@@ -76,35 +72,12 @@ import type {
     GiftCardFundingSourceImport,
     GiftCardFundingSourceStoreCredit
 } from './types-29.js';
-/** The recipient of a fulfillment, with name, email, phone, address, and handling instructions. */
-export type FulfillmentRecipient = {
-    /**
-     * Postal address where the recipient receives the items. A postal address. Every address has
-     * country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /** Recipient's contact email address. */
-    "email"?: string;
-    /**
-     * Instructions for handling the recipient's order. For a pickup that checkout creates, this is
-     * the note the buyer left for the store, such as the car to look for.
-     */
-    "instructions"?: string;
-    /** Recipient's name for delivery or pickup. */
-    "name"?: string;
-    /** Recipient's contact phone number. */
-    "phone"?: string;
-};
 export type FulfillmentRecipientPreviousAttributes = {
     /**
      * Postal address where the recipient receives the items. anyOf[1] (Value): {@link
      * AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * Recipient's contact email address. anyOf[1] (Value): string. Recipient's contact email
      * address. anyOf[2] (Value): null.
@@ -470,36 +443,36 @@ export type FulfillmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             [key: string]: unknown;
         })
             & ({
-            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null));
             "charges"?: ((Array<FulfillmentChargeLinkPreviousAttributes>) | (null));
             "completed_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "customer_id"?: ((string) | (null));
-            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
-            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
-            "delivery_method_id"?: ((string | null) | (null) | (unknown));
-            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
+            "delivery_choice_group_id"?: ((string) | (null));
+            "delivery_execution_leg_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_selection_id"?: ((string) | (null));
             "device_id"?: ((string) | (null));
-            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null));
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
-            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "order_number"?: ((string) | (null));
-            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null));
             "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
             "packed_at"?: ((string) | (null));
             "picked_at"?: ((string) | (null));
-            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
-            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
-            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
-            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
-            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null));
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null));
+            "scheduled_start_at"?: ((string) | (null));
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null));
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null));
             "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
             "status"?: (("pending"
                 | "accepted"
@@ -617,36 +590,36 @@ export type FulfillmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             [key: string]: unknown;
         })
             & ({
-            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null));
             "charges"?: ((Array<FulfillmentChargeLinkPreviousAttributes>) | (null));
             "completed_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "customer_id"?: ((string) | (null));
-            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
-            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
-            "delivery_method_id"?: ((string | null) | (null) | (unknown));
-            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
+            "delivery_choice_group_id"?: ((string) | (null));
+            "delivery_execution_leg_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_selection_id"?: ((string) | (null));
             "device_id"?: ((string) | (null));
-            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null));
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
-            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "order_number"?: ((string) | (null));
-            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null));
             "packages"?: ((Array<ExpandedPackageSummaryPreviousAttributes>) | (null));
             "packed_at"?: ((string) | (null));
             "picked_at"?: ((string) | (null));
-            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
-            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
-            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
-            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
-            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null));
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null));
+            "scheduled_start_at"?: ((string) | (null));
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null));
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null));
             "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
             "status"?: (("pending"
                 | "accepted"
@@ -860,42 +833,40 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
      * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_choice_group_id (Optional): string or null or null. Delivery
-     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
-     * or checkout created it without a delivery quote. Always present with merchant credentials.
-     * previous_attributes.delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery
-     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
-     * or checkout created it without a delivery quote. Always present with merchant credentials.
-     * Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
-     * previous_attributes.delivery_choice_group_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_execution_leg_id (Optional): string or null or null. Execution
-     * leg of the selected delivery option that created this fulfillment. `null` when the merchant
-     * created the fulfillment or checkout created it without a delivery quote. Always present with
-     * merchant credentials. previous_attributes.delivery_execution_leg_id.anyOf[1] (Value): string
-     * or null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * previous_attributes.delivery_execution_leg_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_method_id (Optional): string or null or null. Delivery method
-     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Also `null` when it was created before this field was
-     * added. Always present with merchant credentials.
-     * previous_attributes.delivery_method_id.anyOf[1] (Value): string or null. Delivery method
-     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Also `null` when it was created before this field was
-     * added. Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
+     * group that created this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_choice_group_id.anyOf[1] (Value): string. Delivery choice group
+     * that created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". previous_attributes.delivery_choice_group_id.anyOf[2]
+     * (Value): null. previous_attributes.delivery_execution_leg_id (Optional): string or null.
+     * Execution leg of the selected delivery option that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. previous_attributes.delivery_execution_leg_id.anyOf[1]
+     * (Value): string. Execution leg of the selected delivery option that created this
+     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
+     * a delivery quote. Always present with merchant credentials. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". previous_attributes.delivery_execution_leg_id.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_id (Optional): string or null. Delivery
+     * method chosen for this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Also `null` when it was created before this
+     * field was added. Always present with merchant credentials.
+     * previous_attributes.delivery_method_id.anyOf[1] (Value): string. Delivery method chosen for
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Also `null` when it was created before this field was added.
+     * Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_selection_id (Optional): string or null or null. Delivery
-     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
-     * checkout created it without a delivery quote. Always present with merchant credentials.
-     * previous_attributes.delivery_selection_id.anyOf[1] (Value): string or null. Delivery
-     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
-     * checkout created it without a delivery quote. Always present with merchant credentials.
-     * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     * previous_attributes.delivery_selection_id.anyOf[2] (Value): null.
-     * previous_attributes.device_id (Optional): string or null. Device associated with the
-     * fulfillment, when one is recorded. previous_attributes.device_id.anyOf[1] (Value): string.
-     * Device associated with the fulfillment, when one is recorded. Example:
+     * previous_attributes.delivery_selection_id (Optional): string or null. Delivery selection
+     * that created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_selection_id.anyOf[1] (Value): string. Delivery selection that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". previous_attributes.delivery_selection_id.anyOf[2]
+     * (Value): null. previous_attributes.device_id (Optional): string or null. Device associated
+     * with the fulfillment, when one is recorded. previous_attributes.device_id.anyOf[1] (Value):
+     * string. Device associated with the fulfillment, when one is recorded. Example:
      * "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2] (Value): null.
      * previous_attributes.digital_details (Optional): {@link
      * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time for a
@@ -932,14 +903,10 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata associated with the
      * fulfillment. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned
-     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
-     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
-     * ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned when the
      * order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * expanded and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. Order whose items this fulfillment
      * delivers. previous_attributes.order_id.anyOf[1] (Value): string. Order whose items this
      * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -974,12 +941,12 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * that doesn't act for the customer the buyer verified. previous_attributes.recipient.anyOf[1]
      * (Value): {@link FulfillmentRecipientPreviousAttributes}.
      * previous_attributes.recipient.anyOf[2] (Value): null. previous_attributes.scheduled_start_at
-     * (Optional): string or null or null. Derived start of the service schedule or pickup, local
-     * delivery, or shipment window. Null when no schedule is booked, including digital
-     * fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending
-     * and last descending, then by fulfillment_id in the same direction.
-     * previous_attributes.scheduled_start_at.anyOf[1] (Value): string or null. Derived start of
-     * the service schedule or pickup, local delivery, or shipment window. Null when no schedule is
+     * (Optional): string or null. Derived start of the service schedule or pickup, local delivery,
+     * or shipment window. Null when no schedule is booked, including digital fulfillments. Details
+     * remain the authoritative schedule inputs. Nulls sort first ascending and last descending,
+     * then by fulfillment_id in the same direction.
+     * previous_attributes.scheduled_start_at.anyOf[1] (Value): string. Derived start of the
+     * service schedule or pickup, local delivery, or shipment window. Null when no schedule is
      * booked, including digital fulfillments. Details remain the authoritative schedule inputs.
      * Nulls sort first ascending and last descending, then by fulfillment_id in the same
      * direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -1485,40 +1452,39 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
          * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * delivery_choice_group_id (Optional): string or null or null. Delivery choice group that
-         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Always present with merchant credentials.
-         * delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery choice group that
-         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Always present with merchant credentials. Example:
-         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_choice_group_id.anyOf[2] (Value): null.
-         * delivery_execution_leg_id (Optional): string or null or null. Execution leg of the
-         * selected delivery option that created this fulfillment. `null` when the merchant created
-         * the fulfillment or checkout created it without a delivery quote. Always present with
-         * merchant credentials. delivery_execution_leg_id.anyOf[1] (Value): string or null.
-         * Execution leg of the selected delivery option that created this fulfillment. `null` when
-         * the merchant created the fulfillment or checkout created it without a delivery quote.
-         * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-         * delivery_execution_leg_id.anyOf[2] (Value): null. delivery_method_id (Optional): string
-         * or null or null. Delivery method chosen for this fulfillment. `null` when the merchant
-         * created the fulfillment or checkout created it without a delivery quote. Also `null`
-         * when it was created before this field was added. Always present with merchant
-         * credentials. delivery_method_id.anyOf[1] (Value): string or null. Delivery method chosen
-         * for this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Also `null` when it was created before this field
-         * was added. Always present with merchant credentials. Example:
-         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_selection_id (Optional): string or null or null. Delivery selection that
-         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Always present with merchant credentials.
-         * delivery_selection_id.anyOf[1] (Value): string or null. Delivery selection that created
+         * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
+         * this fulfillment. `null` when the merchant created the fulfillment or checkout created
+         * it without a delivery quote. Always present with merchant credentials.
+         * delivery_choice_group_id.anyOf[1] (Value): string. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials. Example:
-         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". delivery_selection_id.anyOf[2] (Value): null.
-         * device_id (Optional): string or null. Device associated with the fulfillment, when one
-         * is recorded. device_id.anyOf[1] (Value): string. Device associated with the fulfillment,
-         * when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2]
-         * (Value): null. digital_details (Optional): {@link
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_choice_group_id.anyOf[2] (Value): null.
+         * delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+         * delivery option that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. delivery_execution_leg_id.anyOf[1] (Value): string. Execution leg
+         * of the selected delivery option that created this fulfillment. `null` when the merchant
+         * created the fulfillment or checkout created it without a delivery quote. Always present
+         * with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+         * delivery_execution_leg_id.anyOf[2] (Value): null. delivery_method_id (Optional): string
+         * or null. Delivery method chosen for this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Also `null` when it was
+         * created before this field was added. Always present with merchant credentials.
+         * delivery_method_id.anyOf[1] (Value): string. Delivery method chosen for this
+         * fulfillment. `null` when the merchant created the fulfillment or checkout created it
+         * without a delivery quote. Also `null` when it was created before this field was added.
+         * Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * delivery_method_id.anyOf[2] (Value): null. delivery_selection_id (Optional): string or
+         * null. Delivery selection that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. delivery_selection_id.anyOf[1] (Value): string. Delivery selection
+         * that created this fulfillment. `null` when the merchant created the fulfillment or
+         * checkout created it without a delivery quote. Always present with merchant credentials.
+         * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". delivery_selection_id.anyOf[2] (Value):
+         * null. device_id (Optional): string or null. Device associated with the fulfillment, when
+         * one is recorded. device_id.anyOf[1] (Value): string. Device associated with the
+         * fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * device_id.anyOf[2] (Value): null. digital_details (Optional): {@link
          * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time
          * for a digital fulfillment. digital_details.anyOf[1] (Value): {@link
          * DigitalFulfillmentDetailsPreviousAttributes}. digital_details.anyOf[2] (Value): null.
@@ -1546,26 +1512,23 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
          * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
          * metadata associated with the fulfillment. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned when
-         * the order relationship is expanded. Present only when `expand` includes `order`; `null`
-         * when expanded and there is no related order. order.anyOf[1] (Value): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned when the order
          * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. Order whose items
-         * this fulfillment delivers. order_id.anyOf[1] (Value): string. Order whose items this
-         * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2]
-         * (Value): null. order_number (Optional): string or null. Human-readable number of the
-         * order this fulfillment belongs to. Omitted when the order has no number.
-         * order_number.anyOf[1] (Value): string. Human-readable number of the order this
-         * fulfillment belongs to. Omitted when the order has no number. order_number.anyOf[2]
-         * (Value): null. outcome (Optional): {@link FulfillmentOutcomePreviousAttributes} or null.
-         * Terminal outcome details. Present exactly when status is no_show. outcome.anyOf[1]
-         * (Value): {@link FulfillmentOutcomePreviousAttributes}. outcome.anyOf[2] (Value): null.
-         * packages (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null.
-         * Packages associated with this fulfillment. packages.anyOf[1] (Value): Array of {@link
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. Order whose items this fulfillment delivers.
+         * order_id.anyOf[1] (Value): string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_number
+         * (Optional): string or null. Human-readable number of the order this fulfillment belongs
+         * to. Omitted when the order has no number. order_number.anyOf[1] (Value): string.
+         * Human-readable number of the order this fulfillment belongs to. Omitted when the order
+         * has no number. order_number.anyOf[2] (Value): null. outcome (Optional): {@link
+         * FulfillmentOutcomePreviousAttributes} or null. Terminal outcome details. Present exactly
+         * when status is no_show. outcome.anyOf[1] (Value): {@link
+         * FulfillmentOutcomePreviousAttributes}. outcome.anyOf[2] (Value): null. packages
+         * (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null. Packages
+         * associated with this fulfillment. packages.anyOf[1] (Value): Array of {@link
          * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this fulfillment.
          * packages.anyOf[1][] (Value): {@link ExpandedPackageSummaryPreviousAttributes}.
          * packages.anyOf[2] (Value): null. packed_at (Optional): string or null. First time this
@@ -1581,18 +1544,18 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * recipient (Optional): {@link FulfillmentRecipientPreviousAttributes} or null. Omitted
          * for a checkout session credential that doesn't act for the customer the buyer verified.
          * recipient.anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
-         * recipient.anyOf[2] (Value): null. scheduled_start_at (Optional): string or null or null.
-         * Derived start of the service schedule or pickup, local delivery, or shipment window.
-         * Null when no schedule is booked, including digital fulfillments. Details remain the
-         * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
-         * fulfillment_id in the same direction. scheduled_start_at.anyOf[1] (Value): string or
-         * null. Derived start of the service schedule or pickup, local delivery, or shipment
-         * window. Null when no schedule is booked, including digital fulfillments. Details remain
-         * the authoritative schedule inputs. Nulls sort first ascending and last descending, then
-         * by fulfillment_id in the same direction. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". scheduled_start_at.anyOf[2] (Value): null. service_details
-         * (Optional): {@link ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and
-         * completion details for a service fulfillment. service_details.anyOf[1] (Value): {@link
+         * recipient.anyOf[2] (Value): null. scheduled_start_at (Optional): string or null. Derived
+         * start of the service schedule or pickup, local delivery, or shipment window. Null when
+         * no schedule is booked, including digital fulfillments. Details remain the authoritative
+         * schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id
+         * in the same direction. scheduled_start_at.anyOf[1] (Value): string. Derived start of the
+         * service schedule or pickup, local delivery, or shipment window. Null when no schedule is
+         * booked, including digital fulfillments. Details remain the authoritative schedule
+         * inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the
+         * same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_start_at.anyOf[2] (Value): null. service_details (Optional): {@link
+         * ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and completion details
+         * for a service fulfillment. service_details.anyOf[1] (Value): {@link
          * ServiceFulfillmentDetailsPreviousAttributes}. service_details.anyOf[2] (Value): null.
          * shipment_details (Optional): {@link ShipmentFulfillmentDetailsPreviousAttributes} or
          * null. Shipping schedule and ship time for a shipment fulfillment. Present only on
@@ -1679,7 +1642,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Current hold details. Present exactly when status is on_hold. anyOf[1] (Value):
              * {@link FulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null));
             /**
              * Order charges associated with this fulfillment. anyOf[1] (Value): Array of {@link
              * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this
@@ -1714,43 +1677,42 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
             /**
              * Delivery choice group that created this fulfillment. `null` when the merchant
              * created the fulfillment or checkout created it without a delivery quote. Always
-             * present with merchant credentials. anyOf[1] (Value): string or null. Delivery choice
-             * group that created this fulfillment. `null` when the merchant created the
-             * fulfillment or checkout created it without a delivery quote. Always present with
-             * merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value):
-             * null.
+             * present with merchant credentials. anyOf[1] (Value): string. Delivery choice group
+             * that created this fulfillment. `null` when the merchant created the fulfillment or
+             * checkout created it without a delivery quote. Always present with merchant
+             * credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value): null.
              */
-            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
+            "delivery_choice_group_id"?: ((string) | (null));
             /**
              * Execution leg of the selected delivery option that created this fulfillment. `null`
              * when the merchant created the fulfillment or checkout created it without a delivery
-             * quote. Always present with merchant credentials. anyOf[1] (Value): string or null.
-             * Execution leg of the selected delivery option that created this fulfillment. `null`
-             * when the merchant created the fulfillment or checkout created it without a delivery
-             * quote. Always present with merchant credentials. Example:
+             * quote. Always present with merchant credentials. anyOf[1] (Value): string. Execution
+             * leg of the selected delivery option that created this fulfillment. `null` when the
+             * merchant created the fulfillment or checkout created it without a delivery quote.
+             * Always present with merchant credentials. Example:
              * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". anyOf[2] (Value): null.
              */
-            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
+            "delivery_execution_leg_id"?: ((string) | (null));
             /**
              * Delivery method chosen for this fulfillment. `null` when the merchant created the
              * fulfillment or checkout created it without a delivery quote. Also `null` when it was
              * created before this field was added. Always present with merchant credentials.
-             * anyOf[1] (Value): string or null. Delivery method chosen for this fulfillment.
-             * `null` when the merchant created the fulfillment or checkout created it without a
-             * delivery quote. Also `null` when it was created before this field was added. Always
-             * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-             * anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. Delivery method chosen for this fulfillment. `null` when
+             * the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Also `null` when it was created before this field was added. Always present
+             * with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2]
+             * (Value): null.
              */
-            "delivery_method_id"?: ((string | null) | (null) | (unknown));
+            "delivery_method_id"?: ((string) | (null));
             /**
              * Delivery selection that created this fulfillment. `null` when the merchant created
              * the fulfillment or checkout created it without a delivery quote. Always present with
-             * merchant credentials. anyOf[1] (Value): string or null. Delivery selection that
-             * created this fulfillment. `null` when the merchant created the fulfillment or
-             * checkout created it without a delivery quote. Always present with merchant
-             * credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+             * merchant credentials. anyOf[1] (Value): string. Delivery selection that created this
+             * fulfillment. `null` when the merchant created the fulfillment or checkout created it
+             * without a delivery quote. Always present with merchant credentials. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
              */
-            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
+            "delivery_selection_id"?: ((string) | (null));
             /**
              * Device associated with the fulfillment, when one is recorded. anyOf[1] (Value):
              * string. Device associated with the fulfillment, when one is recorded. Example:
@@ -1761,7 +1723,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Delivery URL and completion time for a digital fulfillment. anyOf[1] (Value): {@link
              * DigitalFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * First time this fulfillment reached dispatched. anyOf[1] (Value): string. First time
              * this fulfillment reached dispatched. Format: date-time. Example:
@@ -1791,7 +1753,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * anyOf[1] (Value): {@link DeliveryFulfillmentDetailsPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Merchant location responsible for this fulfillment. anyOf[1] (Value): string.
              * Merchant location responsible for this fulfillment. Example:
@@ -1802,17 +1764,14 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Caller-owned key-value metadata associated with the fulfillment. anyOf[1] (Value):
              * {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Order summary returned when the order relationship is expanded. Present only when
              * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order
-             * summary returned when the order relationship is expanded. Present only when `expand`
-             * includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * Order whose items this fulfillment delivers. anyOf[1] (Value): string. Order whose
              * items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2]
@@ -1830,7 +1789,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Terminal outcome details. Present exactly when status is no_show. anyOf[1] (Value):
              * {@link FulfillmentOutcomePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null));
             /**
              * Packages associated with this fulfillment. anyOf[1] (Value): Array of {@link
              * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this
@@ -1854,36 +1813,36 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Pickup window, pickup mode, and handoff times for a pickup fulfillment. anyOf[1]
              * (Value): {@link PickupFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Omitted for a checkout session credential that doesn't act for the customer the
              * buyer verified. anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null));
             /**
              * Derived start of the service schedule or pickup, local delivery, or shipment window.
              * Null when no schedule is booked, including digital fulfillments. Details remain the
              * authoritative schedule inputs. Nulls sort first ascending and last descending, then
-             * by fulfillment_id in the same direction. anyOf[1] (Value): string or null. Derived
-             * start of the service schedule or pickup, local delivery, or shipment window. Null
-             * when no schedule is booked, including digital fulfillments. Details remain the
-             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
-             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * by fulfillment_id in the same direction. anyOf[1] (Value): string. Derived start of
+             * the service schedule or pickup, local delivery, or shipment window. Null when no
+             * schedule is booked, including digital fulfillments. Details remain the authoritative
+             * schedule inputs. Nulls sort first ascending and last descending, then by
+             * fulfillment_id in the same direction. Format: date-time. Example:
              * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
+            "scheduled_start_at"?: ((string) | (null));
             /**
              * Schedule and completion details for a service fulfillment. anyOf[1] (Value): {@link
              * ServiceFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
              * fulfillments with at least one value. anyOf[1] (Value): {@link
              * ShipmentFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Shipments associated with this fulfillment. anyOf[1] (Value): Array of {@link
              * ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this
@@ -2208,42 +2167,40 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
      * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_choice_group_id (Optional): string or null or null. Delivery
-     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
-     * or checkout created it without a delivery quote. Always present with merchant credentials.
-     * previous_attributes.delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery
-     * choice group that created this fulfillment. `null` when the merchant created the fulfillment
-     * or checkout created it without a delivery quote. Always present with merchant credentials.
-     * Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
-     * previous_attributes.delivery_choice_group_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_execution_leg_id (Optional): string or null or null. Execution
-     * leg of the selected delivery option that created this fulfillment. `null` when the merchant
-     * created the fulfillment or checkout created it without a delivery quote. Always present with
-     * merchant credentials. previous_attributes.delivery_execution_leg_id.anyOf[1] (Value): string
-     * or null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * previous_attributes.delivery_execution_leg_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_method_id (Optional): string or null or null. Delivery method
-     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Also `null` when it was created before this field was
-     * added. Always present with merchant credentials.
-     * previous_attributes.delivery_method_id.anyOf[1] (Value): string or null. Delivery method
-     * chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Also `null` when it was created before this field was
-     * added. Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
+     * group that created this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_choice_group_id.anyOf[1] (Value): string. Delivery choice group
+     * that created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". previous_attributes.delivery_choice_group_id.anyOf[2]
+     * (Value): null. previous_attributes.delivery_execution_leg_id (Optional): string or null.
+     * Execution leg of the selected delivery option that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. previous_attributes.delivery_execution_leg_id.anyOf[1]
+     * (Value): string. Execution leg of the selected delivery option that created this
+     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
+     * a delivery quote. Always present with merchant credentials. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". previous_attributes.delivery_execution_leg_id.anyOf[2]
+     * (Value): null. previous_attributes.delivery_method_id (Optional): string or null. Delivery
+     * method chosen for this fulfillment. `null` when the merchant created the fulfillment or
+     * checkout created it without a delivery quote. Also `null` when it was created before this
+     * field was added. Always present with merchant credentials.
+     * previous_attributes.delivery_method_id.anyOf[1] (Value): string. Delivery method chosen for
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Also `null` when it was created before this field was added.
+     * Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_selection_id (Optional): string or null or null. Delivery
-     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
-     * checkout created it without a delivery quote. Always present with merchant credentials.
-     * previous_attributes.delivery_selection_id.anyOf[1] (Value): string or null. Delivery
-     * selection that created this fulfillment. `null` when the merchant created the fulfillment or
-     * checkout created it without a delivery quote. Always present with merchant credentials.
-     * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     * previous_attributes.delivery_selection_id.anyOf[2] (Value): null.
-     * previous_attributes.device_id (Optional): string or null. Device associated with the
-     * fulfillment, when one is recorded. previous_attributes.device_id.anyOf[1] (Value): string.
-     * Device associated with the fulfillment, when one is recorded. Example:
+     * previous_attributes.delivery_selection_id (Optional): string or null. Delivery selection
+     * that created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials.
+     * previous_attributes.delivery_selection_id.anyOf[1] (Value): string. Delivery selection that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". previous_attributes.delivery_selection_id.anyOf[2]
+     * (Value): null. previous_attributes.device_id (Optional): string or null. Device associated
+     * with the fulfillment, when one is recorded. previous_attributes.device_id.anyOf[1] (Value):
+     * string. Device associated with the fulfillment, when one is recorded. Example:
      * "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2] (Value): null.
      * previous_attributes.digital_details (Optional): {@link
      * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time for a
@@ -2280,14 +2237,10 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata associated with the
      * fulfillment. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned
-     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
-     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
-     * ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned when the
      * order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. previous_attributes.order.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * expanded and there is no related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. Order whose items this fulfillment
      * delivers. previous_attributes.order_id.anyOf[1] (Value): string. Order whose items this
      * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -2322,12 +2275,12 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * that doesn't act for the customer the buyer verified. previous_attributes.recipient.anyOf[1]
      * (Value): {@link FulfillmentRecipientPreviousAttributes}.
      * previous_attributes.recipient.anyOf[2] (Value): null. previous_attributes.scheduled_start_at
-     * (Optional): string or null or null. Derived start of the service schedule or pickup, local
-     * delivery, or shipment window. Null when no schedule is booked, including digital
-     * fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending
-     * and last descending, then by fulfillment_id in the same direction.
-     * previous_attributes.scheduled_start_at.anyOf[1] (Value): string or null. Derived start of
-     * the service schedule or pickup, local delivery, or shipment window. Null when no schedule is
+     * (Optional): string or null. Derived start of the service schedule or pickup, local delivery,
+     * or shipment window. Null when no schedule is booked, including digital fulfillments. Details
+     * remain the authoritative schedule inputs. Nulls sort first ascending and last descending,
+     * then by fulfillment_id in the same direction.
+     * previous_attributes.scheduled_start_at.anyOf[1] (Value): string. Derived start of the
+     * service schedule or pickup, local delivery, or shipment window. Null when no schedule is
      * booked, including digital fulfillments. Details remain the authoritative schedule inputs.
      * Nulls sort first ascending and last descending, then by fulfillment_id in the same
      * direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -2833,40 +2786,39 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
          * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * delivery_choice_group_id (Optional): string or null or null. Delivery choice group that
-         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Always present with merchant credentials.
-         * delivery_choice_group_id.anyOf[1] (Value): string or null. Delivery choice group that
-         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Always present with merchant credentials. Example:
-         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_choice_group_id.anyOf[2] (Value): null.
-         * delivery_execution_leg_id (Optional): string or null or null. Execution leg of the
-         * selected delivery option that created this fulfillment. `null` when the merchant created
-         * the fulfillment or checkout created it without a delivery quote. Always present with
-         * merchant credentials. delivery_execution_leg_id.anyOf[1] (Value): string or null.
-         * Execution leg of the selected delivery option that created this fulfillment. `null` when
-         * the merchant created the fulfillment or checkout created it without a delivery quote.
-         * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-         * delivery_execution_leg_id.anyOf[2] (Value): null. delivery_method_id (Optional): string
-         * or null or null. Delivery method chosen for this fulfillment. `null` when the merchant
-         * created the fulfillment or checkout created it without a delivery quote. Also `null`
-         * when it was created before this field was added. Always present with merchant
-         * credentials. delivery_method_id.anyOf[1] (Value): string or null. Delivery method chosen
-         * for this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Also `null` when it was created before this field
-         * was added. Always present with merchant credentials. Example:
-         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_selection_id (Optional): string or null or null. Delivery selection that
-         * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-         * created it without a delivery quote. Always present with merchant credentials.
-         * delivery_selection_id.anyOf[1] (Value): string or null. Delivery selection that created
+         * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
+         * this fulfillment. `null` when the merchant created the fulfillment or checkout created
+         * it without a delivery quote. Always present with merchant credentials.
+         * delivery_choice_group_id.anyOf[1] (Value): string. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials. Example:
-         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". delivery_selection_id.anyOf[2] (Value): null.
-         * device_id (Optional): string or null. Device associated with the fulfillment, when one
-         * is recorded. device_id.anyOf[1] (Value): string. Device associated with the fulfillment,
-         * when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2]
-         * (Value): null. digital_details (Optional): {@link
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_choice_group_id.anyOf[2] (Value): null.
+         * delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+         * delivery option that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. delivery_execution_leg_id.anyOf[1] (Value): string. Execution leg
+         * of the selected delivery option that created this fulfillment. `null` when the merchant
+         * created the fulfillment or checkout created it without a delivery quote. Always present
+         * with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+         * delivery_execution_leg_id.anyOf[2] (Value): null. delivery_method_id (Optional): string
+         * or null. Delivery method chosen for this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Also `null` when it was
+         * created before this field was added. Always present with merchant credentials.
+         * delivery_method_id.anyOf[1] (Value): string. Delivery method chosen for this
+         * fulfillment. `null` when the merchant created the fulfillment or checkout created it
+         * without a delivery quote. Also `null` when it was created before this field was added.
+         * Always present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * delivery_method_id.anyOf[2] (Value): null. delivery_selection_id (Optional): string or
+         * null. Delivery selection that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Always present with
+         * merchant credentials. delivery_selection_id.anyOf[1] (Value): string. Delivery selection
+         * that created this fulfillment. `null` when the merchant created the fulfillment or
+         * checkout created it without a delivery quote. Always present with merchant credentials.
+         * Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". delivery_selection_id.anyOf[2] (Value):
+         * null. device_id (Optional): string or null. Device associated with the fulfillment, when
+         * one is recorded. device_id.anyOf[1] (Value): string. Device associated with the
+         * fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * device_id.anyOf[2] (Value): null. digital_details (Optional): {@link
          * DigitalFulfillmentDetailsPreviousAttributes} or null. Delivery URL and completion time
          * for a digital fulfillment. digital_details.anyOf[1] (Value): {@link
          * DigitalFulfillmentDetailsPreviousAttributes}. digital_details.anyOf[2] (Value): null.
@@ -2894,26 +2846,23 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
          * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
          * metadata associated with the fulfillment. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned when
-         * the order relationship is expanded. Present only when `expand` includes `order`; `null`
-         * when expanded and there is no related order. order.anyOf[1] (Value): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order
+         * MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned when the order
          * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. Order whose items
-         * this fulfillment delivers. order_id.anyOf[1] (Value): string. Order whose items this
-         * fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2]
-         * (Value): null. order_number (Optional): string or null. Human-readable number of the
-         * order this fulfillment belongs to. Omitted when the order has no number.
-         * order_number.anyOf[1] (Value): string. Human-readable number of the order this
-         * fulfillment belongs to. Omitted when the order has no number. order_number.anyOf[2]
-         * (Value): null. outcome (Optional): {@link FulfillmentOutcomePreviousAttributes} or null.
-         * Terminal outcome details. Present exactly when status is no_show. outcome.anyOf[1]
-         * (Value): {@link FulfillmentOutcomePreviousAttributes}. outcome.anyOf[2] (Value): null.
-         * packages (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null.
-         * Packages associated with this fulfillment. packages.anyOf[1] (Value): Array of {@link
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. Order whose items this fulfillment delivers.
+         * order_id.anyOf[1] (Value): string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_number
+         * (Optional): string or null. Human-readable number of the order this fulfillment belongs
+         * to. Omitted when the order has no number. order_number.anyOf[1] (Value): string.
+         * Human-readable number of the order this fulfillment belongs to. Omitted when the order
+         * has no number. order_number.anyOf[2] (Value): null. outcome (Optional): {@link
+         * FulfillmentOutcomePreviousAttributes} or null. Terminal outcome details. Present exactly
+         * when status is no_show. outcome.anyOf[1] (Value): {@link
+         * FulfillmentOutcomePreviousAttributes}. outcome.anyOf[2] (Value): null. packages
+         * (Optional): Array of {@link ExpandedPackageSummaryPreviousAttributes} or null. Packages
+         * associated with this fulfillment. packages.anyOf[1] (Value): Array of {@link
          * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this fulfillment.
          * packages.anyOf[1][] (Value): {@link ExpandedPackageSummaryPreviousAttributes}.
          * packages.anyOf[2] (Value): null. packed_at (Optional): string or null. First time this
@@ -2929,18 +2878,18 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * recipient (Optional): {@link FulfillmentRecipientPreviousAttributes} or null. Omitted
          * for a checkout session credential that doesn't act for the customer the buyer verified.
          * recipient.anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
-         * recipient.anyOf[2] (Value): null. scheduled_start_at (Optional): string or null or null.
-         * Derived start of the service schedule or pickup, local delivery, or shipment window.
-         * Null when no schedule is booked, including digital fulfillments. Details remain the
-         * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
-         * fulfillment_id in the same direction. scheduled_start_at.anyOf[1] (Value): string or
-         * null. Derived start of the service schedule or pickup, local delivery, or shipment
-         * window. Null when no schedule is booked, including digital fulfillments. Details remain
-         * the authoritative schedule inputs. Nulls sort first ascending and last descending, then
-         * by fulfillment_id in the same direction. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". scheduled_start_at.anyOf[2] (Value): null. service_details
-         * (Optional): {@link ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and
-         * completion details for a service fulfillment. service_details.anyOf[1] (Value): {@link
+         * recipient.anyOf[2] (Value): null. scheduled_start_at (Optional): string or null. Derived
+         * start of the service schedule or pickup, local delivery, or shipment window. Null when
+         * no schedule is booked, including digital fulfillments. Details remain the authoritative
+         * schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id
+         * in the same direction. scheduled_start_at.anyOf[1] (Value): string. Derived start of the
+         * service schedule or pickup, local delivery, or shipment window. Null when no schedule is
+         * booked, including digital fulfillments. Details remain the authoritative schedule
+         * inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the
+         * same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * scheduled_start_at.anyOf[2] (Value): null. service_details (Optional): {@link
+         * ServiceFulfillmentDetailsPreviousAttributes} or null. Schedule and completion details
+         * for a service fulfillment. service_details.anyOf[1] (Value): {@link
          * ServiceFulfillmentDetailsPreviousAttributes}. service_details.anyOf[2] (Value): null.
          * shipment_details (Optional): {@link ShipmentFulfillmentDetailsPreviousAttributes} or
          * null. Shipping schedule and ship time for a shipment fulfillment. Present only on
@@ -3027,7 +2976,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Current hold details. Present exactly when status is on_hold. anyOf[1] (Value):
              * {@link FulfillmentHoldPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null) | (unknown));
+            "active_hold"?: ((FulfillmentHoldPreviousAttributes) | (null));
             /**
              * Order charges associated with this fulfillment. anyOf[1] (Value): Array of {@link
              * FulfillmentChargeLinkPreviousAttributes}. Order charges associated with this
@@ -3062,43 +3011,42 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
             /**
              * Delivery choice group that created this fulfillment. `null` when the merchant
              * created the fulfillment or checkout created it without a delivery quote. Always
-             * present with merchant credentials. anyOf[1] (Value): string or null. Delivery choice
-             * group that created this fulfillment. `null` when the merchant created the
-             * fulfillment or checkout created it without a delivery quote. Always present with
-             * merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value):
-             * null.
+             * present with merchant credentials. anyOf[1] (Value): string. Delivery choice group
+             * that created this fulfillment. `null` when the merchant created the fulfillment or
+             * checkout created it without a delivery quote. Always present with merchant
+             * credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". anyOf[2] (Value): null.
              */
-            "delivery_choice_group_id"?: ((string | null) | (null) | (unknown));
+            "delivery_choice_group_id"?: ((string) | (null));
             /**
              * Execution leg of the selected delivery option that created this fulfillment. `null`
              * when the merchant created the fulfillment or checkout created it without a delivery
-             * quote. Always present with merchant credentials. anyOf[1] (Value): string or null.
-             * Execution leg of the selected delivery option that created this fulfillment. `null`
-             * when the merchant created the fulfillment or checkout created it without a delivery
-             * quote. Always present with merchant credentials. Example:
+             * quote. Always present with merchant credentials. anyOf[1] (Value): string. Execution
+             * leg of the selected delivery option that created this fulfillment. `null` when the
+             * merchant created the fulfillment or checkout created it without a delivery quote.
+             * Always present with merchant credentials. Example:
              * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". anyOf[2] (Value): null.
              */
-            "delivery_execution_leg_id"?: ((string | null) | (null) | (unknown));
+            "delivery_execution_leg_id"?: ((string) | (null));
             /**
              * Delivery method chosen for this fulfillment. `null` when the merchant created the
              * fulfillment or checkout created it without a delivery quote. Also `null` when it was
              * created before this field was added. Always present with merchant credentials.
-             * anyOf[1] (Value): string or null. Delivery method chosen for this fulfillment.
-             * `null` when the merchant created the fulfillment or checkout created it without a
-             * delivery quote. Also `null` when it was created before this field was added. Always
-             * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-             * anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. Delivery method chosen for this fulfillment. `null` when
+             * the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Also `null` when it was created before this field was added. Always present
+             * with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2]
+             * (Value): null.
              */
-            "delivery_method_id"?: ((string | null) | (null) | (unknown));
+            "delivery_method_id"?: ((string) | (null));
             /**
              * Delivery selection that created this fulfillment. `null` when the merchant created
              * the fulfillment or checkout created it without a delivery quote. Always present with
-             * merchant credentials. anyOf[1] (Value): string or null. Delivery selection that
-             * created this fulfillment. `null` when the merchant created the fulfillment or
-             * checkout created it without a delivery quote. Always present with merchant
-             * credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+             * merchant credentials. anyOf[1] (Value): string. Delivery selection that created this
+             * fulfillment. `null` when the merchant created the fulfillment or checkout created it
+             * without a delivery quote. Always present with merchant credentials. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
              */
-            "delivery_selection_id"?: ((string | null) | (null) | (unknown));
+            "delivery_selection_id"?: ((string) | (null));
             /**
              * Device associated with the fulfillment, when one is recorded. anyOf[1] (Value):
              * string. Device associated with the fulfillment, when one is recorded. Example:
@@ -3109,7 +3057,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Delivery URL and completion time for a digital fulfillment. anyOf[1] (Value): {@link
              * DigitalFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "digital_details"?: ((DigitalFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * First time this fulfillment reached dispatched. anyOf[1] (Value): string. First time
              * this fulfillment reached dispatched. Format: date-time. Example:
@@ -3139,7 +3087,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * anyOf[1] (Value): {@link DeliveryFulfillmentDetailsPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Merchant location responsible for this fulfillment. anyOf[1] (Value): string.
              * Merchant location responsible for this fulfillment. Example:
@@ -3150,17 +3098,14 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Caller-owned key-value metadata associated with the fulfillment. anyOf[1] (Value):
              * {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Order summary returned when the order relationship is expanded. Present only when
              * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order
-             * summary returned when the order relationship is expanded. Present only when `expand`
-             * includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * Order whose items this fulfillment delivers. anyOf[1] (Value): string. Order whose
              * items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2]
@@ -3178,7 +3123,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Terminal outcome details. Present exactly when status is no_show. anyOf[1] (Value):
              * {@link FulfillmentOutcomePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null) | (unknown));
+            "outcome"?: ((FulfillmentOutcomePreviousAttributes) | (null));
             /**
              * Packages associated with this fulfillment. anyOf[1] (Value): Array of {@link
              * ExpandedPackageSummaryPreviousAttributes}. Packages associated with this
@@ -3202,36 +3147,36 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Pickup window, pickup mode, and handoff times for a pickup fulfillment. anyOf[1]
              * (Value): {@link PickupFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "pickup_details"?: ((PickupFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Omitted for a checkout session credential that doesn't act for the customer the
              * buyer verified. anyOf[1] (Value): {@link FulfillmentRecipientPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((FulfillmentRecipientPreviousAttributes) | (null));
             /**
              * Derived start of the service schedule or pickup, local delivery, or shipment window.
              * Null when no schedule is booked, including digital fulfillments. Details remain the
              * authoritative schedule inputs. Nulls sort first ascending and last descending, then
-             * by fulfillment_id in the same direction. anyOf[1] (Value): string or null. Derived
-             * start of the service schedule or pickup, local delivery, or shipment window. Null
-             * when no schedule is booked, including digital fulfillments. Details remain the
-             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
-             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * by fulfillment_id in the same direction. anyOf[1] (Value): string. Derived start of
+             * the service schedule or pickup, local delivery, or shipment window. Null when no
+             * schedule is booked, including digital fulfillments. Details remain the authoritative
+             * schedule inputs. Nulls sort first ascending and last descending, then by
+             * fulfillment_id in the same direction. Format: date-time. Example:
              * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "scheduled_start_at"?: ((string | null) | (null) | (unknown));
+            "scheduled_start_at"?: ((string) | (null));
             /**
              * Schedule and completion details for a service fulfillment. anyOf[1] (Value): {@link
              * ServiceFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "service_details"?: ((ServiceFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
              * fulfillments with at least one value. anyOf[1] (Value): {@link
              * ShipmentFulfillmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null) | (unknown));
+            "shipment_details"?: ((ShipmentFulfillmentDetailsPreviousAttributes) | (null));
             /**
              * Shipments associated with this fulfillment. anyOf[1] (Value): Array of {@link
              * ExpandedShipmentSummaryPreviousAttributes}. Shipments associated with this
@@ -4688,13 +4633,13 @@ export type GiftCardCustomAmountBoundsPreviousAttributes = {
      * Amount must be between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "maximum_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "maximum_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Smallest gift card value buyers can choose, in the face value currency. Currency must be
      * USD. Amount must be between 1 and 200000 minor units, inclusive. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "minimum_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "minimum_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /**
  * The minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
@@ -4935,12 +4880,10 @@ export type GiftCardFundingDisputePreviousAttributes = {
     "requires_resolution"?: ((boolean) | (null));
     /**
      * The funding disposition recorded for this lost dispute. `null` when you have not created one
-     * yet. anyOf[1] (Value): ({@link GiftCardFundingLossResolutionPreviousAttributes} or null).
-     * The funding disposition recorded for this lost dispute. `null` when you have not created one
-     * yet. anyOf[1].anyOf[1] (Value): {@link GiftCardFundingLossResolutionPreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * yet. anyOf[1] (Value): {@link GiftCardFundingLossResolutionPreviousAttributes}. anyOf[2]
+     * (Value): null.
      */
-    "resolution"?: (((((GiftCardFundingLossResolutionPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "resolution"?: ((GiftCardFundingLossResolutionPreviousAttributes) | (null));
     /**
      * Where the dispute on the funding payment stands. Spending of the value it funded stays
      * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost". anyOf[1]
@@ -5448,3 +5391,64 @@ export type GiftCardFundingSourceFlintManualPayment = ({
      */
     "customer_id": string;
 }));
+export type GiftCardFundingSourceFlintManualPaymentPreviousAttributes = ({
+    /**
+     * ID of the customer the funding is attributed to. Required for `external_payment` and
+     * `flint_manual_payment`; optional for `import`. anyOf[1] (Value): string. ID of the customer
+     * the funding is attributed to. Required for `external_payment` and `flint_manual_payment`;
+     * optional for `import`. minLength: 1. maxLength: 255. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Your reference for the payment or import record that funded this value, such as a POS sale
+     * ID. Required; 1 to 255 characters. anyOf[1] (Value): string. Your reference for the payment
+     * or import record that funded this value, such as a POS sale ID. Required; 1 to 255
+     * characters. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[1] (Value): string.
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: (("flint_manual_payment" | (string & {})) | (null));
+    /**
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. anyOf[1] (Value): string.
+     * ID of the order that funded the value. Required for `flint_manual_payment` and
+     * `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength:
+     * 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the manual payment on the order that funded the value. Required for
+     * `flint_manual_payment`. anyOf[1] (Value): string. ID of the manual payment on the order that
+     * funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
+     * Example: "omp_01KEZF7C007J18203RBJKB9TYE". anyOf[2] (Value): null.
+     */
+    "order_manual_payment_id"?: ((string) | (null));
+    /**
+     * The original payment for flint_payment or store_credit value. For standalone paid funding,
+     * use a captured payment intent without an order_id. Order-linked payments fund purchased
+     * cards or store credit through their order. anyOf[1] (Value): string. The original payment
+     * for flint_payment or store_credit value. For standalone paid funding, use a captured payment
+     * intent without an order_id. Order-linked payments fund purchased cards or store credit
+     * through their order. minLength: 1. maxLength: 255. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Refund that issued this value. Present only when funding_source_type is store_credit.
+     * anyOf[1] (Value): string. Refund that issued this value. Present only when
+     * funding_source_type is store_credit. minLength: 1. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     */
+    "refund_id"?: ((string) | (null));
+})
+    & ({
+    /**
+     * Where the value came from. Value enum: "flint_manual_payment". anyOf[1] (Value): any. Where
+     * the value came from. Value enum: "flint_manual_payment". anyOf[2] (Value): null.
+     */
+    "funding_source_type"?: ((unknown) | (null) | (unknown));
+});

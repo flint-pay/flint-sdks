@@ -27,11 +27,11 @@ Current geographic eligibility conditions.
 | --- | --- | --- | --- |
 | `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) or null | Matches when every nested expression matches. `all`: [declared alternatives](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all). |
 | `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) or null | Matches when at least one nested expression matches. `any`: [declared alternatives](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all-variant-1-fields-1any). |
-| `country` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed countries. `country`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country). |
+| `country` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed countries. `country`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country). |
 | `not` | Conditional | object and Alternative shapes (see declared variants) or null | Matches when the nested expression does not match. `not`: [declared alternatives](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all-variant-1-fields-1not). |
-| `postal_code` | Conditional | Alternative shapes (see declared variants) | Matches when the address postal code matches one of the listed codes. `postal_code`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code). |
-| `radius` | Conditional | Alternative shapes (see declared variants) | Matches when the address is within a set distance of an origin. `radius`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius). |
-| `state` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed states or provinces. `state`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state). |
+| `postal_code` | Conditional | Alternative shapes (see declared variants) | Matches when the address postal code matches one of the listed codes. `postal_code`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code). |
+| `radius` | Conditional | Alternative shapes (see declared variants) | Matches when the address is within a set distance of an origin. `radius`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius). |
+| `state` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed states or provinces. `state`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state). |
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1, 2, 3, 4, 5, 6, 7
 
@@ -66,11 +66,11 @@ anyOf variant 2.
 | --- | --- | --- | --- |
 | `all` | Optional | Array of (object and Alternative shapes (see declared variants)) or null | Matches when every nested expression matches. `all`: [field definitions](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all). |
 | `any` | Optional | Array of (object and Alternative shapes (see declared variants)) or null | Matches when at least one nested expression matches. `any`: [declared alternatives](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all-variant-1-fields-1any). |
-| `country` | Optional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed countries. `country`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country). |
+| `country` | Optional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed countries. `country`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country). |
 | `not` | Optional | object and Alternative shapes (see declared variants) or null | Matches when the nested expression does not match. `not`: [declared alternatives](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all-variant-1-fields-1not). |
-| `postal_code` | Optional | Alternative shapes (see declared variants) | Matches when the address postal code matches one of the listed codes. `postal_code`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code). |
-| `radius` | Optional | Alternative shapes (see declared variants) | Matches when the address is within a set distance of an origin. `radius`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius). |
-| `state` | Optional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed states or provinces. `state`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state). |
+| `postal_code` | Optional | Alternative shapes (see declared variants) | Matches when the address postal code matches one of the listed codes. `postal_code`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code). |
+| `radius` | Optional | Alternative shapes (see declared variants) | Matches when the address is within a set distance of an origin. `radius`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius). |
+| `state` | Optional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed states or provinces. `state`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state). |
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1 variant 1, 2, 3, 4, 5, 6, 7
 
@@ -102,7 +102,7 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not
 
@@ -112,11 +112,11 @@ Matches when the nested expression does not match.
 | --- | --- | --- | --- |
 | `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) or null | Matches when every nested expression matches. `all`: [field definitions](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all). |
 | `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) or null | Matches when at least one nested expression matches. `any`: [declared alternatives](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all-variant-1-fields-1any). |
-| `country` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed countries. `country`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country). |
+| `country` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed countries. `country`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country). |
 | `not` | Conditional | object and Alternative shapes (see declared variants) or null | Matches when the nested expression does not match. `not`: [field definitions](../models/DeliveryZoneArchivedMerchantEventDataPreviousAttributes.md#deliveryzonearchivedmerchanteventdatapreviousattributesconfiguration-variant-1all-variant-1-fields-1not). |
-| `postal_code` | Conditional | Alternative shapes (see declared variants) | Matches when the address postal code matches one of the listed codes. `postal_code`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code). |
-| `radius` | Conditional | Alternative shapes (see declared variants) | Matches when the address is within a set distance of an origin. `radius`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius). |
-| `state` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed states or provinces. `state`: [declared alternatives](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state). |
+| `postal_code` | Conditional | Alternative shapes (see declared variants) | Matches when the address postal code matches one of the listed codes. `postal_code`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code). |
+| `radius` | Conditional | Alternative shapes (see declared variants) | Matches when the address is within a set distance of an origin. `radius`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius). |
+| `state` | Conditional | Alternative shapes (see declared variants) | Matches when the address is in one of the listed states or provinces. `state`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state). |
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 1, 2, 3, 4, 5, 6, 7
 
@@ -141,7 +141,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 1.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 1.not
 
@@ -149,15 +149,15 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 1.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 1.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 1.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 2.all
 
@@ -169,7 +169,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 2.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 2.not
 
@@ -177,15 +177,15 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 2.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 2.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 2.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 3.all
 
@@ -197,7 +197,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 3.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 3.not
 
@@ -205,15 +205,15 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 3.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 3.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 3.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 4.all
 
@@ -225,7 +225,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 4.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 4.not
 
@@ -233,15 +233,15 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 4.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 4.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 4.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 5.all
 
@@ -253,7 +253,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 5.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 5.not
 
@@ -261,15 +261,15 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 5.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 5.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 5.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 6.all
 
@@ -281,7 +281,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 6.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 6.not
 
@@ -289,15 +289,15 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 6.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 6.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 6.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 7.all
 
@@ -309,7 +309,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 7.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 7.not
 
@@ -317,27 +317,27 @@ Field definitions: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.conf
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 7.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 7.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.not variant 7.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.all variant 1.[] fields 1.all fields 1
 
@@ -369,7 +369,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.not
 
@@ -377,15 +377,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 1.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 2.all
 
@@ -397,7 +397,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 2.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 2.not
 
@@ -405,15 +405,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 2.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 2.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 2.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 3.all
 
@@ -425,7 +425,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 3.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 3.not
 
@@ -433,15 +433,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 3.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 3.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 3.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 4.all
 
@@ -453,7 +453,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 4.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 4.not
 
@@ -461,15 +461,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 4.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 4.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 4.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 5.all
 
@@ -481,7 +481,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 5.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 5.not
 
@@ -489,15 +489,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 5.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 5.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 5.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 6.all
 
@@ -509,7 +509,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 6.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 6.not
 
@@ -517,15 +517,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 6.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 6.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 6.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 7.all
 
@@ -537,7 +537,7 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 7.country
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1country).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.country](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1country).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 7.not
 
@@ -545,15 +545,15 @@ Declared alternatives: [DeliveryZoneArchivedMerchantEventDataPreviousAttributes.
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 7.postal_code
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.postal_code](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1postal_code).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 7.radius
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1radius).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.radius](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1radius).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.configuration variant 7.state
 
-Declared alternatives: [DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md#deliverymethodactivatedmerchanteventdatapreviousattributesconfiguration-variant-1eligibility-variant-1all-variant-1-fields-1not-variant-1state).
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.eligibility variant 1.all variant 1.[] fields 1.not variant 1.state](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributeseligibility-variant-1all-variant-1-fields-1not-variant-1state).
 
 ### DeliveryZoneArchivedMerchantEventDataPreviousAttributes.created_at
 

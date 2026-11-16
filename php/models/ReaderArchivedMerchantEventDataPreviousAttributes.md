@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `connectivity` | Optional | Alternative shapes (see declared variants) | Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. `connectivity`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity). |
+| `connectivity` | Optional | [ReaderConnectivityPreviousAttributes](../models/ReaderConnectivityPreviousAttributes.md#readerconnectivitypreviousattributes) or null | Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. `connectivity`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity). |
 | `created_at` | Optional | string or null | When the reader was registered. `created_at`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributescreated_at). |
 | `device_id` | Optional | string or null | The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. `device_id`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesdevice_id). |
 | `is_simulated` | Optional | boolean or null | `true` for a sandbox simulated reader, registered with `registration_code: simulated-s700`. `is_simulated`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesis_simulated). |
@@ -29,9 +29,9 @@ Smart readers only, and omitted once the reader is archived. Observed reader sta
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `last_seen_at` | Conditional | string or null or null | When the reader last reached Stripe. Omitted when it never has. `last_seen_at`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity-variant-1last_seen_at). |
+| `last_seen_at` | Conditional | string or null | When the reader last reached Stripe. Omitted when it never has. `last_seen_at`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity-variant-1last_seen_at). |
 | `observed_at` | Conditional | string or null | When Flint observed this. `observed_at`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity-variant-1observed_at). |
-| `status` | Conditional | string or null | Whether the reader was reaching Stripe when Flint last observed it. Values: `"online"`, `"offline"`. `status`: [declared alternatives](../models/ReaderArchivedMerchantEventDataPreviousAttributes.md#readerarchivedmerchanteventdatapreviousattributesconnectivity-variant-1status). |
+| `status` | Conditional | string or null | Whether the reader was reaching Stripe when Flint last observed it. Values: `"online"`, `"offline"`. `status`: [declared alternatives](../models/ReaderConnectivityPreviousAttributes.md#readerconnectivitypreviousattributesstatus). |
 
 ### ReaderArchivedMerchantEventDataPreviousAttributes.connectivity variant 1
 
@@ -52,7 +52,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the reader last reached Stripe. Omitted when it never has..
 
-- Value shape: (string or null). When the reader last reached Stripe. Omitted when it never has. When the reader last reached Stripe. Omitted when it never has. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the reader last reached Stripe. Omitted when it never has. When the reader last reached Stripe. Omitted when it never has. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### ReaderArchivedMerchantEventDataPreviousAttributes.connectivity variant 1.last_seen_at variant 2
 
@@ -76,17 +76,7 @@ anyOf variant 2.
 
 ### ReaderArchivedMerchantEventDataPreviousAttributes.connectivity variant 1.status
 
-### ReaderArchivedMerchantEventDataPreviousAttributes.connectivity variant 1.status variant 1
-
-anyOf variant 1: Whether the reader was reaching Stripe when Flint last observed it..
-
-- Value shape: string. Whether the reader was reaching Stripe when Flint last observed it. Values: `"online"`, `"offline"`.
-
-### ReaderArchivedMerchantEventDataPreviousAttributes.connectivity variant 1.status variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the reader was reaching Stripe when Flint last observed it. 
+Declared alternatives: [ReaderConnectivityPreviousAttributes.status](../models/ReaderConnectivityPreviousAttributes.md#readerconnectivitypreviousattributesstatus).
 
 ### ReaderArchivedMerchantEventDataPreviousAttributes.created_at
 

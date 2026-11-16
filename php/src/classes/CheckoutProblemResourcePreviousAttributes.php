@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read bool|null $blocks_completion
  * @property-read string|null $code
- * @property-read mixed $remediation
+ * @property-read ErrorRemediationPreviousAttributes|null $remediation
  * @property-read string|null $severity
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutProblemResourcePreviousAttributes extends Model {
@@ -21,9 +21,9 @@ final class CheckoutProblemResourcePreviousAttributes extends Model {
     public function getCode(): string|null { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
     /** What the caller can do about the problem, and whether retrying the same request can help. anyOf[1] (Value): {@see ErrorRemediationPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ErrorRemediationPreviousAttributes|null
      */
-    public function getRemediation(): mixed { return $this->get('remediation'); }
+    public function getRemediation(): ErrorRemediationPreviousAttributes|null { return $this->get('remediation'); }
     public function hasRemediation(): bool { return $this->has('remediation'); }
     /** How serious the problem is. Value enum: "error". anyOf[1] (Value): string. How serious the problem is. Value enum: "error". anyOf[2] (Value): null.
      * @return string|null

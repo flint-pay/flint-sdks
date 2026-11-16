@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionBillingScheduleInputFlint to SubscriptionPastDueMerchantEvent
+# SubscriptionBillingScheduleRequestInput to SubscriptionPaymentRetryCreatedInstalledMerchantsEvent
 
-- [SubscriptionBillingScheduleInputFlint](SubscriptionBillingScheduleInputFlint.md)
-- [SubscriptionBillingScheduleInputFlintInput](SubscriptionBillingScheduleInputFlintInput.md)
-- [SubscriptionBillingScheduleRequest](SubscriptionBillingScheduleRequest.md)
 - [SubscriptionBillingScheduleRequestInput](SubscriptionBillingScheduleRequestInput.md)
 - [SubscriptionBillingScheduleUpdateInputExternal](SubscriptionBillingScheduleUpdateInputExternal.md)
 - [SubscriptionBillingScheduleUpdateInputExternalInput](SubscriptionBillingScheduleUpdateInputExternalInput.md)
@@ -40,7 +37,6 @@
 - [SubscriptionDeliveryDestination](SubscriptionDeliveryDestination.md)
 - [SubscriptionDeliveryDestinationInputAddressInput](SubscriptionDeliveryDestinationInputAddressInput.md)
 - [SubscriptionDeliveryDestinationInputCustomerAddressInput](SubscriptionDeliveryDestinationInputCustomerAddressInput.md)
-- [SubscriptionDeliveryDestinationPreviousAttributes](SubscriptionDeliveryDestinationPreviousAttributes.md)
 - [SubscriptionDeliveryDestinationRequestInput](SubscriptionDeliveryDestinationRequestInput.md)
 - [SubscriptionDeliveryHold](SubscriptionDeliveryHold.md)
 - [SubscriptionDeliveryHoldPreviousAttributes](SubscriptionDeliveryHoldPreviousAttributes.md)
@@ -102,4 +98,8 @@
 - [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
 - [SubscriptionPastDueInstalledMerchantsEvent](SubscriptionPastDueInstalledMerchantsEvent.md)
 - [SubscriptionPastDueMerchantEvent](SubscriptionPastDueMerchantEvent.md)
+- [SubscriptionPausedInstalledMerchantsEvent](SubscriptionPausedInstalledMerchantsEvent.md)
+- [SubscriptionPausedMerchantEvent](SubscriptionPausedMerchantEvent.md)
+- [SubscriptionPaymentRetry](SubscriptionPaymentRetry.md)
+- [SubscriptionPaymentRetryCreatedInstalledMerchantsEvent](SubscriptionPaymentRetryCreatedInstalledMerchantsEvent.md)
 

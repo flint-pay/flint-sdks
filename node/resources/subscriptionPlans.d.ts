@@ -58,8 +58,8 @@ export type {
     SubscriptionEndAfterCycles
 } from '../declarations/types-68.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
-export type { ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-30.js';
+export type { ImageRequestInput } from '../declarations/types-31.js';
+export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-30.js';
 export type {
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
@@ -82,8 +82,8 @@ export type { SubscriptionDeliveryMethodCounts, SubscriptionCounts } from '../de
 export type { SelectedProductOption } from '../declarations/types-65.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export type { UpdateSubscriptionPlanRequestInput } from '../declarations/types-76.js';
 export type {
+    UpdateSubscriptionPlanRequestInput,
     UpdateSubscriptionPlanLineItemRequestInput,
     UpdateSubscriptionPlanLineItemInputVariantInput,
     UpdateSubscriptionPlanLineItemInputBundleInput,
@@ -100,17 +100,16 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
 export {
-    makeMetadataRequest,
     makeMoneyValue,
     makeOrderLineItemModifierInputCatalogRequest,
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel,
     makeOrderLineItemTaxRequest
 } from '../declarations/types-86.js';
+export { makeSubscriptionEndAfterCyclesRequest } from '../declarations/types-89.js';
 export {
-    makeSubscriptionEndAfterCyclesRequest,
     makeSubscriptionIntervalOptionRequest,
     makeSubscriptionPlanChangeOptionRequest,
     makeSubscriptionPlanLineItemInputBundle,

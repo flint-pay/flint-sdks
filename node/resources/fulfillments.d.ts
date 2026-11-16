@@ -58,7 +58,6 @@ export type {
     FulfillmentsScheduleParams,
     FulfillmentsStartParams,
     FulfillmentsUpdateParams,
-    FulfillmentRecipient,
     FulfillmentRecipientRequestInput,
     FulfillmentSinglePackageRequestInput
 } from '../declarations/types-28.js';
@@ -70,6 +69,7 @@ export type {
     FulfillmentChargeLink,
     FulfillmentLineItem,
     FulfillmentOutcome,
+    FulfillmentRecipient,
     FulfillmentLineItemRequestInput,
     FulfillmentPackagingRequestInput,
     FulfillmentItemizedPackagesRequestInput,
@@ -85,7 +85,7 @@ export type { OrderLineItemModifier, OrderSettlementAmounts } from '../declarati
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
 export type { TextModifierRequest } from '../declarations/types-72.js';
 export type { MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-18.js';
 export type {
     ExpandedOrderSummary,
     ExpandedPackageSummary,
@@ -95,22 +95,22 @@ export type {
 export type { CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
+export type { SettlementAmounts, ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from '../declarations/types-65.js';
+export type { PickupFulfillmentDetails } from '../declarations/types-54.js';
 export type {
-    SettlementAmounts,
     ShipmentFulfillmentDetails,
     SinglePackageCreateRequestInput,
     SinglePackageCreateInputCreatedInput,
     SinglePackageCreateInputShippedInput,
     StartFulfillmentRequestInput
 } from '../declarations/types-66.js';
-export type { PickupFulfillmentDetails } from '../declarations/types-54.js';
-export type { ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from '../declarations/types-65.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { CancelFulfillmentRequestInput } from '../declarations/types-4.js';
 export type {
     CreateFulfillmentRequestInput,
     CreateDigitalFulfillmentDetailsInput,
     CreateDeliveryFulfillmentDetailsInput,
+    CreateFulfillmentRequestPickupInput,
     CreateFulfillmentRequestLocalDeliveryInput,
     CreateFulfillmentRequestDigitalInput,
     CreateDigitalFulfillmentDetails
@@ -120,11 +120,7 @@ export type { CreateServiceFulfillmentDetailsInput } from '../declarations/types
 export type { CreatePackageItemRequestInput } from '../declarations/types-11.js';
 export type { PackageCreateRequestInput, PackageCreateInputCreatedInput, PackageCreateInputShippedInput } from '../declarations/types-47.js';
 export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-63.js';
-export type {
-    CreateFulfillmentRequestShipmentInput,
-    CreateFulfillmentRequestPickupInput,
-    CreateFulfillmentRequestServiceInput
-} from '../declarations/types-10.js';
+export type { CreateFulfillmentRequestShipmentInput, CreateFulfillmentRequestServiceInput } from '../declarations/types-10.js';
 export type { HoldFulfillmentRequestInput } from '../declarations/types-30.js';
 export type {
     MarkFulfillmentNoShowRequestInput,
@@ -137,9 +133,9 @@ export type { ReleaseFulfillmentHoldRequestInput } from '../declarations/types-5
 export type {
     UpdateFulfillmentRequestInput,
     UpdateDigitalFulfillmentDetailsInput,
-    UpdatePickupFulfillmentDetailsInput
-} from '../declarations/types-74.js';
-export type { UpdateDeliveryFulfillmentDetailsInput } from '../declarations/types-73.js';
+    UpdateDeliveryFulfillmentDetailsInput
+} from '../declarations/types-73.js';
+export type { UpdatePickupFulfillmentDetailsInput } from '../declarations/types-74.js';
 export type { UpdateServiceFulfillmentDetailsInput } from '../declarations/types-75.js';
 export { makeAcceptFulfillmentRequest, makeAddressRequest } from '../declarations/types-77.js';
 export { makeCancelFulfillmentRequest, makeCompleteFulfillmentRequest } from '../declarations/types-78.js';
@@ -150,15 +146,12 @@ export {
     makeCreateFulfillmentRequestLocalDelivery,
     makeCreateFulfillmentRequestPickup,
     makeCreateFulfillmentRequestService,
-    makeCreateFulfillmentRequestShipment
+    makeCreateFulfillmentRequestShipment,
+    makeCreatePackageItemRequest
 } from '../declarations/types-80.js';
+export { makeCreatePickupFulfillmentDetails, makeCreateServiceFulfillmentDetails } from '../declarations/types-81.js';
+export { makeDimensionsRequest } from '../declarations/types-83.js';
 export {
-    makeCreatePackageItemRequest,
-    makeCreatePickupFulfillmentDetails,
-    makeCreateServiceFulfillmentDetails
-} from '../declarations/types-81.js';
-export {
-    makeDimensionsRequest,
     makeDispatchFulfillmentRequest,
     makeFailFulfillmentRequest,
     makeFulfillmentItemizedPackagesRequest,
@@ -174,10 +167,10 @@ export {
     makeMarkFulfillmentPickedRequest,
     makeMarkFulfillmentPreparingRequest,
     makeMarkFulfillmentReadyRequest,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMetadataRequest
 } from '../declarations/types-85.js';
 export {
-    makeMetadataRequest,
     makeMoneyValue,
     makePackageCreateInputCreated,
     makePackageCreateInputShipped,

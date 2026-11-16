@@ -1,0 +1,1 @@
+{"shared":"OrderTaxCallbackEvaluationPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"evaluated_at":{"kind":"nullable","value":{"kind":"value","type":"string"}},"tax_calculation_evaluation_id":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["OrderTaxCallbackEvaluationPreviousAttributes","SharedCodec0","SharedCodec20"]}

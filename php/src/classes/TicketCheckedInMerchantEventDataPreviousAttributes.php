@@ -4,11 +4,11 @@ namespace Flint;
 /**
  * @property-read string|null $admission_code
  * @property-read string|null $admission_code_last4
- * @property-read mixed $attendee_name
- * @property-read mixed $check_in_method
- * @property-read mixed $checked_in_at
+ * @property-read string|null $attendee_name
+ * @property-read string|null $check_in_method
+ * @property-read string|null $checked_in_at
  * @property-read string|null $created_at
- * @property-read mixed $order
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $order
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read string|null $payment_link_id
@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read string|null $ticket_number
  * @property-read string|null $updated_at
  * @property-read int|null $version
- * @property-read mixed $voided_at
+ * @property-read string|null $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class TicketCheckedInMerchantEventDataPreviousAttributes extends Model {
     /** @param array{'admission_code'?: mixed, 'admission_code_last4'?: mixed, 'attendee_name'?: mixed, 'check_in_method'?: mixed, 'checked_in_at'?: mixed, 'created_at'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'order_line_item_id'?: mixed, 'payment_link_id'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'ticket_id'?: mixed, 'ticket_number'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'voided_at'?: mixed, ...}|object $values */
@@ -33,20 +33,20 @@ final class TicketCheckedInMerchantEventDataPreviousAttributes extends Model {
      */
     public function getAdmissionCodeLast4(): string|null { return $this->get('admission_code_last4'); }
     public function hasAdmissionCodeLast4(): bool { return $this->has('admission_code_last4'); }
-    /** Optional attendee name. Null when not supplied. anyOf[1] (Value): string or null. Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. anyOf[2] (Value): null.
-     * @return mixed
+    /** Optional attendee name. Null when not supplied. anyOf[1] (Value): string. Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getAttendeeName(): mixed { return $this->get('attendee_name'); }
+    public function getAttendeeName(): string|null { return $this->get('attendee_name'); }
     public function hasAttendeeName(): bool { return $this->has('attendee_name'); }
-    /** How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1] (Value): (string or null). How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1].anyOf[1] (Value): string.  Value enum: "admission_code", "manual". anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** How the ticket was admitted. Null when the ticket is not checked in. Value enum: "admission_code", "manual". anyOf[1] (Value): string.  Value enum: "admission_code", "manual". anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getCheckInMethod(): mixed { return $this->get('check_in_method'); }
+    public function getCheckInMethod(): string|null { return $this->get('check_in_method'); }
     public function hasCheckInMethod(): bool { return $this->has('check_in_method'); }
-    /** When the ticket was admitted. Null when the ticket is not checked in. anyOf[1] (Value): string or null. When the ticket was admitted. Null when the ticket is not checked in. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When the ticket was admitted. Null when the ticket is not checked in. anyOf[1] (Value): string. When the ticket was admitted. Null when the ticket is not checked in. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getCheckedInAt(): mixed { return $this->get('checked_in_at'); }
+    public function getCheckedInAt(): string|null { return $this->get('checked_in_at'); }
     public function hasCheckedInAt(): bool { return $this->has('checked_in_at'); }
     /** When the ticket was issued. anyOf[1] (Value): string. When the ticket was issued. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -54,9 +54,9 @@ final class TicketCheckedInMerchantEventDataPreviousAttributes extends Model {
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Order summary, present only with expand=order. Requires commerce.orders.read. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getOrder(): mixed { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** The order that purchased this ticket. anyOf[1] (Value): string. The order that purchased this ticket. anyOf[2] (Value): null.
      * @return string|null
@@ -103,9 +103,9 @@ final class TicketCheckedInMerchantEventDataPreviousAttributes extends Model {
      */
     public function getVersion(): int|null { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** When the ticket was permanently voided. Null when the ticket has not been voided. anyOf[1] (Value): string or null. When the ticket was permanently voided. Null when the ticket has not been voided. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When the ticket was permanently voided. Null when the ticket has not been voided. anyOf[1] (Value): string. When the ticket was permanently voided. Null when the ticket has not been voided. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getVoidedAt(): mixed { return $this->get('voided_at'); }
+    public function getVoidedAt(): string|null { return $this->get('voided_at'); }
     public function hasVoidedAt(): bool { return $this->has('voided_at'); }
 }

@@ -1,76 +1,17 @@
-import type { PaymentClientActionPreviousAttributes, PartnerWebhookEnvelope } from './types-49.js';
+import type {
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionPaymentIntentSubjectPreviousAttributes
+} from './types-53.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
 import type { ResponseMeta, ResourceReference } from './types-60.js';
 import type { InputValue } from '../runtime.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-57.js';
 import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-12.js';
 import type { DisputesAcceptParams } from './types-25.js';
-/** The payment intent that needs buyer authentication in a pending payment action. */
-export type PendingPaymentActionPaymentIntentSubject = {
-    /**
-     * ID of the payment intent that needs the buyer's action. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-};
-export type PendingPaymentActionPaymentIntentSubjectPreviousAttributes = {
-    /**
-     * ID of the payment intent that needs the buyer's action. anyOf[1] (Value): string. ID of the
-     * payment intent that needs the buyer's action. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-     * anyOf[2] (Value): null.
-     */
-    "payment_intent_id"?: ((string) | (null));
-};
-export type PendingPaymentActionPreviousAttributes = {
-    /**
-     * Product-level action type. payment_authentication applies to a payment leg;
-     * payment_method_authentication applies to saving a future-billing payment method.
-     * card_presentment means present the card on the Tap to Pay reader in your app. Value enum:
-     * "payment_authentication", "payment_method_authentication", "card_presentment". anyOf[1]
-     * (Value): string. Product-level action type. payment_authentication applies to a payment leg;
-     * payment_method_authentication applies to saving a future-billing payment method.
-     * card_presentment means present the card on the Tap to Pay reader in your app. Value enum:
-     * "payment_authentication", "payment_method_authentication", "card_presentment". anyOf[2]
-     * (Value): null.
-     */
-    "action_type"?: (("payment_authentication" | "payment_method_authentication" | "card_presentment" | (string & {}))
-        | (null));
-    /**
-     * How to finish this step before continuing through Flint. Flint's API returns a Stripe client
-     * secret only for client_action_type stripe. The url branch carries a bearer URL; Stripe's
-     * authentication page receives what it needs to run the challenge. anyOf[1] (Value): {@link
-     * PaymentClientActionPreviousAttributes}. How to finish a payment step. Flint's API returns a
-     * Stripe client secret only for client_action_type stripe. With url, Stripe's authentication
-     * page receives what it needs to run the challenge, including the client secret for hosted
-     * 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint doesn't
-     * count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. anyOf[2] (Value): null.
-     */
-    "client_action"?: ((PaymentClientActionPreviousAttributes) | (null) | (unknown));
-    /**
-     * When this step stops working. For a standalone payment intent, 12 hours after the step was
-     * created; for an order payment, when its attempt is canceled. anyOf[1] (Value): string. When
-     * this step stops working. For a standalone payment intent, 12 hours after the step was
-     * created; for an order payment, when its attempt is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "expires_at"?: ((string) | (null));
-    /**
-     * Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming
-     * an attempt. anyOf[1] (Value): string. Stable Flint action ID. Use this to deduplicate a
-     * repeated action projection while resuming an attempt. Example:
-     * "pendact_01KEZF7C00SVMRXWKVZX6R9822". anyOf[2] (Value): null.
-     */
-    "pending_action_id"?: ((string) | (null));
-    /**
-     * The attempt subject that requires client action. Exactly one of payment_intent or
-     * setup_payment_source is present. anyOf[1] (Value): {@link
-     * PendingPaymentActionSubjectPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "subject"?: ((PendingPaymentActionSubjectPreviousAttributes) | (null) | (unknown));
-};
+import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-74.js';
 /** The payment method setup that needs buyer authentication in a pending payment action. */
 export type PendingPaymentActionSetupPaymentSourceSubject = {
     /**
@@ -107,13 +48,13 @@ export type PendingPaymentActionSubjectPreviousAttributes = {
      * intent or an order-owned payment leg. anyOf[1] (Value): {@link
      * PendingPaymentActionPaymentIntentSubjectPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "payment_intent"?: ((PendingPaymentActionPaymentIntentSubjectPreviousAttributes) | (null) | (unknown));
+    "payment_intent"?: ((PendingPaymentActionPaymentIntentSubjectPreviousAttributes) | (null));
     /**
      * Future-billing payment method setup that requires buyer authentication. anyOf[1] (Value):
      * {@link PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes}. anyOf[2] (Value):
      * null.
      */
-    "setup_payment_source"?: ((PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes) | (null) | (unknown));
+    "setup_payment_source"?: ((PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes) | (null));
 };
 /**
  * Pickup details. For a pickup that checkout creates, location_name, address, and instructions
@@ -195,7 +136,7 @@ export type PickupFulfillmentDetailsPreviousAttributes = {
      * Address where the buyer collects the order. anyOf[1] (Value): {@link
      * AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * Instructions specific to curbside handoff. anyOf[1] (Value): string. Instructions specific
      * to curbside handoff. maxLength: 2048. anyOf[2] (Value): null.
@@ -680,7 +621,7 @@ export type PlatformFeeCanceledEvent = ((Exclude<MerchantWebhookEnvelope & objec
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "canceled_reason"?: (("payment_not_completed"
                 | "install_revoked"
                 | "platform_capability_inactive"
@@ -695,10 +636,10 @@ export type PlatformFeeCanceledEvent = ((Exclude<MerchantWebhookEnvelope & objec
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
             "platform_fee_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "reserve_available_at"?: ((string) | (null));
-            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -941,7 +882,7 @@ export type PlatformFeePayoutFailedEvent = ((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "balance_transaction_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "failure_reason"?: (("merchant_cannot_receive" | "payout_failed" | (string & {})) | (null));
@@ -1021,7 +962,7 @@ export type PlatformFeePayoutSucceededEvent = ((Exclude<MerchantWebhookEnvelope 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "balance_transaction_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "failure_reason"?: (("merchant_cannot_receive" | "payout_failed" | (string & {})) | (null));
@@ -1144,7 +1085,7 @@ export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & obje
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "canceled_reason"?: (("payment_not_completed"
                 | "install_revoked"
                 | "platform_capability_inactive"
@@ -1159,10 +1100,10 @@ export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & obje
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
             "platform_fee_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "reserve_available_at"?: ((string) | (null));
-            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -1204,7 +1145,7 @@ export type PlatformFeeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "canceled_reason"?: (("payment_not_completed"
                 | "install_revoked"
                 | "platform_capability_inactive"
@@ -1219,10 +1160,10 @@ export type PlatformFeeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
             "platform_fee_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "reserve_available_at"?: ((string) | (null));
-            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -1369,13 +1310,13 @@ export type PriceListArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             [key: string]: unknown;
         })
             & ({
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "currency"?: ((string) | (null));
             "customer_segments"?: ((Array<string>) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "price_count"?: ((number) | (null));
             "price_list_id"?: ((string) | (null));
@@ -1409,13 +1350,13 @@ export type PriceListArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             [key: string]: unknown;
         })
             & ({
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "currency"?: ((string) | (null));
             "customer_segments"?: ((Array<string>) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "price_count"?: ((number) | (null));
             "price_list_id"?: ((string) | (null));
@@ -1475,9 +1416,9 @@ export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.archived_at (Optional): string or null or null. When this price
-     * list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
-     * previous_attributes.archived_at.anyOf[1] (Value): string or null. When this price list was
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
      * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
      * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
@@ -1495,12 +1436,11 @@ export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
      * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
      * previous_attributes.customer_segments.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
      * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
      * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
@@ -1631,40 +1571,40 @@ export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. archived_at (Optional): string or null or null.
-         * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-         * been archived. archived_at.anyOf[1] (Value): string or null. When this price list was
-         * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When this price list was created, as an RFC3339
-         * timestamp. created_at.anyOf[1] (Value): string. When this price list was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. Immutable
-         * currency of every price in this list. Currently USD. Uses ISO 4217 currency codes.
-         * currency.anyOf[1] (Value): string. Immutable currency of every price in this list.
-         * Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
-         * ^[A-Z]{3}$. Example: "USD". currency.anyOf[2] (Value): null. customer_segments
-         * (Optional): Array of string or null. Customer.segment labels assigned to this list.
-         * Empty when no segments are assigned. customer_segments.anyOf[1] (Value): Array of
-         * string. Customer.segment labels assigned to this list. Empty when no segments are
-         * assigned. maxItems: 20. uniqueItems: true. customer_segments.anyOf[1][] (Value): string.
-         * customer_segments.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this resource in an external system. `null`
-         * when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. Identifier of the merchant that owns this price
-         * list. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
-         * price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
-         * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
-         * this price list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. name (Optional): string or null. Name used to identify this price list.
-         * name.anyOf[1] (Value): string. Name used to identify this price list. name.anyOf[2]
-         * (Value): null. price_count (Optional): integer or null. Number of variant prices in the
-         * list. price_count.anyOf[1] (Value): integer. Number of variant prices in the list.
-         * Format: int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null.
-         * price_list_id (Optional): string or null. Stable identifier of this price list.
-         * price_list_id.anyOf[1] (Value): string. Stable identifier of this price list. pattern:
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
          * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
          * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
          * retirement state. Derived as archived when archived_at is set; otherwise active or
@@ -1686,11 +1626,11 @@ export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
             & ({
             /**
              * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-             * been archived. anyOf[1] (Value): string or null. When this price list was
-             * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             /**
              * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this price list was created, as an RFC3339 timestamp. Format: date-time.
@@ -1713,11 +1653,11 @@ export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
             "customer_segments"?: ((Array<string>) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
              * Identifier of the merchant that owns this price list. Example:
@@ -1728,7 +1668,7 @@ export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Name used to identify this price list. anyOf[1] (Value): string. Name used to
              * identify this price list. anyOf[2] (Value): null.
@@ -1847,9 +1787,9 @@ export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.archived_at (Optional): string or null or null. When this price
-     * list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
-     * previous_attributes.archived_at.anyOf[1] (Value): string or null. When this price list was
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
      * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
      * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
@@ -1867,12 +1807,11 @@ export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
      * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
      * previous_attributes.customer_segments.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
      * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
      * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
@@ -2003,40 +1942,40 @@ export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. archived_at (Optional): string or null or null.
-         * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-         * been archived. archived_at.anyOf[1] (Value): string or null. When this price list was
-         * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When this price list was created, as an RFC3339
-         * timestamp. created_at.anyOf[1] (Value): string. When this price list was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. Immutable
-         * currency of every price in this list. Currently USD. Uses ISO 4217 currency codes.
-         * currency.anyOf[1] (Value): string. Immutable currency of every price in this list.
-         * Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
-         * ^[A-Z]{3}$. Example: "USD". currency.anyOf[2] (Value): null. customer_segments
-         * (Optional): Array of string or null. Customer.segment labels assigned to this list.
-         * Empty when no segments are assigned. customer_segments.anyOf[1] (Value): Array of
-         * string. Customer.segment labels assigned to this list. Empty when no segments are
-         * assigned. maxItems: 20. uniqueItems: true. customer_segments.anyOf[1][] (Value): string.
-         * customer_segments.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this resource in an external system. `null`
-         * when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. Identifier of the merchant that owns this price
-         * list. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
-         * price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
-         * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
-         * this price list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. name (Optional): string or null. Name used to identify this price list.
-         * name.anyOf[1] (Value): string. Name used to identify this price list. name.anyOf[2]
-         * (Value): null. price_count (Optional): integer or null. Number of variant prices in the
-         * list. price_count.anyOf[1] (Value): integer. Number of variant prices in the list.
-         * Format: int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null.
-         * price_list_id (Optional): string or null. Stable identifier of this price list.
-         * price_list_id.anyOf[1] (Value): string. Stable identifier of this price list. pattern:
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
          * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
          * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
          * retirement state. Derived as archived when archived_at is set; otherwise active or
@@ -2058,11 +1997,11 @@ export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
             & ({
             /**
              * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-             * been archived. anyOf[1] (Value): string or null. When this price list was
-             * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             /**
              * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this price list was created, as an RFC3339 timestamp. Format: date-time.
@@ -2085,11 +2024,11 @@ export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
             "customer_segments"?: ((Array<string>) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
              * Identifier of the merchant that owns this price list. Example:
@@ -2100,7 +2039,7 @@ export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Name used to identify this price list. anyOf[1] (Value): string. Name used to
              * identify this price list. anyOf[2] (Value): null.
@@ -2716,13 +2655,13 @@ export type PriceListUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
             [key: string]: unknown;
         })
             & ({
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "currency"?: ((string) | (null));
             "customer_segments"?: ((Array<string>) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "price_count"?: ((number) | (null));
             "price_list_id"?: ((string) | (null));
@@ -2756,13 +2695,13 @@ export type PriceListUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
             [key: string]: unknown;
         })
             & ({
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "currency"?: ((string) | (null));
             "customer_segments"?: ((Array<string>) | (null));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "price_count"?: ((number) | (null));
             "price_list_id"?: ((string) | (null));
@@ -2822,9 +2761,9 @@ export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.archived_at (Optional): string or null or null. When this price
-     * list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
-     * previous_attributes.archived_at.anyOf[1] (Value): string or null. When this price list was
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
      * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
      * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
@@ -2842,12 +2781,11 @@ export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
      * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
      * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
      * previous_attributes.customer_segments.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
      * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
      * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
@@ -2978,40 +2916,40 @@ export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. archived_at (Optional): string or null or null.
-         * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-         * been archived. archived_at.anyOf[1] (Value): string or null. When this price list was
-         * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When this price list was created, as an RFC3339
-         * timestamp. created_at.anyOf[1] (Value): string. When this price list was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. Immutable
-         * currency of every price in this list. Currently USD. Uses ISO 4217 currency codes.
-         * currency.anyOf[1] (Value): string. Immutable currency of every price in this list.
-         * Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
-         * ^[A-Z]{3}$. Example: "USD". currency.anyOf[2] (Value): null. customer_segments
-         * (Optional): Array of string or null. Customer.segment labels assigned to this list.
-         * Empty when no segments are assigned. customer_segments.anyOf[1] (Value): Array of
-         * string. Customer.segment labels assigned to this list. Empty when no segments are
-         * assigned. maxItems: 20. uniqueItems: true. customer_segments.anyOf[1][] (Value): string.
-         * customer_segments.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this resource in an external system. `null`
-         * when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. Identifier of the merchant that owns this price
-         * list. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
-         * price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
-         * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
-         * this price list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. name (Optional): string or null. Name used to identify this price list.
-         * name.anyOf[1] (Value): string. Name used to identify this price list. name.anyOf[2]
-         * (Value): null. price_count (Optional): integer or null. Number of variant prices in the
-         * list. price_count.anyOf[1] (Value): integer. Number of variant prices in the list.
-         * Format: int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null.
-         * price_list_id (Optional): string or null. Stable identifier of this price list.
-         * price_list_id.anyOf[1] (Value): string. Stable identifier of this price list. pattern:
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
          * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
          * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
          * retirement state. Derived as archived when archived_at is set; otherwise active or
@@ -3033,11 +2971,11 @@ export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             & ({
             /**
              * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-             * been archived. anyOf[1] (Value): string or null. When this price list was
-             * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             /**
              * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this price list was created, as an RFC3339 timestamp. Format: date-time.
@@ -3060,11 +2998,11 @@ export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             "customer_segments"?: ((Array<string>) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
              * Identifier of the merchant that owns this price list. Example:
@@ -3075,7 +3013,7 @@ export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Name used to identify this price list. anyOf[1] (Value): string. Name used to
              * identify this price list. anyOf[2] (Value): null.
@@ -3194,9 +3132,9 @@ export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
      * changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.archived_at (Optional): string or null or null. When this price
-     * list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
-     * previous_attributes.archived_at.anyOf[1] (Value): string or null. When this price list was
+     * events. previous_attributes.archived_at (Optional): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived.
+     * previous_attributes.archived_at.anyOf[1] (Value): string. When this price list was
      * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.archived_at.anyOf[2]
      * (Value): null. previous_attributes.created_at (Optional): string or null. When this price
@@ -3214,12 +3152,11 @@ export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
      * labels assigned to this list. Empty when no segments are assigned. maxItems: 20.
      * uniqueItems: true. previous_attributes.customer_segments.anyOf[1][] (Value): string.
      * previous_attributes.customer_segments.anyOf[2] (Value): null.
-     * previous_attributes.external_reference_id (Optional): string or null or null. Caller-owned
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. `null` when unset.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this resource in an external system. `null` when unset. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
      * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
      * owns this price list. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
      * of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
@@ -3350,40 +3287,40 @@ export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. archived_at (Optional): string or null or null.
-         * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-         * been archived. archived_at.anyOf[1] (Value): string or null. When this price list was
-         * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. When this price list was created, as an RFC3339
-         * timestamp. created_at.anyOf[1] (Value): string. When this price list was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. Immutable
-         * currency of every price in this list. Currently USD. Uses ISO 4217 currency codes.
-         * currency.anyOf[1] (Value): string. Immutable currency of every price in this list.
-         * Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern:
-         * ^[A-Z]{3}$. Example: "USD". currency.anyOf[2] (Value): null. customer_segments
-         * (Optional): Array of string or null. Customer.segment labels assigned to this list.
-         * Empty when no segments are assigned. customer_segments.anyOf[1] (Value): Array of
-         * string. Customer.segment labels assigned to this list. Empty when no segments are
-         * assigned. maxItems: 20. uniqueItems: true. customer_segments.anyOf[1][] (Value): string.
-         * customer_segments.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this resource in an external system. `null`
-         * when unset. external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-         * identifier for this resource in an external system. `null` when unset. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. Identifier of the merchant that owns this price
-         * list. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
-         * price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
-         * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
-         * this price list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. name (Optional): string or null. Name used to identify this price list.
-         * name.anyOf[1] (Value): string. Name used to identify this price list. name.anyOf[2]
-         * (Value): null. price_count (Optional): integer or null. Number of variant prices in the
-         * list. price_count.anyOf[1] (Value): integer. Number of variant prices in the list.
-         * Format: int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null.
-         * price_list_id (Optional): string or null. Stable identifier of this price list.
-         * price_list_id.anyOf[1] (Value): string. Stable identifier of this price list. pattern:
+         * state, including synthetic test events. archived_at (Optional): string or null. When
+         * this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+         * archived. archived_at.anyOf[1] (Value): string. When this price list was soft-deleted,
+         * as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". archived_at.anyOf[2] (Value): null. created_at (Optional):
+         * string or null. When this price list was created, as an RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. When this price list was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. currency (Optional): string or null. Immutable currency of every price in
+         * this list. Currently USD. Uses ISO 4217 currency codes. currency.anyOf[1] (Value):
+         * string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+         * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. customer_segments (Optional): Array of string or null.
+         * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+         * customer_segments.anyOf[1] (Value): Array of string. Customer.segment labels assigned to
+         * this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments.anyOf[1][] (Value): string. customer_segments.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. `null` when unset. external_reference_id.anyOf[1]
+         * (Value): string. Caller-owned identifier for this resource in an external system. `null`
+         * when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this price list. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this price
+         * list. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Name used to identify this price list. name.anyOf[1]
+         * (Value): string. Name used to identify this price list. name.anyOf[2] (Value): null.
+         * price_count (Optional): integer or null. Number of variant prices in the list.
+         * price_count.anyOf[1] (Value): integer. Number of variant prices in the list. Format:
+         * int64. minimum: 0. maximum: 10000. price_count.anyOf[2] (Value): null. price_list_id
+         * (Optional): string or null. Stable identifier of this price list. price_list_id.anyOf[1]
+         * (Value): string. Stable identifier of this price list. pattern:
          * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
          * price_list_id.anyOf[2] (Value): null. status (Optional): string or null. Availability or
          * retirement state. Derived as archived when archived_at is set; otherwise active or
@@ -3405,11 +3342,11 @@ export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             & ({
             /**
              * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
-             * been archived. anyOf[1] (Value): string or null. When this price list was
-             * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as
+             * an RFC3339 timestamp. Null when it has not been archived. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "archived_at"?: ((string | null) | (null) | (unknown));
+            "archived_at"?: ((string) | (null));
             /**
              * When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this price list was created, as an RFC3339 timestamp. Format: date-time.
@@ -3432,11 +3369,11 @@ export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             "customer_segments"?: ((Array<string>) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. `null` when unset.
-             * anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an
-             * external system. `null` when unset. minLength: 1. maxLength: 255. Example:
-             * "warehouse-1842". anyOf[2] (Value): null.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Identifier of the merchant that owns this price list. anyOf[1] (Value): string.
              * Identifier of the merchant that owns this price list. Example:
@@ -3447,7 +3384,7 @@ export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * Caller-owned metadata stored on this price list. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Name used to identify this price list. anyOf[1] (Value): string. Name used to
              * identify this price list. anyOf[2] (Value): null.
@@ -3612,6 +3549,105 @@ export type PriceListsListParams = {
     "updated_after"?: InputValue<string | globalThis.Date>;
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsListPricesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the priced variant ID. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: InputValue<string>;
+    /**
+     * Exact match on the product owning the priced variant. pattern:
+     * ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by price_list_price_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsUpdateParams = (InputValue<UpdatePriceListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsUpdatePriceParams = (InputValue<UpdatePriceListPriceRequestInput>)
+    & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

@@ -1,10 +1,10 @@
-import { d9042 as c0 } from '../descriptors/data/406.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8962 as c1, d8958 as c2, d8959 as c3, d8960 as c4, d8963 as c5, d8964 as c6, d8965 as c7, d8961 as c8 } from '../descriptors/data/402.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d9042 as d9042 } from '../descriptors/data/406.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8952 as c0 } from '../descriptors/data/403.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8872 as c1, d8868 as c2, d8869 as c3, d8870 as c4, d8873 as c5, d8874 as c6, d8875 as c7, d8871 as c8 } from '../descriptors/data/399.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8952 as d8952 } from '../descriptors/data/403.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9042;
+const read = d8952;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InventoryProvenanceRequest"]:c0(),["InventorySourceSystemRequest"]:c1(),["SharedCodec1408"]:c2(),["SharedCodec1409"]:c3(),["SharedCodec1410"]:c4(),["SharedCodec462"]:c5(),["SharedCodec463"]:c6(),["SharedCodec464"]:c7(),["SharedCodec465"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InventoryProvenanceRequest"]:c0(),["InventorySourceSystemRequest"]:c1(),["SharedCodec1373"]:c2(),["SharedCodec1374"]:c3(),["SharedCodec1375"]:c4(),["SharedCodec442"]:c5(),["SharedCodec443"]:c6(),["SharedCodec444"]:c7(),["SharedCodec445"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInventoryProvenanceRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

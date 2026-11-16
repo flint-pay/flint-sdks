@@ -52,7 +52,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `sent_at` | Optional | string or null | When the email service accepted the message. Absent until it does. `sent_at`: [declared alternatives](../models/InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.md#invoicedeliveryattemptfailedinstalledmerchantseventinputdataprevious_attributessent_at). |
 | `status` | Optional | string or null | The outcome of this attempt. sent means the email service accepted the message. Values: `"pending"`, `"sent"`, `"failed"`, `"suppressed"`. `status`: [declared alternatives](../models/InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.md#invoicedeliveryattemptfailedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `suppression_reason` | Optional | string or null | Present only when status is suppressed. Values: `"merchant_managed_email"`, `"recipient_unsubscribed"`, `"sandbox_daily_limit_reached"`. `suppression_reason`: [declared alternatives](../models/InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.md#invoicedeliveryattemptfailedinstalledmerchantseventinputdataprevious_attributessuppression_reason). |
-| `to_email` | Optional | string or null or null | Address the invoice was sent to. `null` when the customer was deleted. `to_email`: [declared alternatives](../models/InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.md#invoicedeliveryattemptfailedinstalledmerchantseventinputdataprevious_attributesto_email). |
+| `to_email` | Optional | string or null | Address the invoice was sent to. `null` when the customer was deleted. `to_email`: [declared alternatives](../models/InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.md#invoicedeliveryattemptfailedinstalledmerchantseventinputdataprevious_attributesto_email). |
 
 ### InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.data.previous_attributes.cc_emails
 
@@ -200,7 +200,7 @@ anyOf variant 2.
 
 anyOf variant 1: Address the invoice was sent to. `null` when the customer was deleted..
 
-- Value shape: (string or null). Address the invoice was sent to. `null` when the customer was deleted. 
+- Value shape: string. Address the invoice was sent to. `null` when the customer was deleted. 
 
 ### InvoiceDeliveryAttemptFailedInstalledMerchantsEventInput.data.previous_attributes.to_email variant 2
 

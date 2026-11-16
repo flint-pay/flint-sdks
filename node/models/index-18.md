@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# InventoryActionRequired to InventoryReservationResponse
+# InventoryActionRequiredPreviousAttributes to InventoryReservationResult
 
-- [InventoryActionRequired](InventoryActionRequired.md)
 - [InventoryActionRequiredPreviousAttributes](InventoryActionRequiredPreviousAttributes.md)
 - [InventoryAdjustment](InventoryAdjustment.md)
 - [InventoryAdjustmentConditionChangeLineRequest](InventoryAdjustmentConditionChangeLineRequest.md)
@@ -102,4 +101,5 @@
 - [InventoryReservationReleasedInstalledMerchantsEvent](InventoryReservationReleasedInstalledMerchantsEvent.md)
 - [InventoryReservationReleasedMerchantEvent](InventoryReservationReleasedMerchantEvent.md)
 - [InventoryReservationResponse](InventoryReservationResponse.md)
+- [InventoryReservationResult](InventoryReservationResult.md)
 

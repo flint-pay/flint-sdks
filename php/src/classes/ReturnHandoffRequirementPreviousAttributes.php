@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $destination
+ * @property-read ReturnHandoffDestinationPreviousAttributes|null $destination
  * @property-read string|null $expires_at
  * @property-read string|null $instructions
  * @property-read list<ReturnHandoffRequirementLineItemPreviousAttributes>|null $line_items
@@ -13,9 +13,9 @@ final class ReturnHandoffRequirementPreviousAttributes extends Model {
     /** @param array{'destination'?: mixed, 'expires_at'?: mixed, 'instructions'?: mixed, 'line_items'?: mixed, 'shipment_count'?: mixed, 'status'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnHandoffRequirementPreviousAttributes')); }
     /** Where the buyer sends the merchandise. anyOf[1] (Value): {@see ReturnHandoffDestinationPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnHandoffDestinationPreviousAttributes|null
      */
-    public function getDestination(): mixed { return $this->get('destination'); }
+    public function getDestination(): ReturnHandoffDestinationPreviousAttributes|null { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

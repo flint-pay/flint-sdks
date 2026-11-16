@@ -1,1 +1,1 @@
-{"shared":"BuyerInvoicePaymentAttempt","dependencies":["BuyerErrorRemediation","BuyerInvoicePaymentAttempt","BuyerPaymentErrorSummary","MoneyValue","SharedCodec134"]}
+{"shared":"BuyerInvoicePaymentAttempt","dependencies":["BuyerErrorRemediation","BuyerInvoicePaymentAttempt","BuyerPaymentErrorSummary","MoneyValue","SharedCodec130"]}

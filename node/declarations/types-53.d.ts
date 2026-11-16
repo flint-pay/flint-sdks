@@ -1,5 +1,4 @@
-import type { PaymentSplit } from './types-52.js';
-import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes } from './types-60.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
 import type {
     MoneyValue,
     MoneyValuePreviousAttributes,
@@ -9,128 +8,21 @@ import type {
     MoneyMovementBlockedReasonPreviousAttributes,
     NextActionPreviousAttributes
 } from './types-42.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
+import type { PaymentSplitReversal, PaymentSplitReversalPreviousAttributes } from './types-52.js';
 import type { InputValue } from '../runtime.js';
+import type { ResponseMeta } from './types-60.js';
 import type {
     ExpandedPayoutDestinationSummary,
     ExpandedPayoutSummary,
     ExpandedPayoutDestinationSummaryPreviousAttributes,
     ExpandedPayoutSummaryPreviousAttributes
 } from './types-26.js';
-import type { PartnerWebhookEnvelope, PaymentClientAction } from './types-49.js';
+import type { PartnerWebhookEnvelope, PaymentClientAction, PaymentClientActionPreviousAttributes } from './types-49.js';
 import type { DisputesAcceptParams } from './types-25.js';
 import type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from './types-74.js';
 import type { CancelPayoutRequestInput } from './types-5.js';
 import type { CreatePayoutRequestInput } from './types-12.js';
-import type { PendingPaymentActionSubject } from './types-54.js';
-/** A response containing `PaymentSplit` data. */
-export type PaymentSplitResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A top-level child of a
-     * payment intent dividing the collecting merchant's payment funds with one seller. Both
-     * parties read this same resource with their own credentials.
-     */
-    "data": PaymentSplit;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A read-only nested child of a payment split, created by Flint for a refund or dispute. Embedded
- * whole in PaymentSplit.reversals; no routes of its own.
- */
-export type PaymentSplitReversal = {
-    /**
-     * The split's share taken back. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** When the reversal was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Unique identifier for the reversal. Example: "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". */
-    "payment_split_reversal_id": string;
-    /** Why Flint created the reversal. Value enum: "refund", "dispute", "other". */
-    "reason": "refund" | "dispute" | "other" | (string & {});
-    /**
-     * Funds returned to whoever funded the reversal, such as after a won dispute or failed refund.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "reinstated_money": MoneyValue;
-    /**
-     * The part the collecting merchant covered. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "shortfall_money": MoneyValue;
-    /**
-     * The refund or dispute behind the reversal. A reference to another resource by
-     * `resource_type` and `resource_id`.
-     */
-    "source": ResourceReference;
-    /** The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". */
-    "status": "pending" | "succeeded" | "canceled" | (string & {});
-    /**
-     * When the split's share was recovered. Present when succeeded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "succeeded_at"?: string;
-};
-export type PaymentSplitReversalPreviousAttributes = {
-    /**
-     * The split's share taken back. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-    /**
-     * When the reversal was recorded. anyOf[1] (Value): string. When the reversal was recorded.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Unique identifier for the reversal. anyOf[1] (Value): string. Unique identifier for the
-     * reversal. Example: "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". anyOf[2] (Value): null.
-     */
-    "payment_split_reversal_id"?: ((string) | (null));
-    /**
-     * Why Flint created the reversal. Value enum: "refund", "dispute", "other". anyOf[1] (Value):
-     * string. Why Flint created the reversal. Value enum: "refund", "dispute", "other". anyOf[2]
-     * (Value): null.
-     */
-    "reason"?: (("refund" | "dispute" | "other" | (string & {})) | (null));
-    /**
-     * Funds returned to whoever funded the reversal, such as after a won dispute or failed refund.
-     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "reinstated_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-    /**
-     * The part the collecting merchant covered. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-    /**
-     * The refund or dispute behind the reversal. anyOf[1] (Value): {@link
-     * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "source"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
-    /**
-     * The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". anyOf[1]
-     * (Value): string. The reversal lifecycle status. Value enum: "pending", "succeeded",
-     * "canceled". anyOf[2] (Value): null.
-     */
-    "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
-    /**
-     * When the split's share was recovered. Present when succeeded. anyOf[1] (Value): string. When
-     * the split's share was recovered. Present when succeeded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "succeeded_at"?: ((string) | (null));
-};
+import type { PendingPaymentActionSubject, PendingPaymentActionSubjectPreviousAttributes } from './types-54.js';
 export type PaymentSplitSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -161,14 +53,14 @@ export type PaymentSplitSucceededEvent = ((Exclude<MerchantWebhookEnvelope & obj
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "canceled_reason"?: (("payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {})) | (null));
             "collecting_merchant_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "description"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "failure_reason"?: (("seller_cannot_receive" | "split_failed" | (string & {})) | (null));
-            "funds_available_at"?: ((string | null) | (null) | (unknown));
+            "funds_available_at"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
@@ -176,9 +68,9 @@ export type PaymentSplitSucceededEvent = ((Exclude<MerchantWebhookEnvelope & obj
             "pending_reason"?: (("awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {}))
                 | (null));
             "reversals"?: ((Array<PaymentSplitReversalPreviousAttributes>) | (null));
-            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null));
             "seller_merchant_id"?: ((string) | (null));
-            "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "succeeded_at"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
@@ -221,14 +113,14 @@ export type PaymentSplitUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & objec
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "canceled_reason"?: (("payment_not_completed" | "install_revoked" | "fully_reversed" | (string & {})) | (null));
             "collecting_merchant_id"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "description"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "failure_reason"?: (("seller_cannot_receive" | "split_failed" | (string & {})) | (null));
-            "funds_available_at"?: ((string | null) | (null) | (unknown));
+            "funds_available_at"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
@@ -236,9 +128,9 @@ export type PaymentSplitUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & objec
             "pending_reason"?: (("awaiting_payment" | "dispute_open" | "reversals_pending" | "awaiting_funds" | (string & {}))
                 | (null));
             "reversals"?: ((Array<PaymentSplitReversalPreviousAttributes>) | (null));
-            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reversed_money"?: ((MoneyValuePreviousAttributes) | (null));
             "seller_merchant_id"?: ((string) | (null));
-            "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "shortfall_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "processing" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "succeeded_at"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
@@ -654,7 +546,7 @@ export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -681,24 +573,24 @@ export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -759,7 +651,7 @@ export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -786,24 +678,24 @@ export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -984,62 +876,47 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -1048,19 +925,12 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -1079,29 +949,23 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -1476,58 +1340,45 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -1535,22 +1386,16 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -1563,43 +1408,37 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -1617,7 +1456,7 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -1708,13 +1547,9 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -1739,7 +1574,7 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -1753,26 +1588,17 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -1787,16 +1613,10 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -1824,14 +1644,10 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -1875,7 +1691,7 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2086,62 +1902,47 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -2150,19 +1951,12 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -2181,29 +1975,23 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -2578,58 +2366,45 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -2637,22 +2412,16 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -2665,43 +2434,37 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -2719,7 +2482,7 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -2810,13 +2573,9 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -2841,7 +2600,7 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -2855,26 +2614,17 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -2889,16 +2639,10 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -2926,14 +2670,10 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -2977,7 +2717,7 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -4078,7 +3818,7 @@ export type PayoutDestinationArchivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "is_default_for_currency"?: ((boolean) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "payout_destination_id"?: ((string) | (null));
             "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
                 | (null));
@@ -4142,7 +3882,7 @@ export type PayoutDestinationArchivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "is_default_for_currency"?: ((boolean) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "payout_destination_id"?: ((string) | (null));
             "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
                 | (null));
@@ -4587,7 +4327,7 @@ export type PayoutDestinationArchivedInstalledMerchantsEvent = (Exclude<PartnerW
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
              * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
@@ -5092,7 +4832,7 @@ export type PayoutDestinationArchivedMerchantEvent = (Exclude<MerchantWebhookEnv
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
              * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
@@ -5668,7 +5408,7 @@ export type PayoutDestinationDisabledEvent = ((((Exclude<MerchantWebhookEnvelope
             "is_default_for_currency"?: ((boolean) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "payout_destination_id"?: ((string) | (null));
             "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
                 | (null));
@@ -5732,7 +5472,7 @@ export type PayoutDestinationDisabledEvent = ((((Exclude<MerchantWebhookEnvelope
             "is_default_for_currency"?: ((boolean) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "payout_destination_id"?: ((string) | (null));
             "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
                 | (null));
@@ -6177,7 +5917,7 @@ export type PayoutDestinationDisabledInstalledMerchantsEvent = (Exclude<PartnerW
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
              * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
@@ -6682,7 +6422,7 @@ export type PayoutDestinationDisabledMerchantEvent = (Exclude<MerchantWebhookEnv
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
              * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
@@ -6823,7 +6563,7 @@ export type PayoutDestinationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "is_default_for_currency"?: ((boolean) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "payout_destination_id"?: ((string) | (null));
             "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
                 | (null));
@@ -6887,7 +6627,7 @@ export type PayoutDestinationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "is_default_for_currency"?: ((boolean) | (null));
             "last4"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "payout_destination_id"?: ((string) | (null));
             "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
                 | (null));
@@ -7332,7 +7072,7 @@ export type PayoutDestinationUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
              * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
@@ -7837,7 +7577,7 @@ export type PayoutDestinationUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Stable identifier of the payout destination. anyOf[1] (Value): string. Stable
              * identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
@@ -8016,7 +7756,7 @@ export type PayoutFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -8043,24 +7783,24 @@ export type PayoutFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -8121,7 +7861,7 @@ export type PayoutFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -8148,24 +7888,24 @@ export type PayoutFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -8346,62 +8086,47 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -8410,19 +8135,12 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -8441,29 +8159,23 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -8838,58 +8550,45 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -8897,22 +8596,16 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -8925,43 +8618,37 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -8979,7 +8666,7 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -9070,13 +8757,9 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -9101,7 +8784,7 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -9115,26 +8798,17 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -9149,16 +8823,10 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -9186,14 +8854,10 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -9237,7 +8901,7 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -9448,62 +9112,47 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -9512,19 +9161,12 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -9543,29 +9185,23 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -9940,58 +9576,45 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -9999,22 +9622,16 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -10027,43 +9644,37 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -10081,7 +9692,7 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -10172,13 +9783,9 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -10203,7 +9810,7 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -10217,26 +9824,17 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -10251,16 +9849,10 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -10288,14 +9880,10 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -10339,7 +9927,7 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -10447,7 +10035,7 @@ export type PayoutReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -10474,24 +10062,24 @@ export type PayoutReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -10552,7 +10140,7 @@ export type PayoutReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -10579,24 +10167,24 @@ export type PayoutReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -10777,62 +10365,47 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -10841,19 +10414,12 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -10872,29 +10438,23 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -11269,58 +10829,45 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -11328,22 +10875,16 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -11356,43 +10897,37 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -11410,7 +10945,7 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -11501,13 +11036,9 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -11532,7 +11063,7 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -11546,26 +11077,17 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -11580,16 +11102,10 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -11617,14 +11133,10 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -11668,7 +11180,7 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -11879,62 +11391,47 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -11943,19 +11440,12 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -11974,29 +11464,23 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -12371,58 +11855,45 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -12430,22 +11901,16 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -12458,43 +11923,37 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -12512,7 +11971,7 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -12603,13 +12062,9 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -12634,7 +12089,7 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -12648,26 +12103,17 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -12682,16 +12128,10 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -12719,14 +12159,10 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -12770,7 +12206,7 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -12917,7 +12353,7 @@ export type PayoutSettingsUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
         })
             & ({
             "blocked_reasons"?: ((Array<MoneyMovementBlockedReasonPreviousAttributes>) | (null));
-            "created_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
             "default_payout_destinations"?: ((Record<string, string>) | (null));
             "delay_days"?: ((number) | (null));
             "delay_days_override"?: ((number) | (null));
@@ -12929,7 +12365,7 @@ export type PayoutSettingsUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "payout_settings_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("enabled" | "disabled" | "blocked" | "pending" | (string & {})) | (null));
-            "updated_at"?: ((string | null) | (null) | (unknown));
+            "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
             "weekly_payout_days"?: ((Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday" | (string & {})>)
                 | (null));
@@ -12964,7 +12400,7 @@ export type PayoutSettingsUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
         })
             & ({
             "blocked_reasons"?: ((Array<MoneyMovementBlockedReasonPreviousAttributes>) | (null));
-            "created_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
             "default_payout_destinations"?: ((Record<string, string>) | (null));
             "delay_days"?: ((number) | (null));
             "delay_days_override"?: ((number) | (null));
@@ -12976,7 +12412,7 @@ export type PayoutSettingsUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "payout_settings_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("enabled" | "disabled" | "blocked" | "pending" | (string & {})) | (null));
-            "updated_at"?: ((string | null) | (null) | (unknown));
+            "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
             "weekly_payout_days"?: ((Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday" | (string & {})>)
                 | (null));
@@ -13059,11 +12495,11 @@ export type PayoutSettingsUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * MoneyMovementBlockedReasonPreviousAttributes}. Why payouts can't run. Empty when nothing
      * blocks them. previous_attributes.blocked_reasons.anyOf[1][] (Value): {@link
      * MoneyMovementBlockedReasonPreviousAttributes}. previous_attributes.blocked_reasons.anyOf[2]
-     * (Value): null. previous_attributes.created_at (Optional): string or null or null. When Flint
-     * stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when
-     * no stored settings record exists. previous_attributes.created_at.anyOf[1] (Value): string or
-     * null. When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
-     * precision. Null when no stored settings record exists. Format: date-time. Example:
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When Flint stored
+     * the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no
+     * stored settings record exists. previous_attributes.created_at.anyOf[1] (Value): string. When
+     * Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision.
+     * Null when no stored settings record exists. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
      * previous_attributes.default_payout_destinations (Optional): Map of string or null. Default
      * payout destination for each currency, as a map from currency code to payout_destination_id.
@@ -13129,15 +12565,15 @@ export type PayoutSettingsUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * disabled, blocked, or pending. When it isn't enabled, blocked_reasons says why and
      * next_actions lists any steps Flint can suggest. Value enum: "enabled", "disabled",
      * "blocked", "pending". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null or null. When the stored payout
-     * settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a
-     * stored record, this is your processor's update time. `null` when there is no stored record
-     * and your processor supplied no update time. previous_attributes.updated_at.anyOf[1] (Value):
-     * string or null. When the stored payout settings record was last updated, as an RFC 3339 UTC
-     * instant at second precision. Without a stored record, this is your processor's update time.
-     * `null` when there is no stored record and your processor supplied no update time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * previous_attributes.updated_at (Optional): string or null. When the stored payout settings
+     * record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored
+     * record, this is your processor's update time. `null` when there is no stored record and your
+     * processor supplied no update time. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * When the stored payout settings record was last updated, as an RFC 3339 UTC instant at
+     * second precision. Without a stored record, this is your processor's update time. `null` when
+     * there is no stored record and your processor supplied no update time. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Persisted version of this
      * resource's owned state. Expanded resources and external observations can change
      * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
      * this resource's owned state. Expanded resources and external observations can change
@@ -13305,16 +12741,16 @@ export type PayoutSettingsUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * MoneyMovementBlockedReasonPreviousAttributes}. Why payouts can't run. Empty when nothing
          * blocks them. blocked_reasons.anyOf[1][] (Value): {@link
          * MoneyMovementBlockedReasonPreviousAttributes}. blocked_reasons.anyOf[2] (Value): null.
-         * created_at (Optional): string or null or null. When Flint stored the payout settings
-         * record, as an RFC 3339 UTC instant at second precision. Null when no stored settings
-         * record exists. created_at.anyOf[1] (Value): string or null. When Flint stored the payout
-         * settings record, as an RFC 3339 UTC instant at second precision. Null when no stored
-         * settings record exists. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. default_payout_destinations (Optional): Map of string
-         * or null. Default payout destination for each currency, as a map from currency code to
-         * payout_destination_id. Empty when no defaults are configured. Change a currency's
-         * default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the
-         * payouts embedded component. default_payout_destinations.anyOf[1] (Value): Map of string.
+         * created_at (Optional): string or null. When Flint stored the payout settings record, as
+         * an RFC 3339 UTC instant at second precision. Null when no stored settings record exists.
+         * created_at.anyOf[1] (Value): string. When Flint stored the payout settings record, as an
+         * RFC 3339 UTC instant at second precision. Null when no stored settings record exists.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * default_payout_destinations (Optional): Map of string or null. Default payout
+         * destination for each currency, as a map from currency code to payout_destination_id.
+         * Empty when no defaults are configured. Change a currency's default with
+         * `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded
+         * component. default_payout_destinations.anyOf[1] (Value): Map of string.
          * default_payout_destinations.anyOf[1].* (Value): string.
          * default_payout_destinations.anyOf[2] (Value): null. delay_days (Optional): integer or
          * null. Normal settlement delay in days before a payment's funds become available to pay
@@ -13365,16 +12801,16 @@ export type PayoutSettingsUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * payouts can run: enabled, disabled, blocked, or pending. When it isn't enabled,
          * blocked_reasons says why and next_actions lists any steps Flint can suggest. Value enum:
          * "enabled", "disabled", "blocked", "pending". status.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null or null. When the stored payout settings record was last
-         * updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this
-         * is your processor's update time. `null` when there is no stored record and your
-         * processor supplied no update time. updated_at.anyOf[1] (Value): string or null. When the
-         * stored payout settings record was last updated, as an RFC 3339 UTC instant at second
-         * precision. Without a stored record, this is your processor's update time. `null` when
-         * there is no stored record and your processor supplied no update time. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
-         * integer or null. Persisted version of this resource's owned state. Expanded resources
-         * and external observations can change independently. version.anyOf[1] (Value): integer.
+         * (Optional): string or null. When the stored payout settings record was last updated, as
+         * an RFC 3339 UTC instant at second precision. Without a stored record, this is your
+         * processor's update time. `null` when there is no stored record and your processor
+         * supplied no update time. updated_at.anyOf[1] (Value): string. When the stored payout
+         * settings record was last updated, as an RFC 3339 UTC instant at second precision.
+         * Without a stored record, this is your processor's update time. `null` when there is no
+         * stored record and your processor supplied no update time. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
          * Persisted version of this resource's owned state. Expanded resources and external
          * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
          * (Value): null. weekly_payout_days (Optional): Array of string or null. Days of the week
@@ -13401,12 +12837,12 @@ export type PayoutSettingsUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
             "blocked_reasons"?: ((Array<MoneyMovementBlockedReasonPreviousAttributes>) | (null));
             /**
              * When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
-             * precision. Null when no stored settings record exists. anyOf[1] (Value): string or
-             * null. When Flint stored the payout settings record, as an RFC 3339 UTC instant at
-             * second precision. Null when no stored settings record exists. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * precision. Null when no stored settings record exists. anyOf[1] (Value): string.
+             * When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
+             * precision. Null when no stored settings record exists. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "created_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
             /**
              * Default payout destination for each currency, as a map from currency code to
              * payout_destination_id. Empty when no defaults are configured. Change a currency's
@@ -13491,13 +12927,13 @@ export type PayoutSettingsUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * When the stored payout settings record was last updated, as an RFC 3339 UTC instant
              * at second precision. Without a stored record, this is your processor's update time.
              * `null` when there is no stored record and your processor supplied no update time.
-             * anyOf[1] (Value): string or null. When the stored payout settings record was last
-             * updated, as an RFC 3339 UTC instant at second precision. Without a stored record,
-             * this is your processor's update time. `null` when there is no stored record and your
+             * anyOf[1] (Value): string. When the stored payout settings record was last updated,
+             * as an RFC 3339 UTC instant at second precision. Without a stored record, this is
+             * your processor's update time. `null` when there is no stored record and your
              * processor supplied no update time. Format: date-time. Example:
              * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "updated_at"?: ((string | null) | (null) | (unknown));
+            "updated_at"?: ((string) | (null));
             /**
              * Persisted version of this resource's owned state. Expanded resources and external
              * observations can change independently. anyOf[1] (Value): integer. Persisted version
@@ -13623,11 +13059,11 @@ export type PayoutSettingsUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * MoneyMovementBlockedReasonPreviousAttributes}. Why payouts can't run. Empty when nothing
      * blocks them. previous_attributes.blocked_reasons.anyOf[1][] (Value): {@link
      * MoneyMovementBlockedReasonPreviousAttributes}. previous_attributes.blocked_reasons.anyOf[2]
-     * (Value): null. previous_attributes.created_at (Optional): string or null or null. When Flint
-     * stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when
-     * no stored settings record exists. previous_attributes.created_at.anyOf[1] (Value): string or
-     * null. When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
-     * precision. Null when no stored settings record exists. Format: date-time. Example:
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When Flint stored
+     * the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no
+     * stored settings record exists. previous_attributes.created_at.anyOf[1] (Value): string. When
+     * Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision.
+     * Null when no stored settings record exists. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
      * previous_attributes.default_payout_destinations (Optional): Map of string or null. Default
      * payout destination for each currency, as a map from currency code to payout_destination_id.
@@ -13693,15 +13129,15 @@ export type PayoutSettingsUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * disabled, blocked, or pending. When it isn't enabled, blocked_reasons says why and
      * next_actions lists any steps Flint can suggest. Value enum: "enabled", "disabled",
      * "blocked", "pending". previous_attributes.status.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null or null. When the stored payout
-     * settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a
-     * stored record, this is your processor's update time. `null` when there is no stored record
-     * and your processor supplied no update time. previous_attributes.updated_at.anyOf[1] (Value):
-     * string or null. When the stored payout settings record was last updated, as an RFC 3339 UTC
-     * instant at second precision. Without a stored record, this is your processor's update time.
-     * `null` when there is no stored record and your processor supplied no update time. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
-     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * previous_attributes.updated_at (Optional): string or null. When the stored payout settings
+     * record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored
+     * record, this is your processor's update time. `null` when there is no stored record and your
+     * processor supplied no update time. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * When the stored payout settings record was last updated, as an RFC 3339 UTC instant at
+     * second precision. Without a stored record, this is your processor's update time. `null` when
+     * there is no stored record and your processor supplied no update time. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Persisted version of this
      * resource's owned state. Expanded resources and external observations can change
      * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
      * this resource's owned state. Expanded resources and external observations can change
@@ -13869,16 +13305,16 @@ export type PayoutSettingsUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * MoneyMovementBlockedReasonPreviousAttributes}. Why payouts can't run. Empty when nothing
          * blocks them. blocked_reasons.anyOf[1][] (Value): {@link
          * MoneyMovementBlockedReasonPreviousAttributes}. blocked_reasons.anyOf[2] (Value): null.
-         * created_at (Optional): string or null or null. When Flint stored the payout settings
-         * record, as an RFC 3339 UTC instant at second precision. Null when no stored settings
-         * record exists. created_at.anyOf[1] (Value): string or null. When Flint stored the payout
-         * settings record, as an RFC 3339 UTC instant at second precision. Null when no stored
-         * settings record exists. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. default_payout_destinations (Optional): Map of string
-         * or null. Default payout destination for each currency, as a map from currency code to
-         * payout_destination_id. Empty when no defaults are configured. Change a currency's
-         * default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the
-         * payouts embedded component. default_payout_destinations.anyOf[1] (Value): Map of string.
+         * created_at (Optional): string or null. When Flint stored the payout settings record, as
+         * an RFC 3339 UTC instant at second precision. Null when no stored settings record exists.
+         * created_at.anyOf[1] (Value): string. When Flint stored the payout settings record, as an
+         * RFC 3339 UTC instant at second precision. Null when no stored settings record exists.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * default_payout_destinations (Optional): Map of string or null. Default payout
+         * destination for each currency, as a map from currency code to payout_destination_id.
+         * Empty when no defaults are configured. Change a currency's default with
+         * `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded
+         * component. default_payout_destinations.anyOf[1] (Value): Map of string.
          * default_payout_destinations.anyOf[1].* (Value): string.
          * default_payout_destinations.anyOf[2] (Value): null. delay_days (Optional): integer or
          * null. Normal settlement delay in days before a payment's funds become available to pay
@@ -13929,16 +13365,16 @@ export type PayoutSettingsUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * payouts can run: enabled, disabled, blocked, or pending. When it isn't enabled,
          * blocked_reasons says why and next_actions lists any steps Flint can suggest. Value enum:
          * "enabled", "disabled", "blocked", "pending". status.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null or null. When the stored payout settings record was last
-         * updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this
-         * is your processor's update time. `null` when there is no stored record and your
-         * processor supplied no update time. updated_at.anyOf[1] (Value): string or null. When the
-         * stored payout settings record was last updated, as an RFC 3339 UTC instant at second
-         * precision. Without a stored record, this is your processor's update time. `null` when
-         * there is no stored record and your processor supplied no update time. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
-         * integer or null. Persisted version of this resource's owned state. Expanded resources
-         * and external observations can change independently. version.anyOf[1] (Value): integer.
+         * (Optional): string or null. When the stored payout settings record was last updated, as
+         * an RFC 3339 UTC instant at second precision. Without a stored record, this is your
+         * processor's update time. `null` when there is no stored record and your processor
+         * supplied no update time. updated_at.anyOf[1] (Value): string. When the stored payout
+         * settings record was last updated, as an RFC 3339 UTC instant at second precision.
+         * Without a stored record, this is your processor's update time. `null` when there is no
+         * stored record and your processor supplied no update time. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
          * Persisted version of this resource's owned state. Expanded resources and external
          * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
          * (Value): null. weekly_payout_days (Optional): Array of string or null. Days of the week
@@ -13965,12 +13401,12 @@ export type PayoutSettingsUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             "blocked_reasons"?: ((Array<MoneyMovementBlockedReasonPreviousAttributes>) | (null));
             /**
              * When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
-             * precision. Null when no stored settings record exists. anyOf[1] (Value): string or
-             * null. When Flint stored the payout settings record, as an RFC 3339 UTC instant at
-             * second precision. Null when no stored settings record exists. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * precision. Null when no stored settings record exists. anyOf[1] (Value): string.
+             * When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
+             * precision. Null when no stored settings record exists. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "created_at"?: ((string | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
             /**
              * Default payout destination for each currency, as a map from currency code to
              * payout_destination_id. Empty when no defaults are configured. Change a currency's
@@ -14055,13 +13491,13 @@ export type PayoutSettingsUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * When the stored payout settings record was last updated, as an RFC 3339 UTC instant
              * at second precision. Without a stored record, this is your processor's update time.
              * `null` when there is no stored record and your processor supplied no update time.
-             * anyOf[1] (Value): string or null. When the stored payout settings record was last
-             * updated, as an RFC 3339 UTC instant at second precision. Without a stored record,
-             * this is your processor's update time. `null` when there is no stored record and your
+             * anyOf[1] (Value): string. When the stored payout settings record was last updated,
+             * as an RFC 3339 UTC instant at second precision. Without a stored record, this is
+             * your processor's update time. `null` when there is no stored record and your
              * processor supplied no update time. Format: date-time. Example:
              * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
-            "updated_at"?: ((string | null) | (null) | (unknown));
+            "updated_at"?: ((string) | (null));
             /**
              * Persisted version of this resource's owned state. Expanded resources and external
              * observations can change independently. anyOf[1] (Value): integer. Persisted version
@@ -14143,7 +13579,7 @@ export type PayoutSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -14170,24 +13606,24 @@ export type PayoutSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -14248,7 +13684,7 @@ export type PayoutSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -14275,24 +13711,24 @@ export type PayoutSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -14473,62 +13909,47 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -14537,19 +13958,12 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -14568,29 +13982,23 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -14965,58 +14373,45 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -15024,22 +14419,16 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -15052,43 +14441,37 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -15106,7 +14489,7 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -15197,13 +14580,9 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -15228,7 +14607,7 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -15242,26 +14621,17 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -15276,16 +14646,10 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -15313,14 +14677,10 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -15364,7 +14724,7 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -15575,62 +14935,47 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -15639,19 +14984,12 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -15670,29 +15008,23 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -16067,58 +15399,45 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -16126,22 +15445,16 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -16154,43 +15467,37 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -16208,7 +15515,7 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -16299,13 +15606,9 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -16330,7 +15633,7 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -16344,26 +15647,17 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -16378,16 +15672,10 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -16415,14 +15703,10 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -16466,7 +15750,7 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -16557,7 +15841,7 @@ export type PayoutUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -16584,24 +15868,24 @@ export type PayoutUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -16662,7 +15946,7 @@ export type PayoutUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "arrival_date"?: ((string) | (null));
             "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
             "created_at"?: ((string) | (null));
@@ -16689,24 +15973,24 @@ export type PayoutUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | (null));
             "failure_message"?: ((string) | (null));
             "fee_amount_status"?: (("estimated" | "final" | "not_applicable" | (string & {})) | (null));
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "initiated_by"?: (("manual" | "scheduled" | "platform" | "other" | (string & {})) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "original_payout_id"?: ((string) | (null));
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             "payout_destination_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             "reversed_by_payout_id"?: ((string) | (null));
             "statement_descriptor"?: ((string) | (null));
             "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
         });
     };
@@ -16887,62 +16171,47 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -16951,19 +16220,12 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -16982,29 +16244,23 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -17379,58 +16635,45 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -17438,22 +16681,16 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -17466,43 +16703,37 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -17520,7 +16751,7 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -17611,13 +16842,9 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -17642,7 +16869,7 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -17656,26 +16883,17 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -17690,16 +16908,10 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -17727,14 +16939,10 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -17778,7 +16986,7 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -17989,62 +17197,47 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * estimated or final. not_applicable means no applicable fee status is known, including
      * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
      * previous_attributes.fee_amount_status.anyOf[2] (Value): null. previous_attributes.fee_money
-     * (Optional): ({@link MoneyValuePreviousAttributes} or null) or null. Fee for this payout,
-     * never negative. Payouts carry no fee, so this is 0 once your processor records the payout.
-     * `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or
-     * null). Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-     * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.fee_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.fee_money.anyOf[2] (Value): null. previous_attributes.initiated_by
-     * (Optional): string or null. What started the payout. A payout imported from your processor
-     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
-     * Only scheduled payouts list their balance transactions through GET
-     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-     * "other". previous_attributes.initiated_by.anyOf[1] (Value): string. What started the payout.
-     * A payout imported from your processor follows the processor: scheduled when it sent the
-     * payout automatically, otherwise manual. Only scheduled payouts list their balance
+     * (Optional): {@link MoneyValuePreviousAttributes} or null. Fee for this payout, never
+     * negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null`
+     * when your processor hasn't recorded the payout yet. previous_attributes.fee_money.anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. previous_attributes.fee_money.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. What started the
+     * payout. A payout imported from your processor follows the processor: scheduled when it sent
+     * the payout automatically, otherwise manual. Only scheduled payouts list their balance
      * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
      * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Merchant receiving the payout.
-     * previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.method (Optional):
-     * string or null. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
+     * "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * What started the payout. A payout imported from your processor follows the processor:
+     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
+     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
+     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
+     * enum: "manual", "scheduled", "platform", "other". previous_attributes.initiated_by.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Merchant
+     * receiving the payout. previous_attributes.merchant_id.anyOf[1] (Value): string. Merchant
+     * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.method (Optional): string or null. Payouts Flint sends, by API,
+     * Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint
+     * recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't
+     * map. Value enum: "standard", "instant", "other". previous_attributes.method.anyOf[1]
+     * (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
      * `instant` appears only on a payout Flint recorded from the processor that was sent outside
      * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-     * previous_attributes.method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard
-     * or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from
-     * the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value
-     * enum: "standard", "instant", "other". previous_attributes.method.anyOf[2] (Value): null.
-     * previous_attributes.net_money (Optional): ({@link MoneyValuePreviousAttributes} or null) or
-     * null. Signed effect of this payout on your Flint balance. It is negative because the payout
-     * takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. previous_attributes.net_money.anyOf[1] (Value): ({@link
-     * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint balance.
-     * It is negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet.
-     * previous_attributes.net_money.anyOf[1].anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. previous_attributes.net_money.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.net_money.anyOf[2] (Value): null.
-     * previous_attributes.original_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-     * inlined when you request expand=original_payout. null when expanded and original_payout_id
-     * is absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.original_payout.anyOf[1].anyOf[1] (Value):
-     * {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.original_payout.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.method.anyOf[2] (Value): null. previous_attributes.net_money (Optional):
+     * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. `null` when your processor hasn't recorded the payout yet.
+     * previous_attributes.net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * previous_attributes.net_money.anyOf[2] (Value): null. previous_attributes.original_payout
+     * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one
+     * reverses, inlined when you request expand=original_payout. null when expanded and
+     * original_payout_id is absent. Present only when `expand` includes `original_payout`; `null`
+     * when expanded and there is no related payout. previous_attributes.original_payout.anyOf[1]
+     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
      * previous_attributes.original_payout.anyOf[2] (Value): null.
      * previous_attributes.original_payout_id (Optional): string or null. On a payout that reverses
      * another payout, the payout it reverses. Present only when Flint has the matching original
@@ -18053,19 +17246,12 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * another payout, the payout it reverses. Present only when Flint has the matching original
      * payout. A payout has at most one of original_payout_id and reversed_by_payout_id. Example:
      * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.original_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.payout_destination (Optional): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-     * destination, inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1] (Value): ({@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
-     * inlined when you request expand=payout_destination. null when expanded and
-     * payout_destination_id is absent. Present only when `expand` includes `payout_destination`;
-     * `null` when expanded and there is no related payout destination.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-     * previous_attributes.payout_destination.anyOf[1].anyOf[2] (Value): null.
+     * null. previous_attributes.payout_destination (Optional): {@link
+     * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination, inlined
+     * when you request expand=payout_destination. null when expanded and payout_destination_id is
+     * absent. Present only when `expand` includes `payout_destination`; `null` when expanded and
+     * there is no related payout destination. previous_attributes.payout_destination.anyOf[1]
+     * (Value): {@link ExpandedPayoutDestinationSummaryPreviousAttributes}.
      * previous_attributes.payout_destination.anyOf[2] (Value): null.
      * previous_attributes.payout_destination_id (Optional): string or null. Bank account or debit
      * card receiving the payout. Absent when Flint can't match your processor's destination to a
@@ -18084,29 +17270,23 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * completes, then reversed. A payout_reversal balance transaction returns the money, and
      * status stays succeeded. Value enum: "none", "reversed".
      * previous_attributes.reversal_status.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout (Optional): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout reversing this one,
-     * inlined when you request expand=reversed_by_payout. null when expanded and
-     * reversed_by_payout_id is absent. Present only when `expand` includes `reversed_by_payout`;
-     * `null` when expanded and there is no related payout.
-     * previous_attributes.reversed_by_payout.anyOf[1] (Value): ({@link
-     * ExpandedPayoutSummaryPreviousAttributes} or null). The payout reversing this one, inlined
+     * previous_attributes.reversed_by_payout (Optional): {@link
+     * ExpandedPayoutSummaryPreviousAttributes} or null. The payout reversing this one, inlined
      * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
      * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1].anyOf[1]
-     * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-     * previous_attributes.reversed_by_payout.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout.anyOf[2] (Value): null.
-     * previous_attributes.reversed_by_payout_id (Optional): string or null. The separate payout
+     * there is no related payout. previous_attributes.reversed_by_payout.anyOf[1] (Value): {@link
+     * ExpandedPayoutSummaryPreviousAttributes}. previous_attributes.reversed_by_payout.anyOf[2]
+     * (Value): null. previous_attributes.reversed_by_payout_id (Optional): string or null. The
+     * separate payout reversing this one, when Flint has the matching payout. Its presence does
+     * not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id.
+     * previous_attributes.reversed_by_payout_id.anyOf[1] (Value): string. The separate payout
      * reversing this one, when Flint has the matching payout. Its presence does not mean the
      * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. previous_attributes.reversed_by_payout_id.anyOf[1] (Value):
-     * string. The separate payout reversing this one, when Flint has the matching payout. Its
-     * presence does not mean the reversal has completed; read reversal_status. A payout has at
-     * most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.reversed_by_payout_id.anyOf[2] (Value):
-     * null. previous_attributes.statement_descriptor (Optional): string or null. Text shown on
-     * your bank statement for the deposit, when one was set.
+     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * previous_attributes.reversed_by_payout_id.anyOf[2] (Value): null.
+     * previous_attributes.statement_descriptor (Optional): string or null. Text shown on your bank
+     * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[1] (Value): string. Text shown on your bank
      * statement for the deposit, when one was set.
      * previous_attributes.statement_descriptor.anyOf[2] (Value): null. previous_attributes.status
@@ -18481,58 +17661,45 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * "not_applicable". fee_amount_status.anyOf[1] (Value): string. Whether the payout fee is
          * estimated or final. not_applicable means no applicable fee status is known, including
          * unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Fee for this payout, never negative.
-         * Payouts carry no fee, so this is 0 once your processor records the payout. `null` when
-         * your processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): ({@link
-         * MoneyValuePreviousAttributes} or null). Fee for this payout, never negative. Payouts
+         * fee_amount_status.anyOf[2] (Value): null. fee_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Fee for this payout, never negative. Payouts
          * carry no fee, so this is 0 once your processor records the payout. `null` when your
-         * processor hasn't recorded the payout yet. fee_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. fee_money.anyOf[1].anyOf[2] (Value): null.
-         * fee_money.anyOf[2] (Value): null. initiated_by (Optional): string or null. What started
-         * the payout. A payout imported from your processor follows the processor: scheduled when
-         * it sent the payout automatically, otherwise manual. Only scheduled payouts list their
-         * balance transactions through GET /v1/balance-transactions?payout_id=; other payouts
-         * return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum:
-         * "manual", "scheduled", "platform", "other". initiated_by.anyOf[1] (Value): string. What
-         * started the payout. A payout imported from your processor follows the processor:
-         * scheduled when it sent the payout automatically, otherwise manual. Only scheduled
-         * payouts list their balance transactions through GET /v1/balance-transactions?payout_id=;
-         * other payouts return 409 with reason not_itemized. Unmapped sources are returned as
-         * other. Value enum: "manual", "scheduled", "platform", "other". initiated_by.anyOf[2]
-         * (Value): null. merchant_id (Optional): string or null. Merchant receiving the payout.
-         * merchant_id.anyOf[1] (Value): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. method (Optional): string or null. Payouts Flint sends,
-         * by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout
-         * Flint recorded from the processor that was sent outside Flint. `other` is a method Flint
-         * doesn't map. Value enum: "standard", "instant", "other". method.anyOf[1] (Value):
-         * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`.
-         * `instant` appears only on a payout Flint recorded from the processor that was sent
-         * outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-         * "other". method.anyOf[2] (Value): null. net_money (Optional): ({@link
-         * MoneyValuePreviousAttributes} or null) or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Signed
-         * effect of this payout on your Flint balance. It is negative because the payout takes
-         * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-         * hasn't recorded the payout yet. net_money.anyOf[1].anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. net_money.anyOf[1].anyOf[2] (Value): null.
-         * net_money.anyOf[2] (Value): null. original_payout (Optional): ({@link
-         * ExpandedPayoutSummaryPreviousAttributes} or null) or null. The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this one reverses,
-         * inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1].anyOf[1]
-         * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-         * original_payout.anyOf[1].anyOf[2] (Value): null. original_payout.anyOf[2] (Value): null.
+         * processor hasn't recorded the payout yet. fee_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. fee_money.anyOf[2] (Value): null. initiated_by
+         * (Optional): string or null. What started the payout. A payout imported from your
+         * processor follows the processor: scheduled when it sent the payout automatically,
+         * otherwise manual. Only scheduled payouts list their balance transactions through GET
+         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+         * "other". initiated_by.anyOf[1] (Value): string. What started the payout. A payout
+         * imported from your processor follows the processor: scheduled when it sent the payout
+         * automatically, otherwise manual. Only scheduled payouts list their balance transactions
+         * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
+         * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
+         * "platform", "other". initiated_by.anyOf[2] (Value): null. merchant_id (Optional): string
+         * or null. Merchant receiving the payout. merchant_id.anyOf[1] (Value): string. Merchant
+         * receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+         * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+         * returned, and cannot be written through the public API. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. method (Optional): string or null.
+         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
+         * method.anyOf[1] (Value): string. Payouts Flint sends, by API, Dashboard or schedule, are
+         * always `standard`. `instant` appears only on a payout Flint recorded from the processor
+         * that was sent outside Flint. `other` is a method Flint doesn't map. Value enum:
+         * "standard", "instant", "other". method.anyOf[2] (Value): null. net_money (Optional):
+         * {@link MoneyValuePreviousAttributes} or null. Signed effect of this payout on your Flint
+         * balance. It is negative because the payout takes money out: a 25000 payout with no fee
+         * has net_money -25000. `null` when your processor hasn't recorded the payout yet.
+         * net_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. net_money.anyOf[2]
+         * (Value): null. original_payout (Optional): {@link
+         * ExpandedPayoutSummaryPreviousAttributes} or null. The payout this one reverses, inlined
+         * when you request expand=original_payout. null when expanded and original_payout_id is
+         * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
+         * there is no related payout. original_payout.anyOf[1] (Value): {@link
+         * ExpandedPayoutSummaryPreviousAttributes}. original_payout.anyOf[2] (Value): null.
          * original_payout_id (Optional): string or null. On a payout that reverses another payout,
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id.
@@ -18540,22 +17707,16 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * the payout it reverses. Present only when Flint has the matching original payout. A
          * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
          * "po_01KEZF7C00PXK8XREWJA6K4FGV". original_payout_id.anyOf[2] (Value): null.
-         * payout_destination (Optional): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null) or null. The payout
-         * destination, inlined when you request expand=payout_destination. null when expanded and
-         * payout_destination_id is absent. Present only when `expand` includes
-         * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1] (Value): ({@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout destination,
+         * payout_destination (Optional): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes} or null. The payout destination,
          * inlined when you request expand=payout_destination. null when expanded and
          * payout_destination_id is absent. Present only when `expand` includes
          * `payout_destination`; `null` when expanded and there is no related payout destination.
-         * payout_destination.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummaryPreviousAttributes}.
-         * payout_destination.anyOf[1].anyOf[2] (Value): null. payout_destination.anyOf[2] (Value):
-         * null. payout_destination_id (Optional): string or null. Bank account or debit card
-         * receiving the payout. Absent when Flint can't match your processor's destination to a
-         * payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
+         * payout_destination.anyOf[1] (Value): {@link
+         * ExpandedPayoutDestinationSummaryPreviousAttributes}. payout_destination.anyOf[2]
+         * (Value): null. payout_destination_id (Optional): string or null. Bank account or debit
+         * card receiving the payout. Absent when Flint can't match your processor's destination to
+         * a payout destination. payout_destination_id.anyOf[1] (Value): string. Bank account or
          * debit card receiving the payout. Absent when Flint can't match your processor's
          * destination to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
          * payout_destination_id.anyOf[2] (Value): null. payout_id (Optional): string or null.
@@ -18568,43 +17729,37 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * payout back from your bank: none until the reversal completes, then reversed. A
          * payout_reversal balance transaction returns the money, and status stays succeeded. Value
          * enum: "none", "reversed". reversal_status.anyOf[2] (Value): null. reversed_by_payout
-         * (Optional): ({@link ExpandedPayoutSummaryPreviousAttributes} or null) or null. The
-         * payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+         * (Optional): {@link ExpandedPayoutSummaryPreviousAttributes} or null. The payout
+         * reversing this one, inlined when you request expand=reversed_by_payout. null when
          * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
          * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or
-         * null). The payout reversing this one, inlined when you request
-         * expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
-         * Present only when `expand` includes `reversed_by_payout`; `null` when expanded and there
-         * is no related payout. reversed_by_payout.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPayoutSummaryPreviousAttributes}. reversed_by_payout.anyOf[1].anyOf[2] (Value):
-         * null. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string or null. The separate payout reversing this one, when Flint has the matching
+         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
+         * reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional): string or
+         * null. The separate payout reversing this one, when Flint has the matching payout. Its
+         * presence does not mean the reversal has completed; read reversal_status. A payout has at
+         * most one of original_payout_id and reversed_by_payout_id. reversed_by_payout_id.anyOf[1]
+         * (Value): string. The separate payout reversing this one, when Flint has the matching
          * payout. Its presence does not mean the reversal has completed; read reversal_status. A
-         * payout has at most one of original_payout_id and reversed_by_payout_id.
-         * reversed_by_payout_id.anyOf[1] (Value): string. The separate payout reversing this one,
-         * when Flint has the matching payout. Its presence does not mean the reversal has
-         * completed; read reversal_status. A payout has at most one of original_payout_id and
-         * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-         * reversed_by_payout_id.anyOf[2] (Value): null. statement_descriptor (Optional): string or
-         * null. Text shown on your bank statement for the deposit, when one was set.
-         * statement_descriptor.anyOf[1] (Value): string. Text shown on your bank statement for the
-         * deposit, when one was set. statement_descriptor.anyOf[2] (Value): null. status
-         * (Optional): string or null. Where the payout is: pending until it is sent, in_transit on
-         * its way to your bank, then succeeded or failed. A succeeded payout can still become
-         * failed if the bank returns the deposit, and canceled means a manual payout was canceled
-         * while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-         * status.anyOf[1] (Value): string. Where the payout is: pending until it is sent,
-         * in_transit on its way to your bank, then succeeded or failed. A succeeded payout can
-         * still become failed if the bank returns the deposit, and canceled means a manual payout
-         * was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed",
-         * "canceled". status.anyOf[2] (Value): null. supported_actions (Optional): Array of string
-         * or null. Lifecycle actions Flint accepts now. cancel is offered while a payout is
-         * pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
-         * now. cancel is offered while a payout is pending unless it was scheduled automatically.
-         * [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel".
-         * supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
+         * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". reversed_by_payout_id.anyOf[2] (Value): null.
+         * statement_descriptor (Optional): string or null. Text shown on your bank statement for
+         * the deposit, when one was set. statement_descriptor.anyOf[1] (Value): string. Text shown
+         * on your bank statement for the deposit, when one was set. statement_descriptor.anyOf[2]
+         * (Value): null. status (Optional): string or null. Where the payout is: pending until it
+         * is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
+         * payout can still become failed if the bank returns the deposit, and canceled means a
+         * manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[1] (Value): string. Where the payout is:
+         * pending until it is sent, in_transit on its way to your bank, then succeeded or failed.
+         * A succeeded payout can still become failed if the bank returns the deposit, and canceled
+         * means a manual payout was canceled while pending. Value enum: "pending", "in_transit",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. cancel is
+         * offered while a payout is pending unless it was scheduled automatically. [] enum:
+         * "cancel". supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint
+         * accepts now. cancel is offered while a payout is pending unless it was scheduled
+         * automatically. [] enum: "cancel". supported_actions.anyOf[1][] (Value): string. Value
+         * enum: "cancel". supported_actions.anyOf[2] (Value): null. trace_id (Optional): {@link
          * PayoutTraceIDPreviousAttributes} or null. The bank's trace number for the deposit, which
          * your bank can use to locate a late deposit. Its status says whether the number is
          * pending, available, or unsupported, and value holds the number when Flint has it. Absent
@@ -18622,7 +17777,7 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
              * the UTC date of the expected arrival. anyOf[1] (Value): string. Calendar date the
@@ -18713,13 +17868,9 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             /**
              * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
              * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): ({@link MoneyValuePreviousAttributes} or null). Fee for this
-             * payout, never negative. Payouts carry no fee, so this is 0 once your processor
-             * records the payout. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * yet. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * What started the payout. A payout imported from your processor follows the
              * processor: scheduled when it sent the payout automatically, otherwise manual. Only
@@ -18744,7 +17895,7 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * reserved for Flint, are not returned, and cannot be written through the public API.
              * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
              * appears only on a payout Flint recorded from the processor that was sent outside
@@ -18758,26 +17909,17 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             /**
              * Signed effect of this payout on your Flint balance. It is negative because the
              * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): ({@link
-             * MoneyValuePreviousAttributes} or null). Signed effect of this payout on your Flint
-             * balance. It is negative because the payout takes money out: a 25000 payout with no
-             * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-             * anyOf[1].anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[1].anyOf[2]
-             * (Value): null. anyOf[2] (Value): null.
+             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "net_money"?: (((((MoneyValuePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * The payout this one reverses, inlined when you request expand=original_payout. null
              * when expanded and original_payout_id is absent. Present only when `expand` includes
              * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The payout this
-             * one reverses, inlined when you request expand=original_payout. null when expanded
-             * and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "original_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "original_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * On a payout that reverses another payout, the payout it reverses. Present only when
              * Flint has the matching original payout. A payout has at most one of
@@ -18792,16 +17934,10 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * The payout destination, inlined when you request expand=payout_destination. null
              * when expanded and payout_destination_id is absent. Present only when `expand`
              * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): ({@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes} or null). The payout
-             * destination, inlined when you request expand=payout_destination. null when expanded
-             * and payout_destination_id is absent. Present only when `expand` includes
-             * `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-             * null. anyOf[2] (Value): null.
+             * destination. anyOf[1] (Value): {@link
+             * ExpandedPayoutDestinationSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payout_destination"?: (((((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payout_destination"?: ((ExpandedPayoutDestinationSummaryPreviousAttributes) | (null));
             /**
              * Bank account or debit card receiving the payout. Absent when Flint can't match your
              * processor's destination to a payout destination. anyOf[1] (Value): string. Bank
@@ -18829,14 +17965,10 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * The payout reversing this one, inlined when you request expand=reversed_by_payout.
              * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
              * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): ({@link ExpandedPayoutSummaryPreviousAttributes} or null). The
-             * payout reversing this one, inlined when you request expand=reversed_by_payout. null
-             * when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedPayoutSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "reversed_by_payout"?: (((((ExpandedPayoutSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "reversed_by_payout"?: ((ExpandedPayoutSummaryPreviousAttributes) | (null));
             /**
              * The separate payout reversing this one, when Flint has the matching payout. Its
              * presence does not mean the reversal has completed; read reversal_status. A payout
@@ -18880,7 +18012,7 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * information. anyOf[1] (Value): {@link PayoutTraceIDPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null) | (unknown));
+            "trace_id"?: ((PayoutTraceIDPreviousAttributes) | (null));
             /**
              * When the payout last changed. anyOf[1] (Value): string. When the payout last
              * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -19085,4 +18217,68 @@ export type PendingPaymentAction = {
      * one subject is present.
      */
     "subject": PendingPaymentActionSubject;
+};
+/** The payment intent that needs buyer authentication in a pending payment action. */
+export type PendingPaymentActionPaymentIntentSubject = {
+    /**
+     * ID of the payment intent that needs the buyer's action. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+};
+export type PendingPaymentActionPaymentIntentSubjectPreviousAttributes = {
+    /**
+     * ID of the payment intent that needs the buyer's action. anyOf[1] (Value): string. ID of the
+     * payment intent that needs the buyer's action. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+};
+export type PendingPaymentActionPreviousAttributes = {
+    /**
+     * Product-level action type. payment_authentication applies to a payment leg;
+     * payment_method_authentication applies to saving a future-billing payment method.
+     * card_presentment means present the card on the Tap to Pay reader in your app. Value enum:
+     * "payment_authentication", "payment_method_authentication", "card_presentment". anyOf[1]
+     * (Value): string. Product-level action type. payment_authentication applies to a payment leg;
+     * payment_method_authentication applies to saving a future-billing payment method.
+     * card_presentment means present the card on the Tap to Pay reader in your app. Value enum:
+     * "payment_authentication", "payment_method_authentication", "card_presentment". anyOf[2]
+     * (Value): null.
+     */
+    "action_type"?: (("payment_authentication" | "payment_method_authentication" | "card_presentment" | (string & {}))
+        | (null));
+    /**
+     * How to finish this step before continuing through Flint. Flint's API returns a Stripe client
+     * secret only for client_action_type stripe. The url branch carries a bearer URL; Stripe's
+     * authentication page receives what it needs to run the challenge. anyOf[1] (Value): {@link
+     * PaymentClientActionPreviousAttributes}. How to finish a payment step. Flint's API returns a
+     * Stripe client secret only for client_action_type stripe. With url, Stripe's authentication
+     * page receives what it needs to run the challenge, including the client secret for hosted
+     * 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint doesn't
+     * count the charge, returns it to the buyer, and the payment intent ends canceled with
+     * cancellation_reason payment_returned. anyOf[2] (Value): null.
+     */
+    "client_action"?: ((PaymentClientActionPreviousAttributes) | (null) | (unknown));
+    /**
+     * When this step stops working. For a standalone payment intent, 12 hours after the step was
+     * created; for an order payment, when its attempt is canceled. anyOf[1] (Value): string. When
+     * this step stops working. For a standalone payment intent, 12 hours after the step was
+     * created; for an order payment, when its attempt is canceled. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "expires_at"?: ((string) | (null));
+    /**
+     * Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming
+     * an attempt. anyOf[1] (Value): string. Stable Flint action ID. Use this to deduplicate a
+     * repeated action projection while resuming an attempt. Example:
+     * "pendact_01KEZF7C00SVMRXWKVZX6R9822". anyOf[2] (Value): null.
+     */
+    "pending_action_id"?: ((string) | (null));
+    /**
+     * The attempt subject that requires client action. Exactly one of payment_intent or
+     * setup_payment_source is present. anyOf[1] (Value): {@link
+     * PendingPaymentActionSubjectPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "subject"?: ((PendingPaymentActionSubjectPreviousAttributes) | (null));
 };

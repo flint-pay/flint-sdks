@@ -3,14 +3,14 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $amount_money
- * @property-read string|\DateTimeInterface|null|null $authorization_expires_at
+ * @property-read string|\DateTimeInterface|null $authorization_expires_at
  * @property-read string|null $capture_method
  * @property-read string|null $email
  * @property-read string|null $last4
  * @property-read string|null $payment_method_brand
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentReviewPaymentSummaryPreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'authorization_expires_at'?: string|\DateTimeInterface|null|null, 'capture_method'?: string|null, 'email'?: string|null, 'last4'?: string|null, 'payment_method_brand'?: string|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'authorization_expires_at'?: string|\DateTimeInterface|null, 'capture_method'?: string|null, 'email'?: string|null, 'last4'?: string|null, 'payment_method_brand'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewPaymentSummaryPreviousAttributesInput')); }
     /** The payment's requested amount when it was confirmed. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -18,8 +18,8 @@ final class PaymentReviewPaymentSummaryPreviousAttributesInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. anyOf[1] (Value): string or null. Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. anyOf[1] (Value): string. Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When authorization_expires_at is omitted; use hasAuthorizationExpiresAt() or valueOrDefault().
      */
     public function getAuthorizationExpiresAt(): mixed { return $this->get('authorization_expires_at'); }

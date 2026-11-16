@@ -2,29 +2,29 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $applied_credit_money
+ * @property-read MoneyValuePreviousAttributes|null $applied_credit_money
  * @property-read string|null $created_at
  * @property-read string|null $due_at
  * @property-read string|null $invoice_number
  * @property-read string|null $issued_at
  * @property-read list<MerchantBillingInvoiceLineItemPreviousAttributes>|null $line_items
  * @property-read string|null $merchant_billing_invoice_id
- * @property-read mixed $outstanding_money
+ * @property-read MoneyValuePreviousAttributes|null $outstanding_money
  * @property-read string|null $paid_at
  * @property-read string|null $period_end_at
  * @property-read string|null $period_start_at
  * @property-read string|null $status
- * @property-read mixed $subtotal_money
- * @property-read mixed $total_money
+ * @property-read MoneyValuePreviousAttributes|null $subtotal_money
+ * @property-read MoneyValuePreviousAttributes|null $total_money
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantBillingInvoiceIssuedEventDataPreviousAttributes extends Model {
     /** @param array{'applied_credit_money'?: mixed, 'created_at'?: mixed, 'due_at'?: mixed, 'invoice_number'?: mixed, 'issued_at'?: mixed, 'line_items'?: mixed, 'merchant_billing_invoice_id'?: mixed, 'outstanding_money'?: mixed, 'paid_at'?: mixed, 'period_end_at'?: mixed, 'period_start_at'?: mixed, 'status'?: mixed, 'subtotal_money'?: mixed, 'total_money'?: mixed, 'updated_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingInvoiceIssuedEventDataPreviousAttributes')); }
     /** Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAppliedCreditMoney(): mixed { return $this->get('applied_credit_money'); }
+    public function getAppliedCreditMoney(): MoneyValuePreviousAttributes|null { return $this->get('applied_credit_money'); }
     public function hasAppliedCreditMoney(): bool { return $this->has('applied_credit_money'); }
     /** When Flint created the invoice. anyOf[1] (Value): string. When Flint created the invoice. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -57,9 +57,9 @@ final class MerchantBillingInvoiceIssuedEventDataPreviousAttributes extends Mode
     public function getMerchantBillingInvoiceId(): string|null { return $this->get('merchant_billing_invoice_id'); }
     public function hasMerchantBillingInvoiceId(): bool { return $this->has('merchant_billing_invoice_id'); }
     /** Part of total_money Flint still has to collect. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
+    public function getOutstandingMoney(): MoneyValuePreviousAttributes|null { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
     /** When the invoice was paid. Removed if a reversed collection reopens it. anyOf[1] (Value): string. When the invoice was paid. Removed if a reversed collection reopens it. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -82,14 +82,14 @@ final class MerchantBillingInvoiceIssuedEventDataPreviousAttributes extends Mode
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
     /** Sum of the subscription line items, before credit. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
+    public function getSubtotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
     /** What the invoice charges: subtotal_money minus applied_credit_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
+    public function getTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice last changed. anyOf[1] (Value): string. When the invoice last changed. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

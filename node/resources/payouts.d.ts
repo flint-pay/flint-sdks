@@ -48,7 +48,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { CreatePayoutRequestInput } from '../declarations/types-12.js';
 export { makeCancelPayoutRequest } from '../declarations/types-78.js';
 export { makeCreatePayoutRequest } from '../declarations/types-81.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export interface PayoutsResource {
     /**
  * Cancels an eligible payout before it leaves Flint-controlled processing and returns the

@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read string|null $external_reference_id
  * @property-read string|null $merchant_id
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read list<ModifierSetGroupPreviousAttributes>|null $modifier_groups
  * @property-read string|null $modifier_set_id
  * @property-read string|null $name
@@ -32,9 +32,9 @@ final class ModifierSetArchivedMerchantEventDataPreviousAttributes extends Model
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. anyOf[1] (Value): Array of {@see ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. anyOf[1][] (Value): {@see ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<ModifierSetGroupPreviousAttributes>|null

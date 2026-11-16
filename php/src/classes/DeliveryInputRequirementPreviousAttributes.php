@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $constraint
+ * @property-read DeliveryInputConstraintPreviousAttributes|null $constraint
  * @property-read list<string>|null $delivery_choice_group_ids
  * @property-read string|null $delivery_input_requirement_id
  * @property-read list<string>|null $delivery_method_ids
@@ -14,9 +14,9 @@ final class DeliveryInputRequirementPreviousAttributes extends Model {
     /** @param array{'constraint'?: mixed, 'delivery_choice_group_ids'?: mixed, 'delivery_input_requirement_id'?: mixed, 'delivery_method_ids'?: mixed, 'delivery_option_ids'?: mixed, 'field_path'?: mixed, 'purpose'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryInputRequirementPreviousAttributes')); }
     /** The rules the input must follow. anyOf[1] (Value): {@see DeliveryInputConstraintPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return DeliveryInputConstraintPreviousAttributes|null
      */
-    public function getConstraint(): mixed { return $this->get('constraint'); }
+    public function getConstraint(): DeliveryInputConstraintPreviousAttributes|null { return $this->get('constraint'); }
     public function hasConstraint(): bool { return $this->has('constraint'); }
     /** Choice groups that need this input. anyOf[1] (Value): Array of string. Choice groups that need this input. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null

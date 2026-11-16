@@ -9,14 +9,14 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `dispute` | Optional | Alternative shapes (see declared variants) or null | Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. `dispute`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute). |
-| `dispute_id` | Optional | string or null or null | The dispute that opened on this payment after the warning. `null` when no dispute has opened. `dispute_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute_id). |
+| `dispute` | Optional | [DisputePreviousAttributes](../models/DisputePreviousAttributes.md#disputepreviousattributes) or null | Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. `dispute`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute). |
+| `dispute_id` | Optional | string or null | The dispute that opened on this payment after the warning. `null` when no dispute has opened. `dispute_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute_id). |
 | `fraud_type` | Optional | string or null | The kind of fraud the card network reported. Values: [7 declared values](#fraudwarningupdatedmerchanteventdatapreviousattributes-fraud_type-values). `fraud_type`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesfraud_type). |
 | `fraud_warning_id` | Optional | string or null | Unique identifier for this fraud warning, prefixed `frw_`. `fraud_warning_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesfraud_warning_id). |
 | `is_actionable` | Optional | boolean or null | true until the payment is refunded in full, a dispute opens on it, or the card network marks the warning resolved; after that it stays false. A partial refund doesn't change it. `is_actionable`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesis_actionable). |
-| `payment_intent` | Optional | ([ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. `payment_intent`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent). |
+| `payment_intent` | Optional | [ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. `payment_intent`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent). |
 | `payment_intent_id` | Optional | string or null | ID of the payment the warning is about. `payment_intent_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributespayment_intent_id). |
-| `payment_summary` | Optional | Alternative shapes (see declared variants) | The payment's amount, buyer email, and card, for recognizing it. `payment_summary`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributespayment_summary). |
+| `payment_summary` | Optional | [FraudWarningPaymentSummaryPreviousAttributes](../models/FraudWarningPaymentSummaryPreviousAttributes.md#fraudwarningpaymentsummarypreviousattributes) or null | The payment's amount, buyer email, and card, for recognizing it. |
 | `reported_at` | Optional | string or null | RFC3339 timestamp. `reported_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 
@@ -44,22 +44,22 @@ Present only when `expand` includes `dispute`; `null` when expanded and there is
 | `can_respond_with_evidence` | Conditional | boolean or null | Whether this dispute has an evidence response window. It stays true after the window closes or a decision is made. Use is_action_required to know whether a response is needed now. `can_respond_with_evidence`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescan_respond_with_evidence). |
 | `case_type` | Conditional | string or null | Kind of case the card network or bank opened. `status` and `is_action_required` say whether a response is needed. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. `case_type`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributescase_type). |
 | `created_at` | Conditional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `customer` | Conditional | Alternative shapes (see declared variants) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer). |
+| `customer` | Conditional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer). |
 | `customer_id` | Conditional | string or null | The customer on the disputed payment. Absent when the payment has none. `customer_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1customer_id). |
 | `dispute_id` | Conditional | string or null | Stable identifier of the dispute. `dispute_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1dispute_id). |
-| `evidence_due_at` | Conditional | string or null or null | Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. `evidence_due_at`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1evidence_due_at). |
+| `evidence_due_at` | Conditional | string or null | Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. `evidence_due_at`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1evidence_due_at). |
 | `evidence_submission_count` | Conditional | integer or null | How many times evidence was submitted for this dispute. 0 until you submit. `evidence_submission_count`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesevidence_submission_count). |
 | `fraud_warning_id` | Conditional | string or null | The fraud warning the card network sent for this payment before the dispute. Absent when there was none. `fraud_warning_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1fraud_warning_id). |
 | `has_evidence` | Conditional | boolean or null | Whether evidence is saved for this dispute, submitted or not. In test mode this includes an unsubmitted draft Flint saves when the dispute first needs a response, so it doesn't mean someone started a response. evidence_submission_count says whether evidence was submitted. `has_evidence`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributeshas_evidence). |
 | `is_action_required` | Conditional | boolean or null | True when status is needs_response or inquiry_needs_response, can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the change. It turns false once evidence_due_at has passed, with no event. `is_action_required`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesis_action_required). |
 | `is_evidence_deadline_passed` | Conditional | boolean or null | Whether evidence_due_at has passed on a dispute with a response window. Always false when can_respond_with_evidence is false. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the change. It turns true once evidence_due_at has passed, with no event. `is_evidence_deadline_passed`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesis_evidence_deadline_passed). |
 | `merchant_id` | Conditional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1merchant_id). |
-| `network_reason_code` | Conditional | string or null or null | Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. `network_reason_code`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesnetwork_reason_code). |
-| `order` | Conditional | Alternative shapes (see declared variants) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. `order`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesorder). |
+| `network_reason_code` | Conditional | string or null | Opaque reason code assigned by the card network. Read it with the disputed payment's card brand; codes differ by network. `null` when the network supplied no code or the supplied code has an unsupported shape. `network_reason_code`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesnetwork_reason_code). |
+| `order` | Conditional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. `order`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesorder). |
 | `order_id` | Conditional | string or null | ID of the order the disputed payment was for. Absent when Flint can't link the dispute to an order. `order_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1order_id). |
-| `payment_intent` | Conditional | ([ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. `payment_intent`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent). |
+| `payment_intent` | Conditional | [ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. `payment_intent`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_intent). |
 | `payment_intent_id` | Conditional | string or null | ID of the payment intent that took the disputed payment. Absent when Flint can't link the dispute to a payment intent. `payment_intent_id`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributesdispute-variant-1payment_intent_id). |
-| `payment_option` | Conditional | string or null or null | How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `null`. `payment_option`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_option). |
+| `payment_option` | Conditional | string or null | How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that records a payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `null`. `payment_option`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributespayment_option). |
 | `reason` | Conditional | string or null | Why the payment was disputed. A reason Flint doesn't recognize is `other`. Values: [12 declared values](DisputeInput.md#disputeinput-reason-values). `reason`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesreason). |
 | `recommended_evidence_types` | Conditional | Array of string or null | Evidence types that usually answer this reason, chosen by Flint, most useful first. Use the ones that fit what you sold. Empty when Flint has no recommendation, including bank returns. Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the change. Items values: [11 declared values](DisputeInput.md#disputeinput-recommended_evidence_types--values). `recommended_evidence_types`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesrecommended_evidence_types). |
 | `response_unavailable_reason` | Conditional | string or null | Why a response is unavailable when can_respond_with_evidence is false. Absent when no reason is reported. Current values are bank_return_not_contestable and response_window_unavailable. response_window_unavailable means no evidence deadline was supplied. Values: `"bank_return_not_contestable"`, `"response_window_unavailable"`. `response_unavailable_reason`: [declared alternatives](../models/DisputeInquiryClosedMerchantEventDataPreviousAttributes.md#disputeinquiryclosedmerchanteventdatapreviousattributesresponse_unavailable_reason). |
@@ -71,13 +71,13 @@ Present only when `expand` includes `dispute`; `null` when expanded and there is
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1
 
-anyOf variant 1: Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute.; anyOf DisputePreviousAttributes.
+anyOf DisputePreviousAttributes.
 
 - Optional: `amount_money`, `can_respond_with_evidence`, `case_type`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
 
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 2, 3
+### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 2
 
-anyOf variant 1: Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `amount_money`, `can_respond_with_evidence`, `case_type`, `created_at`, `customer`, `customer_id`, `dispute_id`, `evidence_due_at`, `evidence_submission_count`, `fraud_warning_id`, `has_evidence`, `is_action_required`, `is_evidence_deadline_passed`, `merchant_id`, `network_reason_code`, `order`, `order_id`, `payment_intent`, `payment_intent_id`, `payment_option`, `reason`, `recommended_evidence_types`, `response_unavailable_reason`, `split_reversals`, `status`, `status_changed_at`, `supported_actions`, `updated_at`.
 - Value shape: null. Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. 
@@ -132,7 +132,7 @@ anyOf variant 2.
 
 anyOf variant 1: Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for..
 
-- Value shape: (string or null). Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Deadline for submitting evidence. Respond before it when is_action_required is true. `null` when the dispute has no response window, such as a bank return or a case your processor gave no deadline for. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute variant 1.evidence_due_at variant 2
 
@@ -276,7 +276,7 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 anyOf variant 1: The dispute that opened on this payment after the warning. `null` when no dispute has opened..
 
-- Value shape: (string or null). The dispute that opened on this payment after the warning. `null` when no dispute has opened. 
+- Value shape: string. The dispute that opened on this payment after the warning. `null` when no dispute has opened. 
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.dispute_id variant 2
 
@@ -343,72 +343,6 @@ anyOf variant 1: ID of the payment the warning is about..
 anyOf variant 2.
 
 - Value shape: null. ID of the payment the warning is about. 
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary
-
-The payment's amount, buyer email, and card, for recognizing it.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The payment amount. |
-| `email` | Conditional | string or null | Email address the buyer gave for the payment. `email`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributespayment_summary-variant-1email). |
-| `last4` | Conditional | string or null | Last four digits of the card. `last4`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributespayment_summary-variant-1last4). |
-| `payment_method_brand` | Conditional | string or null | The card network. Values: `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"mastercard"`, `"unionpay"`, `"visa"`, `"unknown"`. `payment_method_brand`: [declared alternatives](../models/FraudWarningUpdatedMerchantEventDataPreviousAttributes.md#fraudwarningupdatedmerchanteventdatapreviousattributespayment_summary-variant-1payment_method_brand). |
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1
-
-anyOf FraudWarningPaymentSummaryPreviousAttributes.
-
-- Optional: `amount_money`, `email`, `last4`, `payment_method_brand`.
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 2
-
-anyOf variant 2.
-
-- Undeclared: `amount_money`, `email`, `last4`, `payment_method_brand`.
-- Value shape: null. The payment's amount, buyer email, and card, for recognizing it. 
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.email
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.email variant 1
-
-anyOf variant 1: Email address the buyer gave for the payment..
-
-- Value shape: string. Email address the buyer gave for the payment. 
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.email variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Email address the buyer gave for the payment. 
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.last4
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.last4 variant 1
-
-anyOf variant 1: Last four digits of the card..
-
-- Value shape: string. Last four digits of the card. 
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.last4 variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Last four digits of the card. 
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.payment_method_brand
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.payment_method_brand variant 1
-
-anyOf variant 1: The card network..
-
-- Value shape: string. The card network. Values: `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"mastercard"`, `"unionpay"`, `"visa"`, `"unknown"`.
-
-### FraudWarningUpdatedMerchantEventDataPreviousAttributes.payment_summary variant 1.payment_method_brand variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The card network. 
 
 ### FraudWarningUpdatedMerchantEventDataPreviousAttributes.reported_at
 

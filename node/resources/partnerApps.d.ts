@@ -6,10 +6,10 @@ import type {
     PartnerAppCredentialListResponse,
     PartnerAppCredentialResponse,
     PartnerAppInstall,
-    PartnerAppInstallListResponse
+    PartnerAppInstallListResponse,
+    PartnerAppInstallResponse
 } from '../declarations/types-47.js';
 import type {
-    PartnerAppInstallResponse,
     PartnerAppInstallWithEndedAccess,
     PartnerAppInstallWithEndedAccessResponse,
     PartnerAppListResponse,
@@ -62,7 +62,6 @@ export type {
     PartnerAppsGetParams,
     PartnerAppsGetCredentialParams,
     PartnerAppsGetInstallParams,
-    PartnerAppInstallResponse,
     PartnerAppsListCredentialsParams,
     PartnerAppsListInstallsParams,
     PartnerAppsListParams,
@@ -99,6 +98,7 @@ export type {
     PartnerAppCredential,
     PartnerAppCredentialResponse,
     PartnerAppInstall,
+    PartnerAppInstallResponse,
     PartnerAppCredentialListResponse,
     PartnerAppInstallListResponse,
     PartnerAppCredentialPublicKeyRequestInput,
@@ -138,15 +138,15 @@ export {
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
 } from '../declarations/types-81.js';
-export { makeMoneyValue, makePartnerAppCredentialJWKSURLRequest } from '../declarations/types-86.js';
 export {
+    makeMoneyValue,
+    makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
     makePartnerAppCredentialWorkloadIdentityRequest,
     makePartnerAppPaymentSplitsRequest,
-    makePartnerAppPermissionManifestEntryRequest,
-    makePartnerAppPlatformProfileRequest,
-    makePlatformFeeCapRequest
-} from '../declarations/types-87.js';
+    makePartnerAppPermissionManifestEntryRequest
+} from '../declarations/types-86.js';
+export { makePartnerAppPlatformProfileRequest, makePlatformFeeCapRequest } from '../declarations/types-87.js';
 export { makeRotatePartnerAppSecretRequest } from '../declarations/types-89.js';
 export { makeUpdatePartnerAppRequest } from '../declarations/types-91.js';
 export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-92.js';

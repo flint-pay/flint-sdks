@@ -43,7 +43,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `closed_at` | Optional | string or null | RFC3339 timestamp. `closed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `closed_reason` | Optional | string or null or null | How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesclosed_reason). |
+| `closed_reason` | Optional | string or null | How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`. `closed_reason`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesclosed_reason). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `departed_at` | Optional | string or null | RFC3339 timestamp. `departed_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `destination_location_id` | Optional | string or null | ID of the Location the stock goes to. `destination_location_id`: [declared alternatives](../models/InventoryTransferClosedInstalledMerchantsEvent.md#inventorytransferclosedinstalledmerchantseventdataprevious_attributesdestination_location_id). |
@@ -69,7 +69,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 anyOf variant 1: How the transfer ended. `null` when the transfer isn't closed..
 
-- Value shape: (string or null). How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`.
+- Value shape: string. How the transfer ended. `null` when the transfer isn't closed. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`, `null`.
 
 ### InventoryTransferClosedInstalledMerchantsEvent.data.previous_attributes.closed_reason variant 2
 

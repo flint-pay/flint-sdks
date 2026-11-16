@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string|null $inventory_item_id
  * @property-read string|null $inventory_movement_id
  * @property-read int|null $on_hand_variance
- * @property-read mixed $physical_version
+ * @property-read int|null $physical_version
  * @property-read int|null $quality_control_variance
  * @property-read int|null $quarantined_variance
  * @property-read int|null $source_observation_sequence
@@ -94,10 +94,10 @@ final class InventoryCountLinePreviousAttributes extends Model {
      */
     public function getOnHandVariance(): int|null { return $this->get('on_hand_variance'); }
     public function hasOnHandVariance(): bool { return $this->has('on_hand_variance'); }
-    /** Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. anyOf[1] (Value): integer or null. Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. Format: uint64. minimum: 0. maximum: 9007199254740991. anyOf[2] (Value): null.
-     * @return mixed
+    /** Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. anyOf[1] (Value): integer. Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. Format: uint64. minimum: 0. maximum: 9007199254740991. anyOf[2] (Value): null.
+     * @return int|null
      */
-    public function getPhysicalVersion(): mixed { return $this->get('physical_version'); }
+    public function getPhysicalVersion(): int|null { return $this->get('physical_version'); }
     public function hasPhysicalVersion(): bool { return $this->has('physical_version'); }
     /** The difference this line applied to the quality-control quantity. Present once the count is applied. A draft or canceled count omits it. anyOf[1] (Value): integer. The difference this line applied to the quality-control quantity. Present once the count is applied. A draft or canceled count omits it. Format: int64. anyOf[2] (Value): null.
      * @return int|null

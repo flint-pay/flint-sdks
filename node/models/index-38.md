@@ -1,11 +1,7 @@
 [Model index](../MODELS.md)
 
-# TicketVersionRequestInput to UpdatePaymentLinkRequest
+# TicketWithAdmissionCodeResponse to UpdatePayoutDestinationRequest
 
-- [TicketVersionRequestInput](TicketVersionRequestInput.md)
-- [TicketVoidedInstalledMerchantsEvent](TicketVoidedInstalledMerchantsEvent.md)
-- [TicketVoidedMerchantEvent](TicketVoidedMerchantEvent.md)
-- [TicketWithAdmissionCode](TicketWithAdmissionCode.md)
 - [TicketWithAdmissionCodeResponse](TicketWithAdmissionCodeResponse.md)
 - [Tip](Tip.md)
 - [TipPaymentIntentAllocation](TipPaymentIntentAllocation.md)
@@ -102,4 +98,8 @@
 - [UpdatePaymentIntentRequest](UpdatePaymentIntentRequest.md)
 - [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
 - [UpdatePaymentLinkRequest](UpdatePaymentLinkRequest.md)
+- [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
+- [UpdatePaymentMethodDomainRequest](UpdatePaymentMethodDomainRequest.md)
+- [UpdatePaymentMethodDomainRequestInput](UpdatePaymentMethodDomainRequestInput.md)
+- [UpdatePayoutDestinationRequest](UpdatePayoutDestinationRequest.md)
 

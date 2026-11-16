@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeliveryLocationSetUpdatedInstalledMerchantsEvent to DeliveryPricingStrategyCreateRequest
+# DeliveryLocationSetUpdatedMerchantEvent to DeliveryPricingStrategyCreateRequestInput
 
-- [DeliveryLocationSetUpdatedInstalledMerchantsEvent](DeliveryLocationSetUpdatedInstalledMerchantsEvent.md)
 - [DeliveryLocationSetUpdatedMerchantEvent](DeliveryLocationSetUpdatedMerchantEvent.md)
 - [DeliveryLocationSummaryResource](DeliveryLocationSummaryResource.md)
 - [DeliveryLocationSummaryResourcePreviousAttributes](DeliveryLocationSummaryResourcePreviousAttributes.md)
@@ -102,4 +101,5 @@
 - [DeliveryPricingStrategyCreateInputTiered](DeliveryPricingStrategyCreateInputTiered.md)
 - [DeliveryPricingStrategyCreateInputTieredInput](DeliveryPricingStrategyCreateInputTieredInput.md)
 - [DeliveryPricingStrategyCreateRequest](DeliveryPricingStrategyCreateRequest.md)
+- [DeliveryPricingStrategyCreateRequestInput](DeliveryPricingStrategyCreateRequestInput.md)
 

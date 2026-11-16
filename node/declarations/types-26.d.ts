@@ -1,5 +1,4 @@
 import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-25.js';
 import type { SimulateDisputeRequestInput, Shipment } from './types-66.js';
 import type { ResponseMeta } from './types-60.js';
 import type { LookupEmailPreferencesRequestInput } from './types-39.js';
@@ -8,13 +7,14 @@ import type {
     PartnerAppPermissionManifestEntry,
     PartnerEnvironmentGrantPaymentSplits,
     PartnerAppMerchantReadinessPreviousAttributes,
-    PartnerAppPermissionManifestEntryPreviousAttributes
+    PartnerAppPermissionManifestEntryPreviousAttributes,
+    PartnerEnvironmentGrantPaymentSplitsPreviousAttributes
 } from './types-48.js';
-import type { PartnerWebhookEnvelope, PartnerEnvironmentGrantPaymentSplitsPreviousAttributes } from './types-49.js';
+import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { PlatformFeeCap, PlatformFeeCapPreviousAttributes } from './types-54.js';
 import type { CustomDomain } from './types-15.js';
 import type { DeliveryRevocation } from './types-23.js';
-import type { Fulfillment } from './types-27.js';
+import type { Fulfillment, FileUpload } from './types-27.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { MoneyValue, NextAction, NextActionPreviousAttributes, MoneyValuePreviousAttributes } from './types-42.js';
 import type { Package } from './types-47.js';
@@ -35,7 +35,6 @@ import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttr
 import type { SubscriptionPlanLineItem, SubscriptionPlanLineItemPreviousAttributes } from './types-69.js';
 import type { CreateFeedbackReportRequestInput } from './types-9.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-7.js';
-export type DisputesCreateResponseSessionParams = DisputesAcceptParams;
 export type DisputesGetParams = {
     /**
      * Include related objects in the response. Supported expansions: customer, order,
@@ -576,11 +575,11 @@ export type EnvironmentGrantRevokedEvent = ((Exclude<PartnerWebhookEnvelope & ob
             "environment_grant_id"?: ((string) | (null));
             "granted_permissions"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
             "granted_scopes"?: ((Array<string>) | (null));
-            "merchant_readiness"?: ((PartnerAppMerchantReadinessPreviousAttributes) | (null) | (unknown));
+            "merchant_readiness"?: ((PartnerAppMerchantReadinessPreviousAttributes) | (null));
             "mode"?: (("test" | "live" | (string & {})) | (null));
             "partner_app_install_id"?: ((string) | (null));
-            "payment_splits"?: ((PartnerEnvironmentGrantPaymentSplitsPreviousAttributes) | (null) | (unknown));
-            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null) | (unknown));
+            "payment_splits"?: ((PartnerEnvironmentGrantPaymentSplitsPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
             "revoked_at"?: ((string) | (null));
             "revoked_by_user_id"?: ((string) | (null));
             "sandbox_id"?: ((string) | (null));
@@ -627,11 +626,11 @@ export type EnvironmentGrantUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & ob
             "environment_grant_id"?: ((string) | (null));
             "granted_permissions"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
             "granted_scopes"?: ((Array<string>) | (null));
-            "merchant_readiness"?: ((PartnerAppMerchantReadinessPreviousAttributes) | (null) | (unknown));
+            "merchant_readiness"?: ((PartnerAppMerchantReadinessPreviousAttributes) | (null));
             "mode"?: (("test" | "live" | (string & {})) | (null));
             "partner_app_install_id"?: ((string) | (null));
-            "payment_splits"?: ((PartnerEnvironmentGrantPaymentSplitsPreviousAttributes) | (null) | (unknown));
-            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null) | (unknown));
+            "payment_splits"?: ((PartnerEnvironmentGrantPaymentSplitsPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
             "revoked_at"?: ((string) | (null));
             "revoked_by_user_id"?: ((string) | (null));
             "sandbox_id"?: ((string) | (null));
@@ -2317,20 +2316,20 @@ export type ExpandedCustomerSummaryPreviousAttributes = {
     "customer_id"?: ((string) | (null));
     /**
      * Customer email. `null` when the customer has none. Unique among the environment's customers.
-     * anyOf[1] (Value): string or null. Customer email. `null` when the customer has none. Unique
-     * among the environment's customers. anyOf[2] (Value): null.
+     * anyOf[1] (Value): string. Customer email. `null` when the customer has none. Unique among
+     * the environment's customers. anyOf[2] (Value): null.
      */
-    "email"?: ((string | null) | (null) | (unknown));
+    "email"?: ((string) | (null));
     /**
-     * Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer name.
-     * `null` when none is set. anyOf[2] (Value): null.
+     * Customer name. `null` when none is set. anyOf[1] (Value): string. Customer name. `null` when
+     * none is set. anyOf[2] (Value): null.
      */
-    "name"?: ((string | null) | (null) | (unknown));
+    "name"?: ((string) | (null));
     /**
-     * Customer phone number. `null` when none is set. anyOf[1] (Value): string or null. Customer
-     * phone number. `null` when none is set. anyOf[2] (Value): null.
+     * Customer phone number. `null` when none is set. anyOf[1] (Value): string. Customer phone
+     * number. `null` when none is set. anyOf[2] (Value): null.
      */
-    "phone"?: ((string | null) | (null) | (unknown));
+    "phone"?: ((string) | (null));
     /**
      * Where the customer is in the deletion lifecycle. Value enum: "active",
      * "deletion_processing", "deleted". anyOf[1] (Value): string. Where the customer is in the
@@ -2485,7 +2484,7 @@ export type ExpandedInvoiceSummaryPreviousAttributes = {
      * The invoice pricing totals, frozen at issue; a draft previews the backing order. anyOf[1]
      * (Value): {@link PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null) | (unknown));
+    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
     /**
      * How much of the collected money has been refunded. It doesn't change status. Value enum:
      * "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much of the
@@ -2497,7 +2496,7 @@ export type ExpandedInvoiceSummaryPreviousAttributes = {
      * The same settlement amounts as the full Invoice. anyOf[1] (Value): {@link
      * InvoiceSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null) | (unknown));
+    "settlement_amounts"?: ((InvoiceSettlementAmountsPreviousAttributes) | (null));
     /**
      * Current invoice status. paid and credited close the current balance and can reopen to open
      * or partially_paid after a payment or credit allocation reversal; invoice.reopened reports
@@ -2667,7 +2666,7 @@ export type ExpandedOrderSummaryPreviousAttributes = {
      * order has no recorded contact. anyOf[1] (Value): {@link
      * CheckoutBuyerContactPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null) | (unknown));
+    "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
     /**
      * When the order closed. Present exactly when status is closed. Set once at the transition and
      * never changed. anyOf[1] (Value): string. When the order closed. Present exactly when status
@@ -2735,11 +2734,11 @@ export type ExpandedOrderSummaryPreviousAttributes = {
         | (null));
     /**
      * ID of the delivery selection that governs this order. Null when no selection governs the
-     * order. anyOf[1] (Value): string or null. ID of the delivery selection that governs this
-     * order. Null when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     * anyOf[2] (Value): null.
+     * order. anyOf[1] (Value): string. ID of the delivery selection that governs this order. Null
+     * when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2]
+     * (Value): null.
      */
-    "governing_delivery_selection_id"?: ((string | null) | (null) | (unknown));
+    "governing_delivery_selection_id"?: ((string) | (null));
     /**
      * Stable identifier of the expanded order. anyOf[1] (Value): string. Stable identifier of the
      * expanded order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
@@ -2754,12 +2753,12 @@ export type ExpandedOrderSummaryPreviousAttributes = {
      * When `payment_status` became `paid`, including a final capture that releases the remaining
      * balance. Set once and never changed, including after refunds. `null` when `payment_status`
      * isn't `paid`, including an order whose balance was written off without being paid. anyOf[1]
-     * (Value): string or null. When `payment_status` became `paid`, including a final capture that
+     * (Value): string. When `payment_status` became `paid`, including a final capture that
      * releases the remaining balance. Set once and never changed, including after refunds. `null`
      * when `payment_status` isn't `paid`, including an order whose balance was written off without
      * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "paid_at"?: ((string | null) | (null) | (unknown));
+    "paid_at"?: ((string) | (null));
     /**
      * Payment intents associated with the order. anyOf[1] (Value): Array of string. Payment
      * intents associated with the order. anyOf[1][] (Value): string. Example:
@@ -2778,7 +2777,7 @@ export type ExpandedOrderSummaryPreviousAttributes = {
      * Order totals before accounting for collected payments and refunds. anyOf[1] (Value): {@link
      * PricingAmountsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null) | (unknown));
+    "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
     /**
      * Refund progress for collected money. Refunds with `reason` `payment_returned` return money
      * the order never received and don't count. Value enum: "none", "partially_refunded",
@@ -2791,7 +2790,7 @@ export type ExpandedOrderSummaryPreviousAttributes = {
      * Payments, refunds, credits, and amounts still owed for the order. anyOf[1] (Value): {@link
      * OrderSettlementAmountsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null) | (unknown));
+    "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
     /**
      * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
      * returns, and metadata or note edits continue on a closed order. Value enum: "open",
@@ -2933,12 +2932,12 @@ export type ExpandedPackageSummaryPreviousAttributes = {
     /**
      * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
      * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. anyOf[1] (Value): string or null. When the carrier or merchant
-     * expects this package to arrive. Null when no estimate is set. Retained after delivery as
-     * history. This estimate is separate from the fulfillment's promised shipment window. Format:
+     * promised shipment window. anyOf[1] (Value): string. When the carrier or merchant expects
+     * this package to arrive. Null when no estimate is set. Retained after delivery as history.
+     * This estimate is separate from the fulfillment's promised shipment window. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+    "expected_delivery_at"?: ((string) | (null));
     /**
      * Fulfillment whose items are in the package. anyOf[1] (Value): string. Fulfillment whose
      * items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
@@ -3159,7 +3158,7 @@ export type ExpandedPaymentIntentSummaryPreviousAttributes = {
      * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
      * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[1]
      * (Value): string. When money is collected. Defaults to automatic. Value enum: "automatic",
@@ -3222,7 +3221,7 @@ export type ExpandedPaymentIntentSummaryPreviousAttributes = {
      * attached. anyOf[1] (Value): {@link PaymentSourceSummaryPreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "payment_source"?: ((PaymentSourceSummaryPreviousAttributes) | (null) | (unknown));
+    "payment_source"?: ((PaymentSourceSummaryPreviousAttributes) | (null));
     /**
      * How much of captured_money has been refunded, including value issued as store credit, based
      * on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value):
@@ -3421,7 +3420,7 @@ export type ExpandedPaymentMethodSummaryPreviousAttributes = {
      * Brand, expiry and last four digits. Present when type is card. anyOf[1] (Value): {@link
      * CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+    "card"?: ((CardDetailsPreviousAttributes) | (null));
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3651,7 +3650,7 @@ export type ExpandedPayoutSummaryPreviousAttributes = {
      * Amount sent to your bank. Always positive. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC
      * date of the expected arrival. anyOf[1] (Value): string. Calendar date the bank is expected
@@ -4055,7 +4054,7 @@ export type ExpandedSubscriptionPlanSummaryPreviousAttributes = {
      * an imported paid period. Omitted when the plan has no setup fee. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "setup_fee_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "setup_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
      * while existing subscriptions keep renewing. Archived plans are read-only and their status is
@@ -4787,3 +4786,79 @@ export type FeedbackReportingClientRequestInput = {
 export type FeedbackReportsCreateParams = (CreateFeedbackReportRequestInput);
 export type FeedbackReportsGetParams = {};
 export type FeedbackReportsListParams = CheckoutSessionsListCustomerVerificationsParams;
+/**
+ * An image uploaded to Flint. Create the file, PUT its bytes to upload.url with upload.headers,
+ * then complete it. Attach a ready file with images[].file_id on a catalog resource or file_id in
+ * a branding image field. A ready unattached file expires after 24 hours; attachment removes that
+ * deadline. Each upload has its own file_id, including uploads of identical bytes.
+ */
+export type File = {
+    /**
+     * The stored image media type when ready; the declared upload media type otherwise. Value
+     * enum: "image/jpeg", "image/png", "image/webp".
+     */
+    "content_type": "image/jpeg" | "image/png" | "image/webp" | (string & {});
+    /** When the upload was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * When this file expires if it stays in its current status. While awaiting_upload, equals
+     * upload.expires_at. While ready and unattached, 24 hours after processing or 7 days after its
+     * last detachment. Omitted while attached and in every other status. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string;
+    /**
+     * A safe failure category, present only when failed. Unknown processing causes use
+     * processing_failed. Value enum: "image_unsupported", "image_too_large", "processing_failed".
+     */
+    "failure_code"?: "image_unsupported" | "image_too_large" | "processing_failed" | (string & {});
+    /**
+     * The file's stable Flint ID. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "file_01KEZF7C00BZ179303GY9R0P03".
+     */
+    "file_id": string;
+    /** The stored image height in pixels, present only when ready. Format: int32. */
+    "height"?: number;
+    /**
+     * What the image is used for. Set when the file is created. Value enum: "product",
+     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
+     * "merchant_icon".
+     */
+    "purpose": "product"
+        | "product_variant"
+        | "bundle"
+        | "payment_link"
+        | "subscription_plan"
+        | "merchant_logo"
+        | "merchant_icon"
+        | (string & {});
+    /** The stored image size when ready; the declared upload size otherwise. Format: int64. */
+    "size_bytes": number;
+    /**
+     * Where the file is in its lifecycle. Only a `ready` file can be attached. Value enum:
+     * "awaiting_upload", "processing", "ready", "failed", "expired".
+     */
+    "status": "awaiting_upload" | "processing" | "ready" | "failed" | "expired" | (string & {});
+    /**
+     * Lifecycle actions Flint accepts now. complete is offered while awaiting_upload or processing
+     * and remains accepted for completed files, returning the completed file. It can remain
+     * available after an attachment deadline expires until Flint removes the stored file. An
+     * in-progress completion can still return a transient refusal. [] enum: "complete". []
+     * (Value): string. Value enum: "complete".
+     */
+    "supported_actions": Array<"complete" | (string & {})>;
+    /**
+     * Present only in the create response while awaiting_upload. GET never returns upload
+     * credentials. PUT bytes before upload.expires_at, then complete the file. The signed upload
+     * target for a file: the URL, HTTP method, headers to send, and when the URL expires.
+     */
+    "upload"?: FileUpload;
+    /**
+     * The canonical image URL, present when ready. Attach the file with images[].file_id, or copy
+     * this URL into source_url on another resource. Format: uri. Example:
+     * "https://example.com/receipt".
+     */
+    "url"?: string;
+    /** The stored image width in pixels, present only when ready. Format: int32. */
+    "width"?: number;
+};

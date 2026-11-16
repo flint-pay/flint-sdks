@@ -9,10 +9,10 @@ import type {
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
-    MerchantAccountSessionResponse
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionStripe
 } from '../declarations/types-40.js';
 import type {
-    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
@@ -84,7 +84,6 @@ export type {
     MerchantGetParams,
     MerchantResponse,
     MerchantUpdateParams,
-    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeRequirements,
@@ -147,13 +146,19 @@ export type {
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequest,
     MerchantAccountSessionRefreshRequestInput,
-    MerchantAccountSessionResponse
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionStripe
 } from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { Address, AddressRequestInput, AddressPreviousAttributes, AddressRequest } from '../declarations/types-0.js';
-export type { ImageAttachment, ImageInputFileInput, ImageAttachmentPreviousAttributes } from '../declarations/types-30.js';
+export type {
+    ImageAttachment,
+    ImageInputSourceURLInput,
+    ImageInputFileInput,
+    ImageAttachmentPreviousAttributes
+} from '../declarations/types-30.js';
 export type { NextAction, MoneyValue, MoneyValuePreviousAttributes } from '../declarations/types-42.js';
 export type {
     ReadinessMerchantAccountSession,
@@ -166,7 +171,7 @@ export type {
     ReadinessAxisPreviousAttributes
 } from '../declarations/types-58.js';
 export type { UpdateMerchantRequestInput } from '../declarations/types-74.js';
-export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
+export type { ImageRequestInput } from '../declarations/types-31.js';
 export type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-25.js';
 export type { CapabilityReadiness, CapabilityReadinessPreviousAttributes } from '../declarations/types-5.js';
 export type { PartnerWebhookEnvelope } from '../declarations/types-49.js';
@@ -185,8 +190,7 @@ export {
     makeMetadataPatchRequest
 } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateMerchantRequest } from '../declarations/types-91.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-92.js';
+export { makeUpdateMerchantRequest, makeVerifyMerchantSignupRequest } from '../declarations/types-91.js';
 export interface MerchantResource {
     /**
  * Returns the authenticated merchant.

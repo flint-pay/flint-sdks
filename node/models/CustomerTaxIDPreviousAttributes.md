@@ -12,7 +12,7 @@
 | --- | --- | --- | --- |
 | `country` | Optional | string or null | Country of the tax ID, as entered on the customer. Greek VAT IDs may use EL. `country`: [declared alternatives](../models/CustomerTaxIDPreviousAttributes.md#customertaxidpreviousattributescountry). |
 | `identifier_type` | Optional | string or null | Type of the tax ID, as entered on the customer. `identifier_type`: [declared alternatives](../models/CustomerTaxIDPreviousAttributes.md#customertaxidpreviousattributesidentifier_type). |
-| `region` | Optional | string or null or null | Region of the tax ID. `null` when the tax ID has no region. `region`: [declared alternatives](../models/CustomerTaxIDPreviousAttributes.md#customertaxidpreviousattributesregion). |
+| `region` | Optional | string or null | Region of the tax ID. `null` when the tax ID has no region. `region`: [declared alternatives](../models/CustomerTaxIDPreviousAttributes.md#customertaxidpreviousattributesregion). |
 | `value` | Optional | string or null | The tax ID. `value`: [declared alternatives](../models/CustomerTaxIDPreviousAttributes.md#customertaxidpreviousattributesvalue). |
 
 ### CustomerTaxIDPreviousAttributes.country
@@ -49,7 +49,7 @@ anyOf variant 2.
 
 anyOf variant 1: Region of the tax ID. `null` when the tax ID has no region..
 
-- Value shape: (string or null). Region of the tax ID. `null` when the tax ID has no region. 
+- Value shape: string. Region of the tax ID. `null` when the tax ID has no region. 
 
 ### CustomerTaxIDPreviousAttributes.region variant 2
 

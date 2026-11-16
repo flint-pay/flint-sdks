@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PartnerEnvironmentGrant to PaymentLinkLineItemInputVariant
+# PartnerEnvironmentGrantPaymentSplits to PaymentLinkLineItemPatchInputBundleInput
 
-- [PartnerEnvironmentGrant](PartnerEnvironmentGrant.md)
 - [PartnerEnvironmentGrantPaymentSplits](PartnerEnvironmentGrantPaymentSplits.md)
 - [PartnerEnvironmentGrantPaymentSplitsPreviousAttributes](PartnerEnvironmentGrantPaymentSplitsPreviousAttributes.md)
 - [PartnerEnvironmentGrantPreviousAttributes](PartnerEnvironmentGrantPreviousAttributes.md)
@@ -22,11 +21,9 @@
 - [PaymentClientActionURL](PaymentClientActionURL.md)
 - [PaymentClientActionURLPreviousAttributes](PaymentClientActionURLPreviousAttributes.md)
 - [PaymentCollection](PaymentCollection.md)
-- [PaymentCollectionPreviousAttributes](PaymentCollectionPreviousAttributes.md)
 - [PaymentCollectionStripe](PaymentCollectionStripe.md)
 - [PaymentCollectionStripeElements](PaymentCollectionStripeElements.md)
 - [PaymentCollectionStripeElementsPreviousAttributes](PaymentCollectionStripeElementsPreviousAttributes.md)
-- [PaymentCollectionStripePreviousAttributes](PaymentCollectionStripePreviousAttributes.md)
 - [PaymentErrorSummary](PaymentErrorSummary.md)
 - [PaymentErrorSummaryPreviousAttributes](PaymentErrorSummaryPreviousAttributes.md)
 - [PaymentFulfillmentHold](PaymentFulfillmentHold.md)
@@ -102,4 +99,7 @@
 - [PaymentLinkLineItemInputCustomVariable](PaymentLinkLineItemInputCustomVariable.md)
 - [PaymentLinkLineItemInputCustomVariableInput](PaymentLinkLineItemInputCustomVariableInput.md)
 - [PaymentLinkLineItemInputVariant](PaymentLinkLineItemInputVariant.md)
+- [PaymentLinkLineItemInputVariantInput](PaymentLinkLineItemInputVariantInput.md)
+- [PaymentLinkLineItemPatchInputBundle](PaymentLinkLineItemPatchInputBundle.md)
+- [PaymentLinkLineItemPatchInputBundleInput](PaymentLinkLineItemPatchInputBundleInput.md)
 

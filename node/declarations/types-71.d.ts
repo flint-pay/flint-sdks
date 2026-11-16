@@ -1,20 +1,16 @@
 import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams, DisconnectTaxConnectionRequestInput } from './types-25.js';
-import type { CustomersListAddressesParams } from './types-17.js';
 import type { CreditNotesListAllocationsParams } from './types-15.js';
 import type { PauseSubscriptionRequestInput } from './types-49.js';
 import type { RemoveSubscriptionPromotionsRequestInput, RenewSubscriptionRequestInput } from './types-59.js';
 import type { InvoicesMarkUncollectibleParams } from './types-38.js';
 import type { SkipSubscriptionCycleRequestInput } from './types-66.js';
-import type { UpdateSubscriptionLineItemRequestInput } from './types-75.js';
-import type { UpdateSubscriptionRequestInput, UpdateTaxCalculationCallbackRequestInput } from './types-76.js';
+import type { UpdateSubscriptionLineItemRequestInput, UpdateSubscriptionRequestInput } from './types-75.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-42.js';
 import type {
     TaxJurisdiction,
     TaxJurisdictionPreviousAttributes,
     TaxJurisdictionRequestModelInput,
     TaxJurisdictionRequestInput,
-    TaxConnectionSellerAttestation,
     TaxCountryCoverage,
     TaxDisclosureStatement,
     TaxDisclosureStatementPreviousAttributes
@@ -22,67 +18,10 @@ import type {
 import type { MerchantWebhookEnvelope } from './types-41.js';
 import type { ResponseMeta } from './types-60.js';
 import type { CreateTaxCalculationCallbackRequestInput, CreateTaxRegistrationRequestInput } from './types-14.js';
+import type { UpdateTaxCalculationCallbackRequestInput, UpdateTaxRegistrationRequestInput } from './types-76.js';
 import type { Address } from './types-0.js';
 import type { ConnectTaxConnectionRequestInput } from './types-7.js';
-export type SubscriptionsDeleteLineItemParams = {
-    /**
-     * Reject the deletion if the subscription version has changed. Format: uint64. minimum: 1.
-     * maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type SubscriptionsGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: customer, payment_method,
-     * subscription_plan. Expansion requires commerce.subscriptions.read plus the read scope for
-     * each expanded resource. Limits: at most 10 unique expand paths per request. [] enum:
-     * "customer", "payment_method", "subscription_plan". Value enum: "customer", "payment_method",
-     * "subscription_plan". anyOf[1] (Value): Array of string. [] enum: "customer",
-     * "payment_method", "subscription_plan". anyOf[1][] (Value): string. Value enum: "customer",
-     * "payment_method", "subscription_plan". anyOf[2] (Value): string. Value enum: "customer",
-     * "payment_method", "subscription_plan".
-     */
-    "expand"?: InputValue<("customer" | "payment_method" | "subscription_plan")
-        | readonly ("customer" | "payment_method" | "subscription_plan")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type SubscriptionsGetPaymentRetryParams = DisputesAcceptParams;
-export type SubscriptionsListLineItemsParams = CustomersListAddressesParams;
+import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
 export type SubscriptionsListParams = {
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
@@ -644,7 +583,7 @@ export type TaxBreakdownFlatAmountPreviousAttributes = ({
      * The fixed tax amount. Present on `flat_amount` rows. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "flat_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "flat_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the delivery choice group whose delivery this row's tax covers. On a line item row,
      * the row taxes the share of the line item that group delivers. On a charge row, it taxes that
@@ -670,7 +609,7 @@ export type TaxBreakdownFlatAmountPreviousAttributes = ({
      * The taxing authority this row's tax is owed to. anyOf[1] (Value): {@link
      * TaxJurisdictionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null) | (unknown));
+    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null));
     /**
      * ID of the location whose address was the seller origin for this row's tax: the location the
      * goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for
@@ -732,7 +671,7 @@ export type TaxBreakdownFlatAmountPreviousAttributes = ({
      * The tax this row adds up to. Zero when the amount isn't taxable or the customer is
      * tax-exempt. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * The kind of tax this row collects. Value enum: "sales_tax", "use_tax",
      * "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst". anyOf[1] (Value): string. The kind
@@ -771,7 +710,7 @@ export type TaxBreakdownFlatAmountPreviousAttributes = ({
      * taxable amount. Zero when the amount isn't taxable. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null));
 })
     & ({
     /**
@@ -913,7 +852,7 @@ export type TaxBreakdownPercentagePreviousAttributes = ({
      * The fixed tax amount. Present on `flat_amount` rows. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "flat_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "flat_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the delivery choice group whose delivery this row's tax covers. On a line item row,
      * the row taxes the share of the line item that group delivers. On a charge row, it taxes that
@@ -939,7 +878,7 @@ export type TaxBreakdownPercentagePreviousAttributes = ({
      * The taxing authority this row's tax is owed to. anyOf[1] (Value): {@link
      * TaxJurisdictionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null) | (unknown));
+    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null));
     /**
      * ID of the location whose address was the seller origin for this row's tax: the location the
      * goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for
@@ -1001,7 +940,7 @@ export type TaxBreakdownPercentagePreviousAttributes = ({
      * The tax this row adds up to. Zero when the amount isn't taxable or the customer is
      * tax-exempt. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * The kind of tax this row collects. Value enum: "sales_tax", "use_tax",
      * "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst". anyOf[1] (Value): string. The kind
@@ -1040,7 +979,7 @@ export type TaxBreakdownPercentagePreviousAttributes = ({
      * taxable amount. Zero when the amount isn't taxable. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null));
 })
     & ({
     /**
@@ -1062,7 +1001,7 @@ export type TaxBreakdownPreviousAttributes = ({
      * The fixed tax amount. Present on `flat_amount` rows. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "flat_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "flat_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the delivery choice group whose delivery this row's tax covers. On a line item row,
      * the row taxes the share of the line item that group delivers. On a charge row, it taxes that
@@ -1088,7 +1027,7 @@ export type TaxBreakdownPreviousAttributes = ({
      * The taxing authority this row's tax is owed to. anyOf[1] (Value): {@link
      * TaxJurisdictionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null) | (unknown));
+    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null));
     /**
      * ID of the location whose address was the seller origin for this row's tax: the location the
      * goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for
@@ -1150,7 +1089,7 @@ export type TaxBreakdownPreviousAttributes = ({
      * The tax this row adds up to. Zero when the amount isn't taxable or the customer is
      * tax-exempt. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * The kind of tax this row collects. Value enum: "sales_tax", "use_tax",
      * "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst". anyOf[1] (Value): string. The kind
@@ -1189,7 +1128,7 @@ export type TaxBreakdownPreviousAttributes = ({
      * taxable amount. Zero when the amount isn't taxable. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "taxable_money"?: ((MoneyValuePreviousAttributes) | (null));
 })
     & (((Exclude<TaxBreakdownPercentagePreviousAttributes & object, readonly unknown[]>)
     | (Exclude<TaxBreakdownFlatAmountPreviousAttributes & object, readonly unknown[]>)
@@ -1289,7 +1228,7 @@ export type TaxCalculationCallbackActivatedEvent = ((Exclude<MerchantWebhookEnve
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_tax_calculation_callback_revision_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
@@ -1334,7 +1273,7 @@ export type TaxCalculationCallbackArchivedEvent = ((Exclude<MerchantWebhookEnvel
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_tax_calculation_callback_revision_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
@@ -1647,7 +1586,7 @@ export type TaxCalculationCallbackDeactivatedEvent = ((Exclude<MerchantWebhookEn
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_tax_calculation_callback_revision_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
@@ -1850,7 +1789,7 @@ export type TaxCalculationCallbackUpdatedEvent = ((Exclude<MerchantWebhookEnvelo
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((TaxCalculationCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_tax_calculation_callback_revision_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
@@ -2060,12 +1999,12 @@ export type TaxComponentRequestPreviousAttributes = {
      * `percentage` component doesn't take it. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "flat_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "flat_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * The taxing jurisdiction this component's tax is owed to. anyOf[1] (Value): {@link
      * TaxJurisdictionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null) | (unknown));
+    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null));
     /**
      * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
      * Send it with a `percentage` component; a `flat_amount` component doesn't take it. anyOf[1]
@@ -2414,3 +2353,48 @@ export type TaxConnectionListRegistrationsParams = {
         | "WI"
         | "WY")[]>;
 };
+/** A response containing `TaxConnection` data. */
+export type TaxConnectionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The environment's
+     * automatic sales tax connection. Before a record exists, identity, version and timestamps are
+     * omitted. Read-time business-detail changes and provider pauses do not advance version or
+     * send webhooks. Status_reason and supported_actions can also change with the clock as
+     * registrations end, without a version change or webhook.
+     */
+    "data": TaxConnection;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The disclosure the seller agreed to and when Flint recorded that agreement. */
+export type TaxConnectionSellerAttestation = {
+    /**
+     * When Flint recorded the seller's agreement. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "attested_at": string;
+    /** Opaque version of the disclosure the seller agreed to. */
+    "disclosure_version": string;
+};
+export type TaxConnectionSellerAttestationPreviousAttributes = {
+    /**
+     * When Flint recorded the seller's agreement. anyOf[1] (Value): string. When Flint recorded
+     * the seller's agreement. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+     * (Value): null.
+     */
+    "attested_at"?: ((string) | (null));
+    /**
+     * Opaque version of the disclosure the seller agreed to. anyOf[1] (Value): string. Opaque
+     * version of the disclosure the seller agreed to. anyOf[2] (Value): null.
+     */
+    "disclosure_version"?: ((string) | (null));
+};
+export type TaxConnectionUpdateRegistrationParams = (UpdateTaxRegistrationRequestInput);

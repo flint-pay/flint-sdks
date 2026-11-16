@@ -48,8 +48,11 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { NextAction, MoneyValue } from '../declarations/types-42.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
-export { makeCreateFeedbackReportNarrative } from '../declarations/types-79.js';
-export { makeCreateFeedbackReportRating, makeCreateFeedbackReportRequest } from '../declarations/types-80.js';
+export {
+    makeCreateFeedbackReportNarrative,
+    makeCreateFeedbackReportRating,
+    makeCreateFeedbackReportRequest
+} from '../declarations/types-79.js';
 export { makeFeedbackReportingClientRequest } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export interface FeedbackReportsResource {

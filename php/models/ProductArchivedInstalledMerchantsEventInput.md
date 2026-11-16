@@ -54,7 +54,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `is_available_for_sale` | Optional | boolean or null | Whether the product is active and has at least one active variant. `is_available_for_sale`: [declared alternatives](../models/ProductArchivedInstalledMerchantsEventInput.md#productarchivedinstalledmerchantseventinputdataprevious_attributesis_available_for_sale). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns this resource. `merchant_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Caller-owned metadata stored on this resource. |
-| `modifier_set_id` | Optional | string or null or null | ID of the modifier set attached to the product. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/ProductArchivedInstalledMerchantsEventInput.md#productarchivedinstalledmerchantseventinputdataprevious_attributesmodifier_set_id). |
+| `modifier_set_id` | Optional | string or null | ID of the modifier set attached to the product. `null` when no modifier set is attached. `modifier_set_id`: [declared alternatives](../models/ProductArchivedInstalledMerchantsEventInput.md#productarchivedinstalledmerchantseventinputdataprevious_attributesmodifier_set_id). |
 | `name` | Optional | string or null | Product name shown to buyers. `name`: [declared alternatives](../models/ProductArchivedInstalledMerchantsEventInput.md#productarchivedinstalledmerchantseventinputdataprevious_attributesname). |
 | `option_count` | Optional | integer or null | Number of active options belonging to the product. `option_count`: [declared alternatives](../models/ProductArchivedInstalledMerchantsEventInput.md#productarchivedinstalledmerchantseventinputdataprevious_attributesoption_count). |
 | `options` | Optional | Array of [ProductOptionPreviousAttributesInput](../models/ProductOptionPreviousAttributesInput.md#productoptionpreviousattributesinput) or null | Product options and their non-archived values. Empty when the product has no options. `options`: [declared alternatives](../models/ProductArchivedInstalledMerchantsEventInput.md#productarchivedinstalledmerchantseventinputdataprevious_attributesoptions). |
@@ -162,7 +162,7 @@ Declared alternatives: [BundleArchivedInstalledMerchantsEventInput.data.previous
 
 anyOf variant 1: ID of the modifier set attached to the product. `null` when no modifier set is attached..
 
-- Value shape: (string or null). ID of the modifier set attached to the product. `null` when no modifier set is attached. ID of the modifier set attached to the product. `null` when no modifier set is attached. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. 
+- Value shape: string. ID of the modifier set attached to the product. `null` when no modifier set is attached. ID of the modifier set attached to the product. `null` when no modifier set is attached. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. 
 
 ### ProductArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_set_id variant 2
 

@@ -40,12 +40,12 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `consideration_money` | Optional | ([MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null) or null | What the buyer paid for the value, separate from `value_money`. `null` when no payment amount is recorded. |
+| `consideration_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | What the buyer paid for the value, separate from `value_money`. `null` when no payment amount is recorded. |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `funding_disputes` | Optional | Array of [GiftCardFundingDisputePreviousAttributesInput](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinput) or null | Restrictions tied to original funding, including value restored to replacement cards. A win clears only its own restriction. A loss keeps spending restricted until you create a gift card funding disposition. `funding_disputes`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesfunding_disputes). |
 | `gift_card_id` | Optional | string or null | ID of the gift card the load added value to. `gift_card_id`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesgift_card_id). |
 | `gift_card_load_id` | Optional | string or null | Unique identifier for this gift card load, prefixed `gcl_`. `gift_card_load_id`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesgift_card_load_id). |
-| `idempotency_key` | Optional | string or null or null | Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. `idempotency_key`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
+| `idempotency_key` | Optional | string or null | Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. `idempotency_key`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
 | `purchase_refund_value_holds` | Optional | Array of [GiftCardPurchaseRefundValueHoldPreviousAttributesInput](../models/GiftCardPurchaseRefundValueHoldPreviousAttributesInput.md#giftcardpurchaserefundvalueholdpreviousattributesinput) or null | Pending original cash refunds holding unspent value on this descendant funding lot. Unknown provider outcomes retain these holds. `purchase_refund_value_holds`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributespurchase_refund_value_holds). |
 | `purchase_refunds` | Optional | Array of [GiftCardPurchaseRefundAllocationPreviousAttributesInput](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinput) or null | Cash refunds and manual payment reversals against this original funding load. Pending refunds reserve their value; confirmed success removes it, and confirmed failure releases the hold. `purchase_refunds`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributespurchase_refunds). |
 | `purchase_restoration` | Optional | [GiftCardPurchaseRestorationPreviousAttributesInput](../models/GiftCardPurchaseRestorationPreviousAttributesInput.md#giftcardpurchaserestorationpreviousattributesinput) or null | Set when the buyer paid again for value that reversing a gift card purchase had removed, and this load restored it. Names the original card and load, the purchase refund entry that removed the value, and the purchased unit. Omitted for other loads. |
@@ -54,7 +54,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `remaining_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The value from this load still on the card: not yet spent, reversed, or moved to a replacement card. It includes value held by a reserved redemption. |
 | `reversed_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The value removed from this load by refunding or reversing the purchase that funded it. It goes down again when a purchase refund fails and the value is restored. |
 | `source` | Optional | [GiftCardFundingSourcePreviousAttributesInput](../models/GiftCardFundingSourcePreviousAttributesInput.md#giftcardfundingsourcepreviousattributesinput) or null | Where the value came from, with your reference for it. |
-| `source_created_at` | Optional | string or null or null | RFC3339 timestamp. `null` when no source time was recorded. `source_created_at`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributessource_created_at). |
+| `source_created_at` | Optional | string or null | RFC3339 timestamp. `null` when no source time was recorded. `source_created_at`: [declared alternatives](../models/GiftCardLoadUpdatedInstalledMerchantsEventInput.md#giftcardloadupdatedinstalledmerchantseventinputdataprevious_attributessource_created_at). |
 | `value_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The face value the load adds to the card. |
 | `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardFundingDisputePreviousAttributesInput.md#giftcardfundingdisputepreviousattributesinputversion). |
 
@@ -110,7 +110,7 @@ anyOf variant 2.
 
 anyOf variant 1: Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent..
 
-- Value shape: (string or null). Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. 
+- Value shape: string. Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent. 
 
 ### GiftCardLoadUpdatedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key variant 2
 
@@ -152,7 +152,7 @@ anyOf variant 2.
 
 anyOf variant 1: RFC3339 timestamp. `null` when no source time was recorded..
 
-- Value shape: (string or null). RFC3339 timestamp. `null` when no source time was recorded. RFC3339 timestamp. `null` when no source time was recorded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. RFC3339 timestamp. `null` when no source time was recorded. RFC3339 timestamp. `null` when no source time was recorded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### GiftCardLoadUpdatedInstalledMerchantsEventInput.data.previous_attributes.source_created_at variant 2
 

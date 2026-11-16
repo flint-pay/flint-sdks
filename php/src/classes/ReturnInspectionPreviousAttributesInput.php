@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string|null $return_id
  * @property-read string|null $return_inspection_id
  * @property-read string|null $return_receipt_id
- * @property-read ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $source_system
+ * @property-read ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $source_system
  * @property-read string|null $status
  * @property-read string|\DateTimeInterface|null $superseded_at
  * @property-read string|null $superseded_by_return_inspection_id
@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionPreviousAttributesInput extends Model {
-    /** @param array{'correction_reason'?: string|null, 'correction_reason_message'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'external_actor_id'?: string|null, 'external_reference_id'?: string|null, 'generated_dispositions'?: list<ReturnDispositionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inspected_at'?: string|\DateTimeInterface|null, 'inspection_location_id'?: string|null, 'line_items'?: list<ReturnInspectionLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'return_id'?: string|null, 'return_inspection_id'?: string|null, 'return_receipt_id'?: string|null, 'source_system'?: ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'status'?: string|null, 'superseded_at'?: string|\DateTimeInterface|null, 'superseded_by_return_inspection_id'?: string|null, 'supersedes_return_inspection_id'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'correction_reason'?: string|null, 'correction_reason_message'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'external_actor_id'?: string|null, 'external_reference_id'?: string|null, 'generated_dispositions'?: list<ReturnDispositionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'inspected_at'?: string|\DateTimeInterface|null, 'inspection_location_id'?: string|null, 'line_items'?: list<ReturnInspectionLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'return_id'?: string|null, 'return_inspection_id'?: string|null, 'return_receipt_id'?: string|null, 'source_system'?: ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'superseded_at'?: string|\DateTimeInterface|null, 'superseded_by_return_inspection_id'?: string|null, 'supersedes_return_inspection_id'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionPreviousAttributesInput')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -97,8 +97,8 @@ final class ReturnInspectionPreviousAttributesInput extends Model {
      */
     public function getReturnReceiptId(): mixed { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): ({@see ReturnSourceSystemPreviousAttributesInput} or null). System that recorded the observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value): {@see ReturnSourceSystemPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystemPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return ReturnSourceSystemPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */
     public function getSourceSystem(): mixed { return $this->get('source_system'); }

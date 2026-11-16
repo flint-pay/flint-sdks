@@ -1,11 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput
-} from './types-19.js';
-import type {
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput,
-    DeliveryMethodOriginSelectorInputFixedLocationInput,
     DeliveryMethodOriginSelectorInputPickupLocationCollectionInput,
     DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput,
     DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput,
@@ -15,10 +9,10 @@ import type {
     DeliveryPostalCodeValueRequestInput,
     DeliveryPricingRateCreateRequestInput,
     DeliveryPricingRateRequestInput,
-    DeliveryPricingStrategyCreateInputCalculatedInput
+    DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput
 } from './types-20.js';
 import type {
-    DeliveryPricingStrategyCreateInputCallbackInput,
     DeliveryPricingStrategyCreateInputCallerSuppliedInput,
     DeliveryPricingStrategyCreateInputFixedInput,
     DeliveryPricingStrategyCreateInputRateTableInput,
@@ -38,10 +32,10 @@ import type {
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
-    DeliveryProfileOriginPolicyInputInventoryRoutingInput
+    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput
 } from './types-21.js';
 import type {
-    DeliveryProfileOriginPolicyInputMethodOriginInput,
     DeliveryProfileOriginPolicyRequestInput,
     DeliveryRadiusConditionRequestInput,
     DeliveryRadiusOriginInput,
@@ -73,12 +67,10 @@ import type {
     DeliveryWeightUnitPriceRequestInput,
     DeliveryWindowRequestInput,
     DeliveryWindowTimeConditionInput,
-    DeliveryZoneConditionRequestInput
+    DeliveryZoneConditionRequestInput,
+    DeliveryZoneConfigurationRequestInput
 } from './types-24.js';
-export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>;
-export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>;
-export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>;
-export declare function makeDeliveryMethodOriginSelectorInputFixedLocation(value: InputValue<DeliveryMethodOriginSelectorInputFixedLocationInput>): Model<DeliveryMethodOriginSelectorInputFixedLocationInput>;
+import type { DepartInventoryTransferRequestInput, DimensionsRequestInput, DisconnectTaxConnectionRequestInput } from './types-25.js';
 export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollection(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>;
 export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput>;
 export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput>;
@@ -139,3 +131,7 @@ export declare function makeDeliveryWeightUnitPriceRequest(value: InputValue<Del
 export declare function makeDeliveryWindowRequest(value: InputValue<DeliveryWindowRequestInput>): Model<DeliveryWindowRequestInput>;
 export declare function makeDeliveryWindowTimeCondition(value: InputValue<DeliveryWindowTimeConditionInput>): Model<DeliveryWindowTimeConditionInput>;
 export declare function makeDeliveryZoneConditionRequest(value: InputValue<DeliveryZoneConditionRequestInput>): Model<DeliveryZoneConditionRequestInput>;
+export declare function makeDeliveryZoneConfigurationRequest(value: InputValue<DeliveryZoneConfigurationRequestInput>): Model<DeliveryZoneConfigurationRequestInput>;
+export declare function makeDepartInventoryTransferRequest(value: InputValue<DepartInventoryTransferRequestInput>): Model<DepartInventoryTransferRequestInput>;
+export declare function makeDimensionsRequest(value: InputValue<DimensionsRequestInput>): Model<DimensionsRequestInput>;
+export declare function makeDisconnectTaxConnectionRequest(value: InputValue<DisconnectTaxConnectionRequestInput>): Model<DisconnectTaxConnectionRequestInput>;

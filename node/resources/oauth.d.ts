@@ -39,7 +39,6 @@ export type {
     OauthRevokeTokenResponse,
     OAuthTokenRequestInput,
     OAuthTokenRequestRefreshTokenInput,
-    OAuthTokenRequestDeviceCodeInput,
     OAuthTokenRequestTokenExchangeInput
 } from '../declarations/types-43.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
@@ -57,17 +56,17 @@ export type {
     PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry
 } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-7.js';
+export type { ClientOptions, ContextSummary } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type {
     OAuthTokenRequestAuthorizationCodeInput,
     OAuthTokenRequestClientCredentialsInput,
+    OAuthTokenRequestDeviceCodeInput,
     MoneyValue,
     NextAction,
     OAuthRevokeRequestInput
 } from '../declarations/types-42.js';
-export type { ContextSummary } from '../declarations/types-8.js';
 export type { PlatformFeeCap } from '../declarations/types-54.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-78.js';

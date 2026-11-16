@@ -31,96 +31,6 @@ import type {
     DeliveryWeeklyIntervalPreviousAttributes,
     DeliveryWeeklyIntervalRequestInput
 } from './types-24.js';
-export type CustomerTaxExemptionCoverageStatesPreviousAttributes = ({
-    /**
-     * Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country
-     * codes. Value enum: "US". anyOf[1] (Value): string. Country covered by this exemption. Only
-     * US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern:
-     * ^[A-Z]{2}$. Example: "US". Value enum: "US". anyOf[2] (Value): null.
-     */
-    "country"?: (("US" | (string & {})) | (null));
-    /**
-     * US postal state codes or DC. Required for states and forbidden for all_states. [] enum:
-     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
-     * "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH",
-     * "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT",
-     * "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of string. US postal state codes
-     * or DC. Required for states and forbidden for all_states. minItems: 1. maxItems: 60.
-     * uniqueItems: true. [] enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
-     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
-     * "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
-     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
-     * string. Value enum: "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI",
-     * "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT",
-     * "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
-     * "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): null.
-     */
-    "states"?: ((Array<"AL"
-        | "AK"
-        | "AZ"
-        | "AR"
-        | "CA"
-        | "CO"
-        | "CT"
-        | "DE"
-        | "DC"
-        | "FL"
-        | "GA"
-        | "HI"
-        | "ID"
-        | "IL"
-        | "IN"
-        | "IA"
-        | "KS"
-        | "KY"
-        | "LA"
-        | "ME"
-        | "MD"
-        | "MA"
-        | "MI"
-        | "MN"
-        | "MS"
-        | "MO"
-        | "MT"
-        | "NE"
-        | "NV"
-        | "NH"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "NC"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "OR"
-        | "PA"
-        | "RI"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "VA"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY"
-        | (string & {})>)
-        | (null));
-    /**
-     * Choose all_states or states explicitly. Value enum: "states". anyOf[1] (Value): string.
-     * Choose all_states or states explicitly. Value enum: "states". anyOf[2] (Value): null.
-     */
-    "type"?: (("states" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * Value enum: "states". anyOf[1] (Value): string. Value enum: "states". anyOf[2] (Value):
-     * null.
-     */
-    "type"?: (("states" | (string & {})) | (null));
-});
 /**
  * Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list
  * of US states and DC.
@@ -342,10 +252,10 @@ export type CustomerTaxIDPreviousAttributes = {
      */
     "identifier_type"?: ((string) | (null));
     /**
-     * Region of the tax ID. `null` when the tax ID has no region. anyOf[1] (Value): string or
-     * null. Region of the tax ID. `null` when the tax ID has no region. anyOf[2] (Value): null.
+     * Region of the tax ID. `null` when the tax ID has no region. anyOf[1] (Value): string. Region
+     * of the tax ID. `null` when the tax ID has no region. anyOf[2] (Value): null.
      */
-    "region"?: ((string | null) | (null) | (unknown));
+    "region"?: ((string) | (null));
     /** The tax ID. anyOf[1] (Value): string. The tax ID. anyOf[2] (Value): null. */
     "value"?: ((string) | (null));
 };
@@ -382,27 +292,27 @@ export type CustomerUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             [key: string]: unknown;
         })
             & ({
-            "billing_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "billing_address"?: ((AddressPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "customer_id"?: ((string) | (null));
             "default_invoice_payment_term_id"?: ((string) | (null));
-            "default_payment_method"?: (((((ExpandedPaymentMethodSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
-            "email"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "internal_note"?: ((string | null) | (null) | (unknown));
+            "default_payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
+            "default_payment_method_id"?: ((string) | (null));
+            "email"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "internal_note"?: ((string) | (null));
             "is_merchant_verified"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "name"?: ((string | null) | (null) | (unknown));
-            "phone"?: ((string | null) | (null) | (unknown));
-            "price_list_id"?: ((string | null) | (null) | (unknown));
-            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null) | (unknown));
-            "segment"?: ((string | null) | (null) | (unknown));
-            "shipping_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "phone"?: ((string) | (null));
+            "price_list_id"?: ((string) | (null));
+            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null));
+            "segment"?: ((string) | (null));
+            "shipping_address"?: ((AddressPreviousAttributes) | (null));
             "status"?: (("active" | "deletion_processing" | "deleted" | (string & {})) | (null));
             "tax_exempt"?: ((boolean) | (null));
-            "tax_identity"?: (((((TaxIdentityPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "tax_identity"?: ((TaxIdentityPreviousAttributes) | (null));
             "test_clock_id"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -444,27 +354,27 @@ export type CustomerUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             [key: string]: unknown;
         })
             & ({
-            "billing_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "billing_address"?: ((AddressPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "customer_id"?: ((string) | (null));
             "default_invoice_payment_term_id"?: ((string) | (null));
-            "default_payment_method"?: (((((ExpandedPaymentMethodSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
-            "email"?: ((string | null) | (null) | (unknown));
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
-            "internal_note"?: ((string | null) | (null) | (unknown));
+            "default_payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
+            "default_payment_method_id"?: ((string) | (null));
+            "email"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "internal_note"?: ((string) | (null));
             "is_merchant_verified"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "name"?: ((string | null) | (null) | (unknown));
-            "phone"?: ((string | null) | (null) | (unknown));
-            "price_list_id"?: ((string | null) | (null) | (unknown));
-            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null) | (unknown));
-            "segment"?: ((string | null) | (null) | (unknown));
-            "shipping_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "phone"?: ((string) | (null));
+            "price_list_id"?: ((string) | (null));
+            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null));
+            "segment"?: ((string) | (null));
+            "shipping_address"?: ((AddressPreviousAttributes) | (null));
             "status"?: (("active" | "deletion_processing" | "deleted" | (string & {})) | (null));
             "tax_exempt"?: ((boolean) | (null));
-            "tax_identity"?: (((((TaxIdentityPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "tax_identity"?: ((TaxIdentityPreviousAttributes) | (null));
             "test_clock_id"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -575,24 +485,18 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.billing_address
-     * (Optional): ({@link AddressPreviousAttributes} or null) or null. The customer's default
-     * billing address: a copy of the address of the saved address marked is_default_billing.
-     * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with
-     * no other tax location at this address. `null` when no saved address is the billing default.
-     * previous_attributes.billing_address.anyOf[1] (Value): ({@link AddressPreviousAttributes} or
-     * null). The customer's default billing address: a copy of the address of the saved address
-     * marked is_default_billing. Read-only; change it through
-     * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this
-     * address. `null` when no saved address is the billing default.
-     * previous_attributes.billing_address.anyOf[1].anyOf[1] (Value): {@link
-     * AddressPreviousAttributes}. previous_attributes.billing_address.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.billing_address.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. Unique identifier for this
-     * customer, prefixed `cus_`. previous_attributes.customer_id.anyOf[1] (Value): string. Unique
-     * identifier for this customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link AddressPreviousAttributes} or null. The customer's default billing
+     * address: a copy of the address of the saved address marked is_default_billing. Read-only;
+     * change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other
+     * tax location at this address. `null` when no saved address is the billing default.
+     * previous_attributes.billing_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
+     * previous_attributes.billing_address.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Unique identifier for this customer, prefixed `cus_`.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Unique identifier for this
+     * customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.default_invoice_payment_term_id (Optional): string or null. ID of the
      * invoice payment term that applies to this customer's invoices created with
@@ -602,35 +506,30 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
      * "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * previous_attributes.default_invoice_payment_term_id.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method (Optional): ({@link
-     * ExpandedPaymentMethodSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `default_payment_method`; `null` when expanded and there is no related payment
-     * method. previous_attributes.default_payment_method.anyOf[1] (Value): ({@link
-     * ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `default_payment_method`; `null` when expanded and there is no related payment
-     * method. previous_attributes.default_payment_method.anyOf[1].anyOf[1] (Value): {@link
+     * previous_attributes.default_payment_method (Optional): {@link
+     * ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `default_payment_method`; `null` when expanded and there is no related payment method.
+     * previous_attributes.default_payment_method.anyOf[1] (Value): {@link
      * ExpandedPaymentMethodSummaryPreviousAttributes}.
-     * previous_attributes.default_payment_method.anyOf[1].anyOf[2] (Value): null.
      * previous_attributes.default_payment_method.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method_id (Optional): string or null or null. ID of the
+     * previous_attributes.default_payment_method_id (Optional): string or null. ID of the
      * customer's default off-session payment method. `null` when none is set.
-     * previous_attributes.default_payment_method_id.anyOf[1] (Value): string or null. ID of the
-     * customer's default off-session payment method. `null` when none is set. Example:
+     * previous_attributes.default_payment_method_id.anyOf[1] (Value): string. ID of the customer's
+     * default off-session payment method. `null` when none is set. Example:
      * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.default_payment_method_id.anyOf[2]
-     * (Value): null. previous_attributes.email (Optional): string or null or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[1] (Value): string or null. Customer email. `null` when the
-     * customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[2] (Value): null. previous_attributes.external_reference_id
-     * (Optional): string or null or null. Caller-owned identifier for this customer in an external
-     * system. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this customer in an external system. `null` when none is set. Not returned to
-     * customer sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.internal_note (Optional): string or null or null. Internal note about
-     * this customer. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.internal_note.anyOf[1] (Value): string or null. Internal note about this
+     * (Value): null. previous_attributes.email (Optional): string or null. Customer email. `null`
+     * when the customer has none. Unique among the environment's customers.
+     * previous_attributes.email.anyOf[1] (Value): string. Customer email. `null` when the customer
+     * has none. Unique among the environment's customers. previous_attributes.email.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this customer in an external system. `null` when none is set.
+     * Not returned to customer sessions. previous_attributes.external_reference_id.anyOf[1]
+     * (Value): string. Caller-owned identifier for this customer in an external system. `null`
+     * when none is set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.internal_note (Optional): string or null. Internal note about this
+     * customer. `null` when none is set. Not returned to customer sessions.
+     * previous_attributes.internal_note.anyOf[1] (Value): string. Internal note about this
      * customer. `null` when none is set. Not returned to customer sessions.
      * previous_attributes.internal_note.anyOf[2] (Value): null.
      * previous_attributes.is_merchant_verified (Optional): boolean or null. Flag you set on the
@@ -648,16 +547,15 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null or null. Customer name. `null` when none
-     * is set. previous_attributes.name.anyOf[1] (Value): string or null. Customer name. `null`
-     * when none is set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.phone
-     * (Optional): string or null or null. Customer phone number. `null` when none is set.
-     * previous_attributes.phone.anyOf[1] (Value): string or null. Customer phone number. `null`
-     * when none is set. previous_attributes.phone.anyOf[2] (Value): null.
-     * previous_attributes.price_list_id (Optional): string or null or null. ID of the customer's
-     * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
-     * does not apply. Not returned to customer sessions.
-     * previous_attributes.price_list_id.anyOf[1] (Value): string or null. ID of the customer's
+     * previous_attributes.name (Optional): string or null. Customer name. `null` when none is set.
+     * previous_attributes.name.anyOf[1] (Value): string. Customer name. `null` when none is set.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.phone (Optional):
+     * string or null. Customer phone number. `null` when none is set.
+     * previous_attributes.phone.anyOf[1] (Value): string. Customer phone number. `null` when none
+     * is set. previous_attributes.phone.anyOf[2] (Value): null. previous_attributes.price_list_id
+     * (Optional): string or null. ID of the customer's direct wholesale price list. `null` when
+     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
+     * sessions. previous_attributes.price_list_id.anyOf[1] (Value): string. ID of the customer's
      * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
      * does not apply. Not returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
      * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". previous_attributes.price_list_id.anyOf[2]
@@ -666,24 +564,19 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * outstanding and overdue amounts, one balance per currency. Present only when `expand`
      * includes `receivables`. previous_attributes.receivables.anyOf[1] (Value): {@link
      * CustomerReceivablesPreviousAttributes}. previous_attributes.receivables.anyOf[2] (Value):
-     * null. previous_attributes.segment (Optional): string or null or null. Free-form label you
-     * assign, such as wholesale, so promotion and delivery rules can match groups of customers. It
-     * is not an ID; Flint does not check it against any resource. `null` when none is set. Not
-     * returned to customer sessions. previous_attributes.segment.anyOf[1] (Value): string or null.
-     * Free-form label you assign, such as wholesale, so promotion and delivery rules can match
-     * groups of customers. It is not an ID; Flint does not check it against any resource. `null`
-     * when none is set. Not returned to customer sessions. previous_attributes.segment.anyOf[2]
-     * (Value): null. previous_attributes.shipping_address (Optional): ({@link
-     * AddressPreviousAttributes} or null) or null. The customer's default shipping address: a copy
-     * of the address of the saved address marked is_default_shipping. Read-only; change it through
+     * null. previous_attributes.segment (Optional): string or null. Free-form label you assign,
+     * such as wholesale, so promotion and delivery rules can match groups of customers. It is not
+     * an ID; Flint does not check it against any resource. `null` when none is set. Not returned
+     * to customer sessions. previous_attributes.segment.anyOf[1] (Value): string. Free-form label
+     * you assign, such as wholesale, so promotion and delivery rules can match groups of
+     * customers. It is not an ID; Flint does not check it against any resource. `null` when none
+     * is set. Not returned to customer sessions. previous_attributes.segment.anyOf[2] (Value):
+     * null. previous_attributes.shipping_address (Optional): {@link AddressPreviousAttributes} or
+     * null. The customer's default shipping address: a copy of the address of the saved address
+     * marked is_default_shipping. Read-only; change it through
      * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is
-     * the shipping default. previous_attributes.shipping_address.anyOf[1] (Value): ({@link
-     * AddressPreviousAttributes} or null). The customer's default shipping address: a copy of the
-     * address of the saved address marked is_default_shipping. Read-only; change it through
-     * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is
-     * the shipping default. previous_attributes.shipping_address.anyOf[1].anyOf[1] (Value): {@link
-     * AddressPreviousAttributes}. previous_attributes.shipping_address.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.shipping_address.anyOf[2] (Value): null.
+     * the shipping default. previous_attributes.shipping_address.anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. previous_attributes.shipping_address.anyOf[2] (Value): null.
      * previous_attributes.status (Optional): string or null. Where the customer is in the deletion
      * lifecycle. Value enum: "active", "deletion_processing", "deleted".
      * previous_attributes.status.anyOf[1] (Value): string. Where the customer is in the deletion
@@ -694,22 +587,18 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * previous_attributes.tax_exempt.anyOf[1] (Value): boolean. Whether Flint treats this customer
      * as exempt from tax on their orders, so it skips tax calculation for them. Not returned to
      * customer sessions. previous_attributes.tax_exempt.anyOf[2] (Value): null.
-     * previous_attributes.tax_identity (Optional): ({@link TaxIdentityPreviousAttributes} or null)
-     * or null. Legal name, registered address and tax IDs printed on this customer's invoices and
-     * credit notes. `null` when none is set. Always `null` for customer sessions.
-     * previous_attributes.tax_identity.anyOf[1] (Value): ({@link TaxIdentityPreviousAttributes} or
-     * null). Legal name, registered address and tax IDs printed on this customer's invoices and
-     * credit notes. `null` when none is set. Always `null` for customer sessions.
-     * previous_attributes.tax_identity.anyOf[1].anyOf[1] (Value): {@link
-     * TaxIdentityPreviousAttributes}. previous_attributes.tax_identity.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.test_clock_id (Optional): string or null. ID of the test clock the
+     * previous_attributes.tax_identity (Optional): {@link TaxIdentityPreviousAttributes} or null.
+     * Legal name, registered address and tax IDs printed on this customer's invoices and credit
+     * notes. `null` when none is set. Always `null` for customer sessions.
+     * previous_attributes.tax_identity.anyOf[1] (Value): {@link TaxIdentityPreviousAttributes}.
+     * previous_attributes.tax_identity.anyOf[2] (Value): null. previous_attributes.test_clock_id
+     * (Optional): string or null. ID of the test clock the customer was created on. The customer
+     * and its subscriptions read the clock's `frozen_at` as the current time. Present only for
+     * customers created on a test clock. Not returned to customer sessions.
+     * previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the test clock the
      * customer was created on. The customer and its subscriptions read the clock's `frozen_at` as
      * the current time. Present only for customers created on a test clock. Not returned to
-     * customer sessions. previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the
-     * test clock the customer was created on. The customer and its subscriptions read the clock's
-     * `frozen_at` as the current time. Present only for customers created on a test clock. Not
-     * returned to customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     * customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * previous_attributes.test_clock_id.anyOf[2] (Value): null. previous_attributes.updated_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -957,17 +846,12 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. billing_address (Optional): ({@link
-         * AddressPreviousAttributes} or null) or null. The customer's default billing address: a
-         * copy of the address of the saved address marked is_default_billing. Read-only; change it
-         * through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax
-         * location at this address. `null` when no saved address is the billing default.
-         * billing_address.anyOf[1] (Value): ({@link AddressPreviousAttributes} or null). The
-         * customer's default billing address: a copy of the address of the saved address marked
-         * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
-         * Flint taxes orders with no other tax location at this address. `null` when no saved
-         * address is the billing default. billing_address.anyOf[1].anyOf[1] (Value): {@link
-         * AddressPreviousAttributes}. billing_address.anyOf[1].anyOf[2] (Value): null.
+         * state, including synthetic test events. billing_address (Optional): {@link
+         * AddressPreviousAttributes} or null. The customer's default billing address: a copy of
+         * the address of the saved address marked is_default_billing. Read-only; change it through
+         * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at
+         * this address. `null` when no saved address is the billing default.
+         * billing_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
          * billing_address.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
          * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
          * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id
@@ -980,94 +864,80 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * (Value): string. ID of the invoice payment term that applies to this customer's invoices
          * created with `payment_due.type` set to `customer_default`. Absent when none is set.
          * Example: "ipt_01KEZF7C0064N1V301BBMQ37R4". default_invoice_payment_term_id.anyOf[2]
-         * (Value): null. default_payment_method (Optional): ({@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes} or null) or null. Present only when
-         * `expand` includes `default_payment_method`; `null` when expanded and there is no related
-         * payment method. default_payment_method.anyOf[1] (Value): ({@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand`
+         * (Value): null. default_payment_method (Optional): {@link
+         * ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only when `expand`
          * includes `default_payment_method`; `null` when expanded and there is no related payment
-         * method. default_payment_method.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes}.
-         * default_payment_method.anyOf[1].anyOf[2] (Value): null. default_payment_method.anyOf[2]
-         * (Value): null. default_payment_method_id (Optional): string or null or null. ID of the
+         * method. default_payment_method.anyOf[1] (Value): {@link
+         * ExpandedPaymentMethodSummaryPreviousAttributes}. default_payment_method.anyOf[2]
+         * (Value): null. default_payment_method_id (Optional): string or null. ID of the
          * customer's default off-session payment method. `null` when none is set.
-         * default_payment_method_id.anyOf[1] (Value): string or null. ID of the customer's default
+         * default_payment_method_id.anyOf[1] (Value): string. ID of the customer's default
          * off-session payment method. `null` when none is set. Example:
          * "pm_01KEZF7C0034B248TXXE4NXYFZ". default_payment_method_id.anyOf[2] (Value): null. email
-         * (Optional): string or null or null. Customer email. `null` when the customer has none.
-         * Unique among the environment's customers. email.anyOf[1] (Value): string or null.
-         * Customer email. `null` when the customer has none. Unique among the environment's
-         * customers. email.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this customer in an external system. `null`
-         * when none is set. Not returned to customer sessions. external_reference_id.anyOf[1]
-         * (Value): string or null. Caller-owned identifier for this customer in an external
-         * system. `null` when none is set. Not returned to customer sessions. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * internal_note (Optional): string or null or null. Internal note about this customer.
-         * `null` when none is set. Not returned to customer sessions. internal_note.anyOf[1]
-         * (Value): string or null. Internal note about this customer. `null` when none is set. Not
-         * returned to customer sessions. internal_note.anyOf[2] (Value): null.
-         * is_merchant_verified (Optional): boolean or null. Flag you set on the customer, for
+         * (Optional): string or null. Customer email. `null` when the customer has none. Unique
+         * among the environment's customers. email.anyOf[1] (Value): string. Customer email.
+         * `null` when the customer has none. Unique among the environment's customers.
+         * email.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this customer in an external system. `null` when none is
+         * set. Not returned to customer sessions. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this customer in an external system. `null` when none is
+         * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+         * "warehouse-1842". external_reference_id.anyOf[2] (Value): null. internal_note
+         * (Optional): string or null. Internal note about this customer. `null` when none is set.
+         * Not returned to customer sessions. internal_note.anyOf[1] (Value): string. Internal note
+         * about this customer. `null` when none is set. Not returned to customer sessions.
+         * internal_note.anyOf[2] (Value): null. is_merchant_verified (Optional): boolean or null.
+         * Flag you set on the customer, for example after checking ID in store. Promotion and
+         * delivery rules can match it. Flint does not set it; it is unrelated to customer
+         * verifications, which prove a buyer controls an email address.
+         * is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the customer, for
          * example after checking ID in store. Promotion and delivery rules can match it. Flint
          * does not set it; it is unrelated to customer verifications, which prove a buyer controls
-         * an email address. is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the
-         * customer, for example after checking ID in store. Promotion and delivery rules can match
-         * it. Flint does not set it; it is unrelated to customer verifications, which prove a
-         * buyer controls an email address. is_merchant_verified.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. ID of the merchant this resource belongs to.
-         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * an email address. is_merchant_verified.anyOf[2] (Value): null. merchant_id (Optional):
+         * string or null. ID of the merchant this resource belongs to. merchant_id.anyOf[1]
+         * (Value): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
          * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null or null.
-         * Customer name. `null` when none is set. name.anyOf[1] (Value): string or null. Customer
-         * name. `null` when none is set. name.anyOf[2] (Value): null. phone (Optional): string or
-         * null or null. Customer phone number. `null` when none is set. phone.anyOf[1] (Value):
-         * string or null. Customer phone number. `null` when none is set. phone.anyOf[2] (Value):
-         * null. price_list_id (Optional): string or null or null. ID of the customer's direct
-         * wholesale price list. `null` when none is set. An inactive list can be assigned but does
-         * not apply. Not returned to customer sessions. price_list_id.anyOf[1] (Value): string or
-         * null. ID of the customer's direct wholesale price list. `null` when none is set. An
-         * inactive list can be assigned but does not apply. Not returned to customer sessions.
-         * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-         * price_list_id.anyOf[2] (Value): null. receivables (Optional): {@link
-         * CustomerReceivablesPreviousAttributes} or null. What this customer owes you on invoices:
-         * the outstanding and overdue amounts, one balance per currency. Present only when
-         * `expand` includes `receivables`. receivables.anyOf[1] (Value): {@link
-         * CustomerReceivablesPreviousAttributes}. receivables.anyOf[2] (Value): null. segment
-         * (Optional): string or null or null. Free-form label you assign, such as wholesale, so
-         * promotion and delivery rules can match groups of customers. It is not an ID; Flint does
-         * not check it against any resource. `null` when none is set. Not returned to customer
-         * sessions. segment.anyOf[1] (Value): string or null. Free-form label you assign, such as
+         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. Customer
+         * name. `null` when none is set. name.anyOf[1] (Value): string. Customer name. `null` when
+         * none is set. name.anyOf[2] (Value): null. phone (Optional): string or null. Customer
+         * phone number. `null` when none is set. phone.anyOf[1] (Value): string. Customer phone
+         * number. `null` when none is set. phone.anyOf[2] (Value): null. price_list_id (Optional):
+         * string or null. ID of the customer's direct wholesale price list. `null` when none is
+         * set. An inactive list can be assigned but does not apply. Not returned to customer
+         * sessions. price_list_id.anyOf[1] (Value): string. ID of the customer's direct wholesale
+         * price list. `null` when none is set. An inactive list can be assigned but does not
+         * apply. Not returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+         * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". price_list_id.anyOf[2] (Value): null.
+         * receivables (Optional): {@link CustomerReceivablesPreviousAttributes} or null. What this
+         * customer owes you on invoices: the outstanding and overdue amounts, one balance per
+         * currency. Present only when `expand` includes `receivables`. receivables.anyOf[1]
+         * (Value): {@link CustomerReceivablesPreviousAttributes}. receivables.anyOf[2] (Value):
+         * null. segment (Optional): string or null. Free-form label you assign, such as wholesale,
+         * so promotion and delivery rules can match groups of customers. It is not an ID; Flint
+         * does not check it against any resource. `null` when none is set. Not returned to
+         * customer sessions. segment.anyOf[1] (Value): string. Free-form label you assign, such as
          * wholesale, so promotion and delivery rules can match groups of customers. It is not an
          * ID; Flint does not check it against any resource. `null` when none is set. Not returned
          * to customer sessions. segment.anyOf[2] (Value): null. shipping_address (Optional):
-         * ({@link AddressPreviousAttributes} or null) or null. The customer's default shipping
-         * address: a copy of the address of the saved address marked is_default_shipping.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills
-         * it. `null` when no saved address is the shipping default. shipping_address.anyOf[1]
-         * (Value): ({@link AddressPreviousAttributes} or null). The customer's default shipping
-         * address: a copy of the address of the saved address marked is_default_shipping.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills
-         * it. `null` when no saved address is the shipping default.
-         * shipping_address.anyOf[1].anyOf[1] (Value): {@link AddressPreviousAttributes}.
-         * shipping_address.anyOf[1].anyOf[2] (Value): null. shipping_address.anyOf[2] (Value):
-         * null. status (Optional): string or null. Where the customer is in the deletion
-         * lifecycle. Value enum: "active", "deletion_processing", "deleted". status.anyOf[1]
-         * (Value): string. Where the customer is in the deletion lifecycle. Value enum: "active",
-         * "deletion_processing", "deleted". status.anyOf[2] (Value): null. tax_exempt (Optional):
-         * boolean or null. Whether Flint treats this customer as exempt from tax on their orders,
-         * so it skips tax calculation for them. Not returned to customer sessions.
-         * tax_exempt.anyOf[1] (Value): boolean. Whether Flint treats this customer as exempt from
-         * tax on their orders, so it skips tax calculation for them. Not returned to customer
-         * sessions. tax_exempt.anyOf[2] (Value): null. tax_identity (Optional): ({@link
-         * TaxIdentityPreviousAttributes} or null) or null. Legal name, registered address and tax
-         * IDs printed on this customer's invoices and credit notes. `null` when none is set.
-         * Always `null` for customer sessions. tax_identity.anyOf[1] (Value): ({@link
-         * TaxIdentityPreviousAttributes} or null). Legal name, registered address and tax IDs
-         * printed on this customer's invoices and credit notes. `null` when none is set. Always
-         * `null` for customer sessions. tax_identity.anyOf[1].anyOf[1] (Value): {@link
-         * TaxIdentityPreviousAttributes}. tax_identity.anyOf[1].anyOf[2] (Value): null.
+         * {@link AddressPreviousAttributes} or null. The customer's default shipping address: a
+         * copy of the address of the saved address marked is_default_shipping. Read-only; change
+         * it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
+         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
+         * AddressPreviousAttributes}. shipping_address.anyOf[2] (Value): null. status (Optional):
+         * string or null. Where the customer is in the deletion lifecycle. Value enum: "active",
+         * "deletion_processing", "deleted". status.anyOf[1] (Value): string. Where the customer is
+         * in the deletion lifecycle. Value enum: "active", "deletion_processing", "deleted".
+         * status.anyOf[2] (Value): null. tax_exempt (Optional): boolean or null. Whether Flint
+         * treats this customer as exempt from tax on their orders, so it skips tax calculation for
+         * them. Not returned to customer sessions. tax_exempt.anyOf[1] (Value): boolean. Whether
+         * Flint treats this customer as exempt from tax on their orders, so it skips tax
+         * calculation for them. Not returned to customer sessions. tax_exempt.anyOf[2] (Value):
+         * null. tax_identity (Optional): {@link TaxIdentityPreviousAttributes} or null. Legal
+         * name, registered address and tax IDs printed on this customer's invoices and credit
+         * notes. `null` when none is set. Always `null` for customer sessions.
+         * tax_identity.anyOf[1] (Value): {@link TaxIdentityPreviousAttributes}.
          * tax_identity.anyOf[2] (Value): null. test_clock_id (Optional): string or null. ID of the
          * test clock the customer was created on. The customer and its subscriptions read the
          * clock's `frozen_at` as the current time. Present only for customers created on a test
@@ -1093,14 +963,9 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * marked is_default_billing. Read-only; change it through
              * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
              * at this address. `null` when no saved address is the billing default. anyOf[1]
-             * (Value): ({@link AddressPreviousAttributes} or null). The customer's default billing
-             * address: a copy of the address of the saved address marked is_default_billing.
-             * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes
-             * orders with no other tax location at this address. `null` when no saved address is
-             * the billing default. anyOf[1].anyOf[1] (Value): {@link AddressPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "billing_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "billing_address"?: ((AddressPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1122,41 +987,37 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "default_invoice_payment_term_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `default_payment_method`; `null` when expanded
-             * and there is no related payment method. anyOf[1] (Value): ({@link
-             * ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `default_payment_method`; `null` when expanded and there is no related
-             * payment method. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * and there is no related payment method. anyOf[1] (Value): {@link
+             * ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "default_payment_method"?: (((((ExpandedPaymentMethodSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "default_payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
             /**
              * ID of the customer's default off-session payment method. `null` when none is set.
-             * anyOf[1] (Value): string or null. ID of the customer's default off-session payment
-             * method. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2]
-             * (Value): null.
+             * anyOf[1] (Value): string. ID of the customer's default off-session payment method.
+             * `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value):
+             * null.
              */
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
+            "default_payment_method_id"?: ((string) | (null));
             /**
              * Customer email. `null` when the customer has none. Unique among the environment's
-             * customers. anyOf[1] (Value): string or null. Customer email. `null` when the
-             * customer has none. Unique among the environment's customers. anyOf[2] (Value): null.
+             * customers. anyOf[1] (Value): string. Customer email. `null` when the customer has
+             * none. Unique among the environment's customers. anyOf[2] (Value): null.
              */
-            "email"?: ((string | null) | (null) | (unknown));
+            "email"?: ((string) | (null));
             /**
              * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. anyOf[1] (Value): string or null.
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+             * set. Not returned to customer sessions. anyOf[1] (Value): string. Caller-owned
+             * identifier for this customer in an external system. `null` when none is set. Not
+             * returned to customer sessions. minLength: 1. maxLength: 255. Example:
              * "warehouse-1842". anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Internal note about this customer. `null` when none is set. Not returned to customer
-             * sessions. anyOf[1] (Value): string or null. Internal note about this customer.
-             * `null` when none is set. Not returned to customer sessions. anyOf[2] (Value): null.
+             * sessions. anyOf[1] (Value): string. Internal note about this customer. `null` when
+             * none is set. Not returned to customer sessions. anyOf[2] (Value): null.
              */
-            "internal_note"?: ((string | null) | (null) | (unknown));
+            "internal_note"?: ((string) | (null));
             /**
              * Flag you set on the customer, for example after checking ID in store. Promotion and
              * delivery rules can match it. Flint does not set it; it is unrelated to customer
@@ -1177,54 +1038,50 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
-             * Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer
-             * name. `null` when none is set. anyOf[2] (Value): null.
+             * Customer name. `null` when none is set. anyOf[1] (Value): string. Customer name.
+             * `null` when none is set. anyOf[2] (Value): null.
              */
-            "name"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
             /**
-             * Customer phone number. `null` when none is set. anyOf[1] (Value): string or null.
-             * Customer phone number. `null` when none is set. anyOf[2] (Value): null.
+             * Customer phone number. `null` when none is set. anyOf[1] (Value): string. Customer
+             * phone number. `null` when none is set. anyOf[2] (Value): null.
              */
-            "phone"?: ((string | null) | (null) | (unknown));
+            "phone"?: ((string) | (null));
             /**
              * ID of the customer's direct wholesale price list. `null` when none is set. An
              * inactive list can be assigned but does not apply. Not returned to customer sessions.
-             * anyOf[1] (Value): string or null. ID of the customer's direct wholesale price list.
-             * `null` when none is set. An inactive list can be assigned but does not apply. Not
-             * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * anyOf[1] (Value): string. ID of the customer's direct wholesale price list. `null`
+             * when none is set. An inactive list can be assigned but does not apply. Not returned
+             * to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
              * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
              */
-            "price_list_id"?: ((string | null) | (null) | (unknown));
+            "price_list_id"?: ((string) | (null));
             /**
              * What this customer owes you on invoices: the outstanding and overdue amounts, one
              * balance per currency. Present only when `expand` includes `receivables`. anyOf[1]
              * (Value): {@link CustomerReceivablesPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null) | (unknown));
+            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null));
             /**
              * Free-form label you assign, such as wholesale, so promotion and delivery rules can
              * match groups of customers. It is not an ID; Flint does not check it against any
              * resource. `null` when none is set. Not returned to customer sessions. anyOf[1]
-             * (Value): string or null. Free-form label you assign, such as wholesale, so promotion
-             * and delivery rules can match groups of customers. It is not an ID; Flint does not
-             * check it against any resource. `null` when none is set. Not returned to customer
-             * sessions. anyOf[2] (Value): null.
+             * (Value): string. Free-form label you assign, such as wholesale, so promotion and
+             * delivery rules can match groups of customers. It is not an ID; Flint does not check
+             * it against any resource. `null` when none is set. Not returned to customer sessions.
+             * anyOf[2] (Value): null.
              */
-            "segment"?: ((string | null) | (null) | (unknown));
+            "segment"?: ((string) | (null));
             /**
              * The customer's default shipping address: a copy of the address of the saved address
              * marked is_default_shipping. Read-only; change it through
              * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1] (Value): ({@link
-             * AddressPreviousAttributes} or null). The customer's default shipping address: a copy
-             * of the address of the saved address marked is_default_shipping. Read-only; change it
-             * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
-             * saved address is the shipping default. anyOf[1].anyOf[1] (Value): {@link
-             * AddressPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * address is the shipping default. anyOf[1] (Value): {@link
+             * AddressPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "shipping_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "shipping_address"?: ((AddressPreviousAttributes) | (null));
             /**
              * Where the customer is in the deletion lifecycle. Value enum: "active",
              * "deletion_processing", "deleted". anyOf[1] (Value): string. Where the customer is in
@@ -1243,13 +1100,9 @@ export type CustomerUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             /**
              * Legal name, registered address and tax IDs printed on this customer's invoices and
              * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
-             * (Value): ({@link TaxIdentityPreviousAttributes} or null). Legal name, registered
-             * address and tax IDs printed on this customer's invoices and credit notes. `null`
-             * when none is set. Always `null` for customer sessions. anyOf[1].anyOf[1] (Value):
-             * {@link TaxIdentityPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * (Value): {@link TaxIdentityPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "tax_identity"?: (((((TaxIdentityPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "tax_identity"?: ((TaxIdentityPreviousAttributes) | (null));
             /**
              * ID of the test clock the customer was created on. The customer and its subscriptions
              * read the clock's `frozen_at` as the current time. Present only for customers created
@@ -1406,24 +1259,18 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * delivery's API version. Nested changes include the whole previous top-level value. A value
      * is null when the field was absent before the change. Omitted when Flint did not record the
      * previous state, including synthetic test events. previous_attributes.billing_address
-     * (Optional): ({@link AddressPreviousAttributes} or null) or null. The customer's default
-     * billing address: a copy of the address of the saved address marked is_default_billing.
-     * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with
-     * no other tax location at this address. `null` when no saved address is the billing default.
-     * previous_attributes.billing_address.anyOf[1] (Value): ({@link AddressPreviousAttributes} or
-     * null). The customer's default billing address: a copy of the address of the saved address
-     * marked is_default_billing. Read-only; change it through
-     * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this
-     * address. `null` when no saved address is the billing default.
-     * previous_attributes.billing_address.anyOf[1].anyOf[1] (Value): {@link
-     * AddressPreviousAttributes}. previous_attributes.billing_address.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.billing_address.anyOf[2] (Value): null.
-     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
-     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
-     * null. previous_attributes.customer_id (Optional): string or null. Unique identifier for this
-     * customer, prefixed `cus_`. previous_attributes.customer_id.anyOf[1] (Value): string. Unique
-     * identifier for this customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link AddressPreviousAttributes} or null. The customer's default billing
+     * address: a copy of the address of the saved address marked is_default_billing. Read-only;
+     * change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other
+     * tax location at this address. `null` when no saved address is the billing default.
+     * previous_attributes.billing_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
+     * previous_attributes.billing_address.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. Unique identifier for this customer, prefixed `cus_`.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. Unique identifier for this
+     * customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.default_invoice_payment_term_id (Optional): string or null. ID of the
      * invoice payment term that applies to this customer's invoices created with
@@ -1433,35 +1280,30 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * `payment_due.type` set to `customer_default`. Absent when none is set. Example:
      * "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * previous_attributes.default_invoice_payment_term_id.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method (Optional): ({@link
-     * ExpandedPaymentMethodSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `default_payment_method`; `null` when expanded and there is no related payment
-     * method. previous_attributes.default_payment_method.anyOf[1] (Value): ({@link
-     * ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `default_payment_method`; `null` when expanded and there is no related payment
-     * method. previous_attributes.default_payment_method.anyOf[1].anyOf[1] (Value): {@link
+     * previous_attributes.default_payment_method (Optional): {@link
+     * ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `default_payment_method`; `null` when expanded and there is no related payment method.
+     * previous_attributes.default_payment_method.anyOf[1] (Value): {@link
      * ExpandedPaymentMethodSummaryPreviousAttributes}.
-     * previous_attributes.default_payment_method.anyOf[1].anyOf[2] (Value): null.
      * previous_attributes.default_payment_method.anyOf[2] (Value): null.
-     * previous_attributes.default_payment_method_id (Optional): string or null or null. ID of the
+     * previous_attributes.default_payment_method_id (Optional): string or null. ID of the
      * customer's default off-session payment method. `null` when none is set.
-     * previous_attributes.default_payment_method_id.anyOf[1] (Value): string or null. ID of the
-     * customer's default off-session payment method. `null` when none is set. Example:
+     * previous_attributes.default_payment_method_id.anyOf[1] (Value): string. ID of the customer's
+     * default off-session payment method. `null` when none is set. Example:
      * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.default_payment_method_id.anyOf[2]
-     * (Value): null. previous_attributes.email (Optional): string or null or null. Customer email.
-     * `null` when the customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[1] (Value): string or null. Customer email. `null` when the
-     * customer has none. Unique among the environment's customers.
-     * previous_attributes.email.anyOf[2] (Value): null. previous_attributes.external_reference_id
-     * (Optional): string or null or null. Caller-owned identifier for this customer in an external
-     * system. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string or null. Caller-owned
-     * identifier for this customer in an external system. `null` when none is set. Not returned to
-     * customer sessions. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.internal_note (Optional): string or null or null. Internal note about
-     * this customer. `null` when none is set. Not returned to customer sessions.
-     * previous_attributes.internal_note.anyOf[1] (Value): string or null. Internal note about this
+     * (Value): null. previous_attributes.email (Optional): string or null. Customer email. `null`
+     * when the customer has none. Unique among the environment's customers.
+     * previous_attributes.email.anyOf[1] (Value): string. Customer email. `null` when the customer
+     * has none. Unique among the environment's customers. previous_attributes.email.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this customer in an external system. `null` when none is set.
+     * Not returned to customer sessions. previous_attributes.external_reference_id.anyOf[1]
+     * (Value): string. Caller-owned identifier for this customer in an external system. `null`
+     * when none is set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.internal_note (Optional): string or null. Internal note about this
+     * customer. `null` when none is set. Not returned to customer sessions.
+     * previous_attributes.internal_note.anyOf[1] (Value): string. Internal note about this
      * customer. `null` when none is set. Not returned to customer sessions.
      * previous_attributes.internal_note.anyOf[2] (Value): null.
      * previous_attributes.is_merchant_verified (Optional): boolean or null. Flag you set on the
@@ -1479,16 +1321,15 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
      * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null or null. Customer name. `null` when none
-     * is set. previous_attributes.name.anyOf[1] (Value): string or null. Customer name. `null`
-     * when none is set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.phone
-     * (Optional): string or null or null. Customer phone number. `null` when none is set.
-     * previous_attributes.phone.anyOf[1] (Value): string or null. Customer phone number. `null`
-     * when none is set. previous_attributes.phone.anyOf[2] (Value): null.
-     * previous_attributes.price_list_id (Optional): string or null or null. ID of the customer's
-     * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
-     * does not apply. Not returned to customer sessions.
-     * previous_attributes.price_list_id.anyOf[1] (Value): string or null. ID of the customer's
+     * previous_attributes.name (Optional): string or null. Customer name. `null` when none is set.
+     * previous_attributes.name.anyOf[1] (Value): string. Customer name. `null` when none is set.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.phone (Optional):
+     * string or null. Customer phone number. `null` when none is set.
+     * previous_attributes.phone.anyOf[1] (Value): string. Customer phone number. `null` when none
+     * is set. previous_attributes.phone.anyOf[2] (Value): null. previous_attributes.price_list_id
+     * (Optional): string or null. ID of the customer's direct wholesale price list. `null` when
+     * none is set. An inactive list can be assigned but does not apply. Not returned to customer
+     * sessions. previous_attributes.price_list_id.anyOf[1] (Value): string. ID of the customer's
      * direct wholesale price list. `null` when none is set. An inactive list can be assigned but
      * does not apply. Not returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
      * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". previous_attributes.price_list_id.anyOf[2]
@@ -1497,24 +1338,19 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * outstanding and overdue amounts, one balance per currency. Present only when `expand`
      * includes `receivables`. previous_attributes.receivables.anyOf[1] (Value): {@link
      * CustomerReceivablesPreviousAttributes}. previous_attributes.receivables.anyOf[2] (Value):
-     * null. previous_attributes.segment (Optional): string or null or null. Free-form label you
-     * assign, such as wholesale, so promotion and delivery rules can match groups of customers. It
-     * is not an ID; Flint does not check it against any resource. `null` when none is set. Not
-     * returned to customer sessions. previous_attributes.segment.anyOf[1] (Value): string or null.
-     * Free-form label you assign, such as wholesale, so promotion and delivery rules can match
-     * groups of customers. It is not an ID; Flint does not check it against any resource. `null`
-     * when none is set. Not returned to customer sessions. previous_attributes.segment.anyOf[2]
-     * (Value): null. previous_attributes.shipping_address (Optional): ({@link
-     * AddressPreviousAttributes} or null) or null. The customer's default shipping address: a copy
-     * of the address of the saved address marked is_default_shipping. Read-only; change it through
+     * null. previous_attributes.segment (Optional): string or null. Free-form label you assign,
+     * such as wholesale, so promotion and delivery rules can match groups of customers. It is not
+     * an ID; Flint does not check it against any resource. `null` when none is set. Not returned
+     * to customer sessions. previous_attributes.segment.anyOf[1] (Value): string. Free-form label
+     * you assign, such as wholesale, so promotion and delivery rules can match groups of
+     * customers. It is not an ID; Flint does not check it against any resource. `null` when none
+     * is set. Not returned to customer sessions. previous_attributes.segment.anyOf[2] (Value):
+     * null. previous_attributes.shipping_address (Optional): {@link AddressPreviousAttributes} or
+     * null. The customer's default shipping address: a copy of the address of the saved address
+     * marked is_default_shipping. Read-only; change it through
      * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is
-     * the shipping default. previous_attributes.shipping_address.anyOf[1] (Value): ({@link
-     * AddressPreviousAttributes} or null). The customer's default shipping address: a copy of the
-     * address of the saved address marked is_default_shipping. Read-only; change it through
-     * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is
-     * the shipping default. previous_attributes.shipping_address.anyOf[1].anyOf[1] (Value): {@link
-     * AddressPreviousAttributes}. previous_attributes.shipping_address.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.shipping_address.anyOf[2] (Value): null.
+     * the shipping default. previous_attributes.shipping_address.anyOf[1] (Value): {@link
+     * AddressPreviousAttributes}. previous_attributes.shipping_address.anyOf[2] (Value): null.
      * previous_attributes.status (Optional): string or null. Where the customer is in the deletion
      * lifecycle. Value enum: "active", "deletion_processing", "deleted".
      * previous_attributes.status.anyOf[1] (Value): string. Where the customer is in the deletion
@@ -1525,22 +1361,18 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * previous_attributes.tax_exempt.anyOf[1] (Value): boolean. Whether Flint treats this customer
      * as exempt from tax on their orders, so it skips tax calculation for them. Not returned to
      * customer sessions. previous_attributes.tax_exempt.anyOf[2] (Value): null.
-     * previous_attributes.tax_identity (Optional): ({@link TaxIdentityPreviousAttributes} or null)
-     * or null. Legal name, registered address and tax IDs printed on this customer's invoices and
-     * credit notes. `null` when none is set. Always `null` for customer sessions.
-     * previous_attributes.tax_identity.anyOf[1] (Value): ({@link TaxIdentityPreviousAttributes} or
-     * null). Legal name, registered address and tax IDs printed on this customer's invoices and
-     * credit notes. `null` when none is set. Always `null` for customer sessions.
-     * previous_attributes.tax_identity.anyOf[1].anyOf[1] (Value): {@link
-     * TaxIdentityPreviousAttributes}. previous_attributes.tax_identity.anyOf[1].anyOf[2] (Value):
-     * null. previous_attributes.tax_identity.anyOf[2] (Value): null.
-     * previous_attributes.test_clock_id (Optional): string or null. ID of the test clock the
+     * previous_attributes.tax_identity (Optional): {@link TaxIdentityPreviousAttributes} or null.
+     * Legal name, registered address and tax IDs printed on this customer's invoices and credit
+     * notes. `null` when none is set. Always `null` for customer sessions.
+     * previous_attributes.tax_identity.anyOf[1] (Value): {@link TaxIdentityPreviousAttributes}.
+     * previous_attributes.tax_identity.anyOf[2] (Value): null. previous_attributes.test_clock_id
+     * (Optional): string or null. ID of the test clock the customer was created on. The customer
+     * and its subscriptions read the clock's `frozen_at` as the current time. Present only for
+     * customers created on a test clock. Not returned to customer sessions.
+     * previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the test clock the
      * customer was created on. The customer and its subscriptions read the clock's `frozen_at` as
      * the current time. Present only for customers created on a test clock. Not returned to
-     * customer sessions. previous_attributes.test_clock_id.anyOf[1] (Value): string. ID of the
-     * test clock the customer was created on. The customer and its subscriptions read the clock's
-     * `frozen_at` as the current time. Present only for customers created on a test clock. Not
-     * returned to customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     * customer sessions. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * previous_attributes.test_clock_id.anyOf[2] (Value): null. previous_attributes.updated_at
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -1788,17 +1620,12 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. billing_address (Optional): ({@link
-         * AddressPreviousAttributes} or null) or null. The customer's default billing address: a
-         * copy of the address of the saved address marked is_default_billing. Read-only; change it
-         * through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax
-         * location at this address. `null` when no saved address is the billing default.
-         * billing_address.anyOf[1] (Value): ({@link AddressPreviousAttributes} or null). The
-         * customer's default billing address: a copy of the address of the saved address marked
-         * is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses.
-         * Flint taxes orders with no other tax location at this address. `null` when no saved
-         * address is the billing default. billing_address.anyOf[1].anyOf[1] (Value): {@link
-         * AddressPreviousAttributes}. billing_address.anyOf[1].anyOf[2] (Value): null.
+         * state, including synthetic test events. billing_address (Optional): {@link
+         * AddressPreviousAttributes} or null. The customer's default billing address: a copy of
+         * the address of the saved address marked is_default_billing. Read-only; change it through
+         * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at
+         * this address. `null` when no saved address is the billing default.
+         * billing_address.anyOf[1] (Value): {@link AddressPreviousAttributes}.
          * billing_address.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339
          * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
          * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id
@@ -1811,94 +1638,80 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * (Value): string. ID of the invoice payment term that applies to this customer's invoices
          * created with `payment_due.type` set to `customer_default`. Absent when none is set.
          * Example: "ipt_01KEZF7C0064N1V301BBMQ37R4". default_invoice_payment_term_id.anyOf[2]
-         * (Value): null. default_payment_method (Optional): ({@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes} or null) or null. Present only when
-         * `expand` includes `default_payment_method`; `null` when expanded and there is no related
-         * payment method. default_payment_method.anyOf[1] (Value): ({@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand`
+         * (Value): null. default_payment_method (Optional): {@link
+         * ExpandedPaymentMethodSummaryPreviousAttributes} or null. Present only when `expand`
          * includes `default_payment_method`; `null` when expanded and there is no related payment
-         * method. default_payment_method.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentMethodSummaryPreviousAttributes}.
-         * default_payment_method.anyOf[1].anyOf[2] (Value): null. default_payment_method.anyOf[2]
-         * (Value): null. default_payment_method_id (Optional): string or null or null. ID of the
+         * method. default_payment_method.anyOf[1] (Value): {@link
+         * ExpandedPaymentMethodSummaryPreviousAttributes}. default_payment_method.anyOf[2]
+         * (Value): null. default_payment_method_id (Optional): string or null. ID of the
          * customer's default off-session payment method. `null` when none is set.
-         * default_payment_method_id.anyOf[1] (Value): string or null. ID of the customer's default
+         * default_payment_method_id.anyOf[1] (Value): string. ID of the customer's default
          * off-session payment method. `null` when none is set. Example:
          * "pm_01KEZF7C0034B248TXXE4NXYFZ". default_payment_method_id.anyOf[2] (Value): null. email
-         * (Optional): string or null or null. Customer email. `null` when the customer has none.
-         * Unique among the environment's customers. email.anyOf[1] (Value): string or null.
-         * Customer email. `null` when the customer has none. Unique among the environment's
-         * customers. email.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null or null. Caller-owned identifier for this customer in an external system. `null`
-         * when none is set. Not returned to customer sessions. external_reference_id.anyOf[1]
-         * (Value): string or null. Caller-owned identifier for this customer in an external
-         * system. `null` when none is set. Not returned to customer sessions. minLength: 1.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * internal_note (Optional): string or null or null. Internal note about this customer.
-         * `null` when none is set. Not returned to customer sessions. internal_note.anyOf[1]
-         * (Value): string or null. Internal note about this customer. `null` when none is set. Not
-         * returned to customer sessions. internal_note.anyOf[2] (Value): null.
-         * is_merchant_verified (Optional): boolean or null. Flag you set on the customer, for
+         * (Optional): string or null. Customer email. `null` when the customer has none. Unique
+         * among the environment's customers. email.anyOf[1] (Value): string. Customer email.
+         * `null` when the customer has none. Unique among the environment's customers.
+         * email.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this customer in an external system. `null` when none is
+         * set. Not returned to customer sessions. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this customer in an external system. `null` when none is
+         * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+         * "warehouse-1842". external_reference_id.anyOf[2] (Value): null. internal_note
+         * (Optional): string or null. Internal note about this customer. `null` when none is set.
+         * Not returned to customer sessions. internal_note.anyOf[1] (Value): string. Internal note
+         * about this customer. `null` when none is set. Not returned to customer sessions.
+         * internal_note.anyOf[2] (Value): null. is_merchant_verified (Optional): boolean or null.
+         * Flag you set on the customer, for example after checking ID in store. Promotion and
+         * delivery rules can match it. Flint does not set it; it is unrelated to customer
+         * verifications, which prove a buyer controls an email address.
+         * is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the customer, for
          * example after checking ID in store. Promotion and delivery rules can match it. Flint
          * does not set it; it is unrelated to customer verifications, which prove a buyer controls
-         * an email address. is_merchant_verified.anyOf[1] (Value): boolean. Flag you set on the
-         * customer, for example after checking ID in store. Promotion and delivery rules can match
-         * it. Flint does not set it; it is unrelated to customer verifications, which prove a
-         * buyer controls an email address. is_merchant_verified.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. ID of the merchant this resource belongs to.
-         * merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * an email address. is_merchant_verified.anyOf[2] (Value): null. merchant_id (Optional):
+         * string or null. ID of the merchant this resource belongs to. merchant_id.anyOf[1]
+         * (Value): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
          * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
-         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null or null.
-         * Customer name. `null` when none is set. name.anyOf[1] (Value): string or null. Customer
-         * name. `null` when none is set. name.anyOf[2] (Value): null. phone (Optional): string or
-         * null or null. Customer phone number. `null` when none is set. phone.anyOf[1] (Value):
-         * string or null. Customer phone number. `null` when none is set. phone.anyOf[2] (Value):
-         * null. price_list_id (Optional): string or null or null. ID of the customer's direct
-         * wholesale price list. `null` when none is set. An inactive list can be assigned but does
-         * not apply. Not returned to customer sessions. price_list_id.anyOf[1] (Value): string or
-         * null. ID of the customer's direct wholesale price list. `null` when none is set. An
-         * inactive list can be assigned but does not apply. Not returned to customer sessions.
-         * pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-         * price_list_id.anyOf[2] (Value): null. receivables (Optional): {@link
-         * CustomerReceivablesPreviousAttributes} or null. What this customer owes you on invoices:
-         * the outstanding and overdue amounts, one balance per currency. Present only when
-         * `expand` includes `receivables`. receivables.anyOf[1] (Value): {@link
-         * CustomerReceivablesPreviousAttributes}. receivables.anyOf[2] (Value): null. segment
-         * (Optional): string or null or null. Free-form label you assign, such as wholesale, so
-         * promotion and delivery rules can match groups of customers. It is not an ID; Flint does
-         * not check it against any resource. `null` when none is set. Not returned to customer
-         * sessions. segment.anyOf[1] (Value): string or null. Free-form label you assign, such as
+         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. Customer
+         * name. `null` when none is set. name.anyOf[1] (Value): string. Customer name. `null` when
+         * none is set. name.anyOf[2] (Value): null. phone (Optional): string or null. Customer
+         * phone number. `null` when none is set. phone.anyOf[1] (Value): string. Customer phone
+         * number. `null` when none is set. phone.anyOf[2] (Value): null. price_list_id (Optional):
+         * string or null. ID of the customer's direct wholesale price list. `null` when none is
+         * set. An inactive list can be assigned but does not apply. Not returned to customer
+         * sessions. price_list_id.anyOf[1] (Value): string. ID of the customer's direct wholesale
+         * price list. `null` when none is set. An inactive list can be assigned but does not
+         * apply. Not returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+         * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". price_list_id.anyOf[2] (Value): null.
+         * receivables (Optional): {@link CustomerReceivablesPreviousAttributes} or null. What this
+         * customer owes you on invoices: the outstanding and overdue amounts, one balance per
+         * currency. Present only when `expand` includes `receivables`. receivables.anyOf[1]
+         * (Value): {@link CustomerReceivablesPreviousAttributes}. receivables.anyOf[2] (Value):
+         * null. segment (Optional): string or null. Free-form label you assign, such as wholesale,
+         * so promotion and delivery rules can match groups of customers. It is not an ID; Flint
+         * does not check it against any resource. `null` when none is set. Not returned to
+         * customer sessions. segment.anyOf[1] (Value): string. Free-form label you assign, such as
          * wholesale, so promotion and delivery rules can match groups of customers. It is not an
          * ID; Flint does not check it against any resource. `null` when none is set. Not returned
          * to customer sessions. segment.anyOf[2] (Value): null. shipping_address (Optional):
-         * ({@link AddressPreviousAttributes} or null) or null. The customer's default shipping
-         * address: a copy of the address of the saved address marked is_default_shipping.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills
-         * it. `null` when no saved address is the shipping default. shipping_address.anyOf[1]
-         * (Value): ({@link AddressPreviousAttributes} or null). The customer's default shipping
-         * address: a copy of the address of the saved address marked is_default_shipping.
-         * Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills
-         * it. `null` when no saved address is the shipping default.
-         * shipping_address.anyOf[1].anyOf[1] (Value): {@link AddressPreviousAttributes}.
-         * shipping_address.anyOf[1].anyOf[2] (Value): null. shipping_address.anyOf[2] (Value):
-         * null. status (Optional): string or null. Where the customer is in the deletion
-         * lifecycle. Value enum: "active", "deletion_processing", "deleted". status.anyOf[1]
-         * (Value): string. Where the customer is in the deletion lifecycle. Value enum: "active",
-         * "deletion_processing", "deleted". status.anyOf[2] (Value): null. tax_exempt (Optional):
-         * boolean or null. Whether Flint treats this customer as exempt from tax on their orders,
-         * so it skips tax calculation for them. Not returned to customer sessions.
-         * tax_exempt.anyOf[1] (Value): boolean. Whether Flint treats this customer as exempt from
-         * tax on their orders, so it skips tax calculation for them. Not returned to customer
-         * sessions. tax_exempt.anyOf[2] (Value): null. tax_identity (Optional): ({@link
-         * TaxIdentityPreviousAttributes} or null) or null. Legal name, registered address and tax
-         * IDs printed on this customer's invoices and credit notes. `null` when none is set.
-         * Always `null` for customer sessions. tax_identity.anyOf[1] (Value): ({@link
-         * TaxIdentityPreviousAttributes} or null). Legal name, registered address and tax IDs
-         * printed on this customer's invoices and credit notes. `null` when none is set. Always
-         * `null` for customer sessions. tax_identity.anyOf[1].anyOf[1] (Value): {@link
-         * TaxIdentityPreviousAttributes}. tax_identity.anyOf[1].anyOf[2] (Value): null.
+         * {@link AddressPreviousAttributes} or null. The customer's default shipping address: a
+         * copy of the address of the saved address marked is_default_shipping. Read-only; change
+         * it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
+         * saved address is the shipping default. shipping_address.anyOf[1] (Value): {@link
+         * AddressPreviousAttributes}. shipping_address.anyOf[2] (Value): null. status (Optional):
+         * string or null. Where the customer is in the deletion lifecycle. Value enum: "active",
+         * "deletion_processing", "deleted". status.anyOf[1] (Value): string. Where the customer is
+         * in the deletion lifecycle. Value enum: "active", "deletion_processing", "deleted".
+         * status.anyOf[2] (Value): null. tax_exempt (Optional): boolean or null. Whether Flint
+         * treats this customer as exempt from tax on their orders, so it skips tax calculation for
+         * them. Not returned to customer sessions. tax_exempt.anyOf[1] (Value): boolean. Whether
+         * Flint treats this customer as exempt from tax on their orders, so it skips tax
+         * calculation for them. Not returned to customer sessions. tax_exempt.anyOf[2] (Value):
+         * null. tax_identity (Optional): {@link TaxIdentityPreviousAttributes} or null. Legal
+         * name, registered address and tax IDs printed on this customer's invoices and credit
+         * notes. `null` when none is set. Always `null` for customer sessions.
+         * tax_identity.anyOf[1] (Value): {@link TaxIdentityPreviousAttributes}.
          * tax_identity.anyOf[2] (Value): null. test_clock_id (Optional): string or null. ID of the
          * test clock the customer was created on. The customer and its subscriptions read the
          * clock's `frozen_at` as the current time. Present only for customers created on a test
@@ -1924,14 +1737,9 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * marked is_default_billing. Read-only; change it through
              * /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location
              * at this address. `null` when no saved address is the billing default. anyOf[1]
-             * (Value): ({@link AddressPreviousAttributes} or null). The customer's default billing
-             * address: a copy of the address of the saved address marked is_default_billing.
-             * Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes
-             * orders with no other tax location at this address. `null` when no saved address is
-             * the billing default. anyOf[1].anyOf[1] (Value): {@link AddressPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "billing_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "billing_address"?: ((AddressPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1953,41 +1761,37 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "default_invoice_payment_term_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `default_payment_method`; `null` when expanded
-             * and there is no related payment method. anyOf[1] (Value): ({@link
-             * ExpandedPaymentMethodSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `default_payment_method`; `null` when expanded and there is no related
-             * payment method. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * and there is no related payment method. anyOf[1] (Value): {@link
+             * ExpandedPaymentMethodSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "default_payment_method"?: (((((ExpandedPaymentMethodSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "default_payment_method"?: ((ExpandedPaymentMethodSummaryPreviousAttributes) | (null));
             /**
              * ID of the customer's default off-session payment method. `null` when none is set.
-             * anyOf[1] (Value): string or null. ID of the customer's default off-session payment
-             * method. `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2]
-             * (Value): null.
+             * anyOf[1] (Value): string. ID of the customer's default off-session payment method.
+             * `null` when none is set. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value):
+             * null.
              */
-            "default_payment_method_id"?: ((string | null) | (null) | (unknown));
+            "default_payment_method_id"?: ((string) | (null));
             /**
              * Customer email. `null` when the customer has none. Unique among the environment's
-             * customers. anyOf[1] (Value): string or null. Customer email. `null` when the
-             * customer has none. Unique among the environment's customers. anyOf[2] (Value): null.
+             * customers. anyOf[1] (Value): string. Customer email. `null` when the customer has
+             * none. Unique among the environment's customers. anyOf[2] (Value): null.
              */
-            "email"?: ((string | null) | (null) | (unknown));
+            "email"?: ((string) | (null));
             /**
              * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. anyOf[1] (Value): string or null.
-             * Caller-owned identifier for this customer in an external system. `null` when none is
-             * set. Not returned to customer sessions. minLength: 1. maxLength: 255. Example:
+             * set. Not returned to customer sessions. anyOf[1] (Value): string. Caller-owned
+             * identifier for this customer in an external system. `null` when none is set. Not
+             * returned to customer sessions. minLength: 1. maxLength: 255. Example:
              * "warehouse-1842". anyOf[2] (Value): null.
              */
-            "external_reference_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
             /**
              * Internal note about this customer. `null` when none is set. Not returned to customer
-             * sessions. anyOf[1] (Value): string or null. Internal note about this customer.
-             * `null` when none is set. Not returned to customer sessions. anyOf[2] (Value): null.
+             * sessions. anyOf[1] (Value): string. Internal note about this customer. `null` when
+             * none is set. Not returned to customer sessions. anyOf[2] (Value): null.
              */
-            "internal_note"?: ((string | null) | (null) | (unknown));
+            "internal_note"?: ((string) | (null));
             /**
              * Flag you set on the customer, for example after checking ID in store. Promotion and
              * delivery rules can match it. Flint does not set it; it is unrelated to customer
@@ -2008,54 +1812,50 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
-             * Customer name. `null` when none is set. anyOf[1] (Value): string or null. Customer
-             * name. `null` when none is set. anyOf[2] (Value): null.
+             * Customer name. `null` when none is set. anyOf[1] (Value): string. Customer name.
+             * `null` when none is set. anyOf[2] (Value): null.
              */
-            "name"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
             /**
-             * Customer phone number. `null` when none is set. anyOf[1] (Value): string or null.
-             * Customer phone number. `null` when none is set. anyOf[2] (Value): null.
+             * Customer phone number. `null` when none is set. anyOf[1] (Value): string. Customer
+             * phone number. `null` when none is set. anyOf[2] (Value): null.
              */
-            "phone"?: ((string | null) | (null) | (unknown));
+            "phone"?: ((string) | (null));
             /**
              * ID of the customer's direct wholesale price list. `null` when none is set. An
              * inactive list can be assigned but does not apply. Not returned to customer sessions.
-             * anyOf[1] (Value): string or null. ID of the customer's direct wholesale price list.
-             * `null` when none is set. An inactive list can be assigned but does not apply. Not
-             * returned to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * anyOf[1] (Value): string. ID of the customer's direct wholesale price list. `null`
+             * when none is set. An inactive list can be assigned but does not apply. Not returned
+             * to customer sessions. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
              * "prl_01KEZF7C00EH39P59GN3XMGS2Q". anyOf[2] (Value): null.
              */
-            "price_list_id"?: ((string | null) | (null) | (unknown));
+            "price_list_id"?: ((string) | (null));
             /**
              * What this customer owes you on invoices: the outstanding and overdue amounts, one
              * balance per currency. Present only when `expand` includes `receivables`. anyOf[1]
              * (Value): {@link CustomerReceivablesPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null) | (unknown));
+            "receivables"?: ((CustomerReceivablesPreviousAttributes) | (null));
             /**
              * Free-form label you assign, such as wholesale, so promotion and delivery rules can
              * match groups of customers. It is not an ID; Flint does not check it against any
              * resource. `null` when none is set. Not returned to customer sessions. anyOf[1]
-             * (Value): string or null. Free-form label you assign, such as wholesale, so promotion
-             * and delivery rules can match groups of customers. It is not an ID; Flint does not
-             * check it against any resource. `null` when none is set. Not returned to customer
-             * sessions. anyOf[2] (Value): null.
+             * (Value): string. Free-form label you assign, such as wholesale, so promotion and
+             * delivery rules can match groups of customers. It is not an ID; Flint does not check
+             * it against any resource. `null` when none is set. Not returned to customer sessions.
+             * anyOf[2] (Value): null.
              */
-            "segment"?: ((string | null) | (null) | (unknown));
+            "segment"?: ((string) | (null));
             /**
              * The customer's default shipping address: a copy of the address of the saved address
              * marked is_default_shipping. Read-only; change it through
              * /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved
-             * address is the shipping default. anyOf[1] (Value): ({@link
-             * AddressPreviousAttributes} or null). The customer's default shipping address: a copy
-             * of the address of the saved address marked is_default_shipping. Read-only; change it
-             * through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no
-             * saved address is the shipping default. anyOf[1].anyOf[1] (Value): {@link
-             * AddressPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * address is the shipping default. anyOf[1] (Value): {@link
+             * AddressPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "shipping_address"?: (((((AddressPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "shipping_address"?: ((AddressPreviousAttributes) | (null));
             /**
              * Where the customer is in the deletion lifecycle. Value enum: "active",
              * "deletion_processing", "deleted". anyOf[1] (Value): string. Where the customer is in
@@ -2074,13 +1874,9 @@ export type CustomerUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             /**
              * Legal name, registered address and tax IDs printed on this customer's invoices and
              * credit notes. `null` when none is set. Always `null` for customer sessions. anyOf[1]
-             * (Value): ({@link TaxIdentityPreviousAttributes} or null). Legal name, registered
-             * address and tax IDs printed on this customer's invoices and credit notes. `null`
-             * when none is set. Always `null` for customer sessions. anyOf[1].anyOf[1] (Value):
-             * {@link TaxIdentityPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * (Value): {@link TaxIdentityPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "tax_identity"?: (((((TaxIdentityPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "tax_identity"?: ((TaxIdentityPreviousAttributes) | (null));
             /**
              * ID of the test clock the customer was created on. The customer and its subscriptions
              * read the clock's `frozen_at` as the current time. Present only for customers created
@@ -2782,10 +2578,10 @@ export type DeferredPromotionPreviousAttributes = {
     "deferred_promotion_id"?: ((string) | (null));
     /**
      * Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1]
-     * (Value): string or null. Promotion code accepted at signup. Null when the promotion was
-     * applied by ID. anyOf[2] (Value): null.
+     * (Value): string. Promotion code accepted at signup. Null when the promotion was applied by
+     * ID. anyOf[2] (Value): null.
      */
-    "promotion_code"?: ((string | null) | (null) | (unknown));
+    "promotion_code"?: ((string) | (null));
     /**
      * ID of the promotion accepted for the subscription. anyOf[1] (Value): string. ID of the
      * promotion accepted for the subscription. Example: "promo_01KEZF7C00E1JAV4M413D9DE1P".
@@ -2826,7 +2622,7 @@ export type DeliveryAddressAdvisoryResourcePreviousAttributes = {
      * Omitted for a checkout session credential that doesn't act for the customer the buyer
      * verified. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "suggested_address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "suggested_address"?: ((AddressPreviousAttributes) | (null));
     /**
      * How far address verification got. Value enum: "needs_review", "unverifiable". anyOf[1]
      * (Value): string. How far address verification got. Value enum: "needs_review",
@@ -3067,4 +2863,16 @@ export type DeliveryBusinessDayRange = {
     "maximum": number;
     /** Fewest business days, from 0. */
     "minimum": number;
+};
+export type DeliveryBusinessDayRangePreviousAttributes = {
+    /**
+     * Most business days, from `minimum` to 365. anyOf[1] (Value): integer. Most business days,
+     * from `minimum` to 365. anyOf[2] (Value): null.
+     */
+    "maximum"?: ((number) | (null));
+    /**
+     * Fewest business days, from 0. anyOf[1] (Value): integer. Fewest business days, from 0.
+     * anyOf[2] (Value): null.
+     */
+    "minimum"?: ((number) | (null));
 };

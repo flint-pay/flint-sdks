@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read list<RefundLineItemAdjustmentRefundPreviousAttributes>|null $adjustment_refunds
  * @property-read list<RefundLineItemAdjustmentPreviousAttributes>|null $adjustments
- * @property-read mixed $automatic_refund
+ * @property-read RefundLineItemAutomaticRefundPreviousAttributes|null $automatic_refund
  * @property-read string|null $bundle_id
  * @property-read list<CategoryReferencePreviousAttributes>|null $categories
  * @property-read list<RefundLineItemModifierAllocationPreviousAttributes>|null $modifiers
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string|null $order_line_item_id
  * @property-read string|null $product_id
  * @property-read int|null $quantity
- * @property-read mixed $refunded_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_money
  * @property-read list<SelectedProductOptionPreviousAttributes>|null $selected_options
  * @property-read string|null $sku
  * @property-read string|null $source_type
@@ -34,9 +34,9 @@ final class RefundLineItemAllocationPreviousAttributes extends Model {
     public function getAdjustments(): array|null { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
     /** What Flint calculated for the refunded portion of the line before adjustments. anyOf[1] (Value): {@see RefundLineItemAutomaticRefundPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return RefundLineItemAutomaticRefundPreviousAttributes|null
      */
-    public function getAutomaticRefund(): mixed { return $this->get('automatic_refund'); }
+    public function getAutomaticRefund(): RefundLineItemAutomaticRefundPreviousAttributes|null { return $this->get('automatic_refund'); }
     public function hasAutomaticRefund(): bool { return $this->has('automatic_refund'); }
     /** ID of the bundle the line was sold from. anyOf[1] (Value): string. ID of the bundle the line was sold from. anyOf[2] (Value): null.
      * @return string|null
@@ -74,9 +74,9 @@ final class RefundLineItemAllocationPreviousAttributes extends Model {
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
     /** Amount refunded for this line: the automatic refund less adjustments, plus any refunds back against earlier adjustments. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
+    public function getRefundedMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
     /** Variant options selected for the item, such as size and color. anyOf[1] (Value): Array of {@see SelectedProductOptionPreviousAttributes}. Variant options selected for the item, such as size and color. anyOf[1][] (Value): {@see SelectedProductOptionPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<SelectedProductOptionPreviousAttributes>|null

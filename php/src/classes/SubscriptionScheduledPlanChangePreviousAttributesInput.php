@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string|null $billing_interval
  * @property-read int|null $billing_interval_count
- * @property-read string|\DateTimeInterface|null|null $effective_at
+ * @property-read string|\DateTimeInterface|null $effective_at
  * @property-read list<SubscriptionLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $line_items
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $recurring_subtotal_money
  * @property-read string|null $requested_by
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string|null $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionScheduledPlanChangePreviousAttributesInput extends Model {
-    /** @param array{'billing_interval'?: string|null, 'billing_interval_count'?: int|null, 'effective_at'?: string|\DateTimeInterface|null|null, 'line_items'?: list<SubscriptionLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'recurring_subtotal_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requested_by'?: string|null, 'scheduled_at'?: string|\DateTimeInterface|null, 'subscription_plan_id'?: string|null, ...}|object $values */
+    /** @param array{'billing_interval'?: string|null, 'billing_interval_count'?: int|null, 'effective_at'?: string|\DateTimeInterface|null, 'line_items'?: list<SubscriptionLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'recurring_subtotal_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requested_by'?: string|null, 'scheduled_at'?: string|\DateTimeInterface|null, 'subscription_plan_id'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionScheduledPlanChangePreviousAttributesInput')); }
     /** The frozen target billing interval. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[1] (Value): string. The frozen target billing interval. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value): null.
      * @return string|null
@@ -26,8 +26,8 @@ final class SubscriptionScheduledPlanChangePreviousAttributesInput extends Model
      */
     public function getBillingIntervalCount(): mixed { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Expected boundary from the current billing schedule. Null when the subscription is paused without a scheduled resume or is waiting for an external billing date. anyOf[1] (Value): string or null. Expected boundary from the current billing schedule. Null when the subscription is paused without a scheduled resume or is waiting for an external billing date. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** Expected boundary from the current billing schedule. Null when the subscription is paused without a scheduled resume or is waiting for an external billing date. anyOf[1] (Value): string. Expected boundary from the current billing schedule. Null when the subscription is paused without a scheduled resume or is waiting for an external billing date. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When effective_at is omitted; use hasEffectiveAt() or valueOrDefault().
      */
     public function getEffectiveAt(): mixed { return $this->get('effective_at'); }

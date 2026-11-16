@@ -2,13 +2,13 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $created_at
  * @property-read string|null $payment_split_reversal_id
  * @property-read string|null $reason
- * @property-read mixed $reinstated_money
- * @property-read mixed $shortfall_money
- * @property-read mixed $source
+ * @property-read MoneyValuePreviousAttributes|null $reinstated_money
+ * @property-read MoneyValuePreviousAttributes|null $shortfall_money
+ * @property-read ResourceReferencePreviousAttributes|null $source
  * @property-read string|null $status
  * @property-read string|null $succeeded_at
  * Presence-aware response; omitted optional fields return null. */
@@ -16,9 +16,9 @@ final class PaymentSplitReversalPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'created_at'?: mixed, 'payment_split_reversal_id'?: mixed, 'reason'?: mixed, 'reinstated_money'?: mixed, 'shortfall_money'?: mixed, 'source'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSplitReversalPreviousAttributes')); }
     /** The split's share taken back. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** When the reversal was recorded. anyOf[1] (Value): string. When the reversal was recorded. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -36,19 +36,19 @@ final class PaymentSplitReversalPreviousAttributes extends Model {
     public function getReason(): string|null { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
     /** Funds returned to whoever funded the reversal, such as after a won dispute or failed refund. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReinstatedMoney(): mixed { return $this->get('reinstated_money'); }
+    public function getReinstatedMoney(): MoneyValuePreviousAttributes|null { return $this->get('reinstated_money'); }
     public function hasReinstatedMoney(): bool { return $this->has('reinstated_money'); }
     /** The part the collecting merchant covered. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getShortfallMoney(): mixed { return $this->get('shortfall_money'); }
+    public function getShortfallMoney(): MoneyValuePreviousAttributes|null { return $this->get('shortfall_money'); }
     public function hasShortfallMoney(): bool { return $this->has('shortfall_money'); }
     /** The refund or dispute behind the reversal. anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ResourceReferencePreviousAttributes|null
      */
-    public function getSource(): mixed { return $this->get('source'); }
+    public function getSource(): ResourceReferencePreviousAttributes|null { return $this->get('source'); }
     public function hasSource(): bool { return $this->has('source'); }
     /** The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". anyOf[1] (Value): string. The reversal lifecycle status. Value enum: "pending", "succeeded", "canceled". anyOf[2] (Value): null.
      * @return string|null

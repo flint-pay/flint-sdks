@@ -14,7 +14,7 @@ Response model.
 | `bundle_id` | Optional | string or null | ID of the bundle the line bills. Present on `bundle` lines. `bundle_id`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributesbundle_id). |
 | `categories` | Optional | Array of [CategoryReferencePreviousAttributes](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributes) or null | Catalog categories of the item, recorded when the line joined the subscription. `categories`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributescategories). |
 | `description` | Optional | string or null | Description of the item, recorded when the line joined the subscription. Omitted when none was recorded. `description`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributesdescription). |
-| `image` | Optional | Alternative shapes (see declared variants) | Image of the item, recorded when the line joined the subscription. `image`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributesimage). |
+| `image` | Optional | [ImagePreviousAttributes](../models/ImagePreviousAttributes.md#imagepreviousattributes) or null | Image of the item, recorded when the line joined the subscription. |
 | `max_quantity` | Optional | integer or null | Maximum buyer quantity, defaulting to 9999 when no bound was recorded. Merchants may set any quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. `max_quantity`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributesmax_quantity). |
 | `min_quantity` | Optional | integer or null | Minimum buyer quantity, defaulting to 1 when no bound was recorded. Whole-number quantity; fractional quantities are not supported. `min_quantity`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributesmin_quantity). |
 | `modifier_total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Sum of the line's modifier totals. |
@@ -29,7 +29,7 @@ Response model.
 | `subscription_offer_id` | Optional | string or null | ID of the subscription offer the line was bought under. Absent on plan-based subscriptions and on lines added to the subscription directly. `subscription_offer_id`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributessubscription_offer_id). |
 | `subscription_plan_line_item_id` | Optional | string or null | ID of the subscription plan line this line was copied from. A variant swap keeps it. Absent on offer-based subscriptions and on lines added to the subscription directly. `subscription_plan_line_item_id`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributessubscription_plan_line_item_id). |
 | `subtotal_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Base subtotal plus modifier total, before discounts and tax. |
-| `type` | Optional | string or null | Whether the line was sold from a catalog variant, a bundle, or a custom item. Values: `"variant"`, `"bundle"`, `"custom"`. `type`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1line_items-variant-1-fields-1type). |
+| `type` | Optional | string or null | Whether the line was sold from a catalog variant, a bundle, or a custom item. Values: `"variant"`, `"bundle"`, `"custom"`. `type`: [declared alternatives](../models/InvoiceLineItemPreviousAttributes.md#invoicelineitempreviousattributestype). |
 | `unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price of one unit before modifiers, discounts, and tax. A plan line keeps the price its plan set. A line added or swapped takes the variant's catalog price for the subscription's customer at that time, and keeps it until the line changes again. |
 | `variant_id` | Optional | string or null | ID of the catalog variant the line bills. Present on `variant` lines; a variant swap replaces it. `variant_id`: [declared alternatives](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributesvariant_id). |
 
@@ -110,41 +110,6 @@ anyOf variant 1: Description of the item, recorded when the line joined the subs
 anyOf variant 2.
 
 - Value shape: null. Description of the item, recorded when the line joined the subscription. Omitted when none was recorded. 
-
-### SubscriptionLineItemPreviousAttributes.image
-
-Image of the item, recorded when the line joined the subscription.
-
-Field definitions: [shared fields](InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1line_items-variant-1-fields-1image).
-
-### SubscriptionLineItemPreviousAttributes.image variant 1
-
-anyOf ImagePreviousAttributes.
-
-- Optional: `alt`, `height`, `url`, `width`.
-
-### SubscriptionLineItemPreviousAttributes.image variant 2
-
-anyOf variant 2.
-
-- Undeclared: `alt`, `height`, `url`, `width`.
-- Value shape: null. Image of the item, recorded when the line joined the subscription. 
-
-### SubscriptionLineItemPreviousAttributes.image variant 1.alt
-
-Declared alternatives: [ImageAttachmentPreviousAttributes.alt](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesalt).
-
-### SubscriptionLineItemPreviousAttributes.image variant 1.height
-
-Declared alternatives: [ImageAttachmentPreviousAttributes.height](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesheight).
-
-### SubscriptionLineItemPreviousAttributes.image variant 1.url
-
-Declared alternatives: [ImageAttachmentPreviousAttributes.url](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributesurl).
-
-### SubscriptionLineItemPreviousAttributes.image variant 1.width
-
-Declared alternatives: [ImageAttachmentPreviousAttributes.width](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributeswidth).
 
 ### SubscriptionLineItemPreviousAttributes.max_quantity
 
@@ -276,7 +241,7 @@ anyOf variant 2.
 
 ### SubscriptionLineItemPreviousAttributes.type
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.snapshot variant 1.line_items variant 1.[] fields 1.type](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1line_items-variant-1-fields-1type).
+Declared alternatives: [InvoiceLineItemPreviousAttributes.type](../models/InvoiceLineItemPreviousAttributes.md#invoicelineitempreviousattributestype).
 
 ### SubscriptionLineItemPreviousAttributes.variant_id
 

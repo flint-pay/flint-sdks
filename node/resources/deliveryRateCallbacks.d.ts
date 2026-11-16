@@ -9,10 +9,10 @@ import type {
     DeliveryRateCallbackTestDelivery,
     DeliveryRateCallbackTestDeliveryResponse,
     DeliveryRateCallbackWithSecret,
-    DeliveryRateCallbackWithSecretResponse
+    DeliveryRateCallbackWithSecretResponse,
+    DeliveryRateCallbacksCheckConnectionParams
 } from '../declarations/types-22.js';
 import type {
-    DeliveryRateCallbacksCheckConnectionParams,
     DeliveryRateCallbacksCreateParams,
     DeliveryRateCallbacksCreateTestDeliveryParams,
     DeliveryRateCallbacksDeleteParams,
@@ -39,16 +39,6 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryRateCallbacksCheckConnectionParams,
-    DeliveryRateCallbacksCreateParams,
-    DeliveryRateCallbacksCreateTestDeliveryParams,
-    DeliveryRateCallbacksDeleteParams,
-    DeliveryRateCallbacksGetParams,
-    DeliveryRateCallbacksListParams,
-    DeliveryRateCallbacksRotateSecretParams,
-    DeliveryRateCallbacksUpdateParams
-} from '../declarations/types-23.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
     DeliveryRateCallbackConnectionCheck,
     DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallbackWithSecret,
@@ -62,6 +52,16 @@ export type {
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPatchRequestInput
 } from '../declarations/types-22.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
+export type {
+    DeliveryRateCallbacksCreateParams,
+    DeliveryRateCallbacksCreateTestDeliveryParams,
+    DeliveryRateCallbacksDeleteParams,
+    DeliveryRateCallbacksGetParams,
+    DeliveryRateCallbacksListParams,
+    DeliveryRateCallbacksRotateSecretParams,
+    DeliveryRateCallbacksUpdateParams
+} from '../declarations/types-23.js';
 export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';

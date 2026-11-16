@@ -5,14 +5,14 @@ namespace Flint;
  * @property-read list<string>|null $buyer_reasons
  * @property-read list<DeliveryQuoteChoiceGroupResourcePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $choice_groups
  * @property-read string|null $delivery_quote_id
- * @property-read string|null|null $delivery_selection_id
+ * @property-read string|null $delivery_selection_id
  * @property-read string|null $evaluation_status
  * @property-read string|\DateTimeInterface|null $expires_at
  * @property-read list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $input_requirements
  * @property-read list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $merchant_diagnostics
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutDerivedDeliveryResourcePreviousAttributesInput extends Model {
-    /** @param array{'buyer_reasons'?: list<string>|null, 'choice_groups'?: list<DeliveryQuoteChoiceGroupResourcePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'delivery_quote_id'?: string|null, 'delivery_selection_id'?: string|null|null, 'evaluation_status'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'input_requirements'?: list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
+    /** @param array{'buyer_reasons'?: list<string>|null, 'choice_groups'?: list<DeliveryQuoteChoiceGroupResourcePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'delivery_quote_id'?: string|null, 'delivery_selection_id'?: string|null, 'evaluation_status'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'input_requirements'?: list<DeliveryInputRequirementPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourcePreviousAttributesInput')); }
     /** Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. anyOf[1] (Value): Array of string. Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -32,8 +32,8 @@ final class CheckoutDerivedDeliveryResourcePreviousAttributesInput extends Model
      */
     public function getDeliveryQuoteId(): mixed { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. anyOf[1] (Value): string or null. Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. anyOf[1] (Value): string. Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): mixed { return $this->get('delivery_selection_id'); }

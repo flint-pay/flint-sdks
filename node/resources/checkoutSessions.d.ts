@@ -134,18 +134,16 @@ export type {
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation
 } from '../declarations/types-58.js';
-export type { PendingPaymentAction } from '../declarations/types-53.js';
+export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
-    SettlementAmounts,
     SetupCollection,
     SetupCollectionStripe
 } from '../declarations/types-66.js';
 export type {
     PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
     PlatformFeeRequestInput
 } from '../declarations/types-54.js';
@@ -156,8 +154,13 @@ export type {
     CheckoutBuyerContactRequestInput,
     CheckoutBuyerContactRequest
 } from '../declarations/types-5.js';
-export type { CustomFieldAnswer, CustomFieldAnswerText, CustomFieldAnswerDropdown, CustomFieldAnswerCheckbox } from '../declarations/types-15.js';
-export type { CustomFieldAnswerTextarea } from '../declarations/types-16.js';
+export type {
+    CustomFieldAnswer,
+    CustomFieldAnswerText,
+    CustomFieldAnswerTextarea,
+    CustomFieldAnswerDropdown,
+    CustomFieldAnswerCheckbox
+} from '../declarations/types-15.js';
 export type { Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
@@ -186,9 +189,9 @@ export type { BuyerInstructionsConfig, BuyerExpandedOrderSummary, BuyerExpandedP
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { InvoiceSettlementAmounts, LegalSettings } from '../declarations/types-38.js';
+export type { SettlementAmounts, SelectableOrderPaymentIntent, SelectedProductOption } from '../declarations/types-65.js';
 export type { Image } from '../declarations/types-30.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-41.js';
-export type { SelectableOrderPaymentIntent, SelectedProductOption } from '../declarations/types-65.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -261,10 +264,14 @@ export {
     makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
 } from '../declarations/types-79.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-86.js';
-export { makePlatformFeeRequest } from '../declarations/types-87.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-86.js';
+export {
+    makePlatformFeeRequest,
+    makePromotionRefInputPromotionCode,
+    makePromotionRefInputPromotionID,
+    makePromotionRefRequest
+} from '../declarations/types-87.js';
 export {
     makeSubscriptionGiftRecipientRequest,
     makeSubscriptionPlanChangeLineItemRequest,

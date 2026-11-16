@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string|null $order_manual_reversal_id
  * @property-read string|null $purchase_refund_allocation_id
  * @property-read GiftCardPurchaseRefundRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $recovery
- * @property-read string|null|null $refund_id
+ * @property-read string|null $refund_id
  * @property-read string|null $status
  * @property-read string|\DateTimeInterface|null $updated_at
  * @property-read list<GiftCardPurchaseRefundValueAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $value_allocations
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardPurchaseRefundAllocationPreviousAttributesInput extends Model {
-    /** @param array{'consideration_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'created_at'?: string|\DateTimeInterface|null, 'order_manual_reversal_id'?: string|null, 'purchase_refund_allocation_id'?: string|null, 'recovery'?: GiftCardPurchaseRefundRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refund_id'?: string|null|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'value_allocations'?: list<GiftCardPurchaseRefundValueAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'value_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'consideration_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'created_at'?: string|\DateTimeInterface|null, 'order_manual_reversal_id'?: string|null, 'purchase_refund_allocation_id'?: string|null, 'recovery'?: GiftCardPurchaseRefundRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refund_id'?: string|null, 'status'?: string|null, 'updated_at'?: string|\DateTimeInterface|null, 'value_allocations'?: list<GiftCardPurchaseRefundValueAllocationPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'value_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundAllocationPreviousAttributesInput')); }
     /** The part of the amount the buyer paid that this refund or reversal returns. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -47,8 +47,8 @@ final class GiftCardPurchaseRefundAllocationPreviousAttributesInput extends Mode
      */
     public function getRecovery(): mixed { return $this->get('recovery'); }
     public function hasRecovery(): bool { return $this->has('recovery'); }
-    /** ID of the refund. `null` when the entry reverses a manual payment, which has no refund. anyOf[1] (Value): string or null. ID of the refund. `null` when the entry reverses a manual payment, which has no refund. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** ID of the refund. `null` when the entry reverses a manual payment, which has no refund. anyOf[1] (Value): string. ID of the refund. `null` when the entry reverses a manual payment, which has no refund. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */
     public function getRefundId(): mixed { return $this->get('refund_id'); }

@@ -1,0 +1,87 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read int|null $billing_anchor_day
+ * @property-read bool|null $cancel_at_period_end
+ * @property-read string|null $created_at
+ * @property-read string|null $current_period_end_at
+ * @property-read string|null $current_period_start_at
+ * @property-read string|null $customer_id
+ * @property-read string|null $next_billing_at
+ * @property-read string|null $status
+ * @property-read string|null $subscription_id
+ * @property-read string|null $subscription_plan_id
+ * @property-read list<string>|null $supported_actions
+ * @property-read string|null $terms_type
+ * @property-read string|null $updated_at
+ * Presence-aware response; omitted optional fields return null. */
+final class ExpandedSubscriptionSummaryPreviousAttributes extends Model {
+    /** @param array{'billing_anchor_day'?: mixed, 'cancel_at_period_end'?: mixed, 'created_at'?: mixed, 'current_period_end_at'?: mixed, 'current_period_start_at'?: mixed, 'customer_id'?: mixed, 'next_billing_at'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'subscription_plan_id'?: mixed, 'supported_actions'?: mixed, 'terms_type'?: mixed, 'updated_at'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionSummaryPreviousAttributes')); }
+    /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. anyOf[1] (Value): integer. UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getBillingAnchorDay(): int|null { return $this->get('billing_anchor_day'); }
+    public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
+    /** True when the subscription is scheduled to cancel instead of renewing. anyOf[1] (Value): boolean. True when the subscription is scheduled to cancel instead of renewing. anyOf[2] (Value): null.
+     * @return bool|null
+     */
+    public function getCancelAtPeriodEnd(): bool|null { return $this->get('cancel_at_period_end'); }
+    public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreatedAt(): string|null { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCurrentPeriodEndAt(): string|null { return $this->get('current_period_end_at'); }
+    public function hasCurrentPeriodEndAt(): bool { return $this->has('current_period_end_at'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCurrentPeriodStartAt(): string|null { return $this->get('current_period_start_at'); }
+    public function hasCurrentPeriodStartAt(): bool { return $this->has('current_period_start_at'); }
+    /** The customer this subscription bills. anyOf[1] (Value): string. The customer this subscription bills. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. anyOf[1] (Value): string. When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getNextBillingAt(): string|null { return $this->get('next_billing_at'); }
+    public function hasNextBillingAt(): bool { return $this->has('next_billing_at'); }
+    /** Where the subscription is in its lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[1] (Value): string. Where the subscription is in its lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getStatus(): string|null { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Unique identifier for this subscription, prefixed `sub_`. anyOf[1] (Value): string. Unique identifier for this subscription, prefixed `sub_`. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
+    /** ID of the subscription plan the terms come from. An empty string when `terms_type` is `subscription_offer`. anyOf[1] (Value): string. ID of the subscription plan the terms come from. An empty string when `terms_type` is `subscription_offer`. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSubscriptionPlanId(): string|null { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
+    /** Merchant lifecycle actions accepted by the subscription's current state. Always present with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[1] (Value): Array of string. Merchant lifecycle actions accepted by the subscription's current state. Always present with merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[1][] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". anyOf[2] (Value): null.
+     * @return list<string>|null
+     */
+    public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Value enum: "subscription_plan", "subscription_offer". anyOf[1] (Value): string. Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Value enum: "subscription_plan", "subscription_offer". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getTermsType(): string|null { return $this->get('terms_type'); }
+    public function hasTermsType(): bool { return $this->has('terms_type'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getUpdatedAt(): string|null { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+}

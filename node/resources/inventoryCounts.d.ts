@@ -6,10 +6,10 @@ import type {
     InventoryCountResponse,
     InventoryCountResult,
     InventoryCountResultResponse,
-    InventoryCountsApplyParams
+    InventoryCountsApplyParams,
+    InventoryCountsCancelParams
 } from '../declarations/types-31.js';
 import type {
-    InventoryCountsCancelParams,
     InventoryCountsCreateParams,
     InventoryCountsGetParams,
     InventoryCountsListParams,
@@ -35,6 +35,7 @@ export type {
     InventoryCountsApplyParams,
     InventoryCountResult,
     InventoryCountResultResponse,
+    InventoryCountsCancelParams,
     InventoryCount,
     InventoryCountResponse,
     InventoryCountListResponse,
@@ -45,7 +46,6 @@ export type {
 } from '../declarations/types-31.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type {
-    InventoryCountsCancelParams,
     InventoryCountsCreateParams,
     InventoryCountsGetParams,
     InventoryCountsListParams,
@@ -71,7 +71,7 @@ export { makeCancelInventoryCountRequest } from '../declarations/types-78.js';
 export { makeCreateInventoryCountRequest } from '../declarations/types-80.js';
 export { makeInventoryCountObservationRequest, makeInventorySourceSystemRequest } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInventoryCountRequest } from '../declarations/types-91.js';
+export { makeUpdateInventoryCountRequest } from '../declarations/types-90.js';
 export interface InventoryCountsResource {
     /**
  * Sets inventory levels to the counted quantities of an open physical count. Every line needs an

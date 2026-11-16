@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|null $refund_id
  * @property-read string|null $root_gift_card_id
  * @property-read string|null $root_gift_card_load_id
- * @property-read mixed $value_money
+ * @property-read MoneyValuePreviousAttributes|null $value_money
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardPurchaseRefundValueHoldPreviousAttributes extends Model {
     /** @param array{'purchase_refund_allocation_id'?: mixed, 'refund_id'?: mixed, 'root_gift_card_id'?: mixed, 'root_gift_card_load_id'?: mixed, 'value_money'?: mixed, ...}|object $values */
@@ -32,8 +32,8 @@ final class GiftCardPurchaseRefundValueHoldPreviousAttributes extends Model {
     public function getRootGiftCardLoadId(): string|null { return $this->get('root_gift_card_load_id'); }
     public function hasRootGiftCardLoadId(): bool { return $this->has('root_gift_card_load_id'); }
     /** The unspent value held. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getValueMoney(): mixed { return $this->get('value_money'); }
+    public function getValueMoney(): MoneyValuePreviousAttributes|null { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
 }

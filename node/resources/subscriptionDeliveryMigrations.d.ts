@@ -4,16 +4,13 @@ import type { RequestOptions } from '../declarations/types-60.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
-    SubscriptionDeliveryMigrationFailureListResponse
-} from '../declarations/types-67.js';
-import type {
+    SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsCreateParams,
-    SubscriptionDeliveryMigrationsGetParams,
-    SubscriptionDeliveryMigrationsListFailuresParams,
-    SubscriptionDeliveryMigrationsListParams
-} from '../declarations/types-68.js';
+    SubscriptionDeliveryMigrationsGetParams
+} from '../declarations/types-67.js';
+import type { SubscriptionDeliveryMigrationsListFailuresParams, SubscriptionDeliveryMigrationsListParams } from '../declarations/types-68.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -31,20 +28,17 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionDeliveryMigrationsCreateParams,
+    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsGetParams,
-    SubscriptionDeliveryMigrationsListFailuresParams,
-    SubscriptionDeliveryMigrationsListParams,
-    SubscriptionDeliveryMigrationListResponse
-} from '../declarations/types-68.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type {
-    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationFailure,
+    SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationFailureReasonCount
 } from '../declarations/types-67.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
+export type { SubscriptionDeliveryMigrationsListFailuresParams, SubscriptionDeliveryMigrationsListParams } from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateSubscriptionDeliveryMigrationRequestInput,
@@ -55,7 +49,7 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { NextAction, MoneyValue } from '../declarations/types-42.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-82.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-81.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**

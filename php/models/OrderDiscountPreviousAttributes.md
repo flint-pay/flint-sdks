@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Discount amount before limits apply, such as 20% of $100 resolving to $20. |
 | `applied_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount the discount took off. It is less than `amount_money` when a limit applies, such as a discount that would take the order below zero. |
-| `customer_facing_name` | Optional | string or null | Name the buyer sees for the discount. `customer_facing_name`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1customer_facing_name). |
+| `customer_facing_name` | Optional | string or null | Name the buyer sees for the discount. `customer_facing_name`: [declared alternatives](../models/InvoiceDiscountPreviousAttributes.md#invoicediscountpreviousattributescustomer_facing_name). |
 | `discount_class` | Optional | string or null | Which part of the order the discount reduces. Values: `"order"`, `"line_item"`, `"service_charge"`. `discount_class`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesdiscount_class). |
 | `order_charge_ids` | Optional | Array of string or null | IDs of the charges this discount reduces. `order_charge_ids`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_charge_ids). |
 | `order_discount_id` | Optional | string or null | Order discount ID. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. `order_discount_id`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_discount_id). |
@@ -18,12 +18,12 @@ Response model.
 | `order_line_item_ids` | Optional | Array of string or null | IDs of the order line items this discount applies to. `order_line_item_ids`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesorder_line_item_ids). |
 | `promotion_code` | Optional | string or null | Promotion code used to create this discount. Present only when source is promotion and a code was used. `promotion_code`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributespromotion_code). |
 | `promotion_id` | Optional | string or null | Promotion that created this discount. Present only when source is promotion. `promotion_id`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributespromotion_id). |
-| `source` | Optional | string or null | Where the discount came from. Values: `"manual"`, `"promotion"`, `"plan_change_credit"`, `"proration"`, `"prepaid_delivery"`. `source`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1source). |
+| `source` | Optional | string or null | Where the discount came from. Values: `"manual"`, `"promotion"`, `"plan_change_credit"`, `"proration"`, `"prepaid_delivery"`. `source`: [declared alternatives](../models/InvoiceDiscountPreviousAttributes.md#invoicediscountpreviousattributessource). |
 | `status` | Optional | string or null | Redemption state of the discount. Values: `"pending"`, `"redeemed"`, `"canceled"`. `status`: [declared alternatives](../models/OrderDiscountPreviousAttributes.md#orderdiscountpreviousattributesstatus). |
 
 ### OrderDiscountPreviousAttributes.customer_facing_name
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.snapshot variant 1.discounts variant 1.[] fields 1.customer_facing_name](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1customer_facing_name).
+Declared alternatives: [InvoiceDiscountPreviousAttributes.customer_facing_name](../models/InvoiceDiscountPreviousAttributes.md#invoicediscountpreviousattributescustomer_facing_name).
 
 ### OrderDiscountPreviousAttributes.discount_class
 
@@ -125,7 +125,7 @@ anyOf variant 2.
 
 ### OrderDiscountPreviousAttributes.source
 
-Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.snapshot variant 1.discounts variant 1.[] fields 1.source](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributessnapshot-variant-1discounts-variant-1-fields-1source).
+Declared alternatives: [InvoiceDiscountPreviousAttributes.source](../models/InvoiceDiscountPreviousAttributes.md#invoicediscountpreviousattributessource).
 
 ### OrderDiscountPreviousAttributes.status
 

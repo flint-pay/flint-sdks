@@ -51,46 +51,6 @@ import type {
     PartnerEnvironmentGrant
 } from './types-48.js';
 import type { PlatformFeeCap } from './types-54.js';
-export type OrdersListPaymentAttemptsParams = {
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 export type OrdersPayParams = (PayOrderRequestInput)
     & {
     /**
@@ -1961,14 +1921,14 @@ export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "carrier"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "delivered_at"?: ((string) | (null));
-            "dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "expected_delivery_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "external_system"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
             "label_url"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "package_id"?: ((string) | (null));
             "return_id"?: ((string) | (null));
@@ -2004,7 +1964,7 @@ export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "tracking_url"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
-            "weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "weight"?: ((WeightPreviousAttributes) | (null));
         });
     };
     "event_source"?: ("merchant") & ("merchant");
@@ -2067,14 +2027,14 @@ export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "carrier"?: ((string) | (null));
             "created_at"?: ((string) | (null));
             "delivered_at"?: ((string) | (null));
-            "dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "expected_delivery_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "external_system"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
             "label_url"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "package_id"?: ((string) | (null));
             "return_id"?: ((string) | (null));
@@ -2110,7 +2070,7 @@ export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "tracking_url"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
-            "weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "weight"?: ((WeightPreviousAttributes) | (null));
         });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
@@ -2219,13 +2179,13 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * (Optional): {@link DimensionsPreviousAttributes} or null. Physical length, width, and height
      * of the package. previous_attributes.dimensions.anyOf[1] (Value): {@link
      * DimensionsPreviousAttributes}. previous_attributes.dimensions.anyOf[2] (Value): null.
-     * previous_attributes.expected_delivery_at (Optional): string or null or null. When the
-     * carrier or merchant expects this package to arrive. Null when no estimate is set. Retained
-     * after delivery as history. This estimate is separate from the fulfillment's promised
-     * shipment window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string or null.
-     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
-     * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expected_delivery_at (Optional): string or null. When the carrier or
+     * merchant expects this package to arrive. Null when no estimate is set. Retained after
+     * delivery as history. This estimate is separate from the fulfillment's promised shipment
+     * window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string. When the carrier
+     * or merchant expects this package to arrive. Null when no estimate is set. Retained after
+     * delivery as history. This estimate is separate from the fulfillment's promised shipment
+     * window. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.expected_delivery_at.anyOf[2] (Value): null.
      * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. Requires external_system. External
@@ -2253,16 +2213,11 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
      * metadata associated with the package. previous_attributes.metadata.anyOf[1] (Value): {@link
      * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary
-     * returned when the order relationship is expanded. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Order summary returned when the order relationship is expanded. Present only when
-     * `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. Order whose items are in the
+     * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned
+     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
+     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
+     * null. previous_attributes.order_id (Optional): string or null. Order whose items are in the
      * package. previous_attributes.order_id.anyOf[1] (Value): string. Order whose items are in the
      * package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
      * (Value): null. previous_attributes.package_id (Optional): string or null. Stable identifier
@@ -2586,48 +2541,44 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * delivered_at.anyOf[2] (Value): null. dimensions (Optional): {@link
          * DimensionsPreviousAttributes} or null. Physical length, width, and height of the
          * package. dimensions.anyOf[1] (Value): {@link DimensionsPreviousAttributes}.
-         * dimensions.anyOf[2] (Value): null. expected_delivery_at (Optional): string or null or
-         * null. When the carrier or merchant expects this package to arrive. Null when no estimate
-         * is set. Retained after delivery as history. This estimate is separate from the
-         * fulfillment's promised shipment window. expected_delivery_at.anyOf[1] (Value): string or
-         * null. When the carrier or merchant expects this package to arrive. Null when no estimate
-         * is set. Retained after delivery as history. This estimate is separate from the
-         * fulfillment's promised shipment window. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". expected_delivery_at.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. Requires external_system. External references are not
-         * unique. Use Idempotency-Key for retries. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. Requires
+         * dimensions.anyOf[2] (Value): null. expected_delivery_at (Optional): string or null. When
+         * the carrier or merchant expects this package to arrive. Null when no estimate is set.
+         * Retained after delivery as history. This estimate is separate from the fulfillment's
+         * promised shipment window. expected_delivery_at.anyOf[1] (Value): string. When the
+         * carrier or merchant expects this package to arrive. Null when no estimate is set.
+         * Retained after delivery as history. This estimate is separate from the fulfillment's
+         * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expected_delivery_at.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system. Requires
          * external_system. External references are not unique. Use Idempotency-Key for retries.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * external_system (Optional): string or null. Name of the external system that
-         * external_reference_id belongs to. External references are not unique. Use
-         * Idempotency-Key for retries. external_system.anyOf[1] (Value): string. Name of the
-         * external system that external_reference_id belongs to. External references are not
-         * unique. Use Idempotency-Key for retries. external_system.anyOf[2] (Value): null.
-         * fulfillment_id (Optional): string or null. Fulfillment whose items are in the package.
-         * fulfillment_id.anyOf[1] (Value): string. Fulfillment whose items are in the package.
-         * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null.
-         * label_url (Optional): string or null. HTTPS shipping-label URL supplied by your
-         * integration. Non-Flint URLs require external_system for provenance. Flint does not host
-         * the label file. Omitted for a checkout session credential that doesn't act for the
-         * customer the buyer verified. label_url.anyOf[1] (Value): string. HTTPS shipping-label
-         * URL supplied by your integration. Non-Flint URLs require external_system for provenance.
-         * Flint does not host the label file. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. label_url.anyOf[2] (Value): null.
-         * metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata
-         * associated with the package. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned when
-         * the order relationship is expanded. Present only when `expand` includes `order`; `null`
-         * when expanded and there is no related order. order.anyOf[1] (Value): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Requires external_system. External references are not
+         * unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. external_system (Optional): string or
+         * null. Name of the external system that external_reference_id belongs to. External
+         * references are not unique. Use Idempotency-Key for retries. external_system.anyOf[1]
+         * (Value): string. Name of the external system that external_reference_id belongs to.
+         * External references are not unique. Use Idempotency-Key for retries.
+         * external_system.anyOf[2] (Value): null. fulfillment_id (Optional): string or null.
+         * Fulfillment whose items are in the package. fulfillment_id.anyOf[1] (Value): string.
+         * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+         * fulfillment_id.anyOf[2] (Value): null. label_url (Optional): string or null. HTTPS
+         * shipping-label URL supplied by your integration. Non-Flint URLs require external_system
+         * for provenance. Flint does not host the label file. Omitted for a checkout session
+         * credential that doesn't act for the customer the buyer verified. label_url.anyOf[1]
+         * (Value): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
+         * require external_system for provenance. Flint does not host the label file. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified.
+         * label_url.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Caller-owned key-value metadata associated with the package. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned when the order
          * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. Order whose items are
-         * in the package. order_id.anyOf[1] (Value): string. Order whose items are in the package.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. Order whose items are in the package. order_id.anyOf[1]
+         * (Value): string. Order whose items are in the package. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
          * (Optional): string or null. Stable identifier of the package. package_id.anyOf[1]
          * (Value): string. Stable identifier of the package. Example:
          * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". package_id.anyOf[2] (Value): null. return_id
@@ -2730,17 +2681,17 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Physical length, width, and height of the package. anyOf[1] (Value): {@link
              * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
             /**
              * When the carrier or merchant expects this package to arrive. Null when no estimate
              * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the
-             * carrier or merchant expects this package to arrive. Null when no estimate is set.
-             * Retained after delivery as history. This estimate is separate from the fulfillment's
-             * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
+             * fulfillment's promised shipment window. anyOf[1] (Value): string. When the carrier
+             * or merchant expects this package to arrive. Null when no estimate is set. Retained
+             * after delivery as history. This estimate is separate from the fulfillment's promised
+             * shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
              */
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            "expected_delivery_at"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. Requires
              * external_system. External references are not unique. Use Idempotency-Key for
@@ -2777,17 +2728,14 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Caller-owned key-value metadata associated with the package. anyOf[1] (Value):
              * {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Order summary returned when the order relationship is expanded. Present only when
              * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order
-             * summary returned when the order relationship is expanded. Present only when `expand`
-             * includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * Order whose items are in the package. anyOf[1] (Value): string. Order whose items
              * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -2928,7 +2876,7 @@ export type PackageUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Physical weight of the package. anyOf[1] (Value): {@link WeightPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "weight"?: ((WeightPreviousAttributes) | (null));
         });
     };
     /** Value enum: "installed_merchants". */
@@ -3063,13 +3011,13 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * (Optional): {@link DimensionsPreviousAttributes} or null. Physical length, width, and height
      * of the package. previous_attributes.dimensions.anyOf[1] (Value): {@link
      * DimensionsPreviousAttributes}. previous_attributes.dimensions.anyOf[2] (Value): null.
-     * previous_attributes.expected_delivery_at (Optional): string or null or null. When the
-     * carrier or merchant expects this package to arrive. Null when no estimate is set. Retained
-     * after delivery as history. This estimate is separate from the fulfillment's promised
-     * shipment window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string or null.
-     * When the carrier or merchant expects this package to arrive. Null when no estimate is set.
-     * Retained after delivery as history. This estimate is separate from the fulfillment's
-     * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expected_delivery_at (Optional): string or null. When the carrier or
+     * merchant expects this package to arrive. Null when no estimate is set. Retained after
+     * delivery as history. This estimate is separate from the fulfillment's promised shipment
+     * window. previous_attributes.expected_delivery_at.anyOf[1] (Value): string. When the carrier
+     * or merchant expects this package to arrive. Null when no estimate is set. Retained after
+     * delivery as history. This estimate is separate from the fulfillment's promised shipment
+     * window. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.expected_delivery_at.anyOf[2] (Value): null.
      * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
      * identifier for this resource in an external system. Requires external_system. External
@@ -3097,16 +3045,11 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value
      * metadata associated with the package. previous_attributes.metadata.anyOf[1] (Value): {@link
      * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary
-     * returned when the order relationship is expanded. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Order summary returned when the order relationship is expanded. Present only when
-     * `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. Order whose items are in the
+     * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned
+     * when the order relationship is expanded. Present only when `expand` includes `order`; `null`
+     * when expanded and there is no related order. previous_attributes.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value):
+     * null. previous_attributes.order_id (Optional): string or null. Order whose items are in the
      * package. previous_attributes.order_id.anyOf[1] (Value): string. Order whose items are in the
      * package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
      * (Value): null. previous_attributes.package_id (Optional): string or null. Stable identifier
@@ -3430,48 +3373,44 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * delivered_at.anyOf[2] (Value): null. dimensions (Optional): {@link
          * DimensionsPreviousAttributes} or null. Physical length, width, and height of the
          * package. dimensions.anyOf[1] (Value): {@link DimensionsPreviousAttributes}.
-         * dimensions.anyOf[2] (Value): null. expected_delivery_at (Optional): string or null or
-         * null. When the carrier or merchant expects this package to arrive. Null when no estimate
-         * is set. Retained after delivery as history. This estimate is separate from the
-         * fulfillment's promised shipment window. expected_delivery_at.anyOf[1] (Value): string or
-         * null. When the carrier or merchant expects this package to arrive. Null when no estimate
-         * is set. Retained after delivery as history. This estimate is separate from the
-         * fulfillment's promised shipment window. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". expected_delivery_at.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. Requires external_system. External references are not
-         * unique. Use Idempotency-Key for retries. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. Requires
+         * dimensions.anyOf[2] (Value): null. expected_delivery_at (Optional): string or null. When
+         * the carrier or merchant expects this package to arrive. Null when no estimate is set.
+         * Retained after delivery as history. This estimate is separate from the fulfillment's
+         * promised shipment window. expected_delivery_at.anyOf[1] (Value): string. When the
+         * carrier or merchant expects this package to arrive. Null when no estimate is set.
+         * Retained after delivery as history. This estimate is separate from the fulfillment's
+         * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expected_delivery_at.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system. Requires
          * external_system. External references are not unique. Use Idempotency-Key for retries.
-         * maxLength: 255. Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
-         * external_system (Optional): string or null. Name of the external system that
-         * external_reference_id belongs to. External references are not unique. Use
-         * Idempotency-Key for retries. external_system.anyOf[1] (Value): string. Name of the
-         * external system that external_reference_id belongs to. External references are not
-         * unique. Use Idempotency-Key for retries. external_system.anyOf[2] (Value): null.
-         * fulfillment_id (Optional): string or null. Fulfillment whose items are in the package.
-         * fulfillment_id.anyOf[1] (Value): string. Fulfillment whose items are in the package.
-         * Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null.
-         * label_url (Optional): string or null. HTTPS shipping-label URL supplied by your
-         * integration. Non-Flint URLs require external_system for provenance. Flint does not host
-         * the label file. Omitted for a checkout session credential that doesn't act for the
-         * customer the buyer verified. label_url.anyOf[1] (Value): string. HTTPS shipping-label
-         * URL supplied by your integration. Non-Flint URLs require external_system for provenance.
-         * Flint does not host the label file. Omitted for a checkout session credential that
-         * doesn't act for the customer the buyer verified. label_url.anyOf[2] (Value): null.
-         * metadata (Optional): {@link MetadataMap} or null. Caller-owned key-value metadata
-         * associated with the package. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Order summary returned when
-         * the order relationship is expanded. Present only when `expand` includes `order`; `null`
-         * when expanded and there is no related order. order.anyOf[1] (Value): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null). Order summary returned when the order
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Requires external_system. External references are not
+         * unique. Use Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. external_system (Optional): string or
+         * null. Name of the external system that external_reference_id belongs to. External
+         * references are not unique. Use Idempotency-Key for retries. external_system.anyOf[1]
+         * (Value): string. Name of the external system that external_reference_id belongs to.
+         * External references are not unique. Use Idempotency-Key for retries.
+         * external_system.anyOf[2] (Value): null. fulfillment_id (Optional): string or null.
+         * Fulfillment whose items are in the package. fulfillment_id.anyOf[1] (Value): string.
+         * Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+         * fulfillment_id.anyOf[2] (Value): null. label_url (Optional): string or null. HTTPS
+         * shipping-label URL supplied by your integration. Non-Flint URLs require external_system
+         * for provenance. Flint does not host the label file. Omitted for a checkout session
+         * credential that doesn't act for the customer the buyer verified. label_url.anyOf[1]
+         * (Value): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
+         * require external_system for provenance. Flint does not host the label file. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified.
+         * label_url.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Caller-owned key-value metadata associated with the package. metadata.anyOf[1] (Value):
+         * {@link MetadataMap}. metadata.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Order summary returned when the order
          * relationship is expanded. Present only when `expand` includes `order`; `null` when
-         * expanded and there is no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. Order whose items are
-         * in the package. order_id.anyOf[1] (Value): string. Order whose items are in the package.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. Order whose items are in the package. order_id.anyOf[1]
+         * (Value): string. Order whose items are in the package. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. package_id
          * (Optional): string or null. Stable identifier of the package. package_id.anyOf[1]
          * (Value): string. Stable identifier of the package. Example:
          * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". package_id.anyOf[2] (Value): null. return_id
@@ -3574,17 +3513,17 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Physical length, width, and height of the package. anyOf[1] (Value): {@link
              * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
             /**
              * When the carrier or merchant expects this package to arrive. Null when no estimate
              * is set. Retained after delivery as history. This estimate is separate from the
-             * fulfillment's promised shipment window. anyOf[1] (Value): string or null. When the
-             * carrier or merchant expects this package to arrive. Null when no estimate is set.
-             * Retained after delivery as history. This estimate is separate from the fulfillment's
-             * promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             * anyOf[2] (Value): null.
+             * fulfillment's promised shipment window. anyOf[1] (Value): string. When the carrier
+             * or merchant expects this package to arrive. Null when no estimate is set. Retained
+             * after delivery as history. This estimate is separate from the fulfillment's promised
+             * shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+             * (Value): null.
              */
-            "expected_delivery_at"?: ((string | null) | (null) | (unknown));
+            "expected_delivery_at"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. Requires
              * external_system. External references are not unique. Use Idempotency-Key for
@@ -3621,17 +3560,14 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Caller-owned key-value metadata associated with the package. anyOf[1] (Value):
              * {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Order summary returned when the order relationship is expanded. Present only when
              * `expand` includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Order
-             * summary returned when the order relationship is expanded. Present only when `expand`
-             * includes `order`; `null` when expanded and there is no related order.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+             * null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * Order whose items are in the package. anyOf[1] (Value): string. Order whose items
              * are in the package. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
@@ -3772,7 +3708,7 @@ export type PackageUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Physical weight of the package. anyOf[1] (Value): {@link WeightPreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "weight"?: ((WeightPreviousAttributes) | (null));
         });
     };
     /** Value enum: "merchant". */
@@ -4879,3 +4815,21 @@ export type PartnerAppInstallPermissionsUpdatedEvent = ((Exclude<PartnerWebhookE
     & {
     "event_type": "partner_app_install.permissions_updated";
 });
+/** A response containing `PartnerAppInstall` data. */
+export type PartnerAppInstallResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant's
+     * authorization of a partner application.
+     */
+    "data": PartnerAppInstall;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};

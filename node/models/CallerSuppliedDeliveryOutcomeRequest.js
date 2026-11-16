@@ -1,11 +1,11 @@
-import { d8565 as c0, d8569 as c1, d8570 as c3, d8571 as c4, d8572 as c5, d8573 as c6, d8574 as c7, d8575 as c8, d8576 as c9, d8577 as c10 } from '../descriptors/data/378.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d7730 as c2 } from '../descriptors/data/330.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8578 as c11, d8579 as c12, d8580 as c13 } from '../descriptors/data/379.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
-import { d8565 as d8565 } from '../descriptors/data/378.js?sdk=297b041a019868602c5b063a3c1ea0279157240bcdcdf6a0298b2353ac58c07c';
+import { d8475 as c0, d8479 as c1, d8480 as c3, d8481 as c4, d8482 as c5, d8483 as c6, d8484 as c7, d8485 as c8, d8486 as c9 } from '../descriptors/data/375.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d7640 as c2 } from '../descriptors/data/327.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8487 as c10, d8488 as c11, d8489 as c12, d8490 as c13 } from '../descriptors/data/376.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
+import { d8475 as d8475 } from '../descriptors/data/375.js?sdk=abe56d712be8582bd6fe7e6a4f88e467c3974bdb0d8c7e6c49831dc69255cb96';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8565;
+const read = d8475;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CallerSuppliedDeliveryOutcomeRequest"]:c0(),["DeliveryWindowRequest"]:c1(),["MoneyValue"]:c2(),["SharedCodec201"]:c3(),["SharedCodec202"]:c4(),["SharedCodec203"]:c5(),["SharedCodec204"]:c6(),["SharedCodec205"]:c7(),["SharedCodec206"]:c8(),["SharedCodec207"]:c9(),["SharedCodec208"]:c10(),["SharedCodec209"]:c11(),["SharedCodec210"]:c12(),["SharedCodec211"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CallerSuppliedDeliveryOutcomeRequest"]:c0(),["DeliveryWindowRequest"]:c1(),["MoneyValue"]:c2(),["SharedCodec191"]:c3(),["SharedCodec192"]:c4(),["SharedCodec193"]:c5(),["SharedCodec194"]:c6(),["SharedCodec195"]:c7(),["SharedCodec196"]:c8(),["SharedCodec197"]:c9(),["SharedCodec198"]:c10(),["SharedCodec199"]:c11(),["SharedCodec200"]:c12(),["SharedCodec201"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCallerSuppliedDeliveryOutcomeRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

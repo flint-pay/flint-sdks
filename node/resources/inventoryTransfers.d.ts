@@ -67,8 +67,8 @@ export type { ReturnInventoryTransferToOriginRequestInput } from '../declaration
 export type { UpdateInventoryTransferRequestInput } from '../declarations/types-74.js';
 export { makeCancelInventoryTransferRequest } from '../declarations/types-78.js';
 export { makeCreateInventoryTransferRequest } from '../declarations/types-80.js';
+export { makeDepartInventoryTransferRequest } from '../declarations/types-83.js';
 export {
-    makeDepartInventoryTransferRequest,
     makeInventoryProvenanceRequest,
     makeInventorySourceSystemRequest,
     makeInventoryTransferLineRequest

@@ -1,4 +1,4 @@
-import type { ImageInputFile, ImageInputSourceURL, ImageInputFileInput } from './types-30.js';
+import type { ImageInputFile, ImageInputSourceURL, ImageInputFileInput, ImageInputSourceURLInput } from './types-30.js';
 import type { GiftCardFundingSource } from './types-28.js';
 import type { MoneyValue, MoneyValueInput, ModifierRequest, ModifierRequestInput } from './types-42.js';
 import type { GiftCardFundingSourceRequestInput } from './types-29.js';
@@ -13,32 +13,7 @@ import type { DisputesAcceptParams } from './types-25.js';
 import type { UpdateInventoryAllocationPolicyRequestInput } from './types-74.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { ApplyInventoryCountRequestInput } from './types-0.js';
-/** The `Source URL` variant of `ImageInput`. */
-export type ImageInputSourceURLInput = ({
-    /** Alternative text describing the image for accessibility. minLength: 1. maxLength: 512. */
-    "alt"?: string;
-    /**
-     * The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or
-     * file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "file_01KEZF7C00BZ179303GY9R0P03".
-     */
-    "file_id"?: string;
-    /**
-     * An opaque reference for this attachment, unique within its gallery. Whitespace and case are
-     * preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * A public image URL for Flint to fetch, or an untransformed canonical image.url returned by
-     * Flint. Send exactly one of source_url or file_id. Canonical Flint URLs attach without
-     * another fetch. Flint doesn't download a source_url again while the image it produced is
-     * still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-})
-    & (({
-    "file_id"?: never;
-}));
+import type { CancelInventoryCountRequestInput } from './types-4.js';
 export type ImagePreviousAttributes = {
     /**
      * Alternative text describing the image for accessibility. anyOf[1] (Value): string.
@@ -1527,7 +1502,7 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "inventory_count_id"?: ((string) | (null));
             "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
             "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
             "updated_at"?: ((string) | (null));
@@ -1563,7 +1538,7 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "inventory_count_id"?: ((string) | (null));
             "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
             "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
             "updated_at"?: ((string) | (null));
@@ -1847,7 +1822,7 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             /**
              * Whether the count is still open. Applying or canceling a `draft` count ends it.
              * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
@@ -2183,7 +2158,7 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             /**
              * Whether the count is still open. Applying or canceling a `draft` count ends it.
              * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
@@ -2432,12 +2407,12 @@ export type InventoryCountLinePreviousAttributes = {
     /**
      * Live physical version of the level, read alongside expected quantities on draft lines.
      * Evidence of current stock, not a fence captured at count creation. `null` when the count is
-     * applied or canceled. anyOf[1] (Value): integer or null. Live physical version of the level,
-     * read alongside expected quantities on draft lines. Evidence of current stock, not a fence
+     * applied or canceled. anyOf[1] (Value): integer. Live physical version of the level, read
+     * alongside expected quantities on draft lines. Evidence of current stock, not a fence
      * captured at count creation. `null` when the count is applied or canceled. Format: uint64.
      * minimum: 0. maximum: 9007199254740991. anyOf[2] (Value): null.
      */
-    "physical_version"?: ((number | null) | (null) | (unknown));
+    "physical_version"?: ((number) | (null));
     /**
      * The difference this line applied to the quality-control quantity. Present once the count is
      * applied. A draft or canceled count omits it. anyOf[1] (Value): integer. The difference this
@@ -2517,13 +2492,10 @@ export type InventoryCountObservationProvenancePreviousAttributes = ({
     "occurred_at"?: ((string) | (null));
     /**
      * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): ({@link
-     * InventorySourceSystemPreviousAttributes} or null). System the change came from, such as a
-     * point-of-sale or warehouse system. `null` when the request named no source system.
-     * anyOf[1].anyOf[1] (Value): {@link InventorySourceSystemPreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * request named no source system. anyOf[1] (Value): {@link
+     * InventorySourceSystemPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "source_system"?: (((((InventorySourceSystemPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "source_system"?: ((InventorySourceSystemPreviousAttributes) | (null));
 });
 /**
  * A counted quantity for one item in an inventory count, with the physical version it was read at.
@@ -2646,7 +2618,7 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "inventory_count_id"?: ((string) | (null));
             "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
             "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
             "updated_at"?: ((string) | (null));
@@ -2682,7 +2654,7 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "inventory_count_id"?: ((string) | (null));
             "lines"?: ((Array<InventoryCountLinePreviousAttributes>) | (null));
             "location_id"?: ((string) | (null));
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             "status"?: (("draft" | "applied" | "canceled" | (string & {})) | (null));
             "supported_actions"?: ((Array<"apply" | "cancel" | (string & {})>) | (null));
             "updated_at"?: ((string) | (null));
@@ -2966,7 +2938,7 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             /**
              * Whether the count is still open. Applying or canceling a `draft` count ends it.
              * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
@@ -3302,7 +3274,7 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * (Value): {@link InventoryCountObservationProvenancePreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null) | (unknown));
+            "observation_provenance"?: ((InventoryCountObservationProvenancePreviousAttributes) | (null));
             /**
              * Whether the count is still open. Applying or canceling a `draft` count ends it.
              * Value enum: "draft", "applied", "canceled". anyOf[1] (Value): string. Whether the
@@ -3341,6 +3313,29 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
     "event_type"?: "inventory_count.updated";
 });
 export type InventoryCountsApplyParams = (InputValue<ApplyInventoryCountRequestInput> | {
+    "expected_version"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type InventoryCountsCancelParams = (InputValue<CancelInventoryCountRequestInput> | {
     "expected_version"?: never;
 })
     & {

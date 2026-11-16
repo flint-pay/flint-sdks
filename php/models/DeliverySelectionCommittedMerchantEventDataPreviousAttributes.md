@@ -16,7 +16,7 @@ Response model.
 | `created_at` | Optional | string or null | Time the selection was created. Always present with an API key or dashboard credential. `created_at`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributescreated_at). |
 | `delivery_quote_id` | Optional | string or null | Quote from which this selection was made. `delivery_quote_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesdelivery_quote_id). |
 | `delivery_selection_id` | Optional | string or null | Stable delivery selection ID. `delivery_selection_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesdelivery_selection_id). |
-| `destination_address` | Optional | Alternative shapes (see declared variants) | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `destination_address`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesdestination_address). |
+| `destination_address` | Optional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `destination_address`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesdestination_address). |
 | `expires_at` | Optional | string or null | Deadline after which this provisional selection can no longer be committed. `expires_at`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesexpires_at). |
 | `input_requirements` | Optional | Array of [DeliveryInputRequirementPreviousAttributes](../models/DeliveryInputRequirementPreviousAttributes.md#deliveryinputrequirementpreviousattributes) or null | Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. `input_requirements`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesinput_requirements). |
 | `instructions` | Optional | string or null | Buyer-provided delivery instructions. Returned with an API key or dashboard credential. `instructions`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesinstructions). |
@@ -25,7 +25,7 @@ Response model.
 | `limiting_deadline_reason` | Optional | string or null | The deadline that set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always present with an API key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery windows comes first. When the selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation the selection was priced against expires first. It ends no later than the checkout session's expires_at, and earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can last, 24 hours after it was created. Values: `"selection_guarantee_expiry"`, `"calculation_expiry"`, `"selection_maximum_lifetime"`. `limiting_deadline_reason`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeslimiting_deadline_reason). |
 | `order_id` | Optional | string or null | Order affected by the selection. Always present with an API key or dashboard credential. `order_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesorder_id). |
 | `private_data_status` | Optional | string or null | Availability state of merchant-private selection evidence. Values: `"available"`, `"redacted"`. `private_data_status`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesprivate_data_status). |
-| `recipient` | Optional | Alternative shapes (see declared variants) | Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. `recipient`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesrecipient). |
+| `recipient` | Optional | [DeliveryRecipientResourcePreviousAttributes](../models/DeliveryRecipientResourcePreviousAttributes.md#deliveryrecipientresourcepreviousattributes) or null | Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `redacted_at` | Optional | string or null | Time merchant-private selection evidence was redacted. `redacted_at`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesredacted_at). |
 | `status` | Optional | string or null | Current selection lifecycle status. - `selected`: These choices are provisional and can be replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no longer usable because its deadline passed. - `released`: These choices were withdrawn. Create a new selection before paying for delivery. Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. `status`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Contains release while status is selected and the selection belongs to a checkout session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty in every other status. Independent of caller permissions. Items values: `"release"`. `supported_actions`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributessupported_actions). |
@@ -36,7 +36,7 @@ Buyer location snapshot used to evaluate pickup proximity. Returned with an API 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Conditional | Alternative shapes (see declared variants) | The buyer location as an address. Set only when `type` is `address`. `address`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesbuyer_location-variant-1address). |
+| `address` | Conditional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | The buyer location as an address. Set only when `type` is `address`. `address`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesbuyer_location-variant-1address). |
 | `coordinate` | Conditional | Alternative shapes (see declared variants) | The buyer location as a coordinate. Set only when `type` is `coordinate`. `coordinate`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesbuyer_location-variant-1coordinate). |
 | `type` | Conditional | (string or null) and Alternative shapes (see declared variants) | Whether the buyer location is an address or a coordinate. Values: `"address"`, `"coordinate"`. `type`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesbuyer_location-variant-1type), [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesbuyer_location-variant-2type). |
 
@@ -264,18 +264,18 @@ anyOf variant 2.
 | `delivery_choice_group_id` | Optional | string or null | ID of the quote choice group these items belong to. `delivery_choice_group_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1delivery_choice_group_id). |
 | `delivery_method_id` | Optional | string or null | ID of the delivery method providing this choice. `delivery_method_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1delivery_method_id). |
 | `delivery_option_id` | Optional | string or null | ID of the option chosen from the quote. `delivery_option_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1delivery_option_id). |
-| `delivery_plan` | Optional | Alternative shapes (see declared variants) | Whether this choice delivers the items together or in separate shipments. `delivery_plan`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesdelivery_plan). |
+| `delivery_plan` | Optional | [DeliveryPlanPreviousAttributes](../models/DeliveryPlanPreviousAttributes.md#deliveryplanpreviousattributes) or null | Whether this choice delivers the items together or in separate shipments. `delivery_plan`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesdelivery_plan). |
 | `delivery_window_id` | Optional | string or null | ID of the chosen offered window. Omitted when no offered window was chosen. `delivery_window_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1delivery_window_id). |
 | `description` | Optional | string or null | Buyer-facing description captured from the chosen method. Omitted when the method had none. `description`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesdescription). |
 | `discount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Always present with an API key or dashboard credential. |
-| `input` | Optional | Alternative shapes (see declared variants) | Window choice and buyer instructions stored with this selection. Omitted when neither was supplied. `input`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesinput-fields-1). |
-| `local_delivery` | Optional | Alternative shapes (see declared variants) | Local delivery service details, present for local_delivery choices. `local_delivery`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributeslocal_delivery). |
+| `input` | Optional | [DeliverySelectionInstructionsRequestPreviousAttributes](../models/DeliverySelectionInstructionsRequestPreviousAttributes.md#deliveryselectioninstructionsrequestpreviousattributes) or null | Window choice and buyer instructions stored with this selection. Omitted when neither was supplied. `input`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesinput-fields-1). |
+| `local_delivery` | Optional | [DeliveryLocalDeliveryDetailsPreviousAttributes](../models/DeliveryLocalDeliveryDetailsPreviousAttributes.md#deliverylocaldeliverydetailspreviousattributes) or null | Local delivery service details, present for local_delivery choices. |
 | `merchant_reference` | Optional | string or null | Reference supplied by the merchant's rate service for this option. Omitted when none was supplied. `merchant_reference`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesmerchant_reference). |
 | `name` | Optional | string or null | Buyer-facing name captured from the chosen method. `name`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesname). |
-| `order_charge_id` | Optional | string or null or null | Always present with an API key or dashboard credential. Null when the choice has no order charge. `order_charge_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1order_charge_id). |
+| `order_charge_id` | Optional | string or null | Always present with an API key or dashboard credential. Null when the choice has no order charge. `order_charge_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1order_charge_id). |
 | `order_id` | Optional | string or null | ID of the order this delivery choice belongs to, including the parent of order_charge_id when a charge applies. `order_id`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1order_id). |
-| `pickup` | Optional | Alternative shapes (see declared variants) | Pickup Location and collection details, present for pickup choices. `pickup`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributespickup). |
-| `shipment` | Optional | Alternative shapes (see declared variants) | Shipping service details, present for shipment choices. `shipment`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesshipment). |
+| `pickup` | Optional | [DeliveryPickupDetailsPreviousAttributes](../models/DeliveryPickupDetailsPreviousAttributes.md#deliverypickupdetailspreviousattributes) or null | Pickup Location and collection details, present for pickup choices. |
+| `shipment` | Optional | [DeliveryShipmentDetailsPreviousAttributes](../models/DeliveryShipmentDetailsPreviousAttributes.md#deliveryshipmentdetailspreviousattributes) or null | Shipping service details, present for shipment choices. |
 | `stable_key` | Optional | string or null | Key identifying the same items and allowed delivery types across quotes. `stable_key`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesstable_key). |
 | `tax_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Always present with an API key or dashboard credential. |
 | `timezone` | Optional | string or null | IANA timezone for displaying window_start_at and window_end_at. `timezone`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributeschoices-variant-1-fields-1timezone). |
@@ -352,10 +352,6 @@ Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.descri
 
 Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.input fields 1](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesinput-fields-1).
 
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.choices variant 1.[] fields 1.local_delivery
-
-Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.local_delivery](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributeslocal_delivery).
-
 ### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.choices variant 1.[] fields 1.merchant_reference
 
 Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.merchant_reference](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesmerchant_reference).
@@ -370,7 +366,7 @@ Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.name](
 
 anyOf variant 1: Always present with an API key or dashboard credential. Null when the choice has no order charge..
 
-- Value shape: (string or null). Always present with an API key or dashboard credential. Null when the choice has no order charge. Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. 
+- Value shape: string. Always present with an API key or dashboard credential. Null when the choice has no order charge. Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. 
 
 ### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.choices variant 1.[] fields 1.order_charge_id variant 2
 
@@ -391,14 +387,6 @@ anyOf variant 1: ID of the order this delivery choice belongs to, including the 
 anyOf variant 2.
 
 - Value shape: null. ID of the order this delivery choice belongs to, including the parent of order_charge_id when a charge applies. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.choices variant 1.[] fields 1.pickup
-
-Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.pickup](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributespickup).
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.choices variant 1.[] fields 1.shipment
-
-Declared alternatives: [DeliverySelectionChoiceResourcePreviousAttributes.shipment](../models/DeliverySelectionChoiceResourcePreviousAttributes.md#deliveryselectionchoiceresourcepreviousattributesshipment).
 
 ### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.choices variant 1.[] fields 1.stable_key
 
@@ -545,7 +533,7 @@ anyOf variant 2.
 
 ### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.input_requirements variant 1.[] fields 1
 
-Field definitions: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.delivery variant 1.choice_groups variant 1.[] fields 1.candidate_outcomes variant 1.{} fields 1.input_requirements variant 1.[] fields 1](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesdelivery-variant-1choice_groups-variant-1-fields-1candidate_outcomes-variant-1-fields-1input_requirements-variant-1-fields-1).
+Field definitions: [DeliveryQuoteChoiceGroupResourcePreviousAttributes.candidate_outcomes variant 1.{} fields 1.input_requirements variant 1.[] fields 1](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributes.md#deliveryquotechoicegroupresourcepreviousattributescandidate_outcomes-variant-1-fields-1input_requirements-variant-1-fields-1).
 
 ### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.instructions
 
@@ -683,71 +671,6 @@ anyOf variant 1: Availability state of merchant-private selection evidence..
 anyOf variant 2.
 
 - Value shape: null. Availability state of merchant-private selection evidence. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient
-
-Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `email` | Conditional | string or null | Email address for contacting the recipient about delivery. `email`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesrecipient-variant-1email). |
-| `name` | Conditional | string or null | Name of the person receiving or collecting the items. `name`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesrecipient-variant-1name). |
-| `phone` | Conditional | string or null | Phone number for contacting the recipient about delivery. `phone`: [declared alternatives](../models/DeliverySelectionCommittedMerchantEventDataPreviousAttributes.md#deliveryselectioncommittedmerchanteventdatapreviousattributesrecipient-variant-1phone). |
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1
-
-anyOf DeliveryRecipientResourcePreviousAttributes.
-
-- Optional: `email`, `name`, `phone`.
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 2
-
-anyOf variant 2.
-
-- Undeclared: `email`, `name`, `phone`.
-- Value shape: null. Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.email
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.email variant 1
-
-anyOf variant 1: Email address for contacting the recipient about delivery..
-
-- Value shape: string. Email address for contacting the recipient about delivery. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.email variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Email address for contacting the recipient about delivery. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.name
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.name variant 1
-
-anyOf variant 1: Name of the person receiving or collecting the items..
-
-- Value shape: string. Name of the person receiving or collecting the items. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.name variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Name of the person receiving or collecting the items. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.phone
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.phone variant 1
-
-anyOf variant 1: Phone number for contacting the recipient about delivery..
-
-- Value shape: string. Phone number for contacting the recipient about delivery. 
-
-### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.recipient variant 1.phone variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Phone number for contacting the recipient about delivery. 
 
 ### DeliverySelectionCommittedMerchantEventDataPreviousAttributes.redacted_at
 

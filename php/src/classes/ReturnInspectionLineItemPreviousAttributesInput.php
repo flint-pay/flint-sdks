@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read list<string>|null $finding_codes
  * @property-read string|null $internal_note
  * @property-read int|null $quantity
- * @property-read string|null|null $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_inspection_id
  * @property-read string|null $return_inspection_line_item_id
  * @property-read string|null $return_line_item_id
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read list<string>|null $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionLineItemPreviousAttributesInput extends Model {
-    /** @param array{'acceptance_decided_at'?: string|\DateTimeInterface|null, 'acceptance_decided_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'acceptance_decision_reason'?: string|null, 'acceptance_decision_reason_message'?: string|null, 'acceptance_status'?: string|null, 'available_disposition_quantity'?: int|null, 'condition'?: string|null, 'finding_codes'?: list<string>|null, 'internal_note'?: string|null, 'quantity'?: int|null, 'return_id'?: string|null|null, 'return_inspection_id'?: string|null, 'return_inspection_line_item_id'?: string|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_receipt_line_item_id'?: string|null, 'supported_actions'?: list<string>|null, ...}|object $values */
+    /** @param array{'acceptance_decided_at'?: string|\DateTimeInterface|null, 'acceptance_decided_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'acceptance_decision_reason'?: string|null, 'acceptance_decision_reason_message'?: string|null, 'acceptance_status'?: string|null, 'available_disposition_quantity'?: int|null, 'condition'?: string|null, 'finding_codes'?: list<string>|null, 'internal_note'?: string|null, 'quantity'?: int|null, 'return_id'?: string|null, 'return_inspection_id'?: string|null, 'return_inspection_line_item_id'?: string|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_receipt_line_item_id'?: string|null, 'supported_actions'?: list<string>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionLineItemPreviousAttributesInput')); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
@@ -83,8 +83,8 @@ final class ReturnInspectionLineItemPreviousAttributesInput extends Model {
      */
     public function getQuantity(): mixed { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): mixed { return $this->get('return_id'); }

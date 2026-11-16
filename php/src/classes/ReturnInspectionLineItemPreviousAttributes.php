@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $acceptance_decided_at
- * @property-read mixed $acceptance_decided_by
+ * @property-read ReturnActorPreviousAttributes|null $acceptance_decided_by
  * @property-read string|null $acceptance_decision_reason
  * @property-read string|null $acceptance_decision_reason_message
  * @property-read string|null $acceptance_status
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read list<string>|null $finding_codes
  * @property-read string|null $internal_note
  * @property-read int|null $quantity
- * @property-read mixed $return_id
+ * @property-read string|null $return_id
  * @property-read string|null $return_inspection_id
  * @property-read string|null $return_inspection_line_item_id
  * @property-read string|null $return_line_item_id
@@ -29,9 +29,9 @@ final class ReturnInspectionLineItemPreviousAttributes extends Model {
     public function getAcceptanceDecidedAt(): string|null { return $this->get('acceptance_decided_at'); }
     public function hasAcceptanceDecidedAt(): bool { return $this->has('acceptance_decided_at'); }
     /** Who made the acceptance decision. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getAcceptanceDecidedBy(): mixed { return $this->get('acceptance_decided_by'); }
+    public function getAcceptanceDecidedBy(): ReturnActorPreviousAttributes|null { return $this->get('acceptance_decided_by'); }
     public function hasAcceptanceDecidedBy(): bool { return $this->has('acceptance_decided_by'); }
     /** Why the units were accepted or rejected after review. Value enum: "inspection_result", "return_policy", "manual_review", "other". anyOf[1] (Value): string. Why the units were accepted or rejected after review. Value enum: "inspection_result", "return_policy", "manual_review", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -73,10 +73,10 @@ final class ReturnInspectionLineItemPreviousAttributes extends Model {
      */
     public function getQuantity(): int|null { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string or null. Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1] (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReturnId(): mixed { return $this->get('return_id'); }
+    public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the inspection the line belongs to. anyOf[1] (Value): string. ID of the inspection the line belongs to. anyOf[2] (Value): null.
      * @return string|null

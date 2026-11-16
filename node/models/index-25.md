@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# OrderTaxExemptionRequest to PartnerAuthorizePreviewResponse
+# OrderTaxExemptionRequestInput to PartnerEnvironmentGrant
 
-- [OrderTaxExemptionRequest](OrderTaxExemptionRequest.md)
 - [OrderTaxExemptionRequestInput](OrderTaxExemptionRequestInput.md)
 - [OrderTaxJurisdictionRequestInput](OrderTaxJurisdictionRequestInput.md)
 - [OrderTaxLocation](OrderTaxLocation.md)
@@ -102,4 +101,5 @@
 - [PartnerAppWithSecretResponse](PartnerAppWithSecretResponse.md)
 - [PartnerAuthorizePreview](PartnerAuthorizePreview.md)
 - [PartnerAuthorizePreviewResponse](PartnerAuthorizePreviewResponse.md)
+- [PartnerEnvironmentGrant](PartnerEnvironmentGrant.md)
 

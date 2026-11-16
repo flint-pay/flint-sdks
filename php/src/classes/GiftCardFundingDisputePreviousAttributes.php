@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read string|null $dispute_id
  * @property-read bool|null $requires_resolution
- * @property-read mixed $resolution
+ * @property-read GiftCardFundingLossResolutionPreviousAttributes|null $resolution
  * @property-read string|null $status
  * @property-read string|null $updated_at
  * @property-read int|null $version
@@ -28,10 +28,10 @@ final class GiftCardFundingDisputePreviousAttributes extends Model {
      */
     public function getRequiresResolution(): bool|null { return $this->get('requires_resolution'); }
     public function hasRequiresResolution(): bool { return $this->has('requires_resolution'); }
-    /** The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1] (Value): ({@see GiftCardFundingLossResolutionPreviousAttributes} or null). The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1].anyOf[1] (Value): {@see GiftCardFundingLossResolutionPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1] (Value): {@see GiftCardFundingLossResolutionPreviousAttributes}. anyOf[2] (Value): null.
+     * @return GiftCardFundingLossResolutionPreviousAttributes|null
      */
-    public function getResolution(): mixed { return $this->get('resolution'); }
+    public function getResolution(): GiftCardFundingLossResolutionPreviousAttributes|null { return $this->get('resolution'); }
     public function hasResolution(): bool { return $this->has('resolution'); }
     /** Where the dispute on the funding payment stands. Spending of the value it funded stays restricted while it is `open` or `lost`. Value enum: "open", "won", "lost". anyOf[1] (Value): string. Where the dispute on the funding payment stands. Spending of the value it funded stays restricted while it is `open` or `lost`. Value enum: "open", "won", "lost". anyOf[2] (Value): null.
      * @return string|null

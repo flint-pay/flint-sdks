@@ -924,7 +924,7 @@ export type BuyerPaymentRefundPreviousAttributes = {
      * Amount refunded through this payment, including `refunded_tip_money`. anyOf[1] (Value):
      * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
@@ -964,15 +964,10 @@ export type BuyerPaymentRefundPreviousAttributes = {
     /**
      * The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand`
      * parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1]
-     * (Value): ({@link BuyerExpandedPaymentIntentSummaryPreviousAttributes} or null). The payment
-     * summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is
-     * never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value):
-     * {@link BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-     * null. anyOf[2] (Value): null.
+     * (Value): {@link BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value):
+     * null.
      */
-    "payment_intent"?: (((((BuyerExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown))))
-        | (null)
-        | (unknown));
+    "payment_intent"?: ((BuyerExpandedPaymentIntentSummaryPreviousAttributes) | (null));
     /**
      * The payment this part of the refund returned money through. anyOf[1] (Value): string. The
      * payment this part of the refund returned money through. Example:
@@ -987,12 +982,12 @@ export type BuyerPaymentRefundPreviousAttributes = {
      * fees](/docs/guides/platform-fees). anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "refunded_platform_fee_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "refunded_platform_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "refunded_tip_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "refunded_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Status of this payment refund or tender allocation. A succeeded refund can still fail after
      * a bank rejection. Parent status transitions send refund.succeeded,
@@ -1223,7 +1218,7 @@ export type BuyerRefundPreviousAttributes = {
      * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -1239,13 +1234,9 @@ export type BuyerRefundPreviousAttributes = {
     /**
      * The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter,
      * so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value):
-     * ({@link ExpandedCustomerSummaryPreviousAttributes} or null). The customer summary for
-     * `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded
-     * here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-     * (Value): null.
+     * {@link ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
     /**
      * ID of the customer on the refunded order or payment. Absent when neither has one. anyOf[1]
      * (Value): string. ID of the customer on the refunded order or payment. Absent when neither
@@ -1287,14 +1278,10 @@ export type BuyerRefundPreviousAttributes = {
     "line_item_allocations"?: ((Array<RefundLineItemAllocationPreviousAttributes>) | (null));
     /**
      * The order summary for `order_id`. Buyer refund endpoints take no `expand` parameter, so it
-     * is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): ({@link
-     * BuyerExpandedOrderSummaryPreviousAttributes} or null). The order summary for `order_id`.
-     * Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when
-     * the refund is not expanded. anyOf[1].anyOf[1] (Value): {@link
-     * BuyerExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-     * (Value): null.
+     * is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@link
+     * BuyerExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "order"?: (((((BuyerExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "order"?: ((BuyerExpandedOrderSummaryPreviousAttributes) | (null));
     /**
      * ID of the paid-order edit that created this refund. Present only on refunds issued through
      * an order edit. anyOf[1] (Value): string. ID of the paid-order edit that created this refund.
@@ -1316,15 +1303,10 @@ export type BuyerRefundPreviousAttributes = {
     /**
      * The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand`
      * parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1]
-     * (Value): ({@link BuyerExpandedPaymentIntentSummaryPreviousAttributes} or null). The payment
-     * summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is
-     * never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value):
-     * {@link BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value):
-     * null. anyOf[2] (Value): null.
+     * (Value): {@link BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value):
+     * null.
      */
-    "payment_intent"?: (((((BuyerExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown))))
-        | (null)
-        | (unknown));
+    "payment_intent"?: ((BuyerExpandedPaymentIntentSummaryPreviousAttributes) | (null));
     /**
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value): string.
@@ -1343,12 +1325,11 @@ export type BuyerRefundPreviousAttributes = {
     "payment_refunds"?: ((Array<BuyerPaymentRefundPreviousAttributes>) | (null));
     /**
      * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is
-     * on its way without review. Value enum: "manual_review", null. anyOf[1] (Value): string or
-     * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
-     * refund is on its way without review. Value enum: "manual_review", null. anyOf[2] (Value):
-     * null.
+     * on its way without review. Value enum: "manual_review", null. anyOf[1] (Value): string. Why
+     * a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null. anyOf[2] (Value): null.
      */
-    "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+    "pending_reason"?: (("manual_review" | null | (string & {})) | (null));
     /**
      * Who moved or is moving the money for this refund. Flint processes refunds through a
      * processor or a gift card; merchant means the merchant returned the money outside Flint and
@@ -1362,12 +1343,12 @@ export type BuyerRefundPreviousAttributes = {
     /**
      * `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when
      * the store made the refund, because a store's reasons aren't shared with buyers. Value enum:
-     * "payment_returned", null. anyOf[1] (Value): string or null. `payment_returned` when Flint
-     * refunded a payment it couldn't apply to the order. `null` when the store made the refund,
-     * because a store's reasons aren't shared with buyers. Value enum: "payment_returned", null.
-     * anyOf[2] (Value): null.
+     * "payment_returned", null. anyOf[1] (Value): string. `payment_returned` when Flint refunded a
+     * payment it couldn't apply to the order. `null` when the store made the refund, because a
+     * store's reasons aren't shared with buyers. Value enum: "payment_returned", null. anyOf[2]
+     * (Value): null.
      */
-    "reason"?: (("payment_returned" | null | (string & {}) | null) | (null) | (unknown));
+    "reason"?: (("payment_returned" | null | (string & {})) | (null));
     /**
      * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
      * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
@@ -1400,7 +1381,7 @@ export type BuyerRefundPreviousAttributes = {
      * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "refunded_tip_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "refunded_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the return this refund paid out. Present only on refunds issued by a return. anyOf[1]
      * (Value): string. ID of the return this refund paid out. Present only on refunds issued by a

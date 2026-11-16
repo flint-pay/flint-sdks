@@ -1,6 +1,4 @@
 import type {
-    PromotionRecurrenceForeverPreviousAttributes,
-    PromotionRecurrenceOncePreviousAttributes,
     PromotionRecurrenceForeverRequestInput,
     PromotionRecurrenceOnceRequestInput,
     PromotionApplicationMethodPreviousAttributes,
@@ -30,75 +28,6 @@ import type { BundleComponentVariantSummary } from './types-1.js';
 import type { SelectedProductOption } from './types-65.js';
 import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-62.js';
 import type { GetReturnPolicyResponse } from './types-28.js';
-import type { ReaderConnectivityPreviousAttributes } from './types-58.js';
-export type PromotionRecurrencePreviousAttributes = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. anyOf[1]
-     * (Value): integer. Number of charged payments for repeating recurrence. Omit for once and
-     * forever. minimum: 1. anyOf[2] (Value): null.
-     */
-    "period_count"?: ((number) | (null));
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once",
-     * "repeating", "forever". anyOf[1] (Value): string. Use once for the first charged payment,
-     * repeating for a fixed number of charged payments, or forever for every payment. period_count
-     * is required only for repeating. Value enum: "once", "repeating", "forever". anyOf[2]
-     * (Value): null.
-     */
-    "type"?: (("once" | "repeating" | "forever" | (string & {})) | (null));
-})
-    & (((Exclude<PromotionRecurrenceOncePreviousAttributes & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceRepeatingPreviousAttributes & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceForeverPreviousAttributes & object, readonly unknown[]>)
-    | (Record<string, unknown>)));
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeating = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating" | (string & {});
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": unknown;
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-export type PromotionRecurrenceRepeatingPreviousAttributes = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. anyOf[1]
-     * (Value): integer. Number of charged payments for repeating recurrence. Omit for once and
-     * forever. minimum: 1. anyOf[2] (Value): null.
-     */
-    "period_count"?: ((number) | (null));
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating". anyOf[1] (Value): string. Use once for the first charged payment, repeating for
-     * a fixed number of charged payments, or forever for every payment. period_count is required
-     * only for repeating. Value enum: "repeating". anyOf[2] (Value): null.
-     */
-    "type"?: (("repeating" | (string & {})) | (null));
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     * anyOf[1] (Value): any. Apply the promotion to period_count charged subscription payments.
-     * Value enum: "repeating". anyOf[2] (Value): null.
-     */
-    "type"?: ((unknown) | (null) | (unknown));
-});
 /** The `repeating` variant of `PromotionRecurrence`. */
 export type PromotionRecurrenceRepeatingRequestInput = ({
     /**
@@ -729,23 +658,23 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
             & ({
             "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
             "available"?: ((boolean) | (null));
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "description"?: ((string) | (null));
             "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
             "display_name"?: ((string) | (null));
             "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             "external_reference_id"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "unavailable_reason"?: (("inactive"
                 | "archived"
@@ -773,23 +702,23 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
             & ({
             "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
             "available"?: ((boolean) | (null));
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "description"?: ((string) | (null));
             "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
             "display_name"?: ((string) | (null));
             "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             "external_reference_id"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "unavailable_reason"?: (("inactive"
                 | "archived"
@@ -894,26 +823,25 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
      * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
      * all codes and automatic applications. Omitted when there is no redemption limit. Format:
      * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
-     * reserved and redeemed uses per identified customer across every code and automatic or
-     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
-     * attempts release their reservation; refunds do not restore uses. Counts only within the same
-     * merchant and environment; live and test mode are separate. Without an identified customer,
-     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
-     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
-     * null. Maximum reserved and redeemed uses per identified customer across every code and
-     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
-     * or expired attempts release their reservation; refunds do not restore uses. Counts only
-     * within the same merchant and environment; live and test mode are separate. Without an
-     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
-     * there is no per-customer limit. Format: int64. minimum: 1.
-     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
-     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
-     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null. Maximum reserved and
+     * redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved
+     * and redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. Format: int64. minimum: 1. previous_attributes.max_uses_per_customer.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Identifier of the
+     * merchant that owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns the promotion. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
      * string or null. Internal promotion name for dashboards, searching, and reporting.
      * previous_attributes.name.anyOf[1] (Value): string. Internal promotion name for dashboards,
@@ -1019,17 +947,17 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
          * automatic applications. Omitted when there is no redemption limit. max_uses.anyOf[1]
          * (Value): integer. Maximum number of redemptions across all codes and automatic
          * applications. Omitted when there is no redemption limit. Format: int64.
-         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null or
-         * null. Maximum reserved and redeemed uses per identified customer across every code and
+         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null.
+         * Maximum reserved and redeemed uses per identified customer across every code and
          * automatic or ID-based application. Checked atomically when payment starts. Failed,
          * canceled, or expired attempts release their reservation; refunds do not restore uses.
          * Counts only within the same merchant and environment; live and test mode are separate.
          * Without an identified customer, returns 409 PROMOTION_DECLINED with reason
          * customer_required. Null when there is no per-customer limit.
-         * max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and redeemed
-         * uses per identified customer across every code and automatic or ID-based application.
-         * Checked atomically when payment starts. Failed, canceled, or expired attempts release
-         * their reservation; refunds do not restore uses. Counts only within the same merchant and
+         * max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved and redeemed uses per
+         * identified customer across every code and automatic or ID-based application. Checked
+         * atomically when payment starts. Failed, canceled, or expired attempts release their
+         * reservation; refunds do not restore uses. Counts only within the same merchant and
          * environment; live and test mode are separate. Without an identified customer, returns
          * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
          * limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2] (Value): null.
@@ -1098,14 +1026,14 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * automatic promotions omit it. anyOf[1] (Value): {@link
              * PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
             /**
              * Which promotion discount classes this promotion may share an order with. Both
              * promotions must allow each other's class. Manual discounts are ignored. See
              * Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             /**
              * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
@@ -1150,7 +1078,7 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -1171,15 +1099,15 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * uses. Counts only within the same merchant and environment; live and test mode are
              * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
              * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer or null. Maximum reserved and redeemed uses per identified customer across
-             * every code and automatic or ID-based application. Checked atomically when payment
-             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
-             * not restore uses. Counts only within the same merchant and environment; live and
-             * test mode are separate. Without an identified customer, returns 409
-             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             * integer. Maximum reserved and redeemed uses per identified customer across every
+             * code and automatic or ID-based application. Checked atomically when payment starts.
+             * Failed, canceled, or expired attempts release their reservation; refunds do not
+             * restore uses. Counts only within the same merchant and environment; live and test
+             * mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED
+             * with reason customer_required. Null when there is no per-customer limit. Format:
+             * int64. minimum: 1. anyOf[2] (Value): null.
              */
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             /**
              * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
              * Identifier of the merchant that owns the promotion. Example:
@@ -1190,7 +1118,7 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
              * anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
              * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
@@ -1213,7 +1141,7 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * Optional start and end times that limit when the promotion can apply. anyOf[1]
              * (Value): {@link PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             /**
              * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
              * promotion can still be unavailable: read available. Value enum: "active",
@@ -1374,26 +1302,25 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
      * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
      * all codes and automatic applications. Omitted when there is no redemption limit. Format:
      * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
-     * reserved and redeemed uses per identified customer across every code and automatic or
-     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
-     * attempts release their reservation; refunds do not restore uses. Counts only within the same
-     * merchant and environment; live and test mode are separate. Without an identified customer,
-     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
-     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
-     * null. Maximum reserved and redeemed uses per identified customer across every code and
-     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
-     * or expired attempts release their reservation; refunds do not restore uses. Counts only
-     * within the same merchant and environment; live and test mode are separate. Without an
-     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
-     * there is no per-customer limit. Format: int64. minimum: 1.
-     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
-     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
-     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null. Maximum reserved and
+     * redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved
+     * and redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. Format: int64. minimum: 1. previous_attributes.max_uses_per_customer.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Identifier of the
+     * merchant that owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns the promotion. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
      * string or null. Internal promotion name for dashboards, searching, and reporting.
      * previous_attributes.name.anyOf[1] (Value): string. Internal promotion name for dashboards,
@@ -1499,17 +1426,17 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
          * automatic applications. Omitted when there is no redemption limit. max_uses.anyOf[1]
          * (Value): integer. Maximum number of redemptions across all codes and automatic
          * applications. Omitted when there is no redemption limit. Format: int64.
-         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null or
-         * null. Maximum reserved and redeemed uses per identified customer across every code and
+         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null.
+         * Maximum reserved and redeemed uses per identified customer across every code and
          * automatic or ID-based application. Checked atomically when payment starts. Failed,
          * canceled, or expired attempts release their reservation; refunds do not restore uses.
          * Counts only within the same merchant and environment; live and test mode are separate.
          * Without an identified customer, returns 409 PROMOTION_DECLINED with reason
          * customer_required. Null when there is no per-customer limit.
-         * max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and redeemed
-         * uses per identified customer across every code and automatic or ID-based application.
-         * Checked atomically when payment starts. Failed, canceled, or expired attempts release
-         * their reservation; refunds do not restore uses. Counts only within the same merchant and
+         * max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved and redeemed uses per
+         * identified customer across every code and automatic or ID-based application. Checked
+         * atomically when payment starts. Failed, canceled, or expired attempts release their
+         * reservation; refunds do not restore uses. Counts only within the same merchant and
          * environment; live and test mode are separate. Without an identified customer, returns
          * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
          * limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2] (Value): null.
@@ -1578,14 +1505,14 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * automatic promotions omit it. anyOf[1] (Value): {@link
              * PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
             /**
              * Which promotion discount classes this promotion may share an order with. Both
              * promotions must allow each other's class. Manual discounts are ignored. See
              * Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             /**
              * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
@@ -1630,7 +1557,7 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -1651,15 +1578,15 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * uses. Counts only within the same merchant and environment; live and test mode are
              * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
              * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer or null. Maximum reserved and redeemed uses per identified customer across
-             * every code and automatic or ID-based application. Checked atomically when payment
-             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
-             * not restore uses. Counts only within the same merchant and environment; live and
-             * test mode are separate. Without an identified customer, returns 409
-             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             * integer. Maximum reserved and redeemed uses per identified customer across every
+             * code and automatic or ID-based application. Checked atomically when payment starts.
+             * Failed, canceled, or expired attempts release their reservation; refunds do not
+             * restore uses. Counts only within the same merchant and environment; live and test
+             * mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED
+             * with reason customer_required. Null when there is no per-customer limit. Format:
+             * int64. minimum: 1. anyOf[2] (Value): null.
              */
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             /**
              * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
              * Identifier of the merchant that owns the promotion. Example:
@@ -1670,7 +1597,7 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
              * anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
              * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
@@ -1693,7 +1620,7 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * Optional start and end times that limit when the promotion can apply. anyOf[1]
              * (Value): {@link PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             /**
              * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
              * promotion can still be unavailable: read available. Value enum: "active",
@@ -2501,7 +2428,7 @@ export type QuantityPriceBreakPreviousAttributes = {
      * preceding price, starting with the base unit price. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /** A net unit price that applies when one catalog line reaches minimum_quantity. */
 export type QuantityPriceBreakRequestInput = {
@@ -2614,12 +2541,12 @@ export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null) | (unknown));
+            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "device_id"?: ((string) | (null));
             "is_simulated"?: ((boolean) | (null));
             "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
             "name"?: ((string) | (null));
             "reader_id"?: ((string) | (null));
@@ -2641,12 +2568,12 @@ export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null) | (unknown));
+            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "device_id"?: ((string) | (null));
             "is_simulated"?: ((boolean) | (null));
             "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
             "name"?: ((string) | (null));
             "reader_id"?: ((string) | (null));
@@ -2821,7 +2748,7 @@ export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * anyOf[1] (Value): {@link ReaderConnectivityPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null) | (unknown));
+            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
             /**
              * When the reader was registered. anyOf[1] (Value): string. When the reader was
              * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
@@ -2854,7 +2781,7 @@ export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. anyOf[2]
              * (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * The smart reader's model, read from the reader at registration. Smart readers only.
              * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
@@ -3098,7 +3025,7 @@ export type ReaderArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * anyOf[1] (Value): {@link ReaderConnectivityPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null) | (unknown));
+            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
             /**
              * When the reader was registered. anyOf[1] (Value): string. When the reader was
              * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
@@ -3131,7 +3058,7 @@ export type ReaderArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. anyOf[2]
              * (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * The smart reader's model, read from the reader at registration. Smart readers only.
              * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
@@ -3267,3 +3194,104 @@ export type ReaderConnectivity = {
      */
     "status": "online" | "offline" | (string & {});
 };
+export type ReaderConnectivityPreviousAttributes = {
+    /**
+     * When the reader last reached Stripe. Omitted when it never has. anyOf[1] (Value): string.
+     * When the reader last reached Stripe. Omitted when it never has. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "last_seen_at"?: ((string) | (null));
+    /**
+     * When Flint observed this. anyOf[1] (Value): string. When Flint observed this. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "observed_at"?: ((string) | (null));
+    /**
+     * Whether the reader was reaching Stripe when Flint last observed it. Value enum: "online",
+     * "offline". anyOf[1] (Value): string. Whether the reader was reaching Stripe when Flint last
+     * observed it. Value enum: "online", "offline". anyOf[2] (Value): null.
+     */
+    "status"?: (("online" | "offline" | (string & {})) | (null));
+};
+export type ReaderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookReader;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "reader.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookReader;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "reader.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "reader.created";
+});
+/**
+ * The `reader.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ReaderCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields:
+         * `active_payment_intent_id`.
+         */
+        "object": WebhookReader;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "reader.created". */
+    "event_type"?: "reader.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});

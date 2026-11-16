@@ -65,15 +65,18 @@ export {
     makeCreateOrderLineItemInputVariant,
     makeCreateOrderLineItemRequest
 } from '../declarations/types-80.js';
+export { makeDimensionsRequest } from '../declarations/types-83.js';
 export {
-    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest
 } from '../declarations/types-84.js';
-export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-85.js';
 export {
-    makeMetadataRequest,
+    makeLineItemFulfillmentOriginRequestModel,
+    makeLineItemFulfillmentRequestModel,
+    makeMetadataRequest
+} from '../declarations/types-85.js';
+export {
     makeMoneyValue,
     makeOrderDraftLineItemInventoryDemandRequest,
     makeOrderDraftLineItemTaxCalculationRequestModel,

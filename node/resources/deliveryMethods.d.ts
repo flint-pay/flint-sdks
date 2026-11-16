@@ -42,6 +42,7 @@ export type {
     DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput,
     DeliveryPricingRateCreateRequestInput,
     DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput,
     DeliveryPricingRateRequestInput,
     DeliveryPostalCodeCondition,
     DeliveryPostalCodeValue,
@@ -143,7 +144,6 @@ export type {
 export type {
     DeliveryPricingStrategyCreateRequestInput,
     DeliveryPricingTierBandRequestInput,
-    DeliveryPricingStrategyCreateInputCallbackInput,
     DeliveryPricingStrategyCreateInputCallerSuppliedInput,
     DeliveryPricingStrategyCreateInputFixedInput,
     DeliveryPricingStrategyCreateInputRateTableInput,
@@ -169,8 +169,7 @@ export type { SubscriptionCounts } from '../declarations/types-67.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-73.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
-export { makeAddRiskListItemsRequest } from '../declarations/types-77.js';
-export { makeBuyerInstructionsConfigRequest } from '../declarations/types-78.js';
+export { makeAddRiskListItemsRequest, makeBuyerInstructionsConfigRequest } from '../declarations/types-77.js';
 export {
     makeCreateDeliveryMethodRequest,
     makeCreateDeliveryMethodRequestLocalDelivery,
@@ -194,13 +193,13 @@ export {
     makeDeliveryFixedPricingStrategyRequest,
     makeDeliveryMethodConfigurationCreateRequest,
     makeDeliveryMethodConfigurationPatchRequest,
-    makeDeliveryMethodConfigurationRequest
-} from '../declarations/types-82.js';
-export {
+    makeDeliveryMethodConfigurationRequest,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations,
-    makeDeliveryMethodOriginSelectorInputFixedLocation,
+    makeDeliveryMethodOriginSelectorInputFixedLocation
+} from '../declarations/types-82.js';
+export {
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations,
@@ -240,8 +239,8 @@ export {
     makeDeliveryWindowTimeCondition,
     makeDeliveryZoneConditionRequest
 } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdateDeliveryMethodRequest } from '../declarations/types-90.js';
 export interface DeliveryMethodsResource {
     /**

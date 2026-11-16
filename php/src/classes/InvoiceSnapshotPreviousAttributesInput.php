@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $billing_address
  * @property-read string|null $buyer_note
- * @property-read TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $buyer_tax_identity
+ * @property-read TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $buyer_tax_identity
  * @property-read list<OrderChargePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $charges
  * @property-read string|null $customer_display_name
  * @property-read string|null $customer_email
@@ -13,14 +13,14 @@ namespace Flint;
  * @property-read list<InvoiceLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $line_items
  * @property-read string|null $merchant_display_name
  * @property-read InvoiceTipPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $requested_tip
- * @property-read TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $seller_tax_identity
+ * @property-read TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $seller_tax_identity
  * @property-read list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $tax_breakdowns
  * @property-read list<TaxCurrencyConversionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $tax_currency_conversions
  * @property-read OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $tax_exemption
- * @property-read TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $tax_reverse_charge
+ * @property-read TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $tax_reverse_charge
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceSnapshotPreviousAttributesInput extends Model {
-    /** @param array{'billing_address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'buyer_note'?: string|null, 'buyer_tax_identity'?: TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'charges'?: list<OrderChargePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'customer_display_name'?: string|null, 'customer_email'?: string|null, 'discounts'?: list<InvoiceDiscountPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'internal_note'?: string|null, 'line_items'?: list<InvoiceLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_display_name'?: string|null, 'requested_tip'?: InvoiceTipPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'seller_tax_identity'?: TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'tax_breakdowns'?: list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax_currency_conversions'?: list<TaxCurrencyConversionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax_exemption'?: OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_reverse_charge'?: TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, ...}|object $values */
+    /** @param array{'billing_address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'buyer_note'?: string|null, 'buyer_tax_identity'?: TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'charges'?: list<OrderChargePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'customer_display_name'?: string|null, 'customer_email'?: string|null, 'discounts'?: list<InvoiceDiscountPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'internal_note'?: string|null, 'line_items'?: list<InvoiceLineItemPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'merchant_display_name'?: string|null, 'requested_tip'?: InvoiceTipPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'seller_tax_identity'?: TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_breakdowns'?: list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax_currency_conversions'?: list<TaxCurrencyConversionPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'tax_exemption'?: OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'tax_reverse_charge'?: TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSnapshotPreviousAttributesInput')); }
     /** Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. anyOf[1] (Value): {@see AddressPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -34,8 +34,8 @@ final class InvoiceSnapshotPreviousAttributesInput extends Model {
      */
     public function getBuyerNote(): mixed { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** Buyer tax identity for this invoice. Drafts preview the customer's current identity. Issue freezes the identity, which later profile edits and customer deletion preserve. `null` when no buyer tax identity is available, including after customer deletion while the invoice is a draft. anyOf[1] (Value): ({@see TaxIdentityPreviousAttributesInput} or null). Buyer tax identity for this invoice. Drafts preview the customer's current identity. Issue freezes the identity, which later profile edits and customer deletion preserve. `null` when no buyer tax identity is available, including after customer deletion while the invoice is a draft. anyOf[1].anyOf[1] (Value): {@see TaxIdentityPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Buyer tax identity for this invoice. Drafts preview the customer's current identity. Issue freezes the identity, which later profile edits and customer deletion preserve. `null` when no buyer tax identity is available, including after customer deletion while the invoice is a draft. anyOf[1] (Value): {@see TaxIdentityPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When buyer_tax_identity is omitted; use hasBuyerTaxIdentity() or valueOrDefault().
      */
     public function getBuyerTaxIdentity(): mixed { return $this->get('buyer_tax_identity'); }
@@ -88,8 +88,8 @@ final class InvoiceSnapshotPreviousAttributesInput extends Model {
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. anyOf[1] (Value): ({@see TaxIdentityPreviousAttributesInput} or null). Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. anyOf[1].anyOf[1] (Value): {@see TaxIdentityPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@see TaxIdentityPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return TaxIdentityPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When seller_tax_identity is omitted; use hasSellerTaxIdentity() or valueOrDefault().
      */
     public function getSellerTaxIdentity(): mixed { return $this->get('seller_tax_identity'); }
@@ -112,8 +112,8 @@ final class InvoiceSnapshotPreviousAttributesInput extends Model {
      */
     public function getTaxExemption(): mixed { return $this->get('tax_exemption'); }
     public function hasTaxExemption(): bool { return $this->has('tax_exemption'); }
-    /** The order's reverse charge, frozen when the invoice is issued: the buyer accounts for the tax, and documents print "Reverse charge" with the buyer's tax ID. `null` when no reverse charge applies, including when an exemption applies: Flint calculates no tax for an exempt sale, so the two never appear on the same invoice. Drafts preview the order's current value. anyOf[1] (Value): ({@see TaxReverseChargePreviousAttributesInput} or null). The order's reverse charge, frozen when the invoice is issued: the buyer accounts for the tax, and documents print "Reverse charge" with the buyer's tax ID. `null` when no reverse charge applies, including when an exemption applies: Flint calculates no tax for an exempt sale, so the two never appear on the same invoice. Drafts preview the order's current value. anyOf[1].anyOf[1] (Value): {@see TaxReverseChargePreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** The order's reverse charge, frozen when the invoice is issued: the buyer accounts for the tax, and documents print "Reverse charge" with the buyer's tax ID. `null` when no reverse charge applies, including when an exemption applies: Flint calculates no tax for an exempt sale, so the two never appear on the same invoice. Drafts preview the order's current value. anyOf[1] (Value): {@see TaxReverseChargePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When tax_reverse_charge is omitted; use hasTaxReverseCharge() or valueOrDefault().
      */
     public function getTaxReverseCharge(): mixed { return $this->get('tax_reverse_charge'); }

@@ -2,30 +2,30 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|null|null $application_id
- * @property-read string|null|null $application_name
- * @property-read string|null|null $authorization_code
+ * @property-read string|null $application_id
+ * @property-read string|null $application_name
+ * @property-read string|null $authorization_code
  * @property-read string|null $cardholder_verification
  * @property-read string|null $read_method
  * @property-read string|null $wallet
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentSourceCardPresentDetailsPreviousAttributesInput extends Model {
-    /** @param array{'application_id'?: string|null|null, 'application_name'?: string|null|null, 'authorization_code'?: string|null|null, 'cardholder_verification'?: string|null, 'read_method'?: string|null, 'wallet'?: string|null, ...}|object $values */
+    /** @param array{'application_id'?: string|null, 'application_name'?: string|null, 'authorization_code'?: string|null, 'cardholder_verification'?: string|null, 'read_method'?: string|null, 'wallet'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCardPresentDetailsPreviousAttributesInput')); }
-    /** EMV application identifier (AID). Null when absent or outside the supported shape. anyOf[1] (Value): string or null. EMV application identifier (AID). Null when absent or outside the supported shape. pattern: ^[0-9A-F]{10,32}$. Example: "A0000000031010". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** EMV application identifier (AID). Null when absent or outside the supported shape. anyOf[1] (Value): string. EMV application identifier (AID). Null when absent or outside the supported shape. pattern: ^[0-9A-F]{10,32}$. Example: "A0000000031010". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When application_id is omitted; use hasApplicationId() or valueOrDefault().
      */
     public function getApplicationId(): mixed { return $this->get('application_id'); }
     public function hasApplicationId(): bool { return $this->has('application_id'); }
-    /** Card application's label, such as VISA CREDIT. Null when absent or outside the supported shape. anyOf[1] (Value): string or null. Card application's label, such as VISA CREDIT. Null when absent or outside the supported shape. pattern: ^[ -~]{1,16}$. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Card application's label, such as VISA CREDIT. Null when absent or outside the supported shape. anyOf[1] (Value): string. Card application's label, such as VISA CREDIT. Null when absent or outside the supported shape. pattern: ^[ -~]{1,16}$. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When application_name is omitted; use hasApplicationName() or valueOrDefault().
      */
     public function getApplicationName(): mixed { return $this->get('application_name'); }
     public function hasApplicationName(): bool { return $this->has('application_name'); }
-    /** Issuer's authorization code. Null when absent or outside the supported shape. anyOf[1] (Value): string or null. Issuer's authorization code. Null when absent or outside the supported shape. pattern: ^[0-9A-Za-z]{1,12}$. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Issuer's authorization code. Null when absent or outside the supported shape. anyOf[1] (Value): string. Issuer's authorization code. Null when absent or outside the supported shape. pattern: ^[0-9A-Za-z]{1,12}$. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When authorization_code is omitted; use hasAuthorizationCode() or valueOrDefault().
      */
     public function getAuthorizationCode(): mixed { return $this->get('authorization_code'); }

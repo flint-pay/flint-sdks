@@ -16,13 +16,13 @@ namespace Flint;
  * @property-read string|null $inventory_item_id
  * @property-read string|null $inventory_movement_id
  * @property-read int|null $on_hand_variance
- * @property-read int|null|null $physical_version
+ * @property-read int|null $physical_version
  * @property-read int|null $quality_control_variance
  * @property-read int|null $quarantined_variance
  * @property-read int|null $source_observation_sequence
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountLinePreviousAttributesInput extends Model {
-    /** @param array{'captured_physical_version'?: int|null, 'counted_damaged_quantity'?: int|null, 'counted_on_hand_quantity'?: int|null, 'counted_quality_control_quantity'?: int|null, 'counted_quarantined_quantity'?: int|null, 'damaged_variance'?: int|null, 'expected_damaged_quantity'?: int|null, 'expected_on_hand_quantity'?: int|null, 'expected_quality_control_quantity'?: int|null, 'expected_quarantined_quantity'?: int|null, 'inventory_count_line_id'?: string|null, 'inventory_item_id'?: string|null, 'inventory_movement_id'?: string|null, 'on_hand_variance'?: int|null, 'physical_version'?: int|null|null, 'quality_control_variance'?: int|null, 'quarantined_variance'?: int|null, 'source_observation_sequence'?: int|null, ...}|object $values */
+    /** @param array{'captured_physical_version'?: int|null, 'counted_damaged_quantity'?: int|null, 'counted_on_hand_quantity'?: int|null, 'counted_quality_control_quantity'?: int|null, 'counted_quarantined_quantity'?: int|null, 'damaged_variance'?: int|null, 'expected_damaged_quantity'?: int|null, 'expected_on_hand_quantity'?: int|null, 'expected_quality_control_quantity'?: int|null, 'expected_quarantined_quantity'?: int|null, 'inventory_count_line_id'?: string|null, 'inventory_item_id'?: string|null, 'inventory_movement_id'?: string|null, 'on_hand_variance'?: int|null, 'physical_version'?: int|null, 'quality_control_variance'?: int|null, 'quarantined_variance'?: int|null, 'source_observation_sequence'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountLinePreviousAttributesInput')); }
     /** Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version. anyOf[1] (Value): integer. Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version. Format: int64. minimum: 0. anyOf[2] (Value): null.
      * @return int|null
@@ -108,8 +108,8 @@ final class InventoryCountLinePreviousAttributesInput extends Model {
      */
     public function getOnHandVariance(): mixed { return $this->get('on_hand_variance'); }
     public function hasOnHandVariance(): bool { return $this->has('on_hand_variance'); }
-    /** Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. anyOf[1] (Value): integer or null. Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. Format: uint64. minimum: 0. maximum: 9007199254740991. anyOf[2] (Value): null.
-     * @return int|null|null
+    /** Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. anyOf[1] (Value): integer. Live physical version of the level, read alongside expected quantities on draft lines. Evidence of current stock, not a fence captured at count creation. `null` when the count is applied or canceled. Format: uint64. minimum: 0. maximum: 9007199254740991. anyOf[2] (Value): null.
+     * @return int|null
      * @throws SdkError When physical_version is omitted; use hasPhysicalVersion() or valueOrDefault().
      */
     public function getPhysicalVersion(): mixed { return $this->get('physical_version'); }

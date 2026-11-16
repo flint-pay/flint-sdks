@@ -1,8 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PaymentMethod, PaymentMethodListResponse } from '../declarations/types-51.js';
+import type { PaymentMethod, PaymentMethodListResponse, PaymentMethodResponse } from '../declarations/types-51.js';
 import type {
-    PaymentMethodResponse,
     PaymentMethodWithSetup,
     PaymentMethodsCreateParams,
     PaymentMethodsDeleteParams,
@@ -30,13 +29,12 @@ export type {
     PaymentMethodsCreateParams,
     PaymentMethodWithSetup,
     PaymentMethodsDeleteParams,
-    PaymentMethodResponse,
     PaymentMethodsGetParams,
     PaymentMethodsListParams
 } from '../declarations/types-52.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-65.js';
-export type { PaymentMethod, PaymentMethodListResponse } from '../declarations/types-51.js';
+export type { PaymentMethod, PaymentMethodResponse, PaymentMethodListResponse } from '../declarations/types-51.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';

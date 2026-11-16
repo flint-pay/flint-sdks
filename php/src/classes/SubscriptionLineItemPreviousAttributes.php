@@ -3,15 +3,15 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read bool|null $allow_quantity_adjustment
- * @property-read mixed $base_subtotal_money
+ * @property-read MoneyValuePreviousAttributes|null $base_subtotal_money
  * @property-read list<BundleComponentPreviousAttributes>|null $bundle_components
  * @property-read string|null $bundle_id
  * @property-read list<CategoryReferencePreviousAttributes>|null $categories
  * @property-read string|null $description
- * @property-read mixed $image
+ * @property-read ImagePreviousAttributes|null $image
  * @property-read int|null $max_quantity
  * @property-read int|null $min_quantity
- * @property-read mixed $modifier_total_money
+ * @property-read MoneyValuePreviousAttributes|null $modifier_total_money
  * @property-read list<OrderLineItemModifierPreviousAttributes>|null $modifiers
  * @property-read string|null $name
  * @property-read string|null $product_id
@@ -22,9 +22,9 @@ namespace Flint;
  * @property-read string|null $subscription_line_item_id
  * @property-read string|null $subscription_offer_id
  * @property-read string|null $subscription_plan_line_item_id
- * @property-read mixed $subtotal_money
+ * @property-read MoneyValuePreviousAttributes|null $subtotal_money
  * @property-read string|null $type
- * @property-read mixed $unit_price_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_money
  * @property-read string|null $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionLineItemPreviousAttributes extends Model {
@@ -36,9 +36,9 @@ final class SubscriptionLineItemPreviousAttributes extends Model {
     public function getAllowQuantityAdjustment(): bool|null { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
     /** Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getBaseSubtotalMoney(): mixed { return $this->get('base_subtotal_money'); }
+    public function getBaseSubtotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('base_subtotal_money'); }
     public function hasBaseSubtotalMoney(): bool { return $this->has('base_subtotal_money'); }
     /** Components of a bundle line, recorded when the line joined the subscription. anyOf[1] (Value): Array of {@see BundleComponentPreviousAttributes}. Components of a bundle line, recorded when the line joined the subscription. anyOf[1][] (Value): {@see BundleComponentPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<BundleComponentPreviousAttributes>|null
@@ -61,9 +61,9 @@ final class SubscriptionLineItemPreviousAttributes extends Model {
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
     /** Image of the item, recorded when the line joined the subscription. anyOf[1] (Value): {@see ImagePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ImagePreviousAttributes|null
      */
-    public function getImage(): mixed { return $this->get('image'); }
+    public function getImage(): ImagePreviousAttributes|null { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
     /** Maximum buyer quantity, defaulting to 9999 when no bound was recorded. Merchants may set any quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Maximum buyer quantity, defaulting to 9999 when no bound was recorded. Merchants may set any quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. anyOf[2] (Value): null.
      * @return int|null
@@ -76,9 +76,9 @@ final class SubscriptionLineItemPreviousAttributes extends Model {
     public function getMinQuantity(): int|null { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
     /** Sum of the line's modifier totals. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getModifierTotalMoney(): mixed { return $this->get('modifier_total_money'); }
+    public function getModifierTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('modifier_total_money'); }
     public function hasModifierTotalMoney(): bool { return $this->has('modifier_total_money'); }
     /** Modifiers selected on the line, with their prices. anyOf[1] (Value): Array of {@see OrderLineItemModifierPreviousAttributes}. Modifiers selected on the line, with their prices. anyOf[1][] (Value): {@see OrderLineItemModifierPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<OrderLineItemModifierPreviousAttributes>|null
@@ -131,9 +131,9 @@ final class SubscriptionLineItemPreviousAttributes extends Model {
     public function getSubscriptionPlanLineItemId(): string|null { return $this->get('subscription_plan_line_item_id'); }
     public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
     /** Base subtotal plus modifier total, before discounts and tax. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
+    public function getSubtotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
     /** Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom". anyOf[1] (Value): string. Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom". anyOf[2] (Value): null.
      * @return string|null
@@ -141,9 +141,9 @@ final class SubscriptionLineItemPreviousAttributes extends Model {
     public function getType(): string|null { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
     /** Price of one unit before modifiers, discounts, and tax. A plan line keeps the price its plan set. A line added or swapped takes the variant's catalog price for the subscription's customer at that time, and keeps it until the line changes again. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
     /** ID of the catalog variant the line bills. Present on `variant` lines; a variant swap replaces it. anyOf[1] (Value): string. ID of the catalog variant the line bills. Present on `variant` lines; a variant swap replaces it. anyOf[2] (Value): null.
      * @return string|null

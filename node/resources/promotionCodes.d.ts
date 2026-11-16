@@ -43,6 +43,7 @@ export type {
     PromotionPercentOffMethod,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
     PromotionBuyXGetYMethod,
     PromotionCombinesWith,
@@ -56,21 +57,15 @@ export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, Meta
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { Promotion, PromotionAmountOffMethod } from '../declarations/types-55.js';
-export type {
-    PromotionRuleGroup,
-    PromotionRule,
-    PromotionRuleValue,
-    PromotionRecurrenceRepeating,
-    PromotionSchedule
-} from '../declarations/types-57.js';
+export type { PromotionRuleGroup, PromotionRule, PromotionRuleValue, PromotionSchedule } from '../declarations/types-57.js';
 export type { MoneyValue, NextAction } from '../declarations/types-42.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { UpdatePromotionCodeRequestInput } from '../declarations/types-75.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreatePromotionCodeRequest } from '../declarations/types-81.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdatePromotionCodeRequest } from '../declarations/types-91.js';
 export interface PromotionCodesResource {
     /**

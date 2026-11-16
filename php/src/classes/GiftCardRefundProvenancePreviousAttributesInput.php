@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $original_consideration_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $original_consideration_money
  * @property-read string|\DateTimeInterface|null $original_created_at
  * @property-read GiftCardFundingSourceExternalPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceFlintPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceImportPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceAdjustmentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceGiftCardRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceStoreCreditPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $original_source
- * @property-read string|\DateTimeInterface|null|null $original_source_created_at
+ * @property-read string|\DateTimeInterface|null $original_source_created_at
  * @property-read string|null $refund_allocation_id
  * @property-read string|null $root_gift_card_id
  * @property-read string|null $root_gift_card_load_id
@@ -15,10 +15,10 @@ namespace Flint;
  * @property-read string|null $source_refund_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardRefundProvenancePreviousAttributesInput extends Model {
-    /** @param array{'original_consideration_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'original_created_at'?: string|\DateTimeInterface|null, 'original_source'?: GiftCardFundingSourceExternalPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceFlintPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceImportPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceAdjustmentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceGiftCardRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceStoreCreditPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'original_source_created_at'?: string|\DateTimeInterface|null|null, 'refund_allocation_id'?: string|null, 'root_gift_card_id'?: string|null, 'root_gift_card_load_id'?: string|null, 'source_gift_card_id'?: string|null, 'source_gift_card_redemption_id'?: string|null, 'source_purchase_refund_allocation_id'?: string|null, 'source_refund_id'?: string|null, ...}|object $values */
+    /** @param array{'original_consideration_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'original_created_at'?: string|\DateTimeInterface|null, 'original_source'?: GiftCardFundingSourceExternalPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceFlintPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceImportPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceAdjustmentPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceGiftCardRefundPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput|array<array-key, mixed>|\stdClass|GiftCardFundingSourceStoreCreditPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'original_source_created_at'?: string|\DateTimeInterface|null, 'refund_allocation_id'?: string|null, 'root_gift_card_id'?: string|null, 'root_gift_card_load_id'?: string|null, 'source_gift_card_id'?: string|null, 'source_gift_card_redemption_id'?: string|null, 'source_purchase_refund_allocation_id'?: string|null, 'source_refund_id'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRefundProvenancePreviousAttributesInput')); }
-    /** What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded. anyOf[1] (Value): ({@see MoneyValuePreviousAttributesInput} or null). What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded. anyOf[1].anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When original_consideration_money is omitted; use hasOriginalConsiderationMoney() or valueOrDefault().
      */
     public function getOriginalConsiderationMoney(): mixed { return $this->get('original_consideration_money'); }
@@ -35,8 +35,8 @@ final class GiftCardRefundProvenancePreviousAttributesInput extends Model {
      */
     public function getOriginalSource(): mixed { return $this->get('original_source'); }
     public function hasOriginalSource(): bool { return $this->has('original_source'); }
-    /** When the original funding value was received, as recorded on that load. `null` when no source time was recorded. anyOf[1] (Value): string or null. When the original funding value was received, as recorded on that load. `null` when no source time was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** When the original funding value was received, as recorded on that load. `null` when no source time was recorded. anyOf[1] (Value): string. When the original funding value was received, as recorded on that load. `null` when no source time was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When original_source_created_at is omitted; use hasOriginalSourceCreatedAt() or valueOrDefault().
      */
     public function getOriginalSourceCreatedAt(): mixed { return $this->get('original_source_created_at'); }

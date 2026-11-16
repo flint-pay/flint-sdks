@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PaymentSplit, PaymentSplitListResponse } from '../declarations/types-52.js';
-import type { PaymentSplitResponse, PaymentSplitsGetParams, PaymentSplitsListParams } from '../declarations/types-53.js';
+import type { PaymentSplit, PaymentSplitListResponse, PaymentSplitResponse } from '../declarations/types-52.js';
+import type { PaymentSplitsGetParams, PaymentSplitsListParams } from '../declarations/types-53.js';
 import type { RequestOptions } from '../declarations/types-60.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -18,10 +18,10 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { PaymentSplitsGetParams, PaymentSplitResponse, PaymentSplitsListParams, PaymentSplitReversal } from '../declarations/types-53.js';
+export type { PaymentSplitsGetParams, PaymentSplitsListParams } from '../declarations/types-53.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
-export type { PaymentSplit, PaymentSplitListResponse } from '../declarations/types-52.js';
+export type { PaymentSplit, PaymentSplitResponse, PaymentSplitListResponse, PaymentSplitReversal } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';

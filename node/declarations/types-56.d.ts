@@ -1,15 +1,19 @@
-import type { MoneyValuePreviousAttributes, MoneyValue, MoneyValueInput } from './types-42.js';
 import type {
-    PromotionRecurrencePreviousAttributes,
-    PromotionRuleGroupPreviousAttributes,
+    PromotionAmountOffMethod,
+    PromotionAmountOffMethodPreviousAttributes,
+    PromotionAmountOffMethodRequest,
+    PromotionAmountOffMethodRequestInput,
+    Promotion
+} from './types-55.js';
+import type { MoneyValue, MoneyValueInput } from './types-42.js';
+import type {
     PromotionRuleGroupRequest,
     PromotionRecurrenceRequestInput,
     PromotionRuleGroupRequestInput,
+    PromotionRuleGroupPreviousAttributes,
     PromotionSchedulePreviousAttributes,
-    PromotionRuleGroup,
-    PromotionRecurrenceRepeating
+    PromotionRuleGroup
 } from './types-57.js';
-import type { PromotionAmountOffMethod, Promotion } from './types-55.js';
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-41.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { WebhookPromotion, WebhookPromotionCode } from './types-77.js';
@@ -19,200 +23,6 @@ import type { CreatePromotionCodeRequestInput } from './types-12.js';
 import type { CategoriesDeleteParams } from './types-5.js';
 import type { DisputesAcceptParams } from './types-25.js';
 import type { UpdatePromotionCodeRequestInput } from './types-75.js';
-export type PromotionAmountOffMethodPreviousAttributes = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across". anyOf[1] (Value):
-     * string. How the effect is applied across the matched items or charges. each applies the
-     * effect to every matched item independently: a fixed amount_off is charged per item (10 USD
-     * off 3 items discounts 30 USD, each capped at the item price), and a percent_off is taken
-     * from each item. across applies the effect once to the matched set as a whole: a fixed
-     * amount_off is the whole amount one time (10 USD off the group total, not prorated per item),
-     * and a percent_off is taken from the combined subtotal. For percent_off the two produce the
-     * same total and differ only in how the discount is attributed to individual line items; for
-     * amount_off they differ by the number of matched items, so set it deliberately. Defaults to
-     * each for line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across". anyOf[2] (Value): null.
-     */
-    "allocation"?: (("each" | "across" | (string & {})) | (null));
-    /**
-     * Positive fixed discount in the primary currency. allocation determines whether it applies to
-     * each matched item or once across the matched set. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_off_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax". anyOf[1] (Value): string. What a merchandise
-     * discount is calculated from. Omitted means `subtotal_pre_tax`. Not used by service_charge
-     * promotions; sending it there returns `400 INVALID_REQUEST`. Value enum: "subtotal_pre_tax",
-     * "subtotal_post_tax". anyOf[2] (Value): null.
-     */
-    "calculation_basis"?: (("subtotal_pre_tax" | "subtotal_post_tax" | (string & {})) | (null));
-    /**
-     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
-     * its key. anyOf[1] (Value): Map of {@link MoneyValuePreviousAttributes}. anyOf[1].* (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. anyOf[1] (Value): {@link
-     * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one nonempty
-     * all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key
-     * are invalid. Omit the field for no rules, or send null where the field is clearable.
-     * Responses list rules before nested groups. Under any, a nested group containing only one
-     * rule reads back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups. anyOf[2] (Value): null.
-     */
-    "discounted_item_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. anyOf[1] (Value): {@link
-     * PromotionRecurrencePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null) | (unknown));
-    /**
-     * Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off".
-     * anyOf[1] (Value): string. Selects the amount_off discount effect and its allowed fields.
-     * Value enum: "amount_off". anyOf[2] (Value): null.
-     */
-    "type"?: (("amount_off" | (string & {})) | (null));
-};
-/** The `amount_off` variant of `PromotionApplicationMethodInput`. */
-export type PromotionAmountOffMethodRequest = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Positive fixed discount in the primary currency. allocation determines whether it applies to
-     * each matched item or once across the matched set. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "amount_off_money": MoneyValue;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
-     * its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "currency_options"?: Record<string, MoneyValue>;
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroupRequest;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
-    "type": "amount_off" | (string & {});
-};
-/** The `amount_off` variant of `PromotionApplicationMethodInput`. */
-export type PromotionAmountOffMethodRequestInput = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * Positive fixed discount in the primary currency. allocation determines whether it applies to
-     * each matched item or once across the matched set. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "amount_off_money": MoneyValueInput;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
-    /**
-     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
-     * its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "currency_options"?: Record<string, MoneyValueInput>;
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroupRequestInput;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrenceRequestInput;
-    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
-    "type": "amount_off";
-};
 /** A flat application method whose type selects its effect fields. */
 export type PromotionApplicationMethod = ((PromotionPercentOffMethod)
     | (PromotionAmountOffMethod)
@@ -462,23 +272,23 @@ export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             & ({
             "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
             "available"?: ((boolean) | (null));
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "description"?: ((string) | (null));
             "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
             "display_name"?: ((string) | (null));
             "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             "external_reference_id"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "unavailable_reason"?: (("inactive"
                 | "archived"
@@ -506,23 +316,23 @@ export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             & ({
             "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
             "available"?: ((boolean) | (null));
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "description"?: ((string) | (null));
             "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
             "display_name"?: ((string) | (null));
             "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             "external_reference_id"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "unavailable_reason"?: (("inactive"
                 | "archived"
@@ -627,26 +437,25 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
      * all codes and automatic applications. Omitted when there is no redemption limit. Format:
      * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
-     * reserved and redeemed uses per identified customer across every code and automatic or
-     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
-     * attempts release their reservation; refunds do not restore uses. Counts only within the same
-     * merchant and environment; live and test mode are separate. Without an identified customer,
-     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
-     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
-     * null. Maximum reserved and redeemed uses per identified customer across every code and
-     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
-     * or expired attempts release their reservation; refunds do not restore uses. Counts only
-     * within the same merchant and environment; live and test mode are separate. Without an
-     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
-     * there is no per-customer limit. Format: int64. minimum: 1.
-     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
-     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
-     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null. Maximum reserved and
+     * redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved
+     * and redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. Format: int64. minimum: 1. previous_attributes.max_uses_per_customer.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Identifier of the
+     * merchant that owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns the promotion. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
      * string or null. Internal promotion name for dashboards, searching, and reporting.
      * previous_attributes.name.anyOf[1] (Value): string. Internal promotion name for dashboards,
@@ -752,17 +561,17 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * automatic applications. Omitted when there is no redemption limit. max_uses.anyOf[1]
          * (Value): integer. Maximum number of redemptions across all codes and automatic
          * applications. Omitted when there is no redemption limit. Format: int64.
-         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null or
-         * null. Maximum reserved and redeemed uses per identified customer across every code and
+         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null.
+         * Maximum reserved and redeemed uses per identified customer across every code and
          * automatic or ID-based application. Checked atomically when payment starts. Failed,
          * canceled, or expired attempts release their reservation; refunds do not restore uses.
          * Counts only within the same merchant and environment; live and test mode are separate.
          * Without an identified customer, returns 409 PROMOTION_DECLINED with reason
          * customer_required. Null when there is no per-customer limit.
-         * max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and redeemed
-         * uses per identified customer across every code and automatic or ID-based application.
-         * Checked atomically when payment starts. Failed, canceled, or expired attempts release
-         * their reservation; refunds do not restore uses. Counts only within the same merchant and
+         * max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved and redeemed uses per
+         * identified customer across every code and automatic or ID-based application. Checked
+         * atomically when payment starts. Failed, canceled, or expired attempts release their
+         * reservation; refunds do not restore uses. Counts only within the same merchant and
          * environment; live and test mode are separate. Without an identified customer, returns
          * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
          * limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2] (Value): null.
@@ -831,14 +640,14 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * automatic promotions omit it. anyOf[1] (Value): {@link
              * PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
             /**
              * Which promotion discount classes this promotion may share an order with. Both
              * promotions must allow each other's class. Manual discounts are ignored. See
              * Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             /**
              * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
@@ -883,7 +692,7 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -904,15 +713,15 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * uses. Counts only within the same merchant and environment; live and test mode are
              * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
              * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer or null. Maximum reserved and redeemed uses per identified customer across
-             * every code and automatic or ID-based application. Checked atomically when payment
-             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
-             * not restore uses. Counts only within the same merchant and environment; live and
-             * test mode are separate. Without an identified customer, returns 409
-             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             * integer. Maximum reserved and redeemed uses per identified customer across every
+             * code and automatic or ID-based application. Checked atomically when payment starts.
+             * Failed, canceled, or expired attempts release their reservation; refunds do not
+             * restore uses. Counts only within the same merchant and environment; live and test
+             * mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED
+             * with reason customer_required. Null when there is no per-customer limit. Format:
+             * int64. minimum: 1. anyOf[2] (Value): null.
              */
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             /**
              * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
              * Identifier of the merchant that owns the promotion. Example:
@@ -923,7 +732,7 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
              * anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
              * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
@@ -946,7 +755,7 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * Optional start and end times that limit when the promotion can apply. anyOf[1]
              * (Value): {@link PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             /**
              * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
              * promotion can still be unavailable: read available. Value enum: "active",
@@ -1107,26 +916,25 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
      * all codes and automatic applications. Omitted when there is no redemption limit. Format:
      * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
-     * reserved and redeemed uses per identified customer across every code and automatic or
-     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
-     * attempts release their reservation; refunds do not restore uses. Counts only within the same
-     * merchant and environment; live and test mode are separate. Without an identified customer,
-     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
-     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
-     * null. Maximum reserved and redeemed uses per identified customer across every code and
-     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
-     * or expired attempts release their reservation; refunds do not restore uses. Counts only
-     * within the same merchant and environment; live and test mode are separate. Without an
-     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
-     * there is no per-customer limit. Format: int64. minimum: 1.
-     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
-     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
-     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
-     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
-     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null. Maximum reserved and
+     * redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved
+     * and redeemed uses per identified customer across every code and automatic or ID-based
+     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
+     * release their reservation; refunds do not restore uses. Counts only within the same merchant
+     * and environment; live and test mode are separate. Without an identified customer, returns
+     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+     * limit. Format: int64. minimum: 1. previous_attributes.max_uses_per_customer.anyOf[2]
+     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Identifier of the
+     * merchant that owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string.
+     * Identifier of the merchant that owns the promotion. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
      * string or null. Internal promotion name for dashboards, searching, and reporting.
      * previous_attributes.name.anyOf[1] (Value): string. Internal promotion name for dashboards,
@@ -1232,17 +1040,17 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * automatic applications. Omitted when there is no redemption limit. max_uses.anyOf[1]
          * (Value): integer. Maximum number of redemptions across all codes and automatic
          * applications. Omitted when there is no redemption limit. Format: int64.
-         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null or
-         * null. Maximum reserved and redeemed uses per identified customer across every code and
+         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null.
+         * Maximum reserved and redeemed uses per identified customer across every code and
          * automatic or ID-based application. Checked atomically when payment starts. Failed,
          * canceled, or expired attempts release their reservation; refunds do not restore uses.
          * Counts only within the same merchant and environment; live and test mode are separate.
          * Without an identified customer, returns 409 PROMOTION_DECLINED with reason
          * customer_required. Null when there is no per-customer limit.
-         * max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and redeemed
-         * uses per identified customer across every code and automatic or ID-based application.
-         * Checked atomically when payment starts. Failed, canceled, or expired attempts release
-         * their reservation; refunds do not restore uses. Counts only within the same merchant and
+         * max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved and redeemed uses per
+         * identified customer across every code and automatic or ID-based application. Checked
+         * atomically when payment starts. Failed, canceled, or expired attempts release their
+         * reservation; refunds do not restore uses. Counts only within the same merchant and
          * environment; live and test mode are separate. Without an identified customer, returns
          * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
          * limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2] (Value): null.
@@ -1311,14 +1119,14 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * automatic promotions omit it. anyOf[1] (Value): {@link
              * PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null) | (unknown));
+            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
             /**
              * Which promotion discount classes this promotion may share an order with. Both
              * promotions must allow each other's class. Manual discounts are ignored. See
              * Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null) | (unknown));
+            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
             /**
              * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
@@ -1363,7 +1171,7 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
              * PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -1384,15 +1192,15 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * uses. Counts only within the same merchant and environment; live and test mode are
              * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
              * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer or null. Maximum reserved and redeemed uses per identified customer across
-             * every code and automatic or ID-based application. Checked atomically when payment
-             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
-             * not restore uses. Counts only within the same merchant and environment; live and
-             * test mode are separate. Without an identified customer, returns 409
-             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             * integer. Maximum reserved and redeemed uses per identified customer across every
+             * code and automatic or ID-based application. Checked atomically when payment starts.
+             * Failed, canceled, or expired attempts release their reservation; refunds do not
+             * restore uses. Counts only within the same merchant and environment; live and test
+             * mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED
+             * with reason customer_required. Null when there is no per-customer limit. Format:
+             * int64. minimum: 1. anyOf[2] (Value): null.
              */
-            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "max_uses_per_customer"?: ((number) | (null));
             /**
              * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
              * Identifier of the merchant that owns the promotion. Example:
@@ -1403,7 +1211,7 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
              * anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
              * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
@@ -1426,7 +1234,7 @@ export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * Optional start and end times that limit when the promotion can apply. anyOf[1]
              * (Value): {@link PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null) | (unknown));
+            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
             /**
              * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
              * promotion can still be unavailable: read available. Value enum: "active",
@@ -1662,7 +1470,7 @@ export type PromotionBuyXGetYMethodPreviousAttributes = {
      * One-time orders apply the promotion once. anyOf[1] (Value): {@link
      * PromotionRecurrencePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null) | (unknown));
+    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null));
     /**
      * Which matching reward items receive the discount: the cheapest, the highest priced, or those
      * added first to the order. Defaults to cheapest. Value enum: "cheapest", "highest_price",
@@ -2070,11 +1878,11 @@ export type PromotionCodeArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "available"?: ((boolean) | (null));
             "code"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             "expires_at"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "promotion_code_id"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -2100,11 +1908,11 @@ export type PromotionCodeArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "available"?: ((boolean) | (null));
             "code"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             "expires_at"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "promotion_code_id"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -2153,12 +1961,12 @@ export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
+     * previous_attributes.customer_id (Optional): string or null. Only this identified customer
+     * can redeem the code. The customer must belong to the same merchant and environment. A
+     * checkout may use its merchant-named or email-verified customer; a typed email does not
      * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
+     * (Value): string. Only this identified customer can redeem the code. The customer must belong
+     * to the same merchant and environment. A checkout may use its merchant-named or
      * email-verified customer; a typed email does not identify a customer. Null when the code is
      * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
      * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
@@ -2236,14 +2044,14 @@ export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * null. created_at (Optional): string or null. When the promotion code was created, as an
          * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
          * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Only this
+         * identified customer can redeem the code. The customer must belong to the same merchant
+         * and environment. A checkout may use its merchant-named or email-verified customer; a
+         * typed email does not identify a customer. Null when the code is unbound.
+         * customer_id.anyOf[1] (Value): string. Only this identified customer can redeem the code.
+         * The customer must belong to the same merchant and environment. A checkout may use its
+         * merchant-named or email-verified customer; a typed email does not identify a customer.
+         * Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
          * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
          * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
          * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
@@ -2320,13 +2128,13 @@ export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * Only this identified customer can redeem the code. The customer must belong to the
              * same merchant and environment. A checkout may use its merchant-named or
              * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
+             * code is unbound. anyOf[1] (Value): string. Only this identified customer can redeem
+             * the code. The customer must belong to the same merchant and environment. A checkout
+             * may use its merchant-named or email-verified customer; a typed email does not
+             * identify a customer. Null when the code is unbound. Example:
              * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
              */
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             /**
              * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
              * the code does not expire. anyOf[1] (Value): string. When the code stops being
@@ -2351,7 +2159,7 @@ export type PromotionCodeArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
              * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
@@ -2476,12 +2284,12 @@ export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
+     * previous_attributes.customer_id (Optional): string or null. Only this identified customer
+     * can redeem the code. The customer must belong to the same merchant and environment. A
+     * checkout may use its merchant-named or email-verified customer; a typed email does not
      * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
+     * (Value): string. Only this identified customer can redeem the code. The customer must belong
+     * to the same merchant and environment. A checkout may use its merchant-named or
      * email-verified customer; a typed email does not identify a customer. Null when the code is
      * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
      * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
@@ -2559,14 +2367,14 @@ export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * null. created_at (Optional): string or null. When the promotion code was created, as an
          * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
          * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Only this
+         * identified customer can redeem the code. The customer must belong to the same merchant
+         * and environment. A checkout may use its merchant-named or email-verified customer; a
+         * typed email does not identify a customer. Null when the code is unbound.
+         * customer_id.anyOf[1] (Value): string. Only this identified customer can redeem the code.
+         * The customer must belong to the same merchant and environment. A checkout may use its
+         * merchant-named or email-verified customer; a typed email does not identify a customer.
+         * Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
          * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
          * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
          * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
@@ -2643,13 +2451,13 @@ export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * Only this identified customer can redeem the code. The customer must belong to the
              * same merchant and environment. A checkout may use its merchant-named or
              * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
+             * code is unbound. anyOf[1] (Value): string. Only this identified customer can redeem
+             * the code. The customer must belong to the same merchant and environment. A checkout
+             * may use its merchant-named or email-verified customer; a typed email does not
+             * identify a customer. Null when the code is unbound. Example:
              * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
              */
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             /**
              * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
              * the code does not expire. anyOf[1] (Value): string. When the code stops being
@@ -2674,7 +2482,7 @@ export type PromotionCodeArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
              * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
@@ -2965,11 +2773,11 @@ export type PromotionCodeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "available"?: ((boolean) | (null));
             "code"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             "expires_at"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "promotion_code_id"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -2995,11 +2803,11 @@ export type PromotionCodeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "available"?: ((boolean) | (null));
             "code"?: ((string) | (null));
             "created_at"?: ((string) | (null));
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             "expires_at"?: ((string) | (null));
             "max_uses"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "promotion_code_id"?: ((string) | (null));
             "promotion_id"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -3048,12 +2856,12 @@ export type PromotionCodeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
+     * previous_attributes.customer_id (Optional): string or null. Only this identified customer
+     * can redeem the code. The customer must belong to the same merchant and environment. A
+     * checkout may use its merchant-named or email-verified customer; a typed email does not
      * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
+     * (Value): string. Only this identified customer can redeem the code. The customer must belong
+     * to the same merchant and environment. A checkout may use its merchant-named or
      * email-verified customer; a typed email does not identify a customer. Null when the code is
      * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
      * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
@@ -3131,14 +2939,14 @@ export type PromotionCodeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * null. created_at (Optional): string or null. When the promotion code was created, as an
          * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
          * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Only this
+         * identified customer can redeem the code. The customer must belong to the same merchant
+         * and environment. A checkout may use its merchant-named or email-verified customer; a
+         * typed email does not identify a customer. Null when the code is unbound.
+         * customer_id.anyOf[1] (Value): string. Only this identified customer can redeem the code.
+         * The customer must belong to the same merchant and environment. A checkout may use its
+         * merchant-named or email-verified customer; a typed email does not identify a customer.
+         * Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
          * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
          * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
          * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
@@ -3215,13 +3023,13 @@ export type PromotionCodeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * Only this identified customer can redeem the code. The customer must belong to the
              * same merchant and environment. A checkout may use its merchant-named or
              * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
+             * code is unbound. anyOf[1] (Value): string. Only this identified customer can redeem
+             * the code. The customer must belong to the same merchant and environment. A checkout
+             * may use its merchant-named or email-verified customer; a typed email does not
+             * identify a customer. Null when the code is unbound. Example:
              * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
              */
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             /**
              * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
              * the code does not expire. anyOf[1] (Value): string. When the code stops being
@@ -3246,7 +3054,7 @@ export type PromotionCodeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
              * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
@@ -3371,12 +3179,12 @@ export type PromotionCodeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null or null. Only this identified
-     * customer can redeem the code. The customer must belong to the same merchant and environment.
-     * A checkout may use its merchant-named or email-verified customer; a typed email does not
+     * previous_attributes.customer_id (Optional): string or null. Only this identified customer
+     * can redeem the code. The customer must belong to the same merchant and environment. A
+     * checkout may use its merchant-named or email-verified customer; a typed email does not
      * identify a customer. Null when the code is unbound. previous_attributes.customer_id.anyOf[1]
-     * (Value): string or null. Only this identified customer can redeem the code. The customer
-     * must belong to the same merchant and environment. A checkout may use its merchant-named or
+     * (Value): string. Only this identified customer can redeem the code. The customer must belong
+     * to the same merchant and environment. A checkout may use its merchant-named or
      * email-verified customer; a typed email does not identify a customer. Null when the code is
      * unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
      * (Value): null. previous_attributes.expires_at (Optional): string or null. When the code
@@ -3454,14 +3262,14 @@ export type PromotionCodeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * null. created_at (Optional): string or null. When the promotion code was created, as an
          * RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion code was
          * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null or null. Only
-         * this identified customer can redeem the code. The customer must belong to the same
-         * merchant and environment. A checkout may use its merchant-named or email-verified
-         * customer; a typed email does not identify a customer. Null when the code is unbound.
-         * customer_id.anyOf[1] (Value): string or null. Only this identified customer can redeem
-         * the code. The customer must belong to the same merchant and environment. A checkout may
-         * use its merchant-named or email-verified customer; a typed email does not identify a
-         * customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Only this
+         * identified customer can redeem the code. The customer must belong to the same merchant
+         * and environment. A checkout may use its merchant-named or email-verified customer; a
+         * typed email does not identify a customer. Null when the code is unbound.
+         * customer_id.anyOf[1] (Value): string. Only this identified customer can redeem the code.
+         * The customer must belong to the same merchant and environment. A checkout may use its
+         * merchant-named or email-verified customer; a typed email does not identify a customer.
+         * Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
          * customer_id.anyOf[2] (Value): null. expires_at (Optional): string or null. When the code
          * stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not
          * expire. expires_at.anyOf[1] (Value): string. When the code stops being redeemable, as an
@@ -3538,13 +3346,13 @@ export type PromotionCodeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * Only this identified customer can redeem the code. The customer must belong to the
              * same merchant and environment. A checkout may use its merchant-named or
              * email-verified customer; a typed email does not identify a customer. Null when the
-             * code is unbound. anyOf[1] (Value): string or null. Only this identified customer can
-             * redeem the code. The customer must belong to the same merchant and environment. A
-             * checkout may use its merchant-named or email-verified customer; a typed email does
-             * not identify a customer. Null when the code is unbound. Example:
+             * code is unbound. anyOf[1] (Value): string. Only this identified customer can redeem
+             * the code. The customer must belong to the same merchant and environment. A checkout
+             * may use its merchant-named or email-verified customer; a typed email does not
+             * identify a customer. Null when the code is unbound. Example:
              * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
              */
-            "customer_id"?: ((string | null) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
             /**
              * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when
              * the code does not expire. anyOf[1] (Value): string. When the code stops being
@@ -3569,7 +3377,7 @@ export type PromotionCodeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * Key-value data you attach to the promotion code. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Unique identifier for the promotion code. anyOf[1] (Value): string. Unique
              * identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
@@ -4191,7 +3999,7 @@ export type PromotionPercentOffMethodPreviousAttributes = {
      * One-time orders apply the promotion once. anyOf[1] (Value): {@link
      * PromotionRecurrencePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null) | (unknown));
+    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null));
     /**
      * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
      * anyOf[1] (Value): string. Selects the percent_off discount effect and its allowed fields.
@@ -4457,3 +4265,71 @@ export type PromotionRecurrenceOnceRequestInput = ({
     & ({
     "period_count"?: never;
 }));
+export type PromotionRecurrencePreviousAttributes = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. anyOf[1]
+     * (Value): integer. Number of charged payments for repeating recurrence. Omit for once and
+     * forever. minimum: 1. anyOf[2] (Value): null.
+     */
+    "period_count"?: ((number) | (null));
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum: "once",
+     * "repeating", "forever". anyOf[1] (Value): string. Use once for the first charged payment,
+     * repeating for a fixed number of charged payments, or forever for every payment. period_count
+     * is required only for repeating. Value enum: "once", "repeating", "forever". anyOf[2]
+     * (Value): null.
+     */
+    "type"?: (("once" | "repeating" | "forever" | (string & {})) | (null));
+})
+    & (((Exclude<PromotionRecurrenceOncePreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PromotionRecurrenceRepeatingPreviousAttributes & object, readonly unknown[]>)
+    | (Exclude<PromotionRecurrenceForeverPreviousAttributes & object, readonly unknown[]>)
+    | (Record<string, unknown>)));
+/** The `repeating` variant of `PromotionRecurrence`. */
+export type PromotionRecurrenceRepeating = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count": number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum:
+     * "repeating".
+     */
+    "type": "repeating" | (string & {});
+})
+    & ({
+    /**
+     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
+     */
+    "type": unknown;
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count": number;
+});
+export type PromotionRecurrenceRepeatingPreviousAttributes = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. anyOf[1]
+     * (Value): integer. Number of charged payments for repeating recurrence. Omit for once and
+     * forever. minimum: 1. anyOf[2] (Value): null.
+     */
+    "period_count"?: ((number) | (null));
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum:
+     * "repeating". anyOf[1] (Value): string. Use once for the first charged payment, repeating for
+     * a fixed number of charged payments, or forever for every payment. period_count is required
+     * only for repeating. Value enum: "repeating". anyOf[2] (Value): null.
+     */
+    "type"?: (("repeating" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
+     * anyOf[1] (Value): any. Apply the promotion to period_count charged subscription payments.
+     * Value enum: "repeating". anyOf[2] (Value): null.
+     */
+    "type"?: ((unknown) | (null) | (unknown));
+});

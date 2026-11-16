@@ -6,10 +6,10 @@ namespace Flint;
  * @property-read string|null $order_line_item_id
  * @property-read string|null $payment_intent_id
  * @property-read string|null $purchase_refund_allocation_id
- * @property-read mixed $returned_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $returned_amount_money
  * @property-read string|null $settlement_allocation_id
- * @property-read mixed $source_pending_amount_money
- * @property-read mixed $source_remaining_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $source_pending_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $source_remaining_amount_money
  * Presence-aware response; omitted optional fields return null. */
 final class RefundUnissuedGiftCardRecoveryPreviousAttributes extends Model {
     /** @param array{'order_id'?: mixed, 'order_line_item_id'?: mixed, 'payment_intent_id'?: mixed, 'purchase_refund_allocation_id'?: mixed, 'returned_amount_money'?: mixed, 'settlement_allocation_id'?: mixed, 'source_pending_amount_money'?: mixed, 'source_remaining_amount_money'?: mixed, ...}|object $values */
@@ -35,9 +35,9 @@ final class RefundUnissuedGiftCardRecoveryPreviousAttributes extends Model {
     public function getPurchaseRefundAllocationId(): string|null { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
     /** Cash that came back and funded no gift card. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReturnedAmountMoney(): mixed { return $this->get('returned_amount_money'); }
+    public function getReturnedAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('returned_amount_money'); }
     public function hasReturnedAmountMoney(): bool { return $this->has('returned_amount_money'); }
     /** ID of the settlement allocation this entry draws on. Entries that share one describe the same pool, so their amounts aren't additive. anyOf[1] (Value): string. ID of the settlement allocation this entry draws on. Entries that share one describe the same pool, so their amounts aren't additive. anyOf[2] (Value): null.
      * @return string|null
@@ -45,13 +45,13 @@ final class RefundUnissuedGiftCardRecoveryPreviousAttributes extends Model {
     public function getSettlementAllocationId(): string|null { return $this->get('settlement_allocation_id'); }
     public function hasSettlementAllocationId(): bool { return $this->has('settlement_allocation_id'); }
     /** Cash on the whole settlement allocation that pending refunds hold. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getSourcePendingAmountMoney(): mixed { return $this->get('source_pending_amount_money'); }
+    public function getSourcePendingAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('source_pending_amount_money'); }
     public function hasSourcePendingAmountMoney(): bool { return $this->has('source_pending_amount_money'); }
     /** Cash left on the whole settlement allocation, including cash that pending refunds hold. Subtract `source_pending_amount_money` to find what you can refund now. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getSourceRemainingAmountMoney(): mixed { return $this->get('source_remaining_amount_money'); }
+    public function getSourceRemainingAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('source_remaining_amount_money'); }
     public function hasSourceRemainingAmountMoney(): bool { return $this->has('source_remaining_amount_money'); }
 }

@@ -120,10 +120,6 @@ Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.status](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesstatus).
 
-### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.text
-
-Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.text](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext).
-
 ### ModifierGroupArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
 
 Declared alternatives: [ModifierGroupArchivedMerchantEventDataPreviousAttributes.updated_at](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesupdated_at).

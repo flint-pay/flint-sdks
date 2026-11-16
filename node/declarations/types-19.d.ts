@@ -35,7 +35,6 @@ import type {
     DeliveryMethodOriginSelectorRequestInput,
     DeliveryMethodOriginSelectorPreviousAttributes,
     DeliveryMethodOriginSelectorPickupLocationCollection,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput
 } from './types-20.js';
 import type {
@@ -52,93 +51,6 @@ import type {
     DeliveryPricingStrategyRequestInput,
     DeliveryPricingStrategyPreviousAttributes
 } from './types-21.js';
-/**
- * Details of a local delivery fulfillment: courier, timing window, instructions, and tracking.
- * Some fields are omitted for credentials that don't act for the verified customer.
- */
-export type DeliveryFulfillmentDetails = {
-    /** Carrier responsible for the local delivery. */
-    "carrier"?: string;
-    /**
-     * Time at which the courier collected the order. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "courier_pickup_at"?: string;
-    /**
-     * Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64.
-     * minimum: 0. maximum: 86400.
-     */
-    "courier_pickup_window_duration_seconds"?: number;
-    /** Delivery network or merchant fleet provider handling the job. maxLength: 255. */
-    "courier_provider_name"?: string;
-    /** Buyer-safe support number for the courier or merchant fleet. maxLength: 30. */
-    "courier_support_phone"?: string;
-    /**
-     * When the items were delivered, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "delivered_at"?: string;
-    /**
-     * Time by which the order should be delivered. Passing it does not change status or emit an
-     * event automatically; the merchant decides how to follow up. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "delivery_due_at"?: string;
-    /**
-     * When the delivery was dispatched, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "dispatched_at"?: string;
-    /**
-     * Driver-facing notes for the final handoff. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. maxLength: 2048.
-     */
-    "dropoff_notes"?: string;
-    /**
-     * Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_delivery_id"?: string;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified.
-     */
-    "instructions"?: string;
-    /**
-     * Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential
-     * that doesn't act for the customer the buyer verified.
-     */
-    "no_contact"?: boolean;
-    /**
-     * Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64.
-     * minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /**
-     * Time at which the order became ready for courier pickup. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "ready_at"?: string;
-    /** Delivery service area assigned to this fulfillment. Example: "boston-north". */
-    "service_area_id"?: string;
-    /** Timezone used to display the local delivery window. Uses an IANA time zone name. */
-    "timezone"?: string;
-    /**
-     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     */
-    "tracking_url"?: string;
-    /**
-     * End of the promised delivery window, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "window_end_at"?: string;
-    /**
-     * Start of the promised delivery window, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "window_start_at"?: string;
-};
 export type DeliveryFulfillmentDetailsPreviousAttributes = {
     /**
      * Carrier responsible for the local delivery. anyOf[1] (Value): string. Carrier responsible
@@ -444,7 +356,7 @@ export type DeliveryInputRequirementPreviousAttributes = {
      * The rules the input must follow. anyOf[1] (Value): {@link
      * DeliveryInputConstraintPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "constraint"?: ((DeliveryInputConstraintPreviousAttributes) | (null) | (unknown));
+    "constraint"?: ((DeliveryInputConstraintPreviousAttributes) | (null));
     /**
      * Choice groups that need this input. anyOf[1] (Value): Array of string. Choice groups that
      * need this input. anyOf[1][] (Value): string. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
@@ -607,12 +519,12 @@ export type DeliveryLocationSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelo
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_location_set_revision_id"?: ((string) | (null));
             "delivery_location_set_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -641,12 +553,12 @@ export type DeliveryLocationSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelo
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_location_set_revision_id"?: ((string) | (null));
             "delivery_location_set_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -839,7 +751,7 @@ export type DeliveryLocationSetArchivedInstalledMerchantsEvent = (Exclude<Partne
              * Current member Locations. anyOf[1] (Value): {@link
              * DeliveryLocationSetConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             /**
              * Time the location set was created. anyOf[1] (Value): string. Time the location set
              * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
@@ -867,7 +779,7 @@ export type DeliveryLocationSetArchivedInstalledMerchantsEvent = (Exclude<Partne
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
              * location set name. anyOf[2] (Value): null.
@@ -1105,7 +1017,7 @@ export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookE
              * Current member Locations. anyOf[1] (Value): {@link
              * DeliveryLocationSetConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             /**
              * Time the location set was created. anyOf[1] (Value): string. Time the location set
              * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
@@ -1133,7 +1045,7 @@ export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookE
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
              * location set name. anyOf[2] (Value): null.
@@ -1513,12 +1425,12 @@ export type DeliveryLocationSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_location_set_revision_id"?: ((string) | (null));
             "delivery_location_set_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -1547,12 +1459,12 @@ export type DeliveryLocationSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_location_set_revision_id"?: ((string) | (null));
             "delivery_location_set_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -1745,7 +1657,7 @@ export type DeliveryLocationSetUpdatedInstalledMerchantsEvent = (Exclude<Partner
              * Current member Locations. anyOf[1] (Value): {@link
              * DeliveryLocationSetConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             /**
              * Time the location set was created. anyOf[1] (Value): string. Time the location set
              * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
@@ -1773,7 +1685,7 @@ export type DeliveryLocationSetUpdatedInstalledMerchantsEvent = (Exclude<Partner
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
              * location set name. anyOf[2] (Value): null.
@@ -2011,7 +1923,7 @@ export type DeliveryLocationSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEn
              * Current member Locations. anyOf[1] (Value): {@link
              * DeliveryLocationSetConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryLocationSetConfigurationPreviousAttributes) | (null));
             /**
              * Time the location set was created. anyOf[1] (Value): string. Time the location set
              * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
@@ -2039,7 +1951,7 @@ export type DeliveryLocationSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEn
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
              * location set name. anyOf[2] (Value): null.
@@ -2220,7 +2132,7 @@ export type DeliveryLocationSummaryResourcePreviousAttributes = {
      * Street address of the Location. anyOf[1] (Value): {@link AddressPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+    "address"?: ((AddressPreviousAttributes) | (null));
     /**
      * Buyer-visible pickup instructions for the Location. anyOf[1] (Value): string. Buyer-visible
      * pickup instructions for the Location. anyOf[2] (Value): null.
@@ -2486,19 +2398,19 @@ export type DeliveryMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope &
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -2532,19 +2444,19 @@ export type DeliveryMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope &
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -2623,16 +2535,16 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -2798,16 +2710,16 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -2854,7 +2766,7 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2876,14 +2788,14 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -2904,7 +2816,7 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -2930,7 +2842,7 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -3049,16 +2961,16 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -3224,16 +3136,16 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -3280,7 +3192,7 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3302,14 +3214,14 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -3330,7 +3242,7 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -3356,7 +3268,7 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -3406,19 +3318,19 @@ export type DeliveryMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -3452,19 +3364,19 @@ export type DeliveryMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -3543,16 +3455,16 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -3718,16 +3630,16 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -3774,7 +3686,7 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3796,14 +3708,14 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -3824,7 +3736,7 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -3850,7 +3762,7 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -3969,16 +3881,16 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -4144,16 +4056,16 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -4200,7 +4112,7 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -4222,14 +4134,14 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -4250,7 +4162,7 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -4276,7 +4188,7 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -5193,7 +5105,7 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      * Controls whether checkout collects buyer instructions for this method. anyOf[1] (Value):
      * {@link BuyerInstructionsConfigPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "buyer_instructions"?: ((BuyerInstructionsConfigPreviousAttributes) | (null) | (unknown));
+    "buyer_instructions"?: ((BuyerInstructionsConfigPreviousAttributes) | (null));
     /**
      * Tax category of the delivery charge, which decides its automatic tax and appears in tax
      * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
@@ -5203,8 +5115,8 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      * delivery, handling, and surcharge at the general rate at the charge location, including the
      * store for pickup. `null` when the method inherits the default delivery tax category from
      * settings. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
-     * anyOf[1] (Value): string or null. Tax category of the delivery charge, which decides its
-     * automatic tax and appears in tax records and reporting. Null inherits
+     * anyOf[1] (Value): string. Tax category of the delivery charge, which decides its automatic
+     * tax and appears in tax records and reporting. Null inherits
      * settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment
      * methods, delivery for local delivery, or service_fee for pickup. Omit it on create to
      * inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
@@ -5214,21 +5126,19 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      * "service_fee", "shipping", "delivery", "handling", "surcharge", null. anyOf[2] (Value):
      * null.
      */
-    "charge_tax_category"?: (("service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null)
-        | (null)
-        | (unknown));
+    "charge_tax_category"?: (("service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {})) | (null));
     /**
      * Conditions that decide where this method is offered. Omit this field to offer the method
      * everywhere the merchant serves. anyOf[1] (Value): {@link
      * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "eligibility"?: ((DeliveryEligibilityExpressionPreviousAttributes) | (null) | (unknown));
+    "eligibility"?: ((DeliveryEligibilityExpressionPreviousAttributes) | (null));
     /**
      * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
      * timing promise. anyOf[1] (Value): {@link DeliveryEstimateRulePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "estimate"?: ((DeliveryEstimateRulePreviousAttributes) | (null) | (unknown));
+    "estimate"?: ((DeliveryEstimateRulePreviousAttributes) | (null));
     /**
      * Minimum remaining quote lifetime required before Flint offers this method. Required for
      * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
@@ -5243,12 +5153,12 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      * origin.type determines allocation or buyer pickup behavior. anyOf[1] (Value): {@link
      * DeliveryMethodOriginSelectorPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "origin"?: ((DeliveryMethodOriginSelectorPreviousAttributes) | (null) | (unknown));
+    "origin"?: ((DeliveryMethodOriginSelectorPreviousAttributes) | (null));
     /**
      * How Flint calculates the delivery charge. anyOf[1] (Value): {@link
      * DeliveryPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "pricing"?: ((DeliveryPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "pricing"?: ((DeliveryPricingStrategyPreviousAttributes) | (null));
     /**
      * Buyer-visible structured details supplied by the merchant. anyOf[1] (Value): object.
      * anyOf[1].instructions (Optional): string or null. Buyer-visible instructions for this
@@ -5379,13 +5289,13 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
      * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
      * to clear it back to inheriting. `null` when the method inherits
-     * `settings.tax.default_delivery_taxable`. anyOf[1] (Value): boolean or null. Whether the
-     * delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on
-     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
-     * back to inheriting. `null` when the method inherits `settings.tax.default_delivery_taxable`.
+     * `settings.tax.default_delivery_taxable`. anyOf[1] (Value): boolean. Whether the delivery
+     * charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to
+     * inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. `null` when the method inherits `settings.tax.default_delivery_taxable`.
      * anyOf[2] (Value): null.
      */
-    "taxable"?: ((boolean | null) | (null) | (unknown));
+    "taxable"?: ((boolean) | (null));
 };
 /**
  * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
@@ -6110,19 +6020,19 @@ export type DeliveryMethodDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -6156,19 +6066,19 @@ export type DeliveryMethodDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_method_revision_id"?: ((string) | (null));
             "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "description"?: ((string) | (null));
             "display_position"?: ((number) | (null));
             "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "recommendation_priority"?: ((number) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -6247,16 +6157,16 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -6422,16 +6332,16 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -6478,7 +6388,7 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -6500,14 +6410,14 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -6528,7 +6438,7 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -6554,7 +6464,7 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -6673,16 +6583,16 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
      * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.description (Optional): string or null. Optional
      * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
@@ -6848,16 +6758,16 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
          * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
          * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * description (Optional): string or null. Optional buyer-facing description.
          * description.anyOf[1] (Value): string. Optional buyer-facing description.
@@ -6904,7 +6814,7 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
             /**
              * Time the method was created. anyOf[1] (Value): string. Time the method was created.
              * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -6926,14 +6836,14 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
              * description. anyOf[2] (Value): null.
@@ -6954,7 +6864,7 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
              * anyOf[2] (Value): null.
@@ -6980,7 +6890,7 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
              * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null) | (unknown));
+            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
             /**
              * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
              * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
@@ -7352,3 +7262,23 @@ export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput = ({
     & ({
     "location_id"?: never;
 }));
+/** The Locations selector for a allocated_origin_group delivery origin. */
+export type DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations = ({
+    /**
+     * ID of the delivery location set that names the Locations in the group. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /**
+     * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * IDs of the Locations in the group. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value):
+     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids": Array<string>;
+    /** Where delivery starts. Value enum: "allocated_origin_group". */
+    "type": "allocated_origin_group" | (string & {});
+});

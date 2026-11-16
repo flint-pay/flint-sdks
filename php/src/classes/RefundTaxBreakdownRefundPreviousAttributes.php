@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $order_charge_id
  * @property-read string|null $order_id
  * @property-read string|null $tax_breakdown_id
- * @property-read mixed $tax_money
+ * @property-read MoneyValuePreviousAttributes|null $tax_money
  * Presence-aware response; omitted optional fields return null. */
 final class RefundTaxBreakdownRefundPreviousAttributes extends Model {
     /** @param array{'order_charge_id'?: mixed, 'order_id'?: mixed, 'tax_breakdown_id'?: mixed, 'tax_money'?: mixed, ...}|object $values */
@@ -26,8 +26,8 @@ final class RefundTaxBreakdownRefundPreviousAttributes extends Model {
     public function getTaxBreakdownId(): string|null { return $this->get('tax_breakdown_id'); }
     public function hasTaxBreakdownId(): bool { return $this->has('tax_breakdown_id'); }
     /** Tax reversed for this breakdown. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTaxMoney(): mixed { return $this->get('tax_money'); }
+    public function getTaxMoney(): MoneyValuePreviousAttributes|null { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
 }

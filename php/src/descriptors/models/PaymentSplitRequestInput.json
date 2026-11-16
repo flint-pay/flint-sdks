@@ -1,1 +1,1 @@
-{"shared":"PaymentSplitRequest","dependencies":["MoneyValue","PaymentSplitRequest","SharedCodec221"]}
+{"shared":"PaymentSplitRequest","dependencies":["MoneyValue","PaymentSplitRequest","SharedCodec211"]}

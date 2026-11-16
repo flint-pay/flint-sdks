@@ -1,5 +1,3 @@
-import type { InputValue } from '../runtime.js';
-import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-74.js';
 import type {
     MoneyValue,
     MoneyValuePreviousAttributes,
@@ -37,12 +35,17 @@ import type {
     QuantityPriceBreakPreviousAttributes,
     QuantityPriceBreakRequestInput,
     PromotionRuleGroup,
-    PromotionSchedule
+    PromotionSchedule,
+    PromotionRuleGroupPreviousAttributes,
+    PromotionRuleGroupRequest,
+    PromotionRecurrenceRequestInput,
+    PromotionRuleGroupRequestInput
 } from './types-57.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-65.js';
 import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type { ImageRequest, ImageRequestInput } from './types-31.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-32.js';
+import type { InputValue } from '../runtime.js';
 import type { CreateProductRequestInput } from './types-12.js';
 import type { BundlesGetParams } from './types-1.js';
 import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from './types-75.js';
@@ -52,107 +55,9 @@ import type {
     PromotionCodesSummary,
     PromotionCombinesWith,
     PromotionExclusivity,
-    PromotionRecurrence
+    PromotionRecurrence,
+    PromotionRecurrencePreviousAttributes
 } from './types-56.js';
-export type PriceListsListPricesParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Exact match on the priced variant ID. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: InputValue<string>;
-    /**
-     * Exact match on the product owning the priced variant. pattern:
-     * ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by price_list_price_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PriceListsUpdateParams = (InputValue<UpdatePriceListRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type PriceListsUpdatePriceParams = (InputValue<UpdatePriceListPriceRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 /**
  * The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and
  * total.
@@ -208,46 +113,46 @@ export type PricingAmountsPreviousAttributes = {
      * Tax added on top of prices, included in total_money. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "additive_tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "additive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Total of the order's service charges after service-charge discounts. anyOf[1] (Value):
      * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "charge_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "charge_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Total of order and line-item discounts. Service-charge discounts, such as free shipping, are
      * not included; they reduce charge_money. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "discount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Tax already included in subtotal_money and charge_money. Informational; it is not added
      * again to total_money. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "inclusive_tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "inclusive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Tip money in the total: the requested tip before payment, and settled tips net of refunds
      * after. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "requested_tip_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "requested_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with
      * tax-inclusive prices include their tax here. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Total tax, equal to additive_tax_money + inclusive_tax_money. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money,
      * never below zero. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
      * null.
      */
-    "total_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /**
  * How to process one line of an existing return: the received quantity, inspection, decision,
@@ -566,7 +471,7 @@ export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "active_variant_count"?: ((number) | (null));
             "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             "default_variant_id"?: ((string) | (null));
             "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
             "description"?: ((string) | (null));
@@ -574,12 +479,12 @@ export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "option_count"?: ((number) | (null));
             "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             "product_id"?: ((string) | (null));
             "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -602,7 +507,7 @@ export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "active_variant_count"?: ((number) | (null));
             "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             "default_variant_id"?: ((string) | (null));
             "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
             "description"?: ((string) | (null));
@@ -610,12 +515,12 @@ export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "option_count"?: ((number) | (null));
             "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             "product_id"?: ((string) | (null));
             "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -706,23 +611,22 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the product. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the product. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Product name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Product name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.option_count (Optional): integer or null. Number of active options
-     * belonging to the product. previous_attributes.option_count.anyOf[1] (Value): integer. Number
-     * of active options belonging to the product. Format: int32.
-     * previous_attributes.option_count.anyOf[2] (Value): null. previous_attributes.options
-     * (Optional): Array of {@link ProductOptionPreviousAttributes} or null. Product options and
-     * their non-archived values. Empty when the product has no options.
-     * previous_attributes.options.anyOf[1] (Value): Array of {@link
-     * ProductOptionPreviousAttributes}. Product options and their non-archived values. Empty when
-     * the product has no options. previous_attributes.options.anyOf[1][] (Value): {@link
-     * ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
+     * (Optional): string or null. ID of the modifier set attached to the product. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Product name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link
+     * ProductOptionPreviousAttributes} or null. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1] (Value): Array
+     * of {@link ProductOptionPreviousAttributes}. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1][] (Value):
+     * {@link ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
      * previous_attributes.price_range (Optional): {@link ProductPriceRangePreviousAttributes} or
      * null. Lowest and highest base unit prices among active variants, before any quantity price
      * breaks. Omitted when there are no active variants or their currencies differ.
@@ -812,9 +716,9 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
          * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
          * this resource. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. modifier_set_id (Optional): string or null or null. ID of the modifier
-         * set attached to the product. `null` when no modifier set is attached.
-         * modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set attached to the
+         * (Value): null. modifier_set_id (Optional): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached.
+         * modifier_set_id.anyOf[1] (Value): string. ID of the modifier set attached to the
          * product. `null` when no modifier set is attached. Example:
          * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
          * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
@@ -884,7 +788,7 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * The product's default variant, when one is set. anyOf[1] (Value): {@link
              * ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             /**
              * Identifier of the variant chosen as this product's default, when one is set.
              * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
@@ -933,14 +837,14 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the product. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * product. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the product.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
              * buyers. anyOf[2] (Value): null.
@@ -964,7 +868,7 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             /**
              * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
              * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
@@ -1116,23 +1020,22 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the product. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the product. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Product name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Product name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.option_count (Optional): integer or null. Number of active options
-     * belonging to the product. previous_attributes.option_count.anyOf[1] (Value): integer. Number
-     * of active options belonging to the product. Format: int32.
-     * previous_attributes.option_count.anyOf[2] (Value): null. previous_attributes.options
-     * (Optional): Array of {@link ProductOptionPreviousAttributes} or null. Product options and
-     * their non-archived values. Empty when the product has no options.
-     * previous_attributes.options.anyOf[1] (Value): Array of {@link
-     * ProductOptionPreviousAttributes}. Product options and their non-archived values. Empty when
-     * the product has no options. previous_attributes.options.anyOf[1][] (Value): {@link
-     * ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
+     * (Optional): string or null. ID of the modifier set attached to the product. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Product name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link
+     * ProductOptionPreviousAttributes} or null. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1] (Value): Array
+     * of {@link ProductOptionPreviousAttributes}. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1][] (Value):
+     * {@link ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
      * previous_attributes.price_range (Optional): {@link ProductPriceRangePreviousAttributes} or
      * null. Lowest and highest base unit prices among active variants, before any quantity price
      * breaks. Omitted when there are no active variants or their currencies differ.
@@ -1222,9 +1125,9 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
          * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
          * this resource. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. modifier_set_id (Optional): string or null or null. ID of the modifier
-         * set attached to the product. `null` when no modifier set is attached.
-         * modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set attached to the
+         * (Value): null. modifier_set_id (Optional): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached.
+         * modifier_set_id.anyOf[1] (Value): string. ID of the modifier set attached to the
          * product. `null` when no modifier set is attached. Example:
          * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
          * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
@@ -1294,7 +1197,7 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * The product's default variant, when one is set. anyOf[1] (Value): {@link
              * ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             /**
              * Identifier of the variant chosen as this product's default, when one is set.
              * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
@@ -1343,14 +1246,14 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the product. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * product. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the product.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
              * buyers. anyOf[2] (Value): null.
@@ -1374,7 +1277,7 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             /**
              * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
              * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
@@ -1619,7 +1522,7 @@ export type ProductOptionPreviousAttributes = {
      * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link MetadataMap}.
      * anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Option name, such as Size or Color. anyOf[1] (Value): string. Option name, such as Size or
      * Color. anyOf[2] (Value): null.
@@ -1720,7 +1623,7 @@ export type ProductOptionValuePreviousAttributes = {
      * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link MetadataMap}.
      * anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Stable identifier of the option value. anyOf[1] (Value): string. Stable identifier of the
      * option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". anyOf[2] (Value): null.
@@ -1769,12 +1672,12 @@ export type ProductPriceRangePreviousAttributes = {
      * Highest unit price among the product's active variants. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Lowest unit price among the product's active variants. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
 /** A response containing `Product` data. */
 export type ProductResponse = {
@@ -1802,7 +1705,7 @@ export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "active_variant_count"?: ((number) | (null));
             "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             "default_variant_id"?: ((string) | (null));
             "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
             "description"?: ((string) | (null));
@@ -1810,12 +1713,12 @@ export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "option_count"?: ((number) | (null));
             "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             "product_id"?: ((string) | (null));
             "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -1838,7 +1741,7 @@ export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "active_variant_count"?: ((number) | (null));
             "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             "default_variant_id"?: ((string) | (null));
             "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
             "description"?: ((string) | (null));
@@ -1846,12 +1749,12 @@ export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "option_count"?: ((number) | (null));
             "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             "product_id"?: ((string) | (null));
             "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
@@ -1942,23 +1845,22 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the product. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the product. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Product name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Product name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.option_count (Optional): integer or null. Number of active options
-     * belonging to the product. previous_attributes.option_count.anyOf[1] (Value): integer. Number
-     * of active options belonging to the product. Format: int32.
-     * previous_attributes.option_count.anyOf[2] (Value): null. previous_attributes.options
-     * (Optional): Array of {@link ProductOptionPreviousAttributes} or null. Product options and
-     * their non-archived values. Empty when the product has no options.
-     * previous_attributes.options.anyOf[1] (Value): Array of {@link
-     * ProductOptionPreviousAttributes}. Product options and their non-archived values. Empty when
-     * the product has no options. previous_attributes.options.anyOf[1][] (Value): {@link
-     * ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
+     * (Optional): string or null. ID of the modifier set attached to the product. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Product name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link
+     * ProductOptionPreviousAttributes} or null. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1] (Value): Array
+     * of {@link ProductOptionPreviousAttributes}. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1][] (Value):
+     * {@link ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
      * previous_attributes.price_range (Optional): {@link ProductPriceRangePreviousAttributes} or
      * null. Lowest and highest base unit prices among active variants, before any quantity price
      * breaks. Omitted when there are no active variants or their currencies differ.
@@ -2048,9 +1950,9 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
          * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
          * this resource. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. modifier_set_id (Optional): string or null or null. ID of the modifier
-         * set attached to the product. `null` when no modifier set is attached.
-         * modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set attached to the
+         * (Value): null. modifier_set_id (Optional): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached.
+         * modifier_set_id.anyOf[1] (Value): string. ID of the modifier set attached to the
          * product. `null` when no modifier set is attached. Example:
          * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
          * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
@@ -2120,7 +2022,7 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * The product's default variant, when one is set. anyOf[1] (Value): {@link
              * ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             /**
              * Identifier of the variant chosen as this product's default, when one is set.
              * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
@@ -2169,14 +2071,14 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the product. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * product. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the product.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
              * buyers. anyOf[2] (Value): null.
@@ -2200,7 +2102,7 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             /**
              * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
              * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
@@ -2352,23 +2254,22 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the product. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the product. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Product name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Product name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.option_count (Optional): integer or null. Number of active options
-     * belonging to the product. previous_attributes.option_count.anyOf[1] (Value): integer. Number
-     * of active options belonging to the product. Format: int32.
-     * previous_attributes.option_count.anyOf[2] (Value): null. previous_attributes.options
-     * (Optional): Array of {@link ProductOptionPreviousAttributes} or null. Product options and
-     * their non-archived values. Empty when the product has no options.
-     * previous_attributes.options.anyOf[1] (Value): Array of {@link
-     * ProductOptionPreviousAttributes}. Product options and their non-archived values. Empty when
-     * the product has no options. previous_attributes.options.anyOf[1][] (Value): {@link
-     * ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
+     * (Optional): string or null. ID of the modifier set attached to the product. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Product name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link
+     * ProductOptionPreviousAttributes} or null. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1] (Value): Array
+     * of {@link ProductOptionPreviousAttributes}. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1][] (Value):
+     * {@link ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
      * previous_attributes.price_range (Optional): {@link ProductPriceRangePreviousAttributes} or
      * null. Lowest and highest base unit prices among active variants, before any quantity price
      * breaks. Omitted when there are no active variants or their currencies differ.
@@ -2458,9 +2359,9 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
          * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
          * this resource. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. modifier_set_id (Optional): string or null or null. ID of the modifier
-         * set attached to the product. `null` when no modifier set is attached.
-         * modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set attached to the
+         * (Value): null. modifier_set_id (Optional): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached.
+         * modifier_set_id.anyOf[1] (Value): string. ID of the modifier set attached to the
          * product. `null` when no modifier set is attached. Example:
          * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
          * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
@@ -2530,7 +2431,7 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * The product's default variant, when one is set. anyOf[1] (Value): {@link
              * ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "default_variant"?: ((ProductVariantPreviousAttributes) | (null) | (unknown));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
             /**
              * Identifier of the variant chosen as this product's default, when one is set.
              * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
@@ -2579,14 +2480,14 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the product. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * product. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the product.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
              * buyers. anyOf[2] (Value): null.
@@ -2610,7 +2511,7 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
             /**
              * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
              * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
@@ -2867,7 +2768,7 @@ export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "delivery_profile_id"?: ((string) | (null));
             "effective_images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "external_reference_id"?: ((string) | (null));
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
@@ -2888,20 +2789,20 @@ export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | (string & {}))
                 | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "position"?: ((number) | (null));
             "product_id"?: ((string) | (null));
             "quantity_price_breaks"?: ((Array<QuantityPriceBreakPreviousAttributes>) | (null));
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             "selected_options"?: ((Array<SelectedProductOptionPreviousAttributes>) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "taxable"?: ((boolean) | (null));
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "variant_id"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -2925,7 +2826,7 @@ export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "delivery_profile_id"?: ((string) | (null));
             "effective_images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "external_reference_id"?: ((string) | (null));
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
@@ -2946,20 +2847,20 @@ export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | (string & {}))
                 | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "position"?: ((number) | (null));
             "product_id"?: ((string) | (null));
             "quantity_price_breaks"?: ((Array<QuantityPriceBreakPreviousAttributes>) | (null));
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             "selected_options"?: ((Array<SelectedProductOptionPreviousAttributes>) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "taxable"?: ((boolean) | (null));
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "variant_id"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -3085,21 +2986,20 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the variant. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the variant. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Variant name that distinguishes it from the product's other
-     * variants. previous_attributes.name.anyOf[1] (Value): string. Variant name that distinguishes
-     * it from the product's other variants. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.position (Optional): integer or null. Display order among the product's
-     * variants, starting at zero. previous_attributes.position.anyOf[1] (Value): integer. Display
-     * order among the product's variants, starting at zero. Format: int32.
-     * previous_attributes.position.anyOf[2] (Value): null. previous_attributes.product_id
-     * (Optional): string or null. Identifier of the product this variant belongs to.
-     * previous_attributes.product_id.anyOf[1] (Value): string. Identifier of the product this
-     * variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * (Optional): string or null. ID of the modifier set attached to the variant. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the variant. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Variant name that
+     * distinguishes it from the product's other variants. previous_attributes.name.anyOf[1]
+     * (Value): string. Variant name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * previous_attributes.product_id.anyOf[2] (Value): null.
      * previous_attributes.quantity_price_breaks (Optional): Array of {@link
      * QuantityPriceBreakPreviousAttributes} or null. Net unit prices in ascending minimum_quantity
@@ -3111,15 +3011,14 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems:
      * 10. previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link
      * QuantityPriceBreakPreviousAttributes}. previous_attributes.quantity_price_breaks.anyOf[2]
-     * (Value): null. previous_attributes.release_date (Optional): string or null or null. Calendar
-     * release date in YYYY-MM-DD format. Null when no release date is set. Lines created while
-     * this date is after today in the merchant timezone are pre-orders. Existing order lines keep
-     * their release date. previous_attributes.release_date.anyOf[1] (Value): string or null.
-     * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created
-     * while this date is after today in the merchant timezone are pre-orders. Existing order lines
-     * keep their release date. Format: date. Example: "2026-08-02".
-     * previous_attributes.release_date.anyOf[2] (Value): null.
-     * previous_attributes.selected_options (Optional): Array of {@link
+     * (Value): null. previous_attributes.release_date (Optional): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. previous_attributes.release_date.anyOf[1] (Value): string. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
      * SelectedProductOptionPreviousAttributes} or null. Always present. Empty collections are
      * returned as []. previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
      * SelectedProductOptionPreviousAttributes}. Always present. Empty collections are returned as
@@ -3250,19 +3149,19 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the variant. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Variant name that distinguishes it from
-         * the product's other variants. name.anyOf[1] (Value): string. Variant name that
-         * distinguishes it from the product's other variants. name.anyOf[2] (Value): null.
-         * position (Optional): integer or null. Display order among the product's variants,
-         * starting at zero. position.anyOf[1] (Value): integer. Display order among the product's
-         * variants, starting at zero. Format: int32. position.anyOf[2] (Value): null. product_id
-         * (Optional): string or null. Identifier of the product this variant belongs to.
-         * product_id.anyOf[1] (Value): string. Identifier of the product this variant belongs to.
-         * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the variant. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[1] (Value): string. Variant name that distinguishes
+         * it from the product's other variants. name.anyOf[2] (Value): null. position (Optional):
+         * integer or null. Display order among the product's variants, starting at zero.
+         * position.anyOf[1] (Value): integer. Display order among the product's variants, starting
+         * at zero. Format: int32. position.anyOf[2] (Value): null. product_id (Optional): string
+         * or null. Identifier of the product this variant belongs to. product_id.anyOf[1] (Value):
+         * string. Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
          * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreakPreviousAttributes}
          * or null. Net unit prices in ascending minimum_quantity order. The largest minimum not
          * above the line quantity applies; otherwise the base unit price applies. Empty when no
@@ -3272,13 +3171,13 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * applies; otherwise the base unit price applies. Empty when no breaks are configured.
          * Gift card variants have no breaks. maxItems: 10. quantity_price_breaks.anyOf[1][]
          * (Value): {@link QuantityPriceBreakPreviousAttributes}. quantity_price_breaks.anyOf[2]
-         * (Value): null. release_date (Optional): string or null or null. Calendar release date in
+         * (Value): null. release_date (Optional): string or null. Calendar release date in
          * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
          * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. release_date.anyOf[1] (Value): string or null. Calendar release date in
-         * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
-         * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
+         * release date. release_date.anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD
+         * format. Null when no release date is set. Lines created while this date is after today
+         * in the merchant timezone are pre-orders. Existing order lines keep their release date.
+         * Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
          * selected_options (Optional): Array of {@link SelectedProductOptionPreviousAttributes} or
          * null. Always present. Empty collections are returned as []. selected_options.anyOf[1]
          * (Value): Array of {@link SelectedProductOptionPreviousAttributes}. Always present. Empty
@@ -3374,7 +3273,7 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * to the nearest cent with ties up. anyOf[1] (Value): {@link
              * GiftCardProductConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             /**
              * The variant's own images in display order. An empty gallery inherits the product's
              * images. anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. The
@@ -3446,14 +3345,14 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the variant. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * variant. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the variant.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Variant name that distinguishes it from the product's other variants. anyOf[1]
              * (Value): string. Variant name that distinguishes it from the product's other
@@ -3486,13 +3385,13 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
             /**
              * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
              * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
-             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
-             * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
-             * anyOf[2] (Value): null.
+             * Existing order lines keep their release date. anyOf[1] (Value): string. Calendar
+             * release date in YYYY-MM-DD format. Null when no release date is set. Lines created
+             * while this date is after today in the merchant timezone are pre-orders. Existing
+             * order lines keep their release date. Format: date. Example: "2026-08-02". anyOf[2]
+             * (Value): null.
              */
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             /**
              * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
              * {@link SelectedProductOptionPreviousAttributes}. Always present. Empty collections
@@ -3521,17 +3420,17 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
             /**
              * Base unit price before quantity price breaks, in the currency's smallest unit.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * WeightPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -3699,21 +3598,20 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the variant. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the variant. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Variant name that distinguishes it from the product's other
-     * variants. previous_attributes.name.anyOf[1] (Value): string. Variant name that distinguishes
-     * it from the product's other variants. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.position (Optional): integer or null. Display order among the product's
-     * variants, starting at zero. previous_attributes.position.anyOf[1] (Value): integer. Display
-     * order among the product's variants, starting at zero. Format: int32.
-     * previous_attributes.position.anyOf[2] (Value): null. previous_attributes.product_id
-     * (Optional): string or null. Identifier of the product this variant belongs to.
-     * previous_attributes.product_id.anyOf[1] (Value): string. Identifier of the product this
-     * variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * (Optional): string or null. ID of the modifier set attached to the variant. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the variant. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Variant name that
+     * distinguishes it from the product's other variants. previous_attributes.name.anyOf[1]
+     * (Value): string. Variant name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * previous_attributes.product_id.anyOf[2] (Value): null.
      * previous_attributes.quantity_price_breaks (Optional): Array of {@link
      * QuantityPriceBreakPreviousAttributes} or null. Net unit prices in ascending minimum_quantity
@@ -3725,15 +3623,14 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems:
      * 10. previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link
      * QuantityPriceBreakPreviousAttributes}. previous_attributes.quantity_price_breaks.anyOf[2]
-     * (Value): null. previous_attributes.release_date (Optional): string or null or null. Calendar
-     * release date in YYYY-MM-DD format. Null when no release date is set. Lines created while
-     * this date is after today in the merchant timezone are pre-orders. Existing order lines keep
-     * their release date. previous_attributes.release_date.anyOf[1] (Value): string or null.
-     * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created
-     * while this date is after today in the merchant timezone are pre-orders. Existing order lines
-     * keep their release date. Format: date. Example: "2026-08-02".
-     * previous_attributes.release_date.anyOf[2] (Value): null.
-     * previous_attributes.selected_options (Optional): Array of {@link
+     * (Value): null. previous_attributes.release_date (Optional): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. previous_attributes.release_date.anyOf[1] (Value): string. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
      * SelectedProductOptionPreviousAttributes} or null. Always present. Empty collections are
      * returned as []. previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
      * SelectedProductOptionPreviousAttributes}. Always present. Empty collections are returned as
@@ -3864,19 +3761,19 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the variant. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Variant name that distinguishes it from
-         * the product's other variants. name.anyOf[1] (Value): string. Variant name that
-         * distinguishes it from the product's other variants. name.anyOf[2] (Value): null.
-         * position (Optional): integer or null. Display order among the product's variants,
-         * starting at zero. position.anyOf[1] (Value): integer. Display order among the product's
-         * variants, starting at zero. Format: int32. position.anyOf[2] (Value): null. product_id
-         * (Optional): string or null. Identifier of the product this variant belongs to.
-         * product_id.anyOf[1] (Value): string. Identifier of the product this variant belongs to.
-         * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the variant. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[1] (Value): string. Variant name that distinguishes
+         * it from the product's other variants. name.anyOf[2] (Value): null. position (Optional):
+         * integer or null. Display order among the product's variants, starting at zero.
+         * position.anyOf[1] (Value): integer. Display order among the product's variants, starting
+         * at zero. Format: int32. position.anyOf[2] (Value): null. product_id (Optional): string
+         * or null. Identifier of the product this variant belongs to. product_id.anyOf[1] (Value):
+         * string. Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
          * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreakPreviousAttributes}
          * or null. Net unit prices in ascending minimum_quantity order. The largest minimum not
          * above the line quantity applies; otherwise the base unit price applies. Empty when no
@@ -3886,13 +3783,13 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * applies; otherwise the base unit price applies. Empty when no breaks are configured.
          * Gift card variants have no breaks. maxItems: 10. quantity_price_breaks.anyOf[1][]
          * (Value): {@link QuantityPriceBreakPreviousAttributes}. quantity_price_breaks.anyOf[2]
-         * (Value): null. release_date (Optional): string or null or null. Calendar release date in
+         * (Value): null. release_date (Optional): string or null. Calendar release date in
          * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
          * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. release_date.anyOf[1] (Value): string or null. Calendar release date in
-         * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
-         * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
+         * release date. release_date.anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD
+         * format. Null when no release date is set. Lines created while this date is after today
+         * in the merchant timezone are pre-orders. Existing order lines keep their release date.
+         * Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
          * selected_options (Optional): Array of {@link SelectedProductOptionPreviousAttributes} or
          * null. Always present. Empty collections are returned as []. selected_options.anyOf[1]
          * (Value): Array of {@link SelectedProductOptionPreviousAttributes}. Always present. Empty
@@ -3988,7 +3885,7 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * to the nearest cent with ties up. anyOf[1] (Value): {@link
              * GiftCardProductConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             /**
              * The variant's own images in display order. An empty gallery inherits the product's
              * images. anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. The
@@ -4060,14 +3957,14 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the variant. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * variant. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the variant.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Variant name that distinguishes it from the product's other variants. anyOf[1]
              * (Value): string. Variant name that distinguishes it from the product's other
@@ -4100,13 +3997,13 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
             /**
              * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
              * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
-             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
-             * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
-             * anyOf[2] (Value): null.
+             * Existing order lines keep their release date. anyOf[1] (Value): string. Calendar
+             * release date in YYYY-MM-DD format. Null when no release date is set. Lines created
+             * while this date is after today in the merchant timezone are pre-orders. Existing
+             * order lines keep their release date. Format: date. Example: "2026-08-02". anyOf[2]
+             * (Value): null.
              */
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             /**
              * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
              * {@link SelectedProductOptionPreviousAttributes}. Always present. Empty collections
@@ -4135,17 +4032,17 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
             /**
              * Base unit price before quantity price breaks, in the currency's smallest unit.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * WeightPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -4309,27 +4206,23 @@ export type ProductVariantInventoryAvailabilityPreviousAttributes = {
      * stock is counted out, as pay counts it. `null` when `status` is `not_tracked` or
      * `routing_source_required`. Returned to Dashboard users and to API keys and partner tokens
      * that hold `commerce.inventory.read` or `commerce.inventory.write`; omitted for other
-     * credentials, which still receive `status`. anyOf[1] (Value): integer or null. The largest
-     * quantity of this variant one order line could route from `inventory_routing_source` now,
-     * capped at 9,999, the order line maximum. Held and committed stock is counted out, as pay
-     * counts it. `null` when `status` is `not_tracked` or `routing_source_required`. Returned to
-     * Dashboard users and to API keys and partner tokens that hold `commerce.inventory.read` or
+     * credentials, which still receive `status`. anyOf[1] (Value): integer. The largest quantity
+     * of this variant one order line could route from `inventory_routing_source` now, capped at
+     * 9,999, the order line maximum. Held and committed stock is counted out, as pay counts it.
+     * `null` when `status` is `not_tracked` or `routing_source_required`. Returned to Dashboard
+     * users and to API keys and partner tokens that hold `commerce.inventory.read` or
      * `commerce.inventory.write`; omitted for other credentials, which still receive `status`.
      * Format: int64. minimum: 0. maximum: 9999. anyOf[2] (Value): null.
      */
-    "available_quantity"?: ((number | null) | (null) | (unknown));
+    "available_quantity"?: ((number) | (null));
     /**
      * The routing source evaluated: the merchant's default, with
      * `inventory_allocation_policy_revision_id` set to the revision current at the read when it is
      * a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default
-     * is set. anyOf[1] (Value): ({@link InventoryRoutingSourcePreviousAttributes} or null). The
-     * routing source evaluated: the merchant's default, with
-     * `inventory_allocation_policy_revision_id` set to the revision current at the read when it is
-     * a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default
-     * is set. anyOf[1].anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * is set. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2]
+     * (Value): null.
      */
-    "inventory_routing_source"?: (((((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
     /**
      * Whether one order line can buy the variant now. Value enum: "in_stock", "out_of_stock",
      * "not_tracked", "routing_source_required". anyOf[1] (Value): string. Whether one order line
@@ -4435,7 +4328,7 @@ export type ProductVariantPreviousAttributes = {
      * ties up. anyOf[1] (Value): {@link GiftCardProductConfigurationPreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+    "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
     /**
      * The variant's own images in display order. An empty gallery inherits the product's images.
      * anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. The variant's own
@@ -4454,7 +4347,7 @@ export type ProductVariantPreviousAttributes = {
      * the variant again after `inventory_level.updated`. anyOf[1] (Value): {@link
      * ProductVariantInventoryAvailabilityPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "inventory_availability"?: ((ProductVariantInventoryAvailabilityPreviousAttributes) | (null) | (unknown));
+    "inventory_availability"?: ((ProductVariantInventoryAvailabilityPreviousAttributes) | (null));
     /**
      * The inventory item this variant consumes. Present exactly when inventory_tracking is
      * tracked. Several variants may share one inventory item. anyOf[1] (Value): string. The
@@ -4517,27 +4410,21 @@ export type ProductVariantPreviousAttributes = {
      * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link MetadataMap}.
      * anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataMap) | (null) | (unknown));
+    "metadata"?: ((MetadataMap) | (null));
     /**
      * Attached modifier set, included when expand=modifier_set is requested. Requires
      * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
      * includes `modifier_set`; `null` when expanded and there is no related modifier set. Also
-     * included when `expand` includes `variants.modifier_set`. anyOf[1] (Value): ({@link
-     * ModifierSetPreviousAttributes} or null). Attached modifier set, included when
-     * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-     * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-     * expanded and there is no related modifier set. Also included when `expand` includes
-     * `variants.modifier_set`. anyOf[1].anyOf[1] (Value): {@link ModifierSetPreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * included when `expand` includes `variants.modifier_set`. anyOf[1] (Value): {@link
+     * ModifierSetPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "modifier_set"?: (((((ModifierSetPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "modifier_set"?: ((ModifierSetPreviousAttributes) | (null));
     /**
      * ID of the modifier set attached to the variant. `null` when no modifier set is attached.
-     * anyOf[1] (Value): string or null. ID of the modifier set attached to the variant. `null`
-     * when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2]
-     * (Value): null.
+     * anyOf[1] (Value): string. ID of the modifier set attached to the variant. `null` when no
+     * modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
      */
-    "modifier_set_id"?: ((string | null) | (null) | (unknown));
+    "modifier_set_id"?: ((string) | (null));
     /**
      * Variant name that distinguishes it from the product's other variants. anyOf[1] (Value):
      * string. Variant name that distinguishes it from the product's other variants. anyOf[2]
@@ -4570,12 +4457,12 @@ export type ProductVariantPreviousAttributes = {
     /**
      * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created
      * while this date is after today in the merchant timezone are pre-orders. Existing order lines
-     * keep their release date. anyOf[1] (Value): string or null. Calendar release date in
-     * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after
-     * today in the merchant timezone are pre-orders. Existing order lines keep their release date.
-     * Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+     * keep their release date. anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD
+     * format. Null when no release date is set. Lines created while this date is after today in
+     * the merchant timezone are pre-orders. Existing order lines keep their release date. Format:
+     * date. Example: "2026-08-02". anyOf[2] (Value): null.
      */
-    "release_date"?: ((string | null) | (null) | (unknown));
+    "release_date"?: ((string) | (null));
     /**
      * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of {@link
      * SelectedProductOptionPreviousAttributes}. Always present. Empty collections are returned as
@@ -4604,17 +4491,17 @@ export type ProductVariantPreviousAttributes = {
      * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
      * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+    "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
     /**
      * Base unit price before quantity price breaks, in the currency's smallest unit. anyOf[1]
      * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
      * WeightPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+    "unit_weight"?: ((WeightPreviousAttributes) | (null));
     /**
      * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When
      * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
@@ -4961,7 +4848,7 @@ export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "delivery_profile_id"?: ((string) | (null));
             "effective_images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "external_reference_id"?: ((string) | (null));
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
@@ -4982,20 +4869,20 @@ export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
                 | (string & {}))
                 | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "position"?: ((number) | (null));
             "product_id"?: ((string) | (null));
             "quantity_price_breaks"?: ((Array<QuantityPriceBreakPreviousAttributes>) | (null));
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             "selected_options"?: ((Array<SelectedProductOptionPreviousAttributes>) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "taxable"?: ((boolean) | (null));
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "variant_id"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -5019,7 +4906,7 @@ export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "delivery_profile_id"?: ((string) | (null));
             "effective_images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "external_reference_id"?: ((string) | (null));
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "inventory_item_id"?: ((string) | (null));
             "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
@@ -5040,20 +4927,20 @@ export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
                 | (string & {}))
                 | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "position"?: ((number) | (null));
             "product_id"?: ((string) | (null));
             "quantity_price_breaks"?: ((Array<QuantityPriceBreakPreviousAttributes>) | (null));
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             "selected_options"?: ((Array<SelectedProductOptionPreviousAttributes>) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
             "taxable"?: ((boolean) | (null));
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "variant_id"?: ((string) | (null));
             "version"?: ((number) | (null));
@@ -5179,21 +5066,20 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the variant. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the variant. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Variant name that distinguishes it from the product's other
-     * variants. previous_attributes.name.anyOf[1] (Value): string. Variant name that distinguishes
-     * it from the product's other variants. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.position (Optional): integer or null. Display order among the product's
-     * variants, starting at zero. previous_attributes.position.anyOf[1] (Value): integer. Display
-     * order among the product's variants, starting at zero. Format: int32.
-     * previous_attributes.position.anyOf[2] (Value): null. previous_attributes.product_id
-     * (Optional): string or null. Identifier of the product this variant belongs to.
-     * previous_attributes.product_id.anyOf[1] (Value): string. Identifier of the product this
-     * variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * (Optional): string or null. ID of the modifier set attached to the variant. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the variant. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Variant name that
+     * distinguishes it from the product's other variants. previous_attributes.name.anyOf[1]
+     * (Value): string. Variant name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * previous_attributes.product_id.anyOf[2] (Value): null.
      * previous_attributes.quantity_price_breaks (Optional): Array of {@link
      * QuantityPriceBreakPreviousAttributes} or null. Net unit prices in ascending minimum_quantity
@@ -5205,15 +5091,14 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems:
      * 10. previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link
      * QuantityPriceBreakPreviousAttributes}. previous_attributes.quantity_price_breaks.anyOf[2]
-     * (Value): null. previous_attributes.release_date (Optional): string or null or null. Calendar
-     * release date in YYYY-MM-DD format. Null when no release date is set. Lines created while
-     * this date is after today in the merchant timezone are pre-orders. Existing order lines keep
-     * their release date. previous_attributes.release_date.anyOf[1] (Value): string or null.
-     * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created
-     * while this date is after today in the merchant timezone are pre-orders. Existing order lines
-     * keep their release date. Format: date. Example: "2026-08-02".
-     * previous_attributes.release_date.anyOf[2] (Value): null.
-     * previous_attributes.selected_options (Optional): Array of {@link
+     * (Value): null. previous_attributes.release_date (Optional): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. previous_attributes.release_date.anyOf[1] (Value): string. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
      * SelectedProductOptionPreviousAttributes} or null. Always present. Empty collections are
      * returned as []. previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
      * SelectedProductOptionPreviousAttributes}. Always present. Empty collections are returned as
@@ -5344,19 +5229,19 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the variant. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Variant name that distinguishes it from
-         * the product's other variants. name.anyOf[1] (Value): string. Variant name that
-         * distinguishes it from the product's other variants. name.anyOf[2] (Value): null.
-         * position (Optional): integer or null. Display order among the product's variants,
-         * starting at zero. position.anyOf[1] (Value): integer. Display order among the product's
-         * variants, starting at zero. Format: int32. position.anyOf[2] (Value): null. product_id
-         * (Optional): string or null. Identifier of the product this variant belongs to.
-         * product_id.anyOf[1] (Value): string. Identifier of the product this variant belongs to.
-         * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the variant. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[1] (Value): string. Variant name that distinguishes
+         * it from the product's other variants. name.anyOf[2] (Value): null. position (Optional):
+         * integer or null. Display order among the product's variants, starting at zero.
+         * position.anyOf[1] (Value): integer. Display order among the product's variants, starting
+         * at zero. Format: int32. position.anyOf[2] (Value): null. product_id (Optional): string
+         * or null. Identifier of the product this variant belongs to. product_id.anyOf[1] (Value):
+         * string. Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
          * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreakPreviousAttributes}
          * or null. Net unit prices in ascending minimum_quantity order. The largest minimum not
          * above the line quantity applies; otherwise the base unit price applies. Empty when no
@@ -5366,13 +5251,13 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * applies; otherwise the base unit price applies. Empty when no breaks are configured.
          * Gift card variants have no breaks. maxItems: 10. quantity_price_breaks.anyOf[1][]
          * (Value): {@link QuantityPriceBreakPreviousAttributes}. quantity_price_breaks.anyOf[2]
-         * (Value): null. release_date (Optional): string or null or null. Calendar release date in
+         * (Value): null. release_date (Optional): string or null. Calendar release date in
          * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
          * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. release_date.anyOf[1] (Value): string or null. Calendar release date in
-         * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
-         * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
+         * release date. release_date.anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD
+         * format. Null when no release date is set. Lines created while this date is after today
+         * in the merchant timezone are pre-orders. Existing order lines keep their release date.
+         * Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
          * selected_options (Optional): Array of {@link SelectedProductOptionPreviousAttributes} or
          * null. Always present. Empty collections are returned as []. selected_options.anyOf[1]
          * (Value): Array of {@link SelectedProductOptionPreviousAttributes}. Always present. Empty
@@ -5468,7 +5353,7 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * to the nearest cent with ties up. anyOf[1] (Value): {@link
              * GiftCardProductConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             /**
              * The variant's own images in display order. An empty gallery inherits the product's
              * images. anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. The
@@ -5540,14 +5425,14 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the variant. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * variant. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the variant.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Variant name that distinguishes it from the product's other variants. anyOf[1]
              * (Value): string. Variant name that distinguishes it from the product's other
@@ -5580,13 +5465,13 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
             /**
              * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
              * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
-             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
-             * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
-             * anyOf[2] (Value): null.
+             * Existing order lines keep their release date. anyOf[1] (Value): string. Calendar
+             * release date in YYYY-MM-DD format. Null when no release date is set. Lines created
+             * while this date is after today in the merchant timezone are pre-orders. Existing
+             * order lines keep their release date. Format: date. Example: "2026-08-02". anyOf[2]
+             * (Value): null.
              */
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             /**
              * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
              * {@link SelectedProductOptionPreviousAttributes}. Always present. Empty collections
@@ -5615,17 +5500,17 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
             /**
              * Base unit price before quantity price breaks, in the currency's smallest unit.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * WeightPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -5793,21 +5678,20 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the variant. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the variant. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Variant name that distinguishes it from the product's other
-     * variants. previous_attributes.name.anyOf[1] (Value): string. Variant name that distinguishes
-     * it from the product's other variants. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.position (Optional): integer or null. Display order among the product's
-     * variants, starting at zero. previous_attributes.position.anyOf[1] (Value): integer. Display
-     * order among the product's variants, starting at zero. Format: int32.
-     * previous_attributes.position.anyOf[2] (Value): null. previous_attributes.product_id
-     * (Optional): string or null. Identifier of the product this variant belongs to.
-     * previous_attributes.product_id.anyOf[1] (Value): string. Identifier of the product this
-     * variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * (Optional): string or null. ID of the modifier set attached to the variant. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the variant. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Variant name that
+     * distinguishes it from the product's other variants. previous_attributes.name.anyOf[1]
+     * (Value): string. Variant name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * previous_attributes.product_id.anyOf[2] (Value): null.
      * previous_attributes.quantity_price_breaks (Optional): Array of {@link
      * QuantityPriceBreakPreviousAttributes} or null. Net unit prices in ascending minimum_quantity
@@ -5819,15 +5703,14 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems:
      * 10. previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link
      * QuantityPriceBreakPreviousAttributes}. previous_attributes.quantity_price_breaks.anyOf[2]
-     * (Value): null. previous_attributes.release_date (Optional): string or null or null. Calendar
-     * release date in YYYY-MM-DD format. Null when no release date is set. Lines created while
-     * this date is after today in the merchant timezone are pre-orders. Existing order lines keep
-     * their release date. previous_attributes.release_date.anyOf[1] (Value): string or null.
-     * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created
-     * while this date is after today in the merchant timezone are pre-orders. Existing order lines
-     * keep their release date. Format: date. Example: "2026-08-02".
-     * previous_attributes.release_date.anyOf[2] (Value): null.
-     * previous_attributes.selected_options (Optional): Array of {@link
+     * (Value): null. previous_attributes.release_date (Optional): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. previous_attributes.release_date.anyOf[1] (Value): string. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
      * SelectedProductOptionPreviousAttributes} or null. Always present. Empty collections are
      * returned as []. previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
      * SelectedProductOptionPreviousAttributes}. Always present. Empty collections are returned as
@@ -5958,19 +5841,19 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the variant. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Variant name that distinguishes it from
-         * the product's other variants. name.anyOf[1] (Value): string. Variant name that
-         * distinguishes it from the product's other variants. name.anyOf[2] (Value): null.
-         * position (Optional): integer or null. Display order among the product's variants,
-         * starting at zero. position.anyOf[1] (Value): integer. Display order among the product's
-         * variants, starting at zero. Format: int32. position.anyOf[2] (Value): null. product_id
-         * (Optional): string or null. Identifier of the product this variant belongs to.
-         * product_id.anyOf[1] (Value): string. Identifier of the product this variant belongs to.
-         * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * variant. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the variant. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[1] (Value): string. Variant name that distinguishes
+         * it from the product's other variants. name.anyOf[2] (Value): null. position (Optional):
+         * integer or null. Display order among the product's variants, starting at zero.
+         * position.anyOf[1] (Value): integer. Display order among the product's variants, starting
+         * at zero. Format: int32. position.anyOf[2] (Value): null. product_id (Optional): string
+         * or null. Identifier of the product this variant belongs to. product_id.anyOf[1] (Value):
+         * string. Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
          * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreakPreviousAttributes}
          * or null. Net unit prices in ascending minimum_quantity order. The largest minimum not
          * above the line quantity applies; otherwise the base unit price applies. Empty when no
@@ -5980,13 +5863,13 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * applies; otherwise the base unit price applies. Empty when no breaks are configured.
          * Gift card variants have no breaks. maxItems: 10. quantity_price_breaks.anyOf[1][]
          * (Value): {@link QuantityPriceBreakPreviousAttributes}. quantity_price_breaks.anyOf[2]
-         * (Value): null. release_date (Optional): string or null or null. Calendar release date in
+         * (Value): null. release_date (Optional): string or null. Calendar release date in
          * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
          * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. release_date.anyOf[1] (Value): string or null. Calendar release date in
-         * YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
-         * after today in the merchant timezone are pre-orders. Existing order lines keep their
-         * release date. Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
+         * release date. release_date.anyOf[1] (Value): string. Calendar release date in YYYY-MM-DD
+         * format. Null when no release date is set. Lines created while this date is after today
+         * in the merchant timezone are pre-orders. Existing order lines keep their release date.
+         * Format: date. Example: "2026-08-02". release_date.anyOf[2] (Value): null.
          * selected_options (Optional): Array of {@link SelectedProductOptionPreviousAttributes} or
          * null. Always present. Empty collections are returned as []. selected_options.anyOf[1]
          * (Value): Array of {@link SelectedProductOptionPreviousAttributes}. Always present. Empty
@@ -6082,7 +5965,7 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * to the nearest cent with ties up. anyOf[1] (Value): {@link
              * GiftCardProductConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null) | (unknown));
+            "gift_card_configuration"?: ((GiftCardProductConfigurationPreviousAttributes) | (null));
             /**
              * The variant's own images in display order. An empty gallery inherits the product's
              * images. anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. The
@@ -6154,14 +6037,14 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the variant. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * variant. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the variant.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Variant name that distinguishes it from the product's other variants. anyOf[1]
              * (Value): string. Variant name that distinguishes it from the product's other
@@ -6194,13 +6077,13 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             /**
              * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
              * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
-             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
-             * created while this date is after today in the merchant timezone are pre-orders.
-             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
-             * anyOf[2] (Value): null.
+             * Existing order lines keep their release date. anyOf[1] (Value): string. Calendar
+             * release date in YYYY-MM-DD format. Null when no release date is set. Lines created
+             * while this date is after today in the merchant timezone are pre-orders. Existing
+             * order lines keep their release date. Format: date. Example: "2026-08-02". anyOf[2]
+             * (Value): null.
              */
-            "release_date"?: ((string | null) | (null) | (unknown));
+            "release_date"?: ((string) | (null));
             /**
              * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
              * {@link SelectedProductOptionPreviousAttributes}. Always present. Empty collections
@@ -6229,17 +6112,17 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * DimensionsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null) | (unknown));
+            "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
             /**
              * Base unit price before quantity price breaks, in the currency's smallest unit.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link
              * WeightPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_weight"?: ((WeightPreviousAttributes) | (null) | (unknown));
+            "unit_weight"?: ((WeightPreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -6930,4 +6813,198 @@ export type PromotionAmountOffMethod = {
     "recurrence"?: PromotionRecurrence;
     /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
     "type": "amount_off" | (string & {});
+};
+export type PromotionAmountOffMethodPreviousAttributes = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across". anyOf[1] (Value):
+     * string. How the effect is applied across the matched items or charges. each applies the
+     * effect to every matched item independently: a fixed amount_off is charged per item (10 USD
+     * off 3 items discounts 30 USD, each capped at the item price), and a percent_off is taken
+     * from each item. across applies the effect once to the matched set as a whole: a fixed
+     * amount_off is the whole amount one time (10 USD off the group total, not prorated per item),
+     * and a percent_off is taken from the combined subtotal. For percent_off the two produce the
+     * same total and differ only in how the discount is attributed to individual line items; for
+     * amount_off they differ by the number of matched items, so set it deliberately. Defaults to
+     * each for line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across". anyOf[2] (Value): null.
+     */
+    "allocation"?: (("each" | "across" | (string & {})) | (null));
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_off_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
+     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax". anyOf[1] (Value): string. What a merchandise
+     * discount is calculated from. Omitted means `subtotal_pre_tax`. Not used by service_charge
+     * promotions; sending it there returns `400 INVALID_REQUEST`. Value enum: "subtotal_pre_tax",
+     * "subtotal_post_tax". anyOf[2] (Value): null.
+     */
+    "calculation_basis"?: (("subtotal_pre_tax" | "subtotal_post_tax" | (string & {})) | (null));
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. anyOf[1] (Value): Map of {@link MoneyValuePreviousAttributes}. anyOf[1].* (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
+     * with `param` naming this field. anyOf[1] (Value): {@link
+     * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one nonempty
+     * all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key
+     * are invalid. Omit the field for no rules, or send null where the field is clearable.
+     * Responses list rules before nested groups. Under any, a nested group containing only one
+     * rule reads back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups. anyOf[2] (Value): null.
+     */
+    "discounted_item_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. anyOf[1] (Value): {@link
+     * PromotionRecurrencePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null));
+    /**
+     * Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off".
+     * anyOf[1] (Value): string. Selects the amount_off discount effect and its allowed fields.
+     * Value enum: "amount_off". anyOf[2] (Value): null.
+     */
+    "type"?: (("amount_off" | (string & {})) | (null));
+};
+/** The `amount_off` variant of `PromotionApplicationMethodInput`. */
+export type PromotionAmountOffMethodRequest = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money": MoneyValue;
+    /**
+     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
+     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValue>;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
+     * with `param` naming this field. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules"?: PromotionRuleGroupRequest;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrence;
+    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
+    "type": "amount_off" | (string & {});
+};
+/** The `amount_off` variant of `PromotionApplicationMethodInput`. */
+export type PromotionAmountOffMethodRequestInput = {
+    /**
+     * How the effect is applied across the matched items or charges. each applies the effect to
+     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
+     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
+     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
+     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
+     * is taken from the combined subtotal. For percent_off the two produce the same total and
+     * differ only in how the discount is attributed to individual line items; for amount_off they
+     * differ by the number of matched items, so set it deliberately. Defaults to each for
+     * line_item and service_charge promotions and across for order promotions.
+     * max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across";
+    /**
+     * Positive fixed discount in the primary currency. allocation determines whether it applies to
+     * each matched item or once across the matched set. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_off_money": MoneyValueInput;
+    /**
+     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
+     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
+     * "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
+    /**
+     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
+     * its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "currency_options"?: Record<string, MoneyValueInput>;
+    /**
+     * Which line items receive the discount. Required for service_charge promotions, and for
+     * line_item promotions whose eligibility_rules include any non-line-item condition (for
+     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
+     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
+     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
+     * with `param` naming this field. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "discounted_item_rules"?: PromotionRuleGroupRequestInput;
+    /**
+     * Optional recurrence for subscription payments: once applies to the first charged payment,
+     * repeating applies for period_count charged payments, and forever applies to every payment.
+     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrenceRequestInput;
+    /** Selects the amount_off discount effect and its allowed fields. Value enum: "amount_off". */
+    "type": "amount_off";
 };

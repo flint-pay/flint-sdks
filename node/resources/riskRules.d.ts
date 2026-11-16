@@ -38,8 +38,6 @@ export type {
     RiskRulesListParams,
     RiskRuleListResponse,
     RiskRulesUpdateParams,
-    RiskPredicateNodeRequestInput,
-    RiskPredicateNodeNotRequestInput,
     RiskRuleIssue
 } from '../declarations/types-65.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-60.js';
@@ -47,8 +45,10 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type {
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
+    RiskPredicateNodeRequestInput,
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
+    RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeMoneyComparisonRequestInput,
     RiskPredicateNodeInRequestInput,

@@ -1,11 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionUpcomingDeliveryHoldPreviousAttributes to TicketUpdatedMerchantEvent
+# TaxBreakdown to TicketWithAdmissionCode
 
-- [SubscriptionUpcomingDeliveryHoldPreviousAttributes](SubscriptionUpcomingDeliveryHoldPreviousAttributes.md)
-- [SubscriptionUpdatedInstalledMerchantsEvent](SubscriptionUpdatedInstalledMerchantsEvent.md)
-- [SubscriptionUpdatedMerchantEvent](SubscriptionUpdatedMerchantEvent.md)
-- [SubscriptionWindowMetrics](SubscriptionWindowMetrics.md)
 - [TaxBreakdown](TaxBreakdown.md)
 - [TaxBreakdownFlatAmount](TaxBreakdownFlatAmount.md)
 - [TaxBreakdownFlatAmountPreviousAttributes](TaxBreakdownFlatAmountPreviousAttributes.md)
@@ -102,4 +98,8 @@
 - [TicketResponse](TicketResponse.md)
 - [TicketUpdatedInstalledMerchantsEvent](TicketUpdatedInstalledMerchantsEvent.md)
 - [TicketUpdatedMerchantEvent](TicketUpdatedMerchantEvent.md)
+- [TicketVersionRequestInput](TicketVersionRequestInput.md)
+- [TicketVoidedInstalledMerchantsEvent](TicketVoidedInstalledMerchantsEvent.md)
+- [TicketVoidedMerchantEvent](TicketVoidedMerchantEvent.md)
+- [TicketWithAdmissionCode](TicketWithAdmissionCode.md)
 

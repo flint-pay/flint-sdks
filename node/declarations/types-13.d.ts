@@ -1,4 +1,4 @@
-import type { MetadataRequestInput, MetadataMap } from './types-41.js';
+import type { MetadataMap, MetadataRequestInput } from './types-41.js';
 import type {
     GetReturnDispositionResponse,
     GetReturnInspectionResponse,
@@ -36,81 +36,9 @@ import type {
     ReturnReceiptLineItemRequestInput
 } from './types-62.js';
 import type { ResponseMeta } from './types-60.js';
-import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-65.js';
-import type { CreateShipmentRequestReturn, CreateShipmentRequestReturnInput } from './types-14.js';
+import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-64.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-47.js';
-/** The request body for: Create return disposition. */
-export type CreateReturnDispositionRequestInput = ({
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string | globalThis.Date;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
-     * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "replaces_return_disposition_id"?: string;
-    /**
-     * ID of the Return the disposition belongs to. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
-     * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
-     */
-    "return_inspection_line_item_id"?: string;
-    /**
-     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
-     * minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id"?: string;
-})
-    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));
+import type { CreateShipmentRequestReturnInput } from './types-14.js';
 /** The `Inspection line` variant of `CreateReturnDispositionRequest`. */
 export type CreateReturnDispositionRequestInspectionLine = ({
     /**
@@ -3322,3 +3250,54 @@ export type CreateShipmentRequestOutboundInput = ({
     & (({
     "return_line_items"?: never;
 }));
+/** The `return` variant of `CreateShipmentRequest`. */
+export type CreateShipmentRequestReturn = ({
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "return".
+     */
+    "direction": "return" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Shipment fulfillment that owns an outbound shipment. Required when direction is outbound;
+     * forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Creates packages atomically with an outbound shipment. Items are optional per package.
+     * Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@link
+     * PackageCreateRequest}. Package to create inline with its enclosing shipment or fulfillment.
+     * Set status to created before handoff, or shipped to report handoff during creation.
+     */
+    "packages"?: Array<PackageCreateRequest>;
+    /**
+     * Return associated with this shipment, when its direction is return. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items": Array<ReturnResolutionLineItemRequest>;
+});

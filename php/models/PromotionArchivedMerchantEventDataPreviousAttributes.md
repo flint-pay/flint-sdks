@@ -10,23 +10,23 @@ Response model.
 | --- | --- | --- | --- |
 | `application_method` | Optional | Alternative shapes (see declared variants) or null | Discount effect and how it applies to eligible items or charges. `application_method`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesapplication_method). |
 | `available` | Optional | boolean or null | Whether the promotion can apply right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has at least one redeemable code. `available`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesavailable). |
-| `codes_summary` | Optional | Alternative shapes (see declared variants) | Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. `codes_summary`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescodes_summary). |
-| `combines_with` | Optional | Alternative shapes (see declared variants) | Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. `combines_with`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescombines_with). |
+| `codes_summary` | Optional | [PromotionCodesSummaryPreviousAttributes](../models/PromotionCodesSummaryPreviousAttributes.md#promotioncodessummarypreviousattributes) or null | Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. |
+| `combines_with` | Optional | [PromotionCombinesWithPreviousAttributes](../models/PromotionCombinesWithPreviousAttributes.md#promotioncombineswithpreviousattributes) or null | Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. |
 | `created_at` | Optional | string or null | When the promotion was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescreated_at). |
 | `description` | Optional | string or null | Optional description of the promotion for your own records. `description`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesdescription). |
 | `discount_class` | Optional | string or null | Whether the promotion discounts the order, individual line items, or service charges. Values: `"order"`, `"line_item"`, `"service_charge"`. `discount_class`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesdiscount_class). |
 | `display_name` | Optional | string or null | Buyer-facing promotion name shown in checkout and order discount surfaces. `display_name`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesdisplay_name). |
 | `eligibility_rules` | Optional | Alternative shapes (see declared variants) or null | Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions. `eligibility_rules`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributeseligibility_rules). |
-| `exclusivity` | Optional | Alternative shapes (see declared variants) | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. `exclusivity`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesexclusivity). |
+| `exclusivity` | Optional | [PromotionExclusivityPreviousAttributes](../models/PromotionExclusivityPreviousAttributes.md#promotionexclusivitypreviousattributes) or null | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `max_uses` | Optional | integer or null | Maximum number of redemptions across all codes and automatic applications. Omitted when there is no redemption limit. `max_uses`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesmax_uses). |
-| `max_uses_per_customer` | Optional | integer or null or null | Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. `max_uses_per_customer`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesmax_uses_per_customer). |
+| `max_uses_per_customer` | Optional | integer or null | Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. `max_uses_per_customer`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesmax_uses_per_customer). |
 | `merchant_id` | Optional | string or null | Identifier of the merchant that owns the promotion. `merchant_id`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Key-value data you attach to the promotion. `metadata`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesmetadata). |
 | `name` | Optional | string or null | Internal promotion name for dashboards, searching, and reporting. `name`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesname). |
 | `promotion_id` | Optional | string or null | Unique identifier for the promotion. `promotion_id`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributespromotion_id). |
 | `redemption_type` | Optional | string or null | Whether the promotion applies automatically when its rules match or requires a promotion code. Values: `"automatic"`, `"code"`. `redemption_type`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesredemption_type). |
-| `schedule` | Optional | Alternative shapes (see declared variants) | Optional start and end times that limit when the promotion can apply. `schedule`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule). |
+| `schedule` | Optional | [PromotionSchedulePreviousAttributes](../models/PromotionSchedulePreviousAttributes.md#promotionschedulepreviousattributes) or null | Optional start and end times that limit when the promotion can apply. `schedule`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule). |
 | `status` | Optional | string or null | Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesstatus). |
 | `unavailable_reason` | Optional | string or null | Why available is false. Present only when available is false. Values: `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. `unavailable_reason`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesunavailable_reason). |
 | `updated_at` | Optional | string or null | When the promotion was last updated, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesupdated_at). |
@@ -253,7 +253,7 @@ Rule comparison value. Use a primitive string, number, boolean, or a money objec
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Conditional | integer string or null | Amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributesamount). |
-| `currency` | Conditional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributescurrency). |
+| `currency` | Conditional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 1.values variant 1.[] fields 1 variant 1
 
@@ -288,7 +288,7 @@ Declared alternatives: [MoneyValuePreviousAttributes.amount](../models/MoneyValu
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 1.values variant 1.[] fields 1 variant 4.currency
 
-Declared alternatives: [SignedMoneyPreviousAttributes.currency](../models/SignedMoneyPreviousAttributes.md#signedmoneypreviousattributescurrency).
+Declared alternatives: [MoneyValuePreviousAttributes.currency](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency).
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 2.all
 
@@ -688,136 +688,6 @@ anyOf variant 2.
 
 - Value shape: null. Whether the promotion can apply right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has at least one redeemable code. 
 
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary
-
-Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `active_count` | Conditional | integer or null | Number of codes a buyer can redeem now: active, not expired, and under their max_uses. When it is 0, a code-gated promotion is unavailable with unavailable_reason no_active_codes. `active_count`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescodes_summary-variant-1active_count). |
-| `newest_active_code` | Conditional | string or null | Most recently created redeemable code. Omitted when active_count is zero. `newest_active_code`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescodes_summary-variant-1newest_active_code). |
-| `total_count` | Conditional | integer or null | Number of codes on the promotion, excluding archived codes. `total_count`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescodes_summary-variant-1total_count). |
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1
-
-anyOf PromotionCodesSummaryPreviousAttributes.
-
-- Optional: `active_count`, `newest_active_code`, `total_count`.
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 2
-
-anyOf variant 2.
-
-- Undeclared: `active_count`, `newest_active_code`, `total_count`.
-- Value shape: null. Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.active_count
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.active_count variant 1
-
-anyOf variant 1: Number of codes a buyer can redeem now: active, not expired, and under their max_uses. When it is 0, a code-gated promotion is unavailable with unavailable_reason no_active_codes..
-
-- Value shape: integer. Number of codes a buyer can redeem now: active, not expired, and under their max_uses. When it is 0, a code-gated promotion is unavailable with unavailable_reason no_active_codes. Number of codes a buyer can redeem now: active, not expired, and under their max_uses. When it is 0, a code-gated promotion is unavailable with unavailable_reason no_active_codes. Format: `int32`. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.active_count variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Number of codes a buyer can redeem now: active, not expired, and under their max_uses. When it is 0, a code-gated promotion is unavailable with unavailable_reason no_active_codes. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.newest_active_code
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.newest_active_code variant 1
-
-anyOf variant 1: Most recently created redeemable code. Omitted when active_count is zero..
-
-- Value shape: string. Most recently created redeemable code. Omitted when active_count is zero. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.newest_active_code variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Most recently created redeemable code. Omitted when active_count is zero. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.total_count
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.total_count variant 1
-
-anyOf variant 1: Number of codes on the promotion, excluding archived codes..
-
-- Value shape: integer. Number of codes on the promotion, excluding archived codes. Number of codes on the promotion, excluding archived codes. Format: `int32`. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.codes_summary variant 1.total_count variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Number of codes on the promotion, excluding archived codes. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with
-
-Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `line_item` | Conditional | boolean or null | Allow line item promotions, subject to the evaluation order on Promotion. `line_item`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescombines_with-variant-1line_item). |
-| `order` | Conditional | boolean or null | Allow order promotions, subject to the evaluation order on Promotion. `order`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescombines_with-variant-1order). |
-| `service_charge` | Conditional | boolean or null | Allow service charge promotions, subject to the evaluation order on Promotion. `service_charge`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributescombines_with-variant-1service_charge). |
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1
-
-anyOf PromotionCombinesWithPreviousAttributes.
-
-- Optional: `line_item`, `order`, `service_charge`.
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 2
-
-anyOf variant 2.
-
-- Undeclared: `line_item`, `order`, `service_charge`.
-- Value shape: null. Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.line_item
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.line_item variant 1
-
-anyOf variant 1: Allow line item promotions, subject to the evaluation order on Promotion..
-
-- Value shape: boolean. Allow line item promotions, subject to the evaluation order on Promotion. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.line_item variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Allow line item promotions, subject to the evaluation order on Promotion. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.order
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.order variant 1
-
-anyOf variant 1: Allow order promotions, subject to the evaluation order on Promotion..
-
-- Value shape: boolean. Allow order promotions, subject to the evaluation order on Promotion. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.order variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Allow order promotions, subject to the evaluation order on Promotion. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.service_charge
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.service_charge variant 1
-
-anyOf variant 1: Allow service charge promotions, subject to the evaluation order on Promotion..
-
-- Value shape: boolean. Allow service charge promotions, subject to the evaluation order on Promotion. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.combines_with variant 1.service_charge variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Allow service charge promotions, subject to the evaluation order on Promotion. 
-
 ### PromotionArchivedMerchantEventDataPreviousAttributes.created_at
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.created_at variant 1
@@ -909,56 +779,6 @@ Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.app
 
 Declared alternatives: [PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 3.any](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesapplication_method-variant-1discounted_item_rules-variant-1all-variant-1-fields-1-variant-3any).
 
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity
-
-Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `group` | Conditional | string or null | Exact, case-sensitive group name, 1 to 100 characters after trimming. `group`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesexclusivity-variant-1group). |
-| `priority` | Conditional | integer or null | Higher priority wins. Equal priorities favor the larger standalone discount, then the earlier created_at, then the lower promotion_id. `priority`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesexclusivity-variant-1priority). |
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1
-
-anyOf PromotionExclusivityPreviousAttributes.
-
-- Optional: `group`, `priority`.
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 2
-
-anyOf variant 2.
-
-- Undeclared: `group`, `priority`.
-- Value shape: null. Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1.group
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1.group variant 1
-
-anyOf variant 1: Exact, case-sensitive group name, 1 to 100 characters after trimming..
-
-- Value shape: string. Exact, case-sensitive group name, 1 to 100 characters after trimming. Exact, case-sensitive group name, 1 to 100 characters after trimming. minLength: `1`. maxLength: `100`. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1.group variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Exact, case-sensitive group name, 1 to 100 characters after trimming. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1.priority
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1.priority variant 1
-
-anyOf variant 1: Higher priority wins. Equal priorities favor the larger standalone discount, then the earlier created_at, then the lower promotion_id..
-
-- Value shape: integer. Higher priority wins. Equal priorities favor the larger standalone discount, then the earlier created_at, then the lower promotion_id. Higher priority wins. Equal priorities favor the larger standalone discount, then the earlier created_at, then the lower promotion_id. Format: `int32`. Default: `0`. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.exclusivity variant 1.priority variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Higher priority wins. Equal priorities favor the larger standalone discount, then the earlier created_at, then the lower promotion_id. 
-
 ### PromotionArchivedMerchantEventDataPreviousAttributes.external_reference_id
 
 Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
@@ -983,7 +803,7 @@ anyOf variant 2.
 
 anyOf variant 1: Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit..
 
-- Value shape: (integer or null). Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: `int64`. minimum: `1`. 
+- Value shape: integer. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: `int64`. minimum: `1`. 
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.max_uses_per_customer variant 2
 
@@ -1069,7 +889,7 @@ Optional start and end times that limit when the promotion can apply.
 | --- | --- | --- | --- |
 | `ends_at` | Conditional | string or null | Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp. Omitted when it has no end time. `ends_at`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule-variant-1ends_at). |
 | `starts_at` | Conditional | string or null | Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has no start time. `starts_at`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule-variant-1starts_at). |
-| `timezone` | Conditional | string or null | IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends. `timezone`: [declared alternatives](../models/PromotionArchivedMerchantEventDataPreviousAttributes.md#promotionarchivedmerchanteventdatapreviousattributesschedule-variant-1timezone). |
+| `timezone` | Conditional | string or null | IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends. `timezone`: [declared alternatives](../models/PromotionSchedulePreviousAttributes.md#promotionschedulepreviousattributestimezone). |
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.schedule variant 1
 
@@ -1114,17 +934,7 @@ anyOf variant 2.
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.schedule variant 1.timezone
 
-### PromotionArchivedMerchantEventDataPreviousAttributes.schedule variant 1.timezone variant 1
-
-anyOf variant 1: IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends..
-
-- Value shape: string. IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends. IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends. minLength: `1`. maxLength: `255`. 
-
-### PromotionArchivedMerchantEventDataPreviousAttributes.schedule variant 1.timezone variant 2
-
-anyOf variant 2.
-
-- Value shape: null. IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends. 
+Declared alternatives: [PromotionSchedulePreviousAttributes.timezone](../models/PromotionSchedulePreviousAttributes.md#promotionschedulepreviousattributestimezone).
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.status
 

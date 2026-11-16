@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { Report, ReportListResponse, ReportResponse } from '../declarations/types-59.js';
-import type { ReportsCreateParams, ReportsGetParams, ReportsListParams, RequestOptions } from '../declarations/types-60.js';
+import type { Report, ReportListResponse, ReportResponse, ReportsCreateParams } from '../declarations/types-59.js';
+import type { ReportsGetParams, ReportsListParams, RequestOptions } from '../declarations/types-60.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -19,6 +19,14 @@ export type {
 } from '../runtime.js';
 export type {
     ReportsCreateParams,
+    Report,
+    ReportResponse,
+    ReportListResponse,
+    ReportPending,
+    ReportSucceeded,
+    ReportFailed
+} from '../declarations/types-59.js';
+export type {
     RequestOptions,
     ReportsGetParams,
     ReportsListParams,
@@ -26,7 +34,6 @@ export type {
     ResponseWarning,
     ResourceReference
 } from '../declarations/types-60.js';
-export type { Report, ReportResponse, ReportListResponse, ReportPending, ReportSucceeded, ReportFailed } from '../declarations/types-59.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReportRequestInput, CreateReceivablesAgingReportRequestInput } from '../declarations/types-12.js';

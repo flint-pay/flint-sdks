@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# CreditNoteIssueAllocationRequest to DecideReturnRequestInput
+# CreditNoteIssueAllocationRequestInput to DeclinePaymentReviewRequest
 
-- [CreditNoteIssueAllocationRequest](CreditNoteIssueAllocationRequest.md)
 - [CreditNoteIssueAllocationRequestInput](CreditNoteIssueAllocationRequestInput.md)
 - [CreditNoteIssuedInstalledMerchantsEvent](CreditNoteIssuedInstalledMerchantsEvent.md)
 - [CreditNoteIssuedMerchantEvent](CreditNoteIssuedMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [DecideReturnInspectionLineItemRequestInput](DecideReturnInspectionLineItemRequestInput.md)
 - [DecideReturnRequest](DecideReturnRequest.md)
 - [DecideReturnRequestInput](DecideReturnRequestInput.md)
+- [DeclinePaymentReviewRequest](DeclinePaymentReviewRequest.md)
 

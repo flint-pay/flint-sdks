@@ -1,10 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { InvoiceCollectionInputMerchantDefaultInput, InvoiceCollectionRequestInput } from './types-34.js';
-import type {
-    InvoiceLateFeePolicyFixedRequestInput,
-    InvoiceLateFeePolicyPercentageRequestInput,
-    InvoiceLateFeePolicyRequestInput
-} from './types-35.js';
+import type { InvoiceLateFeePolicyRequestInput } from './types-35.js';
 import type {
     InvoicePaymentDueInputCustomerDefaultInput,
     InvoicePaymentDueInputDateInput,
@@ -17,10 +12,10 @@ import type {
     InvoicePaymentTermCalculationDayOfMonthRequestInput,
     InvoicePaymentTermCalculationDayOfNextMonthRequestInput,
     InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput,
-    InvoicePaymentTermCalculationNetDaysRequestInput
+    InvoicePaymentTermCalculationNetDaysRequestInput,
+    InvoicePaymentTermCalculationOnReceiptRequestInput
 } from './types-36.js';
 import type {
-    InvoicePaymentTermCalculationOnReceiptRequestInput,
     InvoicePaymentTermCalculationRequestInput,
     InvoiceReminderPolicyInput,
     InvoiceReminderRuleInput,
@@ -71,12 +66,10 @@ import type {
     MerchantSignupOwnerRequestInput,
     MerchantSignupTermsAcceptanceRequestInput,
     MerchantSignupVersionRequestInput,
-    MetadataPatchRequestInput
+    MetadataPatchRequestInput,
+    MetadataRequestInput
 } from './types-41.js';
-export declare function makeInvoiceCollectionInputMerchantDefault(value: InputValue<InvoiceCollectionInputMerchantDefaultInput>): Model<InvoiceCollectionInputMerchantDefaultInput>;
-export declare function makeInvoiceCollectionRequest(value: InputValue<InvoiceCollectionRequestInput>): Model<InvoiceCollectionRequestInput>;
-export declare function makeInvoiceLateFeePolicyFixedRequest(value: InputValue<InvoiceLateFeePolicyFixedRequestInput>): Model<InvoiceLateFeePolicyFixedRequestInput>;
-export declare function makeInvoiceLateFeePolicyPercentageRequest(value: InputValue<InvoiceLateFeePolicyPercentageRequestInput>): Model<InvoiceLateFeePolicyPercentageRequestInput>;
+import type { ModifierOverrideRequestInput, ModifierRequestInput, ModifierSetGroupInputExistingInput } from './types-42.js';
 export declare function makeInvoiceLateFeePolicyRequest(value: InputValue<InvoiceLateFeePolicyRequestInput>): Model<InvoiceLateFeePolicyRequestInput>;
 export declare function makeInvoicePaymentDueInputCustomerDefault(value: InputValue<InvoicePaymentDueInputCustomerDefaultInput>): Model<InvoicePaymentDueInputCustomerDefaultInput>;
 export declare function makeInvoicePaymentDueInputDate(value: InputValue<InvoicePaymentDueInputDateInput>): Model<InvoicePaymentDueInputDateInput>;
@@ -137,3 +130,7 @@ export declare function makeMerchantSignupOwnerRequest(value: InputValue<Merchan
 export declare function makeMerchantSignupTermsAcceptanceRequest(value: InputValue<MerchantSignupTermsAcceptanceRequestInput>): Model<MerchantSignupTermsAcceptanceRequestInput>;
 export declare function makeMerchantSignupVersionRequest(value: InputValue<MerchantSignupVersionRequestInput>): Model<MerchantSignupVersionRequestInput>;
 export declare function makeMetadataPatchRequest(value: InputValue<MetadataPatchRequestInput>): Model<MetadataPatchRequestInput>;
+export declare function makeMetadataRequest(value: InputValue<MetadataRequestInput>): Model<MetadataRequestInput>;
+export declare function makeModifierOverrideRequest(value: InputValue<ModifierOverrideRequestInput>): Model<ModifierOverrideRequestInput>;
+export declare function makeModifierRequest(value: InputValue<ModifierRequestInput>): Model<ModifierRequestInput>;
+export declare function makeModifierSetGroupInputExisting(value: InputValue<ModifierSetGroupInputExistingInput>): Model<ModifierSetGroupInputExistingInput>;

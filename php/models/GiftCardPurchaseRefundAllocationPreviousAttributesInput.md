@@ -13,7 +13,7 @@ Request input.
 | `order_manual_reversal_id` | Optional | string or null | ID of the manual payment reversal. Set when this entry reverses a manual payment instead of refunding a payment. `order_manual_reversal_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinputorder_manual_reversal_id). |
 | `purchase_refund_allocation_id` | Optional | string or null | ID of this entry in the load's purchase refunds. `purchase_refund_allocation_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinputpurchase_refund_allocation_id). |
 | `recovery` | Optional | [GiftCardPurchaseRefundRecoveryPreviousAttributesInput](../models/GiftCardPurchaseRefundRecoveryPreviousAttributesInput.md#giftcardpurchaserefundrecoverypreviousattributesinput) or null | How the value was restored after the refund failed. `null` when no recovery happened. |
-| `refund_id` | Optional | string or null or null | ID of the refund. `null` when the entry reverses a manual payment, which has no refund. `refund_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinputrefund_id). |
+| `refund_id` | Optional | string or null | ID of the refund. `null` when the entry reverses a manual payment, which has no refund. `refund_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinputrefund_id). |
 | `status` | Optional | string or null | Whether the refund has succeeded, failed, or is still pending. Values: `"pending"`, `"succeeded"`, `"failed"`. `status`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinputstatus). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocationPreviousAttributesInput](../models/GiftCardPurchaseRefundValueAllocationPreviousAttributesInput.md#giftcardpurchaserefundvalueallocationpreviousattributesinput) or null | Actual value lots reserved or reversed for this original cash refund. Omitted when all value remains on the original load. `value_allocations`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributesInput.md#giftcardpurchaserefundallocationpreviousattributesinputvalue_allocations). |
@@ -58,7 +58,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the refund. `null` when the entry reverses a manual payment, which has no refund..
 
-- Value shape: (string or null). ID of the refund. `null` when the entry reverses a manual payment, which has no refund. ID of the refund. `null` when the entry reverses a manual payment, which has no refund. Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. 
+- Value shape: string. ID of the refund. `null` when the entry reverses a manual payment, which has no refund. ID of the refund. `null` when the entry reverses a manual payment, which has no refund. Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. 
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributesInput.refund_id variant 2
 

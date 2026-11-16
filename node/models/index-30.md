@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# PromotionRefInputPromotionCode to RefundLineItemAutomaticRefund
+# PromotionRefInputPromotionIDInput to RefundLineItemModifierAllocationPreviousAttributes
 
-- [PromotionRefInputPromotionCode](PromotionRefInputPromotionCode.md)
-- [PromotionRefInputPromotionCodeInput](PromotionRefInputPromotionCodeInput.md)
-- [PromotionRefInputPromotionID](PromotionRefInputPromotionID.md)
 - [PromotionRefInputPromotionIDInput](PromotionRefInputPromotionIDInput.md)
 - [PromotionRefRequest](PromotionRefRequest.md)
 - [PromotionRefRequestInput](PromotionRefRequestInput.md)
@@ -102,4 +99,7 @@
 - [RefundLineItemAllocation](RefundLineItemAllocation.md)
 - [RefundLineItemAllocationPreviousAttributes](RefundLineItemAllocationPreviousAttributes.md)
 - [RefundLineItemAutomaticRefund](RefundLineItemAutomaticRefund.md)
+- [RefundLineItemAutomaticRefundPreviousAttributes](RefundLineItemAutomaticRefundPreviousAttributes.md)
+- [RefundLineItemModifierAllocation](RefundLineItemModifierAllocation.md)
+- [RefundLineItemModifierAllocationPreviousAttributes](RefundLineItemModifierAllocationPreviousAttributes.md)
 

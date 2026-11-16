@@ -1,0 +1,81 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read list<string>|null $available_payout_methods
+ * @property-read string|null $bank_name
+ * @property-read string|null $country
+ * @property-read string|null $created_at
+ * @property-read string|null $currency
+ * @property-read bool|null $is_default_for_currency
+ * @property-read string|null $last4
+ * @property-read string|null $payout_destination_id
+ * @property-read string|null $status
+ * @property-read string|null $type
+ * @property-read string|null $updated_at
+ * @property-read int|null $version
+ * Presence-aware response; omitted optional fields return null. */
+final class ExpandedPayoutDestinationSummaryPreviousAttributes extends Model {
+    /** @param array{'available_payout_methods'?: mixed, 'bank_name'?: mixed, 'country'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'is_default_for_currency'?: mixed, 'last4'?: mixed, 'payout_destination_id'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPayoutDestinationSummaryPreviousAttributes')); }
+    /** Payout methods available through Flint for this destination. Only standard is currently available. [] enum: "standard". anyOf[1] (Value): Array of string. Payout methods available through Flint for this destination. Only standard is currently available. [] enum: "standard". anyOf[1][] (Value): string.  Value enum: "standard". anyOf[2] (Value): null.
+     * @return list<string>|null
+     */
+    public function getAvailablePayoutMethods(): array|null { return $this->get('available_payout_methods'); }
+    public function hasAvailablePayoutMethods(): bool { return $this->has('available_payout_methods'); }
+    /** Name of the bank, when your processor reports it. anyOf[1] (Value): string. Name of the bank, when your processor reports it. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getBankName(): string|null { return $this->get('bank_name'); }
+    public function hasBankName(): bool { return $this->has('bank_name'); }
+    /** ISO 3166-1 alpha-2 country code. anyOf[1] (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCountry(): string|null { return $this->get('country'); }
+    public function hasCountry(): bool { return $this->has('country'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreatedAt(): string|null { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCurrency(): string|null { return $this->get('currency'); }
+    public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it. anyOf[1] (Value): boolean. Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it. anyOf[2] (Value): null.
+     * @return bool|null
+     */
+    public function getIsDefaultForCurrency(): bool|null { return $this->get('is_default_for_currency'); }
+    public function hasIsDefaultForCurrency(): bool { return $this->has('is_default_for_currency'); }
+    /** Last four digits of the account or card number. anyOf[1] (Value): string. Last four digits of the account or card number. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getLast4(): string|null { return $this->get('last4'); }
+    public function hasLast4(): bool { return $this->has('last4'); }
+    /** Unique identifier for this payout destination, prefixed `pdest_`. anyOf[1] (Value): string. Unique identifier for this payout destination, prefixed `pdest_`. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPayoutDestinationId(): string|null { return $this->get('payout_destination_id'); }
+    public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
+    /** Current status. Archived: deleted, and still readable by ID. Value enum: "pending", "active", "verification_required", "disabled", "archived", "failed". anyOf[1] (Value): string. Current status. Archived: deleted, and still readable by ID. Value enum: "pending", "active", "verification_required", "disabled", "archived", "failed". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getStatus(): string|null { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Destination type. Unmapped destination types are returned as other. Value enum: "bank_account", "debit_card", "other". anyOf[1] (Value): string. Destination type. Unmapped destination types are returned as other. Value enum: "bank_account", "debit_card", "other". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getType(): string|null { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
+    /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getUpdatedAt(): string|null { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Persisted version of this resource's owned state. Expanded resources and external observations can change independently. anyOf[1] (Value): integer. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+     * @return int|null
+     */
+    public function getVersion(): int|null { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

@@ -55,7 +55,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `business_name` | Optional | string or null | Business name buyers see on checkout, payment links, and receipts. Once the merchant starts verification, it stays in sync with the business name on the live Stripe account: a change on either side applies, and the latest change wins. `business_name`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesbusiness_name). |
 | `business_type` | Optional | string or null | Merchant's business type. - `other`: A business type Flint does not map yet. Values: `"individual"`, `"company"`, `"non_profit"`, `"government_entity"`, `"other"`. `business_type`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesbusiness_type). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
-| `email` | Optional | string or null or null | The account's contact email address. A new account starts with the sign-up email. `null` when none is set. `email`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesemail). |
+| `email` | Optional | string or null | The account's contact email address. A new account starts with the sign-up email. `null` when none is set. `email`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesemail). |
 | `icon` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | The merchant's public brand mark. |
 | `merchant_id` | Optional | string or null | Stable identifier of the merchant. `merchant_id`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesmerchant_id). |
@@ -180,7 +180,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 anyOf variant 1: The account's contact email address. A new account starts with the sign-up email. `null` when none is set..
 
-- Value shape: (string or null). The account's contact email address. A new account starts with the sign-up email. `null` when none is set. 
+- Value shape: string. The account's contact email address. A new account starts with the sign-up email. `null` when none is set. 
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.email variant 2
 

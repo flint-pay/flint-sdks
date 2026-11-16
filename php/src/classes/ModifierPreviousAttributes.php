@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $created_at
  * @property-read int|null $default_quantity
  * @property-read string|null $line_item_tax_category
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $modifier_group_id
  * @property-read string|null $modifier_id
  * @property-read string|null $name
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read bool|null $show_on_receipt
  * @property-read string|null $status
  * @property-read bool|null $taxable
- * @property-read mixed $unit_price_delta_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_delta_money
  * @property-read string|null $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ModifierPreviousAttributes extends Model {
@@ -37,9 +37,9 @@ final class ModifierPreviousAttributes extends Model {
     public function getLineItemTaxCategory(): string|null { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set. anyOf[1] (Value): string. Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set. anyOf[2] (Value): null.
      * @return string|null
@@ -87,9 +87,9 @@ final class ModifierPreviousAttributes extends Model {
     public function getTaxable(): bool|null { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
     /** Amount added to the item's unit price for each unit of this modifier. A modifier set can override this value. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceDeltaMoney(): mixed { return $this->get('unit_price_delta_money'); }
+    public function getUnitPriceDeltaMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_delta_money'); }
     public function hasUnitPriceDeltaMoney(): bool { return $this->has('unit_price_delta_money'); }
     /** When the modifier last changed, as an RFC3339 timestamp. anyOf[1] (Value): string. When the modifier last changed, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

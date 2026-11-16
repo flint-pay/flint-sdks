@@ -2,13 +2,13 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $archived_at
+ * @property-read string|null $archived_at
  * @property-read string|null $created_at
  * @property-read string|null $currency
  * @property-read list<string>|null $customer_segments
- * @property-read mixed $external_reference_id
+ * @property-read string|null $external_reference_id
  * @property-read string|null $merchant_id
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $name
  * @property-read int|null $price_count
  * @property-read string|null $price_list_id
@@ -19,10 +19,10 @@ namespace Flint;
 final class PriceListArchivedInstalledMerchantsEventDataPreviousAttributes extends Model {
     /** @param array{'archived_at'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'customer_segments'?: mixed, 'external_reference_id'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'price_count'?: mixed, 'price_list_id'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PriceListArchivedInstalledMerchantsEventDataPreviousAttributes')); }
-    /** When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. anyOf[1] (Value): string or null. When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. anyOf[1] (Value): string. When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getArchivedAt(): mixed { return $this->get('archived_at'); }
+    public function getArchivedAt(): string|null { return $this->get('archived_at'); }
     public function hasArchivedAt(): bool { return $this->has('archived_at'); }
     /** When this price list was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When this price list was created, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -39,10 +39,10 @@ final class PriceListArchivedInstalledMerchantsEventDataPreviousAttributes exten
      */
     public function getCustomerSegments(): array|null { return $this->get('customer_segments'); }
     public function hasCustomerSegments(): bool { return $this->has('customer_segments'); }
-    /** Caller-owned identifier for this resource in an external system. `null` when unset. anyOf[1] (Value): string or null. Caller-owned identifier for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
-     * @return mixed
+    /** Caller-owned identifier for this resource in an external system. `null` when unset. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getExternalReferenceId(): mixed { return $this->get('external_reference_id'); }
+    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** Identifier of the merchant that owns this price list. anyOf[1] (Value): string. Identifier of the merchant that owns this price list. anyOf[2] (Value): null.
      * @return string|null
@@ -50,9 +50,9 @@ final class PriceListArchivedInstalledMerchantsEventDataPreviousAttributes exten
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Caller-owned metadata stored on this price list. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Name used to identify this price list. anyOf[1] (Value): string. Name used to identify this price list. anyOf[2] (Value): null.
      * @return string|null

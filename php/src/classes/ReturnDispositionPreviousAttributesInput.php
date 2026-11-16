@@ -24,10 +24,10 @@ namespace Flint;
  * @property-read string|null $replaces_return_disposition_id
  * @property-read string|null $return_disposition_id
  * @property-read string|null $return_id
- * @property-read string|null|null $return_inspection_id
+ * @property-read string|null $return_inspection_id
  * @property-read string|null $return_inspection_line_item_id
  * @property-read string|null $return_line_item_id
- * @property-read string|null|null $return_receipt_id
+ * @property-read string|null $return_receipt_id
  * @property-read string|null $return_receipt_line_item_id
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
@@ -35,7 +35,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionPreviousAttributesInput extends Model {
-    /** @param array{'canceled_at'?: string|\DateTimeInterface|null, 'canceled_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'cancellation_reason'?: string|null, 'cancellation_reason_message'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'created_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'disposition_type'?: string|null, 'external_reference_id'?: string|null, 'failure_code'?: string|null, 'failure_message'?: string|null, 'inventory_location_id'?: string|null, 'inventory_movement_ids'?: list<string>|null, 'inventory_receipt_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'occurred_at'?: string|\DateTimeInterface|null, 'quantity'?: int|null, 'reason'?: string|null, 'reason_message'?: string|null, 'replaced_by_return_disposition_id'?: string|null, 'replaces_return_disposition_id'?: string|null, 'return_disposition_id'?: string|null, 'return_id'?: string|null, 'return_inspection_id'?: string|null|null, 'return_inspection_line_item_id'?: string|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null|null, 'return_receipt_line_item_id'?: string|null, 'status'?: string|null, 'supported_actions'?: list<string>|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
+    /** @param array{'canceled_at'?: string|\DateTimeInterface|null, 'canceled_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'cancellation_reason'?: string|null, 'cancellation_reason_message'?: string|null, 'created_at'?: string|\DateTimeInterface|null, 'created_by'?: ReturnActorPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'disposition_type'?: string|null, 'external_reference_id'?: string|null, 'failure_code'?: string|null, 'failure_message'?: string|null, 'inventory_location_id'?: string|null, 'inventory_movement_ids'?: list<string>|null, 'inventory_receipt_id'?: string|null, 'metadata'?: MetadataMapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'occurred_at'?: string|\DateTimeInterface|null, 'quantity'?: int|null, 'reason'?: string|null, 'reason_message'?: string|null, 'replaced_by_return_disposition_id'?: string|null, 'replaces_return_disposition_id'?: string|null, 'return_disposition_id'?: string|null, 'return_id'?: string|null, 'return_inspection_id'?: string|null, 'return_inspection_line_item_id'?: string|null, 'return_line_item_id'?: string|null, 'return_receipt_id'?: string|null, 'return_receipt_line_item_id'?: string|null, 'status'?: string|null, 'supported_actions'?: list<string>|null, 'updated_at'?: string|\DateTimeInterface|null, 'version'?: int|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionPreviousAttributesInput')); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
@@ -169,8 +169,8 @@ final class ReturnDispositionPreviousAttributesInput extends Model {
      */
     public function getReturnId(): mixed { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. anyOf[1] (Value): string. Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_inspection_id is omitted; use hasReturnInspectionId() or valueOrDefault().
      */
     public function getReturnInspectionId(): mixed { return $this->get('return_inspection_id'); }
@@ -187,8 +187,8 @@ final class ReturnDispositionPreviousAttributesInput extends Model {
      */
     public function getReturnLineItemId(): mixed { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. anyOf[1] (Value): string or null. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. anyOf[1] (Value): string. Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().
      */
     public function getReturnReceiptId(): mixed { return $this->get('return_receipt_id'); }

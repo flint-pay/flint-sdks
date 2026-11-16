@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string|null $name
  * @property-read string|null $payment_link_line_item_id
  * @property-read string|null $product_id
- * @property-read string|null|null $product_type
+ * @property-read string|null $product_type
  * @property-read int|null $quantity
  * @property-read string|null $resolved_name
  * @property-read ProductPriceRangePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $resolved_price_range
@@ -115,8 +115,8 @@ final class PaymentLinkLineItemPreviousAttributesInput extends Model {
      */
     public function getProductId(): mixed { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string or null. Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string. Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
      */
     public function getProductType(): mixed { return $this->get('product_type'); }

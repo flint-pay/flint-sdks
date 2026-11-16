@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The payment's requested amount when it was confirmed. `amount_money`: [declared alternatives](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributesamount_money). |
-| `authorization_expires_at` | Optional | string or null or null | Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. `authorization_expires_at`: [declared alternatives](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributesauthorization_expires_at). |
+| `authorization_expires_at` | Optional | string or null | Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. `authorization_expires_at`: [declared alternatives](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributesauthorization_expires_at). |
 | `capture_method` | Optional | string or null | Whether the payment collects when confirmed or holds the funds for a later capture. Values: `"automatic"`, `"manual"`. `capture_method`: [declared alternatives](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributescapture_method). |
 | `email` | Optional | string or null | The buyer's email address used for screening: the payment's receipt email, or else the email on the payment method, in lowercase. Empty when neither is known. `email`: [declared alternatives](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributesemail). |
 | `last4` | Optional | string or null | Last four digits of the card number. Empty when the payment has no card details. `last4`: [declared alternatives](../models/PaymentReviewPaymentSummaryPreviousAttributes.md#paymentreviewpaymentsummarypreviousattributeslast4). |
@@ -50,7 +50,7 @@ Declared alternatives: [BalanceTransactionUpdatedInstalledMerchantsEvent.data.pr
 
 anyOf variant 1: Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline..
 
-- Value shape: (string or null). Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### PaymentReviewPaymentSummaryPreviousAttributes.authorization_expires_at variant 2
 

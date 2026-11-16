@@ -5,11 +5,11 @@ namespace Flint;
  * @property-read bool|null $available
  * @property-read string|null $code
  * @property-read string|null $created_at
- * @property-read mixed $customer_id
+ * @property-read string|null $customer_id
  * @property-read string|null $expires_at
  * @property-read int|null $max_uses
  * @property-read string|null $merchant_id
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $promotion_code_id
  * @property-read string|null $promotion_id
  * @property-read string|null $status
@@ -37,10 +37,10 @@ final class PromotionCodeArchivedMerchantEventDataPreviousAttributes extends Mod
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Null when the code is unbound. anyOf[1] (Value): string or null. Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Null when the code is unbound. anyOf[2] (Value): null.
-     * @return mixed
+    /** Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Null when the code is unbound. anyOf[1] (Value): string. Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Null when the code is unbound. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getCustomerId(): mixed { return $this->get('customer_id'); }
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
     /** When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. anyOf[1] (Value): string. When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -58,9 +58,9 @@ final class PromotionCodeArchivedMerchantEventDataPreviousAttributes extends Mod
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Key-value data you attach to the promotion code. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Unique identifier for the promotion code. anyOf[1] (Value): string. Unique identifier for the promotion code. anyOf[2] (Value): null.
      * @return string|null

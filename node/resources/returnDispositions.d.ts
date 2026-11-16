@@ -48,7 +48,6 @@ export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInp
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type {
     CreateReturnDispositionResponse,
-    CreateReturnDispositionRequestInput,
     CreateReturnDispositionRequestReceiptLineInput,
     CreateReturnDispositionRequestInspectionLineInput
 } from '../declarations/types-13.js';
@@ -58,6 +57,7 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap, MetadataRequestInput } from '../declarations/types-41.js';
+export type { CreateReturnDispositionRequestInput } from '../declarations/types-12.js';
 export type { NextAction, MoneyValue } from '../declarations/types-42.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
@@ -67,7 +67,8 @@ export {
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
 } from '../declarations/types-81.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeRetryReturnDispositionRequest } from '../declarations/types-88.js';
 export interface ReturnDispositionsResource {
     /**

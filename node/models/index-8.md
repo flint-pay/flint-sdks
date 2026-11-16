@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# CreateOrderTipAmount to CreateReturnResolutionPreviewRequestCorrection
+# CreateOrderTipAmountInput to CreateReturnResolutionPreviewRequestCorrectionInput
 
-- [CreateOrderTipAmount](CreateOrderTipAmount.md)
 - [CreateOrderTipAmountInput](CreateOrderTipAmountInput.md)
 - [CreateOrderTipPercent](CreateOrderTipPercent.md)
 - [CreateOrderTipPercentInput](CreateOrderTipPercentInput.md)
@@ -102,4 +101,5 @@
 - [CreateReturnResolutionPreviewRequest](CreateReturnResolutionPreviewRequest.md)
 - [CreateReturnResolutionPreviewRequestInput](CreateReturnResolutionPreviewRequestInput.md)
 - [CreateReturnResolutionPreviewRequestCorrection](CreateReturnResolutionPreviewRequestCorrection.md)
+- [CreateReturnResolutionPreviewRequestCorrectionInput](CreateReturnResolutionPreviewRequestCorrectionInput.md)
 

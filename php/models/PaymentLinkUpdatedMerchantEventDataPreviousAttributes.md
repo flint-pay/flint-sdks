@@ -8,49 +8,45 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_fields` | Optional | Alternative shapes (see declared variants) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. `buyer_fields`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesbuyer_fields). |
+| `buyer_fields` | Optional | [CheckoutBuyerFieldsPreviousAttributes](../models/CheckoutBuyerFieldsPreviousAttributes.md#checkoutbuyerfieldspreviousattributes) or null | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
 | `checkout_session_expires_in_seconds` | Optional | integer or null | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. `checkout_session_expires_in_seconds`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributescheckout_session_expires_in_seconds). |
-| `completed_count` | Optional | integer or null | Number of paid checkout sessions started from this link. `completed_count`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1completed_count). |
+| `completed_count` | Optional | integer or null | Number of paid checkout sessions started from this link. `completed_count`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributescompleted_count). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPreviousAttributes](../models/PaymentLinkCustomFieldPreviousAttributes.md#paymentlinkcustomfieldpreviousattributes) or null | Questions buyers answer before paying. Answers are recorded on the order and checkout session in `custom_field_answers`. `custom_fields`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributescustom_fields). |
-| `custom_text` | Optional | Alternative shapes (see declared variants) | Custom text for checkouts started from this link. `custom_text`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributescustom_text). |
+| `custom_text` | Optional | [CheckoutCustomTextConfigPreviousAttributes](../models/CheckoutCustomTextConfigPreviousAttributes.md#checkoutcustomtextconfigpreviousattributes) or null | Custom text for checkouts started from this link. |
 | `delivery_method_ids` | Optional | Array of string or null | Delivery methods the link offers. Empty when the link has none, and then its checkouts offer settings.checkout.default_delivery_method_ids when the order has items to deliver. `delivery_method_ids`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdelivery_method_ids). |
-| `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. `description`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1description). |
+| `description` | Optional | string or null | Text about what the link sells, returned to buyers when they open it. `description`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesdescription). |
 | `donation_max_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Largest amount a buyer can give on a donation link. |
 | `donation_min_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Smallest amount a buyer can give on a donation link. |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amounts a donation link offers as one-tap choices. `donation_suggested_amount_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesdonation_suggested_amount_money_options). |
-| `event_config` | Optional | Alternative shapes (see declared variants) | Event details for an `event` link: when and where it takes place and how many tickets it sells. `event_config`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config). |
+| `event_config` | Optional | [PaymentLinkEventConfigPreviousAttributes](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributes) or null | Event details for an `event` link: when and where it takes place and how many tickets it sells. `event_config`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `image` | Optional | [ImageAttachmentPreviousAttributes](../models/ImageAttachmentPreviousAttributes.md#imageattachmentpreviousattributes) or null | Image shown to buyers with the link. `image`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesimage). |
 | `inactive_message` | Optional | string or null | Message to show the buyer when the link is inactive. `inactive_message`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesinactive_message). |
-| `inventory_routing_source` | Optional | Alternative shapes (see declared variants) | The inventory location or routing policy that supplies stock for the link's catalog lines. Absent when using the implicit single-Location fallback, which is evaluated again on use. `inventory_routing_source`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesinventory_routing_source). |
-| `legal` | Optional | Alternative shapes (see declared variants) | The terms and policy links checkouts started from this link show the buyer. `legal`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributeslegal). |
+| `inventory_routing_source` | Optional | [InventoryRoutingSourcePreviousAttributes](../models/InventoryRoutingSourcePreviousAttributes.md#inventoryroutingsourcepreviousattributes) or null | The inventory location or routing policy that supplies stock for the link's catalog lines. Absent when using the implicit single-Location fallback, which is evaluated again on use. `inventory_routing_source`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesinventory_routing_source). |
+| `legal` | Optional | [CheckoutLegalConfigPreviousAttributes](../models/CheckoutLegalConfigPreviousAttributes.md#checkoutlegalconfigpreviousattributes) or null | The terms and policy links checkouts started from this link show the buyer. |
 | `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) or null | What the link sells. `line_items`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items). |
 | `max_completions` | Optional | integer or null | Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. `max_completions`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesmax_completions). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata). |
-| `name` | Optional | string or null | Name of the payment link. `name`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1name). |
-| `payment_link_id` | Optional | string or null | Unique identifier for this payment link, prefixed `pl_`. `payment_link_id`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributespayment_link_id). |
-| `payment_link_type` | Optional | string or null | What kind of link this is. Values: `"standard"`, `"donation"`, `"event"`. `payment_link_type`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1payment_link_type). |
-| `payments` | Optional | Alternative shapes (see declared variants) | Payment options for checkouts started from this link. `payments`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributespayments). |
-| `promotion_config` | Optional | Alternative shapes (see declared variants) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. `promotion_config`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributespromotion_config). |
-| `redirects` | Optional | Alternative shapes (see declared variants) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. `redirects`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesredirects). |
+| `name` | Optional | string or null | Name of the payment link. `name`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesname). |
+| `payment_link_id` | Optional | string or null | Unique identifier for this payment link, prefixed `pl_`. `payment_link_id`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_id). |
+| `payment_link_type` | Optional | string or null | What kind of link this is. Values: `"standard"`, `"donation"`, `"event"`. `payment_link_type`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_type). |
+| `payments` | Optional | [CheckoutPaymentConfigPreviousAttributes](../models/CheckoutPaymentConfigPreviousAttributes.md#checkoutpaymentconfigpreviousattributes) or null | Payment options for checkouts started from this link. |
+| `promotion_config` | Optional | [CheckoutPromotionConfigPreviousAttributes](../models/CheckoutPromotionConfigPreviousAttributes.md#checkoutpromotionconfigpreviousattributes) or null | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. |
+| `redirects` | Optional | [CheckoutRedirectsPreviousAttributes](../models/CheckoutRedirectsPreviousAttributes.md#checkoutredirectspreviousattributes) or null | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. `redirects`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesredirects). |
 | `sales_end_at` | Optional | string or null | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. `sales_end_at`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_end_at). |
-| `sales_summary` | Optional | Alternative shapes (see declared variants) | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. `sales_summary`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary). |
-| `status` | Optional | string or null | Whether the link can start new checkouts. Values: `"active"`, `"inactive"`. `status`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1status). |
-| `subscription_plan` | Optional | Alternative shapes (see declared variants) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. `subscription_plan`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessubscription_plan). |
-| `subscription_plan_id` | Optional | string or null | ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. `subscription_plan_id`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessubscription_plan_id). |
-| `tax` | Optional | Alternative shapes (see declared variants) | Tax settings for checkouts started from this link. `tax`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestax). |
-| `theme` | Optional | Alternative shapes (see declared variants) | The title and colors for checkouts started from this link, over your branding settings. `theme`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestheme). |
-| `tip` | Optional | Alternative shapes (see declared variants) | Tip options for checkouts started from this link. `tip`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestip). |
+| `sales_summary` | Optional | [PaymentLinkSalesSummaryPreviousAttributes](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributes) or null | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. `sales_summary`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary). |
+| `status` | Optional | string or null | Whether the link can start new checkouts. Values: `"active"`, `"inactive"`. `status`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesstatus). |
+| `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryPreviousAttributes](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributes) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. `subscription_plan`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessubscription_plan). |
+| `subscription_plan_id` | Optional | string or null | ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. `subscription_plan_id`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributessubscription_plan_id). |
+| `tax` | Optional | [CheckoutTaxConfigPreviousAttributes](../models/CheckoutTaxConfigPreviousAttributes.md#checkouttaxconfigpreviousattributes) or null | Tax settings for checkouts started from this link. |
+| `theme` | Optional | [ThemeConfigPreviousAttributes](../models/ThemeConfigPreviousAttributes.md#themeconfigpreviousattributes) or null | The title and colors for checkouts started from this link, over your branding settings. |
+| `tip` | Optional | [CheckoutTipConfigPreviousAttributes](../models/CheckoutTipConfigPreviousAttributes.md#checkouttipconfigpreviousattributes) or null | Tip options for checkouts started from this link. |
 | `total_quantity_sold` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `total_quantity_sold`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
-| `url` | Optional | string or null | URL buyers open to use the link. `url`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1url). |
+| `url` | Optional | string or null | URL buyers open to use the link. `url`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesurl). |
 | `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributesversion). |
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.buyer_fields
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.buyer_fields](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesbuyer_fields).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.checkout_session_expires_in_seconds
 
@@ -68,7 +64,7 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.completed_count
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_link variant 1.completed_count](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1completed_count).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.completed_count](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributescompleted_count).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.created_at
 
@@ -148,33 +144,6 @@ Declared alternatives: [PaymentLinkCustomFieldPreviousAttributes.position](../mo
 
 Declared alternatives: [PaymentLinkCustomFieldPreviousAttributes.required](../models/PaymentLinkCustomFieldPreviousAttributes.md#paymentlinkcustomfieldpreviousattributesrequired).
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.custom_text
-
-Custom text for checkouts started from this link.
-
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustom_text).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.custom_text variant 1
-
-anyOf CheckoutCustomTextConfigPreviousAttributes.
-
-- Optional: `order_summary_message`, `shipping_address_label`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.custom_text variant 2
-
-anyOf variant 2.
-
-- Undeclared: `order_summary_message`, `shipping_address_label`.
-- Value shape: null. Custom text for checkouts started from this link. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.custom_text variant 1.order_summary_message
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.custom_text variant 1.order_summary_message](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustom_text-variant-1order_summary_message).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.custom_text variant 1.shipping_address_label
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.custom_text variant 1.shipping_address_label](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustom_text-variant-1shipping_address_label).
-
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.delivery_method_ids
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.delivery_method_ids variant 1
@@ -191,7 +160,7 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.description
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_link variant 1.description](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1description).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.description](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesdescription).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.donation_suggested_amount_money_options
 
@@ -213,13 +182,13 @@ Event details for an `event` link: when and where it takes place and how many ti
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `collect_attendee_names` | Conditional | boolean or null | Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false. `collect_attendee_names`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config-variant-1collect_attendee_names). |
+| `collect_attendee_names` | Conditional | boolean or null | Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false. `collect_attendee_names`: [declared alternatives](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributescollect_attendee_names). |
 | `event_at` | Conditional | string or null | RFC3339 timestamp. `event_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `max_total_quantity` | Conditional | integer or null or null | Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. `max_total_quantity`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config-variant-1max_total_quantity). |
-| `send_ticket_emails` | Conditional | boolean or null | Whether Flint emails tickets to buyers after they pay. `send_ticket_emails`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config-variant-1send_ticket_emails). |
-| `ticket_prefix` | Conditional | string or null | Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. `ticket_prefix`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config-variant-1ticket_prefix). |
-| `timezone` | Conditional | string or null | IANA time zone of the event venue, used to show `event_at` as venue time. `timezone`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config-variant-1timezone). |
-| `venue` | Conditional | string or null | Where the event takes place. `venue`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesevent_config-variant-1venue). |
+| `max_total_quantity` | Conditional | integer or null | Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. `max_total_quantity`: [declared alternatives](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributesmax_total_quantity). |
+| `send_ticket_emails` | Conditional | boolean or null | Whether Flint emails tickets to buyers after they pay. `send_ticket_emails`: [declared alternatives](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributessend_ticket_emails). |
+| `ticket_prefix` | Conditional | string or null | Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. `ticket_prefix`: [declared alternatives](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributesticket_prefix). |
+| `timezone` | Conditional | string or null | IANA time zone of the event venue, used to show `event_at` as venue time. `timezone`: [declared alternatives](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributestimezone). |
+| `venue` | Conditional | string or null | Where the event takes place. `venue`: [declared alternatives](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributesvenue). |
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1
 
@@ -236,17 +205,7 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.collect_attendee_names
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.collect_attendee_names variant 1
-
-anyOf variant 1: Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false..
-
-- Value shape: boolean. Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.collect_attendee_names variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the names onto the tickets when the order is paid. Defaults to false. 
+Declared alternatives: [PaymentLinkEventConfigPreviousAttributes.collect_attendee_names](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributescollect_attendee_names).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.event_at
 
@@ -254,73 +213,23 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.max_total_quantity
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.max_total_quantity variant 1
-
-anyOf variant 1: Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported..
-
-- Value shape: (integer or null). Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. Format: `int32`. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.max_total_quantity variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Most tickets the event sells across all orders. `null` when the event has no ticket limit. On update, send null to remove the limit; a value below the tickets already sold or held by payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional quantities are not supported. 
+Declared alternatives: [PaymentLinkEventConfigPreviousAttributes.max_total_quantity](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributesmax_total_quantity).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.send_ticket_emails
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.send_ticket_emails variant 1
-
-anyOf variant 1: Whether Flint emails tickets to buyers after they pay..
-
-- Value shape: boolean. Whether Flint emails tickets to buyers after they pay. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.send_ticket_emails variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether Flint emails tickets to buyers after they pay. 
+Declared alternatives: [PaymentLinkEventConfigPreviousAttributes.send_ticket_emails](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributessend_ticket_emails).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.ticket_prefix
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.ticket_prefix variant 1
-
-anyOf variant 1: Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets..
-
-- Value shape: string. Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. maxLength: `5`. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.ticket_prefix variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued tickets. 
+Declared alternatives: [PaymentLinkEventConfigPreviousAttributes.ticket_prefix](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributesticket_prefix).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.timezone
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.timezone variant 1
-
-anyOf variant 1: IANA time zone of the event venue, used to show `event_at` as venue time..
-
-- Value shape: string. IANA time zone of the event venue, used to show `event_at` as venue time. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.timezone variant 2
-
-anyOf variant 2.
-
-- Value shape: null. IANA time zone of the event venue, used to show `event_at` as venue time. 
+Declared alternatives: [PaymentLinkEventConfigPreviousAttributes.timezone](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributestimezone).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.venue
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.venue variant 1
-
-anyOf variant 1: Where the event takes place..
-
-- Value shape: string. Where the event takes place. Where the event takes place. maxLength: `500`. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.event_config variant 1.venue variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Where the event takes place. 
+Declared alternatives: [PaymentLinkEventConfigPreviousAttributes.venue](../models/PaymentLinkEventConfigPreviousAttributes.md#paymentlinkeventconfigpreviousattributesvenue).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.external_reference_id
 
@@ -416,46 +325,7 @@ Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPrevi
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.inventory_routing_source variant 1.type
 
-Declared alternatives: [InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.inventory_routing_source variant 1.type](../models/InventoryReservationActionRequiredMerchantEventDataPreviousAttributes.md#inventoryreservationactionrequiredmerchanteventdatapreviousattributesinventory_routing_source-variant-1type).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal
-
-The terms and policy links checkouts started from this link show the buyer.
-
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 1
-
-anyOf CheckoutLegalConfigPreviousAttributes.
-
-- Optional: `contract_url`, `refund_policy_url`, `require_terms_of_service`, `shipping_policy_url`, `terms_of_service_url`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 2
-
-anyOf variant 2.
-
-- Undeclared: `contract_url`, `refund_policy_url`, `require_terms_of_service`, `shipping_policy_url`, `terms_of_service_url`.
-- Value shape: null. The terms and policy links checkouts started from this link show the buyer. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 1.contract_url
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.legal variant 1.contract_url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal-variant-1contract_url).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 1.refund_policy_url
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.legal variant 1.refund_policy_url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal-variant-1refund_policy_url).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 1.require_terms_of_service
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.legal variant 1.require_terms_of_service](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal-variant-1require_terms_of_service).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 1.shipping_policy_url
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.legal variant 1.shipping_policy_url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal-variant-1shipping_policy_url).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.legal variant 1.terms_of_service_url
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.legal variant 1.terms_of_service_url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributeslegal-variant-1terms_of_service_url).
+Declared alternatives: [InventoryRoutingSourcePreviousAttributes.type](../models/InventoryRoutingSourcePreviousAttributes.md#inventoryroutingsourcepreviousattributestype).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items
 
@@ -489,10 +359,10 @@ anyOf variant 2.
 | `name` | Optional | string or null | Name of an ad hoc line item. Catalog lines take the catalog name. `name`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1name). |
 | `payment_link_line_item_id` | Optional | string or null | Unique identifier for this payment link line item, prefixed `plli_`. `payment_link_line_item_id`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1payment_link_line_item_id). |
 | `product_id` | Optional | string or null | Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. `product_id`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1product_id). |
-| `product_type` | Optional | string or null or null | Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`. `product_type`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1product_type). |
+| `product_type` | Optional | string or null | Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`. `product_type`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1product_type). |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesquantity). |
 | `resolved_name` | Optional | string or null | Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. `resolved_name`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1resolved_name). |
-| `resolved_price_range` | Optional | Alternative shapes (see declared variants) | Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. `resolved_price_range`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1resolved_price_range). |
+| `resolved_price_range` | Optional | [ProductPriceRangePreviousAttributes](../models/ProductPriceRangePreviousAttributes.md#productpricerangepreviousattributes) or null | Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. |
 | `resolved_unit_price_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Current catalog unit price of the referenced variant or bundle. For a fixed variant this is the base price that applies below the first quantity price break. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. |
 | `suggested_unit_price_money_options` | Optional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Unit prices offered as one-tap choices when the buyer sets the price. `suggested_unit_price_money_options`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1suggested_unit_price_money_options). |
 | `tax` | Optional | Alternative shapes (see declared variants) | Tax settings for an ad hoc line item. Catalog lines use the catalog's. `tax`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1tax). |
@@ -683,7 +553,7 @@ anyOf variant 2.
 
 anyOf variant 1: Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts..
 
-- Value shape: (string or null). Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`.
+- Value shape: string. Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.product_type variant 2
 
@@ -709,28 +579,6 @@ anyOf variant 2.
 
 - Value shape: null. Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. 
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.resolved_price_range
-
-Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `max_unit_price_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Highest unit price among the product's active variants. |
-| `min_unit_price_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Lowest unit price among the product's active variants. |
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.resolved_price_range variant 1
-
-anyOf ProductPriceRangePreviousAttributes.
-
-- Optional: `max_unit_price_money`, `min_unit_price_money`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.resolved_price_range variant 2
-
-anyOf variant 2.
-
-- Undeclared: `max_unit_price_money`, `min_unit_price_money`.
-- Value shape: null. Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. 
-
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.suggested_unit_price_money_options
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.suggested_unit_price_money_options variant 1
@@ -751,8 +599,8 @@ Tax settings for an ad hoc line item. Catalog lines use the catalog's.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `line_item_tax_category` | Conditional | string or null | Flint line-item tax category. A bundle line takes the stored category shared by all component variants when added; all must also share taxability. Unset uses the merchant default and equals only another unset category. Values: [12 declared values](#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1tax-line_item_tax_category-values). `line_item_tax_category`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1line_items-variant-1-fields-1tax-variant-1line_item_tax_category). |
-| `taxable` | Conditional | boolean or null | Whether the line is subject to tax. A bundle line takes the taxability shared by all component variants when added; they must also share their stored tax category. `taxable`: [declared alternatives](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1line_items-variant-1-fields-1tax-variant-1taxable). |
+| `line_item_tax_category` | Conditional | string or null | Flint line-item tax category. A bundle line takes the stored category shared by all component variants when added; all must also share taxability. Unset uses the merchant default and equals only another unset category. Values: [12 declared values](#paymentlinkupdatedmerchanteventdatapreviousattributesline_items-variant-1-fields-1tax-line_item_tax_category-values). `line_item_tax_category`: [declared alternatives](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesline_items-variant-1-fields-1tax-variant-1line_item_tax_category). |
+| `taxable` | Conditional | boolean or null | Whether the line is subject to tax. A bundle line takes the taxability shared by all component variants when added; they must also share their stored tax category. `taxable`: [declared alternatives](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesline_items-variant-1-fields-1tax-variant-1taxable). |
 
 #### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.tax line_item_tax_category values
 
@@ -784,11 +632,11 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.tax variant 1.line_item_tax_category
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.line_items variant 1.[] fields 1.tax variant 1.line_item_tax_category](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1line_items-variant-1-fields-1tax-variant-1line_item_tax_category).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.line_items variant 1.[] fields 1.tax variant 1.line_item_tax_category](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesline_items-variant-1-fields-1tax-variant-1line_item_tax_category).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.tax variant 1.taxable
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.line_items variant 1.[] fields 1.tax variant 1.taxable](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1line_items-variant-1-fields-1tax-variant-1taxable).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.line_items variant 1.[] fields 1.tax variant 1.taxable](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesline_items-variant-1-fields-1tax-variant-1taxable).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1 variant 1.type
 
@@ -998,79 +846,15 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.name
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_link variant 1.name](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1name).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.name](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesname).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_id
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_id variant 1
-
-anyOf variant 1: Unique identifier for this payment link, prefixed `pl_`..
-
-- Value shape: string. Unique identifier for this payment link, prefixed `pl_`. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Unique identifier for this payment link, prefixed `pl_`. 
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.payment_link_id](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_id).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_type
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_link variant 1.payment_link_type](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1payment_link_type).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payments
-
-Payment options for checkouts started from this link.
-
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayments).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payments variant 1
-
-anyOf CheckoutPaymentConfigPreviousAttributes.
-
-- Optional: `enabled_payment_options`, `payment_note`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payments variant 2
-
-anyOf variant 2.
-
-- Undeclared: `enabled_payment_options`, `payment_note`.
-- Value shape: null. Payment options for checkouts started from this link. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payments variant 1.enabled_payment_options
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payments variant 1.enabled_payment_options](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayments-variant-1enabled_payment_options).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payments variant 1.payment_note
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payments variant 1.payment_note](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayments-variant-1payment_note).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.promotion_config
-
-Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes.
-
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespromotion_config).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.promotion_config variant 1
-
-anyOf CheckoutPromotionConfigPreviousAttributes.
-
-- Optional: `automatic_enabled`, `codes_enabled`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.promotion_config variant 2
-
-anyOf variant 2.
-
-- Undeclared: `automatic_enabled`, `codes_enabled`.
-- Value shape: null. Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.promotion_config variant 1.automatic_enabled
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.promotion_config variant 1.automatic_enabled](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespromotion_config-variant-1automatic_enabled).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.promotion_config variant 1.codes_enabled
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.promotion_config variant 1.codes_enabled](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespromotion_config-variant-1codes_enabled).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.payment_link_type](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_type).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.redirects
 
@@ -1123,11 +907,11 @@ Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payme
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checked_in_ticket_count` | Conditional | integer or null | Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. `checked_in_ticket_count`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary-variant-1checked_in_ticket_count). |
+| `checked_in_ticket_count` | Conditional | integer or null | Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. `checked_in_ticket_count`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributeschecked_in_ticket_count). |
 | `computed_at` | Conditional | string or null | UTC time at which the summary was computed, at second precision. `computed_at`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary-variant-1computed_at). |
-| `paid_order_count` | Conditional | integer or null | Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. `paid_order_count`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary-variant-1paid_order_count). |
-| `paid_totals` | Conditional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. `paid_totals`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary-variant-1paid_totals). |
-| `refunded_totals` | Conditional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders. `refunded_totals`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary-variant-1refunded_totals). |
+| `paid_order_count` | Conditional | integer or null | Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. `paid_order_count`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributespaid_order_count). |
+| `paid_totals` | Conditional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. `paid_totals`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributespaid_totals). |
+| `refunded_totals` | Conditional | Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders. `refunded_totals`: [declared alternatives](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesrefunded_totals). |
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1
 
@@ -1144,17 +928,7 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.checked_in_ticket_count
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.checked_in_ticket_count variant 1
-
-anyOf variant 1: Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets..
-
-- Value shape: integer. Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: `int32`. minimum: `0`. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.checked_in_ticket_count variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. 
+Declared alternatives: [PaymentLinkSalesSummaryPreviousAttributes.checked_in_ticket_count](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributeschecked_in_ticket_count).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.computed_at
 
@@ -1172,49 +946,19 @@ anyOf variant 2.
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_order_count
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_order_count variant 1
-
-anyOf variant 1: Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders..
-
-- Value shape: integer. Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Format: `int64`. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_order_count variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. 
+Declared alternatives: [PaymentLinkSalesSummaryPreviousAttributes.paid_order_count](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributespaid_order_count).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_totals
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_totals variant 1
-
-anyOf variant 1: Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders..
-
-- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.paid_totals variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. 
+Declared alternatives: [PaymentLinkSalesSummaryPreviousAttributes.paid_totals](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributespaid_totals).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.refunded_totals
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.refunded_totals variant 1
-
-anyOf variant 1: Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders..
-
-- Value shape: Array of [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes). Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary variant 1.refunded_totals variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders. 
+Declared alternatives: [PaymentLinkSalesSummaryPreviousAttributes.refunded_totals](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributesrefunded_totals).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.status
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_link variant 1.status](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1status).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.status](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesstatus).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan
 
@@ -1224,28 +968,28 @@ Field definitions: [shared fields](OrderClosedMerchantEventDataPreviousAttribute
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1
 
-anyOf variant 1: Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan.; anyOf ExpandedSubscriptionPlanSummaryPreviousAttributes.
+anyOf ExpandedSubscriptionPlanSummaryPreviousAttributes.
 
 - Optional: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 2, 3
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 2
 
-anyOf variant 1: Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
 - Value shape: null. Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.billing_interval
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.billing_interval](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1billing_interval).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.billing_interval](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesbilling_interval).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.billing_interval_count
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.billing_interval_count](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1billing_interval_count).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.billing_interval_count](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesbilling_interval_count).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.billing_interval_options
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.billing_interval_options](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1billing_interval_options).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.billing_interval_options](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesbilling_interval_options).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.created_at
 
@@ -1253,23 +997,23 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.currency
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.receivables variant 1.balances variant 1.[] fields 1.currency](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesreceivables-variant-1balances-variant-1-fields-1currency).
+Declared alternatives: [CustomerReceivablesPreviousAttributes.balances variant 1.[] fields 1.currency](../models/CustomerReceivablesPreviousAttributes.md#customerreceivablespreviousattributesbalances-variant-1-fields-1currency).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.description
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.description](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1description).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.description](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesdescription).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.line_items
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.line_items](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1line_items).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.line_items](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesline_items).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.name
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.name](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1name).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.name](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesname).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.status
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.status](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1status).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.status](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributesstatus).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.subscription_plan_id
 
@@ -1277,7 +1021,7 @@ Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscript
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.trial_period_days
 
-Declared alternatives: [OrderClosedMerchantEventDataPreviousAttributes.subscription_plan variant 1.trial_period_days](../models/OrderClosedMerchantEventDataPreviousAttributes.md#orderclosedmerchanteventdatapreviousattributessubscription_plan-variant-1trial_period_days).
+Declared alternatives: [ExpandedSubscriptionPlanSummaryPreviousAttributes.trial_period_days](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributestrial_period_days).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan variant 1.updated_at
 
@@ -1285,188 +1029,7 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan_id
 
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan_id variant 1
-
-anyOf variant 1: ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription..
-
-- Value shape: string. ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.subscription_plan_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax
-
-Tax settings for checkouts started from this link.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `calculation` | Conditional | Alternative shapes (see declared variants) | How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. `calculation`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestax-variant-1calculation). |
-| `enabled` | Conditional | boolean or null | Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. `enabled`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestax-variant-1enabled). |
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1
-
-anyOf CheckoutTaxConfigPreviousAttributes.
-
-- Optional: `calculation`, `enabled`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 2
-
-anyOf variant 2.
-
-- Undeclared: `calculation`, `enabled`.
-- Value shape: null. Tax settings for checkouts started from this link. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.calculation
-
-How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again.
-
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestax-variant-1calculation).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.calculation variant 1: `components_source` = `"callback"`
-
-anyOf CheckoutTaxCalculationPreviousAttributes.
-
-- Optional: `components_source`, `mode`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.calculation variant 2
-
-anyOf variant 2.
-
-- Undeclared: `components_source`, `mode`.
-- Value shape: null. How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.calculation variant 1.components_source
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tax variant 1.calculation variant 1.components_source](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestax-variant-1calculation-variant-1components_source).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.calculation variant 1.mode
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tax variant 1.calculation variant 1.mode](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestax-variant-1calculation-variant-1mode).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.enabled
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.enabled variant 1
-
-anyOf variant 1: Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings..
-
-- Value shape: boolean. Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tax variant 1.enabled variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme
-
-The title and colors for checkouts started from this link, over your branding settings.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `accent_color` | Conditional | string or null | Accent color of the checkout, such as #1A73E8. `accent_color`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestheme-variant-1accent_color). |
-| `primary_color` | Conditional | string or null | Primary color of the checkout, such as #1A73E8. `primary_color`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestheme-variant-1primary_color). |
-| `title` | Conditional | string or null | Title shown in place of the merchant's business name. `title`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributestheme-variant-1title). |
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1
-
-anyOf ThemeConfigPreviousAttributes.
-
-- Optional: `accent_color`, `primary_color`, `title`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 2
-
-anyOf variant 2.
-
-- Undeclared: `accent_color`, `primary_color`, `title`.
-- Value shape: null. The title and colors for checkouts started from this link, over your branding settings. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.accent_color
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.accent_color variant 1
-
-anyOf variant 1: Accent color of the checkout, such as #1A73E8..
-
-- Value shape: string. Accent color of the checkout, such as #1A73E8. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.accent_color variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Accent color of the checkout, such as #1A73E8. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.primary_color
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.primary_color variant 1
-
-anyOf variant 1: Primary color of the checkout, such as #1A73E8..
-
-- Value shape: string. Primary color of the checkout, such as #1A73E8. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.primary_color variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Primary color of the checkout, such as #1A73E8. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.title
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.title variant 1
-
-anyOf variant 1: Title shown in place of the merchant's business name..
-
-- Value shape: string. Title shown in place of the merchant's business name. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.theme variant 1.title variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Title shown in place of the merchant's business name. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip
-
-Tip options for checkouts started from this link.
-
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1
-
-anyOf CheckoutTipConfigPreviousAttributes.
-
-- Optional: `custom_tip_enabled`, `default_smart_tip_money`, `default_tip_percent`, `enabled`, `smart_tip_money_options`, `smart_tips_enabled`, `tip_percent_options`.
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 2
-
-anyOf variant 2.
-
-- Undeclared: `custom_tip_enabled`, `default_smart_tip_money`, `default_tip_percent`, `enabled`, `smart_tip_money_options`, `smart_tips_enabled`, `tip_percent_options`.
-- Value shape: null. Tip options for checkouts started from this link. 
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1.custom_tip_enabled
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip variant 1.custom_tip_enabled](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip-variant-1custom_tip_enabled).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1.default_tip_percent
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip variant 1.default_tip_percent](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip-variant-1default_tip_percent).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1.enabled
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip variant 1.enabled](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip-variant-1enabled).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1.smart_tip_money_options
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip variant 1.smart_tip_money_options](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip-variant-1smart_tip_money_options).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1.smart_tips_enabled
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip variant 1.smart_tips_enabled](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip-variant-1smart_tips_enabled).
-
-### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.tip variant 1.tip_percent_options
-
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.tip variant 1.tip_percent_options](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestip-variant-1tip_percent_options).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.subscription_plan_id](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributessubscription_plan_id).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.total_quantity_sold
 
@@ -1478,7 +1041,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.url
 
-Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_link variant 1.url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link-variant-1url).
+Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.url](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesurl).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.version
 

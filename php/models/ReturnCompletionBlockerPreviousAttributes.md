@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `code` | Optional | string or null | What is still owed before this Return can complete. Each blocker names its Return line, except resolution_pending for a correction and merchandise_exception for unidentified units. resolution_* codes also name return_resolution_id when a resolution exists; merchandise_exception also names return_receipt_id. An empty completion_blockers array means nothing is outstanding. Values: [11 declared values](ReturnCompletionBlockerInput.md#returncompletionblockerinput-code-values). `code`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributescode). |
 | `message` | Optional | string or null | Explanation of what is still owed. `message`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributesmessage). |
-| `return_id` | Optional | string or null or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. `return_id`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributesreturn_id). |
+| `return_id` | Optional | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. `return_id`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributesreturn_id). |
 | `return_line_item_id` | Optional | string or null | ID of the Return line the entry is about. `return_line_item_id`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributesreturn_line_item_id). |
 | `return_receipt_id` | Optional | string or null | ID of the receipt holding this blocker up. `return_receipt_id`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributesreturn_receipt_id). |
 | `return_resolution_id` | Optional | string or null | ID of the resolution holding this blocker up. `return_resolution_id`: [declared alternatives](../models/ReturnCompletionBlockerPreviousAttributes.md#returncompletionblockerpreviousattributesreturn_resolution_id). |
@@ -49,7 +49,7 @@ anyOf variant 2.
 
 anyOf variant 1: Return that owns return_line_item_id. `null` when return_line_item_id is null..
 
-- Value shape: (string or null). Return that owns return_line_item_id. `null` when return_line_item_id is null. 
+- Value shape: string. Return that owns return_line_item_id. `null` when return_line_item_id is null. 
 
 ### ReturnCompletionBlockerPreviousAttributes.return_id variant 2
 

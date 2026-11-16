@@ -20,7 +20,7 @@ Request input.
 | `local_delivery` | Optional | [DeliveryLocalDeliveryDetailsPreviousAttributesInput](../models/DeliveryLocalDeliveryDetailsPreviousAttributesInput.md#deliverylocaldeliverydetailspreviousattributesinput) or null | Local delivery service details, present for local_delivery choices. |
 | `merchant_reference` | Optional | string or null | Reference supplied by the merchant's rate service for this option. Omitted when none was supplied. `merchant_reference`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributesInput.md#deliveryselectionchoiceresourcepreviousattributesinputmerchant_reference). |
 | `name` | Optional | string or null | Buyer-facing name captured from the chosen method. `name`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributesInput.md#deliveryselectionchoiceresourcepreviousattributesinputname). |
-| `order_charge_id` | Optional | string or null or null | Always present with an API key or dashboard credential. Null when the choice has no order charge. `order_charge_id`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributesInput.md#deliveryselectionchoiceresourcepreviousattributesinputorder_charge_id). |
+| `order_charge_id` | Optional | string or null | Always present with an API key or dashboard credential. Null when the choice has no order charge. `order_charge_id`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributesInput.md#deliveryselectionchoiceresourcepreviousattributesinputorder_charge_id). |
 | `order_id` | Optional | string or null | ID of the order this delivery choice belongs to, including the parent of order_charge_id when a charge applies. `order_id`: [declared alternatives](../models/DeliverySelectionChoiceResourcePreviousAttributesInput.md#deliveryselectionchoiceresourcepreviousattributesinputorder_id). |
 | `pickup` | Optional | [DeliveryPickupDetailsPreviousAttributesInput](../models/DeliveryPickupDetailsPreviousAttributesInput.md#deliverypickupdetailspreviousattributesinput) or null | Pickup Location and collection details, present for pickup choices. |
 | `shipment` | Optional | [DeliveryShipmentDetailsPreviousAttributesInput](../models/DeliveryShipmentDetailsPreviousAttributesInput.md#deliveryshipmentdetailspreviousattributesinput) or null | Shipping service details, present for shipment choices. |
@@ -136,7 +136,7 @@ anyOf variant 2.
 
 anyOf variant 1: Always present with an API key or dashboard credential. Null when the choice has no order charge..
 
-- Value shape: (string or null). Always present with an API key or dashboard credential. Null when the choice has no order charge. Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. 
+- Value shape: string. Always present with an API key or dashboard credential. Null when the choice has no order charge. Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. 
 
 ### DeliverySelectionChoiceResourcePreviousAttributesInput.order_charge_id variant 2
 

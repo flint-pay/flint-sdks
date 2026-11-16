@@ -6,10 +6,6 @@ import type {
     WorkloadIdentityOptions
 } from '../runtime.js';
 import type {
-    UpdateTicketRequestInput,
-    UpdateWebhookEndpointRequestInput,
-    UpdateWorkloadIdentityRequestInput,
-    VerifyMerchantSignupRequestInput,
     VerifyReturnReceiptLineItemRequestInput,
     VoidPackageRequestInput,
     VoidShipmentRequestInput,
@@ -23,10 +19,6 @@ import type {
     WorkloadIdentityClaimConditionRequestInput,
     WebhookVerificationOptions
 } from './types-77.js';
-export declare function makeUpdateTicketRequest(value: InputValue<UpdateTicketRequestInput>): Model<UpdateTicketRequestInput>;
-export declare function makeUpdateWebhookEndpointRequest(value: InputValue<UpdateWebhookEndpointRequestInput>): Model<UpdateWebhookEndpointRequestInput>;
-export declare function makeUpdateWorkloadIdentityRequest(value: InputValue<UpdateWorkloadIdentityRequestInput>): Model<UpdateWorkloadIdentityRequestInput>;
-export declare function makeVerifyMerchantSignupRequest(value: InputValue<VerifyMerchantSignupRequestInput>): Model<VerifyMerchantSignupRequestInput>;
 export declare function makeVerifyReturnReceiptLineItemRequest(value: InputValue<VerifyReturnReceiptLineItemRequestInput>): Model<VerifyReturnReceiptLineItemRequestInput>;
 export declare function makeVoidPackageRequest(value: InputValue<VoidPackageRequestInput>): Model<VoidPackageRequestInput>;
 export declare function makeVoidShipmentRequest(value: InputValue<VoidShipmentRequestInput>): Model<VoidShipmentRequestInput>;

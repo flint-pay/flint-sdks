@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|null|null $account_id
+ * @property-read string|null $account_id
  * @property-read StripePaymentIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payment_intent
  * @property-read string|null $publishable_key
  * @property-read StripeSetupIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $setup_intent
  * @property-read StripeTerminalPaymentIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $terminal_payment_intent
  * Presence-aware input; omitted fields throw when accessed. */
 final class StripePaymentClientActionPreviousAttributesInput extends Model {
-    /** @param array{'account_id'?: string|null|null, 'payment_intent'?: StripePaymentIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'publishable_key'?: string|null, 'setup_intent'?: StripeSetupIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'terminal_payment_intent'?: StripeTerminalPaymentIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
+    /** @param array{'account_id'?: string|null, 'payment_intent'?: StripePaymentIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'publishable_key'?: string|null, 'setup_intent'?: StripeSetupIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'terminal_payment_intent'?: StripeTerminalPaymentIntentClientActionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripePaymentClientActionPreviousAttributesInput')); }
-    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. anyOf[1] (Value): string or null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. Example: "acct_1234567890". anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. anyOf[1] (Value): string. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. Example: "acct_1234567890". anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */
     public function getAccountId(): mixed { return $this->get('account_id'); }

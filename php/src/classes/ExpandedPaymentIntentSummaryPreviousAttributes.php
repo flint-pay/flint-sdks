@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $capture_method
  * @property-read string|null $created_at
  * @property-read string|null $customer_id
  * @property-read string|null $dispute_status
  * @property-read string|null $order_id
  * @property-read string|null $payment_intent_id
- * @property-read mixed $payment_source
+ * @property-read PaymentSourceSummaryPreviousAttributes|null $payment_source
  * @property-read string|null $refund_status
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
@@ -20,9 +20,9 @@ final class ExpandedPaymentIntentSummaryPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'capture_method'?: mixed, 'created_at'?: mixed, 'customer_id'?: mixed, 'dispute_status'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'payment_source'?: mixed, 'refund_status'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentIntentSummaryPreviousAttributes')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[1] (Value): string. When money is collected. Defaults to automatic. Value enum: "automatic", "manual". anyOf[2] (Value): null.
      * @return string|null
@@ -55,9 +55,9 @@ final class ExpandedPaymentIntentSummaryPreviousAttributes extends Model {
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
     /** Summary of the card or bank account used for the payment. Absent until a payment source is attached. anyOf[1] (Value): {@see PaymentSourceSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PaymentSourceSummaryPreviousAttributes|null
      */
-    public function getPaymentSource(): mixed { return $this->get('payment_source'); }
+    public function getPaymentSource(): PaymentSourceSummaryPreviousAttributes|null { return $this->get('payment_source'); }
     public function hasPaymentSource(): bool { return $this->has('payment_source'); }
     /** How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[1] (Value): string. How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Value enum: "none", "partially_refunded", "refunded". anyOf[2] (Value): null.
      * @return string|null

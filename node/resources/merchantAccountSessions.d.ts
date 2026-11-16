@@ -20,7 +20,6 @@ export type {
 export type {
     MerchantAccountSessionsCreateParams,
     MerchantAccountSessionsRefreshParams,
-    MerchantAccountSessionStripe,
     MerchantAccountSessionStripeComponent,
     MerchantAccountSessionStripeCollectionOptions,
     MerchantAccountSessionStripeRequirements
@@ -31,6 +30,7 @@ export type {
     MerchantAccountSessionResponse,
     MerchantAccountSessionCreateRequestInput,
     MerchantAccountSessionClientSession,
+    MerchantAccountSessionStripe,
     MerchantAccountSessionEffectivePolicy,
     MerchantAccountSessionRefreshRequestInput,
     MerchantAccountSessionRefreshRequest

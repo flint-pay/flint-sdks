@@ -1,1 +1,1 @@
-{"shared":"CustomerReceivablesPreviousAttributes","dependencies":["CustomerReceivableBalancePreviousAttributes","CustomerReceivablesPreviousAttributes","MoneyValuePreviousAttributes","SharedCodec1817","SharedCodec20","SharedCodec54","SharedCodec67","SharedCodec696"]}
+{"shared":"CustomerReceivablesPreviousAttributes","dependencies":["CustomerReceivableBalancePreviousAttributes","CustomerReceivablesPreviousAttributes","MoneyValuePreviousAttributes","SharedCodec1778","SharedCodec20","SharedCodec53","SharedCodec64","SharedCodec673"]}

@@ -40,8 +40,6 @@ export type {
     PaymentLinksUpdateParams,
     PaymentLinkLineItemRequestInput,
     PaymentLinkLineItemInputVariantInput,
-    PaymentLinkLineItemInputCustomFixedInput,
-    PaymentLinkLineItemInputCustomVariableInput,
     PaymentLinkPaymentConfigInput,
     PaymentLinkThemeConfigInput,
     PaymentLinkLineItemVariant,
@@ -79,6 +77,8 @@ export type {
     PaymentLinkEventConfigRequestInput,
     PaymentLinkLegalConfigInput,
     PaymentLinkLineItemInputBundleInput,
+    PaymentLinkLineItemInputCustomFixedInput,
+    PaymentLinkLineItemInputCustomVariableInput,
     PaymentLinkCustomField,
     PaymentLinkEventConfig,
     PaymentLinkLineItem,
@@ -142,8 +142,8 @@ export type {
     CheckoutSessionTax
 } from '../declarations/types-6.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-42.js';
-export type { ImageRequestInput, ImageInputSourceURLInput } from '../declarations/types-31.js';
-export type { ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-30.js';
+export type { ImageRequestInput } from '../declarations/types-31.js';
+export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-30.js';
 export type {
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
@@ -179,7 +179,7 @@ export type {
     SubscriptionPlanChangeLineItemRequestInput,
     SubscriptionPlanChangeLineItemRequest
 } from '../declarations/types-69.js';
-export type { SelectedProductOption } from '../declarations/types-65.js';
+export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-65.js';
 export type { TextModifierRequest, ThemeConfig, TextModifierConfigRequest } from '../declarations/types-72.js';
 export type {
     ReadinessMerchantAccountSession,
@@ -215,18 +215,13 @@ export type {
     BuyerSetupCollection,
     BuyerSetupCollectionStripe
 } from '../declarations/types-3.js';
-export type { PendingPaymentAction } from '../declarations/types-53.js';
+export type { PendingPaymentAction, PendingPaymentActionPaymentIntentSubject } from '../declarations/types-53.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction,
-    SettlementAmounts
+    StripeTerminalPaymentIntentClientAction
 } from '../declarations/types-66.js';
-export type {
-    PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
-    PendingPaymentActionSetupPaymentSourceSubject
-} from '../declarations/types-54.js';
+export type { PendingPaymentActionSubject, PendingPaymentActionSetupPaymentSourceSubject } from '../declarations/types-54.js';
 export type { Address } from '../declarations/types-0.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
@@ -281,8 +276,8 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-86.js';
 export {
     makePaymentLinkCustomFieldPatchRequest,
     makePaymentLinkCustomFieldRequest,

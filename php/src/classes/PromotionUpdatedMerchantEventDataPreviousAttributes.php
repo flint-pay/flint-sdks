@@ -4,23 +4,23 @@ namespace Flint;
 /**
  * @property-read mixed $application_method
  * @property-read bool|null $available
- * @property-read mixed $codes_summary
- * @property-read mixed $combines_with
+ * @property-read PromotionCodesSummaryPreviousAttributes|null $codes_summary
+ * @property-read PromotionCombinesWithPreviousAttributes|null $combines_with
  * @property-read string|null $created_at
  * @property-read string|null $description
  * @property-read string|null $discount_class
  * @property-read string|null $display_name
  * @property-read mixed $eligibility_rules
- * @property-read mixed $exclusivity
+ * @property-read PromotionExclusivityPreviousAttributes|null $exclusivity
  * @property-read string|null $external_reference_id
  * @property-read int|null $max_uses
- * @property-read mixed $max_uses_per_customer
+ * @property-read int|null $max_uses_per_customer
  * @property-read string|null $merchant_id
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $name
  * @property-read string|null $promotion_id
  * @property-read string|null $redemption_type
- * @property-read mixed $schedule
+ * @property-read PromotionSchedulePreviousAttributes|null $schedule
  * @property-read string|null $status
  * @property-read string|null $unavailable_reason
  * @property-read string|null $updated_at
@@ -41,14 +41,14 @@ final class PromotionUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getAvailable(): bool|null { return $this->get('available'); }
     public function hasAvailable(): bool { return $this->has('available'); }
     /** Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. anyOf[1] (Value): {@see PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PromotionCodesSummaryPreviousAttributes|null
      */
-    public function getCodesSummary(): mixed { return $this->get('codes_summary'); }
+    public function getCodesSummary(): PromotionCodesSummaryPreviousAttributes|null { return $this->get('codes_summary'); }
     public function hasCodesSummary(): bool { return $this->has('codes_summary'); }
     /** Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. anyOf[1] (Value): {@see PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PromotionCombinesWithPreviousAttributes|null
      */
-    public function getCombinesWith(): mixed { return $this->get('combines_with'); }
+    public function getCombinesWith(): PromotionCombinesWithPreviousAttributes|null { return $this->get('combines_with'); }
     public function hasCombinesWith(): bool { return $this->has('combines_with'); }
     /** When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -76,9 +76,9 @@ final class PromotionUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getEligibilityRules(): mixed { return $this->get('eligibility_rules'); }
     public function hasEligibilityRules(): bool { return $this->has('eligibility_rules'); }
     /** Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@see PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PromotionExclusivityPreviousAttributes|null
      */
-    public function getExclusivity(): mixed { return $this->get('exclusivity'); }
+    public function getExclusivity(): PromotionExclusivityPreviousAttributes|null { return $this->get('exclusivity'); }
     public function hasExclusivity(): bool { return $this->has('exclusivity'); }
     /** Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255. anyOf[2] (Value): null.
      * @return string|null
@@ -90,10 +90,10 @@ final class PromotionUpdatedMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMaxUses(): int|null { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
-    /** Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. anyOf[1] (Value): integer or null. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
-     * @return mixed
+    /** Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. anyOf[1] (Value): integer. Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+     * @return int|null
      */
-    public function getMaxUsesPerCustomer(): mixed { return $this->get('max_uses_per_customer'); }
+    public function getMaxUsesPerCustomer(): int|null { return $this->get('max_uses_per_customer'); }
     public function hasMaxUsesPerCustomer(): bool { return $this->has('max_uses_per_customer'); }
     /** Identifier of the merchant that owns the promotion. anyOf[1] (Value): string. Identifier of the merchant that owns the promotion. anyOf[2] (Value): null.
      * @return string|null
@@ -101,9 +101,9 @@ final class PromotionUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Key-value data you attach to the promotion. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value): string. Internal promotion name for dashboards, searching, and reporting. anyOf[2] (Value): null.
      * @return string|null
@@ -121,9 +121,9 @@ final class PromotionUpdatedMerchantEventDataPreviousAttributes extends Model {
     public function getRedemptionType(): string|null { return $this->get('redemption_type'); }
     public function hasRedemptionType(): bool { return $this->has('redemption_type'); }
     /** Optional start and end times that limit when the promotion can apply. anyOf[1] (Value): {@see PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PromotionSchedulePreviousAttributes|null
      */
-    public function getSchedule(): mixed { return $this->get('schedule'); }
+    public function getSchedule(): PromotionSchedulePreviousAttributes|null { return $this->get('schedule'); }
     public function hasSchedule(): bool { return $this->has('schedule'); }
     /** Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2] (Value): null.
      * @return string|null

@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-25.js';
 import type { CreateDeliveryRateCallbackRequestInput, CreateDeliveryRevocationRequestInput } from './types-9.js';
+import type { DisputesAcceptParams } from './types-25.js';
 import type {
     DeliveryLocationSetsDeleteParams,
     DeliveryInputRequirement,
@@ -29,11 +29,9 @@ import type { DeliveryBuyerLocationResource, DeliveryBuyerLocationResourcePrevio
 import type {
     DeliverySelectionLifecycleEventResource,
     DeliveryShipmentDetails,
-    DeliverySelectionInstructionsRequestPreviousAttributes,
     DeliveryShipmentDetailsPreviousAttributes,
     DeliverySelectionLifecycleEventResourcePreviousAttributes
 } from './types-24.js';
-export type DeliveryRateCallbacksCheckConnectionParams = DisputesAcceptParams;
 export type DeliveryRateCallbacksCreateParams = (InputValue<CreateDeliveryRateCallbackRequestInput>)
     & {
     /**
@@ -2341,7 +2339,7 @@ export type DeliveryScheduleWindowRulePreviousAttributes = {
      * When windows can be offered. anyOf[1] (Value): {@link
      * DeliveryAvailabilityPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "availability"?: ((DeliveryAvailabilityPreviousAttributes) | (null) | (unknown));
+    "availability"?: ((DeliveryAvailabilityPreviousAttributes) | (null));
 };
 /**
  * Scheduled-window estimate rule you supply for a delivery method, defined by its `availability`
@@ -2601,7 +2599,7 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
      * Delivery price before discounts and tax. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the quote choice group these items belong to. anyOf[1] (Value): string. ID of the
      * quote choice group these items belong to. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
@@ -2623,7 +2621,7 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
      * Whether this choice delivers the items together or in separate shipments. anyOf[1] (Value):
      * {@link DeliveryPlanPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "delivery_plan"?: ((DeliveryPlanPreviousAttributes) | (null) | (unknown));
+    "delivery_plan"?: ((DeliveryPlanPreviousAttributes) | (null));
     /**
      * ID of the chosen offered window. Omitted when no offered window was chosen. anyOf[1]
      * (Value): string. ID of the chosen offered window. Omitted when no offered window was chosen.
@@ -2641,18 +2639,18 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
      * Always present with an API key or dashboard credential. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "discount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Window choice and buyer instructions stored with this selection. Omitted when neither was
      * supplied. anyOf[1] (Value): {@link DeliverySelectionInstructionsRequestPreviousAttributes}.
      * anyOf[2] (Value): null.
      */
-    "input"?: ((DeliverySelectionInstructionsRequestPreviousAttributes) | (null) | (unknown));
+    "input"?: ((DeliverySelectionInstructionsRequestPreviousAttributes) | (null));
     /**
      * Local delivery service details, present for local_delivery choices. anyOf[1] (Value): {@link
      * DeliveryShipmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "local_delivery"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null) | (unknown));
+    "local_delivery"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null));
     /**
      * Reference supplied by the merchant's rate service for this option. Omitted when none was
      * supplied. anyOf[1] (Value): string. Reference supplied by the merchant's rate service for
@@ -2666,11 +2664,11 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
     "name"?: ((string) | (null));
     /**
      * Always present with an API key or dashboard credential. Null when the choice has no order
-     * charge. anyOf[1] (Value): string or null. Always present with an API key or dashboard
-     * credential. Null when the choice has no order charge. Example:
-     * "och_01KEZF7C00XX8AKACP0GHKFWWT". anyOf[2] (Value): null.
+     * charge. anyOf[1] (Value): string. Always present with an API key or dashboard credential.
+     * Null when the choice has no order charge. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     * anyOf[2] (Value): null.
      */
-    "order_charge_id"?: ((string | null) | (null) | (unknown));
+    "order_charge_id"?: ((string) | (null));
     /**
      * ID of the order this delivery choice belongs to, including the parent of order_charge_id
      * when a charge applies. anyOf[1] (Value): string. ID of the order this delivery choice
@@ -2682,12 +2680,12 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
      * Pickup Location and collection details, present for pickup choices. anyOf[1] (Value): {@link
      * DeliveryPickupDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "pickup"?: ((DeliveryPickupDetailsPreviousAttributes) | (null) | (unknown));
+    "pickup"?: ((DeliveryPickupDetailsPreviousAttributes) | (null));
     /**
      * Shipping service details, present for shipment choices. anyOf[1] (Value): {@link
      * DeliveryShipmentDetailsPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "shipment"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null) | (unknown));
+    "shipment"?: ((DeliveryShipmentDetailsPreviousAttributes) | (null));
     /**
      * Key identifying the same items and allowed delivery types across quotes. anyOf[1] (Value):
      * string. Key identifying the same items and allowed delivery types across quotes. anyOf[2]
@@ -2698,7 +2696,7 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
      * Always present with an API key or dashboard credential. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * IANA timezone for displaying window_start_at and window_end_at. anyOf[1] (Value): string.
      * IANA timezone for displaying window_start_at and window_end_at. Example: "America/New_York".
@@ -2709,7 +2707,7 @@ export type DeliverySelectionChoiceResourcePreviousAttributes = {
      * Delivery price after discounts and tax. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "total_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * How this choice delivers the items. Value enum: "shipment", "pickup", "local_delivery".
      * anyOf[1] (Value): string. How this choice delivers the items. Value enum: "shipment",
@@ -2763,15 +2761,15 @@ export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null));
             "calculation_expires_at"?: ((string) | (null));
             "checkout_session_id"?: ((string) | (null));
             "choices"?: ((Array<DeliverySelectionChoiceResourcePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
             "delivery_quote_id"?: ((string) | (null));
             "delivery_selection_id"?: ((string) | (null));
-            "destination_address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+            "destination_address"?: ((AddressPreviousAttributes) | (null));
             "expires_at"?: ((string) | (null));
             "input_requirements"?: ((Array<DeliveryInputRequirementPreviousAttributes>) | (null));
             "instructions"?: ((string) | (null));
@@ -2781,7 +2779,7 @@ export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelop
                 | (null));
             "order_id"?: ((string) | (null));
             "private_data_status"?: (("available" | "redacted" | (string & {})) | (null));
-            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null));
             "redacted_at"?: ((string) | (null));
             "status"?: (("selected"
                 | "locked_for_payment"
@@ -2833,15 +2831,15 @@ export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelop
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null));
             "calculation_expires_at"?: ((string) | (null));
             "checkout_session_id"?: ((string) | (null));
             "choices"?: ((Array<DeliverySelectionChoiceResourcePreviousAttributes>) | (null));
             "created_at"?: ((string) | (null));
             "delivery_quote_id"?: ((string) | (null));
             "delivery_selection_id"?: ((string) | (null));
-            "destination_address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+            "destination_address"?: ((AddressPreviousAttributes) | (null));
             "expires_at"?: ((string) | (null));
             "input_requirements"?: ((Array<DeliveryInputRequirementPreviousAttributes>) | (null));
             "instructions"?: ((string) | (null));
@@ -2851,7 +2849,7 @@ export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelop
                 | (null));
             "order_id"?: ((string) | (null));
             "private_data_status"?: (("available" | "redacted" | (string & {})) | (null));
-            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null));
             "redacted_at"?: ((string) | (null));
             "status"?: (("selected"
                 | "locked_for_payment"
@@ -3501,13 +3499,13 @@ export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<Partner
              * Delivery charge committed by this selection. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
              * or dashboard credential. anyOf[1] (Value): {@link
              * DeliveryBuyerLocationResourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null) | (unknown));
+            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null));
             /**
              * Deadline after which calculated pricing evidence is no longer valid. Always present
              * with an API key or dashboard credential. anyOf[1] (Value): string. Deadline after
@@ -3553,7 +3551,7 @@ export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<Partner
              * session credential that doesn't act for the customer the buyer verified. anyOf[1]
              * (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "destination_address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+            "destination_address"?: ((AddressPreviousAttributes) | (null));
             /**
              * Deadline after which this provisional selection can no longer be committed. anyOf[1]
              * (Value): string. Deadline after which this provisional selection can no longer be
@@ -3647,7 +3645,7 @@ export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<Partner
              * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value):
              * {@link DeliveryRecipientResourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null));
             /**
              * Time merchant-private selection evidence was redacted. anyOf[1] (Value): string.
              * Time merchant-private selection evidence was redacted. Format: date-time. Example:
@@ -4356,13 +4354,13 @@ export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEn
              * Delivery charge committed by this selection. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
              * or dashboard credential. anyOf[1] (Value): {@link
              * DeliveryBuyerLocationResourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null) | (unknown));
+            "buyer_location"?: ((DeliveryBuyerLocationResourcePreviousAttributes) | (null));
             /**
              * Deadline after which calculated pricing evidence is no longer valid. Always present
              * with an API key or dashboard credential. anyOf[1] (Value): string. Deadline after
@@ -4408,7 +4406,7 @@ export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEn
              * session credential that doesn't act for the customer the buyer verified. anyOf[1]
              * (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "destination_address"?: ((AddressPreviousAttributes) | (null) | (unknown));
+            "destination_address"?: ((AddressPreviousAttributes) | (null));
             /**
              * Deadline after which this provisional selection can no longer be committed. anyOf[1]
              * (Value): string. Deadline after which this provisional selection can no longer be
@@ -4502,7 +4500,7 @@ export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEn
              * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value):
              * {@link DeliveryRecipientResourcePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null) | (unknown));
+            "recipient"?: ((DeliveryRecipientResourcePreviousAttributes) | (null));
             /**
              * Time merchant-private selection evidence was redacted. anyOf[1] (Value): string.
              * Time merchant-private selection evidence was redacted. Format: date-time. Example:
@@ -4577,3 +4575,23 @@ export type DeliverySelectionInstructionsRequest = {
  * delivery windows, and optional `instructions`.
  */
 export type DeliverySelectionInstructionsRequestInput = DeliverySelectionInstructionsRequest;
+export type DeliverySelectionInstructionsRequestPreviousAttributes = {
+    /**
+     * ID from the option's offered_windows. Required when window_selection is offered; omit it
+     * otherwise. anyOf[1] (Value): string. ID from the option's offered_windows. Required when
+     * window_selection is offered; omit it otherwise. minLength: 1. Example:
+     * "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d". anyOf[2] (Value):
+     * null.
+     */
+    "delivery_window_id"?: ((string) | (null));
+    /**
+     * Buyer instructions for the selected option, without leading or trailing whitespace. Send
+     * this field only when buyer_instructions.enabled is true. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. anyOf[1] (Value): string.
+     * Buyer instructions for the selected option, without leading or trailing whitespace. Send
+     * this field only when buyer_instructions.enabled is true. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. minLength: 1. maxLength:
+     * 2000. anyOf[2] (Value): null.
+     */
+    "instructions"?: ((string) | (null));
+};

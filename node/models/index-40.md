@@ -1,11 +1,7 @@
 [Model index](../MODELS.md)
 
-# WebhookBundle to WorkloadIdentityResponse
+# WebhookDeliveryActionResponse to WorkloadIdentityResponse
 
-- [WebhookBundle](WebhookBundle.md)
-- [WebhookCheckoutSession](WebhookCheckoutSession.md)
-- [WebhookDelivery](WebhookDelivery.md)
-- [WebhookDeliveryAction](WebhookDeliveryAction.md)
 - [WebhookDeliveryActionResponse](WebhookDeliveryActionResponse.md)
 - [WebhookDeliveryAttempt](WebhookDeliveryAttempt.md)
 - [WebhookDeliveryAttemptListResponse](WebhookDeliveryAttemptListResponse.md)

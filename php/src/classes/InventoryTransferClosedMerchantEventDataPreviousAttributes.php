@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $closed_at
- * @property-read mixed $closed_reason
+ * @property-read string|null $closed_reason
  * @property-read string|null $created_at
  * @property-read string|null $departed_at
  * @property-read string|null $destination_location_id
@@ -27,10 +27,10 @@ final class InventoryTransferClosedMerchantEventDataPreviousAttributes extends M
      */
     public function getClosedAt(): string|null { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[1] (Value): string or null. How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[1] (Value): string. How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getClosedReason(): mixed { return $this->get('closed_reason'); }
+    public function getClosedReason(): string|null { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

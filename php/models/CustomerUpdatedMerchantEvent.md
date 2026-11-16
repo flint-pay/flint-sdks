@@ -52,7 +52,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.customer_id
 
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.customer_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributescustomer_id).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.customer_id](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributescustomer_id).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.default_invoice_payment_term_id
 
@@ -68,7 +68,7 @@ Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.defau
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.email
 
-Declared alternatives: [BuyerRefundPreviousAttributes.customer variant 1.email](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer-variant-1email).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.email](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesemail).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
 
@@ -92,11 +92,11 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.name
 
-Declared alternatives: [BuyerRefundPreviousAttributes.customer variant 1.name](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer-variant-1name).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.name](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesname).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.phone
 
-Declared alternatives: [BuyerRefundPreviousAttributes.customer variant 1.phone](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer-variant-1phone).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.phone](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesphone).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.price_list_id
 
@@ -116,15 +116,11 @@ Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.shipp
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.status
 
-Declared alternatives: [BuyerRefundPreviousAttributes.customer variant 1.status](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer-variant-1status).
+Declared alternatives: [ExpandedCustomerSummaryPreviousAttributes.status](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributesstatus).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.tax_exempt
 
 Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.tax_exempt](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributestax_exempt).
-
-### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.tax_identity
-
-Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.tax_identity](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributestax_identity).
 
 ### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.test_clock_id
 

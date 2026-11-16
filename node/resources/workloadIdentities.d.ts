@@ -48,7 +48,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-58.j
 export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-76.js';
 export { makeCreateWorkloadIdentityRequest } from '../declarations/types-82.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-92.js';
+export { makeUpdateWorkloadIdentityRequest } from '../declarations/types-91.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-92.js';
 export interface WorkloadIdentitiesResource {
     /**
  * Creates an active identity in the authenticated environment and validates issuer discovery.

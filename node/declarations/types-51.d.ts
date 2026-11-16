@@ -1,12 +1,15 @@
-import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
-import type { OrderLineItemTaxRequestInput, OrderLineItemTax, OrderLineItemTaxPreviousAttributes } from './types-45.js';
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-42.js';
+import type { OrderLineItemTax, OrderLineItemTaxRequestInput, OrderLineItemTaxPreviousAttributes } from './types-45.js';
 import type {
     PaymentLinkLineItemBundlePreviousAttributes,
     PaymentLinkLineItemCustomFixedPreviousAttributes,
     PaymentLinkLineItemCustomVariablePreviousAttributes,
     PaymentLinkLineItemInputBundle,
     PaymentLinkLineItemInputCustomFixed,
+    PaymentLinkLineItemInputCustomVariable,
     PaymentLinkLineItemInputBundleInput,
+    PaymentLinkLineItemInputCustomFixedInput,
+    PaymentLinkLineItemInputCustomVariableInput,
     PaymentLink,
     PaymentLinkCustomField,
     PaymentLinkCustomFieldPreviousAttributes,
@@ -31,12 +34,7 @@ import type {
     CheckoutRedirects,
     CheckoutRedirectsPreviousAttributes
 } from './types-6.js';
-import type {
-    CheckoutTaxConfig,
-    CheckoutTaxConfigPreviousAttributes,
-    CheckoutTipConfig,
-    CheckoutTipConfigPreviousAttributes
-} from './types-7.js';
+import type { CheckoutTaxConfig, CheckoutTipConfig, CheckoutTipConfigPreviousAttributes } from './types-7.js';
 import type {
     ExpandedSubscriptionPlanSummary,
     ExpandedSubscriptionPlanSummaryPreviousAttributes,
@@ -47,342 +45,11 @@ import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes }
 import type { LegalSettings } from './types-38.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-41.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
+import type { SubscriptionTaxPreviousAttributes } from './types-70.js';
 import type { ThemeConfig, ThemeConfigPreviousAttributes } from './types-72.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePaymentLinkRequestInput, CreatePaymentMethodDomainRequestInput } from './types-12.js';
 import type { UpdatePaymentLinkRequestInput, UpdatePaymentMethodDomainRequestInput } from './types-74.js';
-/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomFixedInput = ({
-    /** Whether the buyer can change the quantity in checkout. */
-    "allow_quantity_adjustment"?: boolean;
-    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
-    "allow_unit_price_adjustment"?: boolean;
-    /**
-     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "default_variant_id"?: string;
-    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /**
-     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /**
-     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "min_unit_price_money"?: MoneyValueInput;
-    /**
-     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
-     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
-     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
-     * classification. Catalog lines use their product's type and reject this input. Value enum:
-     * "physical", "service", "fee", "digital".
-     */
-    "product_type"?: "physical" | "service" | "fee" | "digital";
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
-     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /**
-     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
-     * category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /** How the line item is defined. Value enum: "custom_fixed". */
-    "type": "custom_fixed";
-    /**
-     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValueInput;
-    /**
-     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: false. */
-    "allow_unit_price_adjustment"?: false;
-    /** Value enum: "custom_fixed". */
-    "type": ("custom_fixed") & ("custom_fixed");
-    /**
-     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "bundle_id"?: never;
-})));
-/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomVariable = ({
-    /** Whether the buyer can change the quantity in checkout. */
-    "allow_quantity_adjustment"?: boolean;
-    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
-    "allow_unit_price_adjustment": boolean;
-    /**
-     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "default_variant_id"?: string;
-    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /**
-     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /**
-     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "min_unit_price_money"?: MoneyValue;
-    /**
-     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
-     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
-     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
-     * classification. Catalog lines use their product's type and reject this input. Value enum:
-     * "physical", "service", "fee", "digital".
-     */
-    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /**
-     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
-     * category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /** How the line item is defined. Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /**
-     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /**
-     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: true. */
-    "allow_unit_price_adjustment": boolean;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /**
-     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-}));
-/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomVariableInput = ({
-    /** Whether the buyer can change the quantity in checkout. */
-    "allow_quantity_adjustment"?: boolean;
-    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
-    "allow_unit_price_adjustment": boolean;
-    /**
-     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "default_variant_id"?: string;
-    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /**
-     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /**
-     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "min_unit_price_money"?: MoneyValueInput;
-    /**
-     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-    /**
-     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
-     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
-     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
-     * classification. Catalog lines use their product's type and reject this input. Value enum:
-     * "physical", "service", "fee", "digital".
-     */
-    "product_type"?: "physical" | "service" | "fee" | "digital";
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
-     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /**
-     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
-     * category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /** How the line item is defined. Value enum: "custom_variable". */
-    "type": "custom_variable";
-    /**
-     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /**
-     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: true. */
-    "allow_unit_price_adjustment": true;
-    /** Value enum: "custom_variable". */
-    "type": ("custom_variable") & ("custom_variable");
-    /**
-     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
-     * 255.
-     */
-    "name": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "bundle_id"?: never;
-})));
 /** The `variant` variant of `PaymentLinkLineItemInput`. */
 export type PaymentLinkLineItemInputVariant = ({
     /** Whether the buyer can change the quantity in checkout. */
@@ -1893,7 +1560,7 @@ export type PaymentLinkLineItemPreviousAttributes = ({
      * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
      * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
      * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
@@ -1904,7 +1571,7 @@ export type PaymentLinkLineItemPreviousAttributes = ({
      * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
      * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
      * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
@@ -1927,14 +1594,12 @@ export type PaymentLinkLineItemPreviousAttributes = ({
     /**
      * Classification configured on a custom line for ACH debit. Null when unclassified or
      * catalog-backed; catalog lines get their product classification when checkout starts. Value
-     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string
-     * or null. Classification configured on a custom line for ACH debit. Null when unclassified or
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
      * catalog-backed; catalog lines get their product classification when checkout starts. Value
      * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
      */
-    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null)
-        | (null)
-        | (unknown));
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
      * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
@@ -1959,7 +1624,7 @@ export type PaymentLinkLineItemPreviousAttributes = ({
      * line currency. Computed at read time, not stored. Omitted when no listed variant can be
      * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
     /**
      * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
      * the base price that applies below the first quantity price break. This is the catalog value
@@ -1968,7 +1633,7 @@ export type PaymentLinkLineItemPreviousAttributes = ({
      * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
      * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
@@ -1980,7 +1645,7 @@ export type PaymentLinkLineItemPreviousAttributes = ({
      * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
      * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null) | (unknown));
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
     /**
      * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
      * "custom_variable". anyOf[1] (Value): string. How the line item is defined. Value enum:
@@ -1991,7 +1656,7 @@ export type PaymentLinkLineItemPreviousAttributes = ({
      * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
      * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
@@ -2417,7 +2082,7 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
      * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
      * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "max_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
      * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
@@ -2428,7 +2093,7 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
      * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. anyOf[1]
      * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "min_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[1] (Value): string.
      * Name of an ad hoc line item. Catalog lines take the catalog name. anyOf[2] (Value): null.
@@ -2451,14 +2116,12 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
     /**
      * Classification configured on a custom line for ACH debit. Null when unclassified or
      * catalog-backed; catalog lines get their product classification when checkout starts. Value
-     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string
-     * or null. Classification configured on a custom line for ACH debit. Null when unclassified or
+     * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[1] (Value): string.
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
      * catalog-backed; catalog lines get their product classification when checkout starts. Value
      * enum: "physical", "service", "fee", "digital", "gift_card", null. anyOf[2] (Value): null.
      */
-    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null)
-        | (null)
-        | (unknown));
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
      * Whole-number quantity; fractional quantities are not supported. Format: int32. anyOf[2]
@@ -2483,7 +2146,7 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
      * line currency. Computed at read time, not stored. Omitted when no listed variant can be
      * sold. anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null) | (unknown));
+    "resolved_price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
     /**
      * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
      * the base price that applies below the first quantity price break. This is the catalog value
@@ -2492,7 +2155,7 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
      * lines, and when the catalog object no longer exists. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "resolved_unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value):
      * Array of {@link MoneyValuePreviousAttributes}. Unit prices offered as one-tap choices when
@@ -2504,7 +2167,7 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
      * Tax settings for an ad hoc line item. Catalog lines use the catalog's. anyOf[1] (Value):
      * {@link OrderLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null) | (unknown));
+    "tax"?: ((OrderLineItemTaxPreviousAttributes) | (null));
     /**
      * How the line item is defined. Value enum: "variant". anyOf[1] (Value): string. How the line
      * item is defined. Value enum: "variant". anyOf[2] (Value): null.
@@ -2514,7 +2177,7 @@ export type PaymentLinkLineItemVariantPreviousAttributes = ({
      * Price of one unit of a `custom_fixed` line item. anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * ID of the catalog variant a `variant` line sells. anyOf[1] (Value): string. ID of the
      * catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
@@ -2941,41 +2604,41 @@ export type PaymentLinkUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             [key: string]: unknown;
         })
             & ({
-            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null) | (unknown));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "checkout_session_expires_in_seconds"?: ((number) | (null));
             "completed_count"?: ((number) | (null));
             "created_at"?: ((string) | (null));
             "custom_fields"?: ((Array<PaymentLinkCustomFieldPreviousAttributes>) | (null));
-            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null) | (unknown));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
             "delivery_method_ids"?: ((Array<string>) | (null));
             "description"?: ((string) | (null));
-            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "donation_suggested_amount_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
-            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null) | (unknown));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
             "external_reference_id"?: ((string) | (null));
-            "image"?: ((ImageAttachmentPreviousAttributes) | (null) | (unknown));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
             "inactive_message"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
-            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
             "line_items"?: ((Array<PaymentLinkLineItemPreviousAttributes>) | (null));
             "max_completions"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
             "payment_link_type"?: (("standard" | "donation" | "event" | (string & {})) | (null));
-            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null) | (unknown));
-            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null) | (unknown));
-            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null) | (unknown));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             "sales_end_at"?: ((string) | (null));
-            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null) | (unknown));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
             "status"?: (("active" | "inactive" | (string & {})) | (null));
-            "subscription_plan"?: (((((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
             "subscription_plan_id"?: ((string) | (null));
-            "tax"?: ((CheckoutTaxConfigPreviousAttributes) | (null) | (unknown));
-            "theme"?: ((ThemeConfigPreviousAttributes) | (null) | (unknown));
-            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null) | (unknown));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             "total_quantity_sold"?: ((number) | (null));
             "updated_at"?: ((string) | (null));
             "url"?: ((string) | (null));
@@ -3033,41 +2696,41 @@ export type PaymentLinkUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             [key: string]: unknown;
         })
             & ({
-            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null) | (unknown));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             "checkout_session_expires_in_seconds"?: ((number) | (null));
             "completed_count"?: ((number) | (null));
             "created_at"?: ((string) | (null));
             "custom_fields"?: ((Array<PaymentLinkCustomFieldPreviousAttributes>) | (null));
-            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null) | (unknown));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
             "delivery_method_ids"?: ((Array<string>) | (null));
             "description"?: ((string) | (null));
-            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "donation_suggested_amount_money_options"?: ((Array<MoneyValuePreviousAttributes>) | (null));
-            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null) | (unknown));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
             "external_reference_id"?: ((string) | (null));
-            "image"?: ((ImageAttachmentPreviousAttributes) | (null) | (unknown));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
             "inactive_message"?: ((string) | (null));
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
-            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
             "line_items"?: ((Array<PaymentLinkLineItemPreviousAttributes>) | (null));
             "max_completions"?: ((number) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
             "payment_link_type"?: (("standard" | "donation" | "event" | (string & {})) | (null));
-            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null) | (unknown));
-            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null) | (unknown));
-            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null) | (unknown));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             "sales_end_at"?: ((string) | (null));
-            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null) | (unknown));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
             "status"?: (("active" | "inactive" | (string & {})) | (null));
-            "subscription_plan"?: (((((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
             "subscription_plan_id"?: ((string) | (null));
-            "tax"?: ((CheckoutTaxConfigPreviousAttributes) | (null) | (unknown));
-            "theme"?: ((ThemeConfigPreviousAttributes) | (null) | (unknown));
-            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null) | (unknown));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             "total_quantity_sold"?: ((number) | (null));
             "updated_at"?: ((string) | (null));
             "url"?: ((string) | (null));
@@ -3349,34 +3012,30 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * start new checkouts. Value enum: "active", "inactive". previous_attributes.status.anyOf[1]
      * (Value): string. Whether the link can start new checkouts. Value enum: "active", "inactive".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_plan
-     * (Optional): ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null) or null.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value):
-     * ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when
-     * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-     * subscription plan. previous_attributes.subscription_plan.anyOf[1].anyOf[1] (Value): {@link
+     * (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only
+     * when `expand` includes `subscription_plan`; `null` when expanded and there is no related
+     * subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
      * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
-     * previous_attributes.subscription_plan.anyOf[1].anyOf[2] (Value): null.
      * previous_attributes.subscription_plan.anyOf[2] (Value): null.
      * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
      * plan the link sells. Absent for a link that doesn't sell a subscription.
      * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
      * plan the link sells. Absent for a link that doesn't sell a subscription. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
-     * (Value): null. previous_attributes.tax (Optional): {@link
-     * CheckoutTaxConfigPreviousAttributes} or null. Tax settings for checkouts started from this
-     * link. previous_attributes.tax.anyOf[1] (Value): {@link CheckoutTaxConfigPreviousAttributes}.
-     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.theme (Optional): {@link
-     * ThemeConfigPreviousAttributes} or null. The title and colors for checkouts started from this
-     * link, over your branding settings. previous_attributes.theme.anyOf[1] (Value): {@link
-     * ThemeConfigPreviousAttributes}. previous_attributes.theme.anyOf[2] (Value): null.
-     * previous_attributes.tip (Optional): {@link CheckoutTipConfigPreviousAttributes} or null. Tip
-     * options for checkouts started from this link. previous_attributes.tip.anyOf[1] (Value):
-     * {@link CheckoutTipConfigPreviousAttributes}. previous_attributes.tip.anyOf[2] (Value): null.
-     * previous_attributes.total_quantity_sold (Optional): integer or null. Whole-number quantity;
-     * fractional quantities are not supported. previous_attributes.total_quantity_sold.anyOf[1]
-     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int32. previous_attributes.total_quantity_sold.anyOf[2] (Value): null.
+     * (Value): null. previous_attributes.tax (Optional): {@link SubscriptionTaxPreviousAttributes}
+     * or null. Tax settings for checkouts started from this link. previous_attributes.tax.anyOf[1]
+     * (Value): {@link SubscriptionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2]
+     * (Value): null. previous_attributes.theme (Optional): {@link ThemeConfigPreviousAttributes}
+     * or null. The title and colors for checkouts started from this link, over your branding
+     * settings. previous_attributes.theme.anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}.
+     * previous_attributes.theme.anyOf[2] (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from this
+     * link. previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.total_quantity_sold
+     * (Optional): integer or null. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.total_quantity_sold.anyOf[1] (Value): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32.
+     * previous_attributes.total_quantity_sold.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
@@ -3819,23 +3478,20 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * (Optional): string or null. Whether the link can start new checkouts. Value enum:
          * "active", "inactive". status.anyOf[1] (Value): string. Whether the link can start new
          * checkouts. Value enum: "active", "inactive". status.anyOf[2] (Value): null.
-         * subscription_plan (Optional): ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
-         * or null) or null. Present only when `expand` includes `subscription_plan`; `null` when
-         * expanded and there is no related subscription plan. subscription_plan.anyOf[1] (Value):
-         * ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-         * subscription plan. subscription_plan.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[1].anyOf[2]
-         * (Value): null. subscription_plan.anyOf[2] (Value): null. subscription_plan_id
-         * (Optional): string or null. ID of the subscription plan the link sells. Absent for a
-         * link that doesn't sell a subscription. subscription_plan_id.anyOf[1] (Value): string. ID
-         * of the subscription plan the link sells. Absent for a link that doesn't sell a
-         * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2]
-         * (Value): null. tax (Optional): {@link CheckoutTaxConfigPreviousAttributes} or null. Tax
-         * settings for checkouts started from this link. tax.anyOf[1] (Value): {@link
-         * CheckoutTaxConfigPreviousAttributes}. tax.anyOf[2] (Value): null. theme (Optional):
-         * {@link ThemeConfigPreviousAttributes} or null. The title and colors for checkouts
-         * started from this link, over your branding settings. theme.anyOf[1] (Value): {@link
+         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
+         * or null. Present only when `expand` includes `subscription_plan`; `null` when expanded
+         * and there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
+         * null. subscription_plan_id (Optional): string or null. ID of the subscription plan the
+         * link sells. Absent for a link that doesn't sell a subscription.
+         * subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan the link
+         * sells. Absent for a link that doesn't sell a subscription. Example:
+         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null. tax
+         * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. Tax settings for
+         * checkouts started from this link. tax.anyOf[1] (Value): {@link
+         * SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. theme (Optional): {@link
+         * ThemeConfigPreviousAttributes} or null. The title and colors for checkouts started from
+         * this link, over your branding settings. theme.anyOf[1] (Value): {@link
          * ThemeConfigPreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
          * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from
          * this link. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
@@ -3862,7 +3518,7 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null) | (unknown));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             /**
              * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
              * to use your checkout settings, or 24 hours. It doesn't end the link; use
@@ -3896,7 +3552,7 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Custom text for checkouts started from this link. anyOf[1] (Value): {@link
              * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null) | (unknown));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
             /**
              * Delivery methods the link offers. Empty when the link has none, and then its
              * checkouts offer settings.checkout.default_delivery_method_ids when the order has
@@ -3917,12 +3573,12 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Largest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Smallest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Amounts a donation link offers as one-tap choices. anyOf[1] (Value): Array of {@link
              * MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
@@ -3934,7 +3590,7 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * tickets it sells. anyOf[1] (Value): {@link
              * PaymentLinkEventConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null) | (unknown));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -3945,7 +3601,7 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Image shown to buyers with the link. anyOf[1] (Value): {@link
              * ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "image"?: ((ImageAttachmentPreviousAttributes) | (null) | (unknown));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
             /**
              * Message to show the buyer when the link is inactive. anyOf[1] (Value): string.
              * Message to show the buyer when the link is inactive. anyOf[2] (Value): null.
@@ -3957,12 +3613,12 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * again on use. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * The terms and policy links checkouts started from this link show the buyer. anyOf[1]
              * (Value): {@link CheckoutLegalConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null) | (unknown));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
             /**
              * What the link sells. anyOf[1] (Value): Array of {@link
              * PaymentLinkLineItemPreviousAttributes}. What the link sells. anyOf[1][] (Value):
@@ -3988,7 +3644,7 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Name of the payment link. anyOf[1] (Value): string. Name of the payment link.
              * anyOf[2] (Value): null.
@@ -4010,19 +3666,19 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * Payment options for checkouts started from this link. anyOf[1] (Value): {@link
              * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null) | (unknown));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
              * Whether automatic promotions apply to checkouts started from this link and whether
              * buyers can enter promotion codes. anyOf[1] (Value): {@link
              * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null) | (unknown));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             /**
              * Where checkout sessions started from this payment link send the buyer after payment,
              * cancellation, or expiration. anyOf[1] (Value): {@link
              * CheckoutRedirectsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null) | (unknown));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
              * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
@@ -4043,7 +3699,7 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * paid-order definition as the merchant sales summary. anyOf[1] (Value): {@link
              * PaymentLinkSalesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null) | (unknown));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
             /**
              * Whether the link can start new checkouts. Value enum: "active", "inactive". anyOf[1]
              * (Value): string. Whether the link can start new checkouts. Value enum: "active",
@@ -4052,14 +3708,10 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
             "status"?: (("active" | "inactive" | (string & {})) | (null));
             /**
              * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): ({@link
-             * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when
-             * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-             * subscription plan. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_plan"?: (((((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
             /**
              * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
              * subscription. anyOf[1] (Value): string. ID of the subscription plan the link sells.
@@ -4069,20 +3721,20 @@ export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
             "subscription_plan_id"?: ((string) | (null));
             /**
              * Tax settings for checkouts started from this link. anyOf[1] (Value): {@link
-             * CheckoutTaxConfigPreviousAttributes}. anyOf[2] (Value): null.
+             * SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "tax"?: ((CheckoutTaxConfigPreviousAttributes) | (null) | (unknown));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
             /**
              * The title and colors for checkouts started from this link, over your branding
              * settings. anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "theme"?: ((ThemeConfigPreviousAttributes) | (null) | (unknown));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
             /**
              * Tip options for checkouts started from this link. anyOf[1] (Value): {@link
              * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null) | (unknown));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             /**
              * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
              * integer. Whole-number quantity; fractional quantities are not supported. Format:
@@ -4409,34 +4061,30 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * start new checkouts. Value enum: "active", "inactive". previous_attributes.status.anyOf[1]
      * (Value): string. Whether the link can start new checkouts. Value enum: "active", "inactive".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_plan
-     * (Optional): ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null) or null.
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value):
-     * ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when
-     * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-     * subscription plan. previous_attributes.subscription_plan.anyOf[1].anyOf[1] (Value): {@link
+     * (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null. Present only
+     * when `expand` includes `subscription_plan`; `null` when expanded and there is no related
+     * subscription plan. previous_attributes.subscription_plan.anyOf[1] (Value): {@link
      * ExpandedSubscriptionPlanSummaryPreviousAttributes}.
-     * previous_attributes.subscription_plan.anyOf[1].anyOf[2] (Value): null.
      * previous_attributes.subscription_plan.anyOf[2] (Value): null.
      * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
      * plan the link sells. Absent for a link that doesn't sell a subscription.
      * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
      * plan the link sells. Absent for a link that doesn't sell a subscription. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV". previous_attributes.subscription_plan_id.anyOf[2]
-     * (Value): null. previous_attributes.tax (Optional): {@link
-     * CheckoutTaxConfigPreviousAttributes} or null. Tax settings for checkouts started from this
-     * link. previous_attributes.tax.anyOf[1] (Value): {@link CheckoutTaxConfigPreviousAttributes}.
-     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.theme (Optional): {@link
-     * ThemeConfigPreviousAttributes} or null. The title and colors for checkouts started from this
-     * link, over your branding settings. previous_attributes.theme.anyOf[1] (Value): {@link
-     * ThemeConfigPreviousAttributes}. previous_attributes.theme.anyOf[2] (Value): null.
-     * previous_attributes.tip (Optional): {@link CheckoutTipConfigPreviousAttributes} or null. Tip
-     * options for checkouts started from this link. previous_attributes.tip.anyOf[1] (Value):
-     * {@link CheckoutTipConfigPreviousAttributes}. previous_attributes.tip.anyOf[2] (Value): null.
-     * previous_attributes.total_quantity_sold (Optional): integer or null. Whole-number quantity;
-     * fractional quantities are not supported. previous_attributes.total_quantity_sold.anyOf[1]
-     * (Value): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int32. previous_attributes.total_quantity_sold.anyOf[2] (Value): null.
+     * (Value): null. previous_attributes.tax (Optional): {@link SubscriptionTaxPreviousAttributes}
+     * or null. Tax settings for checkouts started from this link. previous_attributes.tax.anyOf[1]
+     * (Value): {@link SubscriptionTaxPreviousAttributes}. previous_attributes.tax.anyOf[2]
+     * (Value): null. previous_attributes.theme (Optional): {@link ThemeConfigPreviousAttributes}
+     * or null. The title and colors for checkouts started from this link, over your branding
+     * settings. previous_attributes.theme.anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}.
+     * previous_attributes.theme.anyOf[2] (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from this
+     * link. previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
+     * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.total_quantity_sold
+     * (Optional): integer or null. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.total_quantity_sold.anyOf[1] (Value): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32.
+     * previous_attributes.total_quantity_sold.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
@@ -4879,23 +4527,20 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * (Optional): string or null. Whether the link can start new checkouts. Value enum:
          * "active", "inactive". status.anyOf[1] (Value): string. Whether the link can start new
          * checkouts. Value enum: "active", "inactive". status.anyOf[2] (Value): null.
-         * subscription_plan (Optional): ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
-         * or null) or null. Present only when `expand` includes `subscription_plan`; `null` when
-         * expanded and there is no related subscription plan. subscription_plan.anyOf[1] (Value):
-         * ({@link ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-         * subscription plan. subscription_plan.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[1].anyOf[2]
-         * (Value): null. subscription_plan.anyOf[2] (Value): null. subscription_plan_id
-         * (Optional): string or null. ID of the subscription plan the link sells. Absent for a
-         * link that doesn't sell a subscription. subscription_plan_id.anyOf[1] (Value): string. ID
-         * of the subscription plan the link sells. Absent for a link that doesn't sell a
-         * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2]
-         * (Value): null. tax (Optional): {@link CheckoutTaxConfigPreviousAttributes} or null. Tax
-         * settings for checkouts started from this link. tax.anyOf[1] (Value): {@link
-         * CheckoutTaxConfigPreviousAttributes}. tax.anyOf[2] (Value): null. theme (Optional):
-         * {@link ThemeConfigPreviousAttributes} or null. The title and colors for checkouts
-         * started from this link, over your branding settings. theme.anyOf[1] (Value): {@link
+         * subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummaryPreviousAttributes}
+         * or null. Present only when `expand` includes `subscription_plan`; `null` when expanded
+         * and there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummaryPreviousAttributes}. subscription_plan.anyOf[2] (Value):
+         * null. subscription_plan_id (Optional): string or null. ID of the subscription plan the
+         * link sells. Absent for a link that doesn't sell a subscription.
+         * subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan the link
+         * sells. Absent for a link that doesn't sell a subscription. Example:
+         * "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null. tax
+         * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. Tax settings for
+         * checkouts started from this link. tax.anyOf[1] (Value): {@link
+         * SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. theme (Optional): {@link
+         * ThemeConfigPreviousAttributes} or null. The title and colors for checkouts started from
+         * this link, over your branding settings. theme.anyOf[1] (Value): {@link
          * ThemeConfigPreviousAttributes}. theme.anyOf[2] (Value): null. tip (Optional): {@link
          * CheckoutTipConfigPreviousAttributes} or null. Tip options for checkouts started from
          * this link. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
@@ -4922,7 +4567,7 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * settings. anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2]
              * (Value): null.
              */
-            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null) | (unknown));
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
             /**
              * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
              * to use your checkout settings, or 24 hours. It doesn't end the link; use
@@ -4956,7 +4601,7 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Custom text for checkouts started from this link. anyOf[1] (Value): {@link
              * CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null) | (unknown));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
             /**
              * Delivery methods the link offers. Empty when the link has none, and then its
              * checkouts offer settings.checkout.default_delivery_method_ids when the order has
@@ -4977,12 +4622,12 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Largest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "donation_max_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Smallest amount a buyer can give on a donation link. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "donation_min_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Amounts a donation link offers as one-tap choices. anyOf[1] (Value): Array of {@link
              * MoneyValuePreviousAttributes}. Amounts a donation link offers as one-tap choices.
@@ -4994,7 +4639,7 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * tickets it sells. anyOf[1] (Value): {@link
              * PaymentLinkEventConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null) | (unknown));
+            "event_config"?: ((PaymentLinkEventConfigPreviousAttributes) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -5005,7 +4650,7 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Image shown to buyers with the link. anyOf[1] (Value): {@link
              * ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "image"?: ((ImageAttachmentPreviousAttributes) | (null) | (unknown));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
             /**
              * Message to show the buyer when the link is inactive. anyOf[1] (Value): string.
              * Message to show the buyer when the link is inactive. anyOf[2] (Value): null.
@@ -5017,12 +4662,12 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * again on use. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}.
              * anyOf[2] (Value): null.
              */
-            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null) | (unknown));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
             /**
              * The terms and policy links checkouts started from this link show the buyer. anyOf[1]
              * (Value): {@link CheckoutLegalConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null) | (unknown));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
             /**
              * What the link sells. anyOf[1] (Value): Array of {@link
              * PaymentLinkLineItemPreviousAttributes}. What the link sells. anyOf[1][] (Value):
@@ -5048,7 +4693,7 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
              * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Name of the payment link. anyOf[1] (Value): string. Name of the payment link.
              * anyOf[2] (Value): null.
@@ -5070,19 +4715,19 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * Payment options for checkouts started from this link. anyOf[1] (Value): {@link
              * CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null) | (unknown));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
              * Whether automatic promotions apply to checkouts started from this link and whether
              * buyers can enter promotion codes. anyOf[1] (Value): {@link
              * CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null) | (unknown));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             /**
              * Where checkout sessions started from this payment link send the buyer after payment,
              * cancellation, or expiration. anyOf[1] (Value): {@link
              * CheckoutRedirectsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null) | (unknown));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
              * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
@@ -5103,7 +4748,7 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * paid-order definition as the merchant sales summary. anyOf[1] (Value): {@link
              * PaymentLinkSalesSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null) | (unknown));
+            "sales_summary"?: ((PaymentLinkSalesSummaryPreviousAttributes) | (null));
             /**
              * Whether the link can start new checkouts. Value enum: "active", "inactive". anyOf[1]
              * (Value): string. Whether the link can start new checkouts. Value enum: "active",
@@ -5112,14 +4757,10 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
             "status"?: (("active" | "inactive" | (string & {})) | (null));
             /**
              * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): ({@link
-             * ExpandedSubscriptionPlanSummaryPreviousAttributes} or null). Present only when
-             * `expand` includes `subscription_plan`; `null` when expanded and there is no related
-             * subscription plan. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "subscription_plan"?: (((((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummaryPreviousAttributes) | (null));
             /**
              * ID of the subscription plan the link sells. Absent for a link that doesn't sell a
              * subscription. anyOf[1] (Value): string. ID of the subscription plan the link sells.
@@ -5129,20 +4770,20 @@ export type PaymentLinkUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
             "subscription_plan_id"?: ((string) | (null));
             /**
              * Tax settings for checkouts started from this link. anyOf[1] (Value): {@link
-             * CheckoutTaxConfigPreviousAttributes}. anyOf[2] (Value): null.
+             * SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "tax"?: ((CheckoutTaxConfigPreviousAttributes) | (null) | (unknown));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
             /**
              * The title and colors for checkouts started from this link, over your branding
              * settings. anyOf[1] (Value): {@link ThemeConfigPreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "theme"?: ((ThemeConfigPreviousAttributes) | (null) | (unknown));
+            "theme"?: ((ThemeConfigPreviousAttributes) | (null));
             /**
              * Tip options for checkouts started from this link. anyOf[1] (Value): {@link
              * CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null) | (unknown));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             /**
              * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
              * integer. Whole-number quantity; fractional quantities are not supported. Format:
@@ -5424,9 +5065,9 @@ export type PaymentMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "fingerprint"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
@@ -5464,9 +5105,9 @@ export type PaymentMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "fingerprint"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
@@ -5543,17 +5184,13 @@ export type PaymentMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. Customer this payment method
-     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this payment
-     * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
      * (Optional): string or null. A value that is the same for every saved copy of one card number
      * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
@@ -5728,26 +5365,23 @@ export type PaymentMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
          * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
          * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer this
-         * payment method belongs to. customer_id.anyOf[1] (Value): string. Customer this payment
-         * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. fingerprint (Optional): string or null. A value that is the same for
-         * every saved copy of one card number at this merchant and environment, so you can spot
-         * duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-         * or Google Pay can have a different fingerprint from the same card typed in.
-         * fingerprint.anyOf[1] (Value): string. A value that is the same for every saved copy of
-         * one card number at this merchant and environment, so you can spot duplicates. It doesn't
-         * identify the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[2] (Value): null.
-         * is_default (Optional): boolean or null. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
          * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
          * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
          * method, the one Customer.default_payment_method_id names. Change the default with PATCH
@@ -5797,7 +5431,7 @@ export type PaymentMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
              * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -5805,13 +5439,10 @@ export type PaymentMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWebh
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
              * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
@@ -5987,17 +5618,13 @@ export type PaymentMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. Customer this payment method
-     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this payment
-     * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
      * (Optional): string or null. A value that is the same for every saved copy of one card number
      * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
@@ -6172,26 +5799,23 @@ export type PaymentMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
          * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
          * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer this
-         * payment method belongs to. customer_id.anyOf[1] (Value): string. Customer this payment
-         * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. fingerprint (Optional): string or null. A value that is the same for
-         * every saved copy of one card number at this merchant and environment, so you can spot
-         * duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-         * or Google Pay can have a different fingerprint from the same card typed in.
-         * fingerprint.anyOf[1] (Value): string. A value that is the same for every saved copy of
-         * one card number at this merchant and environment, so you can spot duplicates. It doesn't
-         * identify the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[2] (Value): null.
-         * is_default (Optional): boolean or null. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
          * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
          * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
          * method, the one Customer.default_payment_method_id names. Change the default with PATCH
@@ -6241,7 +5865,7 @@ export type PaymentMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
              * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -6249,13 +5873,10 @@ export type PaymentMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
              * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
@@ -6368,9 +5989,9 @@ export type PaymentMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "fingerprint"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
@@ -6408,9 +6029,9 @@ export type PaymentMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             [key: string]: unknown;
         })
             & ({
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "fingerprint"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
@@ -6487,17 +6108,13 @@ export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. Customer this payment method
-     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this payment
-     * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
      * (Optional): string or null. A value that is the same for every saved copy of one card number
      * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
@@ -6672,26 +6289,23 @@ export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
          * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
          * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer this
-         * payment method belongs to. customer_id.anyOf[1] (Value): string. Customer this payment
-         * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. fingerprint (Optional): string or null. A value that is the same for
-         * every saved copy of one card number at this merchant and environment, so you can spot
-         * duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-         * or Google Pay can have a different fingerprint from the same card typed in.
-         * fingerprint.anyOf[1] (Value): string. A value that is the same for every saved copy of
-         * one card number at this merchant and environment, so you can spot duplicates. It doesn't
-         * identify the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[2] (Value): null.
-         * is_default (Optional): boolean or null. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
          * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
          * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
          * method, the one Customer.default_payment_method_id names. Change the default with PATCH
@@ -6741,7 +6355,7 @@ export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
              * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -6749,13 +6363,10 @@ export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
              * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
@@ -6931,17 +6542,13 @@ export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. Customer this payment method
-     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this payment
-     * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
      * (Optional): string or null. A value that is the same for every saved copy of one card number
      * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
@@ -7116,26 +6723,23 @@ export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
          * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
          * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer this
-         * payment method belongs to. customer_id.anyOf[1] (Value): string. Customer this payment
-         * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. fingerprint (Optional): string or null. A value that is the same for
-         * every saved copy of one card number at this merchant and environment, so you can spot
-         * duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-         * or Google Pay can have a different fingerprint from the same card typed in.
-         * fingerprint.anyOf[1] (Value): string. A value that is the same for every saved copy of
-         * one card number at this merchant and environment, so you can spot duplicates. It doesn't
-         * identify the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[2] (Value): null.
-         * is_default (Optional): boolean or null. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
          * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
          * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
          * method, the one Customer.default_payment_method_id names. Change the default with PATCH
@@ -7185,7 +6789,7 @@ export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
              * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -7193,13 +6797,10 @@ export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
              * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
@@ -7437,9 +7038,9 @@ export type PaymentMethodFailedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             [key: string]: unknown;
         })
             & ({
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "fingerprint"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
@@ -7477,9 +7078,9 @@ export type PaymentMethodFailedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             [key: string]: unknown;
         })
             & ({
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "fingerprint"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
@@ -7556,17 +7157,13 @@ export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. Customer this payment method
-     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this payment
-     * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
      * (Optional): string or null. A value that is the same for every saved copy of one card number
      * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
@@ -7741,26 +7338,23 @@ export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
          * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
          * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer this
-         * payment method belongs to. customer_id.anyOf[1] (Value): string. Customer this payment
-         * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. fingerprint (Optional): string or null. A value that is the same for
-         * every saved copy of one card number at this merchant and environment, so you can spot
-         * duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-         * or Google Pay can have a different fingerprint from the same card typed in.
-         * fingerprint.anyOf[1] (Value): string. A value that is the same for every saved copy of
-         * one card number at this merchant and environment, so you can spot duplicates. It doesn't
-         * identify the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[2] (Value): null.
-         * is_default (Optional): boolean or null. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
          * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
          * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
          * method, the one Customer.default_payment_method_id names. Change the default with PATCH
@@ -7810,7 +7404,7 @@ export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
              * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -7818,13 +7412,10 @@ export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhook
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
              * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
@@ -8000,17 +7591,13 @@ export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
      * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. Customer this payment method
-     * belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this payment
-     * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
      * (Optional): string or null. A value that is the same for every saved copy of one card number
      * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
@@ -8185,26 +7772,23 @@ export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
          * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
          * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer this
-         * payment method belongs to. customer_id.anyOf[1] (Value): string. Customer this payment
-         * method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2]
-         * (Value): null. fingerprint (Optional): string or null. A value that is the same for
-         * every saved copy of one card number at this merchant and environment, so you can spot
-         * duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-         * or Google Pay can have a different fingerprint from the same card typed in.
-         * fingerprint.anyOf[1] (Value): string. A value that is the same for every saved copy of
-         * one card number at this merchant and environment, so you can spot duplicates. It doesn't
-         * identify the card anywhere else. A card added through Apple Pay or Google Pay can have a
-         * different fingerprint from the same card typed in. fingerprint.anyOf[2] (Value): null.
-         * is_default (Optional): boolean or null. Whether this is the customer's default payment
-         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
          * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
          * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
          * method, the one Customer.default_payment_method_id names. Change the default with PATCH
@@ -8254,7 +7838,7 @@ export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
              * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "card"?: ((CardDetailsPreviousAttributes) | (null) | (unknown));
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -8262,13 +7846,10 @@ export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
              * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
@@ -8382,3 +7963,545 @@ export type PaymentMethodListResponse = {
      */
     "request_id": string;
 };
+/** A response containing `PaymentMethod` data. */
+export type PaymentMethodResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A customer's saved
+     * payment details.
+     */
+    "data": PaymentMethod;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PaymentMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "fingerprint"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "payment_method_id"?: ((string) | (null));
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            "type"?: (("card" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.updated";
+});
+/**
+ * The `payment_method.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.card (Optional): {@link CardDetailsPreviousAttributes} or null.
+     * Brand, expiry and last four digits. Present when `type` is `card`.
+     * previous_attributes.card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+     * previous_attributes.card.anyOf[2] (Value): null. previous_attributes.created_at (Optional):
+     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. Customer this payment
+     * method belongs to. previous_attributes.customer_id.anyOf[1] (Value): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.fingerprint
+     * (Optional): string or null. A value that is the same for every saved copy of one card number
+     * at this merchant and environment, so you can spot duplicates. It doesn't identify the card
+     * anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint
+     * from the same card typed in. previous_attributes.fingerprint.anyOf[1] (Value): string. A
+     * value that is the same for every saved copy of one card number at this merchant and
+     * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card
+     * added through Apple Pay or Google Pay can have a different fingerprint from the same card
+     * typed in. previous_attributes.fingerprint.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. previous_attributes.is_default.anyOf[1] (Value): boolean. Whether this is the
+     * customer's default payment method, the one Customer.default_payment_method_id names. Change
+     * the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a
+     * payment method event. previous_attributes.is_default.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_method_id (Optional): string or null. Unique identifier for this
+     * payment method, prefixed `pm_`. previous_attributes.payment_method_id.anyOf[1] (Value):
+     * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". previous_attributes.payment_method_id.anyOf[2] (Value):
+     * null. previous_attributes.saved_with (Optional): string or null. Where the buyer saved this
+     * payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+     * enabled. Accept future values. Value enum: "flint", "store".
+     * previous_attributes.saved_with.anyOf[1] (Value): string. Where the buyer saved this payment
+     * method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled.
+     * Accept future values. Value enum: "flint", "store". previous_attributes.saved_with.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Whether the payment
+     * method can be charged. Treat any value other than active as not chargeable, including values
+     * added later. Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the payment method can be
+     * charged. Treat any value other than active as not chargeable, including values added later.
+     * Value enum: "pending", "active", "expired", "archived", "failed".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.type (Optional):
+     * string or null. Kind of payment method. Value enum: "card".
+     * previous_attributes.type.anyOf[1] (Value): string. Kind of payment method. Value enum:
+     * "card". previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.usage (Optional):
+     * string or null. When Flint may charge the payment method. off_session payment methods can
+     * pay subscriptions, automatic invoices, and other charges without the buyer, and can be a
+     * customer's default. on_session payment methods were saved by the buyer in checkout for
+     * faster checkout at this merchant; Flint charges them only in checkouts the buyer completes
+     * and refuses them for any charge without the buyer and as a default. Payment methods saved
+     * before usage existed are off_session. Value enum: "on_session", "off_session".
+     * previous_attributes.usage.anyOf[1] (Value): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes.usage.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. card (Optional): {@link
+         * CardDetailsPreviousAttributes} or null. Brand, expiry and last four digits. Present when
+         * `type` is `card`. card.anyOf[1] (Value): {@link CardDetailsPreviousAttributes}.
+         * card.anyOf[2] (Value): null. created_at (Optional): string or null. RFC3339 timestamp.
+         * created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. Customer this payment method belongs to.
+         * customer_id.anyOf[1] (Value): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. fingerprint
+         * (Optional): string or null. A value that is the same for every saved copy of one card
+         * number at this merchant and environment, so you can spot duplicates. It doesn't identify
+         * the card anywhere else. A card added through Apple Pay or Google Pay can have a
+         * different fingerprint from the same card typed in. fingerprint.anyOf[1] (Value): string.
+         * A value that is the same for every saved copy of one card number at this merchant and
+         * environment, so you can spot duplicates. It doesn't identify the card anywhere else. A
+         * card added through Apple Pay or Google Pay can have a different fingerprint from the
+         * same card typed in. fingerprint.anyOf[2] (Value): null. is_default (Optional): boolean
+         * or null. Whether this is the customer's default payment method, the one
+         * Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[1] (Value): boolean. Whether this is the customer's default payment
+         * method, the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * is_default.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID of the
+         * merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of the
+         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. payment_method_id (Optional): string or null. Unique
+         * identifier for this payment method, prefixed `pm_`. payment_method_id.anyOf[1] (Value):
+         * string. Unique identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". payment_method_id.anyOf[2] (Value): null. saved_with
+         * (Optional): string or null. Where the buyer saved this payment method. Returned on
+         * /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future
+         * values. Value enum: "flint", "store". saved_with.anyOf[1] (Value): string. Where the
+         * buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint
+         * wallet support is enabled. Accept future values. Value enum: "flint", "store".
+         * saved_with.anyOf[2] (Value): null. status (Optional): string or null. Whether the
+         * payment method can be charged. Treat any value other than active as not chargeable,
+         * including values added later. Value enum: "pending", "active", "expired", "archived",
+         * "failed". status.anyOf[1] (Value): string. Whether the payment method can be charged.
+         * Treat any value other than active as not chargeable, including values added later. Value
+         * enum: "pending", "active", "expired", "archived", "failed". status.anyOf[2] (Value):
+         * null. type (Optional): string or null. Kind of payment method. Value enum: "card".
+         * type.anyOf[1] (Value): string. Kind of payment method. Value enum: "card". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. usage (Optional): string or
+         * null. When Flint may charge the payment method. off_session payment methods can pay
+         * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+         * customer's default. on_session payment methods were saved by the buyer in checkout for
+         * faster checkout at this merchant; Flint charges them only in checkouts the buyer
+         * completes and refuses them for any charge without the buyer and as a default. Payment
+         * methods saved before usage existed are off_session. Value enum: "on_session",
+         * "off_session". usage.anyOf[1] (Value): string. When Flint may charge the payment method.
+         * off_session payment methods can pay subscriptions, automatic invoices, and other charges
+         * without the buyer, and can be a customer's default. on_session payment methods were
+         * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them
+         * only in checkouts the buyer completes and refuses them for any charge without the buyer
+         * and as a default. Payment methods saved before usage existed are off_session. Value
+         * enum: "on_session", "off_session". usage.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value):
+             * {@link CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "card"?: ((CardDetailsPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * Customer this payment method belongs to. anyOf[1] (Value): string. Customer this
+             * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in. anyOf[1] (Value): string. A value that is the same for
+             * every saved copy of one card number at this merchant and environment, so you can
+             * spot duplicates. It doesn't identify the card anywhere else. A card added through
+             * Apple Pay or Google Pay can have a different fingerprint from the same card typed
+             * in. anyOf[2] (Value): null.
+             */
+            "fingerprint"?: ((string) | (null));
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[1] (Value): boolean. Whether this is the customer's default payment
+             * method, the one Customer.default_payment_method_id names. Change the default with
+             * PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string.
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ". anyOf[2] (Value): null.
+             */
+            "payment_method_id"?: ((string) | (null));
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store". anyOf[1] (Value): string. Where the buyer saved this payment
+             * method. Returned on /v1/me/payment-methods responses when Flint wallet support is
+             * enabled. Accept future values. Value enum: "flint", "store". anyOf[2] (Value): null.
+             */
+            "saved_with"?: (("flint" | "store" | (string & {})) | (null));
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed". anyOf[1] (Value): string. Whether the payment
+             * method can be charged. Treat any value other than active as not chargeable,
+             * including values added later. Value enum: "pending", "active", "expired",
+             * "archived", "failed". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "expired" | "archived" | "failed" | (string & {})) | (null));
+            /**
+             * Kind of payment method. Value enum: "card". anyOf[1] (Value): string. Kind of
+             * payment method. Value enum: "card". anyOf[2] (Value): null.
+             */
+            "type"?: (("card" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session". anyOf[1] (Value): string. When Flint may charge the
+             * payment method. off_session payment methods can pay subscriptions, automatic
+             * invoices, and other charges without the buyer, and can be a customer's default.
+             * on_session payment methods were saved by the buyer in checkout for faster checkout
+             * at this merchant; Flint charges them only in checkouts the buyer completes and
+             * refuses them for any charge without the buyer and as a default. Payment methods
+             * saved before usage existed are off_session. Value enum: "on_session", "off_session".
+             * anyOf[2] (Value): null.
+             */
+            "usage"?: (("on_session" | "off_session" | (string & {})) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.updated". */
+    "event_type"?: "payment_method.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});

@@ -38,7 +38,7 @@ export { makeCreateOrderDiscount, makeCreateOrderDiscountManual, makeCreateOrder
 export { makeDiscountPreviewRequest } from '../declarations/types-84.js';
 export { makeManualDiscountRequest } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-88.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-87.js';
 export interface DiscountPreviewsResource {
     /**
  * Evaluates promotion outcomes for an order without changing it. Returns the complete result

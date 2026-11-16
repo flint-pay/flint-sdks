@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentSplitReversalPreviousAttributes to PricingAmountsPreviousAttributes
+# PaymentVolumeBucket to ProcessExistingReturnRequest
 
-- [PaymentSplitReversalPreviousAttributes](PaymentSplitReversalPreviousAttributes.md)
-- [PaymentSplitSucceededEvent](PaymentSplitSucceededEvent.md)
-- [PaymentSplitUpdatedEvent](PaymentSplitUpdatedEvent.md)
 - [PaymentVolumeBucket](PaymentVolumeBucket.md)
 - [PaymentVolumeTimeseries](PaymentVolumeTimeseries.md)
 - [PaymentVolumeTimeseriesResponse](PaymentVolumeTimeseriesResponse.md)
@@ -102,4 +99,7 @@
 - [PriceListUpdatedMerchantEvent](PriceListUpdatedMerchantEvent.md)
 - [PricingAmounts](PricingAmounts.md)
 - [PricingAmountsPreviousAttributes](PricingAmountsPreviousAttributes.md)
+- [ProcessExistingReturnLineItemRequest](ProcessExistingReturnLineItemRequest.md)
+- [ProcessExistingReturnLineItemRequestInput](ProcessExistingReturnLineItemRequestInput.md)
+- [ProcessExistingReturnRequest](ProcessExistingReturnRequest.md)
 

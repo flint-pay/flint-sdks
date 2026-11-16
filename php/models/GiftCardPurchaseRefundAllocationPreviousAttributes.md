@@ -12,8 +12,8 @@ Response model.
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `order_manual_reversal_id` | Optional | string or null | ID of the manual payment reversal. Set when this entry reverses a manual payment instead of refunding a payment. `order_manual_reversal_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesorder_manual_reversal_id). |
 | `purchase_refund_allocation_id` | Optional | string or null | ID of this entry in the load's purchase refunds. `purchase_refund_allocation_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributespurchase_refund_allocation_id). |
-| `recovery` | Optional | Alternative shapes (see declared variants) | How the value was restored after the refund failed. `null` when no recovery happened. `recovery`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery). |
-| `refund_id` | Optional | string or null or null | ID of the refund. `null` when the entry reverses a manual payment, which has no refund. `refund_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrefund_id). |
+| `recovery` | Optional | [GiftCardPurchaseRefundRecoveryPreviousAttributes](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributes) or null | How the value was restored after the refund failed. `null` when no recovery happened. `recovery`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery). |
+| `refund_id` | Optional | string or null | ID of the refund. `null` when the entry reverses a manual payment, which has no refund. `refund_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrefund_id). |
 | `status` | Optional | string or null | Whether the refund has succeeded, failed, or is still pending. Values: `"pending"`, `"succeeded"`, `"failed"`. `status`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesstatus). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocationPreviousAttributes](../models/GiftCardPurchaseRefundValueAllocationPreviousAttributes.md#giftcardpurchaserefundvalueallocationpreviousattributes) or null | Actual value lots reserved or reversed for this original cash refund. Omitted when all value remains on the original load. `value_allocations`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesvalue_allocations). |
@@ -59,8 +59,8 @@ How the value was restored after the refund failed. `null` when no recovery happ
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Conditional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `destination` | Conditional | string or null | Where the restored value went. Values: `"original"`, `"replacement"`. `destination`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery-variant-1destination). |
-| `destinations` | Conditional | Array of object or null | The cards and loads that received the restored value. `destinations`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery-variant-1destinations). |
+| `destination` | Conditional | string or null | Where the restored value went. Values: `"original"`, `"replacement"`. `destination`: [declared alternatives](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributesdestination). |
+| `destinations` | Conditional | Array of [GiftCardPurchaseRefundRecoveryDestinationPreviousAttributes](../models/GiftCardPurchaseRefundRecoveryDestinationPreviousAttributes.md#giftcardpurchaserefundrecoverydestinationpreviousattributes) or null | The cards and loads that received the restored value. `destinations`: [declared alternatives](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributesdestinations). |
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1
 
@@ -81,57 +81,11 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destination
 
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destination variant 1
-
-anyOf variant 1: Where the restored value went..
-
-- Value shape: string. Where the restored value went. Values: `"original"`, `"replacement"`.
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destination variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Where the restored value went. 
+Declared alternatives: [GiftCardPurchaseRefundRecoveryPreviousAttributes.destination](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributesdestination).
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations
 
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1
-
-anyOf variant 1: The cards and loads that received the restored value..
-
-- Value shape: Array of object. The cards and loads that received the restored value. 
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The cards and loads that received the restored value. 
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1.[] fields 1
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `gift_card_id` | Optional | string or null | ID of the gift card that received the value. `gift_card_id`: [declared alternatives](../models/RefundTenderAllocationPreviousAttributes.md#refundtenderallocationpreviousattributesdestination_cards-variant-1-fields-1gift_card_id). |
-| `gift_card_load_id` | Optional | string or null | ID of the load that holds the value. `gift_card_load_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery-variant-1destinations-variant-1-fields-1gift_card_load_id). |
-| `value_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The value restored to the card. |
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1.[] fields 1.gift_card_id
-
-Declared alternatives: [RefundTenderAllocationPreviousAttributes.destination_cards variant 1.[] fields 1.gift_card_id](../models/RefundTenderAllocationPreviousAttributes.md#refundtenderallocationpreviousattributesdestination_cards-variant-1-fields-1gift_card_id).
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1.[] fields 1.gift_card_load_id
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1.[] fields 1.gift_card_load_id variant 1
-
-anyOf variant 1: ID of the load that holds the value..
-
-- Value shape: string. ID of the load that holds the value. ID of the load that holds the value. Example: `"gcl_01KEZF7C00YJED2857SE0J6KWC"`. 
-
-### GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1.[] fields 1.gift_card_load_id variant 2
-
-anyOf variant 2.
-
-- Value shape: null. ID of the load that holds the value. 
+Declared alternatives: [GiftCardPurchaseRefundRecoveryPreviousAttributes.destinations](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributesdestinations).
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.refund_id
 
@@ -139,7 +93,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the refund. `null` when the entry reverses a manual payment, which has no refund..
 
-- Value shape: (string or null). ID of the refund. `null` when the entry reverses a manual payment, which has no refund. 
+- Value shape: string. ID of the refund. `null` when the entry reverses a manual payment, which has no refund. 
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.refund_id variant 2
 
@@ -185,7 +139,7 @@ anyOf variant 2.
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The value allocated to the card. |
 | `gift_card_id` | Optional | string or null | ID of the gift card that received the value. `gift_card_id`: [declared alternatives](../models/RefundTenderAllocationPreviousAttributes.md#refundtenderallocationpreviousattributesdestination_cards-variant-1-fields-1gift_card_id). |
-| `gift_card_load_id` | Optional | string or null | ID of the load that holds the value. `gift_card_load_id`: [declared alternatives](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery-variant-1destinations-variant-1-fields-1gift_card_load_id). |
+| `gift_card_load_id` | Optional | string or null | ID of the load that holds the value. `gift_card_load_id`: [declared alternatives](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributesdestinations-variant-1-fields-1gift_card_load_id). |
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.value_allocations variant 1.[] fields 1.gift_card_id
 
@@ -193,7 +147,7 @@ Declared alternatives: [RefundTenderAllocationPreviousAttributes.destination_car
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.value_allocations variant 1.[] fields 1.gift_card_load_id
 
-Declared alternatives: [GiftCardPurchaseRefundAllocationPreviousAttributes.recovery variant 1.destinations variant 1.[] fields 1.gift_card_load_id](../models/GiftCardPurchaseRefundAllocationPreviousAttributes.md#giftcardpurchaserefundallocationpreviousattributesrecovery-variant-1destinations-variant-1-fields-1gift_card_load_id).
+Declared alternatives: [GiftCardPurchaseRefundRecoveryPreviousAttributes.destinations variant 1.[] fields 1.gift_card_load_id](../models/GiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardpurchaserefundrecoverypreviousattributesdestinations-variant-1-fields-1gift_card_load_id).
 
 ### GiftCardPurchaseRefundAllocationPreviousAttributes.version
 

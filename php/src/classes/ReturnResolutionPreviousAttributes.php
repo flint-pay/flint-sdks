@@ -5,19 +5,19 @@ namespace Flint;
  * @property-read string|null $action_reason
  * @property-read string|null $action_required_by
  * @property-read list<ReturnResolutionAdjustmentPreviousAttributes>|null $adjustments
- * @property-read mixed $buyer_payment_amount_money
- * @property-read mixed $buyer_refund_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $buyer_payment_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $buyer_refund_amount_money
  * @property-read string|null $canceled_at
- * @property-read mixed $canceled_by
+ * @property-read ReturnActorPreviousAttributes|null $canceled_by
  * @property-read string|null $cancellation_reason
  * @property-read string|null $cancellation_reason_message
  * @property-read string|null $confirmed_at
- * @property-read mixed $confirmed_by
+ * @property-read ReturnActorPreviousAttributes|null $confirmed_by
  * @property-read string|null $corrects_return_resolution_id
  * @property-read string|null $created_at
- * @property-read mixed $created_by
- * @property-read mixed $credit_adjustment_money
- * @property-read mixed $deduction_money
+ * @property-read ReturnActorPreviousAttributes|null $created_by
+ * @property-read MoneyValuePreviousAttributes|null $credit_adjustment_money
+ * @property-read MoneyValuePreviousAttributes|null $deduction_money
  * @property-read list<ReturnResolutionExecutionBlockerPreviousAttributes>|null $execution_blockers
  * @property-read string|null $external_reference_id
  * @property-read string|null $failure_code
@@ -25,22 +25,22 @@ namespace Flint;
  * @property-read string|null $fulfilled_at
  * @property-read string|null $gift_card_refund_destination
  * @property-read list<ReturnResolutionLineItemPreviousAttributes>|null $line_items
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read list<string>|null $payment_intent_ids
  * @property-read list<ExpandedPaymentIntentSummaryPreviousAttributes>|null $payment_intents
  * @property-read string|null $pricing_basis
  * @property-read list<string>|null $refund_ids
  * @property-read list<RefundPreviousAttributes>|null $refunds
  * @property-read list<ReturnReplacementLineItemPreviousAttributes>|null $replacement_line_items
- * @property-read mixed $replacement_order
+ * @property-read ExpandedOrderSummaryPreviousAttributes|null $replacement_order
  * @property-read string|null $replacement_order_id
- * @property-read mixed $replacement_total_money
+ * @property-read MoneyValuePreviousAttributes|null $replacement_total_money
  * @property-read string|null $resolution_type
  * @property-read string|null $return_id
- * @property-read mixed $return_policy_id
+ * @property-read string|null $return_policy_id
  * @property-read string|null $return_policy_revision_id
  * @property-read string|null $return_resolution_id
- * @property-read mixed $returned_total_money
+ * @property-read MoneyValuePreviousAttributes|null $returned_total_money
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $updated_at
@@ -65,14 +65,14 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getAdjustments(): array|null { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
     /** Amount the buyer owes when deduction_money and replacement_total_money exceed returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund and for no_monetary_action. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getBuyerPaymentAmountMoney(): mixed { return $this->get('buyer_payment_amount_money'); }
+    public function getBuyerPaymentAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('buyer_payment_amount_money'); }
     public function hasBuyerPaymentAmountMoney(): bool { return $this->has('buyer_payment_amount_money'); }
     /** Value returned to the buyer: returned_total_money plus credit_adjustment_money, minus deduction_money and replacement_total_money, when that balance is zero or more. For store_credit, the value issued on new gift cards. Zero for no_monetary_action. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getBuyerRefundAmountMoney(): mixed { return $this->get('buyer_refund_amount_money'); }
+    public function getBuyerRefundAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('buyer_refund_amount_money'); }
     public function hasBuyerRefundAmountMoney(): bool { return $this->has('buyer_refund_amount_money'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -80,9 +80,9 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getCanceledAt(): string|null { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
     /** Who canceled the resolution. Merchant reads only. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCanceledBy(): mixed { return $this->get('canceled_by'); }
+    public function getCanceledBy(): ReturnActorPreviousAttributes|null { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
     /** Why the resolution was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why the resolution was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
      * @return string|null
@@ -100,9 +100,9 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getConfirmedAt(): string|null { return $this->get('confirmed_at'); }
     public function hasConfirmedAt(): bool { return $this->has('confirmed_at'); }
     /** Who confirmed the resolution. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getConfirmedBy(): mixed { return $this->get('confirmed_by'); }
+    public function getConfirmedBy(): ReturnActorPreviousAttributes|null { return $this->get('confirmed_by'); }
     public function hasConfirmedBy(): bool { return $this->has('confirmed_by'); }
     /** ID of the settled resolution this correction adjusts. Present only when `resolution_type` is `correction`. anyOf[1] (Value): string. ID of the settled resolution this correction adjusts. Present only when `resolution_type` is `correction`. anyOf[2] (Value): null.
      * @return string|null
@@ -115,19 +115,19 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Who created the resolution. anyOf[1] (Value): {@see ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReturnActorPreviousAttributes|null
      */
-    public function getCreatedBy(): mixed { return $this->get('created_by'); }
+    public function getCreatedBy(): ReturnActorPreviousAttributes|null { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
     /** Credits added by the resolution's adjustments. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getCreditAdjustmentMoney(): mixed { return $this->get('credit_adjustment_money'); }
+    public function getCreditAdjustmentMoney(): MoneyValuePreviousAttributes|null { return $this->get('credit_adjustment_money'); }
     public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** Deductions taken by the resolution's adjustments, such as a restocking fee. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getDeductionMoney(): mixed { return $this->get('deduction_money'); }
+    public function getDeductionMoney(): MoneyValuePreviousAttributes|null { return $this->get('deduction_money'); }
     public function hasDeductionMoney(): bool { return $this->has('deduction_money'); }
     /** What a confirmed resolution is still waiting for. Empty when nothing is. anyOf[1] (Value): Array of {@see ReturnResolutionExecutionBlockerPreviousAttributes}. What a confirmed resolution is still waiting for. Empty when nothing is. anyOf[1][] (Value): {@see ReturnResolutionExecutionBlockerPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<ReturnResolutionExecutionBlockerPreviousAttributes>|null
@@ -165,9 +165,9 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getLineItems(): array|null { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
     /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. anyOf[1] (Value): Array of string. IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -199,10 +199,10 @@ final class ReturnResolutionPreviousAttributes extends Model {
      */
     public function getReplacementLineItems(): array|null { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
-    /** Present only when `expand` includes `replacement_order`; `null` when expanded and there is no related order. anyOf[1] (Value): ({@see ExpandedOrderSummaryPreviousAttributes} or null). Present only when `expand` includes `replacement_order`; `null` when expanded and there is no related order. anyOf[1].anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Present only when `expand` includes `replacement_order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummaryPreviousAttributes|null
      */
-    public function getReplacementOrder(): mixed { return $this->get('replacement_order'); }
+    public function getReplacementOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('replacement_order'); }
     public function hasReplacementOrder(): bool { return $this->has('replacement_order'); }
     /** ID of the replacement Order Flint created for an exchange or replacement. Absent until it exists. anyOf[1] (Value): string. ID of the replacement Order Flint created for an exchange or replacement. Absent until it exists. anyOf[2] (Value): null.
      * @return string|null
@@ -210,9 +210,9 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getReplacementOrderId(): string|null { return $this->get('replacement_order_id'); }
     public function hasReplacementOrderId(): bool { return $this->has('replacement_order_id'); }
     /** Total of the replacement items the buyer receives. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReplacementTotalMoney(): mixed { return $this->get('replacement_total_money'); }
+    public function getReplacementTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('replacement_total_money'); }
     public function hasReplacementTotalMoney(): bool { return $this->has('replacement_total_money'); }
     /** What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[1] (Value): string. What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[2] (Value): null.
      * @return string|null
@@ -224,10 +224,10 @@ final class ReturnResolutionPreviousAttributes extends Model {
      */
     public function getReturnId(): string|null { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. anyOf[1] (Value): string or null. Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. anyOf[1] (Value): string. Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getReturnPolicyId(): mixed { return $this->get('return_policy_id'); }
+    public function getReturnPolicyId(): string|null { return $this->get('return_policy_id'); }
     public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
     /** ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections. anyOf[1] (Value): string. ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections. anyOf[2] (Value): null.
      * @return string|null
@@ -240,9 +240,9 @@ final class ReturnResolutionPreviousAttributes extends Model {
     public function getReturnResolutionId(): string|null { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
     /** Value of the returned units this resolution covers. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReturnedTotalMoney(): mixed { return $this->get('returned_total_money'); }
+    public function getReturnedTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
     /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled". anyOf[1] (Value): string. completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled". anyOf[2] (Value): null.
      * @return string|null

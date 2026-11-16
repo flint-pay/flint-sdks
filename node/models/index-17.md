@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes to InlineModifierGroupRequestInput
+# GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput to InventoryActionRequired
 
-- [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes.md)
 - [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput.md)
 - [GiftCardFundingSourceGiftCardRefund](GiftCardFundingSourceGiftCardRefund.md)
 - [GiftCardFundingSourceGiftCardRefundPreviousAttributes](GiftCardFundingSourceGiftCardRefundPreviousAttributes.md)
@@ -102,4 +101,5 @@
 - [InitialGiftCardFundingInput](InitialGiftCardFundingInput.md)
 - [InlineModifierGroupRequest](InlineModifierGroupRequest.md)
 - [InlineModifierGroupRequestInput](InlineModifierGroupRequestInput.md)
+- [InventoryActionRequired](InventoryActionRequired.md)
 

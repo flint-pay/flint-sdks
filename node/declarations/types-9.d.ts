@@ -1,5 +1,5 @@
-import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-16.js';
-import type { MetadataMap, MetadataRequestInput } from './types-41.js';
+import type { CustomerTaxExemptionCoverageRequestInput } from './types-16.js';
+import type { MetadataRequestInput, MetadataMap } from './types-41.js';
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
@@ -37,7 +37,6 @@ import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } fro
 import type {
     CreateFulfillmentRequestService,
     CreateFulfillmentRequestShipment,
-    CreateFulfillmentRequestPickupInput,
     CreateFulfillmentRequestServiceInput,
     CreateFulfillmentRequestShipmentInput
 } from './types-10.js';
@@ -50,69 +49,6 @@ import type {
     FulfillmentPackagingRequestInput
 } from './types-27.js';
 import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput } from './types-28.js';
-/** The request body for: Create a customer tax exemption. */
-export type CreateCustomerTaxExemptionRequest = {
-    /**
-     * Merchant's exemption certificate number. Null when none is recorded. minLength: 1.
-     * maxLength: 255.
-     */
-    "certificate_number"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. Replaced as a whole: send every
-     * field you want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage": CustomerTaxExemptionCoverage;
-    /**
-     * Explanation of the exemption. Required for other. Null when none is recorded. minLength: 1.
-     * maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no
-     * end date. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "end_date"?: string | null;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. Null when none is recorded. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string | null;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Exemption reason. Other requires a description. Value enum: "federal_government",
-     * "state_or_local_government", "tribal_government", "foreign_diplomat",
-     * "charitable_organization", "religious_organization", "educational_organization", "resale",
-     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
-     * "other".
-     */
-    "reason": "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {});
-    /**
-     * First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the
-     * future. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date": string;
-};
 /** The request body for: Create a customer tax exemption. */
 export type CreateCustomerTaxExemptionRequestInput = {
     /**
@@ -3703,3 +3639,100 @@ export type CreateFulfillmentRequestPickup = ({
     /** The kind of fulfillment. Value enum: "pickup". */
     "type": "pickup" | (string & {});
 });
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestPickupInput = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetailsInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequestInput}. An order line item and quantity to include
+     * when creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequestInput>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetailsInput;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequestInput;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetailsInput;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequestInput;
+    /** The kind of fulfillment. Value enum: "pickup". */
+    "type": "pickup";
+})
+    & (({
+    "shipment"?: never;
+}))
+    & (({
+    "local_delivery_details"?: never;
+}))
+    & (({
+    "digital_details"?: never;
+}))
+    & (({
+    "service_details"?: never;
+}));

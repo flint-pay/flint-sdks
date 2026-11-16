@@ -63,9 +63,9 @@ export type { UpdateInventoryAllocationPolicyRequestInput } from '../declaration
 export type { DisputesAcceptParams } from '../declarations/types-25.js';
 export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-80.js';
 export { makeInventoryAllocationPolicyConfigurationRequest, makeInventoryAllocationPolicyLocation } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
-export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-91.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
+export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-90.js';
 export interface InventoryAllocationPoliciesResource {
     /**
  * Create an allocation policy with its routing configuration. Idempotency is scoped to the

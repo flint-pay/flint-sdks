@@ -39,11 +39,10 @@ export type {
     TicketWithAdmissionCodeResponse,
     TicketsUndoCheckInParams,
     TicketsUpdateParams,
-    TicketsVoidParams,
-    TicketVersionRequestInput
+    TicketsVoidParams
 } from '../declarations/types-73.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
-export type { Ticket, TicketResponse, TicketListResponse } from '../declarations/types-72.js';
+export type { Ticket, TicketResponse, TicketListResponse, TicketVersionRequestInput } from '../declarations/types-72.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-5.js';
@@ -54,7 +53,7 @@ export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { MoneyValue, NextAction } from '../declarations/types-42.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-66.js';
+export type { SettlementAmounts } from '../declarations/types-65.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-39.js';
 export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-76.js';
@@ -62,7 +61,7 @@ export { makeCheckInTicketRequest } from '../declarations/types-78.js';
 export { makeLookupTicketRequest } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeTicketVersionRequest } from '../declarations/types-90.js';
-export { makeUpdateTicketRequest } from '../declarations/types-92.js';
+export { makeUpdateTicketRequest } from '../declarations/types-91.js';
 export interface TicketsResource {
     /**
  * Admits an issued ticket. Concurrent check-ins of one ticket admit it once: the others return 409

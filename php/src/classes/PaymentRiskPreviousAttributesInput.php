@@ -5,14 +5,14 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $evaluated_at
  * @property-read string|null $level
  * @property-read string|null $matched_risk_rule_id
- * @property-read string|null|null $outcome
- * @property-read string|null|null $outcome_reason
+ * @property-read string|null $outcome
+ * @property-read string|null $outcome_reason
  * @property-read string|null $payment_review_id
  * @property-read int|null $score
  * @property-read string|null $statement
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentRiskPreviousAttributesInput extends Model {
-    /** @param array{'evaluated_at'?: string|\DateTimeInterface|null, 'level'?: string|null, 'matched_risk_rule_id'?: string|null, 'outcome'?: string|null|null, 'outcome_reason'?: string|null|null, 'payment_review_id'?: string|null, 'score'?: int|null, 'statement'?: string|null, ...}|object $values */
+    /** @param array{'evaluated_at'?: string|\DateTimeInterface|null, 'level'?: string|null, 'matched_risk_rule_id'?: string|null, 'outcome'?: string|null, 'outcome_reason'?: string|null, 'payment_review_id'?: string|null, 'score'?: int|null, 'statement'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentRiskPreviousAttributesInput')); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      * @return string|\DateTimeInterface|null
@@ -32,14 +32,14 @@ final class PaymentRiskPreviousAttributesInput extends Model {
      */
     public function getMatchedRiskRuleId(): mixed { return $this->get('matched_risk_rule_id'); }
     public function hasMatchedRiskRuleId(): bool { return $this->has('matched_risk_rule_id'); }
-    /** What the risk evaluation decided about the payment intent's latest payment attempt. `null` when the evaluation has no outcome to report, such as when the attempt was canceled. Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null. anyOf[1] (Value): string or null. What the risk evaluation decided about the payment intent's latest payment attempt. `null` when the evaluation has no outcome to report, such as when the attempt was canceled. Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** What the risk evaluation decided about the payment intent's latest payment attempt. `null` when the evaluation has no outcome to report, such as when the attempt was canceled. Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null. anyOf[1] (Value): string. What the risk evaluation decided about the payment intent's latest payment attempt. `null` when the evaluation has no outcome to report, such as when the attempt was canceled. Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When outcome is omitted; use hasOutcome() or valueOrDefault().
      */
     public function getOutcome(): mixed { return $this->get('outcome'); }
     public function hasOutcome(): bool { return $this->has('outcome'); }
-    /** Why the evaluation reached its outcome. `null` when the evaluation has no reason to report, such as an authorized payment that raised no flags. Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null. anyOf[1] (Value): string or null. Why the evaluation reached its outcome. `null` when the evaluation has no reason to report, such as an authorized payment that raised no flags. Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null. anyOf[2] (Value): null.
-     * @return string|null|null
+    /** Why the evaluation reached its outcome. `null` when the evaluation has no reason to report, such as an authorized payment that raised no flags. Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null. anyOf[1] (Value): string. Why the evaluation reached its outcome. `null` when the evaluation has no reason to report, such as an authorized payment that raised no flags. Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null. anyOf[2] (Value): null.
+     * @return string|null
      * @throws SdkError When outcome_reason is omitted; use hasOutcomeReason() or valueOrDefault().
      */
     public function getOutcomeReason(): mixed { return $this->get('outcome_reason'); }

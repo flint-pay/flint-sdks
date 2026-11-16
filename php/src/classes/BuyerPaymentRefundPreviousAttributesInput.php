@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $amount_money
  * @property-read string|null $failure_reason
- * @property-read BuyerExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $payment_intent
+ * @property-read BuyerExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $payment_intent
  * @property-read string|null $payment_intent_id
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $refunded_platform_fee_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $refunded_tip_money
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $succeeded_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPaymentRefundPreviousAttributesInput extends Model {
-    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'failure_reason'?: string|null, 'payment_intent'?: BuyerExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'payment_intent_id'?: string|null, 'refunded_platform_fee_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refunded_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'failure_reason'?: string|null, 'payment_intent'?: BuyerExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'payment_intent_id'?: string|null, 'refunded_platform_fee_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refunded_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'succeeded_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentRefundPreviousAttributesInput')); }
     /** Amount refunded through this payment, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -26,8 +26,8 @@ final class BuyerPaymentRefundPreviousAttributesInput extends Model {
      */
     public function getFailureReason(): mixed { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): ({@see BuyerExpandedPaymentIntentSummaryPreviousAttributesInput} or null). The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummaryPreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return BuyerExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummaryPreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return BuyerExpandedPaymentIntentSummaryPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }

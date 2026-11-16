@@ -1,34 +1,35 @@
 import type {
-    DeliveryCalculatedPricingStrategyRequestInput,
-    DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput,
-    DeliveryFixedPricingStrategyRequestInput,
     DeliveryCalculatedPricingStrategy,
     DeliveryCallbackPricingStrategyRequest,
     DeliveryCallerSuppliedPricingStrategyRequest,
     DeliveryFixedPricingStrategy,
+    DeliveryCalculatedPricingStrategyRequestInput,
+    DeliveryCallbackPricingStrategyRequestInput,
+    DeliveryCallerSuppliedPricingStrategyRequestInput,
+    DeliveryFixedPricingStrategyRequestInput,
     DeliveryExternalPricingStrategy,
     DeliveryCalculatedPricingStrategyPreviousAttributes,
     DeliveryExternalPricingStrategyPreviousAttributes,
     DeliveryFixedPricingStrategyPreviousAttributes
 } from './types-18.js';
 import type {
-    DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRateTablePricingStrategyCreateRequest,
+    DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRateTablePricingStrategy,
     DeliveryRateTablePricingStrategyPreviousAttributes,
     DeliveryRateTablePricingStrategyRequest,
     DeliveryRateTablePricingStrategyRequestInput
 } from './types-23.js';
 import type {
-    DeliveryTieredPricingStrategyRequestInput,
     DeliveryTieredPricingStrategy,
+    DeliveryTieredPricingStrategyRequestInput,
     DeliveryTieredPricingStrategyPreviousAttributes
 } from './types-24.js';
 import type {
     DeliveryPricingStrategyCreateInputCalculated,
     DeliveryPricingStrategyCreateInputCallback,
     DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput,
     DeliveryPricingStrategyCalculatedPreviousAttributes,
     DeliveryPricingStrategyCallbackPreviousAttributes,
     DeliveryPricingStrategyCallerSuppliedPreviousAttributes
@@ -44,75 +45,6 @@ import type { MetadataMap, MerchantWebhookEnvelope } from './types-41.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
 import type { WebhookDeliveryProfile } from './types-76.js';
 import type { ResponseMeta } from './types-60.js';
-/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
-export type DeliveryPricingStrategyCreateInputCallbackInput = ({
-    /**
-     * Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery
-     * pricing you supply for a delivery method: base fee, distance and weight rates, per-item
-     * handling, and fee limits, by currency.
-     */
-    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryCallbackPricingStrategyRequestInput;
-    /**
-     * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery
-     * pricing where you supply the rate when creating a delivery quote, bounded by minimum and
-     * maximum fees by currency.
-     */
-    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-    /**
-     * Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency,
-     * supplied for a delivery method.
-     */
-    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-    /**
-     * Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing
-     * strategy you supply when creating a delivery method: a list of prioritized rates, each with
-     * a condition and prices.
-     */
-    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
-    /**
-     * Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you
-     * supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit`
-     * when the basis is total weight.
-     */
-    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": "callback";
-})
-    & (({
-    /**
-     * How the method sets its price. Set the property named by this value. Value enum: "callback".
-     */
-    "type": ("callback") & ("callback");
-    /**
-     * Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you
-     * supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum
-     * and maximum fees by currency.
-     */
-    "callback": DeliveryCallbackPricingStrategyRequestInput;
-})
-    & (({
-    "calculated"?: never;
-})
-    & ({
-    "caller_supplied"?: never;
-})
-    & ({
-    "fixed"?: never;
-})
-    & ({
-    "rate_table"?: never;
-})
-    & ({
-    "tiered"?: never;
-})));
 /** The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`. */
 export type DeliveryPricingStrategyCreateInputCallerSupplied = ({
     /**
@@ -762,32 +694,32 @@ export type DeliveryPricingStrategyFixedPreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum: "fixed".
      * anyOf[1] (Value): string. How the method sets its price. Set the property named by this
@@ -1548,32 +1480,32 @@ export type DeliveryPricingStrategyPreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum: "fixed",
      * "rate_table", "tiered", "calculated", "callback", "caller_supplied". anyOf[1] (Value):
@@ -1652,32 +1584,32 @@ export type DeliveryPricingStrategyRateTablePreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum:
      * "rate_table". anyOf[1] (Value): string. How the method sets its price. Set the property
@@ -1857,32 +1789,32 @@ export type DeliveryPricingStrategyTieredPreviousAttributes = ({
      * Calculated pricing settings. Set only when `type` is `calculated`. anyOf[1] (Value): {@link
      * DeliveryCalculatedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "calculated"?: ((DeliveryCalculatedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate callback pricing settings. Set only when `type` is `callback`. anyOf[1] (Value): {@link
      * DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "callback"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. anyOf[1]
      * (Value): {@link DeliveryExternalPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "caller_supplied"?: ((DeliveryExternalPricingStrategyPreviousAttributes) | (null));
     /**
      * Fixed pricing settings. Set only when `type` is `fixed`. anyOf[1] (Value): {@link
      * DeliveryFixedPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "fixed"?: ((DeliveryFixedPricingStrategyPreviousAttributes) | (null));
     /**
      * Rate table pricing settings. Set only when `type` is `rate_table`. anyOf[1] (Value): {@link
      * DeliveryRateTablePricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null) | (unknown));
+    "rate_table"?: ((DeliveryRateTablePricingStrategyPreviousAttributes) | (null));
     /**
      * Tiered pricing settings. Set only when `type` is `tiered`. anyOf[1] (Value): {@link
      * DeliveryTieredPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null) | (unknown));
+    "tiered"?: ((DeliveryTieredPricingStrategyPreviousAttributes) | (null));
     /**
      * How the method sets its price. Set the property named by this value. Value enum: "tiered".
      * anyOf[1] (Value): string. How the method sets its price. Set the property named by this
@@ -2028,13 +1960,13 @@ export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope &
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_profile_revision_id"?: ((string) | (null));
             "delivery_profile_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -2052,13 +1984,13 @@ export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope &
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_profile_revision_id"?: ((string) | (null));
             "delivery_profile_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -2186,7 +2118,7 @@ export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
              * DeliveryProfileConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             /**
              * Time the profile was created. anyOf[1] (Value): string. Time the profile was
              * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2219,7 +2151,7 @@ export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
              * name. anyOf[2] (Value): null.
@@ -2391,7 +2323,7 @@ export type DeliveryProfileArchivedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
              * DeliveryProfileConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             /**
              * Time the profile was created. anyOf[1] (Value): string. Time the profile was
              * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2424,7 +2356,7 @@ export type DeliveryProfileArchivedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
              * name. anyOf[2] (Value): null.
@@ -3110,7 +3042,7 @@ export type DeliveryProfileConfigurationPreviousAttributes = {
      * inventory. method_origin forbids location_id. anyOf[1] (Value): {@link
      * DeliveryProfileOriginPolicyPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "origin_policy"?: ((DeliveryProfileOriginPolicyPreviousAttributes) | (null) | (unknown));
+    "origin_policy"?: ((DeliveryProfileOriginPolicyPreviousAttributes) | (null));
     /**
      * Whether delivery planning applies. none forbids every other configuration field. required
      * also requires resolution_mode and allowed_types, plus the fields required by that resolution
@@ -3495,3 +3427,20 @@ export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
     /** Where items under the profile leave from. Value enum: "method_origin". */
     "type": unknown;
 }));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
+    /**
+     * ID of the Location items leave from. Required for `fixed_location` and not allowed
+     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /** Where items under the profile leave from. Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    /** Where items under the profile leave from. Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    "location_id"?: never;
+})));

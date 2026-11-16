@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# DeclinePaymentReviewRequest to DeliveryLocationSetResponse
+# DeclinePaymentReviewRequestInput to DeliveryLocationSetUpdatedInstalledMerchantsEvent
 
-- [DeclinePaymentReviewRequest](DeclinePaymentReviewRequest.md)
 - [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
 - [DeferredPromotion](DeferredPromotion.md)
 - [DeferredPromotionPreviousAttributes](DeferredPromotionPreviousAttributes.md)
@@ -102,4 +101,5 @@
 - [DeliveryLocationSetCreatedMerchantEvent](DeliveryLocationSetCreatedMerchantEvent.md)
 - [DeliveryLocationSetListResponse](DeliveryLocationSetListResponse.md)
 - [DeliveryLocationSetResponse](DeliveryLocationSetResponse.md)
+- [DeliveryLocationSetUpdatedInstalledMerchantsEvent](DeliveryLocationSetUpdatedInstalledMerchantsEvent.md)
 

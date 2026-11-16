@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $canceled_reason
  * @property-read string|null $checkout_session_id
  * @property-read string|null $collected_at
@@ -12,10 +12,10 @@ namespace Flint;
  * @property-read string|null $partner_app_install_id
  * @property-read string|null $payment_intent_id
  * @property-read string|null $platform_fee_id
- * @property-read mixed $refunded_money
- * @property-read mixed $requested_amount_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_money
+ * @property-read MoneyValuePreviousAttributes|null $requested_amount_money
  * @property-read string|null $reserve_available_at
- * @property-read mixed $reserve_hold_money
+ * @property-read MoneyValuePreviousAttributes|null $reserve_hold_money
  * @property-read string|null $status
  * @property-read string|null $updated_at
  * @property-read int|null $version
@@ -24,9 +24,9 @@ final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'canceled_reason'?: mixed, 'checkout_session_id'?: mixed, 'collected_at'?: mixed, 'created_at'?: mixed, 'merchant_id'?: mixed, 'partner_app_id'?: mixed, 'partner_app_install_id'?: mixed, 'payment_intent_id'?: mixed, 'platform_fee_id'?: mixed, 'refunded_money'?: mixed, 'requested_amount_money'?: mixed, 'reserve_available_at'?: mixed, 'reserve_hold_money'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeCanceledEventDataPreviousAttributes')); }
     /** The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Why Flint collected no fee. Present only when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "platform_capability_inactive", "uncollectible". anyOf[1] (Value): string. Why Flint collected no fee. Present only when status is canceled. Can gain values. Value enum: "payment_not_completed", "install_revoked", "platform_capability_inactive", "uncollectible". anyOf[2] (Value): null.
      * @return string|null
@@ -74,14 +74,14 @@ final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
     public function getPlatformFeeId(): string|null { return $this->get('platform_fee_id'); }
     public function hasPlatformFeeId(): bool { return $this->has('platform_fee_id'); }
     /** The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
+    public function getRefundedMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
     /** The fee the request asked for. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRequestedAmountMoney(): mixed { return $this->get('requested_amount_money'); }
+    public function getRequestedAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('requested_amount_money'); }
     public function hasRequestedAmountMoney(): bool { return $this->has('requested_amount_money'); }
     /** When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. anyOf[1] (Value): string. When the held share is due to return to your available balance. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -89,9 +89,9 @@ final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
     public function getReserveAvailableAt(): string|null { return $this->get('reserve_available_at'); }
     public function hasReserveAvailableAt(): bool { return $this->has('reserve_available_at'); }
     /** The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getReserveHoldMoney(): mixed { return $this->get('reserve_hold_money'); }
+    public function getReserveHoldMoney(): MoneyValuePreviousAttributes|null { return $this->get('reserve_hold_money'); }
     public function hasReserveHoldMoney(): bool { return $this->has('reserve_hold_money'); }
     /** Where the fee stands. canceled is final. Value enum: "pending", "succeeded", "canceled". anyOf[1] (Value): string. Where the fee stands. canceled is final. Value enum: "pending", "succeeded", "canceled". anyOf[2] (Value): null.
      * @return string|null

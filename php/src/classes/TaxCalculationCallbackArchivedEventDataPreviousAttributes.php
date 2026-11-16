@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read int|null $circuit_failure_count
  * @property-read string|null $circuit_state
- * @property-read mixed $configuration
+ * @property-read TaxCalculationCallbackConfigurationPreviousAttributes|null $configuration
  * @property-read string|null $created_at
  * @property-read string|null $current_tax_calculation_callback_revision_id
  * @property-read string|null $external_reference_id
@@ -31,9 +31,9 @@ final class TaxCalculationCallbackArchivedEventDataPreviousAttributes extends Mo
     public function getCircuitState(): string|null { return $this->get('circuit_state'); }
     public function hasCircuitState(): bool { return $this->has('circuit_state'); }
     /** The endpoint URL and request limits. anyOf[1] (Value): {@see TaxCalculationCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return TaxCalculationCallbackConfigurationPreviousAttributes|null
      */
-    public function getConfiguration(): mixed { return $this->get('configuration'); }
+    public function getConfiguration(): TaxCalculationCallbackConfigurationPreviousAttributes|null { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

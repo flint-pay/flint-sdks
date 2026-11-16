@@ -48,9 +48,9 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | --- | --- | --- | --- |
 | `admission_code` | Optional | string or null | The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid checkout session's own paying credential receives it, on its own order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads or requests after payment never does. Returned only to the checkout credential; never in webhook payloads. `admission_code`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesadmission_code). |
 | `admission_code_last4` | Optional | string or null | Last four characters of the current admission code. `admission_code_last4`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesadmission_code_last4). |
-| `attendee_name` | Optional | string or null or null | Optional attendee name. Null when not supplied. `attendee_name`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesattendee_name). |
-| `check_in_method` | Optional | (string or null) or null | How the ticket was admitted. Null when the ticket is not checked in. Values: `"admission_code"`, `"manual"`. `check_in_method`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributescheck_in_method). |
-| `checked_in_at` | Optional | string or null or null | When the ticket was admitted. Null when the ticket is not checked in. `checked_in_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributeschecked_in_at). |
+| `attendee_name` | Optional | string or null | Optional attendee name. Null when not supplied. `attendee_name`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesattendee_name). |
+| `check_in_method` | Optional | string or null | How the ticket was admitted. Null when the ticket is not checked in. Values: `"admission_code"`, `"manual"`. `check_in_method`: [declared alternatives](../models/TicketInput.md#ticketinputcheck_in_method). |
+| `checked_in_at` | Optional | string or null | When the ticket was admitted. Null when the ticket is not checked in. `checked_in_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributeschecked_in_at). |
 | `created_at` | Optional | string or null | When the ticket was issued. `created_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributescreated_at). |
 | `order` | Optional | [ExpandedOrderSummaryPreviousAttributesInput](../models/ExpandedOrderSummaryPreviousAttributesInput.md#expandedordersummarypreviousattributesinput) or null | Order summary, present only with expand=order. Requires commerce.orders.read. |
 | `order_id` | Optional | string or null | The order that purchased this ticket. `order_id`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesorder_id). |
@@ -62,7 +62,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `ticket_number` | Optional | string or null | The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize entry. `ticket_number`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesticket_number). |
 | `updated_at` | Optional | string or null | When the ticket last changed. `updated_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion). |
-| `voided_at` | Optional | string or null or null | When the ticket was permanently voided. Null when the ticket has not been voided. `voided_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesvoided_at). |
+| `voided_at` | Optional | string or null | When the ticket was permanently voided. Null when the ticket has not been voided. `voided_at`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEventInput.md#ticketcheckedininstalledmerchantseventinputdataprevious_attributesvoided_at). |
 
 ### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.admission_code
 
@@ -98,7 +98,7 @@ anyOf variant 2.
 
 anyOf variant 1: Optional attendee name. Null when not supplied..
 
-- Value shape: (string or null). Optional attendee name. Null when not supplied. Optional attendee name. Null when not supplied. minLength: `1`. maxLength: `200`. 
+- Value shape: string. Optional attendee name. Null when not supplied. Optional attendee name. Null when not supplied. minLength: `1`. maxLength: `200`. 
 
 ### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.attendee_name variant 2
 
@@ -108,17 +108,7 @@ anyOf variant 2.
 
 ### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.check_in_method
 
-### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.check_in_method variant 1
-
-anyOf variant 1: How the ticket was admitted. Null when the ticket is not checked in.; anyOf variant 1.
-
-- Value shape: string. How the ticket was admitted. Null when the ticket is not checked in. Values: `"admission_code"`, `"manual"`.
-
-### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.check_in_method variant 2, 3
-
-anyOf variant 1: How the ticket was admitted. Null when the ticket is not checked in.; anyOf variant 2; anyOf variant 2.
-
-- Value shape: null. How the ticket was admitted. Null when the ticket is not checked in. 
+Declared alternatives: [TicketInput.check_in_method](../models/TicketInput.md#ticketinputcheck_in_method).
 
 ### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.checked_in_at
 
@@ -126,7 +116,7 @@ anyOf variant 1: How the ticket was admitted. Null when the ticket is not checke
 
 anyOf variant 1: When the ticket was admitted. Null when the ticket is not checked in..
 
-- Value shape: (string or null). When the ticket was admitted. Null when the ticket is not checked in. When the ticket was admitted. Null when the ticket is not checked in. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the ticket was admitted. Null when the ticket is not checked in. When the ticket was admitted. Null when the ticket is not checked in. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.checked_in_at variant 2
 
@@ -270,7 +260,7 @@ Declared alternatives: [BuyerExpandedPaymentIntentSummaryPreviousAttributesInput
 
 anyOf variant 1: When the ticket was permanently voided. Null when the ticket has not been voided..
 
-- Value shape: (string or null). When the ticket was permanently voided. Null when the ticket has not been voided. When the ticket was permanently voided. Null when the ticket has not been voided. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the ticket was permanently voided. Null when the ticket has not been voided. When the ticket was permanently voided. Null when the ticket has not been voided. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### TicketCheckedInInstalledMerchantsEventInput.data.previous_attributes.voided_at variant 2
 

@@ -6,11 +6,11 @@ namespace Flint;
  * @property-read string|null $environment_grant_id
  * @property-read list<PartnerAppPermissionManifestEntryPreviousAttributes>|null $granted_permissions
  * @property-read list<string>|null $granted_scopes
- * @property-read mixed $merchant_readiness
+ * @property-read PartnerAppMerchantReadinessPreviousAttributes|null $merchant_readiness
  * @property-read string|null $mode
  * @property-read string|null $partner_app_install_id
- * @property-read mixed $payment_splits
- * @property-read mixed $platform_fee_cap
+ * @property-read PartnerEnvironmentGrantPaymentSplitsPreviousAttributes|null $payment_splits
+ * @property-read PlatformFeeCapPreviousAttributes|null $platform_fee_cap
  * @property-read string|null $revoked_at
  * @property-read string|null $revoked_by_user_id
  * @property-read string|null $sandbox_id
@@ -42,9 +42,9 @@ final class EnvironmentGrantUpdatedEventDataPreviousAttributes extends Model {
     public function getGrantedScopes(): array|null { return $this->get('granted_scopes'); }
     public function hasGrantedScopes(): bool { return $this->has('granted_scopes'); }
     /** The installed merchant’s payments and payouts readiness in this grant’s environment, summarized for the app’s owner: the `status` and `status_reason` that a partner app token in the grant’s mode reads from `readiness` on GET /v1/merchant for this merchant, without requirement names or next actions. Present when the app’s owner lists installs or gets one, on an active grant of an active install of an active app, when the grant holds `merchants.profile.read` or `merchants.profile.write` within the app’s `allowed_scopes` and the merchant and the grant’s environment are active. Absent on other grants, on the installing merchant’s own install reads, on revoke results, and in webhook events. To see which requirements are due, read the merchant with a partner app token in the grant’s mode. anyOf[1] (Value): {@see PartnerAppMerchantReadinessPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PartnerAppMerchantReadinessPreviousAttributes|null
      */
-    public function getMerchantReadiness(): mixed { return $this->get('merchant_readiness'); }
+    public function getMerchantReadiness(): PartnerAppMerchantReadinessPreviousAttributes|null { return $this->get('merchant_readiness'); }
     public function hasMerchantReadiness(): bool { return $this->has('merchant_readiness'); }
     /** Environment used for this resource or request. Value enum: "test", "live". anyOf[1] (Value): string. Environment used for this resource or request. Value enum: "test", "live". anyOf[2] (Value): null.
      * @return string|null
@@ -57,14 +57,14 @@ final class EnvironmentGrantUpdatedEventDataPreviousAttributes extends Model {
     public function getPartnerAppInstallId(): string|null { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
     /** The merchant's approval to receive split funds from the app in this mode, present while it lasts. A merchant approves by authorizing an app that declares payment_splits. The approval ends when the app removes payment_splits, or when the merchant or you revoke this grant or the install; authorizing again approves again. A payment's splits to this seller need the approval in the payment's mode. anyOf[1] (Value): {@see PartnerEnvironmentGrantPaymentSplitsPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PartnerEnvironmentGrantPaymentSplitsPreviousAttributes|null
      */
-    public function getPaymentSplits(): mixed { return $this->get('payment_splits'); }
+    public function getPaymentSplits(): PartnerEnvironmentGrantPaymentSplitsPreviousAttributes|null { return $this->get('payment_splits'); }
     public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
     /** The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. No request accepts a platform fee yet. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return PlatformFeeCapPreviousAttributes|null
      */
-    public function getPlatformFeeCap(): mixed { return $this->get('platform_fee_cap'); }
+    public function getPlatformFeeCap(): PlatformFeeCapPreviousAttributes|null { return $this->get('platform_fee_cap'); }
     public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

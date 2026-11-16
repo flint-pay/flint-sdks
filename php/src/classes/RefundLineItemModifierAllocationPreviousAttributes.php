@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $allocation_basis
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $modifier_group_name
  * @property-read string|null $name
  * @property-read string|null $order_line_item_modifier_id
@@ -23,9 +23,9 @@ final class RefundLineItemModifierAllocationPreviousAttributes extends Model {
     public function getAllocationBasis(): string|null { return $this->get('allocation_basis'); }
     public function hasAllocationBasis(): bool { return $this->has('allocation_basis'); }
     /** Part of the line's refund that applies to this modifier. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Name of the modifier group the modifier belongs to. anyOf[1] (Value): string. Name of the modifier group the modifier belongs to. anyOf[2] (Value): null.
      * @return string|null

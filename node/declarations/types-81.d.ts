@@ -1,11 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateOrderTipInput,
-    CreateOrderTipAmountInput,
-    CreateOrderTipPercentInput,
-    CreatePackageItemRequestInput
-} from './types-11.js';
-import type {
     CreatePackageRequestInput,
     CreatePackageRequestCreatedInput,
     CreatePackageRequestShippedInput,
@@ -35,10 +29,10 @@ import type {
     CreateRefundRequestCreditNoteInput,
     CreateRefundRequestFullInput,
     CreateRefundRequestTargetsInput,
-    CreateReportRequestInput
+    CreateReportRequestInput,
+    CreateReturnDispositionRequestInput
 } from './types-12.js';
 import type {
-    CreateReturnDispositionRequestInput,
     CreateReturnDispositionRequestInspectionLineInput,
     CreateReturnDispositionRequestReceiptLineInput,
     CreateReturnEligibilityPreviewRequestInput,
@@ -69,12 +63,12 @@ import type {
 import type {
     CreateShipmentRequestReturnInput,
     CreateSmartReaderRequestInput,
-    CreateSubscriptionAccessLinkRequestInput
+    CreateSubscriptionAccessLinkRequestInput,
+    CreateSubscriptionDeliveryMigrationRequestInput,
+    CreateSubscriptionLineItemRequestInput,
+    CreateSubscriptionLineItemRequestBundleInput,
+    CreateSubscriptionLineItemRequestVariantInput
 } from './types-14.js';
-export declare function makeCreateOrderTip(value: InputValue<CreateOrderTipInput>): Model<CreateOrderTipInput>;
-export declare function makeCreateOrderTipAmount(value: InputValue<CreateOrderTipAmountInput>): Model<CreateOrderTipAmountInput>;
-export declare function makeCreateOrderTipPercent(value: InputValue<CreateOrderTipPercentInput>): Model<CreateOrderTipPercentInput>;
-export declare function makeCreatePackageItemRequest(value: InputValue<CreatePackageItemRequestInput>): Model<CreatePackageItemRequestInput>;
 export declare function makeCreatePackageRequest(value: InputValue<CreatePackageRequestInput>): Model<CreatePackageRequestInput>;
 export declare function makeCreatePackageRequestCreated(value: InputValue<CreatePackageRequestCreatedInput>): Model<CreatePackageRequestCreatedInput>;
 export declare function makeCreatePackageRequestShipped(value: InputValue<CreatePackageRequestShippedInput>): Model<CreatePackageRequestShippedInput>;
@@ -137,3 +131,7 @@ export declare function makeCreateShipmentRequestOutbound(value: InputValue<Crea
 export declare function makeCreateShipmentRequestReturn(value: InputValue<CreateShipmentRequestReturnInput>): Model<CreateShipmentRequestReturnInput>;
 export declare function makeCreateSmartReaderRequest(value: InputValue<CreateSmartReaderRequestInput>): Model<CreateSmartReaderRequestInput>;
 export declare function makeCreateSubscriptionAccessLinkRequest(value: InputValue<CreateSubscriptionAccessLinkRequestInput>): Model<CreateSubscriptionAccessLinkRequestInput>;
+export declare function makeCreateSubscriptionDeliveryMigrationRequest(value: InputValue<CreateSubscriptionDeliveryMigrationRequestInput>): Model<CreateSubscriptionDeliveryMigrationRequestInput>;
+export declare function makeCreateSubscriptionLineItemRequest(value: InputValue<CreateSubscriptionLineItemRequestInput>): Model<CreateSubscriptionLineItemRequestInput>;
+export declare function makeCreateSubscriptionLineItemRequestBundle(value: InputValue<CreateSubscriptionLineItemRequestBundleInput>): Model<CreateSubscriptionLineItemRequestBundleInput>;
+export declare function makeCreateSubscriptionLineItemRequestVariant(value: InputValue<CreateSubscriptionLineItemRequestVariantInput>): Model<CreateSubscriptionLineItemRequestVariantInput>;

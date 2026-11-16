@@ -10,10 +10,10 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `original_consideration_money` | Optional | ([MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null) or null | What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded. `original_consideration_money`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesoriginal_consideration_money). |
+| `original_consideration_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded. `original_consideration_money`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesoriginal_consideration_money). |
 | `original_created_at` | Optional | string or null | When the original funding load was created. RFC3339 timestamp. `original_created_at`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesoriginal_created_at). |
 | `original_source` | Optional | object and [GiftCardFundingSourcePreviousAttributes](../models/GiftCardFundingSourcePreviousAttributes.md#giftcardfundingsourcepreviousattributes) and ([GiftCardFundingSourceExternalPaymentPreviousAttributes](../models/GiftCardFundingSourceExternalPaymentPreviousAttributes.md#giftcardfundingsourceexternalpaymentpreviousattributes) or [GiftCardFundingSourceFlintPaymentPreviousAttributes](../models/GiftCardFundingSourceFlintPaymentPreviousAttributes.md#giftcardfundingsourceflintpaymentpreviousattributes) or [GiftCardFundingSourceFlintManualPaymentPreviousAttributes](../models/GiftCardFundingSourceFlintManualPaymentPreviousAttributes.md#giftcardfundingsourceflintmanualpaymentpreviousattributes) or [GiftCardFundingSourceImportPreviousAttributes](../models/GiftCardFundingSourceImportPreviousAttributes.md#giftcardfundingsourceimportpreviousattributes) or [GiftCardFundingSourceAdjustmentPreviousAttributes](../models/GiftCardFundingSourceAdjustmentPreviousAttributes.md#giftcardfundingsourceadjustmentpreviousattributes) or [GiftCardFundingSourceGiftCardRefundPreviousAttributes](../models/GiftCardFundingSourceGiftCardRefundPreviousAttributes.md#giftcardfundingsourcegiftcardrefundpreviousattributes) or [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes](../models/GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributes.md#giftcardfundingsourcegiftcardpurchaserefundrecoverypreviousattributes) or [GiftCardFundingSourceStoreCreditPreviousAttributes](../models/GiftCardFundingSourceStoreCreditPreviousAttributes.md#giftcardfundingsourcestorecreditpreviousattributes)) or null | Where the original funding value came from. `original_source`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesoriginal_source). |
-| `original_source_created_at` | Optional | string or null or null | When the original funding value was received, as recorded on that load. `null` when no source time was recorded. `original_source_created_at`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesoriginal_source_created_at). |
+| `original_source_created_at` | Optional | string or null | When the original funding value was received, as recorded on that load. `null` when no source time was recorded. `original_source_created_at`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesoriginal_source_created_at). |
 | `refund_allocation_id` | Optional | string or null | ID of the refund tender allocation that created this load. Empty when a failed gift card purchase refund created it. `refund_allocation_id`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesrefund_allocation_id). |
 | `root_gift_card_id` | Optional | string or null | ID of the gift card that holds the original funding load. It stays the same through any number of replacement refunds. `root_gift_card_id`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesroot_gift_card_id). |
 | `root_gift_card_load_id` | Optional | string or null | ID of the original funding load. It stays the same through any number of replacement refunds. `root_gift_card_load_id`: [declared alternatives](../models/GiftCardRefundProvenancePreviousAttributes.md#giftcardrefundprovenancepreviousattributesroot_gift_card_load_id). |
@@ -30,13 +30,13 @@ Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promo
 
 ### GiftCardRefundProvenancePreviousAttributes.original_consideration_money variant 1
 
-anyOf variant 1: What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded.; anyOf MoneyValuePreviousAttributes.
+anyOf MoneyValuePreviousAttributes.
 
 - Optional: `amount`, `currency`.
 
-### GiftCardRefundProvenancePreviousAttributes.original_consideration_money variant 2, 3
+### GiftCardRefundProvenancePreviousAttributes.original_consideration_money variant 2
 
-anyOf variant 1: What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded.; anyOf variant 2; anyOf variant 2.
+anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. What the buyer paid for the original funding load. It describes that load, never a new payment. `null` when no payment amount was recorded. 
@@ -594,7 +594,7 @@ Declared alternatives: [GiftCardFundingSourceAdjustmentPreviousAttributes.refund
 
 anyOf variant 1: When the original funding value was received, as recorded on that load. `null` when no source time was recorded..
 
-- Value shape: (string or null). When the original funding value was received, as recorded on that load. `null` when no source time was recorded. When the original funding value was received, as recorded on that load. `null` when no source time was recorded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the original funding value was received, as recorded on that load. `null` when no source time was recorded. When the original funding value was received, as recorded on that load. `null` when no source time was recorded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### GiftCardRefundProvenancePreviousAttributes.original_source_created_at variant 2
 

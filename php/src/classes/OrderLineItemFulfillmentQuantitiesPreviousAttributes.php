@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int|null $assigned_quantity
- * @property-read mixed $bundle_component_id
+ * @property-read string|null $bundle_component_id
  * @property-read int|null $canceled_quantity
  * @property-read int|null $failed_quantity
  * @property-read int|null $fulfilled_quantity
@@ -19,10 +19,10 @@ final class OrderLineItemFulfillmentQuantitiesPreviousAttributes extends Model {
      */
     public function getAssignedQuantity(): int|null { return $this->get('assigned_quantity'); }
     public function hasAssignedQuantity(): bool { return $this->has('assigned_quantity'); }
-    /** ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. anyOf[1] (Value): string or null. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. anyOf[2] (Value): null.
-     * @return mixed
+    /** ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. anyOf[1] (Value): string. ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getBundleComponentId(): mixed { return $this->get('bundle_component_id'); }
+    public function getBundleComponentId(): string|null { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
     /** Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled or no_show fulfillments. anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled or no_show fulfillments. Format: int64. anyOf[2] (Value): null.
      * @return int|null

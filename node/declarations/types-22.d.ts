@@ -4,6 +4,7 @@ import type {
     DeliveryProfileOriginPolicyInputMethodOrigin,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
     DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput,
     DeliveryProfile,
     DeliveryProfileConfigurationPreviousAttributes
 } from './types-21.js';
@@ -41,23 +42,6 @@ import type { DeliveryAddressAdvisoryResource, DeliveryAddressAdvisoryResourcePr
 import type { MoneyValue } from './types-42.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-25.js';
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
-    /**
-     * ID of the Location items leave from. Required for `fixed_location` and not allowed
-     * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /** Where items under the profile leave from. Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    /** Where items under the profile leave from. Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    "location_id"?: never;
-})));
 export type DeliveryProfileOriginPolicyPreviousAttributes = {
     /**
      * ID of the Location items leave from. Required for `fixed_location` and not allowed
@@ -184,13 +168,13 @@ export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_profile_revision_id"?: ((string) | (null));
             "delivery_profile_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -208,13 +192,13 @@ export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             [key: string]: unknown;
         })
             & ({
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_profile_revision_id"?: ((string) | (null));
             "delivery_profile_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "is_default"?: ((boolean) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             "name"?: ((string) | (null));
             "status"?: (("active" | "archived" | (string & {})) | (null));
             "updated_at"?: ((string) | (null));
@@ -342,7 +326,7 @@ export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
              * DeliveryProfileConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             /**
              * Time the profile was created. anyOf[1] (Value): string. Time the profile was
              * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -375,7 +359,7 @@ export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
              * name. anyOf[2] (Value): null.
@@ -547,7 +531,7 @@ export type DeliveryProfileUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
              * DeliveryProfileConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryProfileConfigurationPreviousAttributes) | (null));
             /**
              * Time the profile was created. anyOf[1] (Value): string. Time the profile was
              * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -580,7 +564,7 @@ export type DeliveryProfileUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
              * null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
              * name. anyOf[2] (Value): null.
@@ -1610,7 +1594,7 @@ export type DeliveryRadiusConditionPreviousAttributes = {
      * The largest distance from the origin that still matches. anyOf[1] (Value): {@link
      * DeliveryDistancePreviousAttributes}. anyOf[2] (Value): null.
      */
-    "maximum_distance"?: ((DeliveryDistancePreviousAttributes) | (null) | (unknown));
+    "maximum_distance"?: ((DeliveryDistancePreviousAttributes) | (null));
     /**
      * How Flint measures the distance. Value enum: "straight_line". anyOf[1] (Value): string. How
      * Flint measures the distance. Default: "straight_line". Value enum: "straight_line". anyOf[2]
@@ -1621,7 +1605,7 @@ export type DeliveryRadiusConditionPreviousAttributes = {
      * The point to measure the distance from. anyOf[1] (Value): {@link
      * DeliveryRadiusOriginPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "origin"?: ((DeliveryRadiusOriginPreviousAttributes) | (null) | (unknown));
+    "origin"?: ((DeliveryRadiusOriginPreviousAttributes) | (null));
     /**
      * Address facts tested by this condition. destination_address is the shipping destination.
      * buyer_location is the buyer's current pickup or local-delivery location. Value enum:
@@ -1775,11 +1759,11 @@ export type DeliveryRateCallbackActivatedEvent = ((((Exclude<MerchantWebhookEnve
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -1815,11 +1799,11 @@ export type DeliveryRateCallbackActivatedEvent = ((((Exclude<MerchantWebhookEnve
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -1909,16 +1893,16 @@ export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<Part
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -2073,16 +2057,16 @@ export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<Part
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -2132,7 +2116,7 @@ export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<Part
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2155,14 +2139,14 @@ export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<Part
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -2314,16 +2298,16 @@ export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhoo
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -2478,16 +2462,16 @@ export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhoo
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -2537,7 +2521,7 @@ export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhoo
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -2560,14 +2544,14 @@ export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhoo
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -2641,11 +2625,11 @@ export type DeliveryRateCallbackArchivedEvent = ((((Exclude<MerchantWebhookEnvel
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -2681,11 +2665,11 @@ export type DeliveryRateCallbackArchivedEvent = ((((Exclude<MerchantWebhookEnvel
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -2775,16 +2759,16 @@ export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<Partn
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -2939,16 +2923,16 @@ export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<Partn
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -2998,7 +2982,7 @@ export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<Partn
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3021,14 +3005,14 @@ export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<Partn
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -3180,16 +3164,16 @@ export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhook
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -3344,16 +3328,16 @@ export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhook
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -3403,7 +3387,7 @@ export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhook
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3426,14 +3410,14 @@ export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhook
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -4141,11 +4125,11 @@ export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEn
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -4181,11 +4165,11 @@ export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEn
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -4275,16 +4259,16 @@ export type DeliveryRateCallbackDeactivatedInstalledMerchantsEvent = (Exclude<Pa
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -4439,16 +4423,16 @@ export type DeliveryRateCallbackDeactivatedInstalledMerchantsEvent = (Exclude<Pa
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -4498,7 +4482,7 @@ export type DeliveryRateCallbackDeactivatedInstalledMerchantsEvent = (Exclude<Pa
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -4521,14 +4505,14 @@ export type DeliveryRateCallbackDeactivatedInstalledMerchantsEvent = (Exclude<Pa
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -4680,16 +4664,16 @@ export type DeliveryRateCallbackDeactivatedMerchantEvent = (Exclude<MerchantWebh
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -4844,16 +4828,16 @@ export type DeliveryRateCallbackDeactivatedMerchantEvent = (Exclude<MerchantWebh
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -4903,7 +4887,7 @@ export type DeliveryRateCallbackDeactivatedMerchantEvent = (Exclude<MerchantWebh
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -4926,14 +4910,14 @@ export type DeliveryRateCallbackDeactivatedMerchantEvent = (Exclude<MerchantWebh
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -5122,11 +5106,11 @@ export type DeliveryRateCallbackUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -5162,11 +5146,11 @@ export type DeliveryRateCallbackUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             & ({
             "circuit_failure_count"?: ((number) | (null));
             "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             "created_at"?: ((string) | (null));
             "current_delivery_rate_callback_revision_id"?: ((string) | (null));
             "delivery_rate_callback_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
@@ -5256,16 +5240,16 @@ export type DeliveryRateCallbackUpdatedInstalledMerchantsEvent = (Exclude<Partne
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -5420,16 +5404,16 @@ export type DeliveryRateCallbackUpdatedInstalledMerchantsEvent = (Exclude<Partne
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -5479,7 +5463,7 @@ export type DeliveryRateCallbackUpdatedInstalledMerchantsEvent = (Exclude<Partne
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -5502,14 +5486,14 @@ export type DeliveryRateCallbackUpdatedInstalledMerchantsEvent = (Exclude<Partne
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -5661,16 +5645,16 @@ export type DeliveryRateCallbackUpdatedMerchantEvent = (Exclude<MerchantWebhookE
      * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
      * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
-     * revocation fencing this resource's own current revision. `null` when the current revision
-     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
      * fencing this resource's own current revision. `null` when the current revision isn't
      * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
      * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
+     * this resource's own current revision. `null` when the current revision isn't revoked. It
+     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
+     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
+     * change `status`; publish a new revision to clear it. Example:
      * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
      * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
      * Caller-owned identifier for this resource in an external system.
@@ -5825,16 +5809,16 @@ export type DeliveryRateCallbackUpdatedMerchantEvent = (Exclude<MerchantWebhookE
          * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
          * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
          * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * delivery_revocation_id (Optional): string or null. The revocation fencing this
          * resource's own current revision. `null` when the current revision isn't revoked. It
          * doesn't cover dependencies: a method can be unusable while this is `null` because its
          * rate callback revision, signing key, or a Location's address is revoked. A revocation
          * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it. Example:
+         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
+         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
+         * dependencies: a method can be unusable while this is `null` because its rate callback
+         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+         * `status`; publish a new revision to clear it. Example:
          * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
          * external_reference_id (Optional): string or null. Caller-owned identifier for this
          * resource in an external system. external_reference_id.anyOf[1] (Value): string.
@@ -5884,7 +5868,7 @@ export type DeliveryRateCallbackUpdatedMerchantEvent = (Exclude<MerchantWebhookE
              * Current settings of the rate callback. anyOf[1] (Value): {@link
              * DeliveryRateCallbackConfigurationPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null) | (unknown));
+            "configuration"?: ((DeliveryRateCallbackConfigurationPreviousAttributes) | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -5907,14 +5891,14 @@ export type DeliveryRateCallbackUpdatedMerchantEvent = (Exclude<MerchantWebhookE
              * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
              * while this is `null` because its rate callback revision, signing key, or a
              * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
              * resource's own current revision. `null` when the current revision isn't revoked. It
              * doesn't cover dependencies: a method can be unusable while this is `null` because
              * its rate callback revision, signing key, or a Location's address is revoked. A
              * revocation doesn't change `status`; publish a new revision to clear it. Example:
              * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
              */
-            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "delivery_revocation_id"?: ((string) | (null));
             /**
              * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
              * string. Caller-owned identifier for this resource in an external system. maxLength:
@@ -6001,3 +5985,4 @@ export type DeliveryRateCallbackWithSecretResponse = {
      */
     "request_id": string;
 };
+export type DeliveryRateCallbacksCheckConnectionParams = DisputesAcceptParams;

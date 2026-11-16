@@ -25,7 +25,7 @@ Response model.
 | `show_on_fulfillment` | Optional | boolean or null | Whether selections from this group appear in fulfillment details unless overridden for a modifier set. `show_on_fulfillment`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesshow_on_fulfillment). |
 | `show_on_receipt` | Optional | boolean or null | Whether selections from this group appear on buyer receipts unless overridden for a modifier set. `show_on_receipt`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesshow_on_receipt). |
 | `status` | Optional | string or null | Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesstatus). |
-| `text` | Optional | Alternative shapes (see declared variants) | Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. `text`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext). |
+| `text` | Optional | [TextModifierConfigPreviousAttributes](../models/TextModifierConfigPreviousAttributes.md#textmodifierconfigpreviousattributes) or null | Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. |
 | `updated_at` | Optional | string or null | When the modifier group or its modifiers last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesupdated_at). |
 | `version` | Optional | integer or null | Version of the modifier group and its modifiers. `version`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributesversion). |
 
@@ -377,86 +377,6 @@ anyOf variant 1: Lifecycle status of the modifier group. Only active groups can 
 anyOf variant 2.
 
 - Value shape: null. Lifecycle status of the modifier group. Only active groups can be offered to buyers; archived groups remain readable and cannot be edited. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text
-
-Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `max_length` | Conditional | integer or null | Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. `max_length`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext-variant-1max_length). |
-| `min_length` | Conditional | integer or null | Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. `min_length`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext-variant-1min_length). |
-| `multiline` | Conditional | boolean or null | Whether the buyer's text can include line breaks. `multiline`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext-variant-1multiline). |
-| `required` | Conditional | boolean or null | Whether buyers must enter text for this group. A modifier set's required override takes precedence. `required`: [declared alternatives](../models/ModifierGroupArchivedMerchantEventDataPreviousAttributes.md#modifiergrouparchivedmerchanteventdatapreviousattributestext-variant-1required). |
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1
-
-anyOf TextModifierConfigPreviousAttributes.
-
-- Optional: `max_length`, `min_length`, `multiline`, `required`.
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 2
-
-anyOf variant 2.
-
-- Undeclared: `max_length`, `min_length`, `multiline`, `required`.
-- Value shape: null. Text entry rules for a text group. Use text.required to require a value; list groups use min_selected instead. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.max_length
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.max_length variant 1
-
-anyOf variant 1: Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace..
-
-- Value shape: integer. Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Format: `int32`. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.max_length variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.min_length
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.min_length variant 1
-
-anyOf variant 1: Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace..
-
-- Value shape: integer. Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Format: `int32`. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.min_length variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.multiline
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.multiline variant 1
-
-anyOf variant 1: Whether the buyer's text can include line breaks..
-
-- Value shape: boolean. Whether the buyer's text can include line breaks. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.multiline variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether the buyer's text can include line breaks. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.required
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.required variant 1
-
-anyOf variant 1: Whether buyers must enter text for this group. A modifier set's required override takes precedence..
-
-- Value shape: boolean. Whether buyers must enter text for this group. A modifier set's required override takes precedence. 
-
-### ModifierGroupArchivedMerchantEventDataPreviousAttributes.text variant 1.required variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Whether buyers must enter text for this group. A modifier set's required override takes precedence. 
 
 ### ModifierGroupArchivedMerchantEventDataPreviousAttributes.updated_at
 

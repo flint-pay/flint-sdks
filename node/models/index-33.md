@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptLineItemInputUnverifiedInput to RiskRuleResponse
+# ReturnReceiptLineItemRequestInput to RotateGiftCardCodeResult
 
-- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
-- [ReturnReceiptLineItemPreviousAttributes](ReturnReceiptLineItemPreviousAttributes.md)
-- [ReturnReceiptLineItemRequest](ReturnReceiptLineItemRequest.md)
 - [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
 - [ReturnReceiptPreviousAttributes](ReturnReceiptPreviousAttributes.md)
 - [ReturnReceiptSupersededInstalledMerchantsEvent](ReturnReceiptSupersededInstalledMerchantsEvent.md)
@@ -102,4 +99,7 @@
 - [RiskRuleIssue](RiskRuleIssue.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
 - [RiskRuleResponse](RiskRuleResponse.md)
+- [RotateGiftCardCodeRequest](RotateGiftCardCodeRequest.md)
+- [RotateGiftCardCodeRequestInput](RotateGiftCardCodeRequestInput.md)
+- [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
 

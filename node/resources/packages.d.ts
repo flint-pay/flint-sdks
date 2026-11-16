@@ -84,7 +84,7 @@ export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-55.js';
 export type { MoneyValue, NextAction } from '../declarations/types-42.js';
 export type { OrderSettlementAmounts } from '../declarations/types-45.js';
-export type { SettlementAmounts } from '../declarations/types-66.js';
+export type { SettlementAmounts } from '../declarations/types-65.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-61.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-58.js';
 export type {
@@ -100,13 +100,9 @@ export type {
 export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-74.js';
 export type { VoidPackageRequestInput } from '../declarations/types-76.js';
 export type { FulfillmentEventsGetParams } from '../declarations/types-27.js';
-export {
-    makeCreatePackageItemRequest,
-    makeCreatePackageRequest,
-    makeCreatePackageRequestCreated,
-    makeCreatePackageRequestShipped
-} from '../declarations/types-81.js';
-export { makeDimensionsRequest } from '../declarations/types-84.js';
+export { makeCreatePackageItemRequest } from '../declarations/types-80.js';
+export { makeCreatePackageRequest, makeCreatePackageRequestCreated, makeCreatePackageRequestShipped } from '../declarations/types-81.js';
+export { makeDimensionsRequest } from '../declarations/types-83.js';
 export {
     makeMarkPackageDeliveredRequest,
     makeMarkPackageDeliveryAttemptedRequest,
@@ -116,9 +112,10 @@ export {
     makeMarkPackagePackedRequest,
     makeMarkPackageReturnedRequest,
     makeMarkPackageShippedRequest,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMetadataRequest
 } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-89.js';
 export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-91.js';
 export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-92.js';

@@ -12,13 +12,13 @@ namespace Flint;
  * @property-read OrderTaxLocationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $location
  * @property-read string|null $mode
  * @property-read string|null $price_mode
- * @property-read TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $reverse_charge
+ * @property-read TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $reverse_charge
  * @property-read string|null $status
  * @property-read list<string>|null $supported_countries
  * @property-read list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null $tax_breakdowns
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxPreviousAttributesInput extends Model {
-    /** @param array{'automatic_profile'?: string|null, 'available_location_inputs'?: list<string>|null, 'callback_evaluation'?: OrderTaxCallbackEvaluationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'components_source'?: string|null, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'enabled'?: bool|null, 'exemption'?: OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'location'?: OrderTaxLocationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'mode'?: string|null, 'price_mode'?: string|null, 'reverse_charge'?: TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, 'status'?: string|null, 'supported_countries'?: list<string>|null, 'tax_breakdowns'?: list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
+    /** @param array{'automatic_profile'?: string|null, 'available_location_inputs'?: list<string>|null, 'callback_evaluation'?: OrderTaxCallbackEvaluationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'components_source'?: string|null, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'enabled'?: bool|null, 'exemption'?: OrderTaxExemptionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'location'?: OrderTaxLocationPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'mode'?: string|null, 'price_mode'?: string|null, 'reverse_charge'?: TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'supported_countries'?: list<string>|null, 'tax_breakdowns'?: list<TaxBreakdownPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxPreviousAttributesInput')); }
     /** Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected". anyOf[1] (Value): string. Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. Value enum: "standard", "connected". anyOf[2] (Value): null.
      * @return string|null
@@ -80,8 +80,8 @@ final class OrderTaxPreviousAttributesInput extends Model {
      */
     public function getPriceMode(): mixed { return $this->get('price_mode'); }
     public function hasPriceMode(): bool { return $this->has('price_mode'); }
-    /** Set when the buyer accounts for the tax: automatic tax got a reverse-charge result for the customer's tax ID, or an external component sent `taxability_reason` `reverse_charge`. Its rows carry no tax. Invoices freeze it. `null` when no reverse charge applies. anyOf[1] (Value): ({@see TaxReverseChargePreviousAttributesInput} or null). Set when the buyer accounts for the tax: automatic tax got a reverse-charge result for the customer's tax ID, or an external component sent `taxability_reason` `reverse_charge`. Its rows carry no tax. Invoices freeze it. `null` when no reverse charge applies. anyOf[1].anyOf[1] (Value): {@see TaxReverseChargePreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** Set when the buyer accounts for the tax: automatic tax got a reverse-charge result for the customer's tax ID, or an external component sent `taxability_reason` `reverse_charge`. Its rows carry no tax. Invoices freeze it. `null` when no reverse charge applies. anyOf[1] (Value): {@see TaxReverseChargePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return TaxReverseChargePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When reverse_charge is omitted; use hasReverseCharge() or valueOrDefault().
      */
     public function getReverseCharge(): mixed { return $this->get('reverse_charge'); }

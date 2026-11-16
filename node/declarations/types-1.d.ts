@@ -178,18 +178,16 @@ export type BackorderPolicyPreviousAttributes = {
      */
     "enabled"?: ((boolean) | (null));
     /**
-     * Expected shipping date. Null when unknown. anyOf[1] (Value): string or null. Expected
-     * shipping date. Null when unknown. Format: date. Example: "2026-08-02". anyOf[2] (Value):
-     * null.
+     * Expected shipping date. Null when unknown. anyOf[1] (Value): string. Expected shipping date.
+     * Null when unknown. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
      */
-    "expected_ship_date"?: ((string | null) | (null) | (unknown));
+    "expected_ship_date"?: ((string) | (null));
     /**
      * Maximum units on backorder across the item's levels. Null when there is no cap. anyOf[1]
-     * (Value): integer or null. Maximum units on backorder across the item's levels. Null when
-     * there is no cap. Format: int64. minimum: 1. maximum: 9007199254740991. anyOf[2] (Value):
-     * null.
+     * (Value): integer. Maximum units on backorder across the item's levels. Null when there is no
+     * cap. Format: int64. minimum: 1. maximum: 9007199254740991. anyOf[2] (Value): null.
      */
-    "limit_quantity"?: ((number | null) | (null) | (unknown));
+    "limit_quantity"?: ((number) | (null));
 };
 /**
  * Current balances for one currency at observed_at. Available and pending amounts are separate
@@ -1176,20 +1174,20 @@ export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "available_at"?: ((string) | (null));
             "balance_transaction_id"?: ((string) | (null));
             "currency"?: ((string) | (null));
             "description"?: ((string) | (null));
-            "fee_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "merchant_id"?: ((string) | (null));
-            "net_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             "occurred_at"?: ((string) | (null));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "related_balance_transaction_ids"?: ((Array<string>) | (null));
-            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null));
             "status"?: (("pending" | "available" | (string & {})) | (null));
             "type"?: (("payment"
                 | "refund"
@@ -1277,20 +1275,20 @@ export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "available_at"?: ((string) | (null));
             "balance_transaction_id"?: ((string) | (null));
             "currency"?: ((string) | (null));
             "description"?: ((string) | (null));
-            "fee_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             "merchant_id"?: ((string) | (null));
-            "net_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             "occurred_at"?: ((string) | (null));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
             "payout_id"?: ((string) | (null));
             "related_balance_transaction_ids"?: ((Array<string>) | (null));
-            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null));
             "status"?: (("pending" | "available" | (string & {})) | (null));
             "type"?: (("payment"
                 | "refund"
@@ -1446,30 +1444,24 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * previous_attributes.occurred_at.anyOf[1] (Value): string. When the balance movement
      * happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.occurred_at.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. The order,
-     * inlined when you request expand=order. null when expanded and the transaction has no
-     * order_id. Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). The order, inlined when you request
-     * expand=order. null when expanded and the transaction has no order_id. Present only when
-     * `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. The Flint order this movement
-     * relates to, such as the order a payment was for. Absent when the movement isn't tied to an
-     * order. previous_attributes.order_id.anyOf[1] (Value): string. The Flint order this movement
-     * relates to, such as the order a payment was for. Absent when the movement isn't tied to an
-     * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
-     * (Value): null. previous_attributes.payout_id (Optional): string or null. The payout that
-     * carried this balance transaction to your bank. Set once, when that payout's contents are
-     * prepared, and never changed afterward, including if the payout later fails or is reversed.
-     * Absent until then, and on transactions no payout carries.
-     * previous_attributes.payout_id.anyOf[1] (Value): string. The payout that carried this balance
-     * transaction to your bank. Set once, when that payout's contents are prepared, and never
-     * changed afterward, including if the payout later fails or is reversed. Absent until then,
-     * and on transactions no payout carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * previous_attributes.payout_id.anyOf[2] (Value): null.
+     * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. The order, inlined when
+     * you request expand=order. null when expanded and the transaction has no order_id. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. previous_attributes.order_id.anyOf[1]
+     * (Value): string. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payout_id (Optional): string or null. The payout that carried this
+     * balance transaction to your bank. Set once, when that payout's contents are prepared, and
+     * never changed afterward, including if the payout later fails or is reversed. Absent until
+     * then, and on transactions no payout carries. previous_attributes.payout_id.anyOf[1] (Value):
+     * string. The payout that carried this balance transaction to your bank. Set once, when that
+     * payout's contents are prepared, and never changed afterward, including if the payout later
+     * fails or is reversed. Absent until then, and on transactions no payout carries. Example:
+     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.payout_id.anyOf[2] (Value): null.
      * previous_attributes.related_balance_transaction_ids (Optional): Array of string or null.
      * Earlier balance transactions this one is linked to, including the exact payment principal a
      * refund returns, the payout transaction that a payout_failure, payout_cancellation, or
@@ -1751,23 +1743,19 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * net_money.anyOf[2] (Value): null. occurred_at (Optional): string or null. When the
          * balance movement happened. occurred_at.anyOf[1] (Value): string. When the balance
          * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * occurred_at.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. The order, inlined when you
-         * request expand=order. null when expanded and the transaction has no order_id. Present
-         * only when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). The
-         * order, inlined when you request expand=order. null when expanded and the transaction has
-         * no order_id. Present only when `expand` includes `order`; `null` when expanded and there
-         * is no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. The Flint order this
-         * movement relates to, such as the order a payment was for. Absent when the movement isn't
-         * tied to an order. order_id.anyOf[1] (Value): string. The Flint order this movement
+         * occurred_at.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. The order, inlined when you request
+         * expand=order. null when expanded and the transaction has no order_id. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. The Flint order this movement
          * relates to, such as the order a payment was for. Absent when the movement isn't tied to
-         * an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payout_id (Optional): string or null. The payout that carried this balance transaction
-         * to your bank. Set once, when that payout's contents are prepared, and never changed
-         * afterward, including if the payout later fails or is reversed. Absent until then, and on
+         * an order. order_id.anyOf[1] (Value): string. The Flint order this movement relates to,
+         * such as the order a payment was for. Absent when the movement isn't tied to an order.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. payout_id
+         * (Optional): string or null. The payout that carried this balance transaction to your
+         * bank. Set once, when that payout's contents are prepared, and never changed afterward,
+         * including if the payout later fails or is reversed. Absent until then, and on
          * transactions no payout carries. payout_id.anyOf[1] (Value): string. The payout that
          * carried this balance transaction to your bank. Set once, when that payout's contents are
          * prepared, and never changed afterward, including if the payout later fails or is
@@ -1823,7 +1811,7 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              * Signed gross amount of this balance movement, before any fee. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When the funds become, or became, available to pay out. Present on pending
              * transactions as the expected time; status says whether they are available now.
@@ -1861,7 +1849,7 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              * dispute does not by itself return the fee. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Merchant whose balance this transaction moved. anyOf[1] (Value): string. Merchant
              * whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
@@ -1873,7 +1861,7 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              * currency. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "net_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When the balance movement happened. anyOf[1] (Value): string. When the balance
              * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
@@ -1883,15 +1871,10 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
             /**
              * The order, inlined when you request expand=order. null when expanded and the
              * transaction has no order_id. Present only when `expand` includes `order`; `null`
-             * when expanded and there is no related order. anyOf[1] (Value): ({@link
-             * ExpandedOrderSummaryPreviousAttributes} or null). The order, inlined when you
-             * request expand=order. null when expanded and the transaction has no order_id.
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * The Flint order this movement relates to, such as the order a payment was for.
              * Absent when the movement isn't tied to an order. anyOf[1] (Value): string. The Flint
@@ -1930,7 +1913,7 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              * platform_fee_payout. Absent when the movement has none. anyOf[1] (Value): {@link
              * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null));
             /**
              * Whether the funds can be paid out yet: pending until they become available, then
              * available. Only these two values appear, and the change to available sends
@@ -2141,30 +2124,24 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * previous_attributes.occurred_at.anyOf[1] (Value): string. When the balance movement
      * happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.occurred_at.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. The order,
-     * inlined when you request expand=order. null when expanded and the transaction has no
-     * order_id. Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1] (Value): ({@link
-     * ExpandedOrderSummaryPreviousAttributes} or null). The order, inlined when you request
-     * expand=order. null when expanded and the transaction has no order_id. Present only when
-     * `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
-     * previous_attributes.order_id (Optional): string or null. The Flint order this movement
-     * relates to, such as the order a payment was for. Absent when the movement isn't tied to an
-     * order. previous_attributes.order_id.anyOf[1] (Value): string. The Flint order this movement
-     * relates to, such as the order a payment was for. Absent when the movement isn't tied to an
-     * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2]
-     * (Value): null. previous_attributes.payout_id (Optional): string or null. The payout that
-     * carried this balance transaction to your bank. Set once, when that payout's contents are
-     * prepared, and never changed afterward, including if the payout later fails or is reversed.
-     * Absent until then, and on transactions no payout carries.
-     * previous_attributes.payout_id.anyOf[1] (Value): string. The payout that carried this balance
-     * transaction to your bank. Set once, when that payout's contents are prepared, and never
-     * changed afterward, including if the payout later fails or is reversed. Absent until then,
-     * and on transactions no payout carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * previous_attributes.payout_id.anyOf[2] (Value): null.
+     * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. The order, inlined when
+     * you request expand=order. null when expanded and the transaction has no order_id. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. previous_attributes.order_id.anyOf[1]
+     * (Value): string. The Flint order this movement relates to, such as the order a payment was
+     * for. Absent when the movement isn't tied to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payout_id (Optional): string or null. The payout that carried this
+     * balance transaction to your bank. Set once, when that payout's contents are prepared, and
+     * never changed afterward, including if the payout later fails or is reversed. Absent until
+     * then, and on transactions no payout carries. previous_attributes.payout_id.anyOf[1] (Value):
+     * string. The payout that carried this balance transaction to your bank. Set once, when that
+     * payout's contents are prepared, and never changed afterward, including if the payout later
+     * fails or is reversed. Absent until then, and on transactions no payout carries. Example:
+     * "po_01KEZF7C00PXK8XREWJA6K4FGV". previous_attributes.payout_id.anyOf[2] (Value): null.
      * previous_attributes.related_balance_transaction_ids (Optional): Array of string or null.
      * Earlier balance transactions this one is linked to, including the exact payment principal a
      * refund returns, the payout transaction that a payout_failure, payout_cancellation, or
@@ -2446,23 +2423,19 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * net_money.anyOf[2] (Value): null. occurred_at (Optional): string or null. When the
          * balance movement happened. occurred_at.anyOf[1] (Value): string. When the balance
          * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * occurred_at.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. The order, inlined when you
-         * request expand=order. null when expanded and the transaction has no order_id. Present
-         * only when `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). The
-         * order, inlined when you request expand=order. null when expanded and the transaction has
-         * no order_id. Present only when `expand` includes `order`; `null` when expanded and there
-         * is no related order. order.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[1].anyOf[2] (Value): null.
-         * order.anyOf[2] (Value): null. order_id (Optional): string or null. The Flint order this
-         * movement relates to, such as the order a payment was for. Absent when the movement isn't
-         * tied to an order. order_id.anyOf[1] (Value): string. The Flint order this movement
+         * occurred_at.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. The order, inlined when you request
+         * expand=order. null when expanded and the transaction has no order_id. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. The Flint order this movement
          * relates to, such as the order a payment was for. Absent when the movement isn't tied to
-         * an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payout_id (Optional): string or null. The payout that carried this balance transaction
-         * to your bank. Set once, when that payout's contents are prepared, and never changed
-         * afterward, including if the payout later fails or is reversed. Absent until then, and on
+         * an order. order_id.anyOf[1] (Value): string. The Flint order this movement relates to,
+         * such as the order a payment was for. Absent when the movement isn't tied to an order.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. payout_id
+         * (Optional): string or null. The payout that carried this balance transaction to your
+         * bank. Set once, when that payout's contents are prepared, and never changed afterward,
+         * including if the payout later fails or is reversed. Absent until then, and on
          * transactions no payout carries. payout_id.anyOf[1] (Value): string. The payout that
          * carried this balance transaction to your bank. Set once, when that payout's contents are
          * prepared, and never changed afterward, including if the payout later fails or is
@@ -2518,7 +2491,7 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * Signed gross amount of this balance movement, before any fee. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When the funds become, or became, available to pay out. Present on pending
              * transactions as the expected time; status says whether they are available now.
@@ -2556,7 +2529,7 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * dispute does not by itself return the fee. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "fee_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "fee_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Merchant whose balance this transaction moved. anyOf[1] (Value): string. Merchant
              * whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
@@ -2568,7 +2541,7 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * currency. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
              * null.
              */
-            "net_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "net_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When the balance movement happened. anyOf[1] (Value): string. When the balance
              * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
@@ -2578,15 +2551,10 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
             /**
              * The order, inlined when you request expand=order. null when expanded and the
              * transaction has no order_id. Present only when `expand` includes `order`; `null`
-             * when expanded and there is no related order. anyOf[1] (Value): ({@link
-             * ExpandedOrderSummaryPreviousAttributes} or null). The order, inlined when you
-             * request expand=order. null when expanded and the transaction has no order_id.
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * The Flint order this movement relates to, such as the order a payment was for.
              * Absent when the movement isn't tied to an order. anyOf[1] (Value): string. The Flint
@@ -2625,7 +2593,7 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * platform_fee_payout. Absent when the movement has none. anyOf[1] (Value): {@link
              * ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null) | (unknown));
+            "related_resource"?: ((ResourceReferencePreviousAttributes) | (null));
             /**
              * Whether the funds can be paid out yet: pending until they become available, then
              * available. Only these two values appear, and the change to available sends
@@ -2950,16 +2918,16 @@ export type BalanceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
         })
             & ({
             "available_by_source_type"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
             "balance_id"?: ((string) | (null));
             "currency"?: ((string) | (null));
-            "held_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "held_money"?: ((MoneyValuePreviousAttributes) | (null));
             "merchant_id"?: ((string) | (null));
             "observed_at"?: ((string) | (null));
             "payouts_enabled"?: ((boolean) | (null));
             "pending_by_source_type"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
-            "pending_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "pending_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null));
         });
     };
     "event_source"?: ("merchant") & ("merchant");
@@ -2986,16 +2954,16 @@ export type BalanceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
         })
             & ({
             "available_by_source_type"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
             "balance_id"?: ((string) | (null));
             "currency"?: ((string) | (null));
-            "held_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "held_money"?: ((MoneyValuePreviousAttributes) | (null));
             "merchant_id"?: ((string) | (null));
             "observed_at"?: ((string) | (null));
             "payouts_enabled"?: ((boolean) | (null));
             "pending_by_source_type"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
-            "pending_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
-            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "pending_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null));
         });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
@@ -3305,7 +3273,7 @@ export type BalanceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * from pending_money, reserve_money, and held_money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Stable identifier of this currency's balance. anyOf[1] (Value): string. Stable
              * identifier of this currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
@@ -3322,7 +3290,7 @@ export type BalanceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * yet. They aren't payable and aren't included in `available_money`. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "held_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "held_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Merchant whose balance this is. anyOf[1] (Value): string. Merchant whose balance
              * this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
@@ -3359,12 +3327,12 @@ export type BalanceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * pending_by_source_type breaks down this amount when source details are supplied.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "pending_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "pending_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Amount held in reserve. It doesn't overlap available_money or held_money. anyOf[1]
              * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null));
         });
     };
     /** Value enum: "installed_merchants". */
@@ -3700,7 +3668,7 @@ export type BalanceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * from pending_money, reserve_money, and held_money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "available_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "available_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Stable identifier of this currency's balance. anyOf[1] (Value): string. Stable
              * identifier of this currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
@@ -3717,7 +3685,7 @@ export type BalanceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * yet. They aren't payable and aren't included in `available_money`. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "held_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "held_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Merchant whose balance this is. anyOf[1] (Value): string. Merchant whose balance
              * this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
@@ -3754,12 +3722,12 @@ export type BalanceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * pending_by_source_type breaks down this amount when source details are supplied.
              * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "pending_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "pending_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Amount held in reserve. It doesn't overlap available_money or held_money. anyOf[1]
              * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "reserve_money"?: ((MoneyValuePreviousAttributes) | (null));
         });
     };
     /** Value enum: "merchant". */
@@ -4006,12 +3974,12 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -4039,12 +4007,12 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -4137,23 +4105,23 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the bundle. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the bundle. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Bundle name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Bundle name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.sku (Optional): string or null. Stock keeping unit assigned to
-     * this sellable item. previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit
-     * assigned to this sellable item. previous_attributes.sku.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[1] (Value): string. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unit_price_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. Price charged for one unit, in the
-     * currency's smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
+     * (Optional): string or null. ID of the modifier set attached to the bundle. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the bundle. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Bundle name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Price charged for one unit, in the currency's
+     * smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. previous_attributes.unit_price_money.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
      * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
@@ -4227,13 +4195,13 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the bundle. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Bundle name shown to buyers.
-         * name.anyOf[1] (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null.
-         * sku (Optional): string or null. Stock keeping unit assigned to this sellable item.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Bundle name shown to buyers. name.anyOf[1]
+         * (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null. sku
+         * (Optional): string or null. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[1] (Value): string. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[2] (Value): null. status (Optional): string or null. Bundle lifecycle status.
          * Archived bundles remain readable and cannot be edited. Value enum: "active", "inactive",
@@ -4338,14 +4306,14 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the bundle. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * bundle. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the bundle.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
              * anyOf[2] (Value): null.
@@ -4367,7 +4335,7 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -4497,23 +4465,23 @@ export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the bundle. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the bundle. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Bundle name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Bundle name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.sku (Optional): string or null. Stock keeping unit assigned to
-     * this sellable item. previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit
-     * assigned to this sellable item. previous_attributes.sku.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[1] (Value): string. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unit_price_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. Price charged for one unit, in the
-     * currency's smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
+     * (Optional): string or null. ID of the modifier set attached to the bundle. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the bundle. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Bundle name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Price charged for one unit, in the currency's
+     * smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. previous_attributes.unit_price_money.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
      * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
@@ -4587,13 +4555,13 @@ export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the bundle. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Bundle name shown to buyers.
-         * name.anyOf[1] (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null.
-         * sku (Optional): string or null. Stock keeping unit assigned to this sellable item.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Bundle name shown to buyers. name.anyOf[1]
+         * (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null. sku
+         * (Optional): string or null. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[1] (Value): string. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[2] (Value): null. status (Optional): string or null. Bundle lifecycle status.
          * Archived bundles remain readable and cannot be edited. Value enum: "active", "inactive",
@@ -4698,14 +4666,14 @@ export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the bundle. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * bundle. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the bundle.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
              * anyOf[2] (Value): null.
@@ -4727,7 +4695,7 @@ export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -4860,7 +4828,7 @@ export type BundleComponentPreviousAttributes = {
      * Summary of the component's variant and its selected options. anyOf[1] (Value): {@link
      * BundleComponentVariantSummaryPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "variant"?: ((BundleComponentVariantSummaryPreviousAttributes) | (null) | (unknown));
+    "variant"?: ((BundleComponentVariantSummaryPreviousAttributes) | (null));
     /**
      * Identifier of the product variant included in the bundle. anyOf[1] (Value): string.
      * Identifier of the product variant included in the bundle. Example:
@@ -5103,12 +5071,12 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -5136,12 +5104,12 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
             "is_available_for_sale"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
             "name"?: ((string) | (null));
             "sku"?: ((string) | (null));
             "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -5234,23 +5202,23 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the bundle. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the bundle. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Bundle name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Bundle name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.sku (Optional): string or null. Stock keeping unit assigned to
-     * this sellable item. previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit
-     * assigned to this sellable item. previous_attributes.sku.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[1] (Value): string. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unit_price_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. Price charged for one unit, in the
-     * currency's smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
+     * (Optional): string or null. ID of the modifier set attached to the bundle. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the bundle. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Bundle name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Price charged for one unit, in the currency's
+     * smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. previous_attributes.unit_price_money.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
      * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
@@ -5324,13 +5292,13 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the bundle. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Bundle name shown to buyers.
-         * name.anyOf[1] (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null.
-         * sku (Optional): string or null. Stock keeping unit assigned to this sellable item.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Bundle name shown to buyers. name.anyOf[1]
+         * (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null. sku
+         * (Optional): string or null. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[1] (Value): string. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[2] (Value): null. status (Optional): string or null. Bundle lifecycle status.
          * Archived bundles remain readable and cannot be edited. Value enum: "active", "inactive",
@@ -5435,14 +5403,14 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the bundle. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * bundle. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the bundle.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
              * anyOf[2] (Value): null.
@@ -5464,7 +5432,7 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
@@ -5594,23 +5562,23 @@ export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
      * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
-     * (Optional): string or null or null. ID of the modifier set attached to the bundle. `null`
-     * when no modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value):
-     * string or null. ID of the modifier set attached to the bundle. `null` when no modifier set
-     * is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     * previous_attributes.modifier_set_id.anyOf[2] (Value): null. previous_attributes.name
-     * (Optional): string or null. Bundle name shown to buyers. previous_attributes.name.anyOf[1]
-     * (Value): string. Bundle name shown to buyers. previous_attributes.name.anyOf[2] (Value):
-     * null. previous_attributes.sku (Optional): string or null. Stock keeping unit assigned to
-     * this sellable item. previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit
-     * assigned to this sellable item. previous_attributes.sku.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[1] (Value): string. Bundle lifecycle status. Archived
-     * bundles remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unit_price_money
-     * (Optional): {@link MoneyValuePreviousAttributes} or null. Price charged for one unit, in the
-     * currency's smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
+     * (Optional): string or null. ID of the modifier set attached to the bundle. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the bundle. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Bundle name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Bundle name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.sku (Optional): string
+     * or null. Stock keeping unit assigned to this sellable item. previous_attributes.sku.anyOf[1]
+     * (Value): string. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Bundle lifecycle status. Archived bundles remain readable and cannot be
+     * edited. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.unit_price_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. Price charged for one unit, in the currency's
+     * smallest unit. previous_attributes.unit_price_money.anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. previous_attributes.unit_price_money.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
      * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
@@ -5684,13 +5652,13 @@ export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null.
-         * modifier_set_id (Optional): string or null or null. ID of the modifier set attached to
-         * the bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
-         * string or null. ID of the modifier set attached to the bundle. `null` when no modifier
-         * set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
-         * (Value): null. name (Optional): string or null. Bundle name shown to buyers.
-         * name.anyOf[1] (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null.
-         * sku (Optional): string or null. Stock keeping unit assigned to this sellable item.
+         * modifier_set_id (Optional): string or null. ID of the modifier set attached to the
+         * bundle. `null` when no modifier set is attached. modifier_set_id.anyOf[1] (Value):
+         * string. ID of the modifier set attached to the bundle. `null` when no modifier set is
+         * attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value):
+         * null. name (Optional): string or null. Bundle name shown to buyers. name.anyOf[1]
+         * (Value): string. Bundle name shown to buyers. name.anyOf[2] (Value): null. sku
+         * (Optional): string or null. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[1] (Value): string. Stock keeping unit assigned to this sellable item.
          * sku.anyOf[2] (Value): null. status (Optional): string or null. Bundle lifecycle status.
          * Archived bundles remain readable and cannot be edited. Value enum: "active", "inactive",
@@ -5795,14 +5763,14 @@ export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
              * MetadataMap}. anyOf[2] (Value): null.
              */
-            "metadata"?: ((MetadataMap) | (null) | (unknown));
+            "metadata"?: ((MetadataMap) | (null));
             /**
              * ID of the modifier set attached to the bundle. `null` when no modifier set is
-             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
-             * bundle. `null` when no modifier set is attached. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the bundle.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
              */
-            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "modifier_set_id"?: ((string) | (null));
             /**
              * Bundle name shown to buyers. anyOf[1] (Value): string. Bundle name shown to buyers.
              * anyOf[2] (Value): null.
@@ -5824,7 +5792,7 @@ export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * Price charged for one unit, in the currency's smallest unit. anyOf[1] (Value):
              * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
              * When this resource last changed, as an RFC3339 timestamp. Format: date-time.

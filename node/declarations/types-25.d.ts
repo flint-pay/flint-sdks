@@ -20,63 +20,6 @@ import type {
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-42.js';
 import type { SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-66.js';
 import type { PartnerWebhookEnvelope } from './types-49.js';
-export type DeliveryZonesListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Search across delivery_zone_id, name, and external_reference_id. Text fields match any part
-     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as dzone_01. maxLength: 255.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
-    /**
-     * Filter by an active current method that references this resource. pattern:
-     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 export type DeliveryZonesUpdateParams = (UpdateDeliveryZoneRequestInput)
     & {
     /**
@@ -2145,7 +2088,7 @@ export type DisputeInquiryClosedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -2157,24 +2100,22 @@ export type DisputeInquiryClosedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -2299,7 +2240,7 @@ export type DisputeInquiryClosedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -2311,24 +2252,22 @@ export type DisputeInquiryClosedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -2517,26 +2456,22 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -2581,47 +2516,38 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -3048,24 +2974,21 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -3105,56 +3028,50 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -3228,7 +3145,7 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -3261,13 +3178,10 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -3282,13 +3196,13 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -3344,22 +3258,18 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -3369,14 +3279,10 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -3387,14 +3293,12 @@ export type DisputeInquiryClosedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -3699,26 +3603,22 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -3763,47 +3663,38 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -4230,24 +4121,21 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -4287,56 +4175,50 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -4410,7 +4292,7 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -4443,13 +4325,10 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -4464,13 +4343,13 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -4526,22 +4405,18 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -4551,14 +4426,10 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -4569,14 +4440,12 @@ export type DisputeInquiryClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -4816,7 +4685,7 @@ export type DisputeLostEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -4828,24 +4697,22 @@ export type DisputeLostEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -4970,7 +4837,7 @@ export type DisputeLostEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -4982,24 +4849,22 @@ export type DisputeLostEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -5188,26 +5053,22 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -5252,47 +5113,38 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -5719,24 +5571,21 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -5776,56 +5625,50 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -5899,7 +5742,7 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -5932,13 +5775,10 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -5953,13 +5793,13 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -6015,22 +5855,18 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -6040,14 +5876,10 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -6058,14 +5890,12 @@ export type DisputeLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -6370,26 +6200,22 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -6434,47 +6260,38 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -6901,24 +6718,21 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -6958,56 +6772,50 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -7081,7 +6889,7 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -7114,13 +6922,10 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -7135,13 +6940,13 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -7197,22 +7002,18 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -7222,14 +7023,10 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -7240,14 +7037,12 @@ export type DisputeLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -7464,7 +7259,7 @@ export type DisputeNeedsResponseEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -7476,24 +7271,22 @@ export type DisputeNeedsResponseEvent = ((((Exclude<MerchantWebhookEnvelope & ob
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -7618,7 +7411,7 @@ export type DisputeNeedsResponseEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -7630,24 +7423,22 @@ export type DisputeNeedsResponseEvent = ((((Exclude<MerchantWebhookEnvelope & ob
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -7836,26 +7627,22 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -7900,47 +7687,38 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -8367,24 +8145,21 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -8424,56 +8199,50 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -8547,7 +8316,7 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -8580,13 +8349,10 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -8601,13 +8367,13 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -8663,22 +8429,18 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -8688,14 +8450,10 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -8706,14 +8464,12 @@ export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -9018,26 +8774,22 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -9082,47 +8834,38 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -9549,24 +9292,21 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -9606,56 +9346,50 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -9729,7 +9463,7 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -9762,13 +9496,10 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -9783,13 +9514,13 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -9845,22 +9576,18 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -9870,14 +9597,10 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -9888,14 +9611,12 @@ export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -10112,7 +9833,7 @@ export type DisputePreventedEvent = ((((Exclude<MerchantWebhookEnvelope & object
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -10124,24 +9845,22 @@ export type DisputePreventedEvent = ((((Exclude<MerchantWebhookEnvelope & object
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -10266,7 +9985,7 @@ export type DisputePreventedEvent = ((((Exclude<MerchantWebhookEnvelope & object
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -10278,24 +9997,22 @@ export type DisputePreventedEvent = ((((Exclude<MerchantWebhookEnvelope & object
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -10484,26 +10201,22 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -10548,47 +10261,38 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -11015,24 +10719,21 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -11072,56 +10773,50 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -11195,7 +10890,7 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -11228,13 +10923,10 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -11249,13 +10941,13 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -11311,22 +11003,18 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -11336,14 +11024,10 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -11354,14 +11038,12 @@ export type DisputePreventedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -11666,26 +11348,22 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -11730,47 +11408,38 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -12197,24 +11866,21 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -12254,56 +11920,50 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -12377,7 +12037,7 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -12410,13 +12070,10 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -12431,13 +12088,13 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -12493,22 +12150,18 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -12518,14 +12171,10 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -12536,14 +12185,12 @@ export type DisputePreventedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -12690,7 +12337,7 @@ export type DisputePreviousAttributes = {
      * inquiry moves no money. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
      * (Value): null.
      */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Whether this dispute has an evidence response window. It stays true after the window closes
      * or a decision is made. Use is_action_required to know whether a response is needed now.
@@ -12723,12 +12370,10 @@ export type DisputePreviousAttributes = {
     "created_at"?: ((string) | (null));
     /**
      * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. anyOf[2]
+     * (Value): null.
      */
-    "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
     /**
      * The customer on the disputed payment. Absent when the payment has none. anyOf[1] (Value):
      * string. The customer on the disputed payment. Absent when the payment has none. Example:
@@ -12743,12 +12388,12 @@ export type DisputePreviousAttributes = {
     /**
      * Deadline for submitting evidence. Respond before it when is_action_required is true. `null`
      * when the dispute has no response window, such as a bank return or a case your processor gave
-     * no deadline for. anyOf[1] (Value): string or null. Deadline for submitting evidence. Respond
-     * before it when is_action_required is true. `null` when the dispute has no response window,
-     * such as a bank return or a case your processor gave no deadline for. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * no deadline for. anyOf[1] (Value): string. Deadline for submitting evidence. Respond before
+     * it when is_action_required is true. `null` when the dispute has no response window, such as
+     * a bank return or a case your processor gave no deadline for. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
-    "evidence_due_at"?: ((string | null) | (null) | (unknown));
+    "evidence_due_at"?: ((string) | (null));
     /**
      * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
      * (Value): integer. How many times evidence was submitted for this dispute. 0 until you
@@ -12802,20 +12447,18 @@ export type DisputePreviousAttributes = {
     /**
      * Opaque reason code assigned by the card network. Read it with the disputed payment's card
      * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. anyOf[1] (Value): string or null. Opaque reason code assigned
-     * by the card network. Read it with the disputed payment's card brand; codes differ by
-     * network. `null` when the network supplied no code or the supplied code has an unsupported
-     * shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
+     * code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code assigned by the
+     * card network. Read it with the disputed payment's card brand; codes differ by network.
+     * `null` when the network supplied no code or the supplied code has an unsupported shape.
+     * pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
      */
-    "network_reason_code"?: ((string | null) | (null) | (unknown));
+    "network_reason_code"?: ((string) | (null));
     /**
      * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2]
-     * (Value): null. anyOf[2] (Value): null.
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value):
+     * null.
      */
-    "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
     /**
      * ID of the order the disputed payment was for. Absent when Flint can't link the dispute to an
      * order. anyOf[1] (Value): string. ID of the order the disputed payment was for. Absent when
@@ -12825,13 +12468,10 @@ export type DisputePreviousAttributes = {
     "order_id"?: ((string) | (null));
     /**
      * Present only when `expand` includes `payment_intent`; `null` when expanded and there is no
-     * related payment intent. anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * anyOf[1].anyOf[1] (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+     * related payment intent. anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
      */
-    "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+    "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
     /**
      * ID of the payment intent that took the disputed payment. Absent when Flint can't link the
      * dispute to a payment intent. anyOf[1] (Value): string. ID of the payment intent that took
@@ -12842,14 +12482,12 @@ export type DisputePreviousAttributes = {
     /**
      * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to
      * a payment intent that records a payment option. Value enum: "card", "apple_pay",
-     * "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or null. How the buyer
-     * paid for the disputed payment. `null` when Flint hasn't linked the dispute to a payment
-     * intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
-     * "affirm", "ach_debit", null. anyOf[2] (Value): null.
+     * "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string. How the buyer paid for
+     * the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. anyOf[2] (Value): null.
      */
-    "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-        | (null)
-        | (unknown));
+    "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
     /**
      * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
      * "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -13168,7 +12806,7 @@ export type DisputeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -13180,24 +12818,22 @@ export type DisputeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -13322,7 +12958,7 @@ export type DisputeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -13334,24 +12970,22 @@ export type DisputeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -13540,26 +13174,22 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -13604,47 +13234,38 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -14071,24 +13692,21 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -14128,56 +13746,50 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -14251,7 +13863,7 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -14284,13 +13896,10 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -14305,13 +13914,13 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -14367,22 +13976,18 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -14392,14 +13997,10 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -14410,14 +14011,12 @@ export type DisputeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -14722,26 +14321,22 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -14786,47 +14381,38 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -15253,24 +14839,21 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -15310,56 +14893,50 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -15433,7 +15010,7 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -15466,13 +15043,10 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -15487,13 +15061,13 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -15549,22 +15123,18 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -15574,14 +15144,10 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -15592,14 +15158,12 @@ export type DisputeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -15816,7 +15380,7 @@ export type DisputeWonEvent = ((((Exclude<MerchantWebhookEnvelope & object, read
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -15828,24 +15392,22 @@ export type DisputeWonEvent = ((((Exclude<MerchantWebhookEnvelope & object, read
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -15970,7 +15532,7 @@ export type DisputeWonEvent = ((((Exclude<MerchantWebhookEnvelope & object, read
             [key: string]: unknown;
         })
             & ({
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "can_respond_with_evidence"?: ((boolean) | (null));
             "case_type"?: (("inquiry"
                 | "chargeback"
@@ -15982,24 +15544,22 @@ export type DisputeWonEvent = ((((Exclude<MerchantWebhookEnvelope & object, read
                 | (string & {}))
                 | (null));
             "created_at"?: ((string) | (null));
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             "customer_id"?: ((string) | (null));
             "dispute_id"?: ((string) | (null));
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             "evidence_submission_count"?: ((number) | (null));
             "fraud_warning_id"?: ((string) | (null));
             "has_evidence"?: ((boolean) | (null));
             "is_action_required"?: ((boolean) | (null));
             "is_evidence_deadline_passed"?: ((boolean) | (null));
             "merchant_id"?: ((string) | (null));
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             "order_id"?: ((string) | (null));
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             "payment_intent_id"?: ((string) | (null));
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             "reason"?: (("fraudulent"
                 | "unrecognized"
                 | "duplicate"
@@ -16188,26 +15748,22 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -16252,47 +15808,38 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -16719,24 +16266,21 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -16776,56 +16320,50 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -16899,7 +16437,7 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -16932,13 +16470,10 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -16953,13 +16488,13 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -17015,22 +16550,18 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -17040,14 +16571,10 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -17058,14 +16585,12 @@ export type DisputeWonInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope 
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -17370,26 +16895,22 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
      * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer
-     * (Optional): ({@link ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present
-     * only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. previous_attributes.customer.anyOf[1] (Value): ({@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer.
-     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.customer.anyOf[2] (Value): null.
-     * previous_attributes.customer_id (Optional): string or null. The customer on the disputed
-     * payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1] (Value):
-     * string. The customer on the disputed payment. Absent when the payment has none. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
-     * previous_attributes.dispute_id (Optional): string or null. Stable identifier of the dispute.
-     * previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the dispute.
-     * Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2] (Value):
-     * null. previous_attributes.evidence_due_at (Optional): string or null or null. Deadline for
+     * (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
      * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
-     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string or null. Deadline
-     * for submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
      * dispute has no response window, such as a bank return or a case your processor gave no
      * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
@@ -17434,47 +16955,38 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
      * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
      * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.network_reason_code (Optional): string or null or null. Opaque reason
-     * code assigned by the card network. Read it with the disputed payment's card brand; codes
-     * differ by network. `null` when the network supplied no code or the supplied code has an
-     * unsupported shape. previous_attributes.network_reason_code.anyOf[1] (Value): string or null.
-     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
-     * brand; codes differ by network. `null` when the network supplied no code or the supplied
-     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-     * previous_attributes.network_reason_code.anyOf[2] (Value): null. previous_attributes.order
-     * (Optional): ({@link ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only
-     * when `expand` includes `order`; `null` when expanded and there is no related order.
-     * previous_attributes.order.anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes}
-     * or null). Present only when `expand` includes `order`; `null` when expanded and there is no
-     * related order. previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[1].anyOf[2]
-     * (Value): null. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
      * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
      * payment was for. Absent when Flint can't link the dispute to an order.
      * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
      * was for. Absent when Flint can't link the dispute to an order. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent (Optional): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null) or null. Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1] (Value): ({@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
-     * ExpandedPaymentIntentSummaryPreviousAttributes}.
-     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
-     * previous_attributes.payment_intent.anyOf[2] (Value): null.
-     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment intent
-     * that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the payment
-     * intent that took the disputed payment. Absent when Flint can't link the dispute to a payment
-     * intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_option (Optional): string or null or null. How the buyer paid
-     * for the disputed payment. `null` when Flint hasn't linked the dispute to a payment intent
-     * that records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string or null. How
-     * the buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
      * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
      * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
      * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
@@ -17901,24 +17413,21 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
          * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. created_at
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer (Optional): ({@link
-         * ExpandedCustomerSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `customer`; `null` when expanded and there is no related customer.
-         * customer.anyOf[1] (Value): ({@link ExpandedCustomerSummaryPreviousAttributes} or null).
-         * Present only when `expand` includes `customer`; `null` when expanded and there is no
-         * related customer. customer.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[1].anyOf[2] (Value): null.
-         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
-         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
-         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link
+         * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value):
+         * null. customer_id (Optional): string or null. The customer on the disputed payment.
+         * Absent when the payment has none. customer_id.anyOf[1] (Value): string. The customer on
+         * the disputed payment. Absent when the payment has none. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
          * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
          * (Value): string. Stable identifier of the dispute. Example:
          * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
-         * (Optional): string or null or null. Deadline for submitting evidence. Respond before it
-         * when is_action_required is true. `null` when the dispute has no response window, such as
-         * a bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
-         * (Value): string or null. Deadline for submitting evidence. Respond before it when
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
          * is_action_required is true. `null` when the dispute has no response window, such as a
          * bank return or a case your processor gave no deadline for. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
@@ -17958,56 +17467,50 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
          * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
          * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
          * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null or
-         * null. Opaque reason code assigned by the card network. Read it with the disputed
-         * payment's card brand; codes differ by network. `null` when the network supplied no code
-         * or the supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value):
-         * string or null. Opaque reason code assigned by the card network. Read it with the
-         * disputed payment's card brand; codes differ by network. `null` when the network supplied
-         * no code or the supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
-         * network_reason_code.anyOf[2] (Value): null. order (Optional): ({@link
-         * ExpandedOrderSummaryPreviousAttributes} or null) or null. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
-         * order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null. order_id
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
          * (Optional): string or null. ID of the order the disputed payment was for. Absent when
          * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
          * order the disputed payment was for. Absent when Flint can't link the dispute to an
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
-         * payment_intent (Optional): ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or
-         * null) or null. Present only when `expand` includes `payment_intent`; `null` when
-         * expanded and there is no related payment intent. payment_intent.anyOf[1] (Value):
-         * ({@link ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when
-         * `expand` includes `payment_intent`; `null` when expanded and there is no related payment
-         * intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
-         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[1].anyOf[2]
-         * (Value): null. payment_intent.anyOf[2] (Value): null. payment_intent_id (Optional):
-         * string or null. ID of the payment intent that took the disputed payment. Absent when
-         * Flint can't link the dispute to a payment intent. payment_intent_id.anyOf[1] (Value):
-         * string. ID of the payment intent that took the disputed payment. Absent when Flint can't
-         * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-         * payment_intent_id.anyOf[2] (Value): null. payment_option (Optional): string or null or
-         * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
-         * dispute to a payment intent that records a payment option. Value enum: "card",
-         * "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[1] (Value):
-         * string or null. How the buyer paid for the disputed payment. `null` when Flint hasn't
-         * linked the dispute to a payment intent that records a payment option. Value enum:
-         * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. payment_option.anyOf[2]
-         * (Value): null. reason (Optional): string or null. Why the payment was disputed. A reason
-         * Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
-         * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
          * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-         * "bank_account_not_found", "other". reason.anyOf[1] (Value): string. Why the payment was
-         * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
-         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-         * "debit_not_authorized", "bank_account_not_found", "other". reason.anyOf[2] (Value):
-         * null. recommended_evidence_types (Optional): Array of string or null. Evidence types
-         * that usually answer this reason, chosen by Flint, most useful first. Use the ones that
-         * fit what you sold. Empty when Flint has no recommendation, including bank returns.
-         * Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
          * change. [] enum: "customer_details", "customer_communication", "customer_signature",
          * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
          * "product_description", "refund_policy", "duplicate_charge_documentation",
@@ -18081,7 +17584,7 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
              * opened; an inquiry moves no money. anyOf[1] (Value): {@link
              * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
-            "amount_money"?: ((MoneyValuePreviousAttributes) | (null) | (unknown));
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
              * Whether this dispute has an evidence response window. It stays true after the window
              * closes or a decision is made. Use is_action_required to know whether a response is
@@ -18114,13 +17617,10 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
             "created_at"?: ((string) | (null));
             /**
              * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): ({@link
-             * ExpandedCustomerSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `customer`; `null` when expanded and there is no related customer.
-             * anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
-             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "customer"?: (((((ExpandedCustomerSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
             /**
              * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
              * (Value): string. The customer on the disputed payment. Absent when the payment has
@@ -18135,13 +17635,13 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
             /**
              * Deadline for submitting evidence. Respond before it when is_action_required is true.
              * `null` when the dispute has no response window, such as a bank return or a case your
-             * processor gave no deadline for. anyOf[1] (Value): string or null. Deadline for
-             * submitting evidence. Respond before it when is_action_required is true. `null` when
-             * the dispute has no response window, such as a bank return or a case your processor
-             * gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
              */
-            "evidence_due_at"?: ((string | null) | (null) | (unknown));
+            "evidence_due_at"?: ((string) | (null));
             /**
              * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
              * (Value): integer. How many times evidence was submitted for this dispute. 0 until
@@ -18197,22 +17697,18 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
             /**
              * Opaque reason code assigned by the card network. Read it with the disputed payment's
              * card brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. anyOf[1] (Value): string or null. Opaque
-             * reason code assigned by the card network. Read it with the disputed payment's card
-             * brand; codes differ by network. `null` when the network supplied no code or the
-             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value):
-             * null.
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
              */
-            "network_reason_code"?: ((string | null) | (null) | (unknown));
+            "network_reason_code"?: ((string) | (null));
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): ({@link ExpandedOrderSummaryPreviousAttributes} or
-             * null). Present only when `expand` includes `order`; `null` when expanded and there
-             * is no related order. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedOrderSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2]
-             * (Value): null.
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
              */
-            "order"?: (((((ExpandedOrderSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
             /**
              * ID of the order the disputed payment was for. Absent when Flint can't link the
              * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
@@ -18222,14 +17718,10 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
             "order_id"?: ((string) | (null));
             /**
              * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): ({@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes} or null). Present only when `expand`
-             * includes `payment_intent`; `null` when expanded and there is no related payment
-             * intent. anyOf[1].anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null.
-             * anyOf[2] (Value): null.
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "payment_intent"?: (((((ExpandedPaymentIntentSummaryPreviousAttributes) | (null) | (unknown)))) | (null) | (unknown));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
             /**
              * ID of the payment intent that took the disputed payment. Absent when Flint can't
              * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
@@ -18240,14 +17732,12 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
             /**
              * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
              * dispute to a payment intent that records a payment option. Value enum: "card",
-             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string or
-             * null. How the buyer paid for the disputed payment. `null` when Flint hasn't linked
-             * the dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
              * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
              */
-            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null)
-                | (null)
-                | (unknown));
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
             /**
              * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
              * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
@@ -18408,3 +17898,4 @@ export type DisputesAcceptParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
+export type DisputesCreateResponseSessionParams = DisputesAcceptParams;

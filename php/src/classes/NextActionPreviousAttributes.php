@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string|null $action_type
  * @property-read string|null $expires_at
- * @property-read mixed $merchant_account_session
+ * @property-read ReadinessMerchantAccountSessionPreviousAttributes|null $merchant_account_session
  * @property-read string|null $method
  * @property-read string|null $reason_code
  * @property-read string|null $reason_message
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string|null $required_scope
  * @property-read bool|null $requires_human_confirmation
  * @property-read int|null $suggested_delay_milliseconds
- * @property-read mixed $target_resource
+ * @property-read ResourceReferencePreviousAttributes|null $target_resource
  * @property-read string|null $url
  * Presence-aware response; omitted optional fields return null. */
 final class NextActionPreviousAttributes extends Model {
@@ -29,9 +29,9 @@ final class NextActionPreviousAttributes extends Model {
     public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. anyOf[1] (Value): {@see ReadinessMerchantAccountSessionPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ReadinessMerchantAccountSessionPreviousAttributes|null
      */
-    public function getMerchantAccountSession(): mixed { return $this->get('merchant_account_session'); }
+    public function getMerchantAccountSession(): ReadinessMerchantAccountSessionPreviousAttributes|null { return $this->get('merchant_account_session'); }
     public function hasMerchantAccountSession(): bool { return $this->has('merchant_account_session'); }
     /** HTTP method for the recovery read. Value enum: "GET". anyOf[1] (Value): string. HTTP method for the recovery read. Value enum: "GET". anyOf[2] (Value): null.
      * @return string|null
@@ -69,9 +69,9 @@ final class NextActionPreviousAttributes extends Model {
     public function getSuggestedDelayMilliseconds(): int|null { return $this->get('suggested_delay_milliseconds'); }
     public function hasSuggestedDelayMilliseconds(): bool { return $this->has('suggested_delay_milliseconds'); }
     /** Resource whose ID to send in the target request field named {resource_type}_id when url cannot carry the target. anyOf[1] (Value): {@see ResourceReferencePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return ResourceReferencePreviousAttributes|null
      */
-    public function getTargetResource(): mixed { return $this->get('target_resource'); }
+    public function getTargetResource(): ResourceReferencePreviousAttributes|null { return $this->get('target_resource'); }
     public function hasTargetResource(): bool { return $this->has('target_resource'); }
     /** Public endpoint or launch URL for this remediation action, when applicable. anyOf[1] (Value): string. Public endpoint or launch URL for this remediation action, when applicable. anyOf[2] (Value): null.
      * @return string|null

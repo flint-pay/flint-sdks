@@ -57,16 +57,16 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_payment_attempt_count` | Optional | integer or null or null | Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. `active_payment_attempt_count`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesactive_payment_attempt_count). |
+| `active_payment_attempt_count` | Optional | integer or null | Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. `active_payment_attempt_count`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesactive_payment_attempt_count). |
 | `created_at` | Optional | string or null | When this domain resource was created, in RFC3339 format. `created_at`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributescreated_at). |
 | `custom_domain_id` | Optional | string or null | Flint custom domain ID. `custom_domain_id`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributescustom_domain_id). |
 | `dns_records` | Optional | Array of [CustomDomainDNSRecordPreviousAttributes](../models/CustomDomainDNSRecordPreviousAttributes.md#customdomaindnsrecordpreviousattributes) or null | DNS records to add for setup or verification. For an archived hostname, records that can be deleted. `dns_records`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesdns_records). |
 | `hostname` | Optional | string or null | Configured hostname, normalized to lowercase without a trailing dot. `hostname`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributeshostname). |
-| `last_checked_at` | Optional | string or null or null | When the domain was last checked, in RFC3339 format; `null` when no check time is available. `last_checked_at`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributeslast_checked_at). |
-| `payment_method_domain_id` | Optional | string or null or null | Payment method domain associated with this hostname. `null` when none is reported. `payment_method_domain_id`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributespayment_method_domain_id). |
-| `redirect_expires_at` | Optional | string or null or null | End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. `redirect_expires_at`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesredirect_expires_at). |
+| `last_checked_at` | Optional | string or null | When the domain was last checked, in RFC3339 format; `null` when no check time is available. `last_checked_at`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributeslast_checked_at). |
+| `payment_method_domain_id` | Optional | string or null | Payment method domain associated with this hostname. `null` when none is reported. `payment_method_domain_id`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributespayment_method_domain_id). |
+| `redirect_expires_at` | Optional | string or null | End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. `redirect_expires_at`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesredirect_expires_at). |
 | `status` | Optional | string or null | Current setup and availability state of the hostname. Archived domains retain their resource identity. Values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesstatus). |
-| `status_reason` | Optional | string or null or null | Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Values: [10 declared values](CustomDomain.md#customdomain-status_reason-values). `status_reason`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesstatus_reason). |
+| `status_reason` | Optional | string or null | Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Values: [10 declared values](CustomDomain.md#customdomain-status_reason-values). `status_reason`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesstatus_reason). |
 | `type` | Optional | string or null | Whether the hostname serves checkout pages or the customer account Flint hosts. Values: `"checkout"`, `"customer_account"`. `type`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributestype). |
 | `updated_at` | Optional | string or null | When this domain resource was last updated, in RFC3339 format. `updated_at`: [declared alternatives](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdataprevious_attributesupdated_at). |
 
@@ -76,7 +76,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 anyOf variant 1: Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`..
 
-- Value shape: (integer or null). Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Format: `int64`. 
+- Value shape: integer. Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Format: `int64`. 
 
 ### CustomDomainArchivedEvent.data.previous_attributes.active_payment_attempt_count variant 2
 
@@ -146,7 +146,7 @@ anyOf variant 2.
 
 anyOf variant 1: When the domain was last checked, in RFC3339 format; `null` when no check time is available..
 
-- Value shape: (string or null). When the domain was last checked, in RFC3339 format; `null` when no check time is available. When the domain was last checked, in RFC3339 format; `null` when no check time is available. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. When the domain was last checked, in RFC3339 format; `null` when no check time is available. When the domain was last checked, in RFC3339 format; `null` when no check time is available. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### CustomDomainArchivedEvent.data.previous_attributes.last_checked_at variant 2
 
@@ -160,7 +160,7 @@ anyOf variant 2.
 
 anyOf variant 1: Payment method domain associated with this hostname. `null` when none is reported..
 
-- Value shape: (string or null). Payment method domain associated with this hostname. `null` when none is reported. Payment method domain associated with this hostname. `null` when none is reported. Example: `"pmdom_01KEZF7C001WQCSRGH9GWR6628"`. 
+- Value shape: string. Payment method domain associated with this hostname. `null` when none is reported. Payment method domain associated with this hostname. `null` when none is reported. Example: `"pmdom_01KEZF7C001WQCSRGH9GWR6628"`. 
 
 ### CustomDomainArchivedEvent.data.previous_attributes.payment_method_domain_id variant 2
 
@@ -174,7 +174,7 @@ anyOf variant 2.
 
 anyOf variant 1: End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived..
 
-- Value shape: (string or null). End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### CustomDomainArchivedEvent.data.previous_attributes.redirect_expires_at variant 2
 
@@ -202,7 +202,7 @@ anyOf variant 2.
 
 anyOf variant 1: Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains..
 
-- Value shape: (string or null). Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Values: `"dns_record_missing"`, `"dns_record_mismatch"`, `"ownership_record_missing"`, `"ownership_record_mismatch"`, `"caa_record_blocks_certificate"`, `"proxied_by_another_provider"`, `"certificate_pending"`, `"custom_domains_inactive"`, `"other"`, `null`.
+- Value shape: string. Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Values: `"dns_record_missing"`, `"dns_record_mismatch"`, `"ownership_record_missing"`, `"ownership_record_mismatch"`, `"caa_record_blocks_certificate"`, `"proxied_by_another_provider"`, `"certificate_pending"`, `"custom_domains_inactive"`, `"other"`, `null`.
 
 ### CustomDomainArchivedEvent.data.previous_attributes.status_reason variant 2
 

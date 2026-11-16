@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $amount_money
+ * @property-read MoneyValuePreviousAttributes|null $amount_money
  * @property-read string|null $failure_reason
- * @property-read mixed $payment_intent
+ * @property-read BuyerExpandedPaymentIntentSummaryPreviousAttributes|null $payment_intent
  * @property-read string|null $payment_intent_id
- * @property-read mixed $refunded_platform_fee_money
- * @property-read mixed $refunded_tip_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_platform_fee_money
+ * @property-read MoneyValuePreviousAttributes|null $refunded_tip_money
  * @property-read string|null $status
  * @property-read string|null $succeeded_at
  * Presence-aware response; omitted optional fields return null. */
@@ -15,19 +15,19 @@ final class BuyerPaymentRefundPreviousAttributes extends Model {
     /** @param array{'amount_money'?: mixed, 'failure_reason'?: mixed, 'payment_intent'?: mixed, 'payment_intent_id'?: mixed, 'refunded_platform_fee_money'?: mixed, 'refunded_tip_money'?: mixed, 'status'?: mixed, 'succeeded_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentRefundPreviousAttributes')); }
     /** Amount refunded through this payment, including `refunded_tip_money`. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValuePreviousAttributes|null { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A payment_returned refund that failed with refund_abandoned can't be retried through Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A payment_returned refund that failed with refund_abandoned can't be retried through Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getFailureReason(): string|null { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): ({@see BuyerExpandedPaymentIntentSummaryPreviousAttributes} or null). The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1].anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return mixed
+    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     * @return BuyerExpandedPaymentIntentSummaryPreviousAttributes|null
      */
-    public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
+    public function getPaymentIntent(): BuyerExpandedPaymentIntentSummaryPreviousAttributes|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
     /** The payment this part of the refund returned money through. anyOf[1] (Value): string. The payment this part of the refund returned money through. anyOf[2] (Value): null.
      * @return string|null
@@ -35,14 +35,14 @@ final class BuyerPaymentRefundPreviousAttributes extends Model {
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
     /** The platform fee this payment refund returns to you, present when the payment carries a collected platform fee: its share when the refund was created with refund_platform_fee true, 0 when the partner app keeps the fee. Flint returns it once this payment refund succeeds. If this payment refund then fails, Flint doesn't take the returned fee back. See [Platform fees](/docs/guides/platform-fees). anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedPlatformFeeMoney(): mixed { return $this->get('refunded_platform_fee_money'); }
+    public function getRefundedPlatformFeeMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_platform_fee_money'); }
     public function hasRefundedPlatformFeeMoney(): bool { return $this->has('refunded_platform_fee_money'); }
     /** Share of `amount_money` that refunds tips. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getRefundedTipMoney(): mixed { return $this->get('refunded_tip_money'); }
+    public function getRefundedTipMoney(): MoneyValuePreviousAttributes|null { return $this->get('refunded_tip_money'); }
     public function hasRefundedTipMoney(): bool { return $this->has('refunded_tip_money'); }
     /** Status of this payment refund or tender allocation. A succeeded refund can still fail after a bank rejection. Parent status transitions send refund.succeeded, refund.partially_succeeded, or refund.failed; other public changes send refund.updated. Value enum: "pending", "requires_action", "succeeded", "failed", "canceled". anyOf[1] (Value): string. Status of this payment refund or tender allocation. A succeeded refund can still fail after a bank rejection. Parent status transitions send refund.succeeded, refund.partially_succeeded, or refund.failed; other public changes send refund.updated. Value enum: "pending", "requires_action", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
      * @return string|null

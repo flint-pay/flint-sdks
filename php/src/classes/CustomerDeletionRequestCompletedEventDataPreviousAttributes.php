@@ -7,11 +7,11 @@ namespace Flint;
  * @property-read list<string>|null $canceled_subscription_ids
  * @property-read string|null $customer_deletion_request_id
  * @property-read string|null $customer_id
- * @property-read mixed $decided_at
- * @property-read mixed $decision_reason
+ * @property-read string|null $decided_at
+ * @property-read string|null $decision_reason
  * @property-read list<string>|null $removed_payment_method_ids
  * @property-read string|null $requested_at
- * @property-read mixed $requested_by
+ * @property-read string|null $requested_by
  * @property-read string|null $resolved_at
  * @property-read string|null $response_due_at
  * @property-read string|null $retention_policy
@@ -46,15 +46,15 @@ final class CustomerDeletionRequestCompletedEventDataPreviousAttributes extends 
      */
     public function getCustomerId(): string|null { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. anyOf[1] (Value): string or null. Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Format: date-time. anyOf[2] (Value): null.
-     * @return mixed
+    /** Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. anyOf[1] (Value): string. Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getDecidedAt(): mixed { return $this->get('decided_at'); }
+    public function getDecidedAt(): string|null { return $this->get('decided_at'); }
     public function hasDecidedAt(): bool { return $this->has('decided_at'); }
-    /** Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. anyOf[1] (Value): string or null. Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. anyOf[2] (Value): null.
-     * @return mixed
+    /** Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. anyOf[1] (Value): string. Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getDecisionReason(): mixed { return $this->get('decision_reason'); }
+    public function getDecisionReason(): string|null { return $this->get('decision_reason'); }
     public function hasDecisionReason(): bool { return $this->has('decision_reason'); }
     /** Payment method IDs whose archival completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. anyOf[1] (Value): Array of string. Payment method IDs whose archival completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -66,10 +66,10 @@ final class CustomerDeletionRequestCompletedEventDataPreviousAttributes extends 
      */
     public function getRequestedAt(): string|null { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Value enum: "buyer", "merchant", null. anyOf[1] (Value): string or null. Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Value enum: "buyer", "merchant", null. anyOf[2] (Value): null.
-     * @return mixed
+    /** Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Value enum: "buyer", "merchant", null. anyOf[1] (Value): string. Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Value enum: "buyer", "merchant", null. anyOf[2] (Value): null.
+     * @return string|null
      */
-    public function getRequestedBy(): mixed { return $this->get('requested_by'); }
+    public function getRequestedBy(): string|null { return $this->get('requested_by'); }
     public function hasRequestedBy(): bool { return $this->has('requested_by'); }
     /** Unlike decided_at, which records the merchant's decision, this is the time of the most recent resolved outcome: rejected, completed, or failed. Absent while pending_review or processing. Cleared when a failed request is approved again. anyOf[1] (Value): string. Unlike decided_at, which records the merchant's decision, this is the time of the most recent resolved outcome: rejected, completed, or failed. Absent while pending_review or processing. Cleared when a failed request is approved again. Format: date-time. anyOf[2] (Value): null.
      * @return string|null

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $modifier_group_name
  * @property-read string|null $modifier_id
  * @property-read string|null $name
@@ -11,18 +11,18 @@ namespace Flint;
  * @property-read bool|null $show_on_fulfillment
  * @property-read bool|null $show_on_receipt
  * @property-read string|null $source_type
- * @property-read mixed $text
+ * @property-read TextModifierRequestPreviousAttributes|null $text
  * @property-read string|null $text_value
- * @property-read mixed $total_money
- * @property-read mixed $unit_price_delta_money
+ * @property-read MoneyValuePreviousAttributes|null $total_money
+ * @property-read MoneyValuePreviousAttributes|null $unit_price_delta_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderLineItemModifierPreviousAttributes extends Model {
     /** @param array{'metadata'?: mixed, 'modifier_group_name'?: mixed, 'modifier_id'?: mixed, 'name'?: mixed, 'order_line_item_modifier_id'?: mixed, 'quantity'?: mixed, 'show_on_fulfillment'?: mixed, 'show_on_receipt'?: mixed, 'source_type'?: mixed, 'text'?: mixed, 'text_value'?: mixed, 'total_money'?: mixed, 'unit_price_delta_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemModifierPreviousAttributes')); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Name of the modifier group recorded when this selection was added to the order line item. anyOf[1] (Value): string. Name of the modifier group recorded when this selection was added to the order line item. anyOf[2] (Value): null.
      * @return string|null
@@ -65,9 +65,9 @@ final class OrderLineItemModifierPreviousAttributes extends Model {
     public function getSourceType(): string|null { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
     /** Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. anyOf[1] (Value): {@see TextModifierRequestPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return TextModifierRequestPreviousAttributes|null
      */
-    public function getText(): mixed { return $this->get('text'); }
+    public function getText(): TextModifierRequestPreviousAttributes|null { return $this->get('text'); }
     public function hasText(): bool { return $this->has('text'); }
     /** Buyer-entered text recorded for a text modifier selection. anyOf[1] (Value): string. Buyer-entered text recorded for a text modifier selection. anyOf[2] (Value): null.
      * @return string|null
@@ -75,13 +75,13 @@ final class OrderLineItemModifierPreviousAttributes extends Model {
     public function getTextValue(): string|null { return $this->get('text_value'); }
     public function hasTextValue(): bool { return $this->has('text_value'); }
     /** Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
+    public function getTotalMoney(): MoneyValuePreviousAttributes|null { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** Amount added to the item's unit price for each unit of this selection, recorded when selected. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return MoneyValuePreviousAttributes|null
      */
-    public function getUnitPriceDeltaMoney(): mixed { return $this->get('unit_price_delta_money'); }
+    public function getUnitPriceDeltaMoney(): MoneyValuePreviousAttributes|null { return $this->get('unit_price_delta_money'); }
     public function hasUnitPriceDeltaMoney(): bool { return $this->has('unit_price_delta_money'); }
 }

@@ -6,9 +6,10 @@ import type {
     DeliveryZoneResponse,
     DeliveryZonesCreateParams,
     DeliveryZonesDeleteParams,
-    DeliveryZonesGetParams
+    DeliveryZonesGetParams,
+    DeliveryZonesListParams
 } from '../declarations/types-24.js';
-import type { DeliveryZonesListParams, DeliveryZonesUpdateParams } from '../declarations/types-25.js';
+import type { DeliveryZonesUpdateParams } from '../declarations/types-25.js';
 import type { RequestOptions } from '../declarations/types-60.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -31,6 +32,7 @@ export type {
     DeliveryZoneResponse,
     DeliveryZonesDeleteParams,
     DeliveryZonesGetParams,
+    DeliveryZonesListParams,
     DeliveryZoneListResponse,
     DeliveryZoneConfigurationRequestInput,
     DeliveryStateConditionRequestInput,
@@ -39,7 +41,7 @@ export type {
 } from '../declarations/types-24.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-60.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-77.js';
-export type { DeliveryZonesListParams, DeliveryZonesUpdateParams, DisputesAcceptParams } from '../declarations/types-25.js';
+export type { DeliveryZonesUpdateParams, DisputesAcceptParams } from '../declarations/types-25.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeliveryZoneRequestInput } from '../declarations/types-9.js';
 export type { DeliveryCountryConditionRequestInput, DeliveryDistanceRequestInput, DeliveryDistance } from '../declarations/types-18.js';
@@ -69,11 +71,11 @@ export {
     makeDeliveryPostalCodeValueRequest,
     makeDeliveryRadiusConditionRequest,
     makeDeliveryRadiusOrigin,
-    makeDeliveryStateConditionRequest
+    makeDeliveryStateConditionRequest,
+    makeDeliveryZoneConfigurationRequest
 } from '../declarations/types-83.js';
-export { makeDeliveryZoneConfigurationRequest } from '../declarations/types-84.js';
-export { makeMetadataPatchRequest } from '../declarations/types-85.js';
-export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-86.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-86.js';
 export { makeUpdateDeliveryZoneRequest } from '../declarations/types-90.js';
 export interface DeliveryZonesResource {
     /**

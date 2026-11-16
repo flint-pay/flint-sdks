@@ -2,15 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|\DateTimeInterface|null|null $last_seen_at
+ * @property-read string|\DateTimeInterface|null $last_seen_at
  * @property-read string|\DateTimeInterface|null $observed_at
  * @property-read string|null $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReaderConnectivityPreviousAttributesInput extends Model {
-    /** @param array{'last_seen_at'?: string|\DateTimeInterface|null|null, 'observed_at'?: string|\DateTimeInterface|null, 'status'?: string|null, ...}|object $values */
+    /** @param array{'last_seen_at'?: string|\DateTimeInterface|null, 'observed_at'?: string|\DateTimeInterface|null, 'status'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReaderConnectivityPreviousAttributesInput')); }
-    /** When the reader last reached Stripe. Omitted when it never has. anyOf[1] (Value): string or null. When the reader last reached Stripe. Omitted when it never has. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     * @return string|\DateTimeInterface|null|null
+    /** When the reader last reached Stripe. Omitted when it never has. anyOf[1] (Value): string. When the reader last reached Stripe. Omitted when it never has. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * @return string|\DateTimeInterface|null
      * @throws SdkError When last_seen_at is omitted; use hasLastSeenAt() or valueOrDefault().
      */
     public function getLastSeenAt(): mixed { return $this->get('last_seen_at'); }

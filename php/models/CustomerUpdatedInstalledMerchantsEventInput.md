@@ -40,27 +40,27 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_address` | Optional | ([AddressPreviousAttributesInput](../models/AddressPreviousAttributesInput.md#addresspreviousattributesinput) or null) or null | The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. `null` when no saved address is the billing default. |
+| `billing_address` | Optional | [AddressPreviousAttributesInput](../models/AddressPreviousAttributesInput.md#addresspreviousattributesinput) or null | The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. `null` when no saved address is the billing default. |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `customer_id` | Optional | string or null | Unique identifier for this customer, prefixed `cus_`. `customer_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributescustomer_id). |
 | `default_invoice_payment_term_id` | Optional | string or null | ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. Absent when none is set. `default_invoice_payment_term_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesdefault_invoice_payment_term_id). |
-| `default_payment_method` | Optional | ([ExpandedPaymentMethodSummaryPreviousAttributesInput](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinput) or null) or null | Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. |
-| `default_payment_method_id` | Optional | string or null or null | ID of the customer's default off-session payment method. `null` when none is set. `default_payment_method_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesdefault_payment_method_id). |
-| `email` | Optional | string or null or null | Customer email. `null` when the customer has none. Unique among the environment's customers. `email`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesemail). |
-| `external_reference_id` | Optional | string or null or null | Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. `external_reference_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
-| `internal_note` | Optional | string or null or null | Internal note about this customer. `null` when none is set. Not returned to customer sessions. `internal_note`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesinternal_note). |
+| `default_payment_method` | Optional | [ExpandedPaymentMethodSummaryPreviousAttributesInput](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinput) or null | Present only when `expand` includes `default_payment_method`; `null` when expanded and there is no related payment method. |
+| `default_payment_method_id` | Optional | string or null | ID of the customer's default off-session payment method. `null` when none is set. `default_payment_method_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesdefault_payment_method_id). |
+| `email` | Optional | string or null | Customer email. `null` when the customer has none. Unique among the environment's customers. `email`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesemail). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. `external_reference_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
+| `internal_note` | Optional | string or null | Internal note about this customer. `null` when none is set. Not returned to customer sessions. `internal_note`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesinternal_note). |
 | `is_merchant_verified` | Optional | boolean or null | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. `is_merchant_verified`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesis_merchant_verified). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. |
-| `name` | Optional | string or null or null | Customer name. `null` when none is set. `name`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesname). |
-| `phone` | Optional | string or null or null | Customer phone number. `null` when none is set. `phone`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesphone). |
-| `price_list_id` | Optional | string or null or null | ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions. `price_list_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesprice_list_id). |
+| `name` | Optional | string or null | Customer name. `null` when none is set. `name`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesname). |
+| `phone` | Optional | string or null | Customer phone number. `null` when none is set. `phone`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesphone). |
+| `price_list_id` | Optional | string or null | ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions. `price_list_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesprice_list_id). |
 | `receivables` | Optional | [CustomerReceivablesPreviousAttributesInput](../models/CustomerReceivablesPreviousAttributesInput.md#customerreceivablespreviousattributesinput) or null | What this customer owes you on invoices: the outstanding and overdue amounts, one balance per currency. Present only when `expand` includes `receivables`. |
-| `segment` | Optional | string or null or null | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions. `segment`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributessegment). |
-| `shipping_address` | Optional | ([AddressPreviousAttributesInput](../models/AddressPreviousAttributesInput.md#addresspreviousattributesinput) or null) or null | The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is the shipping default. |
+| `segment` | Optional | string or null | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions. `segment`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributessegment). |
+| `shipping_address` | Optional | [AddressPreviousAttributesInput](../models/AddressPreviousAttributesInput.md#addresspreviousattributesinput) or null | The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. `null` when no saved address is the shipping default. |
 | `status` | Optional | string or null | Where the customer is in the deletion lifecycle. Values: `"active"`, `"deletion_processing"`, `"deleted"`. `status`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributesstatus). |
 | `tax_exempt` | Optional | boolean or null | Whether Flint treats this customer as exempt from tax on their orders, so it skips tax calculation for them. Not returned to customer sessions. `tax_exempt`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributestax_exempt). |
-| `tax_identity` | Optional | ([TaxIdentityPreviousAttributesInput](../models/TaxIdentityPreviousAttributesInput.md#taxidentitypreviousattributesinput) or null) or null | Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions. |
+| `tax_identity` | Optional | [TaxIdentityPreviousAttributesInput](../models/TaxIdentityPreviousAttributesInput.md#taxidentitypreviousattributesinput) or null | Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions. |
 | `test_clock_id` | Optional | string or null | ID of the test clock the customer was created on. The customer and its subscriptions read the clock's `frozen_at` as the current time. Present only for customers created on a test clock. Not returned to customer sessions. `test_clock_id`: [declared alternatives](../models/CustomerUpdatedInstalledMerchantsEventInput.md#customerupdatedinstalledmerchantseventinputdataprevious_attributestest_clock_id). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributesversion). |
@@ -103,7 +103,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the customer's default off-session payment method. `null` when none is set..
 
-- Value shape: (string or null). ID of the customer's default off-session payment method. `null` when none is set. ID of the customer's default off-session payment method. `null` when none is set. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. 
+- Value shape: string. ID of the customer's default off-session payment method. `null` when none is set. ID of the customer's default off-session payment method. `null` when none is set. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.default_payment_method_id variant 2
 
@@ -117,7 +117,7 @@ anyOf variant 2.
 
 anyOf variant 1: Customer email. `null` when the customer has none. Unique among the environment's customers..
 
-- Value shape: (string or null). Customer email. `null` when the customer has none. Unique among the environment's customers. 
+- Value shape: string. Customer email. `null` when the customer has none. Unique among the environment's customers. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.email variant 2
 
@@ -131,7 +131,7 @@ anyOf variant 2.
 
 anyOf variant 1: Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions..
 
-- Value shape: (string or null). Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. 
+- Value shape: string. Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. Caller-owned identifier for this customer in an external system. `null` when none is set. Not returned to customer sessions. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id variant 2
 
@@ -145,7 +145,7 @@ anyOf variant 2.
 
 anyOf variant 1: Internal note about this customer. `null` when none is set. Not returned to customer sessions..
 
-- Value shape: (string or null). Internal note about this customer. `null` when none is set. Not returned to customer sessions. 
+- Value shape: string. Internal note about this customer. `null` when none is set. Not returned to customer sessions. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.internal_note variant 2
 
@@ -177,7 +177,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.merchan
 
 anyOf variant 1: Customer name. `null` when none is set..
 
-- Value shape: (string or null). Customer name. `null` when none is set. 
+- Value shape: string. Customer name. `null` when none is set. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.name variant 2
 
@@ -191,7 +191,7 @@ anyOf variant 2.
 
 anyOf variant 1: Customer phone number. `null` when none is set..
 
-- Value shape: (string or null). Customer phone number. `null` when none is set. 
+- Value shape: string. Customer phone number. `null` when none is set. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.phone variant 2
 
@@ -205,7 +205,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions..
 
-- Value shape: (string or null). ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions. ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions. pattern: `^prl_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"prl_01KEZF7C00EH39P59GN3XMGS2Q"`. 
+- Value shape: string. ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions. ID of the customer's direct wholesale price list. `null` when none is set. An inactive list can be assigned but does not apply. Not returned to customer sessions. pattern: `^prl_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"prl_01KEZF7C00EH39P59GN3XMGS2Q"`. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.price_list_id variant 2
 
@@ -219,7 +219,7 @@ anyOf variant 2.
 
 anyOf variant 1: Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions..
 
-- Value shape: (string or null). Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions. 
+- Value shape: string. Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. `null` when none is set. Not returned to customer sessions. 
 
 ### CustomerUpdatedInstalledMerchantsEventInput.data.previous_attributes.segment variant 2
 

@@ -1,12 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type {
-    ConfirmCustomerVerificationRequestInput,
-    ConfirmEmailChangeRequestInput,
-    ConfirmPaymentIntentRequestInput,
-    ConfirmReturnResolutionRequestInput,
-    ConnectTaxConnectionRequestInput,
-    ConsumeInventoryReservationRequestInput
-} from './types-7.js';
+import type { ConnectTaxConnectionRequestInput, ConsumeInventoryReservationRequestInput } from './types-7.js';
 import type {
     CreateAPIKeyRequestInput,
     CreateAPIKeyRequestFullInput,
@@ -67,12 +60,12 @@ import type {
     CreateDeviceRequestInput,
     CreateDigitalFulfillmentDetailsInput,
     CreateEmailChangeRequestInput,
-    CreateFeedbackReportNarrativeInput
+    CreateFeedbackReportNarrativeInput,
+    CreateFeedbackReportRatingInput,
+    CreateFeedbackReportRequestInput,
+    CreateFileRequestInput,
+    CreateFulfillmentEventRequestInput
 } from './types-9.js';
-export declare function makeConfirmCustomerVerificationRequest(value: InputValue<ConfirmCustomerVerificationRequestInput>): Model<ConfirmCustomerVerificationRequestInput>;
-export declare function makeConfirmEmailChangeRequest(value: InputValue<ConfirmEmailChangeRequestInput>): Model<ConfirmEmailChangeRequestInput>;
-export declare function makeConfirmPaymentIntentRequest(value: InputValue<ConfirmPaymentIntentRequestInput>): Model<ConfirmPaymentIntentRequestInput>;
-export declare function makeConfirmReturnResolutionRequest(value: InputValue<ConfirmReturnResolutionRequestInput>): Model<ConfirmReturnResolutionRequestInput>;
 export declare function makeConnectTaxConnectionRequest(value: InputValue<ConnectTaxConnectionRequestInput>): Model<ConnectTaxConnectionRequestInput>;
 export declare function makeConsumeInventoryReservationRequest(value: InputValue<ConsumeInventoryReservationRequestInput>): Model<ConsumeInventoryReservationRequestInput>;
 export declare function makeCreateAPIKeyRequest(value: InputValue<CreateAPIKeyRequestInput>): Model<CreateAPIKeyRequestInput>;
@@ -135,3 +128,7 @@ export declare function makeCreateDeviceRequest(value: InputValue<CreateDeviceRe
 export declare function makeCreateDigitalFulfillmentDetails(value: InputValue<CreateDigitalFulfillmentDetailsInput>): Model<CreateDigitalFulfillmentDetailsInput>;
 export declare function makeCreateEmailChangeRequest(value: InputValue<CreateEmailChangeRequestInput>): Model<CreateEmailChangeRequestInput>;
 export declare function makeCreateFeedbackReportNarrative(value: InputValue<CreateFeedbackReportNarrativeInput>): Model<CreateFeedbackReportNarrativeInput>;
+export declare function makeCreateFeedbackReportRating(value: InputValue<CreateFeedbackReportRatingInput>): Model<CreateFeedbackReportRatingInput>;
+export declare function makeCreateFeedbackReportRequest(value: InputValue<CreateFeedbackReportRequestInput>): Model<CreateFeedbackReportRequestInput>;
+export declare function makeCreateFileRequest(value: InputValue<CreateFileRequestInput>): Model<CreateFileRequestInput>;
+export declare function makeCreateFulfillmentEventRequest(value: InputValue<CreateFulfillmentEventRequestInput>): Model<CreateFulfillmentEventRequestInput>;

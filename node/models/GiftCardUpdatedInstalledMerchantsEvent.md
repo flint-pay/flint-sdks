@@ -45,11 +45,11 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `code_source` | Optional | string or null | Origin of the current code: generated means Flint issued a random code; imported means the merchant supplied an existing code during import. Rotating the code resets this to generated. Values: `"generated"`, `"imported"`. `code_source`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescode_source). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `currency` | Optional | string or null | ISO 4217 currency code. Values: `"USD"`. `currency`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescurrency). |
-| `customer_id` | Optional | string or null or null | ID of the customer associated with the card. `null` when no customer is associated. `customer_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescustomer_id). |
-| `external_reference_id` | Optional | string or null or null | Caller-owned identifier for this resource in an external system. `null` when none is set. `external_reference_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `customer_id` | Optional | string or null | ID of the customer associated with the card. `null` when no customer is associated. `customer_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributescustomer_id). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `null` when none is set. `external_reference_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
 | `gift_card_id` | Optional | string or null | Unique identifier for this gift card, prefixed `gc_`. `gift_card_id`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesgift_card_id). |
-| `last_loaded_at` | Optional | string or null or null | RFC3339 timestamp. `null` when no value has been loaded onto the card. `last_loaded_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_loaded_at). |
-| `last_redeemed_at` | Optional | string or null or null | RFC3339 timestamp. `null` when the card has never been redeemed. `last_redeemed_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_redeemed_at). |
+| `last_loaded_at` | Optional | string or null | RFC3339 timestamp. `null` when no value has been loaded onto the card. `last_loaded_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_loaded_at). |
+| `last_redeemed_at` | Optional | string or null | RFC3339 timestamp. `null` when the card has never been redeemed. `last_redeemed_at`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast_redeemed_at). |
 | `last4` | Optional | string or null | Last four characters of the card's current code. `last4`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributeslast4). |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesmerchant_id). |
 | `reserved_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. `reserved_money`: [declared alternatives](../models/GiftCardUpdatedInstalledMerchantsEvent.md#giftcardupdatedinstalledmerchantseventdataprevious_attributesreserved_money). |
@@ -151,7 +151,7 @@ anyOf variant 2.
 
 anyOf variant 1: ID of the customer associated with the card. `null` when no customer is associated..
 
-- Value shape: (string or null). ID of the customer associated with the card. `null` when no customer is associated. ID of the customer associated with the card. `null` when no customer is associated. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. 
+- Value shape: string. ID of the customer associated with the card. `null` when no customer is associated. ID of the customer associated with the card. `null` when no customer is associated. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. 
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.customer_id variant 2
 
@@ -165,7 +165,7 @@ anyOf variant 2.
 
 anyOf variant 1: Caller-owned identifier for this resource in an external system. `null` when none is set..
 
-- Value shape: (string or null). Caller-owned identifier for this resource in an external system. `null` when none is set. Caller-owned identifier for this resource in an external system. `null` when none is set. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. 
+- Value shape: string. Caller-owned identifier for this resource in an external system. `null` when none is set. Caller-owned identifier for this resource in an external system. `null` when none is set. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. 
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.external_reference_id variant 2
 
@@ -193,7 +193,7 @@ anyOf variant 2.
 
 anyOf variant 1: RFC3339 timestamp. `null` when no value has been loaded onto the card..
 
-- Value shape: (string or null). RFC3339 timestamp. `null` when no value has been loaded onto the card. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. RFC3339 timestamp. `null` when no value has been loaded onto the card. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.last_loaded_at variant 2
 
@@ -207,7 +207,7 @@ anyOf variant 2.
 
 anyOf variant 1: RFC3339 timestamp. `null` when the card has never been redeemed..
 
-- Value shape: (string or null). RFC3339 timestamp. `null` when the card has never been redeemed. RFC3339 timestamp. `null` when the card has never been redeemed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+- Value shape: string. RFC3339 timestamp. `null` when the card has never been redeemed. RFC3339 timestamp. `null` when the card has never been redeemed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
 
 ### GiftCardUpdatedInstalledMerchantsEvent.data.previous_attributes.last_redeemed_at variant 2
 

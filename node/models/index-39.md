@@ -1,11 +1,7 @@
 [Model index](../MODELS.md)
 
-# UpdatePaymentLinkRequestInput to WaiveReturnLineInspectionRequestInput
+# UpdatePayoutDestinationRequestInput to WebhookDeliveryAction
 
-- [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
-- [UpdatePaymentMethodDomainRequest](UpdatePaymentMethodDomainRequest.md)
-- [UpdatePaymentMethodDomainRequestInput](UpdatePaymentMethodDomainRequestInput.md)
-- [UpdatePayoutDestinationRequest](UpdatePayoutDestinationRequest.md)
 - [UpdatePayoutDestinationRequestInput](UpdatePayoutDestinationRequestInput.md)
 - [UpdatePayoutSettingsRequest](UpdatePayoutSettingsRequest.md)
 - [UpdatePayoutSettingsRequestInput](UpdatePayoutSettingsRequestInput.md)
@@ -102,4 +98,8 @@
 - [WaiveInvoiceLateFeeRequestInput](WaiveInvoiceLateFeeRequestInput.md)
 - [WaiveReturnLineInspectionRequest](WaiveReturnLineInspectionRequest.md)
 - [WaiveReturnLineInspectionRequestInput](WaiveReturnLineInspectionRequestInput.md)
+- [WebhookBundle](WebhookBundle.md)
+- [WebhookCheckoutSession](WebhookCheckoutSession.md)
+- [WebhookDelivery](WebhookDelivery.md)
+- [WebhookDeliveryAction](WebhookDeliveryAction.md)
 

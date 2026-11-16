@@ -1,10 +1,7 @@
 [Model index](../MODELS.md)
 
-# ProcessExistingReturnLineItemRequest to PromotionRecurrenceRequestInput
+# ProcessExistingReturnRequestInput to PromotionRefInputPromotionID
 
-- [ProcessExistingReturnLineItemRequest](ProcessExistingReturnLineItemRequest.md)
-- [ProcessExistingReturnLineItemRequestInput](ProcessExistingReturnLineItemRequestInput.md)
-- [ProcessExistingReturnRequest](ProcessExistingReturnRequest.md)
 - [ProcessExistingReturnRequestInput](ProcessExistingReturnRequestInput.md)
 - [ProcessExistingReturnResponse](ProcessExistingReturnResponse.md)
 - [Product](Product.md)
@@ -102,4 +99,7 @@
 - [PromotionRecurrenceRepeatingPreviousAttributes](PromotionRecurrenceRepeatingPreviousAttributes.md)
 - [PromotionRecurrenceRepeatingRequestInput](PromotionRecurrenceRepeatingRequestInput.md)
 - [PromotionRecurrenceRequestInput](PromotionRecurrenceRequestInput.md)
+- [PromotionRefInputPromotionCode](PromotionRefInputPromotionCode.md)
+- [PromotionRefInputPromotionCodeInput](PromotionRefInputPromotionCodeInput.md)
+- [PromotionRefInputPromotionID](PromotionRefInputPromotionID.md)
 

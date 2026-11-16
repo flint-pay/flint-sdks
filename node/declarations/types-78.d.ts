@@ -1,11 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    BuyerCreateReturnRequestInput,
-    BuyerCreateReturnResolutionPreviewRequestInput,
-    BuyerInstructionsConfigRequestInput
-} from './types-2.js';
-import type {
-    BuyerPauseCapabilityInput,
     BuyerRetentionOfferRequestInput,
     BuyerReturnReplacementLineItemInputBundleInput,
     BuyerReturnReplacementLineItemInputVariantInput,
@@ -73,12 +67,12 @@ import type {
     CompleteFulfillmentRequestInput,
     CompleteReturnRequestInput,
     ConfigurationVersionRequestInput,
-    ConfirmCheckoutSessionCustomerVerificationRequestInput
+    ConfirmCheckoutSessionCustomerVerificationRequestInput,
+    ConfirmCustomerVerificationRequestInput,
+    ConfirmEmailChangeRequestInput,
+    ConfirmPaymentIntentRequestInput,
+    ConfirmReturnResolutionRequestInput
 } from './types-7.js';
-export declare function makeBuyerCreateReturnRequest(value: InputValue<BuyerCreateReturnRequestInput>): Model<BuyerCreateReturnRequestInput>;
-export declare function makeBuyerCreateReturnResolutionPreviewRequest(value: InputValue<BuyerCreateReturnResolutionPreviewRequestInput>): Model<BuyerCreateReturnResolutionPreviewRequestInput>;
-export declare function makeBuyerInstructionsConfigRequest(value: InputValue<BuyerInstructionsConfigRequestInput>): Model<BuyerInstructionsConfigRequestInput>;
-export declare function makeBuyerPauseCapability(value: InputValue<BuyerPauseCapabilityInput>): Model<BuyerPauseCapabilityInput>;
 export declare function makeBuyerRetentionOfferRequest(value: InputValue<BuyerRetentionOfferRequestInput>): Model<BuyerRetentionOfferRequestInput>;
 export declare function makeBuyerReturnReplacementLineItemInputBundle(value: InputValue<BuyerReturnReplacementLineItemInputBundleInput>): Model<BuyerReturnReplacementLineItemInputBundleInput>;
 export declare function makeBuyerReturnReplacementLineItemInputVariant(value: InputValue<BuyerReturnReplacementLineItemInputVariantInput>): Model<BuyerReturnReplacementLineItemInputVariantInput>;
@@ -139,3 +133,7 @@ export declare function makeCompleteFulfillmentRequest(value: InputValue<Complet
 export declare function makeCompleteReturnRequest(value: InputValue<CompleteReturnRequestInput>): Model<CompleteReturnRequestInput>;
 export declare function makeConfigurationVersionRequest(value: InputValue<ConfigurationVersionRequestInput>): Model<ConfigurationVersionRequestInput>;
 export declare function makeConfirmCheckoutSessionCustomerVerificationRequest(value: InputValue<ConfirmCheckoutSessionCustomerVerificationRequestInput>): Model<ConfirmCheckoutSessionCustomerVerificationRequestInput>;
+export declare function makeConfirmCustomerVerificationRequest(value: InputValue<ConfirmCustomerVerificationRequestInput>): Model<ConfirmCustomerVerificationRequestInput>;
+export declare function makeConfirmEmailChangeRequest(value: InputValue<ConfirmEmailChangeRequestInput>): Model<ConfirmEmailChangeRequestInput>;
+export declare function makeConfirmPaymentIntentRequest(value: InputValue<ConfirmPaymentIntentRequestInput>): Model<ConfirmPaymentIntentRequestInput>;
+export declare function makeConfirmReturnResolutionRequest(value: InputValue<ConfirmReturnResolutionRequestInput>): Model<ConfirmReturnResolutionRequestInput>;

@@ -2,13 +2,13 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $configuration
+ * @property-read DeliveryProfileConfigurationPreviousAttributes|null $configuration
  * @property-read string|null $created_at
  * @property-read string|null $current_delivery_profile_revision_id
  * @property-read string|null $delivery_profile_id
  * @property-read string|null $external_reference_id
  * @property-read bool|null $is_default
- * @property-read mixed $metadata
+ * @property-read array<array-key, string>|null $metadata
  * @property-read string|null $name
  * @property-read string|null $status
  * @property-read string|null $updated_at
@@ -18,9 +18,9 @@ final class DeliveryProfileUpdatedMerchantEventDataPreviousAttributes extends Mo
     /** @param array{'configuration'?: mixed, 'created_at'?: mixed, 'current_delivery_profile_revision_id'?: mixed, 'delivery_profile_id'?: mixed, 'external_reference_id'?: mixed, 'is_default'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileUpdatedMerchantEventDataPreviousAttributes')); }
     /** Current delivery requirement and grouping policy. anyOf[1] (Value): {@see DeliveryProfileConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return DeliveryProfileConfigurationPreviousAttributes|null
      */
-    public function getConfiguration(): mixed { return $this->get('configuration'); }
+    public function getConfiguration(): DeliveryProfileConfigurationPreviousAttributes|null { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** Time the profile was created. anyOf[1] (Value): string. Time the profile was created. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
@@ -48,9 +48,9 @@ final class DeliveryProfileUpdatedMerchantEventDataPreviousAttributes extends Mo
     public function getIsDefault(): bool|null { return $this->get('is_default'); }
     public function hasIsDefault(): bool { return $this->has('is_default'); }
     /** Caller-owned metadata. anyOf[1] (Value): {@see MetadataMapPreviousAttributes}. anyOf[2] (Value): null.
-     * @return mixed
+     * @return array<array-key, string>|null
      */
-    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile name. anyOf[2] (Value): null.
      * @return string|null

@@ -1,0 +1,1 @@
+{"shared":"PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"payment_method_id":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PendingPaymentActionSetupPaymentSourceSubjectPreviousAttributes","SharedCodec0"]}

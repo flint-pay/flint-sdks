@@ -8,10 +8,10 @@ namespace Flint;
  * @property-read list<string>|null $requirements
  * @property-read PartnerAppPlatformReservePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $reserve
  * @property-read string|null $status
- * @property-read PartnerAppPlatformTermsAcceptancePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null $terms_acceptance
+ * @property-read PartnerAppPlatformTermsAcceptancePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $terms_acceptance
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppPlatformPreviousAttributesInput extends Model {
-    /** @param array{'capabilities'?: list<PartnerAppPlatformCapabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'current_terms'?: PartnerAppPlatformCurrentTermsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'limits'?: PartnerAppPlatformLimitsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requirements'?: list<string>|null, 'reserve'?: PartnerAppPlatformReservePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'terms_acceptance'?: PartnerAppPlatformTermsAcceptancePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null, ...}|object $values */
+    /** @param array{'capabilities'?: list<PartnerAppPlatformCapabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null, 'current_terms'?: PartnerAppPlatformCurrentTermsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'limits'?: PartnerAppPlatformLimitsPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'requirements'?: list<string>|null, 'reserve'?: PartnerAppPlatformReservePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'status'?: string|null, 'terms_acceptance'?: PartnerAppPlatformTermsAcceptancePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppPlatformPreviousAttributesInput')); }
     /** One entry per platform capability, in the same order for every app. anyOf[1] (Value): Array of {@see PartnerAppPlatformCapabilityPreviousAttributesInput}. One entry per platform capability, in the same order for every app. anyOf[1][] (Value): {@see PartnerAppPlatformCapabilityPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return list<PartnerAppPlatformCapabilityPreviousAttributesInput|array<array-key, mixed>|\stdClass>|null
@@ -49,8 +49,8 @@ final class PartnerAppPlatformPreviousAttributesInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** The latest acceptance of Flint's platform terms. `null` when the app hasn't accepted any version. anyOf[1] (Value): ({@see PartnerAppPlatformTermsAcceptancePreviousAttributesInput} or null). The latest acceptance of Flint's platform terms. `null` when the app hasn't accepted any version. anyOf[1].anyOf[1] (Value): {@see PartnerAppPlatformTermsAcceptancePreviousAttributesInput}. anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
-     * @return PartnerAppPlatformTermsAcceptancePreviousAttributesInput|array<array-key, mixed>|\stdClass|null|null
+    /** The latest acceptance of Flint's platform terms. `null` when the app hasn't accepted any version. anyOf[1] (Value): {@see PartnerAppPlatformTermsAcceptancePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return PartnerAppPlatformTermsAcceptancePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When terms_acceptance is omitted; use hasTermsAcceptance() or valueOrDefault().
      */
     public function getTermsAcceptance(): mixed { return $this->get('terms_acceptance'); }

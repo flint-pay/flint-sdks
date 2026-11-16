@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `adjustment_refunds` | Optional | Array of [RefundLineItemAdjustmentRefundPreviousAttributes](../models/RefundLineItemAdjustmentRefundPreviousAttributes.md#refundlineitemadjustmentrefundpreviousattributes) or null | Amounts refunded back against adjustments withheld by earlier refunds of this line. `adjustment_refunds`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesadjustment_refunds). |
 | `adjustments` | Optional | Array of [RefundLineItemAdjustmentPreviousAttributes](../models/RefundLineItemAdjustmentPreviousAttributes.md#refundlineitemadjustmentpreviousattributes) or null | Amounts withheld from this line's refund, such as a restocking fee. `adjustments`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesadjustments). |
-| `automatic_refund` | Optional | Alternative shapes (see declared variants) | What Flint calculated for the refunded portion of the line before adjustments. `automatic_refund`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesautomatic_refund). |
+| `automatic_refund` | Optional | [RefundLineItemAutomaticRefundPreviousAttributes](../models/RefundLineItemAutomaticRefundPreviousAttributes.md#refundlineitemautomaticrefundpreviousattributes) or null | What Flint calculated for the refunded portion of the line before adjustments. |
 | `bundle_id` | Optional | string or null | ID of the bundle the line was sold from. `bundle_id`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesbundle_id). |
 | `categories` | Optional | Array of [CategoryReferencePreviousAttributes](../models/CategoryReferencePreviousAttributes.md#categoryreferencepreviousattributes) or null | Catalog categories of the item. `categories`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributescategories). |
 | `modifiers` | Optional | Array of [RefundLineItemModifierAllocationPreviousAttributes](../models/RefundLineItemModifierAllocationPreviousAttributes.md#refundlineitemmodifierallocationpreviousattributes) or null | The part of the refund that applies to each modifier on the line. `modifiers`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesmodifiers). |
@@ -97,7 +97,7 @@ anyOf variant 2.
 | `adjustment_type` | Optional | string or null | What kind of adjustment this is. Values: `"restocking_fee"`, `"withheld_amount"`, `"refund_adjustment"`, `"tax_adjustment"`. `adjustment_type`: [declared alternatives](../models/RefundLineItemAdjustmentPreviousAttributes.md#refundlineitemadjustmentpreviousattributesadjustment_type). |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Amount withheld from the line's refund. |
 | `applies_to` | Optional | string or null | Which part of the line the adjustment reduces. Values: `"none"`, `"gross"`, `"tax"`. `applies_to`: [declared alternatives](../models/RefundLineItemAdjustmentPreviousAttributes.md#refundlineitemadjustmentpreviousattributesapplies_to). |
-| `reason` | Optional | Alternative shapes (see declared variants) | Why the amount was withheld. `reason`: [declared alternatives](../models/RefundLineItemAdjustmentPreviousAttributes.md#refundlineitemadjustmentpreviousattributesreason). |
+| `reason` | Optional | [RefundAdjustmentReasonPreviousAttributes](../models/RefundAdjustmentReasonPreviousAttributes.md#refundadjustmentreasonpreviousattributes) or null | Why the amount was withheld. |
 | `refund_line_item_adjustment_id` | Optional | string or null | Unique identifier for this refund line item adjustment, prefixed `rlia_`. `refund_line_item_adjustment_id`: [declared alternatives](../models/RefundLineItemAllocationPreviousAttributes.md#refundlineitemallocationpreviousattributesadjustments-variant-1-fields-1refund_line_item_adjustment_id). |
 | `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Part of the withheld amount that later refunds have returned. |
 | `remaining_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Part of the withheld amount that can still be refunded: `amount_money` less `refunded_money`. |
@@ -109,10 +109,6 @@ Declared alternatives: [RefundLineItemAdjustmentPreviousAttributes.adjustment_ty
 ### RefundLineItemAllocationPreviousAttributes.adjustments variant 1.[] fields 1.applies_to
 
 Declared alternatives: [RefundLineItemAdjustmentPreviousAttributes.applies_to](../models/RefundLineItemAdjustmentPreviousAttributes.md#refundlineitemadjustmentpreviousattributesapplies_to).
-
-### RefundLineItemAllocationPreviousAttributes.adjustments variant 1.[] fields 1.reason
-
-Declared alternatives: [RefundLineItemAdjustmentPreviousAttributes.reason](../models/RefundLineItemAdjustmentPreviousAttributes.md#refundlineitemadjustmentpreviousattributesreason).
 
 ### RefundLineItemAllocationPreviousAttributes.adjustments variant 1.[] fields 1.refund_line_item_adjustment_id
 
@@ -127,30 +123,6 @@ anyOf variant 1: Unique identifier for this refund line item adjustment, prefixe
 anyOf variant 2.
 
 - Value shape: null. Unique identifier for this refund line item adjustment, prefixed `rlia_`. 
-
-### RefundLineItemAllocationPreviousAttributes.automatic_refund
-
-What Flint calculated for the refunded portion of the line before adjustments.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `discount_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Discount allocated to the refunded portion. |
-| `subtotal_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Price of the refunded portion before discounts. |
-| `tax_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Tax on the refunded portion. |
-| `total_money` | Conditional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | What the refunded portion comes to before adjustments. |
-
-### RefundLineItemAllocationPreviousAttributes.automatic_refund variant 1
-
-anyOf RefundLineItemAutomaticRefundPreviousAttributes.
-
-- Optional: `discount_money`, `subtotal_money`, `tax_money`, `total_money`.
-
-### RefundLineItemAllocationPreviousAttributes.automatic_refund variant 2
-
-anyOf variant 2.
-
-- Undeclared: `discount_money`, `subtotal_money`, `tax_money`, `total_money`.
-- Value shape: null. What Flint calculated for the refunded portion of the line before adjustments. 
 
 ### RefundLineItemAllocationPreviousAttributes.bundle_id
 
@@ -336,7 +308,7 @@ anyOf variant 2.
 
 ### RefundLineItemAllocationPreviousAttributes.selected_options variant 1.[] fields 1
 
-Field definitions: [BundleComponentPreviousAttributes.variant variant 1.selected_options variant 1.[] fields 1](../models/BundleComponentPreviousAttributes.md#bundlecomponentpreviousattributesvariant-variant-1selected_options-variant-1-fields-1).
+Field definitions: [BundleComponentVariantSummaryPreviousAttributes.selected_options variant 1.[] fields 1](../models/BundleComponentVariantSummaryPreviousAttributes.md#bundlecomponentvariantsummarypreviousattributesselected_options-variant-1-fields-1).
 
 ### RefundLineItemAllocationPreviousAttributes.sku
 
