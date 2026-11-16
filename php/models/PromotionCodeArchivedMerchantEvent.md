@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. `object`: [field definitions](../models/PromotionCodeArchivedMerchantEvent.md#promotioncodearchivedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PromotionCodeArchivedMerchantEvent.md#promotioncodearchivedmerchanteventdata-fields-1previous_attributes). |
 
 ### PromotionCodeArchivedMerchantEvent.data fields 1.object
 
@@ -41,4 +41,74 @@ Field definitions: [shared fields](PromotionCodeArchivedMerchantEventData.md#pro
 ### PromotionCodeArchivedMerchantEvent.data fields 1.object.metadata
 
 Field definitions: [PromotionResponse.data.codes[].metadata](../models/PromotionResponse.md#promotionresponsedatacodesmetadata).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributes).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.available
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.available](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesavailable).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.code
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.code](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributescode).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.created_at](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributescreated_at).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.customer_id
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.customer_id](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributescustomer_id).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.expires_at
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.expires_at](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesexpires_at).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.max_uses
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.max_uses](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesmax_uses).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.merchant_id](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesmerchant_id).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.metadata](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesmetadata).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.promotion_code_id
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.promotion_code_id](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributespromotion_code_id).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.promotion_id
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.promotion_id](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributespromotion_id).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.status](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesstatus).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.timezone
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.timezone](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributestimezone).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.unavailable_reason
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.unavailable_reason](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesunavailable_reason).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.updated_at](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesupdated_at).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.uses_count
+
+Declared alternatives: [PromotionCodeArchivedMerchantEventDataPreviousAttributes.uses_count](../models/PromotionCodeArchivedMerchantEventDataPreviousAttributes.md#promotioncodearchivedmerchanteventdatapreviousattributesuses_count).
+
+### PromotionCodeArchivedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [CategoryUpdatedMerchantEventDataPreviousAttributes.version](../models/CategoryUpdatedMerchantEventDataPreviousAttributes.md#categoryupdatedmerchanteventdatapreviousattributesversion).
 

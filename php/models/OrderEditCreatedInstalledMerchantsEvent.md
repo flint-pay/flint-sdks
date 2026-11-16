@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1).
+Field definitions: [shared fields](OrderEditCreatedMerchantEvent.md#ordereditcreatedmerchanteventdata-fields-1).
 
 ### OrderEditCreatedInstalledMerchantsEvent.data fields 1.object
 

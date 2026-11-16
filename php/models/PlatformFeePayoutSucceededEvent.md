@@ -27,9 +27,13 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PlatformFeePayoutCreatedEvent.md#platformfeepayoutcreatedeventdata-fields-1).
+Field definitions: [shared fields](PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdata-fields-1).
 
 ### PlatformFeePayoutSucceededEvent.data fields 1.object
 
 Field definitions: [PlatformFeePayoutCreatedEvent.data fields 1.object](../models/PlatformFeePayoutCreatedEvent.md#platformfeepayoutcreatedeventdata-fields-1object).
+
+### PlatformFeePayoutSucceededEvent.data fields 1.previous_attributes
+
+Field definitions: [PlatformFeePayoutFailedEvent.data fields 1.previous_attributes](../models/PlatformFeePayoutFailedEvent.md#platformfeepayoutfailedeventdata-fields-1previous_attributes).
 

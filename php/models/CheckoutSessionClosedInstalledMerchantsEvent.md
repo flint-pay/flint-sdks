@@ -31,6 +31,10 @@ Field definitions: [shared fields](CheckoutSessionClosedMerchantEvent.md#checkou
 
 Field definitions: [CheckoutSessionClosedMerchantEvent.data fields 1.object](../models/CheckoutSessionClosedMerchantEvent.md#checkoutsessionclosedmerchanteventdata-fields-1object).
 
+### CheckoutSessionClosedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes](../models/CheckoutSessionClosedMerchantEvent.md#checkoutsessionclosedmerchanteventdata-fields-1previous_attributes).
+
 ### CheckoutSessionClosedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

@@ -33,3 +33,7 @@ Field definitions: [shared fields](PayoutDestinationArchivedMerchantEvent.md#pay
 
 Field definitions: [PayoutDestinationArchivedMerchantEvent.data fields 1.object](../models/PayoutDestinationArchivedMerchantEvent.md#payoutdestinationarchivedmerchanteventdata-fields-1object).
 
+### PayoutDestinationDisabledMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [PayoutDestinationArchivedMerchantEvent.data fields 1.previous_attributes](../models/PayoutDestinationArchivedMerchantEvent.md#payoutdestinationarchivedmerchanteventdata-fields-1previous_attributes).
+

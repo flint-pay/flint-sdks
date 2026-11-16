@@ -1498,9 +1498,10 @@ export type WebhookCheckoutSession = ({
      * The reference the payment link URL or resolve request carried, such as your user ID. `null`
      * when none was sent or checkout did not start from a payment link. Returned only to merchant
      * credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a
-     * claim, not proof of identity. minLength: 1. maxLength: 255.
+     * claim, not proof of identity. Always present with merchant credentials. minLength: 1.
+     * maxLength: 255.
      */
-    "client_reference": string | null;
+    "client_reference"?: string | null;
     /** The note supplied when the checkout session was closed. */
     "closed_reason_message"?: string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -1510,11 +1511,11 @@ export type WebhookCheckoutSession = ({
      * `custom_field_answers` of the session's order. Read-only. Empty when the session didn't
      * start from a payment link, the buyer answered no custom fields, or the order was created
      * before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer
-     * credentials. maxItems: 20. [] (Value): {@link CustomFieldAnswer}. One answer to a payment
-     * link custom field, with the field as it was when checkout started. `custom_field_type`
-     * determines the type of `value`.
+     * credentials. Always present with merchant credentials. maxItems: 20. [] (Value): {@link
+     * CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when
+     * checkout started. `custom_field_type` determines the type of `value`.
      */
-    "custom_field_answers": Array<CustomFieldAnswer>;
+    "custom_field_answers"?: Array<CustomFieldAnswer>;
     /**
      * The custom text this session shows in checkout. Custom text shown in checkout: an order
      * summary message and a shipping address label.
@@ -1742,9 +1743,10 @@ export type WebhookCheckoutSession = ({
     /**
      * Lifecycle actions Flint accepts now, computed from stored checkout state without checking
      * the caller's permissions. Contains close while open; empty after payment, closure, or
-     * expiry. [] enum: "close". [] (Value): string. Value enum: "close".
+     * expiry. Always present with merchant credentials. [] enum: "close". [] (Value): string.
+     * Value enum: "close".
      */
-    "supported_actions": Array<"close" | (string & {})>;
+    "supported_actions"?: Array<"close" | (string & {})>;
     /**
      * How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout
      * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".

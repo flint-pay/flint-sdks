@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DeliveryZoneArchivedMerchantEvent.md#deliveryzonearchivedmerchanteventdata-fields-1).
+Field definitions: [shared fields](DeliveryZoneCreatedMerchantEvent.md#deliveryzonecreatedmerchanteventdata-fields-1).
 
 ### DeliveryZoneCreatedInstalledMerchantsEvent.data fields 1.object
 

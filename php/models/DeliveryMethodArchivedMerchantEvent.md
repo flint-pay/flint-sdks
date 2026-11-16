@@ -33,3 +33,7 @@ Field definitions: [shared fields](DeliveryMethodActivatedMerchantEvent.md#deliv
 
 Field definitions: [DeliveryMethodActivatedMerchantEvent.data fields 1.object](../models/DeliveryMethodActivatedMerchantEvent.md#deliverymethodactivatedmerchanteventdata-fields-1object).
 
+### DeliveryMethodArchivedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [DeliveryMethodActivatedMerchantEvent.data fields 1.previous_attributes](../models/DeliveryMethodActivatedMerchantEvent.md#deliverymethodactivatedmerchanteventdata-fields-1previous_attributes).
+

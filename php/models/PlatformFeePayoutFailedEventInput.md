@@ -27,11 +27,147 @@ Request input.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PlatformFeePayoutCreatedEventInput.md#platformfeepayoutcreatedeventinputdata).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PlatformFeePayoutCreatedEventInput.md#platformfeepayoutcreatedeventinputdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributes). |
 
 ### PlatformFeePayoutFailedEventInput.data.object
 
 Field definitions: [PlatformFeePayoutCreatedEventInput.data.object](../models/PlatformFeePayoutCreatedEventInput.md#platformfeepayoutcreatedeventinputdataobject).
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | The amount transferred to your merchant balance. |
+| `balance_transaction_id` | Optional | string or null | The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. `balance_transaction_id`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesbalance_transaction_id). |
+| `created_at` | Optional | string or null | When Flint prepared the payout. `created_at`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributescreated_at). |
+| `failure_reason` | Optional | string or null | Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`. `failure_reason`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesfailure_reason). |
+| `partner_app_id` | Optional | string or null | The partner app whose fee balance funded the payout. `partner_app_id`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributespartner_app_id). |
+| `platform_fee_payout_id` | Optional | string or null | Unique identifier for the platform fee payout. `platform_fee_payout_id`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesplatform_fee_payout_id). |
+| `status` | Optional | string or null | Where the payout stands. succeeded and failed are final. Values: `"pending"`, `"succeeded"`, `"failed"`. `status`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesstatus). |
+| `succeeded_at` | Optional | string or null | When the transfer succeeded. Present only when status is succeeded. `succeeded_at`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributessucceeded_at). |
+| `updated_at` | Optional | string or null | When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it. `updated_at`: [declared alternatives](../models/PlatformFeePayoutFailedEventInput.md#platformfeepayoutfailedeventinputdataprevious_attributesupdated_at). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesversion). |
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.balance_transaction_id
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.balance_transaction_id variant 1
+
+anyOf variant 1: The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version..
+
+- Value shape: string. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.balance_transaction_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The credit on your merchant ledger. Present once Flint observes it; linking it sends no payout event and doesn't advance version. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.created_at
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.created_at variant 1
+
+anyOf variant 1: When Flint prepared the payout..
+
+- Value shape: string. When Flint prepared the payout. When Flint prepared the payout. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When Flint prepared the payout. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.failure_reason
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.failure_reason variant 1
+
+anyOf variant 1: Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed..
+
+- Value shape: string. Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. Values: `"merchant_cannot_receive"`, `"payout_failed"`.
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.failure_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Why the payout failed. Present only when status is failed. Can gain values; treat unknown values as payout_failed. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.partner_app_id
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.partner_app_id variant 1
+
+anyOf variant 1: The partner app whose fee balance funded the payout..
+
+- Value shape: string. The partner app whose fee balance funded the payout. The partner app whose fee balance funded the payout. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.partner_app_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The partner app whose fee balance funded the payout. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.platform_fee_payout_id
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.platform_fee_payout_id variant 1
+
+anyOf variant 1: Unique identifier for the platform fee payout..
+
+- Value shape: string. Unique identifier for the platform fee payout. Unique identifier for the platform fee payout. Example: `"pfpo_01KEZF7C00H58B147FK286D4A4"`. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.platform_fee_payout_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for the platform fee payout. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.status
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.status variant 1
+
+anyOf variant 1: Where the payout stands. succeeded and failed are final..
+
+- Value shape: string. Where the payout stands. succeeded and failed are final. Values: `"pending"`, `"succeeded"`, `"failed"`.
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Where the payout stands. succeeded and failed are final. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.succeeded_at
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.succeeded_at variant 1
+
+anyOf variant 1: When the transfer succeeded. Present only when status is succeeded..
+
+- Value shape: string. When the transfer succeeded. Present only when status is succeeded. When the transfer succeeded. Present only when status is succeeded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.succeeded_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the transfer succeeded. Present only when status is succeeded. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.updated_at
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.updated_at variant 1
+
+anyOf variant 1: When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it..
+
+- Value shape: string. When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it. When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the payout's owned state last changed. Retry bookkeeping and observing the credit don't change it. 
+
+### PlatformFeePayoutFailedEventInput.data.previous_attributes.version
+
+Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEventInput.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesversion).
 
 ### PlatformFeePayoutFailedEventInput.request
 

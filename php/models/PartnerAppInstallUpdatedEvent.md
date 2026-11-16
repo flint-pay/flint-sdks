@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PartnerAppInstallCreatedEvent.md#partnerappinstallcreatedeventdata-fields-1).
+Field definitions: [shared fields](PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1).
 
 ### PartnerAppInstallUpdatedEvent.data fields 1.object
 
 Field definitions: [PartnerAppInstallCreatedEvent.data fields 1.object](../models/PartnerAppInstallCreatedEvent.md#partnerappinstallcreatedeventdata-fields-1object).
+
+### PartnerAppInstallUpdatedEvent.data fields 1.previous_attributes
+
+Field definitions: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.previous_attributes](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributes).
 
 ### PartnerAppInstallUpdatedEvent.source fields 1
 

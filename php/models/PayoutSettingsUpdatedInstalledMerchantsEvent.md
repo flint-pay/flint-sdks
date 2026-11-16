@@ -31,6 +31,10 @@ Field definitions: [shared fields](PayoutSettingsUpdatedMerchantEvent.md#payouts
 
 Field definitions: [PayoutSettingsUpdatedMerchantEvent.data fields 1.object](../models/PayoutSettingsUpdatedMerchantEvent.md#payoutsettingsupdatedmerchanteventdata-fields-1object).
 
+### PayoutSettingsUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [PayoutSettingsUpdatedMerchantEvent.data fields 1.previous_attributes](../models/PayoutSettingsUpdatedMerchantEvent.md#payoutsettingsupdatedmerchanteventdata-fields-1previous_attributes).
+
 ### PayoutSettingsUpdatedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

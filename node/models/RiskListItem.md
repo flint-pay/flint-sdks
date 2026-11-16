@@ -20,7 +20,7 @@ One value in a payment risk list.
 
 The credential that created this list item. Null when Flint created it. The reference may name an API key in the other mode.
 
-Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
+Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_by).
 
 ### RiskListItem.created_by variant 1
 

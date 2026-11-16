@@ -31,6 +31,10 @@ Field definitions: [shared fields](ProductVariantArchivedMerchantEvent.md#produc
 
 Field definitions: [ProductVariantArchivedMerchantEvent.data fields 1.object](../models/ProductVariantArchivedMerchantEvent.md#productvariantarchivedmerchanteventdata-fields-1object).
 
+### ProductVariantArchivedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [ProductVariantArchivedMerchantEvent.data fields 1.previous_attributes](../models/ProductVariantArchivedMerchantEvent.md#productvariantarchivedmerchanteventdata-fields-1previous_attributes).
+
 ### ProductVariantArchivedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

@@ -1,7 +1,7 @@
-import { d5517 as c0 } from '../descriptors/data/240.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5517 as d5517 } from '../descriptors/data/240.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6320 as c0 } from '../descriptors/data/275.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d6320 as d6320 } from '../descriptors/data/275.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5517;
+const read = d6320;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SubscriptionBillingStartInputImported"]:c0()}); }
 export { codec as _validate };

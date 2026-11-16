@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | [ReaderArchivedInstalledMerchantsEventDataObject](../models/ReaderArchivedInstalledMerchantsEventDataObject.md#readerarchivedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `active_payment_intent_id`. `object`: [field definitions](../models/ReaderArchivedInstalledMerchantsEventData.md#readerarchivedinstalledmerchantseventdataobject-fields-1). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | [ReaderArchivedInstalledMerchantsEventDataPreviousAttributes](../models/ReaderArchivedInstalledMerchantsEventDataPreviousAttributes.md#readerarchivedinstalledmerchantseventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### ReaderArchivedInstalledMerchantsEventData.object fields 1
 

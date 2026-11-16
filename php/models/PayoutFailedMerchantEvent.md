@@ -33,3 +33,7 @@ Field definitions: [shared fields](PayoutCanceledMerchantEvent.md#payoutcanceled
 
 Field definitions: [PayoutCanceledMerchantEvent.data fields 1.object](../models/PayoutCanceledMerchantEvent.md#payoutcanceledmerchanteventdata-fields-1object).
 
+### PayoutFailedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [PayoutCanceledMerchantEvent.data fields 1.previous_attributes](../models/PayoutCanceledMerchantEvent.md#payoutcanceledmerchanteventdata-fields-1previous_attributes).
+

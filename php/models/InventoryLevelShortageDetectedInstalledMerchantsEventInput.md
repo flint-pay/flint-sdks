@@ -28,13 +28,301 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributes). |
 
 ### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](InventoryLevelInput.md#inventorylevelinput).
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `available_quantity` | Optional | integer or null | Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. `available_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesavailable_quantity). |
+| `backordered_quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `backordered_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesbackordered_quantity). |
+| `claim_version` | Optional | integer or null | Advances only when held or committed quantities change. `claim_version`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesclaim_version). |
+| `committed_quantity` | Optional | integer or null | Units promised to accepted orders. Still physically present until fulfillment consumes them. Whole-number quantity; fractional quantities are not supported. `committed_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributescommitted_quantity). |
+| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `damaged_quantity` | Optional | integer or null | On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. `damaged_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesdamaged_quantity). |
+| `held_quantity` | Optional | integer or null | Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. `held_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesheld_quantity). |
+| `incoming_quantity` | Optional | integer or null | Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. `incoming_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesincoming_quantity). |
+| `inventory_item` | Optional | [InventoryItemInput](../models/InventoryItemInput.md#inventoryiteminput) or null | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. |
+| `inventory_item_id` | Optional | string or null | ID of the inventory item the stock is for. `inventory_item_id`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesinventory_item_id). |
+| `inventory_level_id` | Optional | string or null | Unique identifier for this inventory level, prefixed `invl_`. `inventory_level_id`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesinventory_level_id). |
+| `location_id` | Optional | string or null | ID of the Location that holds the stock. `location_id`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributeslocation_id). |
+| `on_hand_quantity` | Optional | integer or null | Units physically present at the Location, in any condition. Whole-number quantity; fractional quantities are not supported. `on_hand_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributeson_hand_quantity). |
+| `physical_version` | Optional | integer or null | Advances only when on-hand or condition quantities change. `physical_version`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesphysical_version). |
+| `quality_control_quantity` | Optional | integer or null | On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not supported. `quality_control_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesquality_control_quantity). |
+| `quarantined_quantity` | Optional | integer or null | On-hand units isolated for review. Not sellable. Whole-number quantity; fractional quantities are not supported. `quarantined_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesquarantined_quantity). |
+| `safety_stock_quantity` | Optional | integer or null | Buffer withheld from allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are not supported. `safety_stock_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributessafety_stock_quantity). |
+| `shortage_quantity` | Optional | integer or null | Derived: claims exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not supported. `shortage_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesshortage_quantity). |
+| `unavailable_on_hand_quantity` | Optional | integer or null | Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are not supported. `unavailable_on_hand_quantity`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesunavailable_on_hand_quantity). |
+| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
+| `version` | Optional | integer or null | Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0. `version`: [declared alternatives](../models/InventoryLevelShortageDetectedInstalledMerchantsEventInput.md#inventorylevelshortagedetectedinstalledmerchantseventinputdataprevious_attributesversion). |
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.available_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.available_quantity variant 1
+
+anyOf variant 1: Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.available_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.backordered_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.backordered_quantity variant 1
+
+anyOf variant 1: Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Whole-number quantity; fractional quantities are not supported. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.backordered_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.claim_version
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.claim_version variant 1
+
+anyOf variant 1: Advances only when held or committed quantities change..
+
+- Value shape: integer. Advances only when held or committed quantities change. Advances only when held or committed quantities change. Format: `int64`. minimum: `0`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.claim_version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Advances only when held or committed quantities change. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.committed_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.committed_quantity variant 1
+
+anyOf variant 1: Units promised to accepted orders. Still physically present until fulfillment consumes them. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Units promised to accepted orders. Still physically present until fulfillment consumes them. Whole-number quantity; fractional quantities are not supported. Units promised to accepted orders. Still physically present until fulfillment consumes them. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.committed_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Units promised to accepted orders. Still physically present until fulfillment consumes them. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.damaged_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.damaged_quantity variant 1
+
+anyOf variant 1: On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.damaged_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.held_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.held_quantity variant 1
+
+anyOf variant 1: Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.held_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.incoming_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.incoming_quantity variant 1
+
+anyOf variant 1: Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.incoming_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.inventory_item_id
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.inventory_item_id variant 1
+
+anyOf variant 1: ID of the inventory item the stock is for..
+
+- Value shape: string. ID of the inventory item the stock is for. ID of the inventory item the stock is for. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.inventory_item_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the inventory item the stock is for. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.inventory_level_id
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.inventory_level_id variant 1
+
+anyOf variant 1: Unique identifier for this inventory level, prefixed `invl_`..
+
+- Value shape: string. Unique identifier for this inventory level, prefixed `invl_`. Unique identifier for this inventory level, prefixed `invl_`. Example: `"invl_01KEZF7C00H201XZXKRX5KMDDE"`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.inventory_level_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this inventory level, prefixed `invl_`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.location_id
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.location_id variant 1
+
+anyOf variant 1: ID of the Location that holds the stock..
+
+- Value shape: string. ID of the Location that holds the stock. ID of the Location that holds the stock. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.location_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the Location that holds the stock. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.on_hand_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.on_hand_quantity variant 1
+
+anyOf variant 1: Units physically present at the Location, in any condition. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Units physically present at the Location, in any condition. Whole-number quantity; fractional quantities are not supported. Units physically present at the Location, in any condition. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.on_hand_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Units physically present at the Location, in any condition. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.physical_version
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.physical_version variant 1
+
+anyOf variant 1: Advances only when on-hand or condition quantities change..
+
+- Value shape: integer. Advances only when on-hand or condition quantities change. Advances only when on-hand or condition quantities change. Format: `int64`. minimum: `0`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.physical_version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Advances only when on-hand or condition quantities change. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.quality_control_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.quality_control_quantity variant 1
+
+anyOf variant 1: On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not supported. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.quality_control_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.quarantined_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.quarantined_quantity variant 1
+
+anyOf variant 1: On-hand units isolated for review. Not sellable. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional quantities are not supported. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.quarantined_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. On-hand units isolated for review. Not sellable. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.safety_stock_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.safety_stock_quantity variant 1
+
+anyOf variant 1: Buffer withheld from allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Buffer withheld from allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are not supported. Buffer withheld from allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.safety_stock_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Buffer withheld from allocation. Change it with PATCH /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.shortage_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.shortage_quantity variant 1
+
+anyOf variant 1: Derived: claims exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Derived: claims exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not supported. Derived: claims exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.shortage_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Derived: claims exceeding sellable physical stock. Positive only after stock is lost, damaged, or corrected down. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.unavailable_on_hand_quantity
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.unavailable_on_hand_quantity variant 1
+
+anyOf variant 1: Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are not supported..
+
+- Value shape: integer. Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are not supported. Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are not supported. Format: `int64`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.unavailable_on_hand_quantity variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are not supported. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.version
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.version variant 1
+
+anyOf variant 1: Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0..
+
+- Value shape: integer. Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0. Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0. Format: `int64`. minimum: `0`. 
+
+### InventoryLevelShortageDetectedInstalledMerchantsEventInput.data.previous_attributes.version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0. 
 
 ### InventoryLevelShortageDetectedInstalledMerchantsEventInput.source
 

@@ -33,3 +33,7 @@ Field definitions: [shared fields](CustomerDeletionRequestCompletedEvent.md#cust
 
 Field definitions: [CustomerDeletionRequestCompletedEvent.data fields 1.object](../models/CustomerDeletionRequestCompletedEvent.md#customerdeletionrequestcompletedeventdata-fields-1object).
 
+### CustomerDeletionRequestFailedEvent.data fields 1.previous_attributes
+
+Field definitions: [CustomerDeletionRequestCompletedEvent.data fields 1.previous_attributes](../models/CustomerDeletionRequestCompletedEvent.md#customerdeletionrequestcompletedeventdata-fields-1previous_attributes).
+

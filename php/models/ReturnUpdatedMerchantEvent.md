@@ -33,3 +33,7 @@ Field definitions: [shared fields](ReturnCanceledMerchantEvent.md#returncanceled
 
 Field definitions: [ReturnCanceledMerchantEvent.data fields 1.object](../models/ReturnCanceledMerchantEvent.md#returncanceledmerchanteventdata-fields-1object).
 
+### ReturnUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [ReturnCanceledMerchantEvent.data fields 1.previous_attributes](../models/ReturnCanceledMerchantEvent.md#returncanceledmerchanteventdata-fields-1previous_attributes).
+

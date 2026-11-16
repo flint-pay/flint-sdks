@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](FraudWarningCreatedMerchantEvent.md#fraudwarningcreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](FraudWarningUpdatedMerchantEvent.md#fraudwarningupdatedmerchanteventdata-fields-1).
 
 ### FraudWarningUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [FraudWarningCreatedMerchantEvent.data fields 1.object](../models/FraudWarningCreatedMerchantEvent.md#fraudwarningcreatedmerchanteventdata-fields-1object).
+
+### FraudWarningUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [FraudWarningUpdatedMerchantEvent.data fields 1.previous_attributes](../models/FraudWarningUpdatedMerchantEvent.md#fraudwarningupdatedmerchanteventdata-fields-1previous_attributes).
 
 ### FraudWarningUpdatedInstalledMerchantsEvent.source fields 1
 

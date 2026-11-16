@@ -33,3 +33,7 @@ Field definitions: [shared fields](TaxCalculationCallbackActivatedEvent.md#taxca
 
 Field definitions: [TaxCalculationCallbackActivatedEvent.data fields 1.object](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1object).
 
+### TaxCalculationCallbackDeactivatedEvent.data fields 1.previous_attributes
+
+Field definitions: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributes).
+

@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributes). |
 
 ### DeliverySelectionCommittedInstalledMerchantsEvent.data.object
 
@@ -39,6 +39,300 @@ Field definitions: [shared fields](DeliverySelection.md#deliveryselection).
 ### DeliverySelectionCommittedInstalledMerchantsEvent.data.object.amount_money
 
 Field definitions: [DeliverySelection.amount_money](../models/DeliverySelection.md#deliveryselectionamount_money).
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Delivery charge committed by this selection. `amount_money`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesamount_money). |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](../models/DeliveryBuyerLocationResource.md#deliverybuyerlocationresource) or null | Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or dashboard credential. |
+| `calculation_expires_at` | Optional | string or null | Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. `calculation_expires_at`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributescalculation_expires_at). |
+| `checkout_session_id` | Optional | string or null | Checkout session that owns the selection. Always present with an API key or dashboard credential. `checkout_session_id`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributescheckout_session_id). |
+| `choices` | Optional | Array of [DeliverySelectionChoiceResource](../models/DeliverySelectionChoiceResource.md#deliveryselectionchoiceresource) or null | One chosen option for each required choice group. `choices`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributeschoices). |
+| `created_at` | Optional | string or null | Time the selection was created. Always present with an API key or dashboard credential. `created_at`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributescreated_at). |
+| `delivery_quote_id` | Optional | string or null | Quote from which this selection was made. `delivery_quote_id`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesdelivery_quote_id). |
+| `delivery_selection_id` | Optional | string or null | Stable delivery selection ID. `delivery_selection_id`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesdelivery_selection_id). |
+| `destination_address` | Optional | [Address](../models/Address.md#address) or null | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `expires_at` | Optional | string or null | Deadline after which this provisional selection can no longer be committed. `expires_at`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesexpires_at). |
+| `input_requirements` | Optional | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) or null | Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. `input_requirements`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesinput_requirements). |
+| `instructions` | Optional | string or null | Buyer-provided delivery instructions. Returned with an API key or dashboard credential. `instructions`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesinstructions). |
+| `lifecycle_events` | Optional | Array of [DeliverySelectionLifecycleEventResource](../models/DeliverySelectionLifecycleEventResource.md#deliveryselectionlifecycleeventresource) or null | Ordered lifecycle events recorded for this selection. `lifecycle_events`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributeslifecycle_events). |
+| `lifecycle_updated_at` | Optional | string or null | Time the selection lifecycle last changed. Always present with an API key or dashboard credential. `lifecycle_updated_at`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributeslifecycle_updated_at). |
+| `limiting_deadline_reason` | Optional | string or null | The deadline that set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always present with an API key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery windows comes first. When the selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation the selection was priced against expires first. It ends no later than the checkout session's expires_at, and earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can last, 24 hours after it was created. Values: `"selection_guarantee_expiry"`, `"calculation_expiry"`, `"selection_maximum_lifetime"`. `limiting_deadline_reason`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributeslimiting_deadline_reason). |
+| `order_id` | Optional | string or null | Order affected by the selection. Always present with an API key or dashboard credential. `order_id`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesorder_id). |
+| `private_data_status` | Optional | string or null | Availability state of merchant-private selection evidence. Values: `"available"`, `"redacted"`. `private_data_status`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesprivate_data_status). |
+| `recipient` | Optional | [DeliveryRecipientResource](../models/DeliveryRecipientResource.md#deliveryrecipientresource) or null | Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `redacted_at` | Optional | string or null | Time merchant-private selection evidence was redacted. `redacted_at`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesredacted_at). |
+| `status` | Optional | string or null | Current selection lifecycle status. - `selected`: These choices are provisional and can be replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no longer usable because its deadline passed. - `released`: These choices were withdrawn. Create a new selection before paying for delivery. Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. `status`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributesstatus). |
+| `supported_actions` | Optional | Array of string or null | Contains release while status is selected and the selection belongs to a checkout session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty in every other status. Independent of caller permissions. Items values: `"release"`. `supported_actions`: [declared alternatives](../models/DeliverySelectionCommittedInstalledMerchantsEvent.md#deliveryselectioncommittedinstalledmerchantseventdataprevious_attributessupported_actions). |
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.amount_money
+
+Delivery charge committed by this selection.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1
+
+anyOf MoneyValue: Delivery charge committed by this selection..
+
+- Required: `amount`, `currency`.
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Delivery charge committed by this selection. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.calculation_expires_at
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.calculation_expires_at variant 1
+
+anyOf variant 1: Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential..
+
+- Value shape: string. Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.calculation_expires_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.checkout_session_id
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.checkout_session_id variant 1
+
+anyOf variant 1: Checkout session that owns the selection. Always present with an API key or dashboard credential..
+
+- Value shape: string. Checkout session that owns the selection. Always present with an API key or dashboard credential. Checkout session that owns the selection. Always present with an API key or dashboard credential. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.checkout_session_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Checkout session that owns the selection. Always present with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.choices
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.choices variant 1
+
+anyOf variant 1: One chosen option for each required choice group..
+
+- Value shape: Array of [DeliverySelectionChoiceResource](../models/DeliverySelectionChoiceResource.md#deliveryselectionchoiceresource). One chosen option for each required choice group. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.choices variant 2
+
+anyOf variant 2.
+
+- Value shape: null. One chosen option for each required choice group. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.created_at
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.created_at variant 1
+
+anyOf variant 1: Time the selection was created. Always present with an API key or dashboard credential..
+
+- Value shape: string. Time the selection was created. Always present with an API key or dashboard credential. Time the selection was created. Always present with an API key or dashboard credential. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Time the selection was created. Always present with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.delivery_quote_id
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.delivery_quote_id variant 1
+
+anyOf variant 1: Quote from which this selection was made..
+
+- Value shape: string. Quote from which this selection was made. Quote from which this selection was made. Example: `"dqt_01KEZF7C009EB1AVCDJBN4BBVV"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.delivery_quote_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Quote from which this selection was made. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.delivery_selection_id
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.delivery_selection_id variant 1
+
+anyOf variant 1: Stable delivery selection ID..
+
+- Value shape: string. Stable delivery selection ID. Stable delivery selection ID. Example: `"dsel_01KEZF7C00QC35XBXVXQSCEB2D"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.delivery_selection_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable delivery selection ID. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.expires_at
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.expires_at variant 1
+
+anyOf variant 1: Deadline after which this provisional selection can no longer be committed..
+
+- Value shape: string. Deadline after which this provisional selection can no longer be committed. Deadline after which this provisional selection can no longer be committed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.expires_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Deadline after which this provisional selection can no longer be committed. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.input_requirements
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.input_requirements variant 1
+
+anyOf variant 1: Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected..
+
+- Value shape: Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement). Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.input_requirements variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.instructions
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.instructions variant 1
+
+anyOf variant 1: Buyer-provided delivery instructions. Returned with an API key or dashboard credential..
+
+- Value shape: string. Buyer-provided delivery instructions. Returned with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.instructions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Buyer-provided delivery instructions. Returned with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.lifecycle_events
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.lifecycle_events variant 1
+
+anyOf variant 1: Ordered lifecycle events recorded for this selection..
+
+- Value shape: Array of [DeliverySelectionLifecycleEventResource](../models/DeliverySelectionLifecycleEventResource.md#deliveryselectionlifecycleeventresource). Ordered lifecycle events recorded for this selection. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.lifecycle_events variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Ordered lifecycle events recorded for this selection. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.lifecycle_updated_at
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.lifecycle_updated_at variant 1
+
+anyOf variant 1: Time the selection lifecycle last changed. Always present with an API key or dashboard credential..
+
+- Value shape: string. Time the selection lifecycle last changed. Always present with an API key or dashboard credential. Time the selection lifecycle last changed. Always present with an API key or dashboard credential. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.lifecycle_updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Time the selection lifecycle last changed. Always present with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.limiting_deadline_reason
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.limiting_deadline_reason variant 1
+
+anyOf variant 1: The deadline that set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always present with an API key or dashboard credential.
+- `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery windows comes first. When the selection holds stock, the hold ends at this deadline too.
+- `calculation_expiry`: The calculation the selection was priced against expires first. It ends no later than the checkout session's expires_at, and earlier when an applied promotion ends first.
+- `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can last, 24 hours after it was created..
+
+- Value shape: string. The deadline that set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always present with an API key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery windows comes first. When the selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation the selection was priced against expires first. It ends no later than the checkout session's expires_at, and earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can last, 24 hours after it was created. Values: `"selection_guarantee_expiry"`, `"calculation_expiry"`, `"selection_maximum_lifetime"`.
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.limiting_deadline_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The deadline that set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always present with an API key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery windows comes first. When the selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation the selection was priced against expires first. It ends no later than the checkout session's expires_at, and earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can last, 24 hours after it was created. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.order_id
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.order_id variant 1
+
+anyOf variant 1: Order affected by the selection. Always present with an API key or dashboard credential..
+
+- Value shape: string. Order affected by the selection. Always present with an API key or dashboard credential. Order affected by the selection. Always present with an API key or dashboard credential. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.order_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Order affected by the selection. Always present with an API key or dashboard credential. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.private_data_status
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.private_data_status variant 1
+
+anyOf variant 1: Availability state of merchant-private selection evidence..
+
+- Value shape: string. Availability state of merchant-private selection evidence. Values: `"available"`, `"redacted"`.
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.private_data_status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Availability state of merchant-private selection evidence. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.redacted_at
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.redacted_at variant 1
+
+anyOf variant 1: Time merchant-private selection evidence was redacted..
+
+- Value shape: string. Time merchant-private selection evidence was redacted. Time merchant-private selection evidence was redacted. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.redacted_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Time merchant-private selection evidence was redacted. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.status
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Current selection lifecycle status.
+- `selected`: These choices are provisional and can be replaced before payment.
+- `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment finishes.
+- `committed`: Payment fixed these choices on the order.
+- `superseded`: A newer selection replaced these choices.
+- `expired`: The selection is no longer usable because its deadline passed.
+- `released`: These choices were withdrawn. Create a new selection before paying for delivery..
+
+- Value shape: string. Current selection lifecycle status. - `selected`: These choices are provisional and can be replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no longer usable because its deadline passed. - `released`: These choices were withdrawn. Create a new selection before paying for delivery. Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`.
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Current selection lifecycle status. - `selected`: These choices are provisional and can be replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no longer usable because its deadline passed. - `released`: These choices were withdrawn. Create a new selection before paying for delivery. 
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.supported_actions
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.supported_actions variant 1
+
+anyOf variant 1: Contains release while status is selected and the selection belongs to a checkout session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty in every other status. Independent of caller permissions..
+
+- Value shape: Array of string. Contains release while status is selected and the selection belongs to a checkout session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty in every other status. Independent of caller permissions. Items values: `"release"`.
+
+### DeliverySelectionCommittedInstalledMerchantsEvent.data.previous_attributes.supported_actions variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Contains release while status is selected and the selection belongs to a checkout session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty in every other status. Independent of caller permissions. 
 
 ### DeliverySelectionCommittedInstalledMerchantsEvent.source
 

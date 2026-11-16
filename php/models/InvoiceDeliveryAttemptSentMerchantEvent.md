@@ -33,3 +33,7 @@ Field definitions: [shared fields](InvoiceDeliveryAttemptFailedMerchantEvent.md#
 
 Field definitions: [InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.object](../models/InvoiceDeliveryAttemptFailedMerchantEvent.md#invoicedeliveryattemptfailedmerchanteventdata-fields-1object).
 
+### InvoiceDeliveryAttemptSentMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes](../models/InvoiceDeliveryAttemptFailedMerchantEvent.md#invoicedeliveryattemptfailedmerchanteventdata-fields-1previous_attributes).
+

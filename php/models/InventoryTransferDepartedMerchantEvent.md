@@ -33,3 +33,7 @@ Field definitions: [shared fields](InventoryTransferClosedMerchantEvent.md#inven
 
 Field definitions: [InventoryTransferClosedMerchantEvent.data fields 1.object](../models/InventoryTransferClosedMerchantEvent.md#inventorytransferclosedmerchanteventdata-fields-1object).
 
+### InventoryTransferDepartedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes](../models/InventoryTransferClosedMerchantEvent.md#inventorytransferclosedmerchanteventdata-fields-1previous_attributes).
+

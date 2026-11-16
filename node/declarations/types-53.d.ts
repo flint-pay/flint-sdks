@@ -3,9 +3,9 @@ import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentInte
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { PaymentRefund } from './types-47.js';
-import type { Refund } from './types-52.js';
 import type { CategoryReference } from './types-5.js';
 import type { SelectedProductOption } from './types-59.js';
+import type { Refund } from './types-52.js';
 import type { ResponseMeta } from './types-54.js';
 import type { OrderGiftCardAllocation } from './types-40.js';
 import type { InputValue } from '../runtime.js';
@@ -1536,7 +1536,79 @@ export type RefundFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "refund.failed";
@@ -1611,7 +1683,79 @@ export type RefundFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "refund.failed";
@@ -1770,7 +1914,291 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -2183,9 +2611,652 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2370,7 +3441,291 @@ export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -2783,9 +4138,652 @@ export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3305,7 +5303,79 @@ export type RefundPartiallySucceededEvent = ((((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "refund.partially_succeeded";
@@ -3380,7 +5450,79 @@ export type RefundPartiallySucceededEvent = ((((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "refund.partially_succeeded";
@@ -3539,7 +5681,291 @@ export type RefundPartiallySucceededInstalledMerchantsEvent = (Exclude<PartnerWe
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -3952,9 +6378,652 @@ export type RefundPartiallySucceededInstalledMerchantsEvent = (Exclude<PartnerWe
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -4139,7 +7208,291 @@ export type RefundPartiallySucceededMerchantEvent = (Exclude<MerchantWebhookEnve
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -4552,9 +7905,652 @@ export type RefundPartiallySucceededMerchantEvent = (Exclude<MerchantWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -4649,7 +8645,79 @@ export type RefundSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "refund.succeeded";
@@ -4724,7 +8792,79 @@ export type RefundSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "refund.succeeded";
@@ -4883,7 +9023,291 @@ export type RefundSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -5296,9 +9720,652 @@ export type RefundSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -5483,7 +10550,291 @@ export type RefundSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -5896,9 +11247,652 @@ export type RefundSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -6506,7 +12500,79 @@ export type RefundUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "refund.updated";
@@ -6581,7 +12647,79 @@ export type RefundUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "amount_money"?: ((MoneyValue) | (null));
+            "created_at"?: ((string) | (null));
+            "credit_note_id"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            "invoice_id"?: ((string) | (null));
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_edit_id"?: ((string) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "reason_message"?: ((string) | (null));
+            "refund_id"?: ((string) | (null));
+            "refund_platform_fee"?: ((boolean) | (null));
+            "refund_reference"?: ((string) | (null));
+            "refunded_at"?: ((string) | (null));
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            "return_id"?: ((string) | (null));
+            "return_resolution_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            "succeeded_at"?: ((string) | (null));
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "refund.updated";
@@ -6740,7 +12878,291 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -7153,9 +13575,652 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -7340,7 +14405,291 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * values of changed top-level fields in data.object, at this delivery's API version. Nested
      * changes include the whole previous top-level value. A value is null when the field was
      * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     * synthetic test events. previous_attributes.amount_money (Optional): {@link MoneyValue} or
+     * null. Total refunded across all tenders, including `refunded_tip_money`.
+     * previous_attributes.amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across
+     * all tenders, including `refunded_tip_money`. previous_attributes.amount_money.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.credit_note_id (Optional): string or null. ID of the credit note
+     * this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.credit_note_id.anyOf[1] (Value): string. ID of the credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "cn_01KEZF7C00N1TRRCVDNY8S471H". previous_attributes.credit_note_id.anyOf[2] (Value): null.
+     * previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or null.
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. previous_attributes.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. ID of the customer on the refunded order or payment. Absent when
+     * neither has one. previous_attributes.customer_id.anyOf[1] (Value): string. ID of the
+     * customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_reason (Optional): string or null. Why a refund failed or a
+     * payment refund was canceled. Failed and canceled amounts become refundable again, except a
+     * refund with reason payment_returned that failed with payment_disputed: the buyer won a
+     * dispute on the charge, so nothing is left to refund. A payment_returned refund that failed
+     * with refund_abandoned can't be retried through Flint either: the money is in your balance.
+     * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the cause,
+     * then create a new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
+     * "payment_refund_not_attempted", "refund_failed". previous_attributes.failure_reason.anyOf[1]
+     * (Value): string. Why a refund failed or a payment refund was canceled. Failed and canceled
+     * amounts become refundable again, except a refund with reason payment_returned that failed
+     * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
+     * A payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". previous_attributes.failure_reason.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.initiated_by
+     * (Optional): string or null. Who decided to make this refund: `merchant` for you or your
+     * integration, `flint` for a refund Flint made on its own to return a payment it couldn't
+     * accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only.
+     * Value enum: "merchant", "flint". previous_attributes.initiated_by.anyOf[1] (Value): string.
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". previous_attributes.initiated_by.anyOf[2] (Value): null.
+     * previous_attributes.invoice_id (Optional): string or null. ID of the invoice whose credit
+     * note this refund paid out. Present only on refunds issued through a credit note.
+     * previous_attributes.invoice_id.anyOf[1] (Value): string. ID of the invoice whose credit note
+     * this refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". previous_attributes.invoice_id.anyOf[2] (Value): null.
+     * previous_attributes.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+     * covered, with quantity, tax, and adjustments.
+     * previous_attributes.line_item_allocations.anyOf[1] (Value): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. previous_attributes.line_item_allocations.anyOf[1][]
+     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+     * quantity, refunded amount, tax, adjustments, and modifier allocations.
+     * previous_attributes.line_item_allocations.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. ID of the merchant this resource
+     * belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant
+     * this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_edit_id
+     * (Optional): string or null. ID of the paid-order edit that created this refund. Present only
+     * on refunds issued through an order edit. previous_attributes.order_edit_id.anyOf[1] (Value):
+     * string. ID of the paid-order edit that created this refund. Present only on refunds issued
+     * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * previous_attributes.order_edit_id.anyOf[2] (Value): null. previous_attributes.order_id
+     * (Optional): string or null. ID of the order the refund was issued against. For a refund with
+     * `reason` `payment_returned`, the order the returned payment was for; the order never
+     * received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. previous_attributes.order_id.anyOf[1] (Value): string. ID of
+     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
+     * order the returned payment was for; the order never received this money. Absent for a refund
+     * of a payment that has no order, and for a standalone gift card refund. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null
+     * or null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+     * there is no related payment intent. previous_attributes.payment_intent.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * refund was issued against, when it targeted one payment. `payment_refunds` lists every
+     * payment it returned money through. previous_attributes.payment_intent_id.anyOf[1] (Value):
+     * string. ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_id.anyOf[2] (Value):
+     * null. previous_attributes.payment_refunds (Optional): Array of {@link PaymentRefund} or
+     * null. The part of the refund returned through each payment, with its own status. Absent when
+     * the refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The
+     * part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit.
+     * previous_attributes.payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}. The part of a
+     * refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * previous_attributes.payment_refunds.anyOf[2] (Value): null.
+     * previous_attributes.payment_review_id (Optional): string or null. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * previous_attributes.payment_review_id.anyOf[1] (Value): string. ID of the payment review
+     * whose decline created this refund. Present only on refunds issued for a declined review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". previous_attributes.payment_review_id.anyOf[2]
+     * (Value): null. previous_attributes.pending_reason (Optional): string or null or null. Why a
+     * pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on
+     * its way without review. Value enum: "manual_review", null.
+     * previous_attributes.pending_reason.anyOf[1] (Value): string or null. Why a pending refund is
+     * waiting. `null` when `status` isn't `pending`, or when the refund is on its way without
+     * review. Value enum: "manual_review", null. previous_attributes.pending_reason.anyOf[2]
+     * (Value): null. previous_attributes.processed_by (Optional): string or null. Who moved or is
+     * moving the money for this refund. Flint processes refunds through a processor or a gift
+     * card; merchant means the merchant returned the money outside Flint and recorded it here.
+     * Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[1] (Value): string. Who moved or is moving the money
+     * for this refund. Flint processes refunds through a processor or a gift card; merchant means
+     * the merchant returned the money outside Flint and recorded it here. Existing refunds are
+     * processed by Flint. Value enum: "flint", "merchant".
+     * previous_attributes.processed_by.anyOf[2] (Value): null. previous_attributes.reason
+     * (Optional): string or null or null. Why the refund was issued. It never changes how the
+     * money moves. The buyer's refund receipt shows it only for `requested_by_customer`,
+     * `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`,
+     * `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint
+     * sets `payment_returned`, and it can't be sent in requests. `null` when no reason was
+     * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
+     * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
+     * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
+     * "other", "out_of_stock", "payment_returned", null. previous_attributes.reason.anyOf[1]
+     * (Value): string or null. Why the refund was issued. It never changes how the money moves.
+     * The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
+     * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
+     * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
+     * `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock",
+     * "payment_returned", null. previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.reason_message (Optional): string or null. Note explaining the refund,
+     * up to 1,024 characters. previous_attributes.reason_message.anyOf[1] (Value): string. Note
+     * explaining the refund, up to 1,024 characters. previous_attributes.reason_message.anyOf[2]
+     * (Value): null. previous_attributes.refund_id (Optional): string or null. Unique identifier
+     * for this refund, prefixed `ref_`. previous_attributes.refund_id.anyOf[1] (Value): string.
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". previous_attributes.refund_id.anyOf[2] (Value): null.
+     * previous_attributes.refund_platform_fee (Optional): boolean or null. Whether the request
+     * asked to return the platform fee on the payments this refund refunds (refund_platform_fee).
+     * Each payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[1] (Value): boolean. Whether the request asked
+     * to return the platform fee on the payments this refund refunds (refund_platform_fee). Each
+     * payment refund's refunded_platform_fee_money is what it returns.
+     * previous_attributes.refund_platform_fee.anyOf[2] (Value): null.
+     * previous_attributes.refund_reference (Optional): string or null. The merchant's opaque
+     * check, wire, or other reference for money returned outside Flint, preserved exactly. Present
+     * only when processed_by is merchant and a reference was supplied. external_reference_id is
+     * the merchant's own refund ID. previous_attributes.refund_reference.anyOf[1] (Value): string.
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     * previous_attributes.refund_reference.anyOf[2] (Value): null. previous_attributes.refunded_at
+     * (Optional): string or null. When the merchant reports that the money was returned outside
+     * Flint. Present only when processed_by is merchant. previous_attributes.refunded_at.anyOf[1]
+     * (Value): string. When the merchant reports that the money was returned outside Flint.
+     * Present only when processed_by is merchant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.refunded_at.anyOf[2] (Value): null.
+     * previous_attributes.refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+     * `amount_money` that refunds tips. previous_attributes.refunded_tip_money.anyOf[1] (Value):
+     * {@link MoneyValue}. Share of `amount_money` that refunds tips.
+     * previous_attributes.refunded_tip_money.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the return this refund paid out. Present only on refunds
+     * issued by a return. previous_attributes.return_id.anyOf[1] (Value): string. ID of the return
+     * this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_resolution_id (Optional): string or null. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return.
+     * previous_attributes.return_resolution_id.anyOf[1] (Value): string. ID of the return
+     * resolution that issued this refund. Present only on refunds issued by a return. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Summary of
+     * payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[1] (Value): string.
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.succeeded_at (Optional): string or null. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time.
+     * previous_attributes.succeeded_at.anyOf[1] (Value): string. When `status` first became
+     * `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last
+     * of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund
+     * Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+     * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+     * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+     * refund that succeeds again shows its first success time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.succeeded_at.anyOf[2] (Value): null.
+     * previous_attributes.tax_breakdown_refunds (Optional): Array of {@link
+     * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes, one
+     * entry per tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1] (Value): Array of {@link
+     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
+     * tax breakdown. Tax reversed on line items is in
+     * `line_item_allocations[].tax_breakdown_refunds`.
+     * previous_attributes.tax_breakdown_refunds.anyOf[1][] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     * previous_attributes.tax_breakdown_refunds.anyOf[2] (Value): null.
+     * previous_attributes.tender_allocations (Optional): Array of {@link RefundTenderAllocation}
+     * or null. Every tender the refund drew from, payment or gift card, with its amount, tip
+     * share, status, and destination. previous_attributes.tender_allocations.anyOf[1] (Value):
+     * Array of {@link RefundTenderAllocation}. Every tender the refund drew from, payment or gift
+     * card, with its amount, tip share, status, and destination.
+     * previous_attributes.tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+     * One tender's share of a refund, listed in the refund's tender allocations.
+     * previous_attributes.tender_allocations.anyOf[2] (Value): null.
+     * previous_attributes.unissued_gift_card_recoveries (Optional): Array of {@link
+     * RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1] (Value): Array of
+     * {@link RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+     * refund failed. Return it through a new refund against payment_intent_id and
+     * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+     * describe the entire original settlement allocation; repeated entries for that source are not
+     * additive. previous_attributes.unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     * previous_attributes.unissued_gift_card_recoveries.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. previous_attributes.version.anyOf[1] (Value): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -7753,9 +15102,652 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. amount_money (Optional): {@link MoneyValue} or
+         * null. Total refunded across all tenders, including `refunded_tip_money`.
+         * amount_money.anyOf[1] (Value): {@link MoneyValue}. Total refunded across all tenders,
+         * including `refunded_tip_money`. amount_money.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. credit_note_id (Optional): string or null. ID of the
+         * credit note this refund paid out. Present only on refunds issued through a credit note.
+         * credit_note_id.anyOf[1] (Value): string. ID of the credit note this refund paid out.
+         * Present only on refunds issued through a credit note. Example:
+         * "cn_01KEZF7C00N1TRRCVDNY8S471H". credit_note_id.anyOf[2] (Value): null. customer
+         * (Optional): {@link ExpandedCustomerSummary} or null or null. Present only when `expand`
+         * includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present only when
+         * `expand` includes `customer`; `null` when expanded and there is no related customer.
+         * customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+         * summary fields, returned in place of a customer ID when the customer is expanded.
+         * customer.anyOf[1].anyOf[2] (Value): null. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. ID of the customer on the refunded order or payment. Absent
+         * when neither has one. customer_id.anyOf[1] (Value): string. ID of the customer on the
+         * refunded order or payment. Absent when neither has one. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. failure_reason
+         * (Optional): string or null. Why a refund failed or a payment refund was canceled. Failed
+         * and canceled amounts become refundable again, except a refund with reason
+         * payment_returned that failed with payment_disputed: the buyer won a dispute on the
+         * charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[1] (Value): string. Why a refund failed or a payment refund was
+         * canceled. Failed and canceled amounts become refundable again, except a refund with
+         * reason payment_returned that failed with payment_disputed: the buyer won a dispute on
+         * the charge, so nothing is left to refund. A payment_returned refund that failed with
+         * refund_abandoned can't be retried through Flint either: the money is in your balance.
+         * Flint hasn't repaid the buyer. Repay them another way if you haven't already. Fix the
+         * cause, then create a new refund with a new idempotency key. Unknown provider values are
+         * returned as refund_failed. Value enum: "expired_or_canceled_card",
+         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+         * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+         * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+         * failure_reason.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
+         * caller's Idempotency-Key when this refund was created, including refunds created by
+         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
+         * idempotency_key.anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+         * was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. idempotency_key.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who decided to make this refund:
+         * `merchant` for you or your integration, `flint` for a refund Flint made on its own to
+         * return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say
+         * which credential asked. Read-only. Value enum: "merchant", "flint".
+         * initiated_by.anyOf[1] (Value): string. Who decided to make this refund: `merchant` for
+         * you or your integration, `flint` for a refund Flint made on its own to return a payment
+         * it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
+         * asked. Read-only. Value enum: "merchant", "flint". initiated_by.anyOf[2] (Value): null.
+         * invoice_id (Optional): string or null. ID of the invoice whose credit note this refund
+         * paid out. Present only on refunds issued through a credit note. invoice_id.anyOf[1]
+         * (Value): string. ID of the invoice whose credit note this refund paid out. Present only
+         * on refunds issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+         * invoice_id.anyOf[2] (Value): null. line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation} or null. How the refund applied to each order line item it
+         * covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1] (Value):
+         * Array of {@link RefundLineItemAllocation}. How the refund applied to each order line
+         * item it covered, with quantity, tax, and adjustments. line_item_allocations.anyOf[1][]
+         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
+         * quantity, refunded amount, tax, adjustments, and modifier allocations.
+         * line_item_allocations.anyOf[2] (Value): null. merchant_id (Optional): string or null. ID
+         * of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string. ID of
+         * the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummary} or null or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1].anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[1].anyOf[2] (Value): null. order.anyOf[2] (Value): null.
+         * order_edit_id (Optional): string or null. ID of the paid-order edit that created this
+         * refund. Present only on refunds issued through an order edit. order_edit_id.anyOf[1]
+         * (Value): string. ID of the paid-order edit that created this refund. Present only on
+         * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+         * order_edit_id.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
+         * order the refund was issued against. For a refund with `reason` `payment_returned`, the
+         * order the returned payment was for; the order never received this money. Absent for a
+         * refund of a payment that has no order, and for a standalone gift card refund.
+         * order_id.anyOf[1] (Value): string. ID of the order the refund was issued against. For a
+         * refund with `reason` `payment_returned`, the order the returned payment was for; the
+         * order never received this money. Absent for a refund of a payment that has no order, and
+         * for a standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_id.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the refund was issued
+         * against, when it targeted one payment. `payment_refunds` lists every payment it returned
+         * money through. payment_intent_id.anyOf[1] (Value): string. ID of the payment the refund
+         * was issued against, when it targeted one payment. `payment_refunds` lists every payment
+         * it returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+         * payment_intent_id.anyOf[2] (Value): null. payment_refunds (Optional): Array of {@link
+         * PaymentRefund} or null. The part of the refund returned through each payment, with its
+         * own status. Absent when the refund was all gift card credit or store credit.
+         * payment_refunds.anyOf[1] (Value): Array of {@link PaymentRefund}. The part of the refund
+         * returned through each payment, with its own status. Absent when the refund was all gift
+         * card credit or store credit. payment_refunds.anyOf[1][] (Value): {@link PaymentRefund}.
+         * The part of a refund returned through one payment, with the amount, tip, status, and any
+         * failure reason. payment_refunds.anyOf[2] (Value): null. payment_review_id (Optional):
+         * string or null. ID of the payment review whose decline created this refund. Present only
+         * on refunds issued for a declined review. payment_review_id.anyOf[1] (Value): string. ID
+         * of the payment review whose decline created this refund. Present only on refunds issued
+         * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_review_id.anyOf[2] (Value): null. pending_reason (Optional): string or null or
+         * null. Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+         * refund is on its way without review. Value enum: "manual_review", null.
+         * pending_reason.anyOf[1] (Value): string or null. Why a pending refund is waiting. `null`
+         * when `status` isn't `pending`, or when the refund is on its way without review. Value
+         * enum: "manual_review", null. pending_reason.anyOf[2] (Value): null. processed_by
+         * (Optional): string or null. Who moved or is moving the money for this refund. Flint
+         * processes refunds through a processor or a gift card; merchant means the merchant
+         * returned the money outside Flint and recorded it here. Existing refunds are processed by
+         * Flint. Value enum: "flint", "merchant". processed_by.anyOf[1] (Value): string. Who moved
+         * or is moving the money for this refund. Flint processes refunds through a processor or a
+         * gift card; merchant means the merchant returned the money outside Flint and recorded it
+         * here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+         * processed_by.anyOf[2] (Value): null. reason (Optional): string or null or null. Why the
+         * refund was issued. It never changes how the money moves. The buyer's refund receipt
+         * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+         * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+         * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't
+         * be sent in requests. `null` when no reason was recorded. Value enum: "duplicate",
+         * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+         * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+         * "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned",
+         * null. reason.anyOf[1] (Value): string or null. Why the refund was issued. It never
+         * changes how the money moves. The buyer's refund receipt shows it only for
+         * `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`,
+         * `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and
+         * `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests.
+         * `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+         * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+         * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+         * "accidental_order", "other", "out_of_stock", "payment_returned", null. reason.anyOf[2]
+         * (Value): null. reason_message (Optional): string or null. Note explaining the refund, up
+         * to 1,024 characters. reason_message.anyOf[1] (Value): string. Note explaining the
+         * refund, up to 1,024 characters. reason_message.anyOf[2] (Value): null. refund_id
+         * (Optional): string or null. Unique identifier for this refund, prefixed `ref_`.
+         * refund_id.anyOf[1] (Value): string. Unique identifier for this refund, prefixed `ref_`.
+         * Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_id.anyOf[2] (Value): null.
+         * refund_platform_fee (Optional): boolean or null. Whether the request asked to return the
+         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+         * refund's refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[1]
+         * (Value): boolean. Whether the request asked to return the platform fee on the payments
+         * this refund refunds (refund_platform_fee). Each payment refund's
+         * refunded_platform_fee_money is what it returns. refund_platform_fee.anyOf[2] (Value):
+         * null. refund_reference (Optional): string or null. The merchant's opaque check, wire, or
+         * other reference for money returned outside Flint, preserved exactly. Present only when
+         * processed_by is merchant and a reference was supplied. external_reference_id is the
+         * merchant's own refund ID. refund_reference.anyOf[1] (Value): string. The merchant's
+         * opaque check, wire, or other reference for money returned outside Flint, preserved
+         * exactly. Present only when processed_by is merchant and a reference was supplied.
+         * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+         * refund_reference.anyOf[2] (Value): null. refunded_at (Optional): string or null. When
+         * the merchant reports that the money was returned outside Flint. Present only when
+         * processed_by is merchant. refunded_at.anyOf[1] (Value): string. When the merchant
+         * reports that the money was returned outside Flint. Present only when processed_by is
+         * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". refunded_at.anyOf[2]
+         * (Value): null. refunded_tip_money (Optional): {@link MoneyValue} or null. Share of
+         * `amount_money` that refunds tips. refunded_tip_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Share of `amount_money` that refunds tips. refunded_tip_money.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the return this refund paid
+         * out. Present only on refunds issued by a return. return_id.anyOf[1] (Value): string. ID
+         * of the return this refund paid out. Present only on refunds issued by a return. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_resolution_id
+         * (Optional): string or null. ID of the return resolution that issued this refund. Present
+         * only on refunds issued by a return. return_resolution_id.anyOf[1] (Value): string. ID of
+         * the return resolution that issued this refund. Present only on refunds issued by a
+         * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_id.anyOf[2]
+         * (Value): null. status (Optional): string or null. Summary of payment_refunds and
+         * tender_allocations. Only failed is final: succeeded and partially_succeeded can still
+         * change when a bank rejects a refund after accepting it. A refund Flint made to return a
+         * payment it couldn't accept goes from succeeded back to pending, with pending_reason
+         * manual_review, when a bank reverses it. Follow refund.created when it is accepted,
+         * refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes,
+         * and refund.updated for other changes. Value enum: "pending", "succeeded",
+         * "partially_succeeded", "failed". status.anyOf[1] (Value): string. Summary of
+         * payment_refunds and tender_allocations. Only failed is final: succeeded and
+         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+         * pending, with pending_reason manual_review, when a bank reverses it. Follow
+         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+         * refund.failed when its outcome changes, and refund.updated for other changes. Value
+         * enum: "pending", "succeeded", "partially_succeeded", "failed". status.anyOf[2] (Value):
+         * null. succeeded_at (Optional): string or null. When `status` first became `succeeded`.
+         * For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them
+         * first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint
+         * processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it
+         * equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other
+         * status, including `partially_succeeded` and a refund that failed after it succeeded. A
+         * refund that succeeds again shows its first success time. succeeded_at.anyOf[1] (Value):
+         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
+         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
+         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
+         * and a refund that failed after it succeeded. A refund that succeeds again shows its
+         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * succeeded_at.anyOf[2] (Value): null. tax_breakdown_refunds (Optional): Array of {@link
+         * RefundTaxBreakdownRefund} or null. Tax reversed on order-level charges and flat taxes,
+         * one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1] (Value):
+         * Array of {@link RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat
+         * taxes, one entry per tax breakdown. Tax reversed on line items is in
+         * `line_item_allocations[].tax_breakdown_refunds`. tax_breakdown_refunds.anyOf[1][]
+         * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an
+         * order. tax_breakdown_refunds.anyOf[2] (Value): null. tender_allocations (Optional):
+         * Array of {@link RefundTenderAllocation} or null. Every tender the refund drew from,
+         * payment or gift card, with its amount, tip share, status, and destination.
+         * tender_allocations.anyOf[1] (Value): Array of {@link RefundTenderAllocation}. Every
+         * tender the refund drew from, payment or gift card, with its amount, tip share, status,
+         * and destination. tender_allocations.anyOf[1][] (Value): {@link RefundTenderAllocation}.
+         * One tender's share of a refund, listed in the refund's tender allocations.
+         * tender_allocations.anyOf[2] (Value): null. unissued_gift_card_recoveries (Optional):
+         * Array of {@link RefundUnissuedGiftCardRecovery} or null. Cash returned after an unissued
+         * gift card purchase refund failed. Return it through a new refund against
+         * payment_intent_id and order_line_item_id. It does not issue another card. Source
+         * remaining and pending amounts describe the entire original settlement allocation;
+         * repeated entries for that source are not additive.
+         * unissued_gift_card_recoveries.anyOf[1] (Value): Array of {@link
+         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
+         * refund failed. Return it through a new refund against payment_intent_id and
+         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
+         * describe the entire original settlement allocation; repeated entries for that source are
+         * not additive. unissued_gift_card_recoveries.anyOf[1][] (Value): {@link
+         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+         * card was issued, including the amounts recovered. unissued_gift_card_recoveries.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Persisted version of this resource's owned state. Expanded resources and
+         * external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<Refund>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Total refunded across all tenders, including `refunded_tip_money`. anyOf[1] (Value):
+             * {@link MoneyValue}. Total refunded across all tenders, including
+             * `refunded_tip_money`. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValue) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the credit note this refund paid out. Present only on refunds issued through a
+             * credit note. anyOf[1] (Value): string. ID of the credit note this refund paid out.
+             * Present only on refunds issued through a credit note. Example:
+             * "cn_01KEZF7C00N1TRRCVDNY8S471H". anyOf[2] (Value): null.
+             */
+            "credit_note_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the customer on the refunded order or payment. Absent when neither has one.
+             * anyOf[1] (Value): string. ID of the customer on the refunded order or payment.
+             * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2]
+             * (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
+             * become refundable again, except a refund with reason payment_returned that failed
+             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[1] (Value): string. Why a
+             * refund failed or a payment refund was canceled. Failed and canceled amounts become
+             * refundable again, except a refund with reason payment_returned that failed with
+             * payment_disputed: the buyer won a dispute on the charge, so nothing is left to
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed". anyOf[2] (Value): null.
+             */
+            "failure_reason"?: (("expired_or_canceled_card"
+                | "lost_or_stolen_card"
+                | "insufficient_funds"
+                | "insufficient_available_balance"
+                | "declined"
+                | "merchant_request"
+                | "payment_disputed"
+                | "refund_abandoned"
+                | "payment_refund_failed"
+                | "payment_refund_not_attempted"
+                | "refund_failed"
+                | (string & {}))
+                | (null));
+            /**
+             * The caller's Idempotency-Key when this refund was created, including refunds created
+             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
+             * response. anyOf[1] (Value): string. The caller's Idempotency-Key when this refund
+             * was created, including refunds created by issuing a credit note. Use GET
+             * /v1/refunds?idempotency_key= to recover a lost response. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
+             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
+             * enum: "merchant", "flint". anyOf[1] (Value): string. Who decided to make this
+             * refund: `merchant` for you or your integration, `flint` for a refund Flint made on
+             * its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it
+             * doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("merchant" | "flint" | (string & {})) | (null));
+            /**
+             * ID of the invoice whose credit note this refund paid out. Present only on refunds
+             * issued through a credit note. anyOf[1] (Value): string. ID of the invoice whose
+             * credit note this refund paid out. Present only on refunds issued through a credit
+             * note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+             */
+            "invoice_id"?: ((string) | (null));
+            /**
+             * How the refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1] (Value): Array of {@link RefundLineItemAllocation}. How the
+             * refund applied to each order line item it covered, with quantity, tax, and
+             * adjustments. anyOf[1][] (Value): {@link RefundLineItemAllocation}. How a refund
+             * applied to one order line item: quantity, refunded amount, tax, adjustments, and
+             * modifier allocations. anyOf[2] (Value): null.
+             */
+            "line_item_allocations"?: ((Array<RefundLineItemAllocation>) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the paid-order edit that created this refund. Present only on refunds issued
+             * through an order edit. anyOf[1] (Value): string. ID of the paid-order edit that
+             * created this refund. Present only on refunds issued through an order edit. Example:
+             * "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+             */
+            "order_edit_id"?: ((string) | (null));
+            /**
+             * ID of the order the refund was issued against. For a refund with `reason`
+             * `payment_returned`, the order the returned payment was for; the order never received
+             * this money. Absent for a refund of a payment that has no order, and for a standalone
+             * gift card refund. anyOf[1] (Value): string. ID of the order the refund was issued
+             * against. For a refund with `reason` `payment_returned`, the order the returned
+             * payment was for; the order never received this money. Absent for a refund of a
+             * payment that has no order, and for a standalone gift card refund. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the refund was issued against, when it targeted one payment.
+             * `payment_refunds` lists every payment it returned money through. anyOf[1] (Value):
+             * string. ID of the payment the refund was issued against, when it targeted one
+             * payment. `payment_refunds` lists every payment it returned money through. Example:
+             * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The part of the refund returned through each payment, with its own status. Absent
+             * when the refund was all gift card credit or store credit. anyOf[1] (Value): Array of
+             * {@link PaymentRefund}. The part of the refund returned through each payment, with
+             * its own status. Absent when the refund was all gift card credit or store credit.
+             * anyOf[1][] (Value): {@link PaymentRefund}. The part of a refund returned through one
+             * payment, with the amount, tip, status, and any failure reason. anyOf[2] (Value):
+             * null.
+             */
+            "payment_refunds"?: ((Array<PaymentRefund>) | (null));
+            /**
+             * ID of the payment review whose decline created this refund. Present only on refunds
+             * issued for a declined review. anyOf[1] (Value): string. ID of the payment review
+             * whose decline created this refund. Present only on refunds issued for a declined
+             * review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". anyOf[2] (Value): null.
+             */
+            "payment_review_id"?: ((string) | (null));
+            /**
+             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
+             * refund is on its way without review. Value enum: "manual_review", null. anyOf[1]
+             * (Value): string or null. Why a pending refund is waiting. `null` when `status` isn't
+             * `pending`, or when the refund is on its way without review. Value enum:
+             * "manual_review", null. anyOf[2] (Value): null.
+             */
+            "pending_reason"?: (("manual_review" | null | (string & {}) | null) | (null) | (unknown));
+            /**
+             * Who moved or is moving the money for this refund. Flint processes refunds through a
+             * processor or a gift card; merchant means the merchant returned the money outside
+             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
+             * "flint", "merchant". anyOf[1] (Value): string. Who moved or is moving the money for
+             * this refund. Flint processes refunds through a processor or a gift card; merchant
+             * means the merchant returned the money outside Flint and recorded it here. Existing
+             * refunds are processed by Flint. Value enum: "flint", "merchant". anyOf[2] (Value):
+             * null.
+             */
+            "processed_by"?: (("flint" | "merchant" | (string & {})) | (null));
+            /**
+             * Why the refund was issued. It never changes how the money moves. The buyer's refund
+             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[1] (Value): string or null. Why the
+             * refund was issued. It never changes how the money moves. The buyer's refund receipt
+             * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
+             * can't be sent in requests. `null` when no reason was recorded. Value enum:
+             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
+             * "out_of_stock", "payment_returned", null. anyOf[2] (Value): null.
+             */
+            "reason"?: (("duplicate"
+                | "fraudulent"
+                | "requested_by_customer"
+                | "defective_product"
+                | "wrong_item_shipped"
+                | "never_received"
+                | "not_as_described"
+                | "arrived_too_late"
+                | "customer_changed_mind"
+                | "better_price_found"
+                | "accidental_order"
+                | "other"
+                | "out_of_stock"
+                | "payment_returned"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            /**
+             * Note explaining the refund, up to 1,024 characters. anyOf[1] (Value): string. Note
+             * explaining the refund, up to 1,024 characters. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * Unique identifier for this refund, prefixed `ref_`. anyOf[1] (Value): string. Unique
+             * identifier for this refund, prefixed `ref_`. Example:
+             * "ref_01KEZF7C003DTD59WKYHEXYQ1K". anyOf[2] (Value): null.
+             */
+            "refund_id"?: ((string) | (null));
+            /**
+             * Whether the request asked to return the platform fee on the payments this refund
+             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
+             * what it returns. anyOf[1] (Value): boolean. Whether the request asked to return the
+             * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
+             * refund's refunded_platform_fee_money is what it returns. anyOf[2] (Value): null.
+             */
+            "refund_platform_fee"?: ((boolean) | (null));
+            /**
+             * The merchant's opaque check, wire, or other reference for money returned outside
+             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
+             * was supplied. external_reference_id is the merchant's own refund ID. anyOf[1]
+             * (Value): string. The merchant's opaque check, wire, or other reference for money
+             * returned outside Flint, preserved exactly. Present only when processed_by is
+             * merchant and a reference was supplied. external_reference_id is the merchant's own
+             * refund ID. minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "refund_reference"?: ((string) | (null));
+            /**
+             * When the merchant reports that the money was returned outside Flint. Present only
+             * when processed_by is merchant. anyOf[1] (Value): string. When the merchant reports
+             * that the money was returned outside Flint. Present only when processed_by is
+             * merchant. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "refunded_at"?: ((string) | (null));
+            /**
+             * Share of `amount_money` that refunds tips. anyOf[1] (Value): {@link MoneyValue}.
+             * Share of `amount_money` that refunds tips. anyOf[2] (Value): null.
+             */
+            "refunded_tip_money"?: ((MoneyValue) | (null));
+            /**
+             * ID of the return this refund paid out. Present only on refunds issued by a return.
+             * anyOf[1] (Value): string. ID of the return this refund paid out. Present only on
+             * refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2]
+             * (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * ID of the return resolution that issued this refund. Present only on refunds issued
+             * by a return. anyOf[1] (Value): string. ID of the return resolution that issued this
+             * refund. Present only on refunds issued by a return. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+             */
+            "return_resolution_id"?: ((string) | (null));
+            /**
+             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
+             * and partially_succeeded can still change when a bank rejects a refund after
+             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
+             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
+             * it. Follow refund.created when it is accepted, refund.succeeded,
+             * refund.partially_succeeded, or refund.failed when its outcome changes, and
+             * refund.updated for other changes. Value enum: "pending", "succeeded",
+             * "partially_succeeded", "failed". anyOf[1] (Value): string. Summary of
+             * payment_refunds and tender_allocations. Only failed is final: succeeded and
+             * partially_succeeded can still change when a bank rejects a refund after accepting
+             * it. A refund Flint made to return a payment it couldn't accept goes from succeeded
+             * back to pending, with pending_reason manual_review, when a bank reverses it. Follow
+             * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
+             * refund.failed when its outcome changes, and refund.updated for other changes. Value
+             * enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {})) | (null));
+            /**
+             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. anyOf[1] (Value): string. When `status`
+             * first became `succeeded`. For a refund with `payment_refunds` or
+             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
+             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
+             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
+             * Present only while `status` is `succeeded`; absent for every other status, including
+             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
+             * succeeds again shows its first success time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "succeeded_at"?: ((string) | (null));
+            /**
+             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
+             * anyOf[1] (Value): Array of {@link RefundTaxBreakdownRefund}. Tax reversed on
+             * order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on
+             * line items is in `line_item_allocations[].tax_breakdown_refunds`. anyOf[1][]
+             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
+             * an order. anyOf[2] (Value): null.
+             */
+            "tax_breakdown_refunds"?: ((Array<RefundTaxBreakdownRefund>) | (null));
+            /**
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1] (Value): Array of {@link RefundTenderAllocation}.
+             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
+             * status, and destination. anyOf[1][] (Value): {@link RefundTenderAllocation}. One
+             * tender's share of a refund, listed in the refund's tender allocations. anyOf[2]
+             * (Value): null.
+             */
+            "tender_allocations"?: ((Array<RefundTenderAllocation>) | (null));
+            /**
+             * Cash returned after an unissued gift card purchase refund failed. Return it through
+             * a new refund against payment_intent_id and order_line_item_id. It does not issue
+             * another card. Source remaining and pending amounts describe the entire original
+             * settlement allocation; repeated entries for that source are not additive. anyOf[1]
+             * (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+             * unissued gift card purchase refund failed. Return it through a new refund against
+             * payment_intent_id and order_line_item_id. It does not issue another card. Source
+             * remaining and pending amounts describe the entire original settlement allocation;
+             * repeated entries for that source are not additive. anyOf[1][] (Value): {@link
+             * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
+             * card was issued, including the amounts recovered. anyOf[2] (Value): null.
+             */
+            "unissued_gift_card_recoveries"?: ((Array<RefundUnissuedGiftCardRecovery>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

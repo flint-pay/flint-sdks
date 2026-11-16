@@ -3432,7 +3432,21 @@ export type DeliveryLocationSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelo
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            "delivery_location_set_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_location_set.archived";
@@ -3452,7 +3466,21 @@ export type DeliveryLocationSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelo
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            "delivery_location_set_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_location_set.archived";
@@ -3496,7 +3524,44 @@ export type DeliveryLocationSetArchivedInstalledMerchantsEvent = (Exclude<Partne
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryLocationSetConfiguration} or null. Current member Locations.
+     * previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryLocationSetConfiguration}. Current member Locations.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the location set was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the location set was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_location_set_revision_id (Optional):
+     * string or null. Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[1] (Value): string.
+     * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_location_set_id (Optional): string or null. Stable delivery
+     * location set ID. previous_attributes.delivery_location_set_id.anyOf[1] (Value): string.
+     * Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     * previous_attributes.delivery_location_set_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing location set name. previous_attributes.name.anyOf[1]
+     * (Value): string. Merchant-facing location set name. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current location set
+     * lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Current location set lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the location set last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the location set last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for location set writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for location set writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3563,9 +3628,99 @@ export type DeliveryLocationSetArchivedInstalledMerchantsEvent = (Exclude<Partne
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryLocationSetConfiguration} or null. Current member Locations.
+         * configuration.anyOf[1] (Value): {@link DeliveryLocationSetConfiguration}. Current member
+         * Locations. configuration.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * Time the location set was created. created_at.anyOf[1] (Value): string. Time the
+         * location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_location_set_revision_id (Optional):
+         * string or null. Immutable revision used for new quotes.
+         * current_delivery_location_set_revision_id.anyOf[1] (Value): string. Immutable revision
+         * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+         * current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+         * delivery_location_set_id (Optional): string or null. Stable delivery location set ID.
+         * delivery_location_set_id.anyOf[1] (Value): string. Stable delivery location set ID.
+         * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". delivery_location_set_id.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing location set name. name.anyOf[1]
+         * (Value): string. Merchant-facing location set name. name.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current location set lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Current location set lifecycle status.
+         * Value enum: "active", "archived". status.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. Time the location set last changed. updated_at.anyOf[1] (Value): string.
+         * Time the location set last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null.
+         * Optimistic-concurrency version for location set writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for location set writes. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current member Locations. anyOf[1] (Value): {@link
+             * DeliveryLocationSetConfiguration}. Current member Locations. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            /**
+             * Time the location set was created. anyOf[1] (Value): string. Time the location set
+             * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery location set ID. anyOf[1] (Value): string. Stable delivery location
+             * set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". anyOf[2] (Value): null.
+             */
+            "delivery_location_set_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
+             * location set name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current location set lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current location set lifecycle status. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the location set last changed. anyOf[1] (Value): string. Time the location set
+             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for location set writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3635,7 +3790,44 @@ export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookE
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryLocationSetConfiguration} or null. Current member Locations.
+     * previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryLocationSetConfiguration}. Current member Locations.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the location set was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the location set was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_location_set_revision_id (Optional):
+     * string or null. Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[1] (Value): string.
+     * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_location_set_id (Optional): string or null. Stable delivery
+     * location set ID. previous_attributes.delivery_location_set_id.anyOf[1] (Value): string.
+     * Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     * previous_attributes.delivery_location_set_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing location set name. previous_attributes.name.anyOf[1]
+     * (Value): string. Merchant-facing location set name. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current location set
+     * lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Current location set lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the location set last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the location set last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for location set writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for location set writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3702,9 +3894,99 @@ export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookE
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryLocationSetConfiguration} or null. Current member Locations.
+         * configuration.anyOf[1] (Value): {@link DeliveryLocationSetConfiguration}. Current member
+         * Locations. configuration.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * Time the location set was created. created_at.anyOf[1] (Value): string. Time the
+         * location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_location_set_revision_id (Optional):
+         * string or null. Immutable revision used for new quotes.
+         * current_delivery_location_set_revision_id.anyOf[1] (Value): string. Immutable revision
+         * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+         * current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+         * delivery_location_set_id (Optional): string or null. Stable delivery location set ID.
+         * delivery_location_set_id.anyOf[1] (Value): string. Stable delivery location set ID.
+         * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". delivery_location_set_id.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing location set name. name.anyOf[1]
+         * (Value): string. Merchant-facing location set name. name.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current location set lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Current location set lifecycle status.
+         * Value enum: "active", "archived". status.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. Time the location set last changed. updated_at.anyOf[1] (Value): string.
+         * Time the location set last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null.
+         * Optimistic-concurrency version for location set writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for location set writes. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current member Locations. anyOf[1] (Value): {@link
+             * DeliveryLocationSetConfiguration}. Current member Locations. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            /**
+             * Time the location set was created. anyOf[1] (Value): string. Time the location set
+             * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery location set ID. anyOf[1] (Value): string. Stable delivery location
+             * set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". anyOf[2] (Value): null.
+             */
+            "delivery_location_set_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
+             * location set name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current location set lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current location set lifecycle status. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the location set last changed. anyOf[1] (Value): string. Time the location set
+             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for location set writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

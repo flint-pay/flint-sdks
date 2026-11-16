@@ -1,1 +1,1 @@
-{"shared":"Merchant","dependencies":["Address","CapabilityReadiness","ImageAttachment","Merchant","MerchantReadiness","MetadataMap","ReadinessAction","ReadinessAxis","ReadinessMerchantAccountSession","ReadinessRequirements","SharedCodec1007","SharedCodec135","SharedCodec1389"]}
+{"shared":"Merchant","dependencies":["Address","CapabilityReadiness","ImageAttachment","Merchant","MerchantReadiness","MetadataMap","ReadinessAction","ReadinessAxis","ReadinessMerchantAccountSession","ReadinessRequirements","SharedCodec1328","SharedCodec174","SharedCodec1956"]}

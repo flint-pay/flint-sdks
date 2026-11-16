@@ -27,9 +27,13 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1).
+Field definitions: [shared fields](ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1).
 
 ### ApiKeyUpdatedEvent.data fields 1.object
 
 Field definitions: [ApiKeyCreatedEvent.data fields 1.object](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1object).
+
+### ApiKeyUpdatedEvent.data fields 1.previous_attributes
+
+Field definitions: [ApiKeyRevokedEvent.data fields 1.previous_attributes](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributes).
 

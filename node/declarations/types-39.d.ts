@@ -1,4 +1,4 @@
-import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet, ModifierSetGroup } from './types-38.js';
+import type { MerchantWebhookEnvelope, MetadataMap, ModifierSetGroup } from './types-38.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateModifierSetRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-23.js';
@@ -79,6 +79,54 @@ export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.created_at (Optional): string or null. When the modifier set was
+     * created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
+     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link ModifierSetGroup} or null.
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroup}. Ordered group entries in this set, including the full content of reusable
+     * groups and groups owned by the set. previous_attributes.modifier_groups.anyOf[1][] (Value):
+     * {@link ModifierSetGroup}. A modifier group as it appears in a modifier set, with its
+     * selection limits, display options, and per-modifier overrides.
+     * previous_attributes.modifier_groups.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of the
+     * modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -166,9 +214,122 @@ export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+         * reserved for Flint, are not returned, and cannot be written through the public API.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroup} or null. Ordered group entries in this set, including the full content
+         * of reusable groups and groups owned by the set. modifier_groups.anyOf[1] (Value): Array
+         * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full
+         * content of reusable groups and groups owned by the set. modifier_groups.anyOf[1][]
+         * (Value): {@link ModifierSetGroup}. A modifier group as it appears in a modifier set,
+         * with its selection limits, display options, and per-modifier overrides.
+         * modifier_groups.anyOf[2] (Value): null. modifier_set_id (Optional): string or null.
+         * Stable identifier of the modifier set assigned to catalog items.
+         * modifier_set_id.anyOf[1] (Value): string. Stable identifier of the modifier set assigned
+         * to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2]
+         * (Value): null. name (Optional): string or null. Name used to identify this modifier set.
+         * name.anyOf[1] (Value): string. Name used to identify this modifier set. name.anyOf[2]
+         * (Value): null. status (Optional): string or null. Lifecycle status of the modifier set.
+         * Only active sets can be offered to buyers; archived sets remain readable and cannot be
+         * edited. Value enum: "active", "inactive", "archived". status.anyOf[1] (Value): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or null. When
+         * the modifier set or any group it contains last changed, as an RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. When the modifier set or any group it contains last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Version of the
+         * modifier set, including the groups it contains. version.anyOf[1] (Value): integer.
+         * Version of the modifier set, including the groups it contains. Format: uint64. minimum:
+         * 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ModifierSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+             * strings. Keys starting with flint_ are reserved for Flint, are not returned, and
+             * cannot be written through the public API. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link ModifierSetGroup}.
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1][] (Value): {@link ModifierSetGroup}. A modifier
+             * group as it appears in a modifier set, with its selection limits, display options,
+             * and per-modifier overrides. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroup>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2569,10 +2730,10 @@ export type Order = {
     /**
      * The earliest open or resolving payment review on this order's counted payments. `null` when
      * no review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+     * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
      */
-    "active_payment_review_id": string | null;
+    "active_payment_review_id"?: string | null;
     /**
      * The amounts authorized and still capturable on the order's payments. The amounts authorized
      * and still capturable on an order's payments, with the authorization expiry.
@@ -2601,9 +2762,10 @@ export type Order = {
      * The reference the payment link URL or resolve request carried, such as your user ID. `null`
      * when none was sent or checkout did not start from a payment link. Returned only to merchant
      * credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a
-     * claim, not proof of identity. minLength: 1. maxLength: 255.
+     * claim, not proof of identity. Always present with merchant credentials. minLength: 1.
+     * maxLength: 255.
      */
-    "client_reference": string | null;
+    "client_reference"?: string | null;
     /**
      * When the order closed. Present exactly when status is closed. Set once at the transition and
      * never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -2639,11 +2801,12 @@ export type Order = {
      * the link had no custom fields, or the buyer answered none. Orders created before Flint
      * recorded answers here also return an empty list and keep their answers in `metadata` as
      * `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant
-     * credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@link
-     * CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when
-     * checkout started. `custom_field_type` determines the type of `value`.
+     * credentials; omitted for buyer credentials. Always present with merchant credentials.
+     * maxItems: 20. [] (Value): {@link CustomFieldAnswer}. One answer to a payment link custom
+     * field, with the field as it was when checkout started. `custom_field_type` determines the
+     * type of `value`.
      */
-    "custom_field_answers": Array<CustomFieldAnswer>;
+    "custom_field_answers"?: Array<CustomFieldAnswer>;
     /**
      * Customer summary included when `expand` names `customer`; `null` when expanded and no
      * customer is linked. Present only when `expand` includes `customer`; `null` when expanded and
@@ -2689,9 +2852,9 @@ export type Order = {
      * states take precedence in this order: needs_response, under_review, inquiry_needs_response,
      * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
      * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
-     * /v1/disputes?order_id={order_id}. Value enum: "none", "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other".
+     * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
      */
     "dispute_status"?: "none"
         | "inquiry_needs_response"
@@ -2878,9 +3041,10 @@ export type Order = {
     /**
      * The order edit waiting for its balance payment. While it is set, the units that edit removes
      * can't join a fulfillment and the order refuses another edit. `null` when there is none.
-     * Omitted for buyer credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * Omitted for buyer credentials. Always present with merchant credentials. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
      */
-    "pending_order_edit_id": string | null;
+    "pending_order_edit_id"?: string | null;
     /**
      * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -2983,10 +3147,11 @@ export type Order = {
     /**
      * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
      * is allowed, and pay while open without an active attempt and with an outstanding balance or
-     * payment-method setup available. [] enum: "close", "pay", "resolve_inventory_exception". []
-     * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
+     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
+     * "pay", "resolve_inventory_exception". [] (Value): string. Value enum: "close", "pay",
+     * "resolve_inventory_exception".
      */
-    "supported_actions": Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
+    "supported_actions"?: Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
     /**
      * The order's tax state: whether tax is enabled, its status, location, exemption, and
      * per-jurisdiction rows. An order's tax state, including its mode, price mode, status,

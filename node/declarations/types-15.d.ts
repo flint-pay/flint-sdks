@@ -322,7 +322,37 @@ export type CustomDomainArchivedEvent = ((Exclude<MerchantWebhookEnvelope & obje
             "type": "checkout" | "customer_account" | (string & {});
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<CustomDomain>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt_count"?: ((number | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "custom_domain_id"?: ((string) | (null));
+            "dns_records"?: ((Array<CustomDomainDNSRecord>) | (null));
+            "hostname"?: ((string) | (null));
+            "last_checked_at"?: ((string | null) | (null) | (unknown));
+            "payment_method_domain_id"?: ((string | null) | (null) | (unknown));
+            "redirect_expires_at"?: ((string | null) | (null) | (unknown));
+            "status"?: (("provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {}))
+                | (null));
+            "status_reason"?: (("dns_record_missing"
+                | "dns_record_mismatch"
+                | "ownership_record_missing"
+                | "ownership_record_mismatch"
+                | "caa_record_blocks_certificate"
+                | "proxied_by_another_provider"
+                | "certificate_pending"
+                | "custom_domains_inactive"
+                | "other"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "type"?: (("checkout" | "customer_account" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "custom_domain.archived";
@@ -408,7 +438,37 @@ export type CustomDomainUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & objec
             "type": "checkout" | "customer_account" | (string & {});
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<CustomDomain>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt_count"?: ((number | null) | (null) | (unknown));
+            "created_at"?: ((string) | (null));
+            "custom_domain_id"?: ((string) | (null));
+            "dns_records"?: ((Array<CustomDomainDNSRecord>) | (null));
+            "hostname"?: ((string) | (null));
+            "last_checked_at"?: ((string | null) | (null) | (unknown));
+            "payment_method_domain_id"?: ((string | null) | (null) | (unknown));
+            "redirect_expires_at"?: ((string | null) | (null) | (unknown));
+            "status"?: (("provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {}))
+                | (null));
+            "status_reason"?: (("dns_record_missing"
+                | "dns_record_mismatch"
+                | "ownership_record_missing"
+                | "ownership_record_mismatch"
+                | "caa_record_blocks_certificate"
+                | "proxied_by_another_provider"
+                | "certificate_pending"
+                | "custom_domains_inactive"
+                | "other"
+                | null
+                | (string & {})
+                | null)
+                | (null)
+                | (unknown));
+            "type"?: (("checkout" | "customer_account" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "custom_domain.updated";
@@ -2808,7 +2868,26 @@ export type CustomerDeletionRequestCompletedEvent = ((Exclude<MerchantWebhookEnv
             "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
             "supported_actions": Array<"resolve" | (string & {})>;
         };
-        "previous_attributes"?: Partial<CustomerDeletionRequest>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReference>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string | null) | (null) | (unknown));
+            "decision_reason"?: ((string | null) | (null) | (unknown));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {}) | null) | (null) | (unknown));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "customer_deletion_request.completed";
@@ -2863,7 +2942,26 @@ export type CustomerDeletionRequestFailedEvent = ((Exclude<MerchantWebhookEnvelo
             "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
             "supported_actions": Array<"resolve" | (string & {})>;
         };
-        "previous_attributes"?: Partial<CustomerDeletionRequest>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReference>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string | null) | (null) | (unknown));
+            "decision_reason"?: ((string | null) | (null) | (unknown));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {}) | null) | (null) | (unknown));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "customer_deletion_request.failed";
@@ -2915,7 +3013,26 @@ export type CustomerDeletionRequestProcessingEvent = ((Exclude<MerchantWebhookEn
             "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
             "supported_actions": Array<"resolve" | (string & {})>;
         };
-        "previous_attributes"?: Partial<CustomerDeletionRequest>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReference>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string | null) | (null) | (unknown));
+            "decision_reason"?: ((string | null) | (null) | (unknown));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {}) | null) | (null) | (unknown));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "customer_deletion_request.processing";
@@ -2943,7 +3060,26 @@ export type CustomerDeletionRequestRejectedEvent = ((Exclude<MerchantWebhookEnve
             "status": "pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {});
             "supported_actions": Array<"resolve" | (string & {})>;
         };
-        "previous_attributes"?: Partial<CustomerDeletionRequest>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "blocking_resource_count"?: ((number) | (null));
+            "blocking_resources"?: ((Array<ErrorResourceReference>) | (null));
+            "canceled_subscription_ids"?: ((Array<string>) | (null));
+            "customer_deletion_request_id"?: ((string) | (null));
+            "customer_id"?: ((string) | (null));
+            "decided_at"?: ((string | null) | (null) | (unknown));
+            "decision_reason"?: ((string | null) | (null) | (unknown));
+            "removed_payment_method_ids"?: ((Array<string>) | (null));
+            "requested_at"?: ((string) | (null));
+            "requested_by"?: (("buyer" | "merchant" | null | (string & {}) | null) | (null) | (unknown));
+            "resolved_at"?: ((string) | (null));
+            "response_due_at"?: ((string) | (null));
+            "retention_policy"?: (("retain_required_commerce_records" | (string & {})) | (null));
+            "status"?: (("pending_review" | "processing" | "completed" | "rejected" | "failed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"resolve" | (string & {})>) | (null));
+        });
     };
     "event_source"?: "merchant" | (string & {});
     "event_type"?: "customer_deletion_request.rejected";
@@ -3154,7 +3290,16 @@ export type CustomerEmailPreferencesUpdatedEvent = ((((Exclude<MerchantWebhookEn
             "shipping_updates": boolean;
             "version": number | null;
         };
-        "previous_attributes"?: Partial<CustomerEmailPreferences>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "checkout_reminders"?: ((boolean) | (null));
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            "email"?: ((string) | (null));
+            "shipping_updates"?: ((boolean) | (null));
+            "version"?: ((number | null) | (null) | (unknown));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "customer_email_preferences.updated";
@@ -3169,7 +3314,16 @@ export type CustomerEmailPreferencesUpdatedEvent = ((((Exclude<MerchantWebhookEn
             "shipping_updates": boolean;
             "version": number | null;
         };
-        "previous_attributes"?: Partial<CustomerEmailPreferences>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "checkout_reminders"?: ((boolean) | (null));
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            "email"?: ((string) | (null));
+            "shipping_updates"?: ((boolean) | (null));
+            "version"?: ((number | null) | (null) | (unknown));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "customer_email_preferences.updated";
@@ -3210,6 +3364,39 @@ export type CustomerEmailPreferencesUpdatedInstalledMerchantsEvent = (Exclude<Pa
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.checkout_reminders (Optional): boolean or null. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[1] (Value): boolean. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null or null. ID of the customer whose
+     * current email address these preferences belong to. `null` when the address has no current
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string or null. ID of the
+     * customer whose current email address these preferences belong to. `null` when the address
+     * has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.email
+     * (Optional): string or null. The customer's current email address. The preferences belong to
+     * this address, so they also apply to guest checkouts and other customers with the same
+     * address, and they change when the customer's email changes. On address lookup, the address
+     * as sent, trimmed. previous_attributes.email.anyOf[1] (Value): string. The customer's current
+     * email address. The preferences belong to this address, so they also apply to guest checkouts
+     * and other customers with the same address, and they change when the customer's email
+     * changes. On address lookup, the address as sent, trimmed. previous_attributes.email.anyOf[2]
+     * (Value): null. previous_attributes.shipping_updates (Optional): boolean or null. Emails
+     * about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending
+     * this email when it is `false`; if you send this kind of email yourself, do not send it
+     * either. previous_attributes.shipping_updates.anyOf[1] (Value): boolean. Emails about
+     * shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.shipping_updates.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null or null. The customer's preference version. Advances when either
+     * category changes for this address or the customer's email address changes. `null` when the
+     * address has no current customer. previous_attributes.version.anyOf[1] (Value): integer or
+     * null. The customer's preference version. Advances when either category changes for this
+     * address or the customer's email address changes. `null` when the address has no current
+     * customer. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3266,9 +3453,89 @@ export type CustomerEmailPreferencesUpdatedInstalledMerchantsEvent = (Exclude<Pa
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. checkout_reminders (Optional): boolean or null.
+         * A reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[1] (Value): boolean. A
+         * reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null or null. ID of the customer whose current email address these
+         * preferences belong to. `null` when the address has no current customer.
+         * customer_id.anyOf[1] (Value): string or null. ID of the customer whose current email
+         * address these preferences belong to. `null` when the address has no current customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. email
+         * (Optional): string or null. The customer's current email address. The preferences belong
+         * to this address, so they also apply to guest checkouts and other customers with the same
+         * address, and they change when the customer's email changes. On address lookup, the
+         * address as sent, trimmed. email.anyOf[1] (Value): string. The customer's current email
+         * address. The preferences belong to this address, so they also apply to guest checkouts
+         * and other customers with the same address, and they change when the customer's email
+         * changes. On address lookup, the address as sent, trimmed. email.anyOf[2] (Value): null.
+         * shipping_updates (Optional): boolean or null. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[1] (Value): boolean. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[2] (Value): null. version (Optional): integer or null or null.
+         * The customer's preference version. Advances when either category changes for this
+         * address or the customer's email address changes. `null` when the address has no current
+         * customer. version.anyOf[1] (Value): integer or null. The customer's preference version.
+         * Advances when either category changes for this address or the customer's email address
+         * changes. `null` when the address has no current customer. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<CustomerEmailPreferences>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * A reminder after leaving checkout without paying. `true` unless the buyer turned it
+             * off. Flint stops sending this email when it is `false`; if you send this kind of
+             * email yourself, do not send it either. anyOf[1] (Value): boolean. A reminder after
+             * leaving checkout without paying. `true` unless the buyer turned it off. Flint stops
+             * sending this email when it is `false`; if you send this kind of email yourself, do
+             * not send it either. anyOf[2] (Value): null.
+             */
+            "checkout_reminders"?: ((boolean) | (null));
+            /**
+             * ID of the customer whose current email address these preferences belong to. `null`
+             * when the address has no current customer. anyOf[1] (Value): string or null. ID of
+             * the customer whose current email address these preferences belong to. `null` when
+             * the address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             * anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * The customer's current email address. The preferences belong to this address, so
+             * they also apply to guest checkouts and other customers with the same address, and
+             * they change when the customer's email changes. On address lookup, the address as
+             * sent, trimmed. anyOf[1] (Value): string. The customer's current email address. The
+             * preferences belong to this address, so they also apply to guest checkouts and other
+             * customers with the same address, and they change when the customer's email changes.
+             * On address lookup, the address as sent, trimmed. anyOf[2] (Value): null.
+             */
+            "email"?: ((string) | (null));
+            /**
+             * Emails about shipments and deliveries. `true` unless the buyer turned them off.
+             * Flint stops sending this email when it is `false`; if you send this kind of email
+             * yourself, do not send it either. anyOf[1] (Value): boolean. Emails about shipments
+             * and deliveries. `true` unless the buyer turned them off. Flint stops sending this
+             * email when it is `false`; if you send this kind of email yourself, do not send it
+             * either. anyOf[2] (Value): null.
+             */
+            "shipping_updates"?: ((boolean) | (null));
+            /**
+             * The customer's preference version. Advances when either category changes for this
+             * address or the customer's email address changes. `null` when the address has no
+             * current customer. anyOf[1] (Value): integer or null. The customer's preference
+             * version. Advances when either category changes for this address or the customer's
+             * email address changes. `null` when the address has no current customer. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number | null) | (null) | (unknown));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3335,6 +3602,39 @@ export type CustomerEmailPreferencesUpdatedMerchantEvent = (Exclude<MerchantWebh
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.checkout_reminders (Optional): boolean or null. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[1] (Value): boolean. A reminder after leaving
+     * checkout without paying. `true` unless the buyer turned it off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.checkout_reminders.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null or null. ID of the customer whose
+     * current email address these preferences belong to. `null` when the address has no current
+     * customer. previous_attributes.customer_id.anyOf[1] (Value): string or null. ID of the
+     * customer whose current email address these preferences belong to. `null` when the address
+     * has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * previous_attributes.customer_id.anyOf[2] (Value): null. previous_attributes.email
+     * (Optional): string or null. The customer's current email address. The preferences belong to
+     * this address, so they also apply to guest checkouts and other customers with the same
+     * address, and they change when the customer's email changes. On address lookup, the address
+     * as sent, trimmed. previous_attributes.email.anyOf[1] (Value): string. The customer's current
+     * email address. The preferences belong to this address, so they also apply to guest checkouts
+     * and other customers with the same address, and they change when the customer's email
+     * changes. On address lookup, the address as sent, trimmed. previous_attributes.email.anyOf[2]
+     * (Value): null. previous_attributes.shipping_updates (Optional): boolean or null. Emails
+     * about shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending
+     * this email when it is `false`; if you send this kind of email yourself, do not send it
+     * either. previous_attributes.shipping_updates.anyOf[1] (Value): boolean. Emails about
+     * shipments and deliveries. `true` unless the buyer turned them off. Flint stops sending this
+     * email when it is `false`; if you send this kind of email yourself, do not send it either.
+     * previous_attributes.shipping_updates.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null or null. The customer's preference version. Advances when either
+     * category changes for this address or the customer's email address changes. `null` when the
+     * address has no current customer. previous_attributes.version.anyOf[1] (Value): integer or
+     * null. The customer's preference version. Advances when either category changes for this
+     * address or the customer's email address changes. `null` when the address has no current
+     * customer. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3391,9 +3691,89 @@ export type CustomerEmailPreferencesUpdatedMerchantEvent = (Exclude<MerchantWebh
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. checkout_reminders (Optional): boolean or null.
+         * A reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[1] (Value): boolean. A
+         * reminder after leaving checkout without paying. `true` unless the buyer turned it off.
+         * Flint stops sending this email when it is `false`; if you send this kind of email
+         * yourself, do not send it either. checkout_reminders.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null or null. ID of the customer whose current email address these
+         * preferences belong to. `null` when the address has no current customer.
+         * customer_id.anyOf[1] (Value): string or null. ID of the customer whose current email
+         * address these preferences belong to. `null` when the address has no current customer.
+         * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. email
+         * (Optional): string or null. The customer's current email address. The preferences belong
+         * to this address, so they also apply to guest checkouts and other customers with the same
+         * address, and they change when the customer's email changes. On address lookup, the
+         * address as sent, trimmed. email.anyOf[1] (Value): string. The customer's current email
+         * address. The preferences belong to this address, so they also apply to guest checkouts
+         * and other customers with the same address, and they change when the customer's email
+         * changes. On address lookup, the address as sent, trimmed. email.anyOf[2] (Value): null.
+         * shipping_updates (Optional): boolean or null. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[1] (Value): boolean. Emails about shipments and deliveries.
+         * `true` unless the buyer turned them off. Flint stops sending this email when it is
+         * `false`; if you send this kind of email yourself, do not send it either.
+         * shipping_updates.anyOf[2] (Value): null. version (Optional): integer or null or null.
+         * The customer's preference version. Advances when either category changes for this
+         * address or the customer's email address changes. `null` when the address has no current
+         * customer. version.anyOf[1] (Value): integer or null. The customer's preference version.
+         * Advances when either category changes for this address or the customer's email address
+         * changes. `null` when the address has no current customer. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<CustomerEmailPreferences>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * A reminder after leaving checkout without paying. `true` unless the buyer turned it
+             * off. Flint stops sending this email when it is `false`; if you send this kind of
+             * email yourself, do not send it either. anyOf[1] (Value): boolean. A reminder after
+             * leaving checkout without paying. `true` unless the buyer turned it off. Flint stops
+             * sending this email when it is `false`; if you send this kind of email yourself, do
+             * not send it either. anyOf[2] (Value): null.
+             */
+            "checkout_reminders"?: ((boolean) | (null));
+            /**
+             * ID of the customer whose current email address these preferences belong to. `null`
+             * when the address has no current customer. anyOf[1] (Value): string or null. ID of
+             * the customer whose current email address these preferences belong to. `null` when
+             * the address has no current customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             * anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * The customer's current email address. The preferences belong to this address, so
+             * they also apply to guest checkouts and other customers with the same address, and
+             * they change when the customer's email changes. On address lookup, the address as
+             * sent, trimmed. anyOf[1] (Value): string. The customer's current email address. The
+             * preferences belong to this address, so they also apply to guest checkouts and other
+             * customers with the same address, and they change when the customer's email changes.
+             * On address lookup, the address as sent, trimmed. anyOf[2] (Value): null.
+             */
+            "email"?: ((string) | (null));
+            /**
+             * Emails about shipments and deliveries. `true` unless the buyer turned them off.
+             * Flint stops sending this email when it is `false`; if you send this kind of email
+             * yourself, do not send it either. anyOf[1] (Value): boolean. Emails about shipments
+             * and deliveries. `true` unless the buyer turned them off. Flint stops sending this
+             * email when it is `false`; if you send this kind of email yourself, do not send it
+             * either. anyOf[2] (Value): null.
+             */
+            "shipping_updates"?: ((boolean) | (null));
+            /**
+             * The customer's preference version. Advances when either category changes for this
+             * address or the customer's email address changes. `null` when the address has no
+             * current customer. anyOf[1] (Value): integer or null. The customer's preference
+             * version. Advances when either category changes for this address or the customer's
+             * email address changes. `null` when the address has no current customer. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number | null) | (null) | (unknown));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

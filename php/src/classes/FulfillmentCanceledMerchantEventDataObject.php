@@ -34,14 +34,14 @@ namespace Flint;
  * @property-read ?ShipmentFulfillmentDetails $shipment_details
  * @property-read ?list<ExpandedShipmentSummary> $shipments
  * @property-read string $status
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * @property-read ?string $terminal_at
  * @property-read string $type
  * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentCanceledMerchantEventDataObject extends Model {
-    /** @param array{'active_hold'?: mixed, 'charges'?: list<mixed>, 'completed_at'?: string, 'created_at': string, 'customer_id'?: string, 'delivery_choice_group_id': string|null, 'delivery_execution_leg_id': string|null, 'delivery_method_id': string|null, 'delivery_selection_id': string|null, 'device_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'location_id'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_hold'?: mixed, 'charges'?: list<mixed>, 'completed_at'?: string, 'created_at': string, 'customer_id'?: string, 'delivery_choice_group_id'?: string|null, 'delivery_execution_leg_id'?: string|null, 'delivery_method_id'?: string|null, 'delivery_selection_id'?: string|null, 'device_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'location_id'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions'?: list<string>, 'terminal_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentCanceledMerchantEventDataObject')); }
     /** Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and when it became active.
      * @return ?FulfillmentHold
@@ -68,22 +68,22 @@ final class FulfillmentCanceledMerchantEventDataObject extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote.
+    /** Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials.
      * @return string|null
      */
     public function getDeliveryChoiceGroupId(): string|null { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote.
+    /** Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials.
      * @return string|null
      */
     public function getDeliveryExecutionLegId(): string|null { return $this->get('delivery_execution_leg_id'); }
     public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
-    /** Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added.
+    /** Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Always present with merchant credentials.
      * @return string|null
      */
     public function getDeliveryMethodId(): string|null { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote.
+    /** Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Always present with merchant credentials.
      * @return string|null
      */
     public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
@@ -203,10 +203,10 @@ final class FulfillmentCanceledMerchantEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Read-only lifecycle actions accepted now, based on the fulfillment, its order payment status, holds, and shipment progress. Empty when none are available. Values name the verb route with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start". [] (Value): string.  Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
-     * @return list<string>
+    /** Read-only lifecycle actions accepted now, based on the fulfillment, its order payment status, holds, and shipment progress. Empty when none are available. Values name the verb route with hyphens replaced by underscores. Always present with merchant credentials. [] enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start". [] (Value): string.  Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: date-time.
      * @return ?string

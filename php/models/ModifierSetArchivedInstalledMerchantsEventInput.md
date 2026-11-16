@@ -28,13 +28,146 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributes). |
 
 ### ModifierSetArchivedInstalledMerchantsEventInput.data.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](ModifierSetInput.md#modifiersetinput).
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Optional | string or null | When the modifier set was created, as an RFC3339 timestamp. `created_at`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributescreated_at). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id). |
+| `merchant_id` | Optional | string or null | Identifier of the merchant that owns this modifier set. `merchant_id`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesmerchant_id). |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) or null | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `modifier_groups` | Optional | Array of [ModifierSetGroupInput](../models/ModifierSetGroupInput.md#modifiersetgroupinput) or null | Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. `modifier_groups`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesmodifier_groups). |
+| `modifier_set_id` | Optional | string or null | Stable identifier of the modifier set assigned to catalog items. `modifier_set_id`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesmodifier_set_id). |
+| `name` | Optional | string or null | Name used to identify this modifier set. `name`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesname). |
+| `status` | Optional | string or null | Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesstatus). |
+| `updated_at` | Optional | string or null | When the modifier set or any group it contains last changed, as an RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesupdated_at). |
+| `version` | Optional | integer or null | Version of the modifier set, including the groups it contains. `version`: [declared alternatives](../models/ModifierSetArchivedInstalledMerchantsEventInput.md#modifiersetarchivedinstalledmerchantseventinputdataprevious_attributesversion). |
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.created_at
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.created_at variant 1
+
+anyOf variant 1: When the modifier set was created, as an RFC3339 timestamp..
+
+- Value shape: string. When the modifier set was created, as an RFC3339 timestamp. When the modifier set was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the modifier set was created, as an RFC3339 timestamp. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEventInput.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEventInput.md#bundlearchivedinstalledmerchantseventinputdataprevious_attributesexternal_reference_id).
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.merchant_id
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.merchant_id variant 1
+
+anyOf variant 1: Identifier of the merchant that owns this modifier set..
+
+- Value shape: string. Identifier of the merchant that owns this modifier set. Identifier of the merchant that owns this modifier set. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.merchant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Identifier of the merchant that owns this modifier set. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_groups
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_groups variant 1
+
+anyOf variant 1: Ordered group entries in this set, including the full content of reusable groups and groups owned by the set..
+
+- Value shape: Array of [ModifierSetGroupInput](../models/ModifierSetGroupInput.md#modifiersetgroupinput). Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_groups variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_set_id
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_set_id variant 1
+
+anyOf variant 1: Stable identifier of the modifier set assigned to catalog items..
+
+- Value shape: string. Stable identifier of the modifier set assigned to catalog items. Stable identifier of the modifier set assigned to catalog items. Example: `"ms_01KEZF7C007EWZVVFAWVJJM8NR"`. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.modifier_set_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier of the modifier set assigned to catalog items. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.name
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.name variant 1
+
+anyOf variant 1: Name used to identify this modifier set..
+
+- Value shape: string. Name used to identify this modifier set. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name used to identify this modifier set. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.status
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.status variant 1
+
+anyOf variant 1: Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited..
+
+- Value shape: string. Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. Values: `"active"`, `"inactive"`, `"archived"`.
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived sets remain readable and cannot be edited. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.updated_at
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.updated_at variant 1
+
+anyOf variant 1: When the modifier set or any group it contains last changed, as an RFC3339 timestamp..
+
+- Value shape: string. When the modifier set or any group it contains last changed, as an RFC3339 timestamp. When the modifier set or any group it contains last changed, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the modifier set or any group it contains last changed, as an RFC3339 timestamp. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.version
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.version variant 1
+
+anyOf variant 1: Version of the modifier set, including the groups it contains..
+
+- Value shape: integer. Version of the modifier set, including the groups it contains. Version of the modifier set, including the groups it contains. Format: `uint64`. minimum: `1`. 
+
+### ModifierSetArchivedInstalledMerchantsEventInput.data.previous_attributes.version variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Version of the modifier set, including the groups it contains. 
 
 ### ModifierSetArchivedInstalledMerchantsEventInput.source
 

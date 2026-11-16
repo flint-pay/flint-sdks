@@ -1,5 +1,13 @@
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { PromotionApplicationMethod } from './types-50.js';
+import type {
+    PromotionCodesSummary,
+    PromotionCombinesWith,
+    PromotionExclusivity,
+    PromotionRuleGroup,
+    PromotionSchedule
+} from './types-51.js';
 import type { WebhookPromotion, WebhookReader } from './types-70.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePromotionRequestInput, CreateReaderRequestInput } from './types-12.js';
@@ -134,7 +142,42 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
     & ({
     "data"?: {
         "object": WebhookPromotion;
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            "available"?: ((boolean) | (null));
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            "created_at"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            "display_name"?: ((string) | (null));
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "max_uses"?: ((number) | (null));
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "promotion_id"?: ((string) | (null));
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            "schedule"?: ((PromotionSchedule) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "uses_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "promotion.updated";
@@ -143,7 +186,42 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
     & ({
     "data"?: {
         "object": WebhookPromotion;
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            "available"?: ((boolean) | (null));
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            "created_at"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            "display_name"?: ((string) | (null));
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "max_uses"?: ((number) | (null));
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "promotion_id"?: ((string) | (null));
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            "schedule"?: ((PromotionSchedule) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "uses_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "promotion.updated";
@@ -170,7 +248,130 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
      * of changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.application_method (Optional): {@link
+     * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible items or
+     * charges. previous_attributes.application_method.anyOf[1] (Value): {@link
+     * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
+     * charges. previous_attributes.application_method.anyOf[2] (Value): null.
+     * previous_attributes.available (Optional): boolean or null. Whether the promotion can apply
+     * right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has
+     * at least one redeemable code. previous_attributes.available.anyOf[1] (Value): boolean.
+     * Whether the promotion can apply right now: it is active, inside its schedule, under its
+     * max_uses, and, when code-gated, has at least one redeemable code.
+     * previous_attributes.available.anyOf[2] (Value): null. previous_attributes.codes_summary
+     * (Optional): {@link PromotionCodesSummary} or null. Read-only rollup of this promotion's
+     * codes. Present only on code-gated promotions; automatic promotions omit it.
+     * previous_attributes.codes_summary.anyOf[1] (Value): {@link PromotionCodesSummary}. Read-only
+     * rollup of this promotion's codes. Present only on code-gated promotions; automatic
+     * promotions omit it. previous_attributes.codes_summary.anyOf[2] (Value): null.
+     * previous_attributes.combines_with (Optional): {@link PromotionCombinesWith} or null. Which
+     * promotion discount classes this promotion may share an order with. Both promotions must
+     * allow each other's class. Manual discounts are ignored. See Promotion for the evaluation
+     * order. previous_attributes.combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}.
+     * Which promotion discount classes this promotion may share an order with. Both promotions
+     * must allow each other's class. Manual discounts are ignored. See Promotion for the
+     * evaluation order. previous_attributes.combines_with.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the promotion was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When the
+     * promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Optional description of the
+     * promotion for your own records. previous_attributes.description.anyOf[1] (Value): string.
+     * Optional description of the promotion for your own records.
+     * previous_attributes.description.anyOf[2] (Value): null. previous_attributes.discount_class
+     * (Optional): string or null. Whether the promotion discounts the order, individual line
+     * items, or service charges. Value enum: "order", "line_item", "service_charge".
+     * previous_attributes.discount_class.anyOf[1] (Value): string. Whether the promotion discounts
+     * the order, individual line items, or service charges. Value enum: "order", "line_item",
+     * "service_charge". previous_attributes.discount_class.anyOf[2] (Value): null.
+     * previous_attributes.display_name (Optional): string or null. Buyer-facing promotion name
+     * shown in checkout and order discount surfaces. previous_attributes.display_name.anyOf[1]
+     * (Value): string. Buyer-facing promotion name shown in checkout and order discount surfaces.
+     * previous_attributes.display_name.anyOf[2] (Value): null.
+     * previous_attributes.eligibility_rules (Optional): {@link PromotionRuleGroup} or null.
+     * Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has
+     * no eligibility conditions. previous_attributes.eligibility_rules.anyOf[1] (Value): {@link
+     * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply. Omitted
+     * when the promotion has no eligibility conditions.
+     * previous_attributes.eligibility_rules.anyOf[2] (Value): null.
+     * previous_attributes.exclusivity (Optional): {@link PromotionExclusivity} or null. Optional
+     * group and priority used to choose one promotion from competing promotions in the same group.
+     * See Promotion for the evaluation order. previous_attributes.exclusivity.anyOf[1] (Value):
+     * {@link PromotionExclusivity}. Optional group and priority used to choose one promotion from
+     * competing promotions in the same group. See Promotion for the evaluation order.
+     * previous_attributes.exclusivity.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.max_uses (Optional): integer or null. Maximum number of redemptions
+     * across all codes and automatic applications. Omitted when there is no redemption limit.
+     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
+     * all codes and automatic applications. Omitted when there is no redemption limit. Format:
+     * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
+     * reserved and redeemed uses per identified customer across every code and automatic or
+     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
+     * attempts release their reservation; refunds do not restore uses. Counts only within the same
+     * merchant and environment; live and test mode are separate. Without an identified customer,
+     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
+     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
+     * null. Maximum reserved and redeemed uses per identified customer across every code and
+     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
+     * or expired attempts release their reservation; refunds do not restore uses. Counts only
+     * within the same merchant and environment; live and test mode are separate. Without an
+     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
+     * there is no per-customer limit. Format: int64. minimum: 1.
+     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Internal promotion name for dashboards,
+     * searching, and reporting. previous_attributes.name.anyOf[1] (Value): string. Internal
+     * promotion name for dashboards, searching, and reporting. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.promotion_id (Optional): string or null. Unique
+     * identifier for the promotion. previous_attributes.promotion_id.anyOf[1] (Value): string.
+     * Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.redemption_type
+     * (Optional): string or null. Whether the promotion applies automatically when its rules match
+     * or requires a promotion code. Value enum: "automatic", "code".
+     * previous_attributes.redemption_type.anyOf[1] (Value): string. Whether the promotion applies
+     * automatically when its rules match or requires a promotion code. Value enum: "automatic",
+     * "code". previous_attributes.redemption_type.anyOf[2] (Value): null.
+     * previous_attributes.schedule (Optional): {@link PromotionSchedule} or null. Optional start
+     * and end times that limit when the promotion can apply. previous_attributes.schedule.anyOf[1]
+     * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+     * promotion can apply. previous_attributes.schedule.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Lifecycle status. Set active or
+     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
+     * read available. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Lifecycle status. Set active or
+     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
+     * read available. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unavailable_reason
+     * (Optional): string or null. Why available is false. Present only when available is false.
+     * Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted",
+     * "no_active_codes". previous_attributes.unavailable_reason.anyOf[1] (Value): string. Why
+     * available is false. Present only when available is false. Value enum: "inactive",
+     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When the promotion was last
+     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.uses_count (Optional): integer or null. Number of times the promotion
+     * has been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
+     * the promotion has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted
+     * owned-state version. Clock-based availability and expanded resources do not advance this
+     * counter. previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state
+     * version. Clock-based availability and expanded resources do not advance this counter.
+     * Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
@@ -179,9 +380,295 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. application_method (Optional): {@link
+         * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible
+         * items or charges. application_method.anyOf[1] (Value): {@link
+         * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
+         * charges. application_method.anyOf[2] (Value): null. available (Optional): boolean or
+         * null. Whether the promotion can apply right now: it is active, inside its schedule,
+         * under its max_uses, and, when code-gated, has at least one redeemable code.
+         * available.anyOf[1] (Value): boolean. Whether the promotion can apply right now: it is
+         * active, inside its schedule, under its max_uses, and, when code-gated, has at least one
+         * redeemable code. available.anyOf[2] (Value): null. codes_summary (Optional): {@link
+         * PromotionCodesSummary} or null. Read-only rollup of this promotion's codes. Present only
+         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[1] (Value):
+         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
+         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[2] (Value):
+         * null. combines_with (Optional): {@link PromotionCombinesWith} or null. Which promotion
+         * discount classes this promotion may share an order with. Both promotions must allow each
+         * other's class. Manual discounts are ignored. See Promotion for the evaluation order.
+         * combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}. Which promotion discount
+         * classes this promotion may share an order with. Both promotions must allow each other's
+         * class. Manual discounts are ignored. See Promotion for the evaluation order.
+         * combines_with.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * promotion was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. description (Optional):
+         * string or null. Optional description of the promotion for your own records.
+         * description.anyOf[1] (Value): string. Optional description of the promotion for your own
+         * records. description.anyOf[2] (Value): null. discount_class (Optional): string or null.
+         * Whether the promotion discounts the order, individual line items, or service charges.
+         * Value enum: "order", "line_item", "service_charge". discount_class.anyOf[1] (Value):
+         * string. Whether the promotion discounts the order, individual line items, or service
+         * charges. Value enum: "order", "line_item", "service_charge". discount_class.anyOf[2]
+         * (Value): null. display_name (Optional): string or null. Buyer-facing promotion name
+         * shown in checkout and order discount surfaces. display_name.anyOf[1] (Value): string.
+         * Buyer-facing promotion name shown in checkout and order discount surfaces.
+         * display_name.anyOf[2] (Value): null. eligibility_rules (Optional): {@link
+         * PromotionRuleGroup} or null. Conditions an order must satisfy for the promotion to
+         * apply. Omitted when the promotion has no eligibility conditions.
+         * eligibility_rules.anyOf[1] (Value): {@link PromotionRuleGroup}. Conditions an order must
+         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
+         * conditions. eligibility_rules.anyOf[2] (Value): null. exclusivity (Optional): {@link
+         * PromotionExclusivity} or null. Optional group and priority used to choose one promotion
+         * from competing promotions in the same group. See Promotion for the evaluation order.
+         * exclusivity.anyOf[1] (Value): {@link PromotionExclusivity}. Optional group and priority
+         * used to choose one promotion from competing promotions in the same group. See Promotion
+         * for the evaluation order. exclusivity.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. max_uses (Optional): integer or null.
+         * Maximum number of redemptions across all codes and automatic applications. Omitted when
+         * there is no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
+         * redemptions across all codes and automatic applications. Omitted when there is no
+         * redemption limit. Format: int64. max_uses.anyOf[2] (Value): null. max_uses_per_customer
+         * (Optional): integer or null or null. Maximum reserved and redeemed uses per identified
+         * customer across every code and automatic or ID-based application. Checked atomically
+         * when payment starts. Failed, canceled, or expired attempts release their reservation;
+         * refunds do not restore uses. Counts only within the same merchant and environment; live
+         * and test mode are separate. Without an identified customer, returns 409
+         * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+         * limit. max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and
+         * redeemed uses per identified customer across every code and automatic or ID-based
+         * application. Checked atomically when payment starts. Failed, canceled, or expired
+         * attempts release their reservation; refunds do not restore uses. Counts only within the
+         * same merchant and environment; live and test mode are separate. Without an identified
+         * customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there
+         * is no per-customer limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2]
+         * (Value): null. merchant_id (Optional): string or null. Identifier of the merchant that
+         * owns the promotion. merchant_id.anyOf[1] (Value): string. Identifier of the merchant
+         * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Key-value data you
+         * attach to the promotion. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data
+         * you attach to the promotion. metadata.anyOf[2] (Value): null. name (Optional): string or
+         * null. Internal promotion name for dashboards, searching, and reporting. name.anyOf[1]
+         * (Value): string. Internal promotion name for dashboards, searching, and reporting.
+         * name.anyOf[2] (Value): null. promotion_id (Optional): string or null. Unique identifier
+         * for the promotion. promotion_id.anyOf[1] (Value): string. Unique identifier for the
+         * promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value):
+         * null. redemption_type (Optional): string or null. Whether the promotion applies
+         * automatically when its rules match or requires a promotion code. Value enum:
+         * "automatic", "code". redemption_type.anyOf[1] (Value): string. Whether the promotion
+         * applies automatically when its rules match or requires a promotion code. Value enum:
+         * "automatic", "code". redemption_type.anyOf[2] (Value): null. schedule (Optional): {@link
+         * PromotionSchedule} or null. Optional start and end times that limit when the promotion
+         * can apply. schedule.anyOf[1] (Value): {@link PromotionSchedule}. Optional start and end
+         * times that limit when the promotion can apply. schedule.anyOf[2] (Value): null. status
+         * (Optional): string or null. Lifecycle status. Set active or inactive with PATCH; DELETE
+         * sets archived. An active promotion can still be unavailable: read available. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Lifecycle status. Set
+         * active or inactive with PATCH; DELETE sets archived. An active promotion can still be
+         * unavailable: read available. Value enum: "active", "inactive", "archived".
+         * status.anyOf[2] (Value): null. unavailable_reason (Optional): string or null. Why
+         * available is false. Present only when available is false. Value enum: "inactive",
+         * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+         * unavailable_reason.anyOf[1] (Value): string. Why available is false. Present only when
+         * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
+         * "exhausted", "no_active_codes". unavailable_reason.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the promotion was last updated, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When the promotion was last updated, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. uses_count (Optional): integer or null. Number of
+         * times the promotion has been redeemed. uses_count.anyOf[1] (Value): integer. Number of
+         * times the promotion has been redeemed. Format: int64. uses_count.anyOf[2] (Value): null.
+         * version (Optional): integer or null. Persisted owned-state version. Clock-based
+         * availability and expanded resources do not advance this counter. version.anyOf[1]
+         * (Value): integer. Persisted owned-state version. Clock-based availability and expanded
+         * resources do not advance this counter. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Discount effect and how it applies to eligible items or charges. anyOf[1] (Value):
+             * {@link PromotionApplicationMethod}. Discount effect and how it applies to eligible
+             * items or charges. anyOf[2] (Value): null.
+             */
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            /**
+             * Whether the promotion can apply right now: it is active, inside its schedule, under
+             * its max_uses, and, when code-gated, has at least one redeemable code. anyOf[1]
+             * (Value): boolean. Whether the promotion can apply right now: it is active, inside
+             * its schedule, under its max_uses, and, when code-gated, has at least one redeemable
+             * code. anyOf[2] (Value): null.
+             */
+            "available"?: ((boolean) | (null));
+            /**
+             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
+             * automatic promotions omit it. anyOf[1] (Value): {@link PromotionCodesSummary}.
+             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
+             * automatic promotions omit it. anyOf[2] (Value): null.
+             */
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            /**
+             * Which promotion discount classes this promotion may share an order with. Both
+             * promotions must allow each other's class. Manual discounts are ignored. See
+             * Promotion for the evaluation order. anyOf[1] (Value): {@link PromotionCombinesWith}.
+             * Which promotion discount classes this promotion may share an order with. Both
+             * promotions must allow each other's class. Manual discounts are ignored. See
+             * Promotion for the evaluation order. anyOf[2] (Value): null.
+             */
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            /**
+             * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Optional description of the promotion for your own records. anyOf[1] (Value):
+             * string. Optional description of the promotion for your own records. anyOf[2]
+             * (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Whether the promotion discounts the order, individual line items, or service
+             * charges. Value enum: "order", "line_item", "service_charge". anyOf[1] (Value):
+             * string. Whether the promotion discounts the order, individual line items, or service
+             * charges. Value enum: "order", "line_item", "service_charge". anyOf[2] (Value): null.
+             */
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            /**
+             * Buyer-facing promotion name shown in checkout and order discount surfaces. anyOf[1]
+             * (Value): string. Buyer-facing promotion name shown in checkout and order discount
+             * surfaces. anyOf[2] (Value): null.
+             */
+            "display_name"?: ((string) | (null));
+            /**
+             * Conditions an order must satisfy for the promotion to apply. Omitted when the
+             * promotion has no eligibility conditions. anyOf[1] (Value): {@link
+             * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply.
+             * Omitted when the promotion has no eligibility conditions. anyOf[2] (Value): null.
+             */
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            /**
+             * Optional group and priority used to choose one promotion from competing promotions
+             * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
+             * PromotionExclusivity}. Optional group and priority used to choose one promotion from
+             * competing promotions in the same group. See Promotion for the evaluation order.
+             * anyOf[2] (Value): null.
+             */
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Maximum number of redemptions across all codes and automatic applications. Omitted
+             * when there is no redemption limit. anyOf[1] (Value): integer. Maximum number of
+             * redemptions across all codes and automatic applications. Omitted when there is no
+             * redemption limit. Format: int64. anyOf[2] (Value): null.
+             */
+            "max_uses"?: ((number) | (null));
+            /**
+             * Maximum reserved and redeemed uses per identified customer across every code and
+             * automatic or ID-based application. Checked atomically when payment starts. Failed,
+             * canceled, or expired attempts release their reservation; refunds do not restore
+             * uses. Counts only within the same merchant and environment; live and test mode are
+             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
+             * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
+             * integer or null. Maximum reserved and redeemed uses per identified customer across
+             * every code and automatic or ID-based application. Checked atomically when payment
+             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
+             * not restore uses. Counts only within the same merchant and environment; live and
+             * test mode are separate. Without an identified customer, returns 409
+             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            /**
+             * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns the promotion. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
+             * Key-value data you attach to the promotion. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
+             * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
+             * (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the promotion. anyOf[1] (Value): string. Unique identifier for
+             * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". anyOf[2] (Value): null.
+             */
+            "promotion_id"?: ((string) | (null));
+            /**
+             * Whether the promotion applies automatically when its rules match or requires a
+             * promotion code. Value enum: "automatic", "code". anyOf[1] (Value): string. Whether
+             * the promotion applies automatically when its rules match or requires a promotion
+             * code. Value enum: "automatic", "code". anyOf[2] (Value): null.
+             */
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            /**
+             * Optional start and end times that limit when the promotion can apply. anyOf[1]
+             * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+             * promotion can apply. anyOf[2] (Value): null.
+             */
+            "schedule"?: ((PromotionSchedule) | (null));
+            /**
+             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
+             * promotion can still be unavailable: read available. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or
+             * inactive with PATCH; DELETE sets archived. An active promotion can still be
+             * unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Why available is false. Present only when available is false. Value enum:
+             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
+             * "no_active_codes". anyOf[1] (Value): string. Why available is false. Present only
+             * when available is false. Value enum: "inactive", "archived", "not_yet_started",
+             * "expired", "exhausted", "no_active_codes". anyOf[2] (Value): null.
+             */
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            /**
+             * When the promotion was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the promotion was last updated, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of times the promotion has been redeemed. anyOf[1] (Value): integer. Number
+             * of times the promotion has been redeemed. Format: int64. anyOf[2] (Value): null.
+             */
+            "uses_count"?: ((number) | (null));
+            /**
+             * Persisted owned-state version. Clock-based availability and expanded resources do
+             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
+             * Clock-based availability and expanded resources do not advance this counter. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -234,7 +721,130 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
      * of changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.application_method (Optional): {@link
+     * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible items or
+     * charges. previous_attributes.application_method.anyOf[1] (Value): {@link
+     * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
+     * charges. previous_attributes.application_method.anyOf[2] (Value): null.
+     * previous_attributes.available (Optional): boolean or null. Whether the promotion can apply
+     * right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has
+     * at least one redeemable code. previous_attributes.available.anyOf[1] (Value): boolean.
+     * Whether the promotion can apply right now: it is active, inside its schedule, under its
+     * max_uses, and, when code-gated, has at least one redeemable code.
+     * previous_attributes.available.anyOf[2] (Value): null. previous_attributes.codes_summary
+     * (Optional): {@link PromotionCodesSummary} or null. Read-only rollup of this promotion's
+     * codes. Present only on code-gated promotions; automatic promotions omit it.
+     * previous_attributes.codes_summary.anyOf[1] (Value): {@link PromotionCodesSummary}. Read-only
+     * rollup of this promotion's codes. Present only on code-gated promotions; automatic
+     * promotions omit it. previous_attributes.codes_summary.anyOf[2] (Value): null.
+     * previous_attributes.combines_with (Optional): {@link PromotionCombinesWith} or null. Which
+     * promotion discount classes this promotion may share an order with. Both promotions must
+     * allow each other's class. Manual discounts are ignored. See Promotion for the evaluation
+     * order. previous_attributes.combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}.
+     * Which promotion discount classes this promotion may share an order with. Both promotions
+     * must allow each other's class. Manual discounts are ignored. See Promotion for the
+     * evaluation order. previous_attributes.combines_with.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the promotion was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When the
+     * promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Optional description of the
+     * promotion for your own records. previous_attributes.description.anyOf[1] (Value): string.
+     * Optional description of the promotion for your own records.
+     * previous_attributes.description.anyOf[2] (Value): null. previous_attributes.discount_class
+     * (Optional): string or null. Whether the promotion discounts the order, individual line
+     * items, or service charges. Value enum: "order", "line_item", "service_charge".
+     * previous_attributes.discount_class.anyOf[1] (Value): string. Whether the promotion discounts
+     * the order, individual line items, or service charges. Value enum: "order", "line_item",
+     * "service_charge". previous_attributes.discount_class.anyOf[2] (Value): null.
+     * previous_attributes.display_name (Optional): string or null. Buyer-facing promotion name
+     * shown in checkout and order discount surfaces. previous_attributes.display_name.anyOf[1]
+     * (Value): string. Buyer-facing promotion name shown in checkout and order discount surfaces.
+     * previous_attributes.display_name.anyOf[2] (Value): null.
+     * previous_attributes.eligibility_rules (Optional): {@link PromotionRuleGroup} or null.
+     * Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has
+     * no eligibility conditions. previous_attributes.eligibility_rules.anyOf[1] (Value): {@link
+     * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply. Omitted
+     * when the promotion has no eligibility conditions.
+     * previous_attributes.eligibility_rules.anyOf[2] (Value): null.
+     * previous_attributes.exclusivity (Optional): {@link PromotionExclusivity} or null. Optional
+     * group and priority used to choose one promotion from competing promotions in the same group.
+     * See Promotion for the evaluation order. previous_attributes.exclusivity.anyOf[1] (Value):
+     * {@link PromotionExclusivity}. Optional group and priority used to choose one promotion from
+     * competing promotions in the same group. See Promotion for the evaluation order.
+     * previous_attributes.exclusivity.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.max_uses (Optional): integer or null. Maximum number of redemptions
+     * across all codes and automatic applications. Omitted when there is no redemption limit.
+     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
+     * all codes and automatic applications. Omitted when there is no redemption limit. Format:
+     * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
+     * reserved and redeemed uses per identified customer across every code and automatic or
+     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
+     * attempts release their reservation; refunds do not restore uses. Counts only within the same
+     * merchant and environment; live and test mode are separate. Without an identified customer,
+     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
+     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
+     * null. Maximum reserved and redeemed uses per identified customer across every code and
+     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
+     * or expired attempts release their reservation; refunds do not restore uses. Counts only
+     * within the same merchant and environment; live and test mode are separate. Without an
+     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
+     * there is no per-customer limit. Format: int64. minimum: 1.
+     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Internal promotion name for dashboards,
+     * searching, and reporting. previous_attributes.name.anyOf[1] (Value): string. Internal
+     * promotion name for dashboards, searching, and reporting. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.promotion_id (Optional): string or null. Unique
+     * identifier for the promotion. previous_attributes.promotion_id.anyOf[1] (Value): string.
+     * Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.redemption_type
+     * (Optional): string or null. Whether the promotion applies automatically when its rules match
+     * or requires a promotion code. Value enum: "automatic", "code".
+     * previous_attributes.redemption_type.anyOf[1] (Value): string. Whether the promotion applies
+     * automatically when its rules match or requires a promotion code. Value enum: "automatic",
+     * "code". previous_attributes.redemption_type.anyOf[2] (Value): null.
+     * previous_attributes.schedule (Optional): {@link PromotionSchedule} or null. Optional start
+     * and end times that limit when the promotion can apply. previous_attributes.schedule.anyOf[1]
+     * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+     * promotion can apply. previous_attributes.schedule.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Lifecycle status. Set active or
+     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
+     * read available. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Lifecycle status. Set active or
+     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
+     * read available. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unavailable_reason
+     * (Optional): string or null. Why available is false. Present only when available is false.
+     * Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted",
+     * "no_active_codes". previous_attributes.unavailable_reason.anyOf[1] (Value): string. Why
+     * available is false. Present only when available is false. Value enum: "inactive",
+     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When the promotion was last
+     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.uses_count (Optional): integer or null. Number of times the promotion
+     * has been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
+     * the promotion has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted
+     * owned-state version. Clock-based availability and expanded resources do not advance this
+     * counter. previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state
+     * version. Clock-based availability and expanded resources do not advance this counter.
+     * Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
@@ -243,9 +853,295 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. application_method (Optional): {@link
+         * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible
+         * items or charges. application_method.anyOf[1] (Value): {@link
+         * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
+         * charges. application_method.anyOf[2] (Value): null. available (Optional): boolean or
+         * null. Whether the promotion can apply right now: it is active, inside its schedule,
+         * under its max_uses, and, when code-gated, has at least one redeemable code.
+         * available.anyOf[1] (Value): boolean. Whether the promotion can apply right now: it is
+         * active, inside its schedule, under its max_uses, and, when code-gated, has at least one
+         * redeemable code. available.anyOf[2] (Value): null. codes_summary (Optional): {@link
+         * PromotionCodesSummary} or null. Read-only rollup of this promotion's codes. Present only
+         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[1] (Value):
+         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
+         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[2] (Value):
+         * null. combines_with (Optional): {@link PromotionCombinesWith} or null. Which promotion
+         * discount classes this promotion may share an order with. Both promotions must allow each
+         * other's class. Manual discounts are ignored. See Promotion for the evaluation order.
+         * combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}. Which promotion discount
+         * classes this promotion may share an order with. Both promotions must allow each other's
+         * class. Manual discounts are ignored. See Promotion for the evaluation order.
+         * combines_with.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * promotion was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. description (Optional):
+         * string or null. Optional description of the promotion for your own records.
+         * description.anyOf[1] (Value): string. Optional description of the promotion for your own
+         * records. description.anyOf[2] (Value): null. discount_class (Optional): string or null.
+         * Whether the promotion discounts the order, individual line items, or service charges.
+         * Value enum: "order", "line_item", "service_charge". discount_class.anyOf[1] (Value):
+         * string. Whether the promotion discounts the order, individual line items, or service
+         * charges. Value enum: "order", "line_item", "service_charge". discount_class.anyOf[2]
+         * (Value): null. display_name (Optional): string or null. Buyer-facing promotion name
+         * shown in checkout and order discount surfaces. display_name.anyOf[1] (Value): string.
+         * Buyer-facing promotion name shown in checkout and order discount surfaces.
+         * display_name.anyOf[2] (Value): null. eligibility_rules (Optional): {@link
+         * PromotionRuleGroup} or null. Conditions an order must satisfy for the promotion to
+         * apply. Omitted when the promotion has no eligibility conditions.
+         * eligibility_rules.anyOf[1] (Value): {@link PromotionRuleGroup}. Conditions an order must
+         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
+         * conditions. eligibility_rules.anyOf[2] (Value): null. exclusivity (Optional): {@link
+         * PromotionExclusivity} or null. Optional group and priority used to choose one promotion
+         * from competing promotions in the same group. See Promotion for the evaluation order.
+         * exclusivity.anyOf[1] (Value): {@link PromotionExclusivity}. Optional group and priority
+         * used to choose one promotion from competing promotions in the same group. See Promotion
+         * for the evaluation order. exclusivity.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. max_uses (Optional): integer or null.
+         * Maximum number of redemptions across all codes and automatic applications. Omitted when
+         * there is no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
+         * redemptions across all codes and automatic applications. Omitted when there is no
+         * redemption limit. Format: int64. max_uses.anyOf[2] (Value): null. max_uses_per_customer
+         * (Optional): integer or null or null. Maximum reserved and redeemed uses per identified
+         * customer across every code and automatic or ID-based application. Checked atomically
+         * when payment starts. Failed, canceled, or expired attempts release their reservation;
+         * refunds do not restore uses. Counts only within the same merchant and environment; live
+         * and test mode are separate. Without an identified customer, returns 409
+         * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+         * limit. max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and
+         * redeemed uses per identified customer across every code and automatic or ID-based
+         * application. Checked atomically when payment starts. Failed, canceled, or expired
+         * attempts release their reservation; refunds do not restore uses. Counts only within the
+         * same merchant and environment; live and test mode are separate. Without an identified
+         * customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there
+         * is no per-customer limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2]
+         * (Value): null. merchant_id (Optional): string or null. Identifier of the merchant that
+         * owns the promotion. merchant_id.anyOf[1] (Value): string. Identifier of the merchant
+         * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Key-value data you
+         * attach to the promotion. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data
+         * you attach to the promotion. metadata.anyOf[2] (Value): null. name (Optional): string or
+         * null. Internal promotion name for dashboards, searching, and reporting. name.anyOf[1]
+         * (Value): string. Internal promotion name for dashboards, searching, and reporting.
+         * name.anyOf[2] (Value): null. promotion_id (Optional): string or null. Unique identifier
+         * for the promotion. promotion_id.anyOf[1] (Value): string. Unique identifier for the
+         * promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value):
+         * null. redemption_type (Optional): string or null. Whether the promotion applies
+         * automatically when its rules match or requires a promotion code. Value enum:
+         * "automatic", "code". redemption_type.anyOf[1] (Value): string. Whether the promotion
+         * applies automatically when its rules match or requires a promotion code. Value enum:
+         * "automatic", "code". redemption_type.anyOf[2] (Value): null. schedule (Optional): {@link
+         * PromotionSchedule} or null. Optional start and end times that limit when the promotion
+         * can apply. schedule.anyOf[1] (Value): {@link PromotionSchedule}. Optional start and end
+         * times that limit when the promotion can apply. schedule.anyOf[2] (Value): null. status
+         * (Optional): string or null. Lifecycle status. Set active or inactive with PATCH; DELETE
+         * sets archived. An active promotion can still be unavailable: read available. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Lifecycle status. Set
+         * active or inactive with PATCH; DELETE sets archived. An active promotion can still be
+         * unavailable: read available. Value enum: "active", "inactive", "archived".
+         * status.anyOf[2] (Value): null. unavailable_reason (Optional): string or null. Why
+         * available is false. Present only when available is false. Value enum: "inactive",
+         * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+         * unavailable_reason.anyOf[1] (Value): string. Why available is false. Present only when
+         * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
+         * "exhausted", "no_active_codes". unavailable_reason.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the promotion was last updated, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When the promotion was last updated, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. uses_count (Optional): integer or null. Number of
+         * times the promotion has been redeemed. uses_count.anyOf[1] (Value): integer. Number of
+         * times the promotion has been redeemed. Format: int64. uses_count.anyOf[2] (Value): null.
+         * version (Optional): integer or null. Persisted owned-state version. Clock-based
+         * availability and expanded resources do not advance this counter. version.anyOf[1]
+         * (Value): integer. Persisted owned-state version. Clock-based availability and expanded
+         * resources do not advance this counter. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Discount effect and how it applies to eligible items or charges. anyOf[1] (Value):
+             * {@link PromotionApplicationMethod}. Discount effect and how it applies to eligible
+             * items or charges. anyOf[2] (Value): null.
+             */
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            /**
+             * Whether the promotion can apply right now: it is active, inside its schedule, under
+             * its max_uses, and, when code-gated, has at least one redeemable code. anyOf[1]
+             * (Value): boolean. Whether the promotion can apply right now: it is active, inside
+             * its schedule, under its max_uses, and, when code-gated, has at least one redeemable
+             * code. anyOf[2] (Value): null.
+             */
+            "available"?: ((boolean) | (null));
+            /**
+             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
+             * automatic promotions omit it. anyOf[1] (Value): {@link PromotionCodesSummary}.
+             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
+             * automatic promotions omit it. anyOf[2] (Value): null.
+             */
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            /**
+             * Which promotion discount classes this promotion may share an order with. Both
+             * promotions must allow each other's class. Manual discounts are ignored. See
+             * Promotion for the evaluation order. anyOf[1] (Value): {@link PromotionCombinesWith}.
+             * Which promotion discount classes this promotion may share an order with. Both
+             * promotions must allow each other's class. Manual discounts are ignored. See
+             * Promotion for the evaluation order. anyOf[2] (Value): null.
+             */
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            /**
+             * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Optional description of the promotion for your own records. anyOf[1] (Value):
+             * string. Optional description of the promotion for your own records. anyOf[2]
+             * (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Whether the promotion discounts the order, individual line items, or service
+             * charges. Value enum: "order", "line_item", "service_charge". anyOf[1] (Value):
+             * string. Whether the promotion discounts the order, individual line items, or service
+             * charges. Value enum: "order", "line_item", "service_charge". anyOf[2] (Value): null.
+             */
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            /**
+             * Buyer-facing promotion name shown in checkout and order discount surfaces. anyOf[1]
+             * (Value): string. Buyer-facing promotion name shown in checkout and order discount
+             * surfaces. anyOf[2] (Value): null.
+             */
+            "display_name"?: ((string) | (null));
+            /**
+             * Conditions an order must satisfy for the promotion to apply. Omitted when the
+             * promotion has no eligibility conditions. anyOf[1] (Value): {@link
+             * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply.
+             * Omitted when the promotion has no eligibility conditions. anyOf[2] (Value): null.
+             */
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            /**
+             * Optional group and priority used to choose one promotion from competing promotions
+             * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
+             * PromotionExclusivity}. Optional group and priority used to choose one promotion from
+             * competing promotions in the same group. See Promotion for the evaluation order.
+             * anyOf[2] (Value): null.
+             */
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Maximum number of redemptions across all codes and automatic applications. Omitted
+             * when there is no redemption limit. anyOf[1] (Value): integer. Maximum number of
+             * redemptions across all codes and automatic applications. Omitted when there is no
+             * redemption limit. Format: int64. anyOf[2] (Value): null.
+             */
+            "max_uses"?: ((number) | (null));
+            /**
+             * Maximum reserved and redeemed uses per identified customer across every code and
+             * automatic or ID-based application. Checked atomically when payment starts. Failed,
+             * canceled, or expired attempts release their reservation; refunds do not restore
+             * uses. Counts only within the same merchant and environment; live and test mode are
+             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
+             * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
+             * integer or null. Maximum reserved and redeemed uses per identified customer across
+             * every code and automatic or ID-based application. Checked atomically when payment
+             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
+             * not restore uses. Counts only within the same merchant and environment; live and
+             * test mode are separate. Without an identified customer, returns 409
+             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            /**
+             * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns the promotion. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
+             * Key-value data you attach to the promotion. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
+             * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
+             * (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the promotion. anyOf[1] (Value): string. Unique identifier for
+             * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". anyOf[2] (Value): null.
+             */
+            "promotion_id"?: ((string) | (null));
+            /**
+             * Whether the promotion applies automatically when its rules match or requires a
+             * promotion code. Value enum: "automatic", "code". anyOf[1] (Value): string. Whether
+             * the promotion applies automatically when its rules match or requires a promotion
+             * code. Value enum: "automatic", "code". anyOf[2] (Value): null.
+             */
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            /**
+             * Optional start and end times that limit when the promotion can apply. anyOf[1]
+             * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+             * promotion can apply. anyOf[2] (Value): null.
+             */
+            "schedule"?: ((PromotionSchedule) | (null));
+            /**
+             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
+             * promotion can still be unavailable: read available. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or
+             * inactive with PATCH; DELETE sets archived. An active promotion can still be
+             * unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Why available is false. Present only when available is false. Value enum:
+             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
+             * "no_active_codes". anyOf[1] (Value): string. Why available is false. Present only
+             * when available is false. Value enum: "inactive", "archived", "not_yet_started",
+             * "expired", "exhausted", "no_active_codes". anyOf[2] (Value): null.
+             */
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            /**
+             * When the promotion was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the promotion was last updated, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of times the promotion has been redeemed. anyOf[1] (Value): integer. Number
+             * of times the promotion has been redeemed. Format: int64. anyOf[2] (Value): null.
+             */
+            "uses_count"?: ((number) | (null));
+            /**
+             * Persisted owned-state version. Clock-based availability and expanded resources do
+             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
+             * Clock-based availability and expanded resources do not advance this counter. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1068,7 +1964,25 @@ export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     & ({
     "data"?: {
         "object": WebhookReader;
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            "created_at"?: ((string) | (null));
+            "device_id"?: ((string) | (null));
+            "is_simulated"?: ((boolean) | (null));
+            "location_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            "name"?: ((string) | (null));
+            "reader_id"?: ((string) | (null));
+            "serial_number"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "reader.archived";
@@ -1077,7 +1991,25 @@ export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     & ({
     "data"?: {
         "object": WebhookReader;
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            "created_at"?: ((string) | (null));
+            "device_id"?: ((string) | (null));
+            "is_simulated"?: ((boolean) | (null));
+            "location_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            "name"?: ((string) | (null));
+            "reader_id"?: ((string) | (null));
+            "serial_number"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "reader.archived";
@@ -1104,7 +2036,70 @@ export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.connectivity (Optional): {@link
+     * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is archived.
+     * Observed reader state: it changes without a write, doesn't advance `version`, and sends no
+     * event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment.
+     * previous_attributes.connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers
+     * only, and omitted once the reader is archived. Observed reader state: it changes without a
+     * write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks
+     * the reader itself before it sends a payment. previous_attributes.connectivity.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the reader
+     * was registered. previous_attributes.created_at.anyOf[1] (Value): string. When the reader was
+     * registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.device_id
+     * (Optional): string or null. The register, kiosk or phone the reader takes payments for; on a
+     * Tap to Pay reader, the phone it runs on. Omitted when none is set.
+     * previous_attributes.device_id.anyOf[1] (Value): string. The register, kiosk or phone the
+     * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none
+     * is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2]
+     * (Value): null. previous_attributes.is_simulated (Optional): boolean or null. `true` for a
+     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[1] (Value): boolean. `true` for a sandbox simulated
+     * reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[2] (Value): null. previous_attributes.location_id
+     * (Optional): string or null. The location the reader is at. Set at registration and never
+     * changed: to move a reader, archive it and register it again.
+     * previous_attributes.location_id.anyOf[1] (Value): string. The location the reader is at. Set
+     * at registration and never changed: to move a reader, archive it and register it again.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.location_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Your key-value
+     * pairs for the reader. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * Your key-value pairs for the reader. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.model (Optional): string or null. The smart reader's model, read from
+     * the reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
+     * "stripe_reader_s710", "other". previous_attributes.model.anyOf[1] (Value): string. The smart
+     * reader's model, read from the reader at registration. Smart readers only. Value enum:
+     * "stripe_reader_s700", "stripe_reader_s710", "other". previous_attributes.model.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Your label for the
+     * reader. previous_attributes.name.anyOf[1] (Value): string. Your label for the reader.
+     * minLength: 1. maxLength: 255. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.reader_id (Optional): string or null. Unique identifier for the reader.
+     * previous_attributes.reader_id.anyOf[1] (Value): string. Unique identifier for the reader.
+     * Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". previous_attributes.reader_id.anyOf[2] (Value):
+     * null. previous_attributes.serial_number (Optional): string or null. The smart reader's
+     * serial number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[1] (Value): string. The smart reader's serial
+     * number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the reader can take
+     * payments. Value enum: "active", "archived". previous_attributes.status.anyOf[2] (Value):
+     * null. previous_attributes.type (Optional): string or null. What kind of reader it is. A
+     * smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
+     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+     * previous_attributes.type.anyOf[1] (Value): string. What kind of reader it is. A smart reader
+     * is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK
+     * in your app. Value enum: "smart_reader", "tap_to_pay". previous_attributes.type.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the reader
+     * last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the reader last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
+     * owned state. Expanded resources and external observations can change independently. Format:
+     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1116,9 +2111,162 @@ export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. connectivity (Optional): {@link
+         * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is
+         * archived. Observed reader state: it changes without a write, doesn't advance `version`,
+         * and sends no event. Don't gate a sale on it: Flint checks the reader itself before it
+         * sends a payment. connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart
+         * readers only, and omitted once the reader is archived. Observed reader state: it changes
+         * without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it:
+         * Flint checks the reader itself before it sends a payment. connectivity.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the reader was registered.
+         * created_at.anyOf[1] (Value): string. When the reader was registered. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. device_id
+         * (Optional): string or null. The register, kiosk or phone the reader takes payments for;
+         * on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * device_id.anyOf[1] (Value): string. The register, kiosk or phone the reader takes
+         * payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2] (Value): null.
+         * is_simulated (Optional): boolean or null. `true` for a sandbox simulated reader,
+         * registered with `registration_code: simulated-s700`. is_simulated.anyOf[1] (Value):
+         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
+         * simulated-s700`. is_simulated.anyOf[2] (Value): null. location_id (Optional): string or
+         * null. The location the reader is at. Set at registration and never changed: to move a
+         * reader, archive it and register it again. location_id.anyOf[1] (Value): string. The
+         * location the reader is at. Set at registration and never changed: to move a reader,
+         * archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Your key-value pairs for the reader. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Your key-value pairs for the reader. metadata.anyOf[2] (Value): null. model (Optional):
+         * string or null. The smart reader's model, read from the reader at registration. Smart
+         * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+         * model.anyOf[1] (Value): string. The smart reader's model, read from the reader at
+         * registration. Smart readers only. Value enum: "stripe_reader_s700",
+         * "stripe_reader_s710", "other". model.anyOf[2] (Value): null. name (Optional): string or
+         * null. Your label for the reader. name.anyOf[1] (Value): string. Your label for the
+         * reader. minLength: 1. maxLength: 255. name.anyOf[2] (Value): null. reader_id (Optional):
+         * string or null. Unique identifier for the reader. reader_id.anyOf[1] (Value): string.
+         * Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
+         * reader_id.anyOf[2] (Value): null. serial_number (Optional): string or null. The smart
+         * reader's serial number, read from the reader at registration. Smart readers only.
+         * serial_number.anyOf[1] (Value): string. The smart reader's serial number, read from the
+         * reader at registration. Smart readers only. serial_number.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Whether the reader can take payments. Value
+         * enum: "active", "archived". status.anyOf[2] (Value): null. type (Optional): string or
+         * null. What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+         * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+         * "smart_reader", "tap_to_pay". type.anyOf[1] (Value): string. What kind of reader it is.
+         * A smart reader is driven from your server; a Tap to Pay reader is a phone driven by the
+         * Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When the reader last changed.
+         * updated_at.anyOf[1] (Value): string. When the reader last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Persisted version of this resource's owned state. Expanded resources
+         * and external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Smart readers only, and omitted once the reader is archived. Observed reader state:
+             * it changes without a write, doesn't advance `version`, and sends no event. Don't
+             * gate a sale on it: Flint checks the reader itself before it sends a payment.
+             * anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers only, and omitted once
+             * the reader is archived. Observed reader state: it changes without a write, doesn't
+             * advance `version`, and sends no event. Don't gate a sale on it: Flint checks the
+             * reader itself before it sends a payment. anyOf[2] (Value): null.
+             */
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            /**
+             * When the reader was registered. anyOf[1] (Value): string. When the reader was
+             * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
+             * the phone it runs on. Omitted when none is set. anyOf[1] (Value): string. The
+             * register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
+             * phone it runs on. Omitted when none is set. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
+             */
+            "device_id"?: ((string) | (null));
+            /**
+             * `true` for a sandbox simulated reader, registered with `registration_code:
+             * simulated-s700`. anyOf[1] (Value): boolean. `true` for a sandbox simulated reader,
+             * registered with `registration_code: simulated-s700`. anyOf[2] (Value): null.
+             */
+            "is_simulated"?: ((boolean) | (null));
+            /**
+             * The location the reader is at. Set at registration and never changed: to move a
+             * reader, archive it and register it again. anyOf[1] (Value): string. The location the
+             * reader is at. Set at registration and never changed: to move a reader, archive it
+             * and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. Your
+             * key-value pairs for the reader. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The smart reader's model, read from the reader at registration. Smart readers only.
+             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
+             * string. The smart reader's model, read from the reader at registration. Smart
+             * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+             * anyOf[2] (Value): null.
+             */
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            /**
+             * Your label for the reader. anyOf[1] (Value): string. Your label for the reader.
+             * minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the reader. anyOf[1] (Value): string. Unique identifier for
+             * the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
+             */
+            "reader_id"?: ((string) | (null));
+            /**
+             * The smart reader's serial number, read from the reader at registration. Smart
+             * readers only. anyOf[1] (Value): string. The smart reader's serial number, read from
+             * the reader at registration. Smart readers only. anyOf[2] (Value): null.
+             */
+            "serial_number"?: ((string) | (null));
+            /**
+             * Whether the reader can take payments. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Whether the reader can take payments. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+             * "smart_reader", "tap_to_pay". anyOf[1] (Value): string. What kind of reader it is. A
+             * smart reader is driven from your server; a Tap to Pay reader is a phone driven by
+             * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+             * anyOf[2] (Value): null.
+             */
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            /**
+             * When the reader last changed. anyOf[1] (Value): string. When the reader last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1171,7 +2319,70 @@ export type ReaderArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.connectivity (Optional): {@link
+     * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is archived.
+     * Observed reader state: it changes without a write, doesn't advance `version`, and sends no
+     * event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment.
+     * previous_attributes.connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers
+     * only, and omitted once the reader is archived. Observed reader state: it changes without a
+     * write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks
+     * the reader itself before it sends a payment. previous_attributes.connectivity.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the reader
+     * was registered. previous_attributes.created_at.anyOf[1] (Value): string. When the reader was
+     * registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.device_id
+     * (Optional): string or null. The register, kiosk or phone the reader takes payments for; on a
+     * Tap to Pay reader, the phone it runs on. Omitted when none is set.
+     * previous_attributes.device_id.anyOf[1] (Value): string. The register, kiosk or phone the
+     * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none
+     * is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2]
+     * (Value): null. previous_attributes.is_simulated (Optional): boolean or null. `true` for a
+     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[1] (Value): boolean. `true` for a sandbox simulated
+     * reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[2] (Value): null. previous_attributes.location_id
+     * (Optional): string or null. The location the reader is at. Set at registration and never
+     * changed: to move a reader, archive it and register it again.
+     * previous_attributes.location_id.anyOf[1] (Value): string. The location the reader is at. Set
+     * at registration and never changed: to move a reader, archive it and register it again.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.location_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Your key-value
+     * pairs for the reader. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * Your key-value pairs for the reader. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.model (Optional): string or null. The smart reader's model, read from
+     * the reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
+     * "stripe_reader_s710", "other". previous_attributes.model.anyOf[1] (Value): string. The smart
+     * reader's model, read from the reader at registration. Smart readers only. Value enum:
+     * "stripe_reader_s700", "stripe_reader_s710", "other". previous_attributes.model.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Your label for the
+     * reader. previous_attributes.name.anyOf[1] (Value): string. Your label for the reader.
+     * minLength: 1. maxLength: 255. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.reader_id (Optional): string or null. Unique identifier for the reader.
+     * previous_attributes.reader_id.anyOf[1] (Value): string. Unique identifier for the reader.
+     * Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". previous_attributes.reader_id.anyOf[2] (Value):
+     * null. previous_attributes.serial_number (Optional): string or null. The smart reader's
+     * serial number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[1] (Value): string. The smart reader's serial
+     * number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the reader can take
+     * payments. Value enum: "active", "archived". previous_attributes.status.anyOf[2] (Value):
+     * null. previous_attributes.type (Optional): string or null. What kind of reader it is. A
+     * smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
+     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+     * previous_attributes.type.anyOf[1] (Value): string. What kind of reader it is. A smart reader
+     * is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK
+     * in your app. Value enum: "smart_reader", "tap_to_pay". previous_attributes.type.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the reader
+     * last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the reader last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
+     * owned state. Expanded resources and external observations can change independently. Format:
+     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1183,9 +2394,162 @@ export type ReaderArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. connectivity (Optional): {@link
+         * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is
+         * archived. Observed reader state: it changes without a write, doesn't advance `version`,
+         * and sends no event. Don't gate a sale on it: Flint checks the reader itself before it
+         * sends a payment. connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart
+         * readers only, and omitted once the reader is archived. Observed reader state: it changes
+         * without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it:
+         * Flint checks the reader itself before it sends a payment. connectivity.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the reader was registered.
+         * created_at.anyOf[1] (Value): string. When the reader was registered. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. device_id
+         * (Optional): string or null. The register, kiosk or phone the reader takes payments for;
+         * on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * device_id.anyOf[1] (Value): string. The register, kiosk or phone the reader takes
+         * payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2] (Value): null.
+         * is_simulated (Optional): boolean or null. `true` for a sandbox simulated reader,
+         * registered with `registration_code: simulated-s700`. is_simulated.anyOf[1] (Value):
+         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
+         * simulated-s700`. is_simulated.anyOf[2] (Value): null. location_id (Optional): string or
+         * null. The location the reader is at. Set at registration and never changed: to move a
+         * reader, archive it and register it again. location_id.anyOf[1] (Value): string. The
+         * location the reader is at. Set at registration and never changed: to move a reader,
+         * archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Your key-value pairs for the reader. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Your key-value pairs for the reader. metadata.anyOf[2] (Value): null. model (Optional):
+         * string or null. The smart reader's model, read from the reader at registration. Smart
+         * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+         * model.anyOf[1] (Value): string. The smart reader's model, read from the reader at
+         * registration. Smart readers only. Value enum: "stripe_reader_s700",
+         * "stripe_reader_s710", "other". model.anyOf[2] (Value): null. name (Optional): string or
+         * null. Your label for the reader. name.anyOf[1] (Value): string. Your label for the
+         * reader. minLength: 1. maxLength: 255. name.anyOf[2] (Value): null. reader_id (Optional):
+         * string or null. Unique identifier for the reader. reader_id.anyOf[1] (Value): string.
+         * Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
+         * reader_id.anyOf[2] (Value): null. serial_number (Optional): string or null. The smart
+         * reader's serial number, read from the reader at registration. Smart readers only.
+         * serial_number.anyOf[1] (Value): string. The smart reader's serial number, read from the
+         * reader at registration. Smart readers only. serial_number.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Whether the reader can take payments. Value
+         * enum: "active", "archived". status.anyOf[2] (Value): null. type (Optional): string or
+         * null. What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+         * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+         * "smart_reader", "tap_to_pay". type.anyOf[1] (Value): string. What kind of reader it is.
+         * A smart reader is driven from your server; a Tap to Pay reader is a phone driven by the
+         * Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When the reader last changed.
+         * updated_at.anyOf[1] (Value): string. When the reader last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Persisted version of this resource's owned state. Expanded resources
+         * and external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Smart readers only, and omitted once the reader is archived. Observed reader state:
+             * it changes without a write, doesn't advance `version`, and sends no event. Don't
+             * gate a sale on it: Flint checks the reader itself before it sends a payment.
+             * anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers only, and omitted once
+             * the reader is archived. Observed reader state: it changes without a write, doesn't
+             * advance `version`, and sends no event. Don't gate a sale on it: Flint checks the
+             * reader itself before it sends a payment. anyOf[2] (Value): null.
+             */
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            /**
+             * When the reader was registered. anyOf[1] (Value): string. When the reader was
+             * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
+             * the phone it runs on. Omitted when none is set. anyOf[1] (Value): string. The
+             * register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
+             * phone it runs on. Omitted when none is set. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
+             */
+            "device_id"?: ((string) | (null));
+            /**
+             * `true` for a sandbox simulated reader, registered with `registration_code:
+             * simulated-s700`. anyOf[1] (Value): boolean. `true` for a sandbox simulated reader,
+             * registered with `registration_code: simulated-s700`. anyOf[2] (Value): null.
+             */
+            "is_simulated"?: ((boolean) | (null));
+            /**
+             * The location the reader is at. Set at registration and never changed: to move a
+             * reader, archive it and register it again. anyOf[1] (Value): string. The location the
+             * reader is at. Set at registration and never changed: to move a reader, archive it
+             * and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. Your
+             * key-value pairs for the reader. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The smart reader's model, read from the reader at registration. Smart readers only.
+             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
+             * string. The smart reader's model, read from the reader at registration. Smart
+             * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+             * anyOf[2] (Value): null.
+             */
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            /**
+             * Your label for the reader. anyOf[1] (Value): string. Your label for the reader.
+             * minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the reader. anyOf[1] (Value): string. Unique identifier for
+             * the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
+             */
+            "reader_id"?: ((string) | (null));
+            /**
+             * The smart reader's serial number, read from the reader at registration. Smart
+             * readers only. anyOf[1] (Value): string. The smart reader's serial number, read from
+             * the reader at registration. Smart readers only. anyOf[2] (Value): null.
+             */
+            "serial_number"?: ((string) | (null));
+            /**
+             * Whether the reader can take payments. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Whether the reader can take payments. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+             * "smart_reader", "tap_to_pay". anyOf[1] (Value): string. What kind of reader it is. A
+             * smart reader is driven from your server; a Tap to Pay reader is a phone driven by
+             * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+             * anyOf[2] (Value): null.
+             */
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            /**
+             * When the reader last changed. anyOf[1] (Value): string. When the reader last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1428,7 +2792,25 @@ export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     & ({
     "data"?: {
         "object": WebhookReader;
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            "created_at"?: ((string) | (null));
+            "device_id"?: ((string) | (null));
+            "is_simulated"?: ((boolean) | (null));
+            "location_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            "name"?: ((string) | (null));
+            "reader_id"?: ((string) | (null));
+            "serial_number"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "reader.updated";
@@ -1437,7 +2819,25 @@ export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     & ({
     "data"?: {
         "object": WebhookReader;
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            "created_at"?: ((string) | (null));
+            "device_id"?: ((string) | (null));
+            "is_simulated"?: ((boolean) | (null));
+            "location_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            "name"?: ((string) | (null));
+            "reader_id"?: ((string) | (null));
+            "serial_number"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "reader.updated";
@@ -1464,7 +2864,70 @@ export type ReaderUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.connectivity (Optional): {@link
+     * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is archived.
+     * Observed reader state: it changes without a write, doesn't advance `version`, and sends no
+     * event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment.
+     * previous_attributes.connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers
+     * only, and omitted once the reader is archived. Observed reader state: it changes without a
+     * write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks
+     * the reader itself before it sends a payment. previous_attributes.connectivity.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the reader
+     * was registered. previous_attributes.created_at.anyOf[1] (Value): string. When the reader was
+     * registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.device_id
+     * (Optional): string or null. The register, kiosk or phone the reader takes payments for; on a
+     * Tap to Pay reader, the phone it runs on. Omitted when none is set.
+     * previous_attributes.device_id.anyOf[1] (Value): string. The register, kiosk or phone the
+     * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none
+     * is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2]
+     * (Value): null. previous_attributes.is_simulated (Optional): boolean or null. `true` for a
+     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[1] (Value): boolean. `true` for a sandbox simulated
+     * reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[2] (Value): null. previous_attributes.location_id
+     * (Optional): string or null. The location the reader is at. Set at registration and never
+     * changed: to move a reader, archive it and register it again.
+     * previous_attributes.location_id.anyOf[1] (Value): string. The location the reader is at. Set
+     * at registration and never changed: to move a reader, archive it and register it again.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.location_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Your key-value
+     * pairs for the reader. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * Your key-value pairs for the reader. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.model (Optional): string or null. The smart reader's model, read from
+     * the reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
+     * "stripe_reader_s710", "other". previous_attributes.model.anyOf[1] (Value): string. The smart
+     * reader's model, read from the reader at registration. Smart readers only. Value enum:
+     * "stripe_reader_s700", "stripe_reader_s710", "other". previous_attributes.model.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Your label for the
+     * reader. previous_attributes.name.anyOf[1] (Value): string. Your label for the reader.
+     * minLength: 1. maxLength: 255. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.reader_id (Optional): string or null. Unique identifier for the reader.
+     * previous_attributes.reader_id.anyOf[1] (Value): string. Unique identifier for the reader.
+     * Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". previous_attributes.reader_id.anyOf[2] (Value):
+     * null. previous_attributes.serial_number (Optional): string or null. The smart reader's
+     * serial number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[1] (Value): string. The smart reader's serial
+     * number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the reader can take
+     * payments. Value enum: "active", "archived". previous_attributes.status.anyOf[2] (Value):
+     * null. previous_attributes.type (Optional): string or null. What kind of reader it is. A
+     * smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
+     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+     * previous_attributes.type.anyOf[1] (Value): string. What kind of reader it is. A smart reader
+     * is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK
+     * in your app. Value enum: "smart_reader", "tap_to_pay". previous_attributes.type.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the reader
+     * last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the reader last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
+     * owned state. Expanded resources and external observations can change independently. Format:
+     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1476,9 +2939,162 @@ export type ReaderUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. connectivity (Optional): {@link
+         * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is
+         * archived. Observed reader state: it changes without a write, doesn't advance `version`,
+         * and sends no event. Don't gate a sale on it: Flint checks the reader itself before it
+         * sends a payment. connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart
+         * readers only, and omitted once the reader is archived. Observed reader state: it changes
+         * without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it:
+         * Flint checks the reader itself before it sends a payment. connectivity.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the reader was registered.
+         * created_at.anyOf[1] (Value): string. When the reader was registered. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. device_id
+         * (Optional): string or null. The register, kiosk or phone the reader takes payments for;
+         * on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * device_id.anyOf[1] (Value): string. The register, kiosk or phone the reader takes
+         * payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2] (Value): null.
+         * is_simulated (Optional): boolean or null. `true` for a sandbox simulated reader,
+         * registered with `registration_code: simulated-s700`. is_simulated.anyOf[1] (Value):
+         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
+         * simulated-s700`. is_simulated.anyOf[2] (Value): null. location_id (Optional): string or
+         * null. The location the reader is at. Set at registration and never changed: to move a
+         * reader, archive it and register it again. location_id.anyOf[1] (Value): string. The
+         * location the reader is at. Set at registration and never changed: to move a reader,
+         * archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Your key-value pairs for the reader. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Your key-value pairs for the reader. metadata.anyOf[2] (Value): null. model (Optional):
+         * string or null. The smart reader's model, read from the reader at registration. Smart
+         * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+         * model.anyOf[1] (Value): string. The smart reader's model, read from the reader at
+         * registration. Smart readers only. Value enum: "stripe_reader_s700",
+         * "stripe_reader_s710", "other". model.anyOf[2] (Value): null. name (Optional): string or
+         * null. Your label for the reader. name.anyOf[1] (Value): string. Your label for the
+         * reader. minLength: 1. maxLength: 255. name.anyOf[2] (Value): null. reader_id (Optional):
+         * string or null. Unique identifier for the reader. reader_id.anyOf[1] (Value): string.
+         * Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
+         * reader_id.anyOf[2] (Value): null. serial_number (Optional): string or null. The smart
+         * reader's serial number, read from the reader at registration. Smart readers only.
+         * serial_number.anyOf[1] (Value): string. The smart reader's serial number, read from the
+         * reader at registration. Smart readers only. serial_number.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Whether the reader can take payments. Value
+         * enum: "active", "archived". status.anyOf[2] (Value): null. type (Optional): string or
+         * null. What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+         * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+         * "smart_reader", "tap_to_pay". type.anyOf[1] (Value): string. What kind of reader it is.
+         * A smart reader is driven from your server; a Tap to Pay reader is a phone driven by the
+         * Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When the reader last changed.
+         * updated_at.anyOf[1] (Value): string. When the reader last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Persisted version of this resource's owned state. Expanded resources
+         * and external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Smart readers only, and omitted once the reader is archived. Observed reader state:
+             * it changes without a write, doesn't advance `version`, and sends no event. Don't
+             * gate a sale on it: Flint checks the reader itself before it sends a payment.
+             * anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers only, and omitted once
+             * the reader is archived. Observed reader state: it changes without a write, doesn't
+             * advance `version`, and sends no event. Don't gate a sale on it: Flint checks the
+             * reader itself before it sends a payment. anyOf[2] (Value): null.
+             */
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            /**
+             * When the reader was registered. anyOf[1] (Value): string. When the reader was
+             * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
+             * the phone it runs on. Omitted when none is set. anyOf[1] (Value): string. The
+             * register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
+             * phone it runs on. Omitted when none is set. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
+             */
+            "device_id"?: ((string) | (null));
+            /**
+             * `true` for a sandbox simulated reader, registered with `registration_code:
+             * simulated-s700`. anyOf[1] (Value): boolean. `true` for a sandbox simulated reader,
+             * registered with `registration_code: simulated-s700`. anyOf[2] (Value): null.
+             */
+            "is_simulated"?: ((boolean) | (null));
+            /**
+             * The location the reader is at. Set at registration and never changed: to move a
+             * reader, archive it and register it again. anyOf[1] (Value): string. The location the
+             * reader is at. Set at registration and never changed: to move a reader, archive it
+             * and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. Your
+             * key-value pairs for the reader. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The smart reader's model, read from the reader at registration. Smart readers only.
+             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
+             * string. The smart reader's model, read from the reader at registration. Smart
+             * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+             * anyOf[2] (Value): null.
+             */
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            /**
+             * Your label for the reader. anyOf[1] (Value): string. Your label for the reader.
+             * minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the reader. anyOf[1] (Value): string. Unique identifier for
+             * the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
+             */
+            "reader_id"?: ((string) | (null));
+            /**
+             * The smart reader's serial number, read from the reader at registration. Smart
+             * readers only. anyOf[1] (Value): string. The smart reader's serial number, read from
+             * the reader at registration. Smart readers only. anyOf[2] (Value): null.
+             */
+            "serial_number"?: ((string) | (null));
+            /**
+             * Whether the reader can take payments. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Whether the reader can take payments. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+             * "smart_reader", "tap_to_pay". anyOf[1] (Value): string. What kind of reader it is. A
+             * smart reader is driven from your server; a Tap to Pay reader is a phone driven by
+             * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+             * anyOf[2] (Value): null.
+             */
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            /**
+             * When the reader last changed. anyOf[1] (Value): string. When the reader last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1531,7 +3147,70 @@ export type ReaderUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.connectivity (Optional): {@link
+     * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is archived.
+     * Observed reader state: it changes without a write, doesn't advance `version`, and sends no
+     * event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment.
+     * previous_attributes.connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers
+     * only, and omitted once the reader is archived. Observed reader state: it changes without a
+     * write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks
+     * the reader itself before it sends a payment. previous_attributes.connectivity.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the reader
+     * was registered. previous_attributes.created_at.anyOf[1] (Value): string. When the reader was
+     * registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.device_id
+     * (Optional): string or null. The register, kiosk or phone the reader takes payments for; on a
+     * Tap to Pay reader, the phone it runs on. Omitted when none is set.
+     * previous_attributes.device_id.anyOf[1] (Value): string. The register, kiosk or phone the
+     * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none
+     * is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2]
+     * (Value): null. previous_attributes.is_simulated (Optional): boolean or null. `true` for a
+     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[1] (Value): boolean. `true` for a sandbox simulated
+     * reader, registered with `registration_code: simulated-s700`.
+     * previous_attributes.is_simulated.anyOf[2] (Value): null. previous_attributes.location_id
+     * (Optional): string or null. The location the reader is at. Set at registration and never
+     * changed: to move a reader, archive it and register it again.
+     * previous_attributes.location_id.anyOf[1] (Value): string. The location the reader is at. Set
+     * at registration and never changed: to move a reader, archive it and register it again.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.location_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Your key-value
+     * pairs for the reader. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * Your key-value pairs for the reader. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.model (Optional): string or null. The smart reader's model, read from
+     * the reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
+     * "stripe_reader_s710", "other". previous_attributes.model.anyOf[1] (Value): string. The smart
+     * reader's model, read from the reader at registration. Smart readers only. Value enum:
+     * "stripe_reader_s700", "stripe_reader_s710", "other". previous_attributes.model.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Your label for the
+     * reader. previous_attributes.name.anyOf[1] (Value): string. Your label for the reader.
+     * minLength: 1. maxLength: 255. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.reader_id (Optional): string or null. Unique identifier for the reader.
+     * previous_attributes.reader_id.anyOf[1] (Value): string. Unique identifier for the reader.
+     * Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". previous_attributes.reader_id.anyOf[2] (Value):
+     * null. previous_attributes.serial_number (Optional): string or null. The smart reader's
+     * serial number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[1] (Value): string. The smart reader's serial
+     * number, read from the reader at registration. Smart readers only.
+     * previous_attributes.serial_number.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the reader can take
+     * payments. Value enum: "active", "archived". previous_attributes.status.anyOf[2] (Value):
+     * null. previous_attributes.type (Optional): string or null. What kind of reader it is. A
+     * smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
+     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+     * previous_attributes.type.anyOf[1] (Value): string. What kind of reader it is. A smart reader
+     * is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK
+     * in your app. Value enum: "smart_reader", "tap_to_pay". previous_attributes.type.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the reader
+     * last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the reader last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
+     * owned state. Expanded resources and external observations can change independently. Format:
+     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1543,9 +3222,162 @@ export type ReaderUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. connectivity (Optional): {@link
+         * ReaderConnectivity} or null. Smart readers only, and omitted once the reader is
+         * archived. Observed reader state: it changes without a write, doesn't advance `version`,
+         * and sends no event. Don't gate a sale on it: Flint checks the reader itself before it
+         * sends a payment. connectivity.anyOf[1] (Value): {@link ReaderConnectivity}. Smart
+         * readers only, and omitted once the reader is archived. Observed reader state: it changes
+         * without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it:
+         * Flint checks the reader itself before it sends a payment. connectivity.anyOf[2] (Value):
+         * null. created_at (Optional): string or null. When the reader was registered.
+         * created_at.anyOf[1] (Value): string. When the reader was registered. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. device_id
+         * (Optional): string or null. The register, kiosk or phone the reader takes payments for;
+         * on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * device_id.anyOf[1] (Value): string. The register, kiosk or phone the reader takes
+         * payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set.
+         * Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2] (Value): null.
+         * is_simulated (Optional): boolean or null. `true` for a sandbox simulated reader,
+         * registered with `registration_code: simulated-s700`. is_simulated.anyOf[1] (Value):
+         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
+         * simulated-s700`. is_simulated.anyOf[2] (Value): null. location_id (Optional): string or
+         * null. The location the reader is at. Set at registration and never changed: to move a
+         * reader, archive it and register it again. location_id.anyOf[1] (Value): string. The
+         * location the reader is at. Set at registration and never changed: to move a reader,
+         * archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+         * location_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or null.
+         * Your key-value pairs for the reader. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * Your key-value pairs for the reader. metadata.anyOf[2] (Value): null. model (Optional):
+         * string or null. The smart reader's model, read from the reader at registration. Smart
+         * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+         * model.anyOf[1] (Value): string. The smart reader's model, read from the reader at
+         * registration. Smart readers only. Value enum: "stripe_reader_s700",
+         * "stripe_reader_s710", "other". model.anyOf[2] (Value): null. name (Optional): string or
+         * null. Your label for the reader. name.anyOf[1] (Value): string. Your label for the
+         * reader. minLength: 1. maxLength: 255. name.anyOf[2] (Value): null. reader_id (Optional):
+         * string or null. Unique identifier for the reader. reader_id.anyOf[1] (Value): string.
+         * Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
+         * reader_id.anyOf[2] (Value): null. serial_number (Optional): string or null. The smart
+         * reader's serial number, read from the reader at registration. Smart readers only.
+         * serial_number.anyOf[1] (Value): string. The smart reader's serial number, read from the
+         * reader at registration. Smart readers only. serial_number.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Whether the reader can take payments. Value
+         * enum: "active", "archived". status.anyOf[2] (Value): null. type (Optional): string or
+         * null. What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+         * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+         * "smart_reader", "tap_to_pay". type.anyOf[1] (Value): string. What kind of reader it is.
+         * A smart reader is driven from your server; a Tap to Pay reader is a phone driven by the
+         * Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". type.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. When the reader last changed.
+         * updated_at.anyOf[1] (Value): string. When the reader last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Persisted version of this resource's owned state. Expanded resources
+         * and external observations can change independently. version.anyOf[1] (Value): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookReader>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Smart readers only, and omitted once the reader is archived. Observed reader state:
+             * it changes without a write, doesn't advance `version`, and sends no event. Don't
+             * gate a sale on it: Flint checks the reader itself before it sends a payment.
+             * anyOf[1] (Value): {@link ReaderConnectivity}. Smart readers only, and omitted once
+             * the reader is archived. Observed reader state: it changes without a write, doesn't
+             * advance `version`, and sends no event. Don't gate a sale on it: Flint checks the
+             * reader itself before it sends a payment. anyOf[2] (Value): null.
+             */
+            "connectivity"?: ((ReaderConnectivity) | (null));
+            /**
+             * When the reader was registered. anyOf[1] (Value): string. When the reader was
+             * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
+             * the phone it runs on. Omitted when none is set. anyOf[1] (Value): string. The
+             * register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
+             * phone it runs on. Omitted when none is set. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
+             */
+            "device_id"?: ((string) | (null));
+            /**
+             * `true` for a sandbox simulated reader, registered with `registration_code:
+             * simulated-s700`. anyOf[1] (Value): boolean. `true` for a sandbox simulated reader,
+             * registered with `registration_code: simulated-s700`. anyOf[2] (Value): null.
+             */
+            "is_simulated"?: ((boolean) | (null));
+            /**
+             * The location the reader is at. Set at registration and never changed: to move a
+             * reader, archive it and register it again. anyOf[1] (Value): string. The location the
+             * reader is at. Set at registration and never changed: to move a reader, archive it
+             * and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
+             * null.
+             */
+            "location_id"?: ((string) | (null));
+            /**
+             * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. Your
+             * key-value pairs for the reader. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The smart reader's model, read from the reader at registration. Smart readers only.
+             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
+             * string. The smart reader's model, read from the reader at registration. Smart
+             * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
+             * anyOf[2] (Value): null.
+             */
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            /**
+             * Your label for the reader. anyOf[1] (Value): string. Your label for the reader.
+             * minLength: 1. maxLength: 255. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the reader. anyOf[1] (Value): string. Unique identifier for
+             * the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
+             */
+            "reader_id"?: ((string) | (null));
+            /**
+             * The smart reader's serial number, read from the reader at registration. Smart
+             * readers only. anyOf[1] (Value): string. The smart reader's serial number, read from
+             * the reader at registration. Smart readers only. anyOf[2] (Value): null.
+             */
+            "serial_number"?: ((string) | (null));
+            /**
+             * Whether the reader can take payments. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Whether the reader can take payments. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
+             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
+             * "smart_reader", "tap_to_pay". anyOf[1] (Value): string. What kind of reader it is. A
+             * smart reader is driven from your server; a Tap to Pay reader is a phone driven by
+             * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
+             * anyOf[2] (Value): null.
+             */
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            /**
+             * When the reader last changed. anyOf[1] (Value): string. When the reader last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

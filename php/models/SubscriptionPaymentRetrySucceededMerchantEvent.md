@@ -27,9 +27,13 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](SubscriptionPaymentRetryCreatedMerchantEvent.md#subscriptionpaymentretrycreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](SubscriptionPaymentRetryFailedMerchantEvent.md#subscriptionpaymentretryfailedmerchanteventdata-fields-1).
 
 ### SubscriptionPaymentRetrySucceededMerchantEvent.data fields 1.object
 
 Field definitions: [SubscriptionPaymentRetryCreatedMerchantEvent.data fields 1.object](../models/SubscriptionPaymentRetryCreatedMerchantEvent.md#subscriptionpaymentretrycreatedmerchanteventdata-fields-1object).
+
+### SubscriptionPaymentRetrySucceededMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [SubscriptionPaymentRetryFailedMerchantEvent.data fields 1.previous_attributes](../models/SubscriptionPaymentRetryFailedMerchantEvent.md#subscriptionpaymentretryfailedmerchanteventdata-fields-1previous_attributes).
 

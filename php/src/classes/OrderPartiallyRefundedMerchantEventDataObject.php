@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read ?string $closed_reason
  * @property-read ?string $closed_reason_message
  * @property-read string $created_at
- * @property-read list<OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemText|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemTextarea|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemDropdown|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass> $custom_field_answers
+ * @property-read list<OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemText|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemTextarea|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemDropdown|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>|null $custom_field_answers
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
  * @property-read list<DeferredPromotion> $deferred_promotions
@@ -64,7 +64,7 @@ namespace Flint;
  * @property-read ?string $subscription_id
  * @property-read ExpandedSubscriptionPlanSummary|null $subscription_plan
  * @property-read ?string $subscription_plan_id
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * @property-read OrderTax $tax
  * @property-read ?TicketedEvent $ticketed_event
  * @property-read list<Tip> $tips
@@ -72,9 +72,9 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class OrderPartiallyRefundedMerchantEventDataObject extends Model {
-    /** @param array{'active_payment_review_id': string|null, 'authorization_amounts'?: mixed, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'client_reference': string|null, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers': list<mixed>, 'customer'?: mixed, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'dispute_status'?: string, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'handover'?: mixed, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'invoice_id': string|null, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|null, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pending_order_edit_id': string|null, 'prepayment_order_id': string|null, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string, 'subscription_delivery_number': int|null, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_review_id'?: string|null, 'authorization_amounts'?: mixed, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'client_reference'?: string|null, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'customer'?: mixed, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'dispute_status'?: string, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'handover'?: mixed, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'invoice_id': string|null, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|null, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pending_order_edit_id'?: string|null, 'prepayment_order_id': string|null, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string, 'subscription_delivery_number': int|null, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions'?: list<string>, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPartiallyRefundedMerchantEventDataObject')); }
-    /** The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials.
+    /** The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present with merchant credentials.
      * @return string|null
      */
     public function getActivePaymentReviewId(): string|null { return $this->get('active_payment_review_id'); }
@@ -104,7 +104,7 @@ final class OrderPartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getCheckoutSessionIds(): array { return $this->get('checkout_session_ids'); }
     public function hasCheckoutSessionIds(): bool { return $this->has('checkout_session_ids'); }
-    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. minLength: 1. maxLength: 255.
+    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * @return string|null
      */
     public function getClientReference(): string|null { return $this->get('client_reference'); }
@@ -129,10 +129,10 @@ final class OrderPartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
-     * @return list<OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemText|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemTextarea|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemDropdown|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>
+    /** The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
+     * @return list<OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemText|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemTextarea|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemDropdown|OrderPartiallyRefundedMerchantEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>|null
      */
-    public function getCustomFieldAnswers(): array { return $this->get('custom_field_answers'); }
+    public function getCustomFieldAnswers(): ?array { return $this->get('custom_field_answers'); }
     public function hasCustomFieldAnswers(): bool { return $this->has('custom_field_answers'); }
     /** Customer summary included when `expand` names `customer`; `null` when expanded and no customer is linked. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
      * @return ExpandedCustomerSummary|null
@@ -164,7 +164,7 @@ final class OrderPartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getDiscounts(): array { return $this->get('discounts'); }
     public function hasDiscounts(): bool { return $this->has('discounts'); }
-    /** Aggregate dispute state across the order's counted payment intents, excluding payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open states take precedence in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+    /** Aggregate dispute state across the order's counted payment intents, excluding payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open states take precedence in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return ?string
      */
     public function getDisputeStatus(): ?string { return $this->get('dispute_status'); }
@@ -304,7 +304,7 @@ final class OrderPartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
     public function hasPaymentStatus(): bool { return $this->has('payment_status'); }
-    /** The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials.
+    /** The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials. Always present with merchant credentials.
      * @return string|null
      */
     public function getPendingOrderEditId(): string|null { return $this->get('pending_order_edit_id'); }
@@ -384,10 +384,10 @@ final class OrderPartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure is allowed, and pay while open without an active attempt and with an outstanding balance or payment-method setup available. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
-     * @return list<string>
+    /** Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure is allowed, and pay while open without an active attempt and with an outstanding balance or payment-method setup available. Always present with merchant credentials. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** The order's tax state: whether tax is enabled, its status, location, exemption, and per-jurisdiction rows. An order's tax state, including its mode, price mode, status, location, exemption, and tax breakdowns.
      * @return OrderTax

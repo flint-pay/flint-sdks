@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributes). |
 
 ### PaymentSplitCanceledEvent.data.object
 
@@ -49,6 +49,333 @@ Field definitions: [PaymentSplit.reversed_money](../models/PaymentSplit.md#payme
 ### PaymentSplitCanceledEvent.data.object.shortfall_money
 
 Field definitions: [PaymentSplit.shortfall_money](../models/PaymentSplit.md#paymentsplitshortfall_money).
+
+### PaymentSplitCanceledEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | The admitted amount, or its final amount set at capture. `amount_money`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesamount_money). |
+| `canceled_reason` | Optional | string or null | Present when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"fully_reversed"`. `canceled_reason`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributescanceled_reason). |
+| `collecting_merchant_id` | Optional | string or null | The merchant of record that collected the payment. `collecting_merchant_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributescollecting_merchant_id). |
+| `created_at` | Optional | string or null | When the payment's create recorded the split. `created_at`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributescreated_at). |
+| `description` | Optional | string or null | The collecting merchant's description, shown to the seller. `description`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesdescription). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Shown to the seller. Exact, case-sensitive matching. `external_reference_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesexternal_reference_id). |
+| `failure_reason` | Optional | string or null | Present when status is failed. Can gain values; unknown reasons use split_failed. Values: `"seller_cannot_receive"`, `"split_failed"`. `failure_reason`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesfailure_reason). |
+| `funds_available_at` | Optional | string or null or null | When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. `funds_available_at`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesfunds_available_at). |
+| `partner_app_id` | Optional | string or null | The collecting merchant's partner app. `partner_app_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributespartner_app_id). |
+| `partner_app_install_id` | Optional | string or null | The seller's install of the app. `partner_app_install_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributespartner_app_install_id). |
+| `payment_intent_id` | Optional | string or null | The collecting merchant's payment. Sellers can read the split, but not the payment. `payment_intent_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributespayment_intent_id). |
+| `payment_split_id` | Optional | string or null | Unique identifier for the split. `payment_split_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributespayment_split_id). |
+| `pending_reason` | Optional | string or null | Present when status is pending. Can gain values. Values: `"awaiting_payment"`, `"dispute_open"`, `"reversals_pending"`, `"awaiting_funds"`. `pending_reason`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributespending_reason). |
+| `reversals` | Optional | Array of [PaymentSplitReversal](../models/PaymentSplitReversal.md#paymentsplitreversal) or null | Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. `reversals`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesreversals). |
+| `reversed_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reversals' total amount minus their reinstated amounts. `reversed_money`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesreversed_money). |
+| `seller_merchant_id` | Optional | string or null | The merchant receiving the split. `seller_merchant_id`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesseller_merchant_id). |
+| `shortfall_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money. `shortfall_money`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesshortfall_money). |
+| `status` | Optional | string or null | The split lifecycle status. Values: `"pending"`, `"processing"`, `"succeeded"`, `"failed"`, `"canceled"`. `status`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesstatus). |
+| `succeeded_at` | Optional | string or null | When the split reached the seller's balance. Present when succeeded. `succeeded_at`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributessucceeded_at). |
+| `updated_at` | Optional | string or null | When the split last changed. `updated_at`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdataprevious_attributesupdated_at). |
+| `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion). |
+
+### PaymentSplitCanceledEvent.data.previous_attributes.amount_money
+
+The admitted amount, or its final amount set at capture.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### PaymentSplitCanceledEvent.data.previous_attributes.amount_money variant 1
+
+anyOf MoneyValue: The admitted amount, or its final amount set at capture..
+
+- Required: `amount`, `currency`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.amount_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. The admitted amount, or its final amount set at capture. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.canceled_reason
+
+### PaymentSplitCanceledEvent.data.previous_attributes.canceled_reason variant 1
+
+anyOf variant 1: Present when status is canceled. Can gain values..
+
+- Value shape: string. Present when status is canceled. Can gain values. Values: `"payment_not_completed"`, `"install_revoked"`, `"fully_reversed"`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.canceled_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present when status is canceled. Can gain values. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.collecting_merchant_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.collecting_merchant_id variant 1
+
+anyOf variant 1: The merchant of record that collected the payment..
+
+- Value shape: string. The merchant of record that collected the payment. The merchant of record that collected the payment. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.collecting_merchant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The merchant of record that collected the payment. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.created_at
+
+### PaymentSplitCanceledEvent.data.previous_attributes.created_at variant 1
+
+anyOf variant 1: When the payment's create recorded the split..
+
+- Value shape: string. When the payment's create recorded the split. When the payment's create recorded the split. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.created_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the payment's create recorded the split. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.description
+
+### PaymentSplitCanceledEvent.data.previous_attributes.description variant 1
+
+anyOf variant 1: The collecting merchant's description, shown to the seller..
+
+- Value shape: string. The collecting merchant's description, shown to the seller. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.description variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The collecting merchant's description, shown to the seller. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.external_reference_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.external_reference_id variant 1
+
+anyOf variant 1: Caller-owned identifier for this resource in an external system. Shown to the seller. Exact, case-sensitive matching..
+
+- Value shape: string. Caller-owned identifier for this resource in an external system. Shown to the seller. Exact, case-sensitive matching. Caller-owned identifier for this resource in an external system. Shown to the seller. Exact, case-sensitive matching. maxLength: `255`. Example: `"warehouse-1842"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.external_reference_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Caller-owned identifier for this resource in an external system. Shown to the seller. Exact, case-sensitive matching. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.failure_reason
+
+### PaymentSplitCanceledEvent.data.previous_attributes.failure_reason variant 1
+
+anyOf variant 1: Present when status is failed. Can gain values; unknown reasons use split_failed..
+
+- Value shape: string. Present when status is failed. Can gain values; unknown reasons use split_failed. Values: `"seller_cannot_receive"`, `"split_failed"`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.failure_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present when status is failed. Can gain values; unknown reasons use split_failed. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.funds_available_at
+
+### PaymentSplitCanceledEvent.data.previous_attributes.funds_available_at variant 1
+
+anyOf variant 1: When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release..
+
+- Value shape: (string or null). When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.funds_available_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the funds become available on Flint's balance. Null when Stripe has not reported it or the payment never succeeded. Can move later after a won dispute; frozen at release. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.partner_app_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.partner_app_id variant 1
+
+anyOf variant 1: The collecting merchant's partner app..
+
+- Value shape: string. The collecting merchant's partner app. The collecting merchant's partner app. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.partner_app_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The collecting merchant's partner app. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.partner_app_install_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.partner_app_install_id variant 1
+
+anyOf variant 1: The seller's install of the app..
+
+- Value shape: string. The seller's install of the app. The seller's install of the app. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.partner_app_install_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The seller's install of the app. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.payment_intent_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.payment_intent_id variant 1
+
+anyOf variant 1: The collecting merchant's payment. Sellers can read the split, but not the payment..
+
+- Value shape: string. The collecting merchant's payment. Sellers can read the split, but not the payment. The collecting merchant's payment. Sellers can read the split, but not the payment. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.payment_intent_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The collecting merchant's payment. Sellers can read the split, but not the payment. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.payment_split_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.payment_split_id variant 1
+
+anyOf variant 1: Unique identifier for the split..
+
+- Value shape: string. Unique identifier for the split. Unique identifier for the split. Example: `"psplit_01KEZF7C00Y5HA4Z8D4KRA07K8"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.payment_split_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for the split. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.pending_reason
+
+### PaymentSplitCanceledEvent.data.previous_attributes.pending_reason variant 1
+
+anyOf variant 1: Present when status is pending. Can gain values..
+
+- Value shape: string. Present when status is pending. Can gain values. Values: `"awaiting_payment"`, `"dispute_open"`, `"reversals_pending"`, `"awaiting_funds"`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.pending_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Present when status is pending. Can gain values. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.reversals
+
+### PaymentSplitCanceledEvent.data.previous_attributes.reversals variant 1
+
+anyOf variant 1: Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute..
+
+- Value shape: Array of [PaymentSplitReversal](../models/PaymentSplitReversal.md#paymentsplitreversal). Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.reversals variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Read-only nested children created by Flint, embedded whole. Empty when none. At most one per refund and one per dispute. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.reversed_money
+
+Reversals' total amount minus their reinstated amounts.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### PaymentSplitCanceledEvent.data.previous_attributes.reversed_money variant 1
+
+anyOf MoneyValue: Reversals' total amount minus their reinstated amounts..
+
+- Required: `amount`, `currency`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.reversed_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Reversals' total amount minus their reinstated amounts. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.seller_merchant_id
+
+### PaymentSplitCanceledEvent.data.previous_attributes.seller_merchant_id variant 1
+
+anyOf variant 1: The merchant receiving the split..
+
+- Value shape: string. The merchant receiving the split. The merchant receiving the split. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.seller_merchant_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The merchant receiving the split. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.shortfall_money
+
+Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money.
+
+Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
+
+### PaymentSplitCanceledEvent.data.previous_attributes.shortfall_money variant 1
+
+anyOf MoneyValue: Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money..
+
+- Required: `amount`, `currency`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.shortfall_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Reversed funds the collecting merchant covered for the seller, less reinstatements. The seller's net is amount_money minus reversed_money plus shortfall_money. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.status
+
+### PaymentSplitCanceledEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: The split lifecycle status..
+
+- Value shape: string. The split lifecycle status. Values: `"pending"`, `"processing"`, `"succeeded"`, `"failed"`, `"canceled"`.
+
+### PaymentSplitCanceledEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The split lifecycle status. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.succeeded_at
+
+### PaymentSplitCanceledEvent.data.previous_attributes.succeeded_at variant 1
+
+anyOf variant 1: When the split reached the seller's balance. Present when succeeded..
+
+- Value shape: string. When the split reached the seller's balance. Present when succeeded. When the split reached the seller's balance. Present when succeeded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.succeeded_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the split reached the seller's balance. Present when succeeded. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.updated_at
+
+### PaymentSplitCanceledEvent.data.previous_attributes.updated_at variant 1
+
+anyOf variant 1: When the split last changed..
+
+- Value shape: string. When the split last changed. When the split last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.updated_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the split last changed. 
+
+### PaymentSplitCanceledEvent.data.previous_attributes.version
+
+Declared alternatives: [CheckoutSessionClosedInstalledMerchantsEvent.data.previous_attributes.version](../models/CheckoutSessionClosedInstalledMerchantsEvent.md#checkoutsessionclosedinstalledmerchantseventdataprevious_attributesversion).
 
 ### PaymentSplitCanceledEvent.request
 

@@ -33,3 +33,7 @@ Field definitions: [shared fields](PaymentSplitCanceledEvent.md#paymentsplitcanc
 
 Field definitions: [PaymentSplitCanceledEvent.data fields 1.object](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1object).
 
+### PaymentSplitFailedEvent.data fields 1.previous_attributes
+
+Field definitions: [PaymentSplitCanceledEvent.data fields 1.previous_attributes](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributes).
+

@@ -31,6 +31,10 @@ Field definitions: [shared fields](InventoryTransferClosedMerchantEvent.md#inven
 
 Field definitions: [InventoryTransferClosedMerchantEvent.data fields 1.object](../models/InventoryTransferClosedMerchantEvent.md#inventorytransferclosedmerchanteventdata-fields-1object).
 
+### InventoryTransferReturnedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes](../models/InventoryTransferClosedMerchantEvent.md#inventorytransferclosedmerchanteventdata-fields-1previous_attributes).
+
 ### InventoryTransferReturnedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

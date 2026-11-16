@@ -33,3 +33,7 @@ Field definitions: [shared fields](InvoicePaymentAttemptCanceledMerchantEvent.md
 
 Field definitions: [InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.object](../models/InvoicePaymentAttemptCanceledMerchantEvent.md#invoicepaymentattemptcanceledmerchanteventdata-fields-1object).
 
+### InvoicePaymentAttemptProcessingMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [InvoicePaymentAttemptCanceledMerchantEvent.data fields 1.previous_attributes](../models/InvoicePaymentAttemptCanceledMerchantEvent.md#invoicepaymentattemptcanceledmerchanteventdata-fields-1previous_attributes).
+

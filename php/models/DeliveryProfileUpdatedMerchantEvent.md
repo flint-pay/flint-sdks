@@ -33,3 +33,7 @@ Field definitions: [shared fields](DeliveryProfileArchivedMerchantEvent.md#deliv
 
 Field definitions: [DeliveryProfileArchivedMerchantEvent.data fields 1.object](../models/DeliveryProfileArchivedMerchantEvent.md#deliveryprofilearchivedmerchanteventdata-fields-1object).
 
+### DeliveryProfileUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [DeliveryProfileArchivedMerchantEvent.data fields 1.previous_attributes](../models/DeliveryProfileArchivedMerchantEvent.md#deliveryprofilearchivedmerchanteventdata-fields-1previous_attributes).
+

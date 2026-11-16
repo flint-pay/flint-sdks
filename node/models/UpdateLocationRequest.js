@@ -1,12 +1,12 @@
-import { d6041 as c0, d6039 as c1, d6040 as c2, d6038 as c4 } from '../descriptors/data/274.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5942 as c3 } from '../descriptors/data/268.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d7297 as c5, d7298 as c6, d7299 as c7, d7300 as c8 } from '../descriptors/data/343.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5686 as c9 } from '../descriptors/data/248.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5686 as d5686 } from '../descriptors/data/248.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6844 as c0, d6842 as c1, d6843 as c2, d6841 as c4 } from '../descriptors/data/309.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d6745 as c3 } from '../descriptors/data/303.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d8100 as c5, d8101 as c6, d8102 as c7, d8103 as c8 } from '../descriptors/data/378.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d6489 as c9 } from '../descriptors/data/283.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d6489 as d6489 } from '../descriptors/data/283.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5686;
+const read = d6489;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["SharedCodec0"]:c1(),["SharedCodec1"]:c2(),["SharedCodec1687"]:c3(),["SharedCodec1690"]:c4(),["SharedCodec1733"]:c5(),["SharedCodec1734"]:c6(),["SharedCodec1735"]:c7(),["SharedCodec1736"]:c8(),["UpdateLocationRequest"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["SharedCodec0"]:c1(),["SharedCodec1"]:c2(),["SharedCodec2406"]:c3(),["SharedCodec2409"]:c4(),["SharedCodec2452"]:c5(),["SharedCodec2453"]:c6(),["SharedCodec2454"]:c7(),["SharedCodec2455"]:c8(),["UpdateLocationRequest"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateLocationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

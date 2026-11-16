@@ -1,0 +1,57 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $allocated_at
+ * @property-read MoneyValue|null $amount_money
+ * @property-read string|null $credit_note_allocation_id
+ * @property-read string|null $credit_note_id
+ * @property-read string|null $idempotency_key
+ * @property-read string|null $invoice_id
+ * @property-read string|null $reversed_at
+ * @property-read list<string>|null $supported_actions
+ * Presence-aware response; omitted optional fields return null. */
+final class CreditNoteAllocationReversedInstalledMerchantsEventDataPreviousAttributes extends Model {
+    /** @param array{'allocated_at'?: mixed, 'amount_money'?: mixed, 'credit_note_allocation_id'?: mixed, 'credit_note_id'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'reversed_at'?: mixed, 'supported_actions'?: mixed, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocationReversedInstalledMerchantsEventDataPreviousAttributes')); }
+    /** When the credit was applied to the invoice balance. anyOf[1] (Value): string. When the credit was applied to the invoice balance. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getAllocatedAt(): string|null { return $this->get('allocated_at'); }
+    public function hasAllocatedAt(): bool { return $this->has('allocated_at'); }
+    /** Credit applied to the invoice balance. anyOf[1] (Value): {@see MoneyValue}. Credit applied to the invoice balance. anyOf[2] (Value): null.
+     * @return MoneyValue|null
+     */
+    public function getAmountMoney(): MoneyValue|null { return $this->get('amount_money'); }
+    public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** Unique identifier of the allocation. anyOf[1] (Value): string. Unique identifier of the allocation. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreditNoteAllocationId(): string|null { return $this->get('credit_note_allocation_id'); }
+    public function hasCreditNoteAllocationId(): bool { return $this->has('credit_note_allocation_id'); }
+    /** The credit note whose credit was applied. anyOf[1] (Value): string. The credit note whose credit was applied. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getCreditNoteId(): string|null { return $this->get('credit_note_id'); }
+    public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
+    /** The Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key for an allocation made on issue. Filterable on the allocations list. anyOf[1] (Value): string. The Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key for an allocation made on issue. Filterable on the allocations list. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
+    /** The invoice whose balance the credit reduced. anyOf[1] (Value): string. The invoice whose balance the credit reduced. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
+    /** When the allocation was reversed and its credit returned. Absent while the allocation stands. anyOf[1] (Value): string. When the allocation was reversed and its credit returned. Absent while the allocation stands. Format: date-time. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getReversedAt(): string|null { return $this->get('reversed_at'); }
+    public function hasReversedAt(): bool { return $this->has('reversed_at'); }
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "reverse". anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "reverse". anyOf[1][] (Value): string.  Value enum: "reverse". anyOf[2] (Value): null.
+     * @return list<string>|null
+     */
+    public function getSupportedActions(): array|null { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+}

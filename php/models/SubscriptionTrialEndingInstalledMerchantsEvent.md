@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](SubscriptionCreatedMerchantEvent.md#subscriptioncreatedmerchanteventdata-fields-1).
 
 ### SubscriptionTrialEndingInstalledMerchantsEvent.data fields 1.object
 

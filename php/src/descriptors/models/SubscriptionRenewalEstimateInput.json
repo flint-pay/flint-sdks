@@ -1,1 +1,1 @@
-{"shared":"SubscriptionRenewalEstimate","dependencies":["MoneyValue","SharedCodec79","SubscriptionRenewalEstimate","SubscriptionRenewalEstimateDiscount","SubscriptionRenewalEstimateLineItem"]}
+{"shared":"SubscriptionRenewalEstimate","dependencies":["MoneyValue","SharedCodec63","SubscriptionRenewalEstimate","SubscriptionRenewalEstimateDiscount","SubscriptionRenewalEstimateLineItem"]}

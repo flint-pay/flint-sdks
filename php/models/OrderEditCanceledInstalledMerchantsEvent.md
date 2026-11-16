@@ -31,6 +31,10 @@ Field definitions: [shared fields](OrderEditCanceledMerchantEvent.md#ordereditca
 
 Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.object](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1object).
 
+### OrderEditCanceledInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.previous_attributes](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1previous_attributes).
+
 ### OrderEditCanceledInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

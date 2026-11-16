@@ -25,6 +25,6 @@ Request input.
 | `refund_status` | Required | string | Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
 | `settlement_amounts` | Required | [OrderSettlementAmountsInput](../models/OrderSettlementAmountsInput.md#ordersettlementamountsinput) | Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, debt discharged by final capture, and value order edits removed. Money collected, returned, waived, and still owed on a bill. Money collected, returned, waived, and still owed on a bill. |
 | `status` | Required | string | Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Values: `"open"`, `"closed"`. |
-| `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts on the order now, independent of permissions. Items values: `"close"`, `"pay"`, `"resolve_inventory_exception"`. |
+| `supported_actions` | Optional | Array of string | Lifecycle actions Flint accepts on the order now, independent of permissions. Always present with merchant credentials. Items values: `"close"`, `"pay"`, `"resolve_inventory_exception"`. |
 | `updated_at` | Optional | string | When the order was last updated, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 

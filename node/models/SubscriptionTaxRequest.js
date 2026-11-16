@@ -1,9 +1,9 @@
-import { d8772 as c0, d8773 as c1, d8787 as c2 } from '../descriptors/data/433.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d8787 as d8787 } from '../descriptors/data/433.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d9575 as c0, d9576 as c1, d9590 as c2 } from '../descriptors/data/468.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d9590 as d9590 } from '../descriptors/data/468.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8787;
+const read = d9590;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1637"]:c0(),["SharedCodec1638"]:c1(),["SubscriptionTaxRequest"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec2332"]:c0(),["SharedCodec2333"]:c1(),["SubscriptionTaxRequest"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionTaxRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

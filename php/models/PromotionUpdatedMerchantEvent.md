@@ -33,3 +33,7 @@ Field definitions: [shared fields](PromotionArchivedMerchantEvent.md#promotionar
 
 Field definitions: [PromotionArchivedMerchantEvent.data fields 1.object](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1object).
 
+### PromotionUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [PromotionArchivedMerchantEvent.data fields 1.previous_attributes](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1previous_attributes).
+

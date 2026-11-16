@@ -30,11 +30,45 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/BalanceUpdatedMerchantEvent.md#balanceupdatedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/BalanceUpdatedMerchantEvent.md#balanceupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### BalanceUpdatedMerchantEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](BalanceUpdatedMerchantEventDataObject.md#balanceupdatedmerchanteventdataobject).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributes).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.available_by_source_type
+
+Declared alternatives: [BalanceUpdatedMerchantEventDataPreviousAttributes.available_by_source_type](../models/BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributesavailable_by_source_type).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.balance_id
+
+Declared alternatives: [BalanceUpdatedMerchantEventDataPreviousAttributes.balance_id](../models/BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributesbalance_id).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.currency
+
+Declared alternatives: [MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.currency](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdata-fields-1previous_attributescurrency).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [BalanceUpdatedMerchantEventDataPreviousAttributes.merchant_id](../models/BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributesmerchant_id).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.observed_at
+
+Declared alternatives: [BalanceUpdatedMerchantEventDataPreviousAttributes.observed_at](../models/BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributesobserved_at).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.payouts_enabled
+
+Declared alternatives: [BalanceUpdatedMerchantEventDataPreviousAttributes.payouts_enabled](../models/BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributespayouts_enabled).
+
+### BalanceUpdatedMerchantEvent.data fields 1.previous_attributes.pending_by_source_type
+
+Declared alternatives: [BalanceUpdatedMerchantEventDataPreviousAttributes.pending_by_source_type](../models/BalanceUpdatedMerchantEventDataPreviousAttributes.md#balanceupdatedmerchanteventdatapreviousattributespending_by_source_type).
 

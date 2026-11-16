@@ -30,11 +30,61 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PaymentMethodActivatedMerchantEvent.md#paymentmethodactivatedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PaymentMethodActivatedMerchantEvent.md#paymentmethodactivatedmerchanteventdata-fields-1previous_attributes). |
 
 ### PaymentMethodActivatedMerchantEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](PaymentMethodActivatedMerchantEventDataObject.md#paymentmethodactivatedmerchanteventdataobject).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributes).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.customer_id
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.customer_id](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributescustomer_id).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.fingerprint
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.fingerprint](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesfingerprint).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.is_default
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.is_default](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesis_default).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.payment_method_id
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.payment_method_id](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributespayment_method_id).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.saved_with
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.saved_with](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributessaved_with).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.status](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesstatus).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.type
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.type](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributestype).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### PaymentMethodActivatedMerchantEvent.data fields 1.previous_attributes.usage
+
+Declared alternatives: [PaymentMethodActivatedMerchantEventDataPreviousAttributes.usage](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesusage).
 

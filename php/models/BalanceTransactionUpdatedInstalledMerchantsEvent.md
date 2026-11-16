@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](BalanceTransactionUpdatedMerchantEvent.md#balancetransactionupdatedmerchanteventdata-fields-1).
 
 ### BalanceTransactionUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [BalanceTransactionCreatedMerchantEvent.data fields 1.object](../models/BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventdata-fields-1object).
+
+### BalanceTransactionUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [BalanceTransactionUpdatedMerchantEvent.data fields 1.previous_attributes](../models/BalanceTransactionUpdatedMerchantEvent.md#balancetransactionupdatedmerchanteventdata-fields-1previous_attributes).
 
 ### BalanceTransactionUpdatedInstalledMerchantsEvent.source fields 1
 

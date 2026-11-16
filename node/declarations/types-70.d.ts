@@ -3039,10 +3039,10 @@ export type WebhookOrder = ({
     /**
      * The earliest open or resolving payment review on this order's counted payments. `null` when
      * no review is open or resolving. List reviews with GET
-     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     * /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present
+     * with merchant credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
      */
-    "active_payment_review_id": string | null;
+    "active_payment_review_id"?: string | null;
     /**
      * The amounts authorized and still capturable on the order's payments. The amounts authorized
      * and still capturable on an order's payments, with the authorization expiry.
@@ -3071,9 +3071,10 @@ export type WebhookOrder = ({
      * The reference the payment link URL or resolve request carried, such as your user ID. `null`
      * when none was sent or checkout did not start from a payment link. Returned only to merchant
      * credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a
-     * claim, not proof of identity. minLength: 1. maxLength: 255.
+     * claim, not proof of identity. Always present with merchant credentials. minLength: 1.
+     * maxLength: 255.
      */
-    "client_reference": string | null;
+    "client_reference"?: string | null;
     /**
      * When the order closed. Present exactly when status is closed. Set once at the transition and
      * never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
@@ -3109,11 +3110,12 @@ export type WebhookOrder = ({
      * the link had no custom fields, or the buyer answered none. Orders created before Flint
      * recorded answers here also return an empty list and keep their answers in `metadata` as
      * `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant
-     * credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@link
-     * CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when
-     * checkout started. `custom_field_type` determines the type of `value`.
+     * credentials; omitted for buyer credentials. Always present with merchant credentials.
+     * maxItems: 20. [] (Value): {@link CustomFieldAnswer}. One answer to a payment link custom
+     * field, with the field as it was when checkout started. `custom_field_type` determines the
+     * type of `value`.
      */
-    "custom_field_answers": Array<CustomFieldAnswer>;
+    "custom_field_answers"?: Array<CustomFieldAnswer>;
     /**
      * Customer summary included when `expand` names `customer`; `null` when expanded and no
      * customer is linked. Present only when `expand` includes `customer`; `null` when expanded and
@@ -3159,9 +3161,9 @@ export type WebhookOrder = ({
      * states take precedence in this order: needs_response, under_review, inquiry_needs_response,
      * inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won,
      * prevented, inquiry_closed; none when no disputes count. List individual cases with GET
-     * /v1/disputes?order_id={order_id}. Value enum: "none", "inquiry_needs_response",
-     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
-     * "prevented", "other".
+     * /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum:
+     * "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
      */
     "dispute_status"?: "none"
         | "inquiry_needs_response"
@@ -3342,9 +3344,10 @@ export type WebhookOrder = ({
     /**
      * The order edit waiting for its balance payment. While it is set, the units that edit removes
      * can't join a fulfillment and the order refuses another edit. `null` when there is none.
-     * Omitted for buyer credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * Omitted for buyer credentials. Always present with merchant credentials. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
      */
-    "pending_order_edit_id": string | null;
+    "pending_order_edit_id"?: string | null;
     /**
      * Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -3441,10 +3444,11 @@ export type WebhookOrder = ({
     /**
      * Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure
      * is allowed, and pay while open without an active attempt and with an outstanding balance or
-     * payment-method setup available. [] enum: "close", "pay", "resolve_inventory_exception". []
-     * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
+     * payment-method setup available. Always present with merchant credentials. [] enum: "close",
+     * "pay", "resolve_inventory_exception". [] (Value): string. Value enum: "close", "pay",
+     * "resolve_inventory_exception".
      */
-    "supported_actions": Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
+    "supported_actions"?: Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
     /**
      * The order's tax state: whether tax is enabled, its status, location, exemption, and
      * per-jurisdiction rows. An order's tax state, including its mode, price mode, status,
@@ -3784,11 +3788,12 @@ export type WebhookPaymentIntent = ({
     "merchant_id"?: string;
     /**
      * Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     * Always present with merchant credentials. Caller-owned key-value data stored on a resource.
+     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+     * satisfy them.
      */
-    "metadata": MetadataMap;
+    "metadata"?: MetadataMap;
     /**
      * The linked order. Returned only with expand=order. Present only when `expand` includes
      * `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@link
@@ -3868,10 +3873,10 @@ export type WebhookPaymentIntent = ({
      * submitted at exactly this time is accepted; after it, refunds through the original payment
      * method are refused. Today only Affirm has a refund window: 120 days after the payment
      * settles. `null` when the method has no refund window, the payment has not succeeded with
-     * captured money, or its capture time is missing. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
+     * captured money, or its capture time is missing. Always present with merchant credentials.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "refund_expires_at": string | null;
+    "refund_expires_at"?: string | null;
     /**
      * How much of captured_money has been refunded, including value issued as store credit, based
      * on refunded_money. Value enum: "none", "partially_refunded", "refunded".

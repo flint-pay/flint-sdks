@@ -19,11 +19,11 @@ namespace Flint;
  * @property-read string $refund_status
  * @property-read OrderSettlementAmounts $settlement_amounts
  * @property-read string $status
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedOrderSummary extends Model {
-    /** @param array{'buyer_contact'?: mixed, 'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'buyer_contact'?: mixed, 'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedOrderSummary')); }
     /** Buyer contact recorded on the order, including guest contact when retained. Omitted when the order has no recorded contact. Buyer contact supplied with payment or saved during checkout.
      * @return ?CheckoutBuyerContact
@@ -110,10 +110,10 @@ final class ExpandedOrderSummary extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lifecycle actions Flint accepts on the order now, independent of permissions. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
-     * @return list<string>
+    /** Lifecycle actions Flint accepts on the order now, independent of permissions. Always present with merchant credentials. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When the order was last updated, in RFC3339 format. Format: date-time.
      * @return ?string

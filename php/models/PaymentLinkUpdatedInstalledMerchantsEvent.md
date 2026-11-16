@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](PaymentLinkCreatedMerchantEvent.md#paymentlinkcreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](PaymentLinkUpdatedMerchantEvent.md#paymentlinkupdatedmerchanteventdata-fields-1).
 
 ### PaymentLinkUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [PaymentLinkCreatedMerchantEvent.data fields 1.object](../models/PaymentLinkCreatedMerchantEvent.md#paymentlinkcreatedmerchanteventdata-fields-1object).
+
+### PaymentLinkUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes](../models/PaymentLinkUpdatedMerchantEvent.md#paymentlinkupdatedmerchanteventdata-fields-1previous_attributes).
 
 ### PaymentLinkUpdatedInstalledMerchantsEvent.source fields 1
 

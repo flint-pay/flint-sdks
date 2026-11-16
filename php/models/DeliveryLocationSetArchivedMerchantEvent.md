@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/DeliveryLocationSetArchivedMerchantEvent.md#deliverylocationsetarchivedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/DeliveryLocationSetArchivedMerchantEvent.md#deliverylocationsetarchivedmerchanteventdata-fields-1previous_attributes). |
 
 ### DeliveryLocationSetArchivedMerchantEvent.data fields 1.object
 
@@ -45,4 +45,46 @@ Field definitions: [DeliveryLocationSetResponse.data.configuration](../models/De
 ### DeliveryLocationSetArchivedMerchantEvent.data fields 1.object.metadata
 
 Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributes).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.created_at](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributescreated_at).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.current_delivery_location_set_revision_id
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.current_delivery_location_set_revision_id](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributescurrent_delivery_location_set_revision_id).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.delivery_location_set_id
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.delivery_location_set_id](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesdelivery_location_set_id).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previous_attributes.external_reference_id](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.metadata](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesmetadata).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.name](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesname).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.status](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesstatus).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.updated_at](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesupdated_at).
+
+### DeliveryLocationSetArchivedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.version](../models/DeliveryLocationSetArchivedMerchantEventDataPreviousAttributes.md#deliverylocationsetarchivedmerchanteventdatapreviousattributesversion).
 

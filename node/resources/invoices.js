@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import r0 from '../descriptors/resources/invoices.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import settings from '../descriptors/settings.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceLateFees"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {

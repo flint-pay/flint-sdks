@@ -25,11 +25,15 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](RefundFailedMerchantEvent.md#refundfailedmerchanteventdata-fields-1).
 
 ### RefundUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [RefundCreatedMerchantEvent.data fields 1.object](../models/RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1object).
+
+### RefundUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [RefundFailedMerchantEvent.data fields 1.previous_attributes](../models/RefundFailedMerchantEvent.md#refundfailedmerchanteventdata-fields-1previous_attributes).
 
 ### RefundUpdatedInstalledMerchantsEvent.source fields 1
 

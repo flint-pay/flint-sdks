@@ -4,7 +4,7 @@ import type { SimulateDisputeRequestInput } from './types-60.js';
 import type { ResponseMeta } from './types-54.js';
 import type { LookupEmailPreferencesRequestInput } from './types-35.js';
 import type { PartnerAppMerchantReadiness, PartnerAppPermissionManifestEntry } from './types-43.js';
-import type { PartnerEnvironmentGrantPaymentSplits, PartnerWebhookEnvelope, PartnerEnvironmentGrant } from './types-44.js';
+import type { PartnerEnvironmentGrantPaymentSplits, PartnerWebhookEnvelope } from './types-44.js';
 import type { PlatformFeeCap } from './types-49.js';
 import type { CustomDomain } from './types-15.js';
 import type { DeliveryRevocation } from './types-21.js';
@@ -522,7 +522,27 @@ export type EnvironmentGrantRevokedEvent = ((Exclude<PartnerWebhookEnvelope & ob
             "supported_actions": Array<"revoke" | (string & {})>;
             "updated_at": string;
         });
-        "previous_attributes"?: Partial<PartnerEnvironmentGrant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & (({
+            "created_at"?: ((string) | (null));
+            "environment_grant_id"?: ((string) | (null));
+            "granted_permissions"?: ((Array<PartnerAppPermissionManifestEntry>) | (null));
+            "granted_scopes"?: ((Array<string>) | (null));
+            "merchant_readiness"?: ((PartnerAppMerchantReadiness) | (null));
+            "mode"?: (("test" | "live" | (string & {})) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerEnvironmentGrantPaymentSplits) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+            "revoked_at"?: ((string) | (null));
+            "revoked_by_user_id"?: ((string) | (null));
+            "sandbox_id"?: ((string) | (null));
+            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        })
+            & ({}));
     };
     "event_source"?: "partner_app" | (string & {});
     "event_type"?: "environment_grant.revoked";
@@ -554,7 +574,27 @@ export type EnvironmentGrantUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & ob
             "supported_actions": Array<"revoke" | (string & {})>;
             "updated_at": string;
         });
-        "previous_attributes"?: Partial<PartnerEnvironmentGrant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & (({
+            "created_at"?: ((string) | (null));
+            "environment_grant_id"?: ((string) | (null));
+            "granted_permissions"?: ((Array<PartnerAppPermissionManifestEntry>) | (null));
+            "granted_scopes"?: ((Array<string>) | (null));
+            "merchant_readiness"?: ((PartnerAppMerchantReadiness) | (null));
+            "mode"?: (("test" | "live" | (string & {})) | (null));
+            "partner_app_install_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerEnvironmentGrantPaymentSplits) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCap) | (null));
+            "revoked_at"?: ((string) | (null));
+            "revoked_by_user_id"?: ((string) | (null));
+            "sandbox_id"?: ((string) | (null));
+            "status"?: (("pending_exchange" | "active" | "revoked" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"revoke" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        })
+            & ({}));
     };
     "event_source"?: "partner_app" | (string & {});
     "event_type"?: "environment_grant.updated";
@@ -842,148 +882,149 @@ export type ErrorDetail = {
      * (Required): string. When the fulfillment was created, in RFC3339 format. Format: date-time.
      * Example: "2026-08-02T16:00:00Z". oneOf[2].customer_id (Optional): string. Customer receiving
      * this fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * oneOf[2].delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * oneOf[2].delivery_choice_group_id (Optional): string or null. Delivery choice group that
      * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
-     * oneOf[2].delivery_execution_leg_id (Required): string or null. Execution leg of the selected
-     * delivery option that created this fulfillment. `null` when the merchant created the
-     * fulfillment or checkout created it without a delivery quote. Example:
-     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". oneOf[2].delivery_method_id (Required): string or null.
-     * Delivery method chosen for this fulfillment. `null` when the merchant created the
-     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
-     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * oneOf[2].delivery_selection_id (Required): string or null. Delivery selection that created
+     * created it without a delivery quote. Always present with merchant credentials. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". oneOf[2].delivery_execution_leg_id (Optional): string or
+     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
+     * when the merchant created the fulfillment or checkout created it without a delivery quote.
+     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     * oneOf[2].delivery_method_id (Optional): string or null. Delivery method chosen for this
+     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
+     * a delivery quote. Also `null` when it was created before this field was added. Always
+     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * oneOf[2].delivery_selection_id (Optional): string or null. Delivery selection that created
      * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". oneOf[2].device_id
-     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". oneOf[2].digital_details (Optional): {@link
-     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
-     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
-     * `delivery_url`. oneOf[2].dispatched_at (Optional): string. First time this fulfillment
-     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * oneOf[2].external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". oneOf[2].fulfillment_id
-     * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". oneOf[2].line_items (Required): Array of {@link
-     * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * oneOf[2].line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. oneOf[2].local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. oneOf[2].location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * oneOf[2].metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata
-     * associated with the fulfillment. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. oneOf[2].order (Optional): {@link ExpandedOrderSummary} or null. Order summary
-     * returned when the order relationship is expanded. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. oneOf[2].order.anyOf[1]
-     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
-     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * oneOf[2].order.anyOf[2] (Value): null. oneOf[2].order_id (Required): string. Order whose
-     * items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * oneOf[2].order_number (Optional): string. Human-readable number of the order this
-     * fulfillment belongs to. Omitted when the order has no number. oneOf[2].outcome (Optional):
-     * {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when status is
-     * no_show. The terminal outcome recorded for a fulfillment, such as a no-show, with its
-     * reason, notes, and when it occurred. oneOf[2].packages (Optional): Array of {@link
-     * ExpandedPackageSummary}. Packages associated with this fulfillment. oneOf[2].packages[]
-     * (Value): {@link ExpandedPackageSummary}. A package's summary fields, including carrier,
-     * tracking, status, and supported actions, returned when the package is expanded.
-     * oneOf[2].packed_at (Optional): string. First time this fulfillment reached packed. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].picked_at (Optional): string. First
-     * time this fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * oneOf[2].pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup
-     * mode, and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
-     * creates, location_name, address, and instructions name the store the buyer chose and the
-     * delivery method's pickup instructions. The note the buyer left for the store is in
-     * recipient.instructions. oneOf[2].recipient (Optional): {@link FulfillmentRecipient}. Omitted
-     * for a checkout session credential that doesn't act for the customer the buyer verified. The
-     * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
-     * oneOf[2].scheduled_start_at (Required): string or null. Derived start of the service
-     * schedule or pickup, local delivery, or shipment window. Null when no schedule is booked,
-     * including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort
-     * first ascending and last descending, then by fulfillment_id in the same direction. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].service_details (Optional): {@link
-     * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
-     * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
-     * and notes. oneOf[2].shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
-     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
-     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
-     * window, timezone, and when the shipment was handed to the carrier. oneOf[2].shipments
-     * (Optional): Array of {@link ExpandedShipmentSummary}. Shipments associated with this
-     * fulfillment. oneOf[2].shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's
-     * summary fields, including direction, status, and package count, returned when the shipment
-     * is expanded. oneOf[2].status (Required): string. Current fulfillment lifecycle status. Read
-     * supported_actions for available transitions. - `pending`: Work has not started and has not
-     * been accepted. Approval may be required before work can begin. - `accepted`: The provider
-     * accepted the fulfillment; work has not started. - `on_hold`: Work is paused. Release the
-     * hold to restore active_hold.previous_status, or use a supported forward action. -
-     * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The fulfillment
-     * is ready for pickup, handoff, or completion. - `completed`: All fulfillment work completed
-     * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
-     * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded reason
-     * before creating replacement work. - `scheduled`: The fulfillment is scheduled for its
-     * recorded service window. - `preparing`: Warehouse or provider preparation is underway. -
-     * `picked`: The assigned items have been picked. - `packed`: The assigned items have been
-     * packed. - `dispatched`: The fulfillment left its origin for delivery or handoff. -
-     * `no_show`: A service appointment was missed. Read outcome for the recorded reason. Value
-     * enum: "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
-     * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
-     * oneOf[2].supported_actions (Required): Array of string. Read-only lifecycle actions accepted
-     * now, based on the fulfillment, its order payment status, holds, and shipment progress. Empty
-     * when none are available. Values name the verb route with hyphens replaced by underscores. []
-     * enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
-     * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule",
-     * "start". oneOf[2].supported_actions[] (Value): string. Value enum: "accept", "cancel",
-     * "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
-     * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". oneOf[2].terminal_at
-     * (Optional): string. When the fulfillment entered a terminal state: completed, canceled,
-     * failed, or no_show. This records the state transition; completed_at records completion
-     * evidence supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * oneOf[2].type (Required): string. How the items are delivered: shipment, pickup, local
-     * delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery",
-     * "digital", "service", "handover". oneOf[2].updated_at (Required): string. When the
-     * fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". oneOf[2].version (Required): integer. Monotonic fulfillment version
-     * for expected_version checks. Format: uint64. minimum: 1. oneOf[3] (Value): object and {@link
-     * Shipment}. A shipment carrying fulfilled order items. oneOf[3].created_at (Required):
-     * string. Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * oneOf[3].delivered_at (Optional): string. When the shipment was delivered, in RFC3339
-     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[3].direction (Required):
-     * string. Whether the shipment sends items to the buyer or returns items to the merchant.
-     * Value enum: "outbound", "return". oneOf[3].external_reference_id (Optional): string.
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. maxLength: 255.
-     * Example: "warehouse-1842". oneOf[3].external_system (Optional): string. Name of the external
-     * system that external_reference_id belongs to. External references are not unique. Use
-     * Idempotency-Key for retries. oneOf[3].fulfillment_id (Required): string. Fulfillment
-     * associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * oneOf[3].handed_off_at (Optional): string. Carrier handoff timestamp for outbound and return
-     * shipments, using the recorded shipped_at when no separate handoff timestamp exists. For
-     * return shipments, this can satisfy an after_handoff execution gate for the declared
-     * return_line_items. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[3].metadata
-     * (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated with the
-     * shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. oneOf[3].order
-     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
-     * and there is no related order. oneOf[3].order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * oneOf[3].order.anyOf[2] (Value): null. oneOf[3].order_id (Required): string. Order whose
-     * items are transported by the shipment. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     * oneOf[3].package_count (Required): integer. Total number of packages attached to the
-     * shipment, including voided packages. Format: int32. minimum: 0. oneOf[3].packages
-     * (Optional): Array of {@link ExpandedPackageSummary}. Summaries of the shipment's packages in
-     * creation order, returned when the packages relationship is expanded or when the shipment is
-     * created with packages. oneOf[3].packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. oneOf[3].return_id (Optional): string. Return
-     * associated with this shipment, when its direction is return. Example:
+     * without a delivery quote. Always present with merchant credentials. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". oneOf[2].device_id (Optional): string. Device associated
+     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     * oneOf[2].digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+     * delivered (`delivered_at`) and its `delivery_url`. oneOf[2].dispatched_at (Optional):
+     * string. First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". oneOf[2].external_reference_id (Optional): string. Caller-owned
+     * identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". oneOf[2].fulfillment_id (Required): string. Stable identifier of the
+     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". oneOf[2].line_items (Required):
+     * Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to this
+     * fulfillment. oneOf[2].line_items[] (Value): {@link FulfillmentLineItem}. An order line item
+     * and quantity included in a fulfillment, with the modifiers applied to it.
+     * oneOf[2].local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. oneOf[2].location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". oneOf[2].metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. oneOf[2].order (Optional): {@link ExpandedOrderSummary} or
+     * null. Order summary returned when the order relationship is expanded. Present only when
+     * `expand` includes `order`; `null` when expanded and there is no related order.
+     * oneOf[2].order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. oneOf[2].order.anyOf[2] (Value): null. oneOf[2].order_id
+     * (Required): string. Order whose items this fulfillment delivers. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". oneOf[2].order_number (Optional): string. Human-readable
+     * number of the order this fulfillment belongs to. Omitted when the order has no number.
+     * oneOf[2].outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present
+     * exactly when status is no_show. The terminal outcome recorded for a fulfillment, such as a
+     * no-show, with its reason, notes, and when it occurred. oneOf[2].packages (Optional): Array
+     * of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * oneOf[2].packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. oneOf[2].packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". oneOf[2].pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. oneOf[2].recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. oneOf[2].scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * oneOf[2].service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. oneOf[2].shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. oneOf[2].shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. oneOf[2].shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. oneOf[2].status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". oneOf[2].supported_actions (Optional): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. Always present with merchant credentials. [] enum:
+     * "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+     * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+     * oneOf[2].supported_actions[] (Value): string. Value enum: "accept", "cancel", "complete",
+     * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". oneOf[2].terminal_at (Optional): string.
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].type (Required):
+     * string. How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+     * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+     * "handover". oneOf[2].updated_at (Required): string. When the fulfillment was last updated,
+     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". oneOf[2].version
+     * (Required): integer. Monotonic fulfillment version for expected_version checks. Format:
+     * uint64. minimum: 1. oneOf[3] (Value): object and {@link Shipment}. A shipment carrying
+     * fulfilled order items. oneOf[3].created_at (Required): string. Creation timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". oneOf[3].delivered_at (Optional): string. When
+     * the shipment was delivered, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". oneOf[3].direction (Required): string. Whether the shipment sends
+     * items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
+     * oneOf[3].external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. Requires external_system. External references are not unique. Use
+     * Idempotency-Key for retries. maxLength: 255. Example: "warehouse-1842".
+     * oneOf[3].external_system (Optional): string. Name of the external system that
+     * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
+     * for retries. oneOf[3].fulfillment_id (Required): string. Fulfillment associated with this
+     * shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". oneOf[3].handed_off_at (Optional):
+     * string. Carrier handoff timestamp for outbound and return shipments, using the recorded
+     * shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy
+     * an after_handoff execution gate for the declared return_line_items. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". oneOf[3].metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. oneOf[3].order (Optional): {@link ExpandedOrderSummary} or
+     * null. Order summary returned when the order relationship is expanded. Present only when
+     * `expand` includes `order`; `null` when expanded and there is no related order.
+     * oneOf[3].order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. oneOf[3].order.anyOf[2] (Value): null. oneOf[3].order_id
+     * (Required): string. Order whose items are transported by the shipment. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". oneOf[3].package_count (Required): integer. Total number
+     * of packages attached to the shipment, including voided packages. Format: int32. minimum: 0.
+     * oneOf[3].packages (Optional): Array of {@link ExpandedPackageSummary}. Summaries of the
+     * shipment's packages in creation order, returned when the packages relationship is expanded
+     * or when the shipment is created with packages. oneOf[3].packages[] (Value): {@link
+     * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking, status,
+     * and supported actions, returned when the package is expanded. oneOf[3].return_id (Optional):
+     * string. Return associated with this shipment, when its direction is return. Example:
      * "ret_01KEZF7C00PG93650ZKVQNGF7X". oneOf[3].return_line_items (Optional): Array of {@link
      * ReturnHandoffRequirementLineItem}. Return lines and quantities allocated to this return
      * shipment. oneOf[3].return_line_items[] (Value): {@link ReturnHandoffRequirementLineItem}. A
@@ -2366,11 +2407,11 @@ export type ExpandedOrderSummary = {
      */
     "status": "open" | "closed" | (string & {});
     /**
-     * Lifecycle actions Flint accepts on the order now, independent of permissions. [] enum:
-     * "close", "pay", "resolve_inventory_exception". [] (Value): string. Value enum: "close",
-     * "pay", "resolve_inventory_exception".
+     * Lifecycle actions Flint accepts on the order now, independent of permissions. Always present
+     * with merchant credentials. [] enum: "close", "pay", "resolve_inventory_exception". []
+     * (Value): string. Value enum: "close", "pay", "resolve_inventory_exception".
      */
-    "supported_actions": Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
+    "supported_actions"?: Array<"close" | "pay" | "resolve_inventory_exception" | (string & {})>;
     /**
      * When the order was last updated, in RFC3339 format. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
@@ -2439,13 +2480,13 @@ export type ExpandedPackageSummary = {
         | (string & {});
     /**
      * Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to refresh
-     * expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted",
-     * "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed",
-     * "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum: "mark_delivered",
+     * expected_delivery_at. Always present with merchant credentials. [] enum: "mark_delivered",
      * "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery",
-     * "mark_packed", "mark_returned", "mark_shipped", "void".
+     * "mark_packed", "mark_returned", "mark_shipped", "void". [] (Value): string. Value enum:
+     * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
      */
-    "supported_actions": Array<"mark_delivered"
+    "supported_actions"?: Array<"mark_delivered"
         | "mark_delivery_attempted"
         | "mark_exception"
         | "mark_in_transit"
@@ -2560,10 +2601,11 @@ export type ExpandedPaymentIntentSummary = {
      * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
      * merchant list is credential-independent. Checkout credentials receive that list filtered to
      * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
-     * string. Value enum: "confirm", "capture", "cancel".
+     * this field. New actions may be added. Always present with merchant credentials. [] enum:
+     * "confirm", "capture", "cancel". [] (Value): string. Value enum: "confirm", "capture",
+     * "cancel".
      */
-    "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
+    "supported_actions"?: Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at"?: string;
     /**
@@ -2819,10 +2861,10 @@ export type ExpandedShipmentSummary = {
         | (string & {});
     /**
      * Lifecycle actions Flint accepts now, independent of permissions. Contains void while the
-     * shipment and its fulfillment permit voiding. [] enum: "void". [] (Value): string. Value
-     * enum: "void".
+     * shipment and its fulfillment permit voiding. Always present with merchant credentials. []
+     * enum: "void". [] (Value): string. Value enum: "void".
      */
-    "supported_actions": Array<"void" | (string & {})>;
+    "supported_actions"?: Array<"void" | (string & {})>;
     /**
      * When the shipment was last updated, in RFC3339 format. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
@@ -2953,12 +2995,12 @@ export type ExpandedSubscriptionSummary = {
      */
     "subscription_plan_id": string;
     /**
-     * Merchant lifecycle actions accepted by the subscription's current state. [] enum: "cancel",
-     * "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value):
-     * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan",
-     * "change_quantity".
+     * Merchant lifecycle actions accepted by the subscription's current state. Always present with
+     * merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
+     * "change_plan", "change_quantity". [] (Value): string. Value enum: "cancel", "pause",
+     * "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
      */
-    "supported_actions": Array<"cancel"
+    "supported_actions"?: Array<"cancel"
         | "pause"
         | "resume"
         | "skip_cycle"
@@ -4157,7 +4199,30 @@ export type FraudWarningUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "reported_at": string;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<FraudWarning>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "dispute"?: ((((Dispute) | (null))) | (null) | (unknown));
+            "dispute_id"?: ((string | null) | (null) | (unknown));
+            "fraud_type"?: (("card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {}))
+                | (null));
+            "fraud_warning_id"?: ((string) | (null));
+            "is_actionable"?: ((boolean) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_summary"?: ((FraudWarningPaymentSummary) | (null));
+            "reported_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "fraud_warning.updated";
@@ -4185,7 +4250,30 @@ export type FraudWarningUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "reported_at": string;
             "updated_at": string;
         };
-        "previous_attributes"?: Partial<FraudWarning>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "dispute"?: ((((Dispute) | (null))) | (null) | (unknown));
+            "dispute_id"?: ((string | null) | (null) | (unknown));
+            "fraud_type"?: (("card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {}))
+                | (null));
+            "fraud_warning_id"?: ((string) | (null));
+            "is_actionable"?: ((boolean) | (null));
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_summary"?: ((FraudWarningPaymentSummary) | (null));
+            "reported_at"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "fraud_warning.updated";
@@ -4238,6 +4326,63 @@ export type FraudWarningUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * top-level fields in data.object, at this delivery's API version. Nested changes include the
      * whole previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.dispute (Optional): {@link Dispute} or null or null. Present only
+     * when `expand` includes `dispute`; `null` when expanded and there is no related dispute.
+     * previous_attributes.dispute.anyOf[1] (Value): {@link Dispute} or null. Present only when
+     * `expand` includes `dispute`; `null` when expanded and there is no related dispute.
+     * previous_attributes.dispute.anyOf[1].anyOf[1] (Value): {@link Dispute}. A challenge to a
+     * collected payment. previous_attributes.dispute.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.dispute.anyOf[2] (Value): null. previous_attributes.dispute_id
+     * (Optional): string or null or null. The dispute that opened on this payment after the
+     * warning. `null` when no dispute has opened. previous_attributes.dispute_id.anyOf[1] (Value):
+     * string or null. The dispute that opened on this payment after the warning. `null` when no
+     * dispute has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     * previous_attributes.dispute_id.anyOf[2] (Value): null. previous_attributes.fraud_type
+     * (Optional): string or null. The kind of fraud the card network reported. Value enum:
+     * "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card",
+     * "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other".
+     * previous_attributes.fraud_type.anyOf[1] (Value): string. The kind of fraud the card network
+     * reported. Value enum: "card_never_received", "fraudulent_card_application",
+     * "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card",
+     * "unauthorized_use_of_card", "other". previous_attributes.fraud_type.anyOf[2] (Value): null.
+     * previous_attributes.fraud_warning_id (Optional): string or null. Unique identifier for this
+     * fraud warning, prefixed `frw_`. previous_attributes.fraud_warning_id.anyOf[1] (Value):
+     * string. Unique identifier for this fraud warning, prefixed `frw_`. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". previous_attributes.fraud_warning_id.anyOf[2] (Value):
+     * null. previous_attributes.is_actionable (Optional): boolean or null. true until the payment
+     * is refunded in full, a dispute opens on it, or the card network marks the warning resolved;
+     * after that it stays false. A partial refund doesn't change it.
+     * previous_attributes.is_actionable.anyOf[1] (Value): boolean. true until the payment is
+     * refunded in full, a dispute opens on it, or the card network marks the warning resolved;
+     * after that it stays false. A partial refund doesn't change it.
+     * previous_attributes.is_actionable.anyOf[2] (Value): null. previous_attributes.payment_intent
+     * (Optional): {@link ExpandedPaymentIntentSummary} or null or null. Present only when `expand`
+     * includes `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or
+     * null. Present only when `expand` includes `payment_intent`; `null` when expanded and there
+     * is no related payment intent. previous_attributes.payment_intent.anyOf[1].anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+     * status, and capture method, returned when the payment intent is expanded.
+     * previous_attributes.payment_intent.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.payment_intent.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_id (Optional): string or null. ID of the payment the
+     * warning is about. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_summary (Optional): {@link FraudWarningPaymentSummary} or null.
+     * The payment's amount, buyer email, and card, for recognizing it.
+     * previous_attributes.payment_summary.anyOf[1] (Value): {@link FraudWarningPaymentSummary}.
+     * The payment's amount, buyer email, and card, for recognizing it.
+     * previous_attributes.payment_summary.anyOf[2] (Value): null. previous_attributes.reported_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.reported_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.reported_at.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -4332,9 +4477,145 @@ export type FraudWarningUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. created_at (Optional): string or null. RFC3339
+         * timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. dispute (Optional):
+         * {@link Dispute} or null or null. Present only when `expand` includes `dispute`; `null`
+         * when expanded and there is no related dispute. dispute.anyOf[1] (Value): {@link Dispute}
+         * or null. Present only when `expand` includes `dispute`; `null` when expanded and there
+         * is no related dispute. dispute.anyOf[1].anyOf[1] (Value): {@link Dispute}. A challenge
+         * to a collected payment. dispute.anyOf[1].anyOf[2] (Value): null. dispute.anyOf[2]
+         * (Value): null. dispute_id (Optional): string or null or null. The dispute that opened on
+         * this payment after the warning. `null` when no dispute has opened. dispute_id.anyOf[1]
+         * (Value): string or null. The dispute that opened on this payment after the warning.
+         * `null` when no dispute has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+         * dispute_id.anyOf[2] (Value): null. fraud_type (Optional): string or null. The kind of
+         * fraud the card network reported. Value enum: "card_never_received",
+         * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+         * "made_with_stolen_card", "unauthorized_use_of_card", "other". fraud_type.anyOf[1]
+         * (Value): string. The kind of fraud the card network reported. Value enum:
+         * "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card",
+         * "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other".
+         * fraud_type.anyOf[2] (Value): null. fraud_warning_id (Optional): string or null. Unique
+         * identifier for this fraud warning, prefixed `frw_`. fraud_warning_id.anyOf[1] (Value):
+         * string. Unique identifier for this fraud warning, prefixed `frw_`. Example:
+         * "frw_01KEZF7C00WD6W4TAFS0FH851W". fraud_warning_id.anyOf[2] (Value): null. is_actionable
+         * (Optional): boolean or null. true until the payment is refunded in full, a dispute opens
+         * on it, or the card network marks the warning resolved; after that it stays false. A
+         * partial refund doesn't change it. is_actionable.anyOf[1] (Value): boolean. true until
+         * the payment is refunded in full, a dispute opens on it, or the card network marks the
+         * warning resolved; after that it stays false. A partial refund doesn't change it.
+         * is_actionable.anyOf[2] (Value): null. payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary} or null. Present
+         * only when `expand` includes `payment_intent`; `null` when expanded and there is no
+         * related payment intent. payment_intent.anyOf[1].anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded.
+         * payment_intent.anyOf[1].anyOf[2] (Value): null. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment the warning is about.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment the warning is about.
+         * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_summary (Optional): {@link FraudWarningPaymentSummary} or null. The payment's
+         * amount, buyer email, and card, for recognizing it. payment_summary.anyOf[1] (Value):
+         * {@link FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for
+         * recognizing it. payment_summary.anyOf[2] (Value): null. reported_at (Optional): string
+         * or null. RFC3339 timestamp. reported_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". reported_at.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<FraudWarning>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `dispute`; `null` when expanded and there is no
+             * related dispute. anyOf[1] (Value): {@link Dispute} or null. Present only when
+             * `expand` includes `dispute`; `null` when expanded and there is no related dispute.
+             * anyOf[1].anyOf[1] (Value): {@link Dispute}. A challenge to a collected payment.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "dispute"?: ((((Dispute) | (null))) | (null) | (unknown));
+            /**
+             * The dispute that opened on this payment after the warning. `null` when no dispute
+             * has opened. anyOf[1] (Value): string or null. The dispute that opened on this
+             * payment after the warning. `null` when no dispute has opened. Example:
+             * "du_01KEZF7C00DEJSF1KTXRT4BBQD". anyOf[2] (Value): null.
+             */
+            "dispute_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * The kind of fraud the card network reported. Value enum: "card_never_received",
+             * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+             * "made_with_stolen_card", "unauthorized_use_of_card", "other". anyOf[1] (Value):
+             * string. The kind of fraud the card network reported. Value enum:
+             * "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card",
+             * "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other".
+             * anyOf[2] (Value): null.
+             */
+            "fraud_type"?: (("card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Unique identifier for this fraud warning, prefixed `frw_`. anyOf[1] (Value): string.
+             * Unique identifier for this fraud warning, prefixed `frw_`. Example:
+             * "frw_01KEZF7C00WD6W4TAFS0FH851W". anyOf[2] (Value): null.
+             */
+            "fraud_warning_id"?: ((string) | (null));
+            /**
+             * true until the payment is refunded in full, a dispute opens on it, or the card
+             * network marks the warning resolved; after that it stays false. A partial refund
+             * doesn't change it. anyOf[1] (Value): boolean. true until the payment is refunded in
+             * full, a dispute opens on it, or the card network marks the warning resolved; after
+             * that it stays false. A partial refund doesn't change it. anyOf[2] (Value): null.
+             */
+            "is_actionable"?: ((boolean) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}
+             * or null. Present only when `expand` includes `payment_intent`; `null` when expanded
+             * and there is no related payment intent. anyOf[1].anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((((ExpandedPaymentIntentSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the payment the warning is about. anyOf[1] (Value): string. ID of the payment
+             * the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value):
+             * null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * The payment's amount, buyer email, and card, for recognizing it. anyOf[1] (Value):
+             * {@link FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for
+             * recognizing it. anyOf[2] (Value): null.
+             */
+            "payment_summary"?: ((FraudWarningPaymentSummary) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "reported_at"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});

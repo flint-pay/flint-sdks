@@ -33,3 +33,7 @@ Field definitions: [shared fields](SubscriptionActivatedMerchantEvent.md#subscri
 
 Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.object](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1object).
 
+### SubscriptionPausedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1previous_attributes).
+

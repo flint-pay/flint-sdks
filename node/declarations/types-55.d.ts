@@ -10,7 +10,7 @@ import type {
     ReturnLineItemValue,
     ReturnReason
 } from './types-56.js';
-import type { ReturnResolution, ReturnResource, ReturnRefundEstimate, ReturnSourceSystem } from './types-57.js';
+import type { ReturnResolution, ReturnRefundEstimate, ReturnSourceSystem } from './types-57.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelReturnDispositionRequestInput } from './types-4.js';
 import type { CreateReturnDispositionRequestInput, CreateReturnInspectionRequestInput } from './types-12.js';
@@ -472,7 +472,78 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActor) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "return.canceled";
@@ -546,7 +617,78 @@ export type ReturnCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActor) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "return.canceled";
@@ -696,7 +838,276 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * Return. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link ReturnActor} or null. Who
+     * completed the Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[1] (Value): {@link ReturnActor}. Who completed the
+     * Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link ReturnCompletionBlocker}
+     * or null. What is still owed before the Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1] (Value): Array of {@link
+     * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+     * nothing is. previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. previous_attributes.completion_blockers.anyOf[2] (Value): null.
+     * previous_attributes.completion_mode (Optional): string or null. automatic completes the
+     * Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. The customer the Return belongs to.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return belongs
+     * to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.decision_at (Optional): string or null. RFC3339
+     * timestamp. previous_attributes.decision_at.anyOf[1] (Value): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.decision_at.anyOf[2]
+     * (Value): null. previous_attributes.decision_status (Optional): string or null. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[1] (Value): string. Whether the requested units
+     * were approved. `pending` until one decision covers every line. Value enum: "pending",
+     * "approved", "partially_approved", "declined". previous_attributes.decision_status.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link ReturnFinancialSummary} or null.
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. previous_attributes.financial_summary.anyOf[1]
+     * (Value): {@link ReturnFinancialSummary}. The Return's money in one place: the value of the
+     * returned lines, deductions and credits, and what has been refunded or collected.
+     * previous_attributes.financial_summary.anyOf[2] (Value): null.
+     * previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirement} or null. What the buyer still has to send back and where. Each
+     * entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry. previous_attributes.handoff_requirements.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. Who created the
+     * Return, from the credential that sent the request: buyer for a customer session on /v1/me or
+     * Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner
+     * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return, from the
+     * credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted
+     * account, merchant for a Dashboard user, integration for an API key or partner app. It cannot
+     * be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItem} or null. The lines being returned.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines
+     * being returned. previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItem}.
+     * An item included in a return request. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. ID of the Order the Return is against. previous_attributes.order_id.anyOf[1]
+     * (Value): string. ID of the Order the Return is against. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null.
+     * How your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluation}. How
+     * your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition} or null. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.return_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. Unique identifier for this return,
+     * prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string. Unique identifier
+     * for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspection} or null. Present only when `expand` includes `return_inspections`. The
+     * inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link ReturnInspection}.
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     * previous_attributes.return_inspections.anyOf[2] (Value): null.
+     * previous_attributes.return_number (Optional): string or null. Human-readable number for the
+     * Return. previous_attributes.return_number.anyOf[1] (Value): string. Human-readable number
+     * for the Return. previous_attributes.return_number.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link ReturnReceipt} or
+     * null. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. previous_attributes.return_receipts.anyOf[1]
+     * (Value): Array of {@link ReturnReceipt}. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+     * returned items arriving at a location. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolution} or null. Present only when `expand` includes `return_resolutions`. The
+     * resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link ReturnResolution}.
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     * previous_attributes.return_resolutions.anyOf[2] (Value): null.
+     * previous_attributes.shipment_ids (Optional): Array of string or null. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link ExpandedShipmentSummary} or null.
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. previous_attributes.shipments.anyOf[1] (Value): Array of
+     * {@link ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+     * of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded. previous_attributes.shipments.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -1074,9 +1485,602 @@ export type ReturnCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the Return. canceled_by.anyOf[1]
+         * (Value): {@link ReturnActor}. Who canceled the Return. canceled_by.anyOf[2] (Value):
+         * null. cancellation_reason (Optional): string or null. Why the Return was canceled. Value
+         * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+         * "other". cancellation_reason.anyOf[1] (Value): string. Why the Return was canceled.
+         * Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActor} or null. Who completed the Return. `system`
+         * when Flint completed it automatically. completed_by.anyOf[1] (Value): {@link
+         * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically.
+         * completed_by.anyOf[2] (Value): null. completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlocker} or null. What is still owed before the Return can complete.
+         * Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers.anyOf[1][] (Value): {@link ReturnCompletionBlocker}.
+         * Something still owed before a return can complete, with the return line or record it
+         * concerns. completion_blockers.anyOf[2] (Value): null. completion_mode (Optional): string
+         * or null. automatic completes the Return when the last completion blocker clears; manual
+         * waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+         * Value enum: "manual", "automatic". completion_mode.anyOf[1] (Value): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_mode.anyOf[2] (Value): null. completion_reason
+         * (Optional): string or null. Why the Return was completed by hand. Absent when Flint
+         * completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason.anyOf[1] (Value): string. Why the Return was completed by
+         * hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+         * "exception_waived", "other". completion_reason.anyOf[2] (Value): null.
+         * completion_reason_message (Optional): string or null. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[1] (Value): string. Detail sent when
+         * the Return was completed by hand. completion_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link ExpandedCustomerSummary}
+         * or null or null. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+         * when expanded and there is no related customer. customer.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+         * customer ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
+         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
+         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummary} or null. The Return's money in one place: the value of the
+         * returned lines, deductions and credits, and what has been refunded or collected.
+         * financial_summary.anyOf[1] (Value): {@link ReturnFinancialSummary}. The Return's money
+         * in one place: the value of the returned lines, deductions and credits, and what has been
+         * refunded or collected. financial_summary.anyOf[2] (Value): null. handoff_requirements
+         * (Optional): Array of {@link ReturnHandoffRequirement} or null. What the buyer still has
+         * to send back and where. Each entry leaves the list once it is satisfied, so an empty
+         * list means nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array
+         * of {@link ReturnHandoffRequirement}. What the buyer still has to send back and where.
+         * Each entry leaves the list once it is satisfied, so an empty list means nothing is
+         * waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. handoff_requirements.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who created the Return, from the
+         * credential that sent the request: buyer for a customer session on /v1/me or Flint's
+         * hosted account, merchant for a Dashboard user, integration for an API key or partner
+         * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+         * initiated_by.anyOf[1] (Value): string. Who created the Return, from the credential that
+         * sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration". initiated_by.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnLineItem} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items.anyOf[1][] (Value): {@link ReturnLineItem}. An item included in a
+         * return request. line_items.anyOf[2] (Value): null. merchandise_status (Optional): string
+         * or null. On the Return, the least-finished line's value. Value enum: "not_required",
+         * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+         * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+         * "exception". merchandise_status.anyOf[1] (Value): string. On the Return, the
+         * least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value
+         * data. See `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value):
+         * null. order (Optional): {@link ExpandedOrderSummary} or null or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
+         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
+         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null. How your return
+         * policies judged the request when the Return was created. policy_evaluation.anyOf[1]
+         * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. policy_evaluation.anyOf[2] (Value): null. resolution_status
+         * (Optional): string or null. Whether the buyer has received the value they are owed.
+         * Combines the Return's resolutions and its unsettled corrections. Value enum:
+         * "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[1] (Value): string. Whether the buyer has received the
+         * value they are owed. Combines the Return's resolutions and its unsettled corrections.
+         * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+         * "completed", "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids
+         * (Optional): Array of string or null. IDs of every disposition recorded for this Return,
+         * oldest first, including failed and canceled dispositions. Expand `return_dispositions`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1]
+         * (Value): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link ReturnDisposition} or
+         * null. Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions.anyOf[1] (Value): Array
+         * of {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how
+         * returned merchandise will be handled. return_dispositions.anyOf[2] (Value): null.
+         * return_id (Optional): string or null. Unique identifier for this return, prefixed
+         * `ret_`. return_id.anyOf[1] (Value): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null.
+         * return_inspection_ids (Optional): Array of string or null. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspection} or null. Present only
+         * when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`,
+         * in the same order. return_inspections.anyOf[1] (Value): Array of {@link
+         * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections.anyOf[1][]
+         * (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceipt} or null. Present only when
+         * `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same
+         * order. return_receipts.anyOf[1] (Value): Array of {@link ReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+         * returned items arriving at a location. return_receipts.anyOf[2] (Value): null.
+         * return_resolution_ids (Optional): Array of string or null. IDs of every resolution
+         * created for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1] (Value): Array of string. IDs of every resolution created
+         * for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1][] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2] (Value): null.
+         * return_resolutions (Optional): Array of {@link ReturnResolution} or null. Present only
+         * when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`,
+         * in the same order. return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions.anyOf[1][]
+         * (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary} or null. Present only when `expand` includes `shipments`.
+         * Summaries of the shipments in `shipment_ids`, in the same order. shipments.anyOf[1]
+         * (Value): Array of {@link ExpandedShipmentSummary}. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
+         * fields, including direction, status, and package count, returned when the shipment is
+         * expanded. shipments.anyOf[2] (Value): null. status (Optional): string or null. Where the
+         * whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[1] (Value): string. Where the whole Return stands.
+         * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you
+         * need. Value enum: "requested", "open", "completed", "declined", "canceled".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions that can succeed now. Actions the API key or token doesn't have the scope for
+         * are left out. A Return waiting for a decision lists `decide` and `cancel`. An open
+         * Return lists `cancel` only while no units have been received, inspected, dispositioned,
+         * or resolved, and it has no current receipts or inspections, non-canceled dispositions or
+         * resolutions, or non-voided return shipments. It lists `complete` when `completion_mode`
+         * is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A
+         * declined or canceled Return lists none. [] enum: "cancel", "complete", "decide",
+         * "process", "reopen". supported_actions.anyOf[1] (Value): Array of string. Actions that
+         * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+         * "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+             * Return. anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActor}. Who completed the Return. `system` when Flint
+             * completed it automatically. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActor) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+             * Return can complete. Empty when nothing is. anyOf[1][] (Value): {@link
+             * ReturnCompletionBlocker}. Something still owed before a return can complete, with
+             * the return line or record it concerns. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummary}. The Return's money in one place: the value of the returned
+             * lines, deductions and credits, and what has been refunded or collected. anyOf[2]
+             * (Value): null.
+             */
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirement}. What the buyer still has to send
+             * back and where. Each entry leaves the list once it is satisfied, so an empty list
+             * means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+             * destination, instructions, line items, and expiry. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration". anyOf[1] (Value): string. Who created the Return, from
+             * the credential that sent the request: buyer for a customer session on /v1/me or
+             * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+             * partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            /**
+             * The lines being returned. anyOf[1] (Value): Array of {@link ReturnLineItem}. The
+             * lines being returned. anyOf[1][] (Value): {@link ReturnLineItem}. An item included
+             * in a return request. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
+             */
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+             * when the Return was created. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+             * dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnDisposition}. A decision about how returned merchandise will be
+             * handled. anyOf[2] (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+             * inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnInspection}. An assessment of the condition of returned items. anyOf[2]
+             * (Value): null.
+             */
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts
+             * in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value):
+             * null.
+             */
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+             * resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+             * anyOf[2] (Value): null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+             * of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1252,7 +2256,276 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * Return. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link ReturnActor} or null. Who
+     * completed the Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[1] (Value): {@link ReturnActor}. Who completed the
+     * Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link ReturnCompletionBlocker}
+     * or null. What is still owed before the Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1] (Value): Array of {@link
+     * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+     * nothing is. previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. previous_attributes.completion_blockers.anyOf[2] (Value): null.
+     * previous_attributes.completion_mode (Optional): string or null. automatic completes the
+     * Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. The customer the Return belongs to.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return belongs
+     * to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.decision_at (Optional): string or null. RFC3339
+     * timestamp. previous_attributes.decision_at.anyOf[1] (Value): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.decision_at.anyOf[2]
+     * (Value): null. previous_attributes.decision_status (Optional): string or null. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[1] (Value): string. Whether the requested units
+     * were approved. `pending` until one decision covers every line. Value enum: "pending",
+     * "approved", "partially_approved", "declined". previous_attributes.decision_status.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link ReturnFinancialSummary} or null.
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. previous_attributes.financial_summary.anyOf[1]
+     * (Value): {@link ReturnFinancialSummary}. The Return's money in one place: the value of the
+     * returned lines, deductions and credits, and what has been refunded or collected.
+     * previous_attributes.financial_summary.anyOf[2] (Value): null.
+     * previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirement} or null. What the buyer still has to send back and where. Each
+     * entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry. previous_attributes.handoff_requirements.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. Who created the
+     * Return, from the credential that sent the request: buyer for a customer session on /v1/me or
+     * Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner
+     * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return, from the
+     * credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted
+     * account, merchant for a Dashboard user, integration for an API key or partner app. It cannot
+     * be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItem} or null. The lines being returned.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines
+     * being returned. previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItem}.
+     * An item included in a return request. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. ID of the Order the Return is against. previous_attributes.order_id.anyOf[1]
+     * (Value): string. ID of the Order the Return is against. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null.
+     * How your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluation}. How
+     * your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition} or null. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.return_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. Unique identifier for this return,
+     * prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string. Unique identifier
+     * for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspection} or null. Present only when `expand` includes `return_inspections`. The
+     * inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link ReturnInspection}.
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     * previous_attributes.return_inspections.anyOf[2] (Value): null.
+     * previous_attributes.return_number (Optional): string or null. Human-readable number for the
+     * Return. previous_attributes.return_number.anyOf[1] (Value): string. Human-readable number
+     * for the Return. previous_attributes.return_number.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link ReturnReceipt} or
+     * null. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. previous_attributes.return_receipts.anyOf[1]
+     * (Value): Array of {@link ReturnReceipt}. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+     * returned items arriving at a location. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolution} or null. Present only when `expand` includes `return_resolutions`. The
+     * resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link ReturnResolution}.
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     * previous_attributes.return_resolutions.anyOf[2] (Value): null.
+     * previous_attributes.shipment_ids (Optional): Array of string or null. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link ExpandedShipmentSummary} or null.
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. previous_attributes.shipments.anyOf[1] (Value): Array of
+     * {@link ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+     * of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded. previous_attributes.shipments.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -1630,9 +2903,602 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the Return. canceled_by.anyOf[1]
+         * (Value): {@link ReturnActor}. Who canceled the Return. canceled_by.anyOf[2] (Value):
+         * null. cancellation_reason (Optional): string or null. Why the Return was canceled. Value
+         * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+         * "other". cancellation_reason.anyOf[1] (Value): string. Why the Return was canceled.
+         * Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActor} or null. Who completed the Return. `system`
+         * when Flint completed it automatically. completed_by.anyOf[1] (Value): {@link
+         * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically.
+         * completed_by.anyOf[2] (Value): null. completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlocker} or null. What is still owed before the Return can complete.
+         * Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers.anyOf[1][] (Value): {@link ReturnCompletionBlocker}.
+         * Something still owed before a return can complete, with the return line or record it
+         * concerns. completion_blockers.anyOf[2] (Value): null. completion_mode (Optional): string
+         * or null. automatic completes the Return when the last completion blocker clears; manual
+         * waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+         * Value enum: "manual", "automatic". completion_mode.anyOf[1] (Value): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_mode.anyOf[2] (Value): null. completion_reason
+         * (Optional): string or null. Why the Return was completed by hand. Absent when Flint
+         * completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason.anyOf[1] (Value): string. Why the Return was completed by
+         * hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+         * "exception_waived", "other". completion_reason.anyOf[2] (Value): null.
+         * completion_reason_message (Optional): string or null. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[1] (Value): string. Detail sent when
+         * the Return was completed by hand. completion_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link ExpandedCustomerSummary}
+         * or null or null. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+         * when expanded and there is no related customer. customer.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+         * customer ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
+         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
+         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummary} or null. The Return's money in one place: the value of the
+         * returned lines, deductions and credits, and what has been refunded or collected.
+         * financial_summary.anyOf[1] (Value): {@link ReturnFinancialSummary}. The Return's money
+         * in one place: the value of the returned lines, deductions and credits, and what has been
+         * refunded or collected. financial_summary.anyOf[2] (Value): null. handoff_requirements
+         * (Optional): Array of {@link ReturnHandoffRequirement} or null. What the buyer still has
+         * to send back and where. Each entry leaves the list once it is satisfied, so an empty
+         * list means nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array
+         * of {@link ReturnHandoffRequirement}. What the buyer still has to send back and where.
+         * Each entry leaves the list once it is satisfied, so an empty list means nothing is
+         * waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. handoff_requirements.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who created the Return, from the
+         * credential that sent the request: buyer for a customer session on /v1/me or Flint's
+         * hosted account, merchant for a Dashboard user, integration for an API key or partner
+         * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+         * initiated_by.anyOf[1] (Value): string. Who created the Return, from the credential that
+         * sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration". initiated_by.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnLineItem} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items.anyOf[1][] (Value): {@link ReturnLineItem}. An item included in a
+         * return request. line_items.anyOf[2] (Value): null. merchandise_status (Optional): string
+         * or null. On the Return, the least-finished line's value. Value enum: "not_required",
+         * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+         * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+         * "exception". merchandise_status.anyOf[1] (Value): string. On the Return, the
+         * least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value
+         * data. See `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value):
+         * null. order (Optional): {@link ExpandedOrderSummary} or null or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
+         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
+         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null. How your return
+         * policies judged the request when the Return was created. policy_evaluation.anyOf[1]
+         * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. policy_evaluation.anyOf[2] (Value): null. resolution_status
+         * (Optional): string or null. Whether the buyer has received the value they are owed.
+         * Combines the Return's resolutions and its unsettled corrections. Value enum:
+         * "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[1] (Value): string. Whether the buyer has received the
+         * value they are owed. Combines the Return's resolutions and its unsettled corrections.
+         * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+         * "completed", "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids
+         * (Optional): Array of string or null. IDs of every disposition recorded for this Return,
+         * oldest first, including failed and canceled dispositions. Expand `return_dispositions`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1]
+         * (Value): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link ReturnDisposition} or
+         * null. Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions.anyOf[1] (Value): Array
+         * of {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how
+         * returned merchandise will be handled. return_dispositions.anyOf[2] (Value): null.
+         * return_id (Optional): string or null. Unique identifier for this return, prefixed
+         * `ret_`. return_id.anyOf[1] (Value): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null.
+         * return_inspection_ids (Optional): Array of string or null. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspection} or null. Present only
+         * when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`,
+         * in the same order. return_inspections.anyOf[1] (Value): Array of {@link
+         * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections.anyOf[1][]
+         * (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceipt} or null. Present only when
+         * `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same
+         * order. return_receipts.anyOf[1] (Value): Array of {@link ReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+         * returned items arriving at a location. return_receipts.anyOf[2] (Value): null.
+         * return_resolution_ids (Optional): Array of string or null. IDs of every resolution
+         * created for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1] (Value): Array of string. IDs of every resolution created
+         * for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1][] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2] (Value): null.
+         * return_resolutions (Optional): Array of {@link ReturnResolution} or null. Present only
+         * when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`,
+         * in the same order. return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions.anyOf[1][]
+         * (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary} or null. Present only when `expand` includes `shipments`.
+         * Summaries of the shipments in `shipment_ids`, in the same order. shipments.anyOf[1]
+         * (Value): Array of {@link ExpandedShipmentSummary}. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
+         * fields, including direction, status, and package count, returned when the shipment is
+         * expanded. shipments.anyOf[2] (Value): null. status (Optional): string or null. Where the
+         * whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[1] (Value): string. Where the whole Return stands.
+         * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you
+         * need. Value enum: "requested", "open", "completed", "declined", "canceled".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions that can succeed now. Actions the API key or token doesn't have the scope for
+         * are left out. A Return waiting for a decision lists `decide` and `cancel`. An open
+         * Return lists `cancel` only while no units have been received, inspected, dispositioned,
+         * or resolved, and it has no current receipts or inspections, non-canceled dispositions or
+         * resolutions, or non-voided return shipments. It lists `complete` when `completion_mode`
+         * is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A
+         * declined or canceled Return lists none. [] enum: "cancel", "complete", "decide",
+         * "process", "reopen". supported_actions.anyOf[1] (Value): Array of string. Actions that
+         * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+         * "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+             * Return. anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActor}. Who completed the Return. `system` when Flint
+             * completed it automatically. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActor) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+             * Return can complete. Empty when nothing is. anyOf[1][] (Value): {@link
+             * ReturnCompletionBlocker}. Something still owed before a return can complete, with
+             * the return line or record it concerns. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummary}. The Return's money in one place: the value of the returned
+             * lines, deductions and credits, and what has been refunded or collected. anyOf[2]
+             * (Value): null.
+             */
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirement}. What the buyer still has to send
+             * back and where. Each entry leaves the list once it is satisfied, so an empty list
+             * means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+             * destination, instructions, line items, and expiry. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration". anyOf[1] (Value): string. Who created the Return, from
+             * the credential that sent the request: buyer for a customer session on /v1/me or
+             * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+             * partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            /**
+             * The lines being returned. anyOf[1] (Value): Array of {@link ReturnLineItem}. The
+             * lines being returned. anyOf[1][] (Value): {@link ReturnLineItem}. An item included
+             * in a return request. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
+             */
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+             * when the Return was created. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+             * dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnDisposition}. A decision about how returned merchandise will be
+             * handled. anyOf[2] (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+             * inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnInspection}. An assessment of the condition of returned items. anyOf[2]
+             * (Value): null.
+             */
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts
+             * in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value):
+             * null.
+             */
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+             * resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+             * anyOf[2] (Value): null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+             * of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1708,7 +3574,78 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActor) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "return.completed";
@@ -1782,7 +3719,78 @@ export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActor) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "return.completed";
@@ -1932,7 +3940,276 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * Return. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link ReturnActor} or null. Who
+     * completed the Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[1] (Value): {@link ReturnActor}. Who completed the
+     * Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link ReturnCompletionBlocker}
+     * or null. What is still owed before the Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1] (Value): Array of {@link
+     * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+     * nothing is. previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. previous_attributes.completion_blockers.anyOf[2] (Value): null.
+     * previous_attributes.completion_mode (Optional): string or null. automatic completes the
+     * Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. The customer the Return belongs to.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return belongs
+     * to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.decision_at (Optional): string or null. RFC3339
+     * timestamp. previous_attributes.decision_at.anyOf[1] (Value): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.decision_at.anyOf[2]
+     * (Value): null. previous_attributes.decision_status (Optional): string or null. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[1] (Value): string. Whether the requested units
+     * were approved. `pending` until one decision covers every line. Value enum: "pending",
+     * "approved", "partially_approved", "declined". previous_attributes.decision_status.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link ReturnFinancialSummary} or null.
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. previous_attributes.financial_summary.anyOf[1]
+     * (Value): {@link ReturnFinancialSummary}. The Return's money in one place: the value of the
+     * returned lines, deductions and credits, and what has been refunded or collected.
+     * previous_attributes.financial_summary.anyOf[2] (Value): null.
+     * previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirement} or null. What the buyer still has to send back and where. Each
+     * entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry. previous_attributes.handoff_requirements.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. Who created the
+     * Return, from the credential that sent the request: buyer for a customer session on /v1/me or
+     * Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner
+     * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return, from the
+     * credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted
+     * account, merchant for a Dashboard user, integration for an API key or partner app. It cannot
+     * be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItem} or null. The lines being returned.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines
+     * being returned. previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItem}.
+     * An item included in a return request. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. ID of the Order the Return is against. previous_attributes.order_id.anyOf[1]
+     * (Value): string. ID of the Order the Return is against. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null.
+     * How your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluation}. How
+     * your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition} or null. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.return_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. Unique identifier for this return,
+     * prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string. Unique identifier
+     * for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspection} or null. Present only when `expand` includes `return_inspections`. The
+     * inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link ReturnInspection}.
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     * previous_attributes.return_inspections.anyOf[2] (Value): null.
+     * previous_attributes.return_number (Optional): string or null. Human-readable number for the
+     * Return. previous_attributes.return_number.anyOf[1] (Value): string. Human-readable number
+     * for the Return. previous_attributes.return_number.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link ReturnReceipt} or
+     * null. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. previous_attributes.return_receipts.anyOf[1]
+     * (Value): Array of {@link ReturnReceipt}. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+     * returned items arriving at a location. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolution} or null. Present only when `expand` includes `return_resolutions`. The
+     * resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link ReturnResolution}.
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     * previous_attributes.return_resolutions.anyOf[2] (Value): null.
+     * previous_attributes.shipment_ids (Optional): Array of string or null. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link ExpandedShipmentSummary} or null.
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. previous_attributes.shipments.anyOf[1] (Value): Array of
+     * {@link ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+     * of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded. previous_attributes.shipments.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -2310,9 +4587,602 @@ export type ReturnCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the Return. canceled_by.anyOf[1]
+         * (Value): {@link ReturnActor}. Who canceled the Return. canceled_by.anyOf[2] (Value):
+         * null. cancellation_reason (Optional): string or null. Why the Return was canceled. Value
+         * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+         * "other". cancellation_reason.anyOf[1] (Value): string. Why the Return was canceled.
+         * Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActor} or null. Who completed the Return. `system`
+         * when Flint completed it automatically. completed_by.anyOf[1] (Value): {@link
+         * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically.
+         * completed_by.anyOf[2] (Value): null. completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlocker} or null. What is still owed before the Return can complete.
+         * Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers.anyOf[1][] (Value): {@link ReturnCompletionBlocker}.
+         * Something still owed before a return can complete, with the return line or record it
+         * concerns. completion_blockers.anyOf[2] (Value): null. completion_mode (Optional): string
+         * or null. automatic completes the Return when the last completion blocker clears; manual
+         * waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+         * Value enum: "manual", "automatic". completion_mode.anyOf[1] (Value): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_mode.anyOf[2] (Value): null. completion_reason
+         * (Optional): string or null. Why the Return was completed by hand. Absent when Flint
+         * completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason.anyOf[1] (Value): string. Why the Return was completed by
+         * hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+         * "exception_waived", "other". completion_reason.anyOf[2] (Value): null.
+         * completion_reason_message (Optional): string or null. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[1] (Value): string. Detail sent when
+         * the Return was completed by hand. completion_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link ExpandedCustomerSummary}
+         * or null or null. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+         * when expanded and there is no related customer. customer.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+         * customer ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
+         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
+         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummary} or null. The Return's money in one place: the value of the
+         * returned lines, deductions and credits, and what has been refunded or collected.
+         * financial_summary.anyOf[1] (Value): {@link ReturnFinancialSummary}. The Return's money
+         * in one place: the value of the returned lines, deductions and credits, and what has been
+         * refunded or collected. financial_summary.anyOf[2] (Value): null. handoff_requirements
+         * (Optional): Array of {@link ReturnHandoffRequirement} or null. What the buyer still has
+         * to send back and where. Each entry leaves the list once it is satisfied, so an empty
+         * list means nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array
+         * of {@link ReturnHandoffRequirement}. What the buyer still has to send back and where.
+         * Each entry leaves the list once it is satisfied, so an empty list means nothing is
+         * waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. handoff_requirements.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who created the Return, from the
+         * credential that sent the request: buyer for a customer session on /v1/me or Flint's
+         * hosted account, merchant for a Dashboard user, integration for an API key or partner
+         * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+         * initiated_by.anyOf[1] (Value): string. Who created the Return, from the credential that
+         * sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration". initiated_by.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnLineItem} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items.anyOf[1][] (Value): {@link ReturnLineItem}. An item included in a
+         * return request. line_items.anyOf[2] (Value): null. merchandise_status (Optional): string
+         * or null. On the Return, the least-finished line's value. Value enum: "not_required",
+         * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+         * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+         * "exception". merchandise_status.anyOf[1] (Value): string. On the Return, the
+         * least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value
+         * data. See `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value):
+         * null. order (Optional): {@link ExpandedOrderSummary} or null or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
+         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
+         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null. How your return
+         * policies judged the request when the Return was created. policy_evaluation.anyOf[1]
+         * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. policy_evaluation.anyOf[2] (Value): null. resolution_status
+         * (Optional): string or null. Whether the buyer has received the value they are owed.
+         * Combines the Return's resolutions and its unsettled corrections. Value enum:
+         * "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[1] (Value): string. Whether the buyer has received the
+         * value they are owed. Combines the Return's resolutions and its unsettled corrections.
+         * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+         * "completed", "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids
+         * (Optional): Array of string or null. IDs of every disposition recorded for this Return,
+         * oldest first, including failed and canceled dispositions. Expand `return_dispositions`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1]
+         * (Value): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link ReturnDisposition} or
+         * null. Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions.anyOf[1] (Value): Array
+         * of {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how
+         * returned merchandise will be handled. return_dispositions.anyOf[2] (Value): null.
+         * return_id (Optional): string or null. Unique identifier for this return, prefixed
+         * `ret_`. return_id.anyOf[1] (Value): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null.
+         * return_inspection_ids (Optional): Array of string or null. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspection} or null. Present only
+         * when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`,
+         * in the same order. return_inspections.anyOf[1] (Value): Array of {@link
+         * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections.anyOf[1][]
+         * (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceipt} or null. Present only when
+         * `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same
+         * order. return_receipts.anyOf[1] (Value): Array of {@link ReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+         * returned items arriving at a location. return_receipts.anyOf[2] (Value): null.
+         * return_resolution_ids (Optional): Array of string or null. IDs of every resolution
+         * created for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1] (Value): Array of string. IDs of every resolution created
+         * for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1][] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2] (Value): null.
+         * return_resolutions (Optional): Array of {@link ReturnResolution} or null. Present only
+         * when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`,
+         * in the same order. return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions.anyOf[1][]
+         * (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary} or null. Present only when `expand` includes `shipments`.
+         * Summaries of the shipments in `shipment_ids`, in the same order. shipments.anyOf[1]
+         * (Value): Array of {@link ExpandedShipmentSummary}. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
+         * fields, including direction, status, and package count, returned when the shipment is
+         * expanded. shipments.anyOf[2] (Value): null. status (Optional): string or null. Where the
+         * whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[1] (Value): string. Where the whole Return stands.
+         * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you
+         * need. Value enum: "requested", "open", "completed", "declined", "canceled".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions that can succeed now. Actions the API key or token doesn't have the scope for
+         * are left out. A Return waiting for a decision lists `decide` and `cancel`. An open
+         * Return lists `cancel` only while no units have been received, inspected, dispositioned,
+         * or resolved, and it has no current receipts or inspections, non-canceled dispositions or
+         * resolutions, or non-voided return shipments. It lists `complete` when `completion_mode`
+         * is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A
+         * declined or canceled Return lists none. [] enum: "cancel", "complete", "decide",
+         * "process", "reopen". supported_actions.anyOf[1] (Value): Array of string. Actions that
+         * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+         * "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+             * Return. anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActor}. Who completed the Return. `system` when Flint
+             * completed it automatically. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActor) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+             * Return can complete. Empty when nothing is. anyOf[1][] (Value): {@link
+             * ReturnCompletionBlocker}. Something still owed before a return can complete, with
+             * the return line or record it concerns. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummary}. The Return's money in one place: the value of the returned
+             * lines, deductions and credits, and what has been refunded or collected. anyOf[2]
+             * (Value): null.
+             */
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirement}. What the buyer still has to send
+             * back and where. Each entry leaves the list once it is satisfied, so an empty list
+             * means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+             * destination, instructions, line items, and expiry. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration". anyOf[1] (Value): string. Who created the Return, from
+             * the credential that sent the request: buyer for a customer session on /v1/me or
+             * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+             * partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            /**
+             * The lines being returned. anyOf[1] (Value): Array of {@link ReturnLineItem}. The
+             * lines being returned. anyOf[1][] (Value): {@link ReturnLineItem}. An item included
+             * in a return request. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
+             */
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+             * when the Return was created. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+             * dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnDisposition}. A decision about how returned merchandise will be
+             * handled. anyOf[2] (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+             * inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnInspection}. An assessment of the condition of returned items. anyOf[2]
+             * (Value): null.
+             */
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts
+             * in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value):
+             * null.
+             */
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+             * resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+             * anyOf[2] (Value): null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+             * of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2488,7 +5358,276 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * Return. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link ReturnActor} or null. Who
+     * completed the Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[1] (Value): {@link ReturnActor}. Who completed the
+     * Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link ReturnCompletionBlocker}
+     * or null. What is still owed before the Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1] (Value): Array of {@link
+     * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+     * nothing is. previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. previous_attributes.completion_blockers.anyOf[2] (Value): null.
+     * previous_attributes.completion_mode (Optional): string or null. automatic completes the
+     * Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. The customer the Return belongs to.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return belongs
+     * to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.decision_at (Optional): string or null. RFC3339
+     * timestamp. previous_attributes.decision_at.anyOf[1] (Value): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.decision_at.anyOf[2]
+     * (Value): null. previous_attributes.decision_status (Optional): string or null. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[1] (Value): string. Whether the requested units
+     * were approved. `pending` until one decision covers every line. Value enum: "pending",
+     * "approved", "partially_approved", "declined". previous_attributes.decision_status.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link ReturnFinancialSummary} or null.
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. previous_attributes.financial_summary.anyOf[1]
+     * (Value): {@link ReturnFinancialSummary}. The Return's money in one place: the value of the
+     * returned lines, deductions and credits, and what has been refunded or collected.
+     * previous_attributes.financial_summary.anyOf[2] (Value): null.
+     * previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirement} or null. What the buyer still has to send back and where. Each
+     * entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry. previous_attributes.handoff_requirements.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. Who created the
+     * Return, from the credential that sent the request: buyer for a customer session on /v1/me or
+     * Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner
+     * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return, from the
+     * credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted
+     * account, merchant for a Dashboard user, integration for an API key or partner app. It cannot
+     * be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItem} or null. The lines being returned.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines
+     * being returned. previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItem}.
+     * An item included in a return request. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. ID of the Order the Return is against. previous_attributes.order_id.anyOf[1]
+     * (Value): string. ID of the Order the Return is against. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null.
+     * How your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluation}. How
+     * your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition} or null. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.return_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. Unique identifier for this return,
+     * prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string. Unique identifier
+     * for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspection} or null. Present only when `expand` includes `return_inspections`. The
+     * inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link ReturnInspection}.
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     * previous_attributes.return_inspections.anyOf[2] (Value): null.
+     * previous_attributes.return_number (Optional): string or null. Human-readable number for the
+     * Return. previous_attributes.return_number.anyOf[1] (Value): string. Human-readable number
+     * for the Return. previous_attributes.return_number.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link ReturnReceipt} or
+     * null. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. previous_attributes.return_receipts.anyOf[1]
+     * (Value): Array of {@link ReturnReceipt}. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+     * returned items arriving at a location. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolution} or null. Present only when `expand` includes `return_resolutions`. The
+     * resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link ReturnResolution}.
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     * previous_attributes.return_resolutions.anyOf[2] (Value): null.
+     * previous_attributes.shipment_ids (Optional): Array of string or null. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link ExpandedShipmentSummary} or null.
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. previous_attributes.shipments.anyOf[1] (Value): Array of
+     * {@link ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+     * of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded. previous_attributes.shipments.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -2866,9 +6005,602 @@ export type ReturnCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the Return. canceled_by.anyOf[1]
+         * (Value): {@link ReturnActor}. Who canceled the Return. canceled_by.anyOf[2] (Value):
+         * null. cancellation_reason (Optional): string or null. Why the Return was canceled. Value
+         * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+         * "other". cancellation_reason.anyOf[1] (Value): string. Why the Return was canceled.
+         * Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActor} or null. Who completed the Return. `system`
+         * when Flint completed it automatically. completed_by.anyOf[1] (Value): {@link
+         * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically.
+         * completed_by.anyOf[2] (Value): null. completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlocker} or null. What is still owed before the Return can complete.
+         * Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers.anyOf[1][] (Value): {@link ReturnCompletionBlocker}.
+         * Something still owed before a return can complete, with the return line or record it
+         * concerns. completion_blockers.anyOf[2] (Value): null. completion_mode (Optional): string
+         * or null. automatic completes the Return when the last completion blocker clears; manual
+         * waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+         * Value enum: "manual", "automatic". completion_mode.anyOf[1] (Value): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_mode.anyOf[2] (Value): null. completion_reason
+         * (Optional): string or null. Why the Return was completed by hand. Absent when Flint
+         * completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason.anyOf[1] (Value): string. Why the Return was completed by
+         * hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+         * "exception_waived", "other". completion_reason.anyOf[2] (Value): null.
+         * completion_reason_message (Optional): string or null. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[1] (Value): string. Detail sent when
+         * the Return was completed by hand. completion_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link ExpandedCustomerSummary}
+         * or null or null. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+         * when expanded and there is no related customer. customer.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+         * customer ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
+         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
+         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummary} or null. The Return's money in one place: the value of the
+         * returned lines, deductions and credits, and what has been refunded or collected.
+         * financial_summary.anyOf[1] (Value): {@link ReturnFinancialSummary}. The Return's money
+         * in one place: the value of the returned lines, deductions and credits, and what has been
+         * refunded or collected. financial_summary.anyOf[2] (Value): null. handoff_requirements
+         * (Optional): Array of {@link ReturnHandoffRequirement} or null. What the buyer still has
+         * to send back and where. Each entry leaves the list once it is satisfied, so an empty
+         * list means nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array
+         * of {@link ReturnHandoffRequirement}. What the buyer still has to send back and where.
+         * Each entry leaves the list once it is satisfied, so an empty list means nothing is
+         * waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. handoff_requirements.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who created the Return, from the
+         * credential that sent the request: buyer for a customer session on /v1/me or Flint's
+         * hosted account, merchant for a Dashboard user, integration for an API key or partner
+         * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+         * initiated_by.anyOf[1] (Value): string. Who created the Return, from the credential that
+         * sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration". initiated_by.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnLineItem} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items.anyOf[1][] (Value): {@link ReturnLineItem}. An item included in a
+         * return request. line_items.anyOf[2] (Value): null. merchandise_status (Optional): string
+         * or null. On the Return, the least-finished line's value. Value enum: "not_required",
+         * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+         * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+         * "exception". merchandise_status.anyOf[1] (Value): string. On the Return, the
+         * least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value
+         * data. See `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value):
+         * null. order (Optional): {@link ExpandedOrderSummary} or null or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
+         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
+         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null. How your return
+         * policies judged the request when the Return was created. policy_evaluation.anyOf[1]
+         * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. policy_evaluation.anyOf[2] (Value): null. resolution_status
+         * (Optional): string or null. Whether the buyer has received the value they are owed.
+         * Combines the Return's resolutions and its unsettled corrections. Value enum:
+         * "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[1] (Value): string. Whether the buyer has received the
+         * value they are owed. Combines the Return's resolutions and its unsettled corrections.
+         * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+         * "completed", "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids
+         * (Optional): Array of string or null. IDs of every disposition recorded for this Return,
+         * oldest first, including failed and canceled dispositions. Expand `return_dispositions`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1]
+         * (Value): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link ReturnDisposition} or
+         * null. Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions.anyOf[1] (Value): Array
+         * of {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how
+         * returned merchandise will be handled. return_dispositions.anyOf[2] (Value): null.
+         * return_id (Optional): string or null. Unique identifier for this return, prefixed
+         * `ret_`. return_id.anyOf[1] (Value): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null.
+         * return_inspection_ids (Optional): Array of string or null. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspection} or null. Present only
+         * when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`,
+         * in the same order. return_inspections.anyOf[1] (Value): Array of {@link
+         * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections.anyOf[1][]
+         * (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceipt} or null. Present only when
+         * `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same
+         * order. return_receipts.anyOf[1] (Value): Array of {@link ReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+         * returned items arriving at a location. return_receipts.anyOf[2] (Value): null.
+         * return_resolution_ids (Optional): Array of string or null. IDs of every resolution
+         * created for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1] (Value): Array of string. IDs of every resolution created
+         * for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1][] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2] (Value): null.
+         * return_resolutions (Optional): Array of {@link ReturnResolution} or null. Present only
+         * when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`,
+         * in the same order. return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions.anyOf[1][]
+         * (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary} or null. Present only when `expand` includes `shipments`.
+         * Summaries of the shipments in `shipment_ids`, in the same order. shipments.anyOf[1]
+         * (Value): Array of {@link ExpandedShipmentSummary}. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
+         * fields, including direction, status, and package count, returned when the shipment is
+         * expanded. shipments.anyOf[2] (Value): null. status (Optional): string or null. Where the
+         * whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[1] (Value): string. Where the whole Return stands.
+         * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you
+         * need. Value enum: "requested", "open", "completed", "declined", "canceled".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions that can succeed now. Actions the API key or token doesn't have the scope for
+         * are left out. A Return waiting for a decision lists `decide` and `cancel`. An open
+         * Return lists `cancel` only while no units have been received, inspected, dispositioned,
+         * or resolved, and it has no current receipts or inspections, non-canceled dispositions or
+         * resolutions, or non-voided return shipments. It lists `complete` when `completion_mode`
+         * is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A
+         * declined or canceled Return lists none. [] enum: "cancel", "complete", "decide",
+         * "process", "reopen". supported_actions.anyOf[1] (Value): Array of string. Actions that
+         * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+         * "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+             * Return. anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActor}. Who completed the Return. `system` when Flint
+             * completed it automatically. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActor) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+             * Return can complete. Empty when nothing is. anyOf[1][] (Value): {@link
+             * ReturnCompletionBlocker}. Something still owed before a return can complete, with
+             * the return line or record it concerns. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummary}. The Return's money in one place: the value of the returned
+             * lines, deductions and credits, and what has been refunded or collected. anyOf[2]
+             * (Value): null.
+             */
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirement}. What the buyer still has to send
+             * back and where. Each entry leaves the list once it is satisfied, so an empty list
+             * means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+             * destination, instructions, line items, and expiry. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration". anyOf[1] (Value): string. Who created the Return, from
+             * the credential that sent the request: buyer for a customer session on /v1/me or
+             * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+             * partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            /**
+             * The lines being returned. anyOf[1] (Value): Array of {@link ReturnLineItem}. The
+             * lines being returned. anyOf[1][] (Value): {@link ReturnLineItem}. An item included
+             * in a return request. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
+             */
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+             * when the Return was created. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+             * dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnDisposition}. A decision about how returned merchandise will be
+             * handled. anyOf[2] (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+             * inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnInspection}. An assessment of the condition of returned items. anyOf[2]
+             * (Value): null.
+             */
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts
+             * in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value):
+             * null.
+             */
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+             * resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+             * anyOf[2] (Value): null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+             * of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -4198,7 +7930,78 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActor) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "return.decision_recorded";
@@ -4272,7 +8075,78 @@ export type ReturnDecisionRecordedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActor) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "return.decision_recorded";
@@ -4422,7 +8296,276 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * Return. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link ReturnActor} or null. Who
+     * completed the Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[1] (Value): {@link ReturnActor}. Who completed the
+     * Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link ReturnCompletionBlocker}
+     * or null. What is still owed before the Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1] (Value): Array of {@link
+     * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+     * nothing is. previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. previous_attributes.completion_blockers.anyOf[2] (Value): null.
+     * previous_attributes.completion_mode (Optional): string or null. automatic completes the
+     * Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. The customer the Return belongs to.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return belongs
+     * to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.decision_at (Optional): string or null. RFC3339
+     * timestamp. previous_attributes.decision_at.anyOf[1] (Value): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.decision_at.anyOf[2]
+     * (Value): null. previous_attributes.decision_status (Optional): string or null. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[1] (Value): string. Whether the requested units
+     * were approved. `pending` until one decision covers every line. Value enum: "pending",
+     * "approved", "partially_approved", "declined". previous_attributes.decision_status.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link ReturnFinancialSummary} or null.
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. previous_attributes.financial_summary.anyOf[1]
+     * (Value): {@link ReturnFinancialSummary}. The Return's money in one place: the value of the
+     * returned lines, deductions and credits, and what has been refunded or collected.
+     * previous_attributes.financial_summary.anyOf[2] (Value): null.
+     * previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirement} or null. What the buyer still has to send back and where. Each
+     * entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry. previous_attributes.handoff_requirements.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. Who created the
+     * Return, from the credential that sent the request: buyer for a customer session on /v1/me or
+     * Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner
+     * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return, from the
+     * credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted
+     * account, merchant for a Dashboard user, integration for an API key or partner app. It cannot
+     * be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItem} or null. The lines being returned.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines
+     * being returned. previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItem}.
+     * An item included in a return request. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. ID of the Order the Return is against. previous_attributes.order_id.anyOf[1]
+     * (Value): string. ID of the Order the Return is against. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null.
+     * How your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluation}. How
+     * your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition} or null. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.return_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. Unique identifier for this return,
+     * prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string. Unique identifier
+     * for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspection} or null. Present only when `expand` includes `return_inspections`. The
+     * inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link ReturnInspection}.
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     * previous_attributes.return_inspections.anyOf[2] (Value): null.
+     * previous_attributes.return_number (Optional): string or null. Human-readable number for the
+     * Return. previous_attributes.return_number.anyOf[1] (Value): string. Human-readable number
+     * for the Return. previous_attributes.return_number.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link ReturnReceipt} or
+     * null. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. previous_attributes.return_receipts.anyOf[1]
+     * (Value): Array of {@link ReturnReceipt}. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+     * returned items arriving at a location. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolution} or null. Present only when `expand` includes `return_resolutions`. The
+     * resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link ReturnResolution}.
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     * previous_attributes.return_resolutions.anyOf[2] (Value): null.
+     * previous_attributes.shipment_ids (Optional): Array of string or null. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link ExpandedShipmentSummary} or null.
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. previous_attributes.shipments.anyOf[1] (Value): Array of
+     * {@link ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+     * of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded. previous_attributes.shipments.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -4800,9 +8943,602 @@ export type ReturnDecisionRecordedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the Return. canceled_by.anyOf[1]
+         * (Value): {@link ReturnActor}. Who canceled the Return. canceled_by.anyOf[2] (Value):
+         * null. cancellation_reason (Optional): string or null. Why the Return was canceled. Value
+         * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+         * "other". cancellation_reason.anyOf[1] (Value): string. Why the Return was canceled.
+         * Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActor} or null. Who completed the Return. `system`
+         * when Flint completed it automatically. completed_by.anyOf[1] (Value): {@link
+         * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically.
+         * completed_by.anyOf[2] (Value): null. completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlocker} or null. What is still owed before the Return can complete.
+         * Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers.anyOf[1][] (Value): {@link ReturnCompletionBlocker}.
+         * Something still owed before a return can complete, with the return line or record it
+         * concerns. completion_blockers.anyOf[2] (Value): null. completion_mode (Optional): string
+         * or null. automatic completes the Return when the last completion blocker clears; manual
+         * waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+         * Value enum: "manual", "automatic". completion_mode.anyOf[1] (Value): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_mode.anyOf[2] (Value): null. completion_reason
+         * (Optional): string or null. Why the Return was completed by hand. Absent when Flint
+         * completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason.anyOf[1] (Value): string. Why the Return was completed by
+         * hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+         * "exception_waived", "other". completion_reason.anyOf[2] (Value): null.
+         * completion_reason_message (Optional): string or null. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[1] (Value): string. Detail sent when
+         * the Return was completed by hand. completion_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link ExpandedCustomerSummary}
+         * or null or null. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+         * when expanded and there is no related customer. customer.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+         * customer ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
+         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
+         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummary} or null. The Return's money in one place: the value of the
+         * returned lines, deductions and credits, and what has been refunded or collected.
+         * financial_summary.anyOf[1] (Value): {@link ReturnFinancialSummary}. The Return's money
+         * in one place: the value of the returned lines, deductions and credits, and what has been
+         * refunded or collected. financial_summary.anyOf[2] (Value): null. handoff_requirements
+         * (Optional): Array of {@link ReturnHandoffRequirement} or null. What the buyer still has
+         * to send back and where. Each entry leaves the list once it is satisfied, so an empty
+         * list means nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array
+         * of {@link ReturnHandoffRequirement}. What the buyer still has to send back and where.
+         * Each entry leaves the list once it is satisfied, so an empty list means nothing is
+         * waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. handoff_requirements.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who created the Return, from the
+         * credential that sent the request: buyer for a customer session on /v1/me or Flint's
+         * hosted account, merchant for a Dashboard user, integration for an API key or partner
+         * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+         * initiated_by.anyOf[1] (Value): string. Who created the Return, from the credential that
+         * sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration". initiated_by.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnLineItem} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items.anyOf[1][] (Value): {@link ReturnLineItem}. An item included in a
+         * return request. line_items.anyOf[2] (Value): null. merchandise_status (Optional): string
+         * or null. On the Return, the least-finished line's value. Value enum: "not_required",
+         * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+         * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+         * "exception". merchandise_status.anyOf[1] (Value): string. On the Return, the
+         * least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value
+         * data. See `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value):
+         * null. order (Optional): {@link ExpandedOrderSummary} or null or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
+         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
+         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null. How your return
+         * policies judged the request when the Return was created. policy_evaluation.anyOf[1]
+         * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. policy_evaluation.anyOf[2] (Value): null. resolution_status
+         * (Optional): string or null. Whether the buyer has received the value they are owed.
+         * Combines the Return's resolutions and its unsettled corrections. Value enum:
+         * "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[1] (Value): string. Whether the buyer has received the
+         * value they are owed. Combines the Return's resolutions and its unsettled corrections.
+         * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+         * "completed", "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids
+         * (Optional): Array of string or null. IDs of every disposition recorded for this Return,
+         * oldest first, including failed and canceled dispositions. Expand `return_dispositions`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1]
+         * (Value): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link ReturnDisposition} or
+         * null. Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions.anyOf[1] (Value): Array
+         * of {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how
+         * returned merchandise will be handled. return_dispositions.anyOf[2] (Value): null.
+         * return_id (Optional): string or null. Unique identifier for this return, prefixed
+         * `ret_`. return_id.anyOf[1] (Value): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null.
+         * return_inspection_ids (Optional): Array of string or null. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspection} or null. Present only
+         * when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`,
+         * in the same order. return_inspections.anyOf[1] (Value): Array of {@link
+         * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections.anyOf[1][]
+         * (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceipt} or null. Present only when
+         * `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same
+         * order. return_receipts.anyOf[1] (Value): Array of {@link ReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+         * returned items arriving at a location. return_receipts.anyOf[2] (Value): null.
+         * return_resolution_ids (Optional): Array of string or null. IDs of every resolution
+         * created for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1] (Value): Array of string. IDs of every resolution created
+         * for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1][] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2] (Value): null.
+         * return_resolutions (Optional): Array of {@link ReturnResolution} or null. Present only
+         * when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`,
+         * in the same order. return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions.anyOf[1][]
+         * (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary} or null. Present only when `expand` includes `shipments`.
+         * Summaries of the shipments in `shipment_ids`, in the same order. shipments.anyOf[1]
+         * (Value): Array of {@link ExpandedShipmentSummary}. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
+         * fields, including direction, status, and package count, returned when the shipment is
+         * expanded. shipments.anyOf[2] (Value): null. status (Optional): string or null. Where the
+         * whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[1] (Value): string. Where the whole Return stands.
+         * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you
+         * need. Value enum: "requested", "open", "completed", "declined", "canceled".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions that can succeed now. Actions the API key or token doesn't have the scope for
+         * are left out. A Return waiting for a decision lists `decide` and `cancel`. An open
+         * Return lists `cancel` only while no units have been received, inspected, dispositioned,
+         * or resolved, and it has no current receipts or inspections, non-canceled dispositions or
+         * resolutions, or non-voided return shipments. It lists `complete` when `completion_mode`
+         * is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A
+         * declined or canceled Return lists none. [] enum: "cancel", "complete", "decide",
+         * "process", "reopen". supported_actions.anyOf[1] (Value): Array of string. Actions that
+         * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+         * "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+             * Return. anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActor}. Who completed the Return. `system` when Flint
+             * completed it automatically. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActor) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+             * Return can complete. Empty when nothing is. anyOf[1][] (Value): {@link
+             * ReturnCompletionBlocker}. Something still owed before a return can complete, with
+             * the return line or record it concerns. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummary}. The Return's money in one place: the value of the returned
+             * lines, deductions and credits, and what has been refunded or collected. anyOf[2]
+             * (Value): null.
+             */
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirement}. What the buyer still has to send
+             * back and where. Each entry leaves the list once it is satisfied, so an empty list
+             * means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+             * destination, instructions, line items, and expiry. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration". anyOf[1] (Value): string. Who created the Return, from
+             * the credential that sent the request: buyer for a customer session on /v1/me or
+             * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+             * partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            /**
+             * The lines being returned. anyOf[1] (Value): Array of {@link ReturnLineItem}. The
+             * lines being returned. anyOf[1][] (Value): {@link ReturnLineItem}. An item included
+             * in a return request. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
+             */
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+             * when the Return was created. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+             * dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnDisposition}. A decision about how returned merchandise will be
+             * handled. anyOf[2] (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+             * inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnInspection}. An assessment of the condition of returned items. anyOf[2]
+             * (Value): null.
+             */
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts
+             * in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value):
+             * null.
+             */
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+             * resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+             * anyOf[2] (Value): null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+             * of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -4978,7 +9714,276 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the Return.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * Return. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the Return was
+     * canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+     * "created_in_error", "other". previous_attributes.cancellation_reason.anyOf[1] (Value):
+     * string. Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.completed_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.completed_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.completed_by (Optional): {@link ReturnActor} or null. Who
+     * completed the Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[1] (Value): {@link ReturnActor}. Who completed the
+     * Return. `system` when Flint completed it automatically.
+     * previous_attributes.completed_by.anyOf[2] (Value): null.
+     * previous_attributes.completion_blockers (Optional): Array of {@link ReturnCompletionBlocker}
+     * or null. What is still owed before the Return can complete. Empty when nothing is.
+     * previous_attributes.completion_blockers.anyOf[1] (Value): Array of {@link
+     * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+     * nothing is. previous_attributes.completion_blockers.anyOf[1][] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns. previous_attributes.completion_blockers.anyOf[2] (Value): null.
+     * previous_attributes.completion_mode (Optional): string or null. automatic completes the
+     * Return when the last completion blocker clears; manual waits for POST
+     * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[1] (Value): string.
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic". previous_attributes.completion_mode.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason (Optional): string or null. Why the Return was
+     * completed by hand. Absent when Flint completed it automatically. Value enum:
+     * "manual_completion", "exception_waived", "other".
+     * previous_attributes.completion_reason.anyOf[1] (Value): string. Why the Return was completed
+     * by hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+     * "exception_waived", "other". previous_attributes.completion_reason.anyOf[2] (Value): null.
+     * previous_attributes.completion_reason_message (Optional): string or null. Detail sent when
+     * the Return was completed by hand. previous_attributes.completion_reason_message.anyOf[1]
+     * (Value): string. Detail sent when the Return was completed by hand.
+     * previous_attributes.completion_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link ExpandedCustomerSummary} or null or
+     * null. Present only when `expand` includes `customer`; `null` when expanded and there is no
+     * related customer. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
+     * previous_attributes.customer.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.customer.anyOf[2] (Value): null. previous_attributes.customer_id
+     * (Optional): string or null. The customer the Return belongs to.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The customer the Return belongs
+     * to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2]
+     * (Value): null. previous_attributes.decision_at (Optional): string or null. RFC3339
+     * timestamp. previous_attributes.decision_at.anyOf[1] (Value): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.decision_at.anyOf[2]
+     * (Value): null. previous_attributes.decision_status (Optional): string or null. Whether the
+     * requested units were approved. `pending` until one decision covers every line. Value enum:
+     * "pending", "approved", "partially_approved", "declined".
+     * previous_attributes.decision_status.anyOf[1] (Value): string. Whether the requested units
+     * were approved. `pending` until one decision covers every line. Value enum: "pending",
+     * "approved", "partially_approved", "declined". previous_attributes.decision_status.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.financial_summary (Optional): {@link ReturnFinancialSummary} or null.
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. previous_attributes.financial_summary.anyOf[1]
+     * (Value): {@link ReturnFinancialSummary}. The Return's money in one place: the value of the
+     * returned lines, deductions and credits, and what has been refunded or collected.
+     * previous_attributes.financial_summary.anyOf[2] (Value): null.
+     * previous_attributes.handoff_requirements (Optional): Array of {@link
+     * ReturnHandoffRequirement} or null. What the buyer still has to send back and where. Each
+     * entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1] (Value): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. previous_attributes.handoff_requirements.anyOf[1][] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry. previous_attributes.handoff_requirements.anyOf[2]
+     * (Value): null. previous_attributes.initiated_by (Optional): string or null. Who created the
+     * Return, from the credential that sent the request: buyer for a customer session on /v1/me or
+     * Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner
+     * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[1] (Value): string. Who created the Return, from the
+     * credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted
+     * account, merchant for a Dashboard user, integration for an API key or partner app. It cannot
+     * be sent. Value enum: "buyer", "merchant", "integration".
+     * previous_attributes.initiated_by.anyOf[2] (Value): null. previous_attributes.line_items
+     * (Optional): Array of {@link ReturnLineItem} or null. The lines being returned.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines
+     * being returned. previous_attributes.line_items.anyOf[1][] (Value): {@link ReturnLineItem}.
+     * An item included in a return request. previous_attributes.line_items.anyOf[2] (Value): null.
+     * previous_attributes.merchandise_status (Optional): string or null. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[1] (Value): string. On the Return, the
+     * least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     * previous_attributes.merchandise_status.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for
+     * key, value, and size rules. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.order (Optional): {@link ExpandedOrderSummary} or null or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * previous_attributes.order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+     * order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded.
+     * previous_attributes.order.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. ID of the Order the Return is against. previous_attributes.order_id.anyOf[1]
+     * (Value): string. ID of the Order the Return is against. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null.
+     * How your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[1] (Value): {@link ReturnPolicyEvaluation}. How
+     * your return policies judged the request when the Return was created.
+     * previous_attributes.policy_evaluation.anyOf[2] (Value): null.
+     * previous_attributes.resolution_status (Optional): string or null. Whether the buyer has
+     * received the value they are owed. Combines the Return's resolutions and its unsettled
+     * corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed". previous_attributes.resolution_status.anyOf[1]
+     * (Value): string. Whether the buyer has received the value they are owed. Combines the
+     * Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+     * "partially_completed", "requires_action", "completed", "failed".
+     * previous_attributes.resolution_status.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_ids (Optional): Array of string or null. IDs of every
+     * disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1] (Value): Array of string. IDs of
+     * every disposition recorded for this Return, oldest first, including failed and canceled
+     * dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_disposition_ids.anyOf[1][] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". previous_attributes.return_disposition_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition} or null. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order.
+     * previous_attributes.return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.return_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. Unique identifier for this return,
+     * prefixed `ret_`. previous_attributes.return_id.anyOf[1] (Value): string. Unique identifier
+     * for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_ids (Optional): Array of string or null. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every
+     * inspection recorded for this Return, oldest first, including superseded inspections. Expand
+     * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_inspection_ids.anyOf[1][] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". previous_attributes.return_inspection_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_inspections (Optional): Array of {@link
+     * ReturnInspection} or null. Present only when `expand` includes `return_inspections`. The
+     * inspections in `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1] (Value): Array of {@link ReturnInspection}.
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order.
+     * previous_attributes.return_inspections.anyOf[1][] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     * previous_attributes.return_inspections.anyOf[2] (Value): null.
+     * previous_attributes.return_number (Optional): string or null. Human-readable number for the
+     * Return. previous_attributes.return_number.anyOf[1] (Value): string. Human-readable number
+     * for the Return. previous_attributes.return_number.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_ids (Optional): Array of string or null. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1] (Value): Array of string. IDs of every
+     * receipt recorded for this Return, oldest first, including superseded receipts. Expand
+     * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.return_receipt_ids.anyOf[1][] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_ids.anyOf[2] (Value):
+     * null. previous_attributes.return_receipts (Optional): Array of {@link ReturnReceipt} or
+     * null. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. previous_attributes.return_receipts.anyOf[1]
+     * (Value): Array of {@link ReturnReceipt}. Present only when `expand` includes
+     * `return_receipts`. The receipts in `return_receipt_ids`, in the same order.
+     * previous_attributes.return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+     * returned items arriving at a location. previous_attributes.return_receipts.anyOf[2] (Value):
+     * null. previous_attributes.return_resolution_ids (Optional): Array of string or null. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1] (Value): Array of string. IDs of
+     * every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. previous_attributes.return_resolution_ids.anyOf[1][] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". previous_attributes.return_resolution_ids.anyOf[2]
+     * (Value): null. previous_attributes.return_resolutions (Optional): Array of {@link
+     * ReturnResolution} or null. Present only when `expand` includes `return_resolutions`. The
+     * resolutions in `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1] (Value): Array of {@link ReturnResolution}.
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order.
+     * previous_attributes.return_resolutions.anyOf[1][] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     * previous_attributes.return_resolutions.anyOf[2] (Value): null.
+     * previous_attributes.shipment_ids (Optional): Array of string or null. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+     * raised to send this Return's items back, oldest first, including voided shipments. Expand
+     * `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * previous_attributes.shipment_ids.anyOf[1][] (Value): string. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68". previous_attributes.shipment_ids.anyOf[2] (Value): null.
+     * previous_attributes.shipments (Optional): Array of {@link ExpandedShipmentSummary} or null.
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. previous_attributes.shipments.anyOf[1] (Value): Array of
+     * {@link ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+     * of the shipments in `shipment_ids`, in the same order.
+     * previous_attributes.shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded. previous_attributes.shipments.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the whole Return stands. Read
+     * `decision_status`, `merchandise_status`, and `resolution_status` for the part you need.
+     * Value enum: "requested", "open", "completed", "declined", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Actions the API key or
+     * token doesn't have the scope for are left out. A Return waiting for a decision lists
+     * `decide` and `cancel`. An open Return lists `cancel` only while no units have been received,
+     * inspected, dispositioned, or resolved, and it has no current receipts or inspections,
+     * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+     * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+     * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+     * "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions that can
+     * succeed now. Actions the API key or token doesn't have the scope for are left out. A Return
+     * waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while
+     * no units have been received, inspected, dispositioned, or resolved, and it has no current
+     * receipts or inspections, non-canceled dispositions or resolutions, or non-voided return
+     * shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers`
+     * is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. []
+     * enum: "cancel", "complete", "decide", "process", "reopen".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "process", "reopen". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Goes up with every change to
+     * the Return. Each activity's `return_version` is the version that activity produced. A write
+     * that takes `expected_version` or `expected_return_version` for this Return compares it with
+     * this value. previous_attributes.version.anyOf[1] (Value): integer. Goes up with every change
+     * to the Return. Each activity's `return_version` is the version that activity produced. A
+     * write that takes `expected_version` or `expected_return_version` for this Return compares it
+     * with this value. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value):
+     * null.
      */
     "data"?: {
         /**
@@ -5356,9 +10361,602 @@ export type ReturnDecisionRecordedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the Return. canceled_by.anyOf[1]
+         * (Value): {@link ReturnActor}. Who canceled the Return. canceled_by.anyOf[2] (Value):
+         * null. cancellation_reason (Optional): string or null. Why the Return was canceled. Value
+         * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+         * "other". cancellation_reason.anyOf[1] (Value): string. Why the Return was canceled.
+         * Value enum: "buyer_request", "merchant_request", "duplicate", "expired",
+         * "created_in_error", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. completed_at (Optional): string or
+         * null. RFC3339 timestamp. completed_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2] (Value): null.
+         * completed_by (Optional): {@link ReturnActor} or null. Who completed the Return. `system`
+         * when Flint completed it automatically. completed_by.anyOf[1] (Value): {@link
+         * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically.
+         * completed_by.anyOf[2] (Value): null. completion_blockers (Optional): Array of {@link
+         * ReturnCompletionBlocker} or null. What is still owed before the Return can complete.
+         * Empty when nothing is. completion_blockers.anyOf[1] (Value): Array of {@link
+         * ReturnCompletionBlocker}. What is still owed before the Return can complete. Empty when
+         * nothing is. completion_blockers.anyOf[1][] (Value): {@link ReturnCompletionBlocker}.
+         * Something still owed before a return can complete, with the return line or record it
+         * concerns. completion_blockers.anyOf[2] (Value): null. completion_mode (Optional): string
+         * or null. automatic completes the Return when the last completion blocker clears; manual
+         * waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+         * Value enum: "manual", "automatic". completion_mode.anyOf[1] (Value): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_mode.anyOf[2] (Value): null. completion_reason
+         * (Optional): string or null. Why the Return was completed by hand. Absent when Flint
+         * completed it automatically. Value enum: "manual_completion", "exception_waived",
+         * "other". completion_reason.anyOf[1] (Value): string. Why the Return was completed by
+         * hand. Absent when Flint completed it automatically. Value enum: "manual_completion",
+         * "exception_waived", "other". completion_reason.anyOf[2] (Value): null.
+         * completion_reason_message (Optional): string or null. Detail sent when the Return was
+         * completed by hand. completion_reason_message.anyOf[1] (Value): string. Detail sent when
+         * the Return was completed by hand. completion_reason_message.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. customer (Optional): {@link ExpandedCustomerSummary}
+         * or null or null. Present only when `expand` includes `customer`; `null` when expanded
+         * and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+         * when expanded and there is no related customer. customer.anyOf[1].anyOf[1] (Value):
+         * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+         * customer ID when the customer is expanded. customer.anyOf[1].anyOf[2] (Value): null.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer
+         * the Return belongs to. customer_id.anyOf[1] (Value): string. The customer the Return
+         * belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value):
+         * null. decision_at (Optional): string or null. RFC3339 timestamp. decision_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * decision_at.anyOf[2] (Value): null. decision_status (Optional): string or null. Whether
+         * the requested units were approved. `pending` until one decision covers every line. Value
+         * enum: "pending", "approved", "partially_approved", "declined". decision_status.anyOf[1]
+         * (Value): string. Whether the requested units were approved. `pending` until one decision
+         * covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * decision_status.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. financial_summary (Optional): {@link
+         * ReturnFinancialSummary} or null. The Return's money in one place: the value of the
+         * returned lines, deductions and credits, and what has been refunded or collected.
+         * financial_summary.anyOf[1] (Value): {@link ReturnFinancialSummary}. The Return's money
+         * in one place: the value of the returned lines, deductions and credits, and what has been
+         * refunded or collected. financial_summary.anyOf[2] (Value): null. handoff_requirements
+         * (Optional): Array of {@link ReturnHandoffRequirement} or null. What the buyer still has
+         * to send back and where. Each entry leaves the list once it is satisfied, so an empty
+         * list means nothing is waiting on the buyer. handoff_requirements.anyOf[1] (Value): Array
+         * of {@link ReturnHandoffRequirement}. What the buyer still has to send back and where.
+         * Each entry leaves the list once it is satisfied, so an empty list means nothing is
+         * waiting on the buyer. handoff_requirements.anyOf[1][] (Value): {@link
+         * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+         * destination, instructions, line items, and expiry. handoff_requirements.anyOf[2]
+         * (Value): null. initiated_by (Optional): string or null. Who created the Return, from the
+         * credential that sent the request: buyer for a customer session on /v1/me or Flint's
+         * hosted account, merchant for a Dashboard user, integration for an API key or partner
+         * app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+         * initiated_by.anyOf[1] (Value): string. Who created the Return, from the credential that
+         * sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+         * merchant for a Dashboard user, integration for an API key or partner app. It cannot be
+         * sent. Value enum: "buyer", "merchant", "integration". initiated_by.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnLineItem} or null. The lines being
+         * returned. line_items.anyOf[1] (Value): Array of {@link ReturnLineItem}. The lines being
+         * returned. line_items.anyOf[1][] (Value): {@link ReturnLineItem}. An item included in a
+         * return request. line_items.anyOf[2] (Value): null. merchandise_status (Optional): string
+         * or null. On the Return, the least-finished line's value. Value enum: "not_required",
+         * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+         * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+         * "exception". merchandise_status.anyOf[1] (Value): string. On the Return, the
+         * least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception".
+         * merchandise_status.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap} or
+         * null. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+         * rules. metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value
+         * data. See `MetadataInput` for key, value, and size rules. metadata.anyOf[2] (Value):
+         * null. order (Optional): {@link ExpandedOrderSummary} or null or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[1].anyOf[2] (Value): null.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the Order the
+         * Return is against. order_id.anyOf[1] (Value): string. ID of the Order the Return is
+         * against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * policy_evaluation (Optional): {@link ReturnPolicyEvaluation} or null. How your return
+         * policies judged the request when the Return was created. policy_evaluation.anyOf[1]
+         * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. policy_evaluation.anyOf[2] (Value): null. resolution_status
+         * (Optional): string or null. Whether the buyer has received the value they are owed.
+         * Combines the Return's resolutions and its unsettled corrections. Value enum:
+         * "not_selected", "pending", "partially_completed", "requires_action", "completed",
+         * "failed". resolution_status.anyOf[1] (Value): string. Whether the buyer has received the
+         * value they are owed. Combines the Return's resolutions and its unsettled corrections.
+         * Value enum: "not_selected", "pending", "partially_completed", "requires_action",
+         * "completed", "failed". resolution_status.anyOf[2] (Value): null. return_disposition_ids
+         * (Optional): Array of string or null. IDs of every disposition recorded for this Return,
+         * oldest first, including failed and canceled dispositions. Expand `return_dispositions`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1]
+         * (Value): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids.anyOf[1][] (Value):
+         * string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_disposition_ids.anyOf[2]
+         * (Value): null. return_dispositions (Optional): Array of {@link ReturnDisposition} or
+         * null. Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions.anyOf[1] (Value): Array
+         * of {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order.
+         * return_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how
+         * returned merchandise will be handled. return_dispositions.anyOf[2] (Value): null.
+         * return_id (Optional): string or null. Unique identifier for this return, prefixed
+         * `ret_`. return_id.anyOf[1] (Value): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null.
+         * return_inspection_ids (Optional): Array of string or null. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1] (Value): Array of string. IDs of every inspection
+         * recorded for this Return, oldest first, including superseded inspections. Expand
+         * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_inspection_ids.anyOf[1][] (Value): string. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspection_ids.anyOf[2] (Value): null.
+         * return_inspections (Optional): Array of {@link ReturnInspection} or null. Present only
+         * when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`,
+         * in the same order. return_inspections.anyOf[1] (Value): Array of {@link
+         * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections.anyOf[1][]
+         * (Value): {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_inspections.anyOf[2] (Value): null. return_number (Optional): string or null.
+         * Human-readable number for the Return. return_number.anyOf[1] (Value): string.
+         * Human-readable number for the Return. return_number.anyOf[2] (Value): null.
+         * return_receipt_ids (Optional): Array of string or null. IDs of every receipt recorded
+         * for this Return, oldest first, including superseded receipts. Expand `return_receipts`
+         * on `GET /v1/returns/{return_id}` to read them inline. return_receipt_ids.anyOf[1]
+         * (Value): Array of string. IDs of every receipt recorded for this Return, oldest first,
+         * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_receipt_ids.anyOf[1][] (Value): string. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_ids.anyOf[2] (Value): null.
+         * return_receipts (Optional): Array of {@link ReturnReceipt} or null. Present only when
+         * `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same
+         * order. return_receipts.anyOf[1] (Value): Array of {@link ReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts.anyOf[1][] (Value): {@link ReturnReceipt}. A record of
+         * returned items arriving at a location. return_receipts.anyOf[2] (Value): null.
+         * return_resolution_ids (Optional): Array of string or null. IDs of every resolution
+         * created for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1] (Value): Array of string. IDs of every resolution created
+         * for this Return, oldest first, including failed and canceled resolutions. Expand
+         * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_resolution_ids.anyOf[1][] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolution_ids.anyOf[2] (Value): null.
+         * return_resolutions (Optional): Array of {@link ReturnResolution} or null. Present only
+         * when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`,
+         * in the same order. return_resolutions.anyOf[1] (Value): Array of {@link
+         * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions.anyOf[1][]
+         * (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * return_resolutions.anyOf[2] (Value): null. shipment_ids (Optional): Array of string or
+         * null. IDs of every shipment raised to send this Return's items back, oldest first,
+         * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read
+         * them inline. shipment_ids.anyOf[1] (Value): Array of string. IDs of every shipment
+         * raised to send this Return's items back, oldest first, including voided shipments.
+         * Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids.anyOf[1][] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+         * shipment_ids.anyOf[2] (Value): null. shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary} or null. Present only when `expand` includes `shipments`.
+         * Summaries of the shipments in `shipment_ids`, in the same order. shipments.anyOf[1]
+         * (Value): Array of {@link ExpandedShipmentSummary}. Present only when `expand` includes
+         * `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments.anyOf[1][] (Value): {@link ExpandedShipmentSummary}. A shipment's summary
+         * fields, including direction, status, and package count, returned when the shipment is
+         * expanded. shipments.anyOf[2] (Value): null. status (Optional): string or null. Where the
+         * whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". status.anyOf[1] (Value): string. Where the whole Return stands.
+         * Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you
+         * need. Value enum: "requested", "open", "completed", "declined", "canceled".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions that can succeed now. Actions the API key or token doesn't have the scope for
+         * are left out. A Return waiting for a decision lists `decide` and `cancel`. An open
+         * Return lists `cancel` only while no units have been received, inspected, dispositioned,
+         * or resolved, and it has no current receipts or inspections, non-canceled dispositions or
+         * resolutions, or non-voided return shipments. It lists `complete` when `completion_mode`
+         * is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A
+         * declined or canceled Return lists none. [] enum: "cancel", "complete", "decide",
+         * "process", "reopen". supported_actions.anyOf[1] (Value): Array of string. Actions that
+         * can succeed now. Actions the API key or token doesn't have the scope for are left out. A
+         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
+         * only while no units have been received, inspected, dispositioned, or resolved, and it
+         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
+         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
+         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
+         * "reopen". supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+         * "complete", "decide", "process", "reopen". supported_actions.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null. Goes up with
+         * every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. version.anyOf[1] (Value): integer. Goes up
+         * with every change to the Return. Each activity's `return_version` is the version that
+         * activity produced. A write that takes `expected_version` or `expected_return_version`
+         * for this Return compares it with this value. Format: int64. minimum: 0. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnResource>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the Return. anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+             * Return. anyOf[2] (Value): null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[1] (Value): string. Why
+             * the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "completed_at"?: ((string) | (null));
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. anyOf[1]
+             * (Value): {@link ReturnActor}. Who completed the Return. `system` when Flint
+             * completed it automatically. anyOf[2] (Value): null.
+             */
+            "completed_by"?: ((ReturnActor) | (null));
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. anyOf[1]
+             * (Value): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+             * Return can complete. Empty when nothing is. anyOf[1][] (Value): {@link
+             * ReturnCompletionBlocker}. Something still owed before a return can complete, with
+             * the return line or record it concerns. anyOf[2] (Value): null.
+             */
+            "completion_blockers"?: ((Array<ReturnCompletionBlocker>) | (null));
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic". anyOf[1] (Value): string. automatic completes the
+             * Return when the last completion blocker clears; manual waits for POST
+             * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+             * "manual", "automatic". anyOf[2] (Value): null.
+             */
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other". anyOf[1] (Value):
+             * string. Why the Return was completed by hand. Absent when Flint completed it
+             * automatically. Value enum: "manual_completion", "exception_waived", "other".
+             * anyOf[2] (Value): null.
+             */
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent when the Return was completed by hand. anyOf[1] (Value): string. Detail
+             * sent when the Return was completed by hand. anyOf[2] (Value): null.
+             */
+            "completion_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary} or null. Present
+             * only when `expand` includes `customer`; `null` when expanded and there is no related
+             * customer. anyOf[1].anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[1].anyOf[2] (Value): null. anyOf[2] (Value): null.
+             */
+            "customer"?: ((((ExpandedCustomerSummary) | (null))) | (null) | (unknown));
+            /**
+             * The customer the Return belongs to. anyOf[1] (Value): string. The customer the
+             * Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value):
+             * null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "decision_at"?: ((string) | (null));
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1]
+             * (Value): string. Whether the requested units were approved. `pending` until one
+             * decision covers every line. Value enum: "pending", "approved", "partially_approved",
+             * "declined". anyOf[2] (Value): null.
+             */
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. anyOf[1] (Value): {@link
+             * ReturnFinancialSummary}. The Return's money in one place: the value of the returned
+             * lines, deductions and credits, and what has been refunded or collected. anyOf[2]
+             * (Value): null.
+             */
+            "financial_summary"?: ((ReturnFinancialSummary) | (null));
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. anyOf[1]
+             * (Value): Array of {@link ReturnHandoffRequirement}. What the buyer still has to send
+             * back and where. Each entry leaves the list once it is satisfied, so an empty list
+             * means nothing is waiting on the buyer. anyOf[1][] (Value): {@link
+             * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
+             * destination, instructions, line items, and expiry. anyOf[2] (Value): null.
+             */
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirement>) | (null));
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration". anyOf[1] (Value): string. Who created the Return, from
+             * the credential that sent the request: buyer for a customer session on /v1/me or
+             * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
+             * partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+             * anyOf[2] (Value): null.
+             */
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | (string & {})) | (null));
+            /**
+             * The lines being returned. anyOf[1] (Value): Array of {@link ReturnLineItem}. The
+             * lines being returned. anyOf[1][] (Value): {@link ReturnLineItem}. An item included
+             * in a return request. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnLineItem>) | (null));
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception". anyOf[1] (Value): string. On the Return, the least-finished
+             * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
+             * "partially_received", "inspection_required", "partially_inspected",
+             * "inspection_review_required", "disposition_required", "resolved", "exception".
+             * anyOf[2] (Value): null.
+             */
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary} or null. Present only
+             * when `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1].anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+             * including status, payment and refund status, and pricing and settlement amounts,
+             * returned when the order is expanded. anyOf[1].anyOf[2] (Value): null. anyOf[2]
+             * (Value): null.
+             */
+            "order"?: ((((ExpandedOrderSummary) | (null))) | (null) | (unknown));
+            /**
+             * ID of the Order the Return is against. anyOf[1] (Value): string. ID of the Order the
+             * Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value):
+             * null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * How your return policies judged the request when the Return was created. anyOf[1]
+             * (Value): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+             * when the Return was created. anyOf[2] (Value): null.
+             */
+            "policy_evaluation"?: ((ReturnPolicyEvaluation) | (null));
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_completed", "requires_action", "completed", "failed". anyOf[1] (Value):
+             * string. Whether the buyer has received the value they are owed. Combines the
+             * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+             * "pending", "partially_completed", "requires_action", "completed", "failed". anyOf[2]
+             * (Value): null.
+             */
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. anyOf[1] (Value): Array of string. IDs
+             * of every disposition recorded for this Return, oldest first, including failed and
+             * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1][] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+             * dispositions in `return_disposition_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnDisposition}. A decision about how returned merchandise will be
+             * handled. anyOf[2] (Value): null.
+             */
+            "return_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * Unique identifier for this return, prefixed `ret_`. anyOf[1] (Value): string. Unique
+             * identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. anyOf[1] (Value): Array of string. IDs of every inspection recorded for
+             * this Return, oldest first, including superseded inspections. Expand
+             * `return_inspections` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+             * inspections in `return_inspection_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnInspection}. An assessment of the condition of returned items. anyOf[2]
+             * (Value): null.
+             */
+            "return_inspections"?: ((Array<ReturnInspection>) | (null));
+            /**
+             * Human-readable number for the Return. anyOf[1] (Value): string. Human-readable
+             * number for the Return. anyOf[2] (Value): null.
+             */
+            "return_number"?: ((string) | (null));
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. anyOf[1] (Value): Array of string. IDs of every receipt recorded for this
+             * Return, oldest first, including superseded receipts. Expand `return_receipts` on
+             * `GET /v1/returns/{return_id}` to read them inline. anyOf[1][] (Value): string.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts
+             * in `return_receipt_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ReturnReceipt}. A record of returned items arriving at a location. anyOf[2] (Value):
+             * null.
+             */
+            "return_receipts"?: ((Array<ReturnReceipt>) | (null));
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. anyOf[1] (Value): Array of string. IDs of every resolution
+             * created for this Return, oldest first, including failed and canceled resolutions.
+             * Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+             * anyOf[1][] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2]
+             * (Value): null.
+             */
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+             * resolutions in `return_resolution_ids`, in the same order. anyOf[1][] (Value):
+             * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+             * anyOf[2] (Value): null.
+             */
+            "return_resolutions"?: ((Array<ReturnResolution>) | (null));
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. anyOf[1] (Value): Array of string. IDs of every shipment raised to
+             * send this Return's items back, oldest first, including voided shipments. Expand
+             * `shipments` on `GET /v1/returns/{return_id}` to read them inline. anyOf[1][]
+             * (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+             */
+            "shipment_ids"?: ((Array<string>) | (null));
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. anyOf[1] (Value): Array of {@link
+             * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries
+             * of the shipments in `shipment_ids`, in the same order. anyOf[1][] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded. anyOf[2] (Value): null.
+             */
+            "shipments"?: ((Array<ExpandedShipmentSummary>) | (null));
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled". anyOf[1] (Value): string. Where the whole
+             * Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status`
+             * for the part you need. Value enum: "requested", "open", "completed", "declined",
+             * "canceled". anyOf[2] (Value): null.
+             */
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Actions the API key or token doesn't have the scope
+             * for are left out. A Return waiting for a decision lists `decide` and `cancel`. An
+             * open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1] (Value): Array of
+             * string. Actions that can succeed now. Actions the API key or token doesn't have the
+             * scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+             * An open Return lists `cancel` only while no units have been received, inspected,
+             * dispositioned, or resolved, and it has no current receipts or inspections,
+             * non-canceled dispositions or resolutions, or non-voided return shipments. It lists
+             * `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A
+             * completed Return lists `reopen`. A declined or canceled Return lists none. [] enum:
+             * "cancel", "complete", "decide", "process", "reopen". anyOf[1][] (Value): string.
+             * Value enum: "cancel", "complete", "decide", "process", "reopen". anyOf[2] (Value):
+             * null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. anyOf[1]
+             * (Value): integer. Goes up with every change to the Return. Each activity's
+             * `return_version` is the version that activity produced. A write that takes
+             * `expected_version` or `expected_return_version` for this Return compares it with
+             * this value. Format: int64. minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -6326,7 +11924,60 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnDisposition>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {})) | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "created_by"?: ((ReturnActor) | (null));
+            "disposition_type"?: (("sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {}))
+                | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_code"?: (("inventory_effect_failed" | "inventory_item_unmapped" | (string & {})) | (null));
+            "failure_message"?: ((string) | (null));
+            "inventory_location_id"?: ((string) | (null));
+            "inventory_movement_ids"?: ((Array<string>) | (null));
+            "inventory_receipt_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "occurred_at"?: ((string) | (null));
+            "quantity"?: ((number) | (null));
+            "reason"?: (("inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {}))
+                | (null));
+            "reason_message"?: ((string) | (null));
+            "replaced_by_return_disposition_id"?: ((string) | (null));
+            "replaces_return_disposition_id"?: ((string) | (null));
+            "return_disposition_id"?: ((string) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            "return_inspection_line_item_id"?: ((string) | (null));
+            "return_line_item_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            "return_receipt_line_item_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "return_disposition.updated";
@@ -6383,7 +12034,60 @@ export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnDisposition>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActor) | (null));
+            "cancellation_reason"?: (("created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {})) | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "created_by"?: ((ReturnActor) | (null));
+            "disposition_type"?: (("sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {}))
+                | (null));
+            "external_reference_id"?: ((string) | (null));
+            "failure_code"?: (("inventory_effect_failed" | "inventory_item_unmapped" | (string & {})) | (null));
+            "failure_message"?: ((string) | (null));
+            "inventory_location_id"?: ((string) | (null));
+            "inventory_movement_ids"?: ((Array<string>) | (null));
+            "inventory_receipt_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "occurred_at"?: ((string) | (null));
+            "quantity"?: ((number) | (null));
+            "reason"?: (("inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {}))
+                | (null));
+            "reason_message"?: ((string) | (null));
+            "replaced_by_return_disposition_id"?: ((string) | (null));
+            "replaces_return_disposition_id"?: ((string) | (null));
+            "return_disposition_id"?: ((string) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            "return_inspection_line_item_id"?: ((string) | (null));
+            "return_line_item_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            "return_receipt_line_item_id"?: ((string) | (null));
+            "status"?: (("pending" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "return_disposition.updated";
@@ -6473,7 +12177,156 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the disposition. Merchant reads only.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * disposition. Merchant reads only. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the disposition was
+     * canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the disposition was
+     * canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.created_by (Optional): {@link ReturnActor} or null. Who created
+     * the disposition. previous_attributes.created_by.anyOf[1] (Value): {@link ReturnActor}. Who
+     * created the disposition. previous_attributes.created_by.anyOf[2] (Value): null.
+     * previous_attributes.disposition_type (Optional): string or null. What happens to the
+     * received units. Value enum: "sellable", "quality_control", "damaged", "quarantined",
+     * "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+     * previous_attributes.disposition_type.anyOf[1] (Value): string. What happens to the received
+     * units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair",
+     * "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+     * previous_attributes.disposition_type.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_code (Optional): string or null. Reason code for a failed
+     * merchandise disposition, when available. Value enum: "inventory_effect_failed",
+     * "inventory_item_unmapped". previous_attributes.failure_code.anyOf[1] (Value): string. Reason
+     * code for a failed merchandise disposition, when available. Value enum:
+     * "inventory_effect_failed", "inventory_item_unmapped".
+     * previous_attributes.failure_code.anyOf[2] (Value): null. previous_attributes.failure_message
+     * (Optional): string or null. Explanation of a failed merchandise disposition, when available.
+     * previous_attributes.failure_message.anyOf[1] (Value): string. Explanation of a failed
+     * merchandise disposition, when available. previous_attributes.failure_message.anyOf[2]
+     * (Value): null. previous_attributes.inventory_location_id (Optional): string or null. ID of
+     * the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * previous_attributes.inventory_location_id.anyOf[1] (Value): string. ID of the Location whose
+     * stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`,
+     * `quarantined`, and `lost`; rejected for the other types. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.inventory_location_id.anyOf[2]
+     * (Value): null. previous_attributes.inventory_movement_ids (Optional): Array of string or
+     * null. IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+     * previous_attributes.inventory_movement_ids.anyOf[1] (Value): Array of string. IDs of the
+     * inventory movements the disposition wrote. Empty when it moved no stock.
+     * previous_attributes.inventory_movement_ids.anyOf[1][] (Value): string. Example:
+     * "invm_01KEZF7C00DYPFT9PS0NZY805Z". previous_attributes.inventory_movement_ids.anyOf[2]
+     * (Value): null. previous_attributes.inventory_receipt_id (Optional): string or null. ID of
+     * the inventory receipt the disposition recorded. Absent when it recorded none.
+     * previous_attributes.inventory_receipt_id.anyOf[1] (Value): string. ID of the inventory
+     * receipt the disposition recorded. Absent when it recorded none. Example:
+     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". previous_attributes.inventory_receipt_id.anyOf[2]
+     * (Value): null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Stored
+     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned
+     * key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.occurred_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.occurred_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.occurred_at.anyOf[2] (Value): null. previous_attributes.quantity
+     * (Optional): integer or null. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.quantity.anyOf[1] (Value): integer. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.quantity.anyOf[2] (Value):
+     * null. previous_attributes.reason (Optional): string or null. Why the disposition was made.
+     * Value enum: "inspection_result", "return_policy", "warehouse_override",
+     * "safety_requirement", "other". previous_attributes.reason.anyOf[1] (Value): string. Why the
+     * disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other". previous_attributes.reason.anyOf[2]
+     * (Value): null. previous_attributes.reason_message (Optional): string or null. Optional
+     * detail about `reason`, kept with the record. previous_attributes.reason_message.anyOf[1]
+     * (Value): string. Optional detail about `reason`, kept with the record.
+     * previous_attributes.reason_message.anyOf[2] (Value): null.
+     * previous_attributes.replaced_by_return_disposition_id (Optional): string or null. ID of the
+     * disposition that took over this one. Present when a replacement canceled it.
+     * previous_attributes.replaced_by_return_disposition_id.anyOf[1] (Value): string. ID of the
+     * disposition that took over this one. Present when a replacement canceled it. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * previous_attributes.replaced_by_return_disposition_id.anyOf[2] (Value): null.
+     * previous_attributes.replaces_return_disposition_id (Optional): string or null. ID of the
+     * `failed` or `canceled` disposition this one replaces. It takes over that disposition's
+     * unused capacity. previous_attributes.replaces_return_disposition_id.anyOf[1] (Value):
+     * string. ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * previous_attributes.replaces_return_disposition_id.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_id (Optional): string or null. Unique identifier for
+     * this return disposition, prefixed `retdsp_`.
+     * previous_attributes.return_disposition_id.anyOf[1] (Value): string. Unique identifier for
+     * this return disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * previous_attributes.return_disposition_id.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. ID of the Return the disposition
+     * belongs to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the
+     * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_id (Optional): string or null or null. Inspection that
+     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string or null. Inspection that
+     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
+     * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_line_item_id (Optional): string or null. ID of the
+     * inspection line the disposition covers. Absent when it covers a receipt line.
+     * previous_attributes.return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
+     * inspection line the disposition covers. Absent when it covers a receipt line. Example:
+     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     * previous_attributes.return_inspection_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.return_line_item_id (Optional): string or null. ID of the Return line
+     * the units belong to. previous_attributes.return_line_item_id.anyOf[1] (Value): string. ID of
+     * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     * previous_attributes.return_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null or null. Receipt that owns
+     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+     * previous_attributes.return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_id.anyOf[2] (Value):
+     * null. previous_attributes.return_receipt_line_item_id (Optional): string or null. ID of the
+     * receipt line the disposition covers. Absent when it covers an inspection line.
+     * previous_attributes.return_receipt_line_item_id.anyOf[1] (Value): string. ID of the receipt
+     * line the disposition covers. Absent when it covers an inspection line. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     * previous_attributes.return_receipt_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether inventory has applied the
+     * disposition. Value enum: "pending", "succeeded", "failed", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether inventory has applied the
+     * disposition. Value enum: "pending", "succeeded", "failed", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Empty unless the parent
+     * Return is open. cancel is listed only before the inventory effect starts. [] enum: "cancel",
+     * "retry". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can succeed now. Empty unless the parent Return is open. cancel is listed only before
+     * the inventory effect starts. [] enum: "cancel", "retry".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "retry". previous_attributes.supported_actions.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -6702,9 +12555,358 @@ export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the disposition. Merchant reads
+         * only. canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the disposition.
+         * Merchant reads only. canceled_by.anyOf[2] (Value): null. cancellation_reason (Optional):
+         * string or null. Why the disposition was canceled. Value enum: "created_in_error",
+         * "changed_disposition", "duplicate", "other". cancellation_reason.anyOf[1] (Value):
+         * string. Why the disposition was canceled. Value enum: "created_in_error",
+         * "changed_disposition", "duplicate", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * created_by (Optional): {@link ReturnActor} or null. Who created the disposition.
+         * created_by.anyOf[1] (Value): {@link ReturnActor}. Who created the disposition.
+         * created_by.anyOf[2] (Value): null. disposition_type (Optional): string or null. What
+         * happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+         * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+         * "return_to_buyer", "lost". disposition_type.anyOf[1] (Value): string. What happens to
+         * the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined",
+         * "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+         * disposition_type.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. failure_code (Optional): string or null.
+         * Reason code for a failed merchandise disposition, when available. Value enum:
+         * "inventory_effect_failed", "inventory_item_unmapped". failure_code.anyOf[1] (Value):
+         * string. Reason code for a failed merchandise disposition, when available. Value enum:
+         * "inventory_effect_failed", "inventory_item_unmapped". failure_code.anyOf[2] (Value):
+         * null. failure_message (Optional): string or null. Explanation of a failed merchandise
+         * disposition, when available. failure_message.anyOf[1] (Value): string. Explanation of a
+         * failed merchandise disposition, when available. failure_message.anyOf[2] (Value): null.
+         * inventory_location_id (Optional): string or null. ID of the Location whose stock the
+         * disposition changes. Required for `sellable`, `quality_control`, `damaged`,
+         * `quarantined`, and `lost`; rejected for the other types. inventory_location_id.anyOf[1]
+         * (Value): string. ID of the Location whose stock the disposition changes. Required for
+         * `sellable`, `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the
+         * other types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inventory_location_id.anyOf[2]
+         * (Value): null. inventory_movement_ids (Optional): Array of string or null. IDs of the
+         * inventory movements the disposition wrote. Empty when it moved no stock.
+         * inventory_movement_ids.anyOf[1] (Value): Array of string. IDs of the inventory movements
+         * the disposition wrote. Empty when it moved no stock. inventory_movement_ids.anyOf[1][]
+         * (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+         * inventory_movement_ids.anyOf[2] (Value): null. inventory_receipt_id (Optional): string
+         * or null. ID of the inventory receipt the disposition recorded. Absent when it recorded
+         * none. inventory_receipt_id.anyOf[1] (Value): string. ID of the inventory receipt the
+         * disposition recorded. Absent when it recorded none. Example:
+         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". inventory_receipt_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data.
+         * See `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. metadata.anyOf[2] (Value): null. occurred_at (Optional): string or null.
+         * RFC3339 timestamp. occurred_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". occurred_at.anyOf[2] (Value): null. quantity
+         * (Optional): integer or null. Whole-number quantity; fractional quantities are not
+         * supported. quantity.anyOf[1] (Value): integer. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. quantity.anyOf[2] (Value): null. reason
+         * (Optional): string or null. Why the disposition was made. Value enum:
+         * "inspection_result", "return_policy", "warehouse_override", "safety_requirement",
+         * "other". reason.anyOf[1] (Value): string. Why the disposition was made. Value enum:
+         * "inspection_result", "return_policy", "warehouse_override", "safety_requirement",
+         * "other". reason.anyOf[2] (Value): null. reason_message (Optional): string or null.
+         * Optional detail about `reason`, kept with the record. reason_message.anyOf[1] (Value):
+         * string. Optional detail about `reason`, kept with the record. reason_message.anyOf[2]
+         * (Value): null. replaced_by_return_disposition_id (Optional): string or null. ID of the
+         * disposition that took over this one. Present when a replacement canceled it.
+         * replaced_by_return_disposition_id.anyOf[1] (Value): string. ID of the disposition that
+         * took over this one. Present when a replacement canceled it. Example:
+         * "retdsp_01KEZF7C007H87J66PH2EEK1VW". replaced_by_return_disposition_id.anyOf[2] (Value):
+         * null. replaces_return_disposition_id (Optional): string or null. ID of the `failed` or
+         * `canceled` disposition this one replaces. It takes over that disposition's unused
+         * capacity. replaces_return_disposition_id.anyOf[1] (Value): string. ID of the `failed` or
+         * `canceled` disposition this one replaces. It takes over that disposition's unused
+         * capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * replaces_return_disposition_id.anyOf[2] (Value): null. return_disposition_id (Optional):
+         * string or null. Unique identifier for this return disposition, prefixed `retdsp_`.
+         * return_disposition_id.anyOf[1] (Value): string. Unique identifier for this return
+         * disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * return_disposition_id.anyOf[2] (Value): null. return_id (Optional): string or null. ID
+         * of the Return the disposition belongs to. return_id.anyOf[1] (Value): string. ID of the
+         * Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+         * return_id.anyOf[2] (Value): null. return_inspection_id (Optional): string or null or
+         * null. Inspection that owns return_inspection_line_item_id. `null` when
+         * return_inspection_line_item_id is null. return_inspection_id.anyOf[1] (Value): string or
+         * null. Inspection that owns return_inspection_line_item_id. `null` when
+         * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_inspection_line_item_id (Optional):
+         * string or null. ID of the inspection line the disposition covers. Absent when it covers
+         * a receipt line. return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
+         * inspection line the disposition covers. Absent when it covers a receipt line. Example:
+         * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". return_inspection_line_item_id.anyOf[2] (Value):
+         * null. return_line_item_id (Optional): string or null. ID of the Return line the units
+         * belong to. return_line_item_id.anyOf[1] (Value): string. ID of the Return line the units
+         * belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG". return_line_item_id.anyOf[2]
+         * (Value): null. return_receipt_id (Optional): string or null or null. Receipt that owns
+         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+         * return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_id.anyOf[2] (Value): null.
+         * return_receipt_line_item_id (Optional): string or null. ID of the receipt line the
+         * disposition covers. Absent when it covers an inspection line.
+         * return_receipt_line_item_id.anyOf[1] (Value): string. ID of the receipt line the
+         * disposition covers. Absent when it covers an inspection line. Example:
+         * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". return_receipt_line_item_id.anyOf[2] (Value):
+         * null. status (Optional): string or null. Whether inventory has applied the disposition.
+         * Value enum: "pending", "succeeded", "failed", "canceled". status.anyOf[1] (Value):
+         * string. Whether inventory has applied the disposition. Value enum: "pending",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Actions that can succeed now. Empty unless the
+         * parent Return is open. cancel is listed only before the inventory effect starts. []
+         * enum: "cancel", "retry". supported_actions.anyOf[1] (Value): Array of string. Actions
+         * that can succeed now. Empty unless the parent Return is open. cancel is listed only
+         * before the inventory effect starts. [] enum: "cancel", "retry".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "cancel", "retry".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 0. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnDisposition>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@link
+             * ReturnActor}. Who canceled the disposition. Merchant reads only. anyOf[2] (Value):
+             * null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the disposition was canceled. Value enum: "created_in_error",
+             * "changed_disposition", "duplicate", "other". anyOf[1] (Value): string. Why the
+             * disposition was canceled. Value enum: "created_in_error", "changed_disposition",
+             * "duplicate", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Who created the disposition. anyOf[1] (Value): {@link ReturnActor}. Who created the
+             * disposition. anyOf[2] (Value): null.
+             */
+            "created_by"?: ((ReturnActor) | (null));
+            /**
+             * What happens to the received units. Value enum: "sellable", "quality_control",
+             * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+             * "return_to_buyer", "lost". anyOf[1] (Value): string. What happens to the received
+             * units. Value enum: "sellable", "quality_control", "damaged", "quarantined",
+             * "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+             * anyOf[2] (Value): null.
+             */
+            "disposition_type"?: (("sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {}))
+                | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Reason code for a failed merchandise disposition, when available. Value enum:
+             * "inventory_effect_failed", "inventory_item_unmapped". anyOf[1] (Value): string.
+             * Reason code for a failed merchandise disposition, when available. Value enum:
+             * "inventory_effect_failed", "inventory_item_unmapped". anyOf[2] (Value): null.
+             */
+            "failure_code"?: (("inventory_effect_failed" | "inventory_item_unmapped" | (string & {})) | (null));
+            /**
+             * Explanation of a failed merchandise disposition, when available. anyOf[1] (Value):
+             * string. Explanation of a failed merchandise disposition, when available. anyOf[2]
+             * (Value): null.
+             */
+            "failure_message"?: ((string) | (null));
+            /**
+             * ID of the Location whose stock the disposition changes. Required for `sellable`,
+             * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other
+             * types. anyOf[1] (Value): string. ID of the Location whose stock the disposition
+             * changes. Required for `sellable`, `quality_control`, `damaged`, `quarantined`, and
+             * `lost`; rejected for the other types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_location_id"?: ((string) | (null));
+            /**
+             * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+             * anyOf[1] (Value): Array of string. IDs of the inventory movements the disposition
+             * wrote. Empty when it moved no stock. anyOf[1][] (Value): string. Example:
+             * "invm_01KEZF7C00DYPFT9PS0NZY805Z". anyOf[2] (Value): null.
+             */
+            "inventory_movement_ids"?: ((Array<string>) | (null));
+            /**
+             * ID of the inventory receipt the disposition recorded. Absent when it recorded none.
+             * anyOf[1] (Value): string. ID of the inventory receipt the disposition recorded.
+             * Absent when it recorded none. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N". anyOf[2]
+             * (Value): null.
+             */
+            "inventory_receipt_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "occurred_at"?: ((string) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int64. anyOf[2] (Value): null.
+             */
+            "quantity"?: ((number) | (null));
+            /**
+             * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+             * "warehouse_override", "safety_requirement", "other". anyOf[1] (Value): string. Why
+             * the disposition was made. Value enum: "inspection_result", "return_policy",
+             * "warehouse_override", "safety_requirement", "other". anyOf[2] (Value): null.
+             */
+            "reason"?: (("inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Optional detail about `reason`, kept with the record. anyOf[1] (Value): string.
+             * Optional detail about `reason`, kept with the record. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * ID of the disposition that took over this one. Present when a replacement canceled
+             * it. anyOf[1] (Value): string. ID of the disposition that took over this one. Present
+             * when a replacement canceled it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             * anyOf[2] (Value): null.
+             */
+            "replaced_by_return_disposition_id"?: ((string) | (null));
+            /**
+             * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+             * disposition's unused capacity. anyOf[1] (Value): string. ID of the `failed` or
+             * `canceled` disposition this one replaces. It takes over that disposition's unused
+             * capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "replaces_return_disposition_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return disposition, prefixed `retdsp_`. anyOf[1] (Value):
+             * string. Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_id"?: ((string) | (null));
+            /**
+             * ID of the Return the disposition belongs to. anyOf[1] (Value): string. ID of the
+             * Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             * anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Inspection that owns return_inspection_line_item_id. `null` when
+             * return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection
+             * that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id
+             * is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the inspection line the disposition covers. Absent when it covers a receipt
+             * line. anyOf[1] (Value): string. ID of the inspection line the disposition covers.
+             * Absent when it covers a receipt line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+             * anyOf[2] (Value): null.
+             */
+            "return_inspection_line_item_id"?: ((string) | (null));
+            /**
+             * ID of the Return line the units belong to. anyOf[1] (Value): string. ID of the
+             * Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+             * anyOf[2] (Value): null.
+             */
+            "return_line_item_id"?: ((string) | (null));
+            /**
+             * Receipt that owns return_receipt_line_item_id. `null` when
+             * return_receipt_line_item_id is null. anyOf[1] (Value): string or null. Receipt that
+             * owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the receipt line the disposition covers. Absent when it covers an inspection
+             * line. anyOf[1] (Value): string. ID of the receipt line the disposition covers.
+             * Absent when it covers an inspection line. Example:
+             * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". anyOf[2] (Value): null.
+             */
+            "return_receipt_line_item_id"?: ((string) | (null));
+            /**
+             * Whether inventory has applied the disposition. Value enum: "pending", "succeeded",
+             * "failed", "canceled". anyOf[1] (Value): string. Whether inventory has applied the
+             * disposition. Value enum: "pending", "succeeded", "failed", "canceled". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("pending" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Empty unless the parent Return is open. cancel is
+             * listed only before the inventory effect starts. [] enum: "cancel", "retry". anyOf[1]
+             * (Value): Array of string. Actions that can succeed now. Empty unless the parent
+             * Return is open. cancel is listed only before the inventory effect starts. [] enum:
+             * "cancel", "retry". anyOf[1][] (Value): string. Value enum: "cancel", "retry".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 0. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -6820,7 +13022,156 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.canceled_at (Optional): string or null.
+     * RFC3339 timestamp. previous_attributes.canceled_at.anyOf[1] (Value): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.canceled_at.anyOf[2] (Value): null. previous_attributes.canceled_by
+     * (Optional): {@link ReturnActor} or null. Who canceled the disposition. Merchant reads only.
+     * previous_attributes.canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the
+     * disposition. Merchant reads only. previous_attributes.canceled_by.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason (Optional): string or null. Why the disposition was
+     * canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+     * previous_attributes.cancellation_reason.anyOf[1] (Value): string. Why the disposition was
+     * canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+     * previous_attributes.cancellation_reason.anyOf[2] (Value): null.
+     * previous_attributes.cancellation_reason_message (Optional): string or null. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[1] (Value): string. Detail sent with
+     * the cancellation. Merchant reads only.
+     * previous_attributes.cancellation_reason_message.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.created_by (Optional): {@link ReturnActor} or null. Who created
+     * the disposition. previous_attributes.created_by.anyOf[1] (Value): {@link ReturnActor}. Who
+     * created the disposition. previous_attributes.created_by.anyOf[2] (Value): null.
+     * previous_attributes.disposition_type (Optional): string or null. What happens to the
+     * received units. Value enum: "sellable", "quality_control", "damaged", "quarantined",
+     * "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+     * previous_attributes.disposition_type.anyOf[1] (Value): string. What happens to the received
+     * units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair",
+     * "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+     * previous_attributes.disposition_type.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.failure_code (Optional): string or null. Reason code for a failed
+     * merchandise disposition, when available. Value enum: "inventory_effect_failed",
+     * "inventory_item_unmapped". previous_attributes.failure_code.anyOf[1] (Value): string. Reason
+     * code for a failed merchandise disposition, when available. Value enum:
+     * "inventory_effect_failed", "inventory_item_unmapped".
+     * previous_attributes.failure_code.anyOf[2] (Value): null. previous_attributes.failure_message
+     * (Optional): string or null. Explanation of a failed merchandise disposition, when available.
+     * previous_attributes.failure_message.anyOf[1] (Value): string. Explanation of a failed
+     * merchandise disposition, when available. previous_attributes.failure_message.anyOf[2]
+     * (Value): null. previous_attributes.inventory_location_id (Optional): string or null. ID of
+     * the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * previous_attributes.inventory_location_id.anyOf[1] (Value): string. ID of the Location whose
+     * stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`,
+     * `quarantined`, and `lost`; rejected for the other types. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.inventory_location_id.anyOf[2]
+     * (Value): null. previous_attributes.inventory_movement_ids (Optional): Array of string or
+     * null. IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+     * previous_attributes.inventory_movement_ids.anyOf[1] (Value): Array of string. IDs of the
+     * inventory movements the disposition wrote. Empty when it moved no stock.
+     * previous_attributes.inventory_movement_ids.anyOf[1][] (Value): string. Example:
+     * "invm_01KEZF7C00DYPFT9PS0NZY805Z". previous_attributes.inventory_movement_ids.anyOf[2]
+     * (Value): null. previous_attributes.inventory_receipt_id (Optional): string or null. ID of
+     * the inventory receipt the disposition recorded. Absent when it recorded none.
+     * previous_attributes.inventory_receipt_id.anyOf[1] (Value): string. ID of the inventory
+     * receipt the disposition recorded. Absent when it recorded none. Example:
+     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". previous_attributes.inventory_receipt_id.anyOf[2]
+     * (Value): null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Stored
+     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned
+     * key-value data. See `MetadataInput` for key, value, and size rules.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.occurred_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.occurred_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.occurred_at.anyOf[2] (Value): null. previous_attributes.quantity
+     * (Optional): integer or null. Whole-number quantity; fractional quantities are not supported.
+     * previous_attributes.quantity.anyOf[1] (Value): integer. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. previous_attributes.quantity.anyOf[2] (Value):
+     * null. previous_attributes.reason (Optional): string or null. Why the disposition was made.
+     * Value enum: "inspection_result", "return_policy", "warehouse_override",
+     * "safety_requirement", "other". previous_attributes.reason.anyOf[1] (Value): string. Why the
+     * disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other". previous_attributes.reason.anyOf[2]
+     * (Value): null. previous_attributes.reason_message (Optional): string or null. Optional
+     * detail about `reason`, kept with the record. previous_attributes.reason_message.anyOf[1]
+     * (Value): string. Optional detail about `reason`, kept with the record.
+     * previous_attributes.reason_message.anyOf[2] (Value): null.
+     * previous_attributes.replaced_by_return_disposition_id (Optional): string or null. ID of the
+     * disposition that took over this one. Present when a replacement canceled it.
+     * previous_attributes.replaced_by_return_disposition_id.anyOf[1] (Value): string. ID of the
+     * disposition that took over this one. Present when a replacement canceled it. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * previous_attributes.replaced_by_return_disposition_id.anyOf[2] (Value): null.
+     * previous_attributes.replaces_return_disposition_id (Optional): string or null. ID of the
+     * `failed` or `canceled` disposition this one replaces. It takes over that disposition's
+     * unused capacity. previous_attributes.replaces_return_disposition_id.anyOf[1] (Value):
+     * string. ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * previous_attributes.replaces_return_disposition_id.anyOf[2] (Value): null.
+     * previous_attributes.return_disposition_id (Optional): string or null. Unique identifier for
+     * this return disposition, prefixed `retdsp_`.
+     * previous_attributes.return_disposition_id.anyOf[1] (Value): string. Unique identifier for
+     * this return disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * previous_attributes.return_disposition_id.anyOf[2] (Value): null.
+     * previous_attributes.return_id (Optional): string or null. ID of the Return the disposition
+     * belongs to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the
+     * disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_id (Optional): string or null or null. Inspection that
+     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string or null. Inspection that
+     * owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null.
+     * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_line_item_id (Optional): string or null. ID of the
+     * inspection line the disposition covers. Absent when it covers a receipt line.
+     * previous_attributes.return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
+     * inspection line the disposition covers. Absent when it covers a receipt line. Example:
+     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     * previous_attributes.return_inspection_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.return_line_item_id (Optional): string or null. ID of the Return line
+     * the units belong to. previous_attributes.return_line_item_id.anyOf[1] (Value): string. ID of
+     * the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     * previous_attributes.return_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null or null. Receipt that owns
+     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+     * previous_attributes.return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+     * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". previous_attributes.return_receipt_id.anyOf[2] (Value):
+     * null. previous_attributes.return_receipt_line_item_id (Optional): string or null. ID of the
+     * receipt line the disposition covers. Absent when it covers an inspection line.
+     * previous_attributes.return_receipt_line_item_id.anyOf[1] (Value): string. ID of the receipt
+     * line the disposition covers. Absent when it covers an inspection line. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     * previous_attributes.return_receipt_line_item_id.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Whether inventory has applied the
+     * disposition. Value enum: "pending", "succeeded", "failed", "canceled".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether inventory has applied the
+     * disposition. Value enum: "pending", "succeeded", "failed", "canceled".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
+     * (Optional): Array of string or null. Actions that can succeed now. Empty unless the parent
+     * Return is open. cancel is listed only before the inventory effect starts. [] enum: "cancel",
+     * "retry". previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Actions
+     * that can succeed now. Empty unless the parent Return is open. cancel is listed only before
+     * the inventory effect starts. [] enum: "cancel", "retry".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "cancel",
+     * "retry". previous_attributes.supported_actions.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -7049,9 +13400,358 @@ export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. canceled_at (Optional): string or null. RFC3339
+         * timestamp. canceled_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". canceled_at.anyOf[2] (Value): null. canceled_by
+         * (Optional): {@link ReturnActor} or null. Who canceled the disposition. Merchant reads
+         * only. canceled_by.anyOf[1] (Value): {@link ReturnActor}. Who canceled the disposition.
+         * Merchant reads only. canceled_by.anyOf[2] (Value): null. cancellation_reason (Optional):
+         * string or null. Why the disposition was canceled. Value enum: "created_in_error",
+         * "changed_disposition", "duplicate", "other". cancellation_reason.anyOf[1] (Value):
+         * string. Why the disposition was canceled. Value enum: "created_in_error",
+         * "changed_disposition", "duplicate", "other". cancellation_reason.anyOf[2] (Value): null.
+         * cancellation_reason_message (Optional): string or null. Detail sent with the
+         * cancellation. Merchant reads only. cancellation_reason_message.anyOf[1] (Value): string.
+         * Detail sent with the cancellation. Merchant reads only.
+         * cancellation_reason_message.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * created_by (Optional): {@link ReturnActor} or null. Who created the disposition.
+         * created_by.anyOf[1] (Value): {@link ReturnActor}. Who created the disposition.
+         * created_by.anyOf[2] (Value): null. disposition_type (Optional): string or null. What
+         * happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+         * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+         * "return_to_buyer", "lost". disposition_type.anyOf[1] (Value): string. What happens to
+         * the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined",
+         * "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+         * disposition_type.anyOf[2] (Value): null. external_reference_id (Optional): string or
+         * null. Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. failure_code (Optional): string or null.
+         * Reason code for a failed merchandise disposition, when available. Value enum:
+         * "inventory_effect_failed", "inventory_item_unmapped". failure_code.anyOf[1] (Value):
+         * string. Reason code for a failed merchandise disposition, when available. Value enum:
+         * "inventory_effect_failed", "inventory_item_unmapped". failure_code.anyOf[2] (Value):
+         * null. failure_message (Optional): string or null. Explanation of a failed merchandise
+         * disposition, when available. failure_message.anyOf[1] (Value): string. Explanation of a
+         * failed merchandise disposition, when available. failure_message.anyOf[2] (Value): null.
+         * inventory_location_id (Optional): string or null. ID of the Location whose stock the
+         * disposition changes. Required for `sellable`, `quality_control`, `damaged`,
+         * `quarantined`, and `lost`; rejected for the other types. inventory_location_id.anyOf[1]
+         * (Value): string. ID of the Location whose stock the disposition changes. Required for
+         * `sellable`, `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the
+         * other types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inventory_location_id.anyOf[2]
+         * (Value): null. inventory_movement_ids (Optional): Array of string or null. IDs of the
+         * inventory movements the disposition wrote. Empty when it moved no stock.
+         * inventory_movement_ids.anyOf[1] (Value): Array of string. IDs of the inventory movements
+         * the disposition wrote. Empty when it moved no stock. inventory_movement_ids.anyOf[1][]
+         * (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+         * inventory_movement_ids.anyOf[2] (Value): null. inventory_receipt_id (Optional): string
+         * or null. ID of the inventory receipt the disposition recorded. Absent when it recorded
+         * none. inventory_receipt_id.anyOf[1] (Value): string. ID of the inventory receipt the
+         * disposition recorded. Absent when it recorded none. Example:
+         * "invrec_01KEZF7C00JXXCYA06SH8RCM2N". inventory_receipt_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data.
+         * See `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. metadata.anyOf[2] (Value): null. occurred_at (Optional): string or null.
+         * RFC3339 timestamp. occurred_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". occurred_at.anyOf[2] (Value): null. quantity
+         * (Optional): integer or null. Whole-number quantity; fractional quantities are not
+         * supported. quantity.anyOf[1] (Value): integer. Whole-number quantity; fractional
+         * quantities are not supported. Format: int64. quantity.anyOf[2] (Value): null. reason
+         * (Optional): string or null. Why the disposition was made. Value enum:
+         * "inspection_result", "return_policy", "warehouse_override", "safety_requirement",
+         * "other". reason.anyOf[1] (Value): string. Why the disposition was made. Value enum:
+         * "inspection_result", "return_policy", "warehouse_override", "safety_requirement",
+         * "other". reason.anyOf[2] (Value): null. reason_message (Optional): string or null.
+         * Optional detail about `reason`, kept with the record. reason_message.anyOf[1] (Value):
+         * string. Optional detail about `reason`, kept with the record. reason_message.anyOf[2]
+         * (Value): null. replaced_by_return_disposition_id (Optional): string or null. ID of the
+         * disposition that took over this one. Present when a replacement canceled it.
+         * replaced_by_return_disposition_id.anyOf[1] (Value): string. ID of the disposition that
+         * took over this one. Present when a replacement canceled it. Example:
+         * "retdsp_01KEZF7C007H87J66PH2EEK1VW". replaced_by_return_disposition_id.anyOf[2] (Value):
+         * null. replaces_return_disposition_id (Optional): string or null. ID of the `failed` or
+         * `canceled` disposition this one replaces. It takes over that disposition's unused
+         * capacity. replaces_return_disposition_id.anyOf[1] (Value): string. ID of the `failed` or
+         * `canceled` disposition this one replaces. It takes over that disposition's unused
+         * capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * replaces_return_disposition_id.anyOf[2] (Value): null. return_disposition_id (Optional):
+         * string or null. Unique identifier for this return disposition, prefixed `retdsp_`.
+         * return_disposition_id.anyOf[1] (Value): string. Unique identifier for this return
+         * disposition, prefixed `retdsp_`. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * return_disposition_id.anyOf[2] (Value): null. return_id (Optional): string or null. ID
+         * of the Return the disposition belongs to. return_id.anyOf[1] (Value): string. ID of the
+         * Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+         * return_id.anyOf[2] (Value): null. return_inspection_id (Optional): string or null or
+         * null. Inspection that owns return_inspection_line_item_id. `null` when
+         * return_inspection_line_item_id is null. return_inspection_id.anyOf[1] (Value): string or
+         * null. Inspection that owns return_inspection_line_item_id. `null` when
+         * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_inspection_line_item_id (Optional):
+         * string or null. ID of the inspection line the disposition covers. Absent when it covers
+         * a receipt line. return_inspection_line_item_id.anyOf[1] (Value): string. ID of the
+         * inspection line the disposition covers. Absent when it covers a receipt line. Example:
+         * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". return_inspection_line_item_id.anyOf[2] (Value):
+         * null. return_line_item_id (Optional): string or null. ID of the Return line the units
+         * belong to. return_line_item_id.anyOf[1] (Value): string. ID of the Return line the units
+         * belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG". return_line_item_id.anyOf[2]
+         * (Value): null. return_receipt_id (Optional): string or null or null. Receipt that owns
+         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+         * return_receipt_id.anyOf[1] (Value): string or null. Receipt that owns
+         * return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example:
+         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipt_id.anyOf[2] (Value): null.
+         * return_receipt_line_item_id (Optional): string or null. ID of the receipt line the
+         * disposition covers. Absent when it covers an inspection line.
+         * return_receipt_line_item_id.anyOf[1] (Value): string. ID of the receipt line the
+         * disposition covers. Absent when it covers an inspection line. Example:
+         * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". return_receipt_line_item_id.anyOf[2] (Value):
+         * null. status (Optional): string or null. Whether inventory has applied the disposition.
+         * Value enum: "pending", "succeeded", "failed", "canceled". status.anyOf[1] (Value):
+         * string. Whether inventory has applied the disposition. Value enum: "pending",
+         * "succeeded", "failed", "canceled". status.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Actions that can succeed now. Empty unless the
+         * parent Return is open. cancel is listed only before the inventory effect starts. []
+         * enum: "cancel", "retry". supported_actions.anyOf[1] (Value): Array of string. Actions
+         * that can succeed now. Empty unless the parent Return is open. cancel is listed only
+         * before the inventory effect starts. [] enum: "cancel", "retry".
+         * supported_actions.anyOf[1][] (Value): string. Value enum: "cancel", "retry".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 0. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnDisposition>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "canceled_at"?: ((string) | (null));
+            /**
+             * Who canceled the disposition. Merchant reads only. anyOf[1] (Value): {@link
+             * ReturnActor}. Who canceled the disposition. Merchant reads only. anyOf[2] (Value):
+             * null.
+             */
+            "canceled_by"?: ((ReturnActor) | (null));
+            /**
+             * Why the disposition was canceled. Value enum: "created_in_error",
+             * "changed_disposition", "duplicate", "other". anyOf[1] (Value): string. Why the
+             * disposition was canceled. Value enum: "created_in_error", "changed_disposition",
+             * "duplicate", "other". anyOf[2] (Value): null.
+             */
+            "cancellation_reason"?: (("created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {})) | (null));
+            /**
+             * Detail sent with the cancellation. Merchant reads only. anyOf[1] (Value): string.
+             * Detail sent with the cancellation. Merchant reads only. anyOf[2] (Value): null.
+             */
+            "cancellation_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Who created the disposition. anyOf[1] (Value): {@link ReturnActor}. Who created the
+             * disposition. anyOf[2] (Value): null.
+             */
+            "created_by"?: ((ReturnActor) | (null));
+            /**
+             * What happens to the received units. Value enum: "sellable", "quality_control",
+             * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+             * "return_to_buyer", "lost". anyOf[1] (Value): string. What happens to the received
+             * units. Value enum: "sellable", "quality_control", "damaged", "quarantined",
+             * "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+             * anyOf[2] (Value): null.
+             */
+            "disposition_type"?: (("sellable"
+                | "quality_control"
+                | "damaged"
+                | "quarantined"
+                | "repair"
+                | "refurbish"
+                | "liquidate"
+                | "donate"
+                | "discard"
+                | "return_to_buyer"
+                | "lost"
+                | (string & {}))
+                | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Reason code for a failed merchandise disposition, when available. Value enum:
+             * "inventory_effect_failed", "inventory_item_unmapped". anyOf[1] (Value): string.
+             * Reason code for a failed merchandise disposition, when available. Value enum:
+             * "inventory_effect_failed", "inventory_item_unmapped". anyOf[2] (Value): null.
+             */
+            "failure_code"?: (("inventory_effect_failed" | "inventory_item_unmapped" | (string & {})) | (null));
+            /**
+             * Explanation of a failed merchandise disposition, when available. anyOf[1] (Value):
+             * string. Explanation of a failed merchandise disposition, when available. anyOf[2]
+             * (Value): null.
+             */
+            "failure_message"?: ((string) | (null));
+            /**
+             * ID of the Location whose stock the disposition changes. Required for `sellable`,
+             * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other
+             * types. anyOf[1] (Value): string. ID of the Location whose stock the disposition
+             * changes. Required for `sellable`, `quality_control`, `damaged`, `quarantined`, and
+             * `lost`; rejected for the other types. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             * anyOf[2] (Value): null.
+             */
+            "inventory_location_id"?: ((string) | (null));
+            /**
+             * IDs of the inventory movements the disposition wrote. Empty when it moved no stock.
+             * anyOf[1] (Value): Array of string. IDs of the inventory movements the disposition
+             * wrote. Empty when it moved no stock. anyOf[1][] (Value): string. Example:
+             * "invm_01KEZF7C00DYPFT9PS0NZY805Z". anyOf[2] (Value): null.
+             */
+            "inventory_movement_ids"?: ((Array<string>) | (null));
+            /**
+             * ID of the inventory receipt the disposition recorded. Absent when it recorded none.
+             * anyOf[1] (Value): string. ID of the inventory receipt the disposition recorded.
+             * Absent when it recorded none. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N". anyOf[2]
+             * (Value): null.
+             */
+            "inventory_receipt_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. Stored caller-owned key-value data.
+             * See `MetadataInput` for key, value, and size rules. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "occurred_at"?: ((string) | (null));
+            /**
+             * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value):
+             * integer. Whole-number quantity; fractional quantities are not supported. Format:
+             * int64. anyOf[2] (Value): null.
+             */
+            "quantity"?: ((number) | (null));
+            /**
+             * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+             * "warehouse_override", "safety_requirement", "other". anyOf[1] (Value): string. Why
+             * the disposition was made. Value enum: "inspection_result", "return_policy",
+             * "warehouse_override", "safety_requirement", "other". anyOf[2] (Value): null.
+             */
+            "reason"?: (("inspection_result"
+                | "return_policy"
+                | "warehouse_override"
+                | "safety_requirement"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Optional detail about `reason`, kept with the record. anyOf[1] (Value): string.
+             * Optional detail about `reason`, kept with the record. anyOf[2] (Value): null.
+             */
+            "reason_message"?: ((string) | (null));
+            /**
+             * ID of the disposition that took over this one. Present when a replacement canceled
+             * it. anyOf[1] (Value): string. ID of the disposition that took over this one. Present
+             * when a replacement canceled it. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             * anyOf[2] (Value): null.
+             */
+            "replaced_by_return_disposition_id"?: ((string) | (null));
+            /**
+             * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+             * disposition's unused capacity. anyOf[1] (Value): string. ID of the `failed` or
+             * `canceled` disposition this one replaces. It takes over that disposition's unused
+             * capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "replaces_return_disposition_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return disposition, prefixed `retdsp_`. anyOf[1] (Value):
+             * string. Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW". anyOf[2] (Value): null.
+             */
+            "return_disposition_id"?: ((string) | (null));
+            /**
+             * ID of the Return the disposition belongs to. anyOf[1] (Value): string. ID of the
+             * Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             * anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Inspection that owns return_inspection_line_item_id. `null` when
+             * return_inspection_line_item_id is null. anyOf[1] (Value): string or null. Inspection
+             * that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id
+             * is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the inspection line the disposition covers. Absent when it covers a receipt
+             * line. anyOf[1] (Value): string. ID of the inspection line the disposition covers.
+             * Absent when it covers a receipt line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+             * anyOf[2] (Value): null.
+             */
+            "return_inspection_line_item_id"?: ((string) | (null));
+            /**
+             * ID of the Return line the units belong to. anyOf[1] (Value): string. ID of the
+             * Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+             * anyOf[2] (Value): null.
+             */
+            "return_line_item_id"?: ((string) | (null));
+            /**
+             * Receipt that owns return_receipt_line_item_id. `null` when
+             * return_receipt_line_item_id is null. anyOf[1] (Value): string or null. Receipt that
+             * owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null.
+             * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * ID of the receipt line the disposition covers. Absent when it covers an inspection
+             * line. anyOf[1] (Value): string. ID of the receipt line the disposition covers.
+             * Absent when it covers an inspection line. Example:
+             * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". anyOf[2] (Value): null.
+             */
+            "return_receipt_line_item_id"?: ((string) | (null));
+            /**
+             * Whether inventory has applied the disposition. Value enum: "pending", "succeeded",
+             * "failed", "canceled". anyOf[1] (Value): string. Whether inventory has applied the
+             * disposition. Value enum: "pending", "succeeded", "failed", "canceled". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("pending" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
+            /**
+             * Actions that can succeed now. Empty unless the parent Return is open. cancel is
+             * listed only before the inventory effect starts. [] enum: "cancel", "retry". anyOf[1]
+             * (Value): Array of string. Actions that can succeed now. Empty unless the parent
+             * Return is open. cancel is listed only before the inventory effect starts. [] enum:
+             * "cancel", "retry". anyOf[1][] (Value): string. Value enum: "cancel", "retry".
+             * anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"cancel" | "retry" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 0. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -7770,7 +14470,36 @@ export type ReturnInspectionAcceptanceDecidedEvent = ((((Exclude<MerchantWebhook
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "return_inspection.acceptance_decided";
@@ -7804,7 +14533,36 @@ export type ReturnInspectionAcceptanceDecidedEvent = ((((Exclude<MerchantWebhook
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "return_inspection.acceptance_decided";
@@ -7871,6 +14629,101 @@ export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.correction_reason (Optional): string or null. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link ReturnDisposition} or
+     * null. Dispositions Flint created when it recorded this observation. Empty unless the
+     * policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Dispositions Flint created when it recorded this observation. Empty
+     * unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.generated_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link ReturnInspectionLineItem} or
+     * null. The lines recorded. previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItem}. The lines recorded. previous_attributes.line_items.anyOf[1][]
+     * (Value): {@link ReturnInspectionLineItem}. The inspection result for a returned item.
+     * previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the Return the goods belong to.
+     * previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the goods belong
+     * to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
+     * (Value): null. previous_attributes.return_inspection_id (Optional): string or null. Unique
+     * identifier for this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystem} or null or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link ReturnSourceSystem} or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystem}. The
+     * system a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier. previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether this is the current observation of these units or a
+     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -8005,9 +14858,219 @@ export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDisposition} or null.
+         * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1] (Value):
+         * Array of {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about
+         * how returned merchandise will be handled. generated_dispositions.anyOf[2] (Value): null.
+         * inspected_at (Optional): string or null. RFC3339 timestamp. inspected_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * inspected_at.anyOf[2] (Value): null. inspection_location_id (Optional): string or null.
+         * Location where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. inspection_location_id.anyOf[1] (Value): string. Location where
+         * the returned merchandise was inspected. Must match the receipt receiving_location_id.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnInspectionLineItem} or null. The
+         * lines recorded. line_items.anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}.
+         * The lines recorded. line_items.anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The
+         * inspection result for a returned item. line_items.anyOf[2] (Value): null. return_id
+         * (Optional): string or null. ID of the Return the goods belong to. return_id.anyOf[1]
+         * (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystem} or null or null. System that recorded the observation. `null` when
+         * no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem} or null. System that recorded the observation. `null` when no source
+         * system was recorded. source_system.anyOf[1].anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[1].anyOf[2] (Value):
+         * null. source_system.anyOf[2] (Value): null. status (Optional): string or null. Whether
+         * this is the current observation of these units or a correction replaced it. Value enum:
+         * "current", "superseded". status.anyOf[1] (Value): string. Whether this is the current
+         * observation of these units or a correction replaced it. Value enum: "current",
+         * "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string or null.
+         * RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value): null.
+         * superseded_by_return_inspection_id (Optional): string or null. ID of the inspection that
+         * corrected this one. Absent while it is current.
+         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+             * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+             * anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how returned
+             * merchandise will be handled. anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}. The
+             * lines recorded. anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem} or null. System that recorded the
+             * observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value):
+             * {@link ReturnSourceSystem}. The system a return event came from, such as a point of
+             * sale or warehouse system, with its own identifier. anyOf[1].anyOf[2] (Value): null.
+             * anyOf[2] (Value): null.
+             */
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -8100,6 +15163,101 @@ export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWe
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.correction_reason (Optional): string or null. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link ReturnDisposition} or
+     * null. Dispositions Flint created when it recorded this observation. Empty unless the
+     * policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Dispositions Flint created when it recorded this observation. Empty
+     * unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.generated_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link ReturnInspectionLineItem} or
+     * null. The lines recorded. previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItem}. The lines recorded. previous_attributes.line_items.anyOf[1][]
+     * (Value): {@link ReturnInspectionLineItem}. The inspection result for a returned item.
+     * previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the Return the goods belong to.
+     * previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the goods belong
+     * to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
+     * (Value): null. previous_attributes.return_inspection_id (Optional): string or null. Unique
+     * identifier for this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystem} or null or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link ReturnSourceSystem} or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystem}. The
+     * system a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier. previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether this is the current observation of these units or a
+     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -8234,9 +15392,219 @@ export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWe
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDisposition} or null.
+         * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1] (Value):
+         * Array of {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about
+         * how returned merchandise will be handled. generated_dispositions.anyOf[2] (Value): null.
+         * inspected_at (Optional): string or null. RFC3339 timestamp. inspected_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * inspected_at.anyOf[2] (Value): null. inspection_location_id (Optional): string or null.
+         * Location where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. inspection_location_id.anyOf[1] (Value): string. Location where
+         * the returned merchandise was inspected. Must match the receipt receiving_location_id.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnInspectionLineItem} or null. The
+         * lines recorded. line_items.anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}.
+         * The lines recorded. line_items.anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The
+         * inspection result for a returned item. line_items.anyOf[2] (Value): null. return_id
+         * (Optional): string or null. ID of the Return the goods belong to. return_id.anyOf[1]
+         * (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystem} or null or null. System that recorded the observation. `null` when
+         * no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem} or null. System that recorded the observation. `null` when no source
+         * system was recorded. source_system.anyOf[1].anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[1].anyOf[2] (Value):
+         * null. source_system.anyOf[2] (Value): null. status (Optional): string or null. Whether
+         * this is the current observation of these units or a correction replaced it. Value enum:
+         * "current", "superseded". status.anyOf[1] (Value): string. Whether this is the current
+         * observation of these units or a correction replaced it. Value enum: "current",
+         * "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string or null.
+         * RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value): null.
+         * superseded_by_return_inspection_id (Optional): string or null. ID of the inspection that
+         * corrected this one. Absent while it is current.
+         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+             * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+             * anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how returned
+             * merchandise will be handled. anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}. The
+             * lines recorded. anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem} or null. System that recorded the
+             * observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value):
+             * {@link ReturnSourceSystem}. The system a return event came from, such as a point of
+             * sale or warehouse system, with its own identifier. anyOf[1].anyOf[2] (Value): null.
+             * anyOf[2] (Value): null.
+             */
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -8957,7 +16325,36 @@ export type ReturnInspectionSupersededEvent = ((((Exclude<MerchantWebhookEnvelop
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "return_inspection.superseded";
@@ -8991,7 +16388,36 @@ export type ReturnInspectionSupersededEvent = ((((Exclude<MerchantWebhookEnvelop
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "return_inspection.superseded";
@@ -9058,6 +16484,101 @@ export type ReturnInspectionSupersededInstalledMerchantsEvent = (Exclude<Partner
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.correction_reason (Optional): string or null. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link ReturnDisposition} or
+     * null. Dispositions Flint created when it recorded this observation. Empty unless the
+     * policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Dispositions Flint created when it recorded this observation. Empty
+     * unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.generated_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link ReturnInspectionLineItem} or
+     * null. The lines recorded. previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItem}. The lines recorded. previous_attributes.line_items.anyOf[1][]
+     * (Value): {@link ReturnInspectionLineItem}. The inspection result for a returned item.
+     * previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the Return the goods belong to.
+     * previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the goods belong
+     * to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
+     * (Value): null. previous_attributes.return_inspection_id (Optional): string or null. Unique
+     * identifier for this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystem} or null or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link ReturnSourceSystem} or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystem}. The
+     * system a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier. previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether this is the current observation of these units or a
+     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -9192,9 +16713,219 @@ export type ReturnInspectionSupersededInstalledMerchantsEvent = (Exclude<Partner
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDisposition} or null.
+         * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1] (Value):
+         * Array of {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about
+         * how returned merchandise will be handled. generated_dispositions.anyOf[2] (Value): null.
+         * inspected_at (Optional): string or null. RFC3339 timestamp. inspected_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * inspected_at.anyOf[2] (Value): null. inspection_location_id (Optional): string or null.
+         * Location where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. inspection_location_id.anyOf[1] (Value): string. Location where
+         * the returned merchandise was inspected. Must match the receipt receiving_location_id.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnInspectionLineItem} or null. The
+         * lines recorded. line_items.anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}.
+         * The lines recorded. line_items.anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The
+         * inspection result for a returned item. line_items.anyOf[2] (Value): null. return_id
+         * (Optional): string or null. ID of the Return the goods belong to. return_id.anyOf[1]
+         * (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystem} or null or null. System that recorded the observation. `null` when
+         * no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem} or null. System that recorded the observation. `null` when no source
+         * system was recorded. source_system.anyOf[1].anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[1].anyOf[2] (Value):
+         * null. source_system.anyOf[2] (Value): null. status (Optional): string or null. Whether
+         * this is the current observation of these units or a correction replaced it. Value enum:
+         * "current", "superseded". status.anyOf[1] (Value): string. Whether this is the current
+         * observation of these units or a correction replaced it. Value enum: "current",
+         * "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string or null.
+         * RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value): null.
+         * superseded_by_return_inspection_id (Optional): string or null. ID of the inspection that
+         * corrected this one. Absent while it is current.
+         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+             * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+             * anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how returned
+             * merchandise will be handled. anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}. The
+             * lines recorded. anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem} or null. System that recorded the
+             * observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value):
+             * {@link ReturnSourceSystem}. The system a return event came from, such as a point of
+             * sale or warehouse system, with its own identifier. anyOf[1].anyOf[2] (Value): null.
+             * anyOf[2] (Value): null.
+             */
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -9287,6 +17018,101 @@ export type ReturnInspectionSupersededMerchantEvent = (Exclude<MerchantWebhookEn
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.correction_reason (Optional): string or null. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link ReturnDisposition} or
+     * null. Dispositions Flint created when it recorded this observation. Empty unless the
+     * policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDisposition}. Dispositions Flint created when it recorded this observation. Empty
+     * unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     * previous_attributes.generated_dispositions.anyOf[2] (Value): null.
+     * previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link ReturnInspectionLineItem} or
+     * null. The lines recorded. previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItem}. The lines recorded. previous_attributes.line_items.anyOf[1][]
+     * (Value): {@link ReturnInspectionLineItem}. The inspection result for a returned item.
+     * previous_attributes.line_items.anyOf[2] (Value): null. previous_attributes.return_id
+     * (Optional): string or null. ID of the Return the goods belong to.
+     * previous_attributes.return_id.anyOf[1] (Value): string. ID of the Return the goods belong
+     * to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". previous_attributes.return_id.anyOf[2]
+     * (Value): null. previous_attributes.return_inspection_id (Optional): string or null. Unique
+     * identifier for this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystem} or null or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link ReturnSourceSystem} or null.
+     * System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1].anyOf[1] (Value): {@link ReturnSourceSystem}. The
+     * system a return event came from, such as a point of sale or warehouse system, with its own
+     * identifier. previous_attributes.source_system.anyOf[1].anyOf[2] (Value): null.
+     * previous_attributes.source_system.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether this is the current observation of these units or a
+     * correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -9421,9 +17247,219 @@ export type ReturnInspectionSupersededMerchantEvent = (Exclude<MerchantWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDisposition} or null.
+         * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1] (Value):
+         * Array of {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions.anyOf[1][] (Value): {@link ReturnDisposition}. A decision about
+         * how returned merchandise will be handled. generated_dispositions.anyOf[2] (Value): null.
+         * inspected_at (Optional): string or null. RFC3339 timestamp. inspected_at.anyOf[1]
+         * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * inspected_at.anyOf[2] (Value): null. inspection_location_id (Optional): string or null.
+         * Location where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. inspection_location_id.anyOf[1] (Value): string. Location where
+         * the returned merchandise was inspected. Must match the receipt receiving_location_id.
+         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value):
+         * null. line_items (Optional): Array of {@link ReturnInspectionLineItem} or null. The
+         * lines recorded. line_items.anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}.
+         * The lines recorded. line_items.anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The
+         * inspection result for a returned item. line_items.anyOf[2] (Value): null. return_id
+         * (Optional): string or null. ID of the Return the goods belong to. return_id.anyOf[1]
+         * (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystem} or null or null. System that recorded the observation. `null` when
+         * no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem} or null. System that recorded the observation. `null` when no source
+         * system was recorded. source_system.anyOf[1].anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[1].anyOf[2] (Value):
+         * null. source_system.anyOf[2] (Value): null. status (Optional): string or null. Whether
+         * this is the current observation of these units or a correction replaced it. Value enum:
+         * "current", "superseded". status.anyOf[1] (Value): string. Whether this is the current
+         * observation of these units or a correction replaced it. Value enum: "current",
+         * "superseded". status.anyOf[2] (Value): null. superseded_at (Optional): string or null.
+         * RFC3339 timestamp. superseded_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". superseded_at.anyOf[2] (Value): null.
+         * superseded_by_return_inspection_id (Optional): string or null. ID of the inspection that
+         * corrected this one. Absent while it is current.
+         * superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<ReturnInspection>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDisposition}. Dispositions Flint created when it recorded this
+             * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+             * anyOf[1][] (Value): {@link ReturnDisposition}. A decision about how returned
+             * merchandise will be handled. anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDisposition>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link ReturnInspectionLineItem}. The
+             * lines recorded. anyOf[1][] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItem>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem} or null. System that recorded the
+             * observation. `null` when no source system was recorded. anyOf[1].anyOf[1] (Value):
+             * {@link ReturnSourceSystem}. The system a return event came from, such as a point of
+             * sale or warehouse system, with its own identifier. anyOf[1].anyOf[2] (Value): null.
+             * anyOf[2] (Value): null.
+             */
+            "source_system"?: ((((ReturnSourceSystem) | (null))) | (null) | (unknown));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

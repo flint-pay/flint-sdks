@@ -82,7 +82,22 @@ export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope &
     & ({
     "data"?: {
         "object": WebhookDeliveryProfile;
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_profile.archived";
@@ -91,7 +106,22 @@ export type DeliveryProfileArchivedEvent = ((((Exclude<MerchantWebhookEnvelope &
     & ({
     "data"?: {
         "object": WebhookDeliveryProfile;
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_profile.archived";
@@ -119,6 +149,47 @@ export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryProfileConfiguration} or null.
+     * Current delivery requirement and grouping policy. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryProfileConfiguration}. Current delivery requirement and grouping
+     * policy. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the profile was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the profile was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_profile_revision_id (Optional): string
+     * or null. Immutable revision used for new line-item snapshots.
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new line-item snapshots. Example: "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Stable delivery profile
+     * ID. previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Stable delivery
+     * profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     * previous_attributes.delivery_profile_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. True only when this profile is
+     * the current physical catalog default. previous_attributes.is_default.anyOf[1] (Value):
+     * boolean. True only when this profile is the current physical catalog default.
+     * previous_attributes.is_default.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing profile name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing profile name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current profile lifecycle status.
+     * Value enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string.
+     * Current profile lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the profile last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the profile last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for profile writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for profile writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -130,9 +201,106 @@ export type DeliveryProfileArchivedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryProfileConfiguration} or null. Current delivery requirement and grouping policy.
+         * configuration.anyOf[1] (Value): {@link DeliveryProfileConfiguration}. Current delivery
+         * requirement and grouping policy. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. Time the profile was created. created_at.anyOf[1] (Value):
+         * string. Time the profile was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * current_delivery_profile_revision_id (Optional): string or null. Immutable revision used
+         * for new line-item snapshots. current_delivery_profile_revision_id.anyOf[1] (Value):
+         * string. Immutable revision used for new line-item snapshots. Example:
+         * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". current_delivery_profile_revision_id.anyOf[2]
+         * (Value): null. delivery_profile_id (Optional): string or null. Stable delivery profile
+         * ID. delivery_profile_id.anyOf[1] (Value): string. Stable delivery profile ID. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. is_default
+         * (Optional): boolean or null. True only when this profile is the current physical catalog
+         * default. is_default.anyOf[1] (Value): boolean. True only when this profile is the
+         * current physical catalog default. is_default.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing profile name. name.anyOf[1] (Value):
+         * string. Merchant-facing profile name. name.anyOf[2] (Value): null. status (Optional):
+         * string or null. Current profile lifecycle status. Value enum: "active", "archived".
+         * status.anyOf[1] (Value): string. Current profile lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or null. Time
+         * the profile last changed. updated_at.anyOf[1] (Value): string. Time the profile last
+         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Optimistic-concurrency version for
+         * profile writes. version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+         * profile writes. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
+             * DeliveryProfileConfiguration}. Current delivery requirement and grouping policy.
+             * anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            /**
+             * Time the profile was created. anyOf[1] (Value): string. Time the profile was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new line-item snapshots. anyOf[1] (Value): string.
+             * Immutable revision used for new line-item snapshots. Example:
+             * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". anyOf[2] (Value): null.
+             */
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery profile ID. anyOf[1] (Value): string. Stable delivery profile ID.
+             * Example: "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * True only when this profile is the current physical catalog default. anyOf[1]
+             * (Value): boolean. True only when this profile is the current physical catalog
+             * default. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
+             * name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current profile lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current profile lifecycle status. Value enum: "active", "archived".
+             * anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the profile last changed. anyOf[1] (Value): string. Time the profile last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for profile writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -186,6 +354,47 @@ export type DeliveryProfileArchivedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryProfileConfiguration} or null.
+     * Current delivery requirement and grouping policy. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryProfileConfiguration}. Current delivery requirement and grouping
+     * policy. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the profile was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the profile was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_profile_revision_id (Optional): string
+     * or null. Immutable revision used for new line-item snapshots.
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new line-item snapshots. Example: "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Stable delivery profile
+     * ID. previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Stable delivery
+     * profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     * previous_attributes.delivery_profile_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. True only when this profile is
+     * the current physical catalog default. previous_attributes.is_default.anyOf[1] (Value):
+     * boolean. True only when this profile is the current physical catalog default.
+     * previous_attributes.is_default.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing profile name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing profile name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current profile lifecycle status.
+     * Value enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string.
+     * Current profile lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the profile last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the profile last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for profile writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for profile writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -197,9 +406,106 @@ export type DeliveryProfileArchivedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryProfileConfiguration} or null. Current delivery requirement and grouping policy.
+         * configuration.anyOf[1] (Value): {@link DeliveryProfileConfiguration}. Current delivery
+         * requirement and grouping policy. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. Time the profile was created. created_at.anyOf[1] (Value):
+         * string. Time the profile was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * current_delivery_profile_revision_id (Optional): string or null. Immutable revision used
+         * for new line-item snapshots. current_delivery_profile_revision_id.anyOf[1] (Value):
+         * string. Immutable revision used for new line-item snapshots. Example:
+         * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". current_delivery_profile_revision_id.anyOf[2]
+         * (Value): null. delivery_profile_id (Optional): string or null. Stable delivery profile
+         * ID. delivery_profile_id.anyOf[1] (Value): string. Stable delivery profile ID. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. is_default
+         * (Optional): boolean or null. True only when this profile is the current physical catalog
+         * default. is_default.anyOf[1] (Value): boolean. True only when this profile is the
+         * current physical catalog default. is_default.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing profile name. name.anyOf[1] (Value):
+         * string. Merchant-facing profile name. name.anyOf[2] (Value): null. status (Optional):
+         * string or null. Current profile lifecycle status. Value enum: "active", "archived".
+         * status.anyOf[1] (Value): string. Current profile lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or null. Time
+         * the profile last changed. updated_at.anyOf[1] (Value): string. Time the profile last
+         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Optimistic-concurrency version for
+         * profile writes. version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+         * profile writes. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
+             * DeliveryProfileConfiguration}. Current delivery requirement and grouping policy.
+             * anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            /**
+             * Time the profile was created. anyOf[1] (Value): string. Time the profile was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new line-item snapshots. anyOf[1] (Value): string.
+             * Immutable revision used for new line-item snapshots. Example:
+             * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". anyOf[2] (Value): null.
+             */
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery profile ID. anyOf[1] (Value): string. Stable delivery profile ID.
+             * Example: "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * True only when this profile is the current physical catalog default. anyOf[1]
+             * (Value): boolean. True only when this profile is the current physical catalog
+             * default. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
+             * name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current profile lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current profile lifecycle status. Value enum: "active", "archived".
+             * anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the profile last changed. anyOf[1] (Value): string. Time the profile last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for profile writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1309,7 +1615,22 @@ export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
     & ({
     "data"?: {
         "object": WebhookDeliveryProfile;
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_profile.updated";
@@ -1318,7 +1639,22 @@ export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
     & ({
     "data"?: {
         "object": WebhookDeliveryProfile;
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "is_default"?: ((boolean) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_profile.updated";
@@ -1346,6 +1682,47 @@ export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryProfileConfiguration} or null.
+     * Current delivery requirement and grouping policy. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryProfileConfiguration}. Current delivery requirement and grouping
+     * policy. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the profile was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the profile was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_profile_revision_id (Optional): string
+     * or null. Immutable revision used for new line-item snapshots.
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new line-item snapshots. Example: "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Stable delivery profile
+     * ID. previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Stable delivery
+     * profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     * previous_attributes.delivery_profile_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. True only when this profile is
+     * the current physical catalog default. previous_attributes.is_default.anyOf[1] (Value):
+     * boolean. True only when this profile is the current physical catalog default.
+     * previous_attributes.is_default.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing profile name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing profile name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current profile lifecycle status.
+     * Value enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string.
+     * Current profile lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the profile last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the profile last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for profile writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for profile writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1357,9 +1734,106 @@ export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryProfileConfiguration} or null. Current delivery requirement and grouping policy.
+         * configuration.anyOf[1] (Value): {@link DeliveryProfileConfiguration}. Current delivery
+         * requirement and grouping policy. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. Time the profile was created. created_at.anyOf[1] (Value):
+         * string. Time the profile was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * current_delivery_profile_revision_id (Optional): string or null. Immutable revision used
+         * for new line-item snapshots. current_delivery_profile_revision_id.anyOf[1] (Value):
+         * string. Immutable revision used for new line-item snapshots. Example:
+         * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". current_delivery_profile_revision_id.anyOf[2]
+         * (Value): null. delivery_profile_id (Optional): string or null. Stable delivery profile
+         * ID. delivery_profile_id.anyOf[1] (Value): string. Stable delivery profile ID. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. is_default
+         * (Optional): boolean or null. True only when this profile is the current physical catalog
+         * default. is_default.anyOf[1] (Value): boolean. True only when this profile is the
+         * current physical catalog default. is_default.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing profile name. name.anyOf[1] (Value):
+         * string. Merchant-facing profile name. name.anyOf[2] (Value): null. status (Optional):
+         * string or null. Current profile lifecycle status. Value enum: "active", "archived".
+         * status.anyOf[1] (Value): string. Current profile lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or null. Time
+         * the profile last changed. updated_at.anyOf[1] (Value): string. Time the profile last
+         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Optimistic-concurrency version for
+         * profile writes. version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+         * profile writes. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
+             * DeliveryProfileConfiguration}. Current delivery requirement and grouping policy.
+             * anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            /**
+             * Time the profile was created. anyOf[1] (Value): string. Time the profile was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new line-item snapshots. anyOf[1] (Value): string.
+             * Immutable revision used for new line-item snapshots. Example:
+             * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". anyOf[2] (Value): null.
+             */
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery profile ID. anyOf[1] (Value): string. Stable delivery profile ID.
+             * Example: "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * True only when this profile is the current physical catalog default. anyOf[1]
+             * (Value): boolean. True only when this profile is the current physical catalog
+             * default. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
+             * name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current profile lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current profile lifecycle status. Value enum: "active", "archived".
+             * anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the profile last changed. anyOf[1] (Value): string. Time the profile last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for profile writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1413,6 +1887,47 @@ export type DeliveryProfileUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link DeliveryProfileConfiguration} or null.
+     * Current delivery requirement and grouping policy. previous_attributes.configuration.anyOf[1]
+     * (Value): {@link DeliveryProfileConfiguration}. Current delivery requirement and grouping
+     * policy. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the profile was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the profile was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_profile_revision_id (Optional): string
+     * or null. Immutable revision used for new line-item snapshots.
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[1] (Value): string. Immutable
+     * revision used for new line-item snapshots. Example: "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
+     * previous_attributes.current_delivery_profile_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Stable delivery profile
+     * ID. previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Stable delivery
+     * profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     * previous_attributes.delivery_profile_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.is_default (Optional): boolean or null. True only when this profile is
+     * the current physical catalog default. previous_attributes.is_default.anyOf[1] (Value):
+     * boolean. True only when this profile is the current physical catalog default.
+     * previous_attributes.is_default.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing profile name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing profile name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current profile lifecycle status.
+     * Value enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string.
+     * Current profile lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the profile last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the profile last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for profile writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for profile writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1424,9 +1939,106 @@ export type DeliveryProfileUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryProfileConfiguration} or null. Current delivery requirement and grouping policy.
+         * configuration.anyOf[1] (Value): {@link DeliveryProfileConfiguration}. Current delivery
+         * requirement and grouping policy. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. Time the profile was created. created_at.anyOf[1] (Value):
+         * string. Time the profile was created. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * current_delivery_profile_revision_id (Optional): string or null. Immutable revision used
+         * for new line-item snapshots. current_delivery_profile_revision_id.anyOf[1] (Value):
+         * string. Immutable revision used for new line-item snapshots. Example:
+         * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". current_delivery_profile_revision_id.anyOf[2]
+         * (Value): null. delivery_profile_id (Optional): string or null. Stable delivery profile
+         * ID. delivery_profile_id.anyOf[1] (Value): string. Stable delivery profile ID. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. is_default
+         * (Optional): boolean or null. True only when this profile is the current physical catalog
+         * default. is_default.anyOf[1] (Value): boolean. True only when this profile is the
+         * current physical catalog default. is_default.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing profile name. name.anyOf[1] (Value):
+         * string. Merchant-facing profile name. name.anyOf[2] (Value): null. status (Optional):
+         * string or null. Current profile lifecycle status. Value enum: "active", "archived".
+         * status.anyOf[1] (Value): string. Current profile lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or null. Time
+         * the profile last changed. updated_at.anyOf[1] (Value): string. Time the profile last
+         * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Optimistic-concurrency version for
+         * profile writes. version.anyOf[1] (Value): integer. Optimistic-concurrency version for
+         * profile writes. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookDeliveryProfile>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current delivery requirement and grouping policy. anyOf[1] (Value): {@link
+             * DeliveryProfileConfiguration}. Current delivery requirement and grouping policy.
+             * anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryProfileConfiguration) | (null));
+            /**
+             * Time the profile was created. anyOf[1] (Value): string. Time the profile was
+             * created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new line-item snapshots. anyOf[1] (Value): string.
+             * Immutable revision used for new line-item snapshots. Example:
+             * "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F". anyOf[2] (Value): null.
+             */
+            "current_delivery_profile_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery profile ID. anyOf[1] (Value): string. Stable delivery profile ID.
+             * Example: "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * True only when this profile is the current physical catalog default. anyOf[1]
+             * (Value): boolean. True only when this profile is the current physical catalog
+             * default. anyOf[2] (Value): null.
+             */
+            "is_default"?: ((boolean) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing profile name. anyOf[1] (Value): string. Merchant-facing profile
+             * name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current profile lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current profile lifecycle status. Value enum: "active", "archived".
+             * anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the profile last changed. anyOf[1] (Value): string. Time the profile last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for profile writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for profile writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2279,7 +2891,24 @@ export type DeliveryRateCallbackActivatedEvent = ((((Exclude<MerchantWebhookEnve
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "circuit_failure_count"?: ((number) | (null));
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            "delivery_rate_callback_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_rate_callback.activated";
@@ -2302,7 +2931,24 @@ export type DeliveryRateCallbackActivatedEvent = ((((Exclude<MerchantWebhookEnve
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "circuit_failure_count"?: ((number) | (null));
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            "delivery_rate_callback_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_rate_callback.activated";
@@ -2358,6 +3004,74 @@ export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<Part
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
+     * failures since the last successful response.
+     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
+     * failures since the last successful response. minimum: 0.
+     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
+     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
+     * (Optional): {@link DeliveryRateCallbackConfiguration} or null. Current settings of the rate
+     * callback. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
+     * ID of the current revision. New quotes use it.
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
+     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`.
+     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
+     * (Optional): string or null. Merchant-facing name of the rate callback.
+     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
+     * callback. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
+     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
+     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
+     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
+     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
+     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
+     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
+     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
+     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
+     * rate callback is in use. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2458,9 +3172,163 @@ export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<Part
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. circuit_failure_count (Optional): integer or
+         * null. Consecutive callback failures since the last successful response.
+         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
+         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
+         * circuit_state (Optional): string or null. Whether Flint is currently calling the
+         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
+         * based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
+         * DeliveryRateCallbackConfiguration} or null. Current settings of the rate callback.
+         * configuration.anyOf[1] (Value): {@link DeliveryRateCallbackConfiguration}. Current
+         * settings of the rate callback. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
+         * (Optional): string or null. ID of the current revision. New quotes use it.
+         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
+         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
+         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
+         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
+         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
+         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
+         * signing_methods (Optional): Array of string or null. Signing methods enabled for
+         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
+         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
+         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
+         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
+         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
+         * null. status (Optional): string or null. Whether the rate callback is in use. Value
+         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
+         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
+         * Current version of this resource's owned state. Send it as `expected_version` when
+         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
+             * integer. Consecutive callback failures since the last successful response. minimum:
+             * 0. anyOf[2] (Value): null.
+             */
+            "circuit_failure_count"?: ((number) | (null));
+            /**
+             * Whether Flint is currently calling the callback, based on recent failures. Value
+             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
+             * currently calling the callback, based on recent failures. Value enum: "closed",
+             * "open", "half_open". anyOf[2] (Value): null.
+             */
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            /**
+             * Current settings of the rate callback. anyOf[1] (Value): {@link
+             * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
+             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+             * anyOf[2] (Value): null.
+             */
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
+             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
+             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
+             */
+            "delivery_rate_callback_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
+             * name of the rate callback. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
+             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
+             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
+             * Authorization: Bearer with a Flint-signed token whose aud is this
+             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
+             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
+             * "hmac". anyOf[2] (Value): null.
+             */
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            /**
+             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2542,6 +3410,74 @@ export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhoo
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
+     * failures since the last successful response.
+     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
+     * failures since the last successful response. minimum: 0.
+     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
+     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
+     * (Optional): {@link DeliveryRateCallbackConfiguration} or null. Current settings of the rate
+     * callback. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
+     * ID of the current revision. New quotes use it.
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
+     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`.
+     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
+     * (Optional): string or null. Merchant-facing name of the rate callback.
+     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
+     * callback. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
+     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
+     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
+     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
+     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
+     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
+     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
+     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
+     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
+     * rate callback is in use. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2642,9 +3578,163 @@ export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhoo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. circuit_failure_count (Optional): integer or
+         * null. Consecutive callback failures since the last successful response.
+         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
+         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
+         * circuit_state (Optional): string or null. Whether Flint is currently calling the
+         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
+         * based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
+         * DeliveryRateCallbackConfiguration} or null. Current settings of the rate callback.
+         * configuration.anyOf[1] (Value): {@link DeliveryRateCallbackConfiguration}. Current
+         * settings of the rate callback. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
+         * (Optional): string or null. ID of the current revision. New quotes use it.
+         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
+         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
+         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
+         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
+         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
+         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
+         * signing_methods (Optional): Array of string or null. Signing methods enabled for
+         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
+         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
+         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
+         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
+         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
+         * null. status (Optional): string or null. Whether the rate callback is in use. Value
+         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
+         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
+         * Current version of this resource's owned state. Send it as `expected_version` when
+         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
+             * integer. Consecutive callback failures since the last successful response. minimum:
+             * 0. anyOf[2] (Value): null.
+             */
+            "circuit_failure_count"?: ((number) | (null));
+            /**
+             * Whether Flint is currently calling the callback, based on recent failures. Value
+             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
+             * currently calling the callback, based on recent failures. Value enum: "closed",
+             * "open", "half_open". anyOf[2] (Value): null.
+             */
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            /**
+             * Current settings of the rate callback. anyOf[1] (Value): {@link
+             * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
+             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+             * anyOf[2] (Value): null.
+             */
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
+             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
+             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
+             */
+            "delivery_rate_callback_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
+             * name of the rate callback. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
+             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
+             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
+             * Authorization: Bearer with a Flint-signed token whose aud is this
+             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
+             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
+             * "hmac". anyOf[2] (Value): null.
+             */
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            /**
+             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2669,7 +3759,24 @@ export type DeliveryRateCallbackArchivedEvent = ((((Exclude<MerchantWebhookEnvel
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "circuit_failure_count"?: ((number) | (null));
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            "delivery_rate_callback_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_rate_callback.archived";
@@ -2692,7 +3799,24 @@ export type DeliveryRateCallbackArchivedEvent = ((((Exclude<MerchantWebhookEnvel
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "circuit_failure_count"?: ((number) | (null));
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            "delivery_rate_callback_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "external_reference_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_rate_callback.archived";
@@ -2748,6 +3872,74 @@ export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<Partn
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
+     * failures since the last successful response.
+     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
+     * failures since the last successful response. minimum: 0.
+     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
+     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
+     * (Optional): {@link DeliveryRateCallbackConfiguration} or null. Current settings of the rate
+     * callback. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
+     * ID of the current revision. New quotes use it.
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
+     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`.
+     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
+     * (Optional): string or null. Merchant-facing name of the rate callback.
+     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
+     * callback. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
+     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
+     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
+     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
+     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
+     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
+     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
+     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
+     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
+     * rate callback is in use. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -2848,9 +4040,163 @@ export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<Partn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. circuit_failure_count (Optional): integer or
+         * null. Consecutive callback failures since the last successful response.
+         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
+         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
+         * circuit_state (Optional): string or null. Whether Flint is currently calling the
+         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
+         * based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
+         * DeliveryRateCallbackConfiguration} or null. Current settings of the rate callback.
+         * configuration.anyOf[1] (Value): {@link DeliveryRateCallbackConfiguration}. Current
+         * settings of the rate callback. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
+         * (Optional): string or null. ID of the current revision. New quotes use it.
+         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
+         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
+         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
+         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
+         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
+         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
+         * signing_methods (Optional): Array of string or null. Signing methods enabled for
+         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
+         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
+         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
+         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
+         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
+         * null. status (Optional): string or null. Whether the rate callback is in use. Value
+         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
+         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
+         * Current version of this resource's owned state. Send it as `expected_version` when
+         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
+             * integer. Consecutive callback failures since the last successful response. minimum:
+             * 0. anyOf[2] (Value): null.
+             */
+            "circuit_failure_count"?: ((number) | (null));
+            /**
+             * Whether Flint is currently calling the callback, based on recent failures. Value
+             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
+             * currently calling the callback, based on recent failures. Value enum: "closed",
+             * "open", "half_open". anyOf[2] (Value): null.
+             */
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            /**
+             * Current settings of the rate callback. anyOf[1] (Value): {@link
+             * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
+             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+             * anyOf[2] (Value): null.
+             */
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
+             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
+             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
+             */
+            "delivery_rate_callback_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
+             * name of the rate callback. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
+             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
+             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
+             * Authorization: Bearer with a Flint-signed token whose aud is this
+             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
+             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
+             * "hmac". anyOf[2] (Value): null.
+             */
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            /**
+             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2932,6 +4278,74 @@ export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhook
      * fields in data.object, at this delivery's API version. Nested changes include the whole
      * previous top-level value. A value is null when the field was absent before the change.
      * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.circuit_failure_count (Optional): integer or null. Consecutive callback
+     * failures since the last successful response.
+     * previous_attributes.circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback
+     * failures since the last successful response. minimum: 0.
+     * previous_attributes.circuit_failure_count.anyOf[2] (Value): null.
+     * previous_attributes.circuit_state (Optional): string or null. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[1] (Value): string. Whether Flint is currently
+     * calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
+     * previous_attributes.circuit_state.anyOf[2] (Value): null. previous_attributes.configuration
+     * (Optional): {@link DeliveryRateCallbackConfiguration} or null. Current settings of the rate
+     * callback. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryRateCallbackConfiguration}. Current settings of the rate callback.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.current_delivery_rate_callback_revision_id (Optional): string or null.
+     * ID of the current revision. New quotes use it.
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID
+     * of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     * previous_attributes.current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_rate_callback_id (Optional): string or null. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`.
+     * previous_attributes.delivery_rate_callback_id.anyOf[1] (Value): string. Unique identifier
+     * for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     * previous_attributes.delivery_rate_callback_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.name
+     * (Optional): string or null. Merchant-facing name of the rate callback.
+     * previous_attributes.name.anyOf[1] (Value): string. Merchant-facing name of the rate
+     * callback. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.signing_methods (Optional): Array of string or null. Signing methods
+     * enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed
+     * token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing
+     * key IDs. [] enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1] (Value): Array
+     * of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization:
+     * Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+     * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. []
+     * enum: "jwt", "hmac". previous_attributes.signing_methods.anyOf[1][] (Value): string. How
+     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
+     * previous_attributes.signing_methods.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Whether the rate callback is in use. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the
+     * rate callback is in use. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current version of this resource's owned state. Send it as
+     * `expected_version` when changing the resource to reject a stale write.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current version of this resource's
+     * owned state. Send it as `expected_version` when changing the resource to reject a stale
+     * write. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -3032,9 +4446,163 @@ export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhook
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. circuit_failure_count (Optional): integer or
+         * null. Consecutive callback failures since the last successful response.
+         * circuit_failure_count.anyOf[1] (Value): integer. Consecutive callback failures since the
+         * last successful response. minimum: 0. circuit_failure_count.anyOf[2] (Value): null.
+         * circuit_state (Optional): string or null. Whether Flint is currently calling the
+         * callback, based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[1] (Value): string. Whether Flint is currently calling the callback,
+         * based on recent failures. Value enum: "closed", "open", "half_open".
+         * circuit_state.anyOf[2] (Value): null. configuration (Optional): {@link
+         * DeliveryRateCallbackConfiguration} or null. Current settings of the rate callback.
+         * configuration.anyOf[1] (Value): {@link DeliveryRateCallbackConfiguration}. Current
+         * settings of the rate callback. configuration.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_rate_callback_revision_id
+         * (Optional): string or null. ID of the current revision. New quotes use it.
+         * current_delivery_rate_callback_revision_id.anyOf[1] (Value): string. ID of the current
+         * revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+         * current_delivery_rate_callback_revision_id.anyOf[2] (Value): null.
+         * delivery_rate_callback_id (Optional): string or null. Unique identifier for this
+         * delivery rate callback, prefixed `dcb_`. delivery_rate_callback_id.anyOf[1] (Value):
+         * string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example:
+         * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". delivery_rate_callback_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Merchant-facing name of the rate callback. name.anyOf[1]
+         * (Value): string. Merchant-facing name of the rate callback. name.anyOf[2] (Value): null.
+         * signing_methods (Optional): Array of string or null. Signing methods enabled for
+         * callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose
+         * aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1] (Value): Array of string. Signing
+         * methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
+         * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+         * webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"].
+         * [] enum: "jwt", "hmac". signing_methods.anyOf[1][] (Value): string. How Flint signs
+         * requests to this endpoint. Value enum: "jwt", "hmac". signing_methods.anyOf[2] (Value):
+         * null. status (Optional): string or null. Whether the rate callback is in use. Value
+         * enum: "active", "inactive", "archived". status.anyOf[1] (Value): string. Whether the
+         * rate callback is in use. Value enum: "active", "inactive", "archived". status.anyOf[2]
+         * (Value): null. updated_at (Optional): string or null. RFC3339 timestamp.
+         * updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. version.anyOf[1] (Value): integer.
+         * Current version of this resource's owned state. Send it as `expected_version` when
+         * changing the resource to reject a stale write. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryRateCallback>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Consecutive callback failures since the last successful response. anyOf[1] (Value):
+             * integer. Consecutive callback failures since the last successful response. minimum:
+             * 0. anyOf[2] (Value): null.
+             */
+            "circuit_failure_count"?: ((number) | (null));
+            /**
+             * Whether Flint is currently calling the callback, based on recent failures. Value
+             * enum: "closed", "open", "half_open". anyOf[1] (Value): string. Whether Flint is
+             * currently calling the callback, based on recent failures. Value enum: "closed",
+             * "open", "half_open". anyOf[2] (Value): null.
+             */
+            "circuit_state"?: (("closed" | "open" | "half_open" | (string & {})) | (null));
+            /**
+             * Current settings of the rate callback. anyOf[1] (Value): {@link
+             * DeliveryRateCallbackConfiguration}. Current settings of the rate callback. anyOf[2]
+             * (Value): null.
+             */
+            "configuration"?: ((DeliveryRateCallbackConfiguration) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * ID of the current revision. New quotes use it. anyOf[1] (Value): string. ID of the
+             * current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+             * anyOf[2] (Value): null.
+             */
+            "current_delivery_rate_callback_revision_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this delivery rate callback, prefixed `dcb_`. anyOf[1]
+             * (Value): string. Unique identifier for this delivery rate callback, prefixed `dcb_`.
+             * Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". anyOf[2] (Value): null.
+             */
+            "delivery_rate_callback_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Merchant-facing name of the rate callback. anyOf[1] (Value): string. Merchant-facing
+             * name of the rate callback. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer
+             * with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends
+             * webhook-signature and signing key IDs. [] enum: "jwt", "hmac". anyOf[1] (Value):
+             * Array of string. Signing methods enabled for callback HTTP requests. jwt sends
+             * Authorization: Bearer with a Flint-signed token whose aud is this
+             * delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs.
+             * minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". anyOf[1][]
+             * (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt",
+             * "hmac". anyOf[2] (Value): null.
+             */
+            "signing_methods"?: ((Array<"jwt" | "hmac" | (string & {})>) | (null));
+            /**
+             * Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Whether the rate callback is in use. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: uint64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

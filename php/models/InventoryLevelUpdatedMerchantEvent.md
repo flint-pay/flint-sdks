@@ -33,3 +33,7 @@ Field definitions: [shared fields](InventoryLevelShortageDetectedMerchantEvent.m
 
 Field definitions: [InventoryLevelShortageDetectedMerchantEvent.data fields 1.object](../models/InventoryLevelShortageDetectedMerchantEvent.md#inventorylevelshortagedetectedmerchanteventdata-fields-1object).
 
+### InventoryLevelUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes](../models/InventoryLevelShortageDetectedMerchantEvent.md#inventorylevelshortagedetectedmerchanteventdata-fields-1previous_attributes).
+

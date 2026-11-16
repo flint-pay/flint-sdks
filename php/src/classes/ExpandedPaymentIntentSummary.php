@@ -12,12 +12,12 @@ namespace Flint;
  * @property-read ?PaymentSourceSummary $payment_source
  * @property-read ?string $refund_status
  * @property-read string $status
- * @property-read list<string> $supported_actions
+ * @property-read ?list<string> $supported_actions
  * @property-read ?string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedPaymentIntentSummary extends Model {
-    /** @param array{'amount_money': mixed, 'capture_method'?: string, 'created_at'?: string, 'customer_id'?: string, 'dispute_status': string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: mixed, 'refund_status'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'capture_method'?: string, 'created_at'?: string, 'customer_id'?: string, 'dispute_status': string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: mixed, 'refund_status'?: string, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentIntentSummary')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -69,10 +69,10 @@ final class ExpandedPaymentIntentSummary extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel; subscription payments list none. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. The merchant list is credential-independent. Checkout credentials receive that list filtered to confirm and cancel on their own session's intents, never capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
-     * @return list<string>
+    /** Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel; subscription payments list none. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. The merchant list is credential-independent. Checkout credentials receive that list filtered to confirm and cancel on their own session's intents, never capture. Customer sessions omit this field. New actions may be added. Always present with merchant credentials. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
+     * @return ?list<string>
      */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function getSupportedActions(): ?array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string

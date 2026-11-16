@@ -33,3 +33,7 @@ Field definitions: [shared fields](TestClockAdvancingEvent.md#testclockadvancing
 
 Field definitions: [TestClockAdvancingEvent.data fields 1.object](../models/TestClockAdvancingEvent.md#testclockadvancingeventdata-fields-1object).
 
+### TestClockFailedEvent.data fields 1.previous_attributes
+
+Field definitions: [TestClockAdvancingEvent.data fields 1.previous_attributes](../models/TestClockAdvancingEvent.md#testclockadvancingeventdata-fields-1previous_attributes).
+

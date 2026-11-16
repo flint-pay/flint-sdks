@@ -28,7 +28,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataobject). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributes). |
 
 ### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.object
 
@@ -39,6 +39,171 @@ Field definitions: [shared fields](DeliveryRateCallback.md#deliveryratecallback)
 ### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.object.configuration
 
 Field definitions: [DeliveryRateCallback.configuration fields 1](../models/DeliveryRateCallback.md#deliveryratecallbackconfiguration-fields-1).
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `circuit_failure_count` | Optional | integer or null | Consecutive callback failures since the last successful response. `circuit_failure_count`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributescircuit_failure_count). |
+| `circuit_state` | Optional | string or null | Whether Flint is currently calling the callback, based on recent failures. Values: `"closed"`, `"open"`, `"half_open"`. `circuit_state`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributescircuit_state). |
+| `configuration` | Optional | [DeliveryRateCallbackConfiguration](../models/DeliveryRateCallbackConfiguration.md#deliveryratecallbackconfiguration) or null | Current settings of the rate callback. `configuration`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributesconfiguration). |
+| `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `current_delivery_rate_callback_revision_id` | Optional | string or null | ID of the current revision. New quotes use it. `current_delivery_rate_callback_revision_id`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributescurrent_delivery_rate_callback_revision_id). |
+| `delivery_rate_callback_id` | Optional | string or null | Unique identifier for this delivery rate callback, prefixed `dcb_`. `delivery_rate_callback_id`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributesdelivery_rate_callback_id). |
+| `delivery_revocation_id` | Optional | string or null or null | The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. `delivery_revocation_id`: [declared alternatives](../models/DeliveryMethodActivatedInstalledMerchantsEvent.md#deliverymethodactivatedinstalledmerchantseventdataprevious_attributesdelivery_revocation_id). |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id). |
+| `name` | Optional | string or null | Merchant-facing name of the rate callback. `name`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributesname). |
+| `signing_methods` | Optional | Array of string or null | Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. Items values: `"jwt"`, `"hmac"`. `signing_methods`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributessigning_methods). |
+| `status` | Optional | string or null | Whether the rate callback is in use. Values: `"active"`, `"inactive"`, `"archived"`. `status`: [declared alternatives](../models/DeliveryRateCallbackActivatedInstalledMerchantsEvent.md#deliveryratecallbackactivatedinstalledmerchantseventdataprevious_attributesstatus). |
+| `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
+| `version` | Optional | integer or null | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. `version`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesversion). |
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.circuit_failure_count
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.circuit_failure_count variant 1
+
+anyOf variant 1: Consecutive callback failures since the last successful response..
+
+- Value shape: integer. Consecutive callback failures since the last successful response. Consecutive callback failures since the last successful response. minimum: `0`. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.circuit_failure_count variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Consecutive callback failures since the last successful response. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.circuit_state
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.circuit_state variant 1
+
+anyOf variant 1: Whether Flint is currently calling the callback, based on recent failures..
+
+- Value shape: string. Whether Flint is currently calling the callback, based on recent failures. Values: `"closed"`, `"open"`, `"half_open"`.
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.circuit_state variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether Flint is currently calling the callback, based on recent failures. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.configuration
+
+Current settings of the rate callback.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_request_bytes` | Conditional | integer | Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576. Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
+| `maximum_response_bytes` | Conditional | integer | Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576. Format: `int64`. minimum: `1`. maximum: `1048576`. Default: `262144`. |
+| `preview_enabled` | Conditional | boolean | Whether delivery previews call this callback. Previews call it only when this setting and `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Default: `false`. |
+| `redirect_policy` | Conditional | string | What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`. Default: `"reject"`. Values: `"reject"`. |
+| `request_timeout_seconds` | Conditional | number | Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1 through 10. minimum: `0.1`. maximum: `10`. Default: `2`. |
+| `url` | Conditional | string | HTTPS URL that Flint calls to get a delivery rate. minLength: `1`. |
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.configuration variant 1: `redirect_policy` = `"reject"`
+
+anyOf DeliveryRateCallbackConfiguration: Current settings of the rate callback..
+
+- Required: `url`.
+- Optional: `maximum_request_bytes`, `maximum_response_bytes`, `preview_enabled`, `redirect_policy`, `request_timeout_seconds`.
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.configuration variant 2
+
+anyOf variant 2.
+
+- Undeclared: `maximum_request_bytes`, `maximum_response_bytes`, `preview_enabled`, `redirect_policy`, `request_timeout_seconds`, `url`.
+- Value shape: null. Current settings of the rate callback. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.current_delivery_rate_callback_revision_id
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.current_delivery_rate_callback_revision_id variant 1
+
+anyOf variant 1: ID of the current revision. New quotes use it..
+
+- Value shape: string. ID of the current revision. New quotes use it. ID of the current revision. New quotes use it. Example: `"dcbr_01KEZF7C003QAPFXXMCHC59T5J"`. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.current_delivery_rate_callback_revision_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the current revision. New quotes use it. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.delivery_rate_callback_id
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.delivery_rate_callback_id variant 1
+
+anyOf variant 1: Unique identifier for this delivery rate callback, prefixed `dcb_`..
+
+- Value shape: string. Unique identifier for this delivery rate callback, prefixed `dcb_`. Unique identifier for this delivery rate callback, prefixed `dcb_`. Example: `"dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1"`. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.delivery_rate_callback_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Unique identifier for this delivery rate callback, prefixed `dcb_`. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.delivery_revocation_id
+
+Declared alternatives: [DeliveryMethodActivatedInstalledMerchantsEvent.data.previous_attributes.delivery_revocation_id](../models/DeliveryMethodActivatedInstalledMerchantsEvent.md#deliverymethodactivatedinstalledmerchantseventdataprevious_attributesdelivery_revocation_id).
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.external_reference_id
+
+Declared alternatives: [BundleArchivedInstalledMerchantsEvent.data.previous_attributes.external_reference_id](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdataprevious_attributesexternal_reference_id).
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.name
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.name variant 1
+
+anyOf variant 1: Merchant-facing name of the rate callback..
+
+- Value shape: string. Merchant-facing name of the rate callback. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Merchant-facing name of the rate callback. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.signing_methods
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.signing_methods variant 1
+
+anyOf variant 1: Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs..
+
+- Value shape: Array of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: `1`. uniqueItems: `true`. Example: `["jwt"]`. Items: How Flint signs requests to this endpoint. Items values: `"jwt"`, `"hmac"`.
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.signing_methods variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.status
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.status variant 1
+
+anyOf variant 1: Whether the rate callback is in use..
+
+- Value shape: string. Whether the rate callback is in use. Values: `"active"`, `"inactive"`, `"archived"`.
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.status variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Whether the rate callback is in use. 
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### DeliveryRateCallbackActivatedInstalledMerchantsEvent.data.previous_attributes.version
+
+Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.version](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributesversion).
 
 ### DeliveryRateCallbackActivatedInstalledMerchantsEvent.source
 

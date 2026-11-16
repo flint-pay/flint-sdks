@@ -31,6 +31,10 @@ Field definitions: [shared fields](InventoryLevelShortageDetectedMerchantEvent.m
 
 Field definitions: [InventoryLevelShortageDetectedMerchantEvent.data fields 1.object](../models/InventoryLevelShortageDetectedMerchantEvent.md#inventorylevelshortagedetectedmerchanteventdata-fields-1object).
 
+### InventoryLevelUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [InventoryLevelShortageDetectedMerchantEvent.data fields 1.previous_attributes](../models/InventoryLevelShortageDetectedMerchantEvent.md#inventorylevelshortagedetectedmerchanteventdata-fields-1previous_attributes).
+
 ### InventoryLevelUpdatedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

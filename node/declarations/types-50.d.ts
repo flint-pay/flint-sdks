@@ -406,7 +406,34 @@ export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
     & ({
     "data"?: {
         "object": WebhookProduct;
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_variant_count"?: ((number) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "created_at"?: ((string) | (null));
+            "default_variant"?: ((ProductVariant) | (null));
+            "default_variant_id"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "option_count"?: ((number) | (null));
+            "options"?: ((Array<ProductOption>) | (null));
+            "price_range"?: ((ProductPriceRange) | (null));
+            "product_id"?: ((string) | (null));
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "product.archived";
@@ -415,7 +442,34 @@ export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
     & ({
     "data"?: {
         "object": WebhookProduct;
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_variant_count"?: ((number) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "created_at"?: ((string) | (null));
+            "default_variant"?: ((ProductVariant) | (null));
+            "default_variant_id"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "option_count"?: ((number) | (null));
+            "options"?: ((Array<ProductOption>) | (null));
+            "price_range"?: ((ProductPriceRange) | (null));
+            "product_id"?: ((string) | (null));
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "product.archived";
@@ -443,6 +497,114 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_variant_count (Optional): integer or null. Number of active
+     * variants belonging to the product. previous_attributes.active_variant_count.anyOf[1]
+     * (Value): integer. Number of active variants belonging to the product. Format: int32.
+     * previous_attributes.active_variant_count.anyOf[2] (Value): null.
+     * previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When this resource was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When this resource was created, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.default_variant
+     * (Optional): {@link ProductVariant} or null. The product's default variant, when one is set.
+     * previous_attributes.default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's
+     * default variant, when one is set. previous_attributes.default_variant.anyOf[2] (Value):
+     * null. previous_attributes.default_variant_id (Optional): string or null. Identifier of the
+     * variant chosen as this product's default, when one is set.
+     * previous_attributes.default_variant_id.anyOf[1] (Value): string. Identifier of the variant
+     * chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX". previous_attributes.default_variant_id.anyOf[2] (Value):
+     * null. previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the product shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * product shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the product
+     * is active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is
+     * active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the product. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the product. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Product name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link ProductOption} or null.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1] (Value): Array of {@link ProductOption}. Product
+     * options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+     * a product's variants. previous_attributes.options.anyOf[2] (Value): null.
+     * previous_attributes.price_range (Optional): {@link ProductPriceRange} or null. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[2] (Value): null. previous_attributes.product_id
+     * (Optional): string or null. Stable identifier of the product.
+     * previous_attributes.product_id.anyOf[1] (Value): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2] (Value):
+     * null. previous_attributes.product_type (Optional): string or null. Kind of goods or service
+     * this product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[1] (Value): string. Kind of goods or service this
+     * product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Product lifecycle status. Archived products remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Product lifecycle status. Archived
+     * products remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When this resource last changed, as an RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When this resource last changed, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_count
+     * (Optional): integer or null. Number of non-archived variants belonging to the product.
+     * previous_attributes.variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+     * belonging to the product. Format: int32. previous_attributes.variant_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current resource version.
+     * Send it as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -454,9 +616,251 @@ export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. active_variant_count (Optional): integer or
+         * null. Number of active variants belonging to the product. active_variant_count.anyOf[1]
+         * (Value): integer. Number of active variants belonging to the product. Format: int32.
+         * active_variant_count.anyOf[2] (Value): null. categories (Optional): Array of {@link
+         * CategoryReference} or null. Always present. Empty collections are returned as [].
+         * categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always present. Empty
+         * collections are returned as []. categories.anyOf[1][] (Value): {@link
+         * CategoryReference}. A reference to a product category by ID, handle, and name.
+         * categories.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. default_variant (Optional):
+         * {@link ProductVariant} or null. The product's default variant, when one is set.
+         * default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's default variant,
+         * when one is set. default_variant.anyOf[2] (Value): null. default_variant_id (Optional):
+         * string or null. Identifier of the variant chosen as this product's default, when one is
+         * set. default_variant_id.anyOf[1] (Value): string. Identifier of the variant chosen as
+         * this product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * default_variant_id.anyOf[2] (Value): null. delivery_configuration_status (Optional):
+         * string or null. Delivery readiness aggregated across the product's non-archived
+         * variants. Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the product's non-archived variants. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[2] (Value): null. description
+         * (Optional): string or null. Description of the product shown to buyers.
+         * description.anyOf[1] (Value): string. Description of the product shown to buyers.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. Images attached to this resource, in display order. The first
+         * image is primary. images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary.
+         * images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a resource,
+         * with its display properties and attachment metadata. images.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the product is active and has
+         * at least one active variant. is_available_for_sale.anyOf[1] (Value): boolean. Whether
+         * the product is active and has at least one active variant.
+         * is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this resource. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the product. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
+         * Product name shown to buyers. name.anyOf[2] (Value): null. option_count (Optional):
+         * integer or null. Number of active options belonging to the product.
+         * option_count.anyOf[1] (Value): integer. Number of active options belonging to the
+         * product. Format: int32. option_count.anyOf[2] (Value): null. options (Optional): Array
+         * of {@link ProductOption} or null. Product options and their non-archived values. Empty
+         * when the product has no options. options.anyOf[1] (Value): Array of {@link
+         * ProductOption}. Product options and their non-archived values. Empty when the product
+         * has no options. options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+         * a product's variants. options.anyOf[2] (Value): null. price_range (Optional): {@link
+         * ProductPriceRange} or null. Lowest and highest base unit prices among active variants,
+         * before any quantity price breaks. Omitted when there are no active variants or their
+         * currencies differ. price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+         * highest base unit prices among active variants, before any quantity price breaks.
+         * Omitted when there are no active variants or their currencies differ.
+         * price_range.anyOf[2] (Value): null. product_id (Optional): string or null. Stable
+         * identifier of the product. product_id.anyOf[1] (Value): string. Stable identifier of the
+         * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * product_type (Optional): string or null. Kind of goods or service this product
+         * represents. New variants of digital products store digital_goods when
+         * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". product_type.anyOf[1] (Value):
+         * string. Kind of goods or service this product represents. New variants of digital
+         * products store digital_goods when line_item_tax_category is omitted; explicit categories
+         * are preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+         * product_type.anyOf[2] (Value): null. status (Optional): string or null. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Product lifecycle
+         * status. Archived products remain readable and cannot be edited. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When this resource last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When this resource last changed, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         * variant_count (Optional): integer or null. Number of non-archived variants belonging to
+         * the product. variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+         * belonging to the product. Format: int32. variant_count.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. version.anyOf[1] (Value): integer. Current
+         * resource version. Send it as expected_version to reject a write if the resource has
+         * changed. Format: uint64. minimum: 0. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of active variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of active variants belonging to the product. Format: int32. anyOf[2] (Value):
+             * null.
+             */
+            "active_variant_count"?: ((number) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The product's default variant, when one is set. anyOf[1] (Value): {@link
+             * ProductVariant}. The product's default variant, when one is set. anyOf[2] (Value):
+             * null.
+             */
+            "default_variant"?: ((ProductVariant) | (null));
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
+             * default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+             * (Value): null.
+             */
+            "default_variant_id"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[1] (Value): string.
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the product shown to buyers. anyOf[1] (Value): string. Description of
+             * the product shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the product is active and has at least one active variant. anyOf[1] (Value):
+             * boolean. Whether the product is active and has at least one active variant. anyOf[2]
+             * (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the product. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * product. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of active options belonging to the product. anyOf[1] (Value): integer. Number
+             * of active options belonging to the product. Format: int32. anyOf[2] (Value): null.
+             */
+            "option_count"?: ((number) | (null));
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. anyOf[1] (Value): Array of {@link ProductOption}. Product options and their
+             * non-archived values. Empty when the product has no options. anyOf[1][] (Value):
+             * {@link ProductOption}. A choice that defines a product's variants. anyOf[2] (Value):
+             * null.
+             */
+            "options"?: ((Array<ProductOption>) | (null));
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ.
+             * anyOf[1] (Value): {@link ProductPriceRange}. Lowest and highest base unit prices
+             * among active variants, before any quantity price breaks. Omitted when there are no
+             * active variants or their currencies differ. anyOf[2] (Value): null.
+             */
+            "price_range"?: ((ProductPriceRange) | (null));
+            /**
+             * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
+             * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             * anyOf[1] (Value): string. Kind of goods or service this product represents. New
+             * variants of digital products store digital_goods when line_item_tax_category is
+             * omitted; explicit categories are preserved. Value enum: "physical", "service",
+             * "fee", "digital", "gift_card". anyOf[2] (Value): null.
+             */
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Product
+             * lifecycle status. Archived products remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of non-archived variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of non-archived variants belonging to the product. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "variant_count"?: ((number) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -510,6 +914,114 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_variant_count (Optional): integer or null. Number of active
+     * variants belonging to the product. previous_attributes.active_variant_count.anyOf[1]
+     * (Value): integer. Number of active variants belonging to the product. Format: int32.
+     * previous_attributes.active_variant_count.anyOf[2] (Value): null.
+     * previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When this resource was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When this resource was created, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.default_variant
+     * (Optional): {@link ProductVariant} or null. The product's default variant, when one is set.
+     * previous_attributes.default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's
+     * default variant, when one is set. previous_attributes.default_variant.anyOf[2] (Value):
+     * null. previous_attributes.default_variant_id (Optional): string or null. Identifier of the
+     * variant chosen as this product's default, when one is set.
+     * previous_attributes.default_variant_id.anyOf[1] (Value): string. Identifier of the variant
+     * chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX". previous_attributes.default_variant_id.anyOf[2] (Value):
+     * null. previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the product shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * product shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the product
+     * is active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is
+     * active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the product. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the product. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Product name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link ProductOption} or null.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1] (Value): Array of {@link ProductOption}. Product
+     * options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+     * a product's variants. previous_attributes.options.anyOf[2] (Value): null.
+     * previous_attributes.price_range (Optional): {@link ProductPriceRange} or null. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[2] (Value): null. previous_attributes.product_id
+     * (Optional): string or null. Stable identifier of the product.
+     * previous_attributes.product_id.anyOf[1] (Value): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2] (Value):
+     * null. previous_attributes.product_type (Optional): string or null. Kind of goods or service
+     * this product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[1] (Value): string. Kind of goods or service this
+     * product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Product lifecycle status. Archived products remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Product lifecycle status. Archived
+     * products remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When this resource last changed, as an RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When this resource last changed, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_count
+     * (Optional): integer or null. Number of non-archived variants belonging to the product.
+     * previous_attributes.variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+     * belonging to the product. Format: int32. previous_attributes.variant_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current resource version.
+     * Send it as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -521,9 +1033,251 @@ export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. active_variant_count (Optional): integer or
+         * null. Number of active variants belonging to the product. active_variant_count.anyOf[1]
+         * (Value): integer. Number of active variants belonging to the product. Format: int32.
+         * active_variant_count.anyOf[2] (Value): null. categories (Optional): Array of {@link
+         * CategoryReference} or null. Always present. Empty collections are returned as [].
+         * categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always present. Empty
+         * collections are returned as []. categories.anyOf[1][] (Value): {@link
+         * CategoryReference}. A reference to a product category by ID, handle, and name.
+         * categories.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. default_variant (Optional):
+         * {@link ProductVariant} or null. The product's default variant, when one is set.
+         * default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's default variant,
+         * when one is set. default_variant.anyOf[2] (Value): null. default_variant_id (Optional):
+         * string or null. Identifier of the variant chosen as this product's default, when one is
+         * set. default_variant_id.anyOf[1] (Value): string. Identifier of the variant chosen as
+         * this product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * default_variant_id.anyOf[2] (Value): null. delivery_configuration_status (Optional):
+         * string or null. Delivery readiness aggregated across the product's non-archived
+         * variants. Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the product's non-archived variants. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[2] (Value): null. description
+         * (Optional): string or null. Description of the product shown to buyers.
+         * description.anyOf[1] (Value): string. Description of the product shown to buyers.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. Images attached to this resource, in display order. The first
+         * image is primary. images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary.
+         * images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a resource,
+         * with its display properties and attachment metadata. images.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the product is active and has
+         * at least one active variant. is_available_for_sale.anyOf[1] (Value): boolean. Whether
+         * the product is active and has at least one active variant.
+         * is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this resource. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the product. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
+         * Product name shown to buyers. name.anyOf[2] (Value): null. option_count (Optional):
+         * integer or null. Number of active options belonging to the product.
+         * option_count.anyOf[1] (Value): integer. Number of active options belonging to the
+         * product. Format: int32. option_count.anyOf[2] (Value): null. options (Optional): Array
+         * of {@link ProductOption} or null. Product options and their non-archived values. Empty
+         * when the product has no options. options.anyOf[1] (Value): Array of {@link
+         * ProductOption}. Product options and their non-archived values. Empty when the product
+         * has no options. options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+         * a product's variants. options.anyOf[2] (Value): null. price_range (Optional): {@link
+         * ProductPriceRange} or null. Lowest and highest base unit prices among active variants,
+         * before any quantity price breaks. Omitted when there are no active variants or their
+         * currencies differ. price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+         * highest base unit prices among active variants, before any quantity price breaks.
+         * Omitted when there are no active variants or their currencies differ.
+         * price_range.anyOf[2] (Value): null. product_id (Optional): string or null. Stable
+         * identifier of the product. product_id.anyOf[1] (Value): string. Stable identifier of the
+         * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * product_type (Optional): string or null. Kind of goods or service this product
+         * represents. New variants of digital products store digital_goods when
+         * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". product_type.anyOf[1] (Value):
+         * string. Kind of goods or service this product represents. New variants of digital
+         * products store digital_goods when line_item_tax_category is omitted; explicit categories
+         * are preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+         * product_type.anyOf[2] (Value): null. status (Optional): string or null. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Product lifecycle
+         * status. Archived products remain readable and cannot be edited. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When this resource last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When this resource last changed, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         * variant_count (Optional): integer or null. Number of non-archived variants belonging to
+         * the product. variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+         * belonging to the product. Format: int32. variant_count.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. version.anyOf[1] (Value): integer. Current
+         * resource version. Send it as expected_version to reject a write if the resource has
+         * changed. Format: uint64. minimum: 0. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of active variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of active variants belonging to the product. Format: int32. anyOf[2] (Value):
+             * null.
+             */
+            "active_variant_count"?: ((number) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The product's default variant, when one is set. anyOf[1] (Value): {@link
+             * ProductVariant}. The product's default variant, when one is set. anyOf[2] (Value):
+             * null.
+             */
+            "default_variant"?: ((ProductVariant) | (null));
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
+             * default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+             * (Value): null.
+             */
+            "default_variant_id"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[1] (Value): string.
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the product shown to buyers. anyOf[1] (Value): string. Description of
+             * the product shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the product is active and has at least one active variant. anyOf[1] (Value):
+             * boolean. Whether the product is active and has at least one active variant. anyOf[2]
+             * (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the product. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * product. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of active options belonging to the product. anyOf[1] (Value): integer. Number
+             * of active options belonging to the product. Format: int32. anyOf[2] (Value): null.
+             */
+            "option_count"?: ((number) | (null));
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. anyOf[1] (Value): Array of {@link ProductOption}. Product options and their
+             * non-archived values. Empty when the product has no options. anyOf[1][] (Value):
+             * {@link ProductOption}. A choice that defines a product's variants. anyOf[2] (Value):
+             * null.
+             */
+            "options"?: ((Array<ProductOption>) | (null));
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ.
+             * anyOf[1] (Value): {@link ProductPriceRange}. Lowest and highest base unit prices
+             * among active variants, before any quantity price breaks. Omitted when there are no
+             * active variants or their currencies differ. anyOf[2] (Value): null.
+             */
+            "price_range"?: ((ProductPriceRange) | (null));
+            /**
+             * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
+             * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             * anyOf[1] (Value): string. Kind of goods or service this product represents. New
+             * variants of digital products store digital_goods when line_item_tax_category is
+             * omitted; explicit categories are preserved. Value enum: "physical", "service",
+             * "fee", "digital", "gift_card". anyOf[2] (Value): null.
+             */
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Product
+             * lifecycle status. Archived products remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of non-archived variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of non-archived variants belonging to the product. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "variant_count"?: ((number) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -793,7 +1547,34 @@ export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     & ({
     "data"?: {
         "object": WebhookProduct;
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_variant_count"?: ((number) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "created_at"?: ((string) | (null));
+            "default_variant"?: ((ProductVariant) | (null));
+            "default_variant_id"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "option_count"?: ((number) | (null));
+            "options"?: ((Array<ProductOption>) | (null));
+            "price_range"?: ((ProductPriceRange) | (null));
+            "product_id"?: ((string) | (null));
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "product.updated";
@@ -802,7 +1583,34 @@ export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     & ({
     "data"?: {
         "object": WebhookProduct;
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_variant_count"?: ((number) | (null));
+            "categories"?: ((Array<CategoryReference>) | (null));
+            "created_at"?: ((string) | (null));
+            "default_variant"?: ((ProductVariant) | (null));
+            "default_variant_id"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "option_count"?: ((number) | (null));
+            "options"?: ((Array<ProductOption>) | (null));
+            "price_range"?: ((ProductPriceRange) | (null));
+            "product_id"?: ((string) | (null));
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "product.updated";
@@ -830,6 +1638,114 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_variant_count (Optional): integer or null. Number of active
+     * variants belonging to the product. previous_attributes.active_variant_count.anyOf[1]
+     * (Value): integer. Number of active variants belonging to the product. Format: int32.
+     * previous_attributes.active_variant_count.anyOf[2] (Value): null.
+     * previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When this resource was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When this resource was created, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.default_variant
+     * (Optional): {@link ProductVariant} or null. The product's default variant, when one is set.
+     * previous_attributes.default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's
+     * default variant, when one is set. previous_attributes.default_variant.anyOf[2] (Value):
+     * null. previous_attributes.default_variant_id (Optional): string or null. Identifier of the
+     * variant chosen as this product's default, when one is set.
+     * previous_attributes.default_variant_id.anyOf[1] (Value): string. Identifier of the variant
+     * chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX". previous_attributes.default_variant_id.anyOf[2] (Value):
+     * null. previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the product shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * product shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the product
+     * is active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is
+     * active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the product. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the product. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Product name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link ProductOption} or null.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1] (Value): Array of {@link ProductOption}. Product
+     * options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+     * a product's variants. previous_attributes.options.anyOf[2] (Value): null.
+     * previous_attributes.price_range (Optional): {@link ProductPriceRange} or null. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[2] (Value): null. previous_attributes.product_id
+     * (Optional): string or null. Stable identifier of the product.
+     * previous_attributes.product_id.anyOf[1] (Value): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2] (Value):
+     * null. previous_attributes.product_type (Optional): string or null. Kind of goods or service
+     * this product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[1] (Value): string. Kind of goods or service this
+     * product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Product lifecycle status. Archived products remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Product lifecycle status. Archived
+     * products remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When this resource last changed, as an RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When this resource last changed, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_count
+     * (Optional): integer or null. Number of non-archived variants belonging to the product.
+     * previous_attributes.variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+     * belonging to the product. Format: int32. previous_attributes.variant_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current resource version.
+     * Send it as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -841,9 +1757,251 @@ export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. active_variant_count (Optional): integer or
+         * null. Number of active variants belonging to the product. active_variant_count.anyOf[1]
+         * (Value): integer. Number of active variants belonging to the product. Format: int32.
+         * active_variant_count.anyOf[2] (Value): null. categories (Optional): Array of {@link
+         * CategoryReference} or null. Always present. Empty collections are returned as [].
+         * categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always present. Empty
+         * collections are returned as []. categories.anyOf[1][] (Value): {@link
+         * CategoryReference}. A reference to a product category by ID, handle, and name.
+         * categories.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. default_variant (Optional):
+         * {@link ProductVariant} or null. The product's default variant, when one is set.
+         * default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's default variant,
+         * when one is set. default_variant.anyOf[2] (Value): null. default_variant_id (Optional):
+         * string or null. Identifier of the variant chosen as this product's default, when one is
+         * set. default_variant_id.anyOf[1] (Value): string. Identifier of the variant chosen as
+         * this product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * default_variant_id.anyOf[2] (Value): null. delivery_configuration_status (Optional):
+         * string or null. Delivery readiness aggregated across the product's non-archived
+         * variants. Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the product's non-archived variants. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[2] (Value): null. description
+         * (Optional): string or null. Description of the product shown to buyers.
+         * description.anyOf[1] (Value): string. Description of the product shown to buyers.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. Images attached to this resource, in display order. The first
+         * image is primary. images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary.
+         * images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a resource,
+         * with its display properties and attachment metadata. images.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the product is active and has
+         * at least one active variant. is_available_for_sale.anyOf[1] (Value): boolean. Whether
+         * the product is active and has at least one active variant.
+         * is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this resource. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the product. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
+         * Product name shown to buyers. name.anyOf[2] (Value): null. option_count (Optional):
+         * integer or null. Number of active options belonging to the product.
+         * option_count.anyOf[1] (Value): integer. Number of active options belonging to the
+         * product. Format: int32. option_count.anyOf[2] (Value): null. options (Optional): Array
+         * of {@link ProductOption} or null. Product options and their non-archived values. Empty
+         * when the product has no options. options.anyOf[1] (Value): Array of {@link
+         * ProductOption}. Product options and their non-archived values. Empty when the product
+         * has no options. options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+         * a product's variants. options.anyOf[2] (Value): null. price_range (Optional): {@link
+         * ProductPriceRange} or null. Lowest and highest base unit prices among active variants,
+         * before any quantity price breaks. Omitted when there are no active variants or their
+         * currencies differ. price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+         * highest base unit prices among active variants, before any quantity price breaks.
+         * Omitted when there are no active variants or their currencies differ.
+         * price_range.anyOf[2] (Value): null. product_id (Optional): string or null. Stable
+         * identifier of the product. product_id.anyOf[1] (Value): string. Stable identifier of the
+         * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * product_type (Optional): string or null. Kind of goods or service this product
+         * represents. New variants of digital products store digital_goods when
+         * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". product_type.anyOf[1] (Value):
+         * string. Kind of goods or service this product represents. New variants of digital
+         * products store digital_goods when line_item_tax_category is omitted; explicit categories
+         * are preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+         * product_type.anyOf[2] (Value): null. status (Optional): string or null. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Product lifecycle
+         * status. Archived products remain readable and cannot be edited. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When this resource last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When this resource last changed, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         * variant_count (Optional): integer or null. Number of non-archived variants belonging to
+         * the product. variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+         * belonging to the product. Format: int32. variant_count.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. version.anyOf[1] (Value): integer. Current
+         * resource version. Send it as expected_version to reject a write if the resource has
+         * changed. Format: uint64. minimum: 0. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of active variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of active variants belonging to the product. Format: int32. anyOf[2] (Value):
+             * null.
+             */
+            "active_variant_count"?: ((number) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The product's default variant, when one is set. anyOf[1] (Value): {@link
+             * ProductVariant}. The product's default variant, when one is set. anyOf[2] (Value):
+             * null.
+             */
+            "default_variant"?: ((ProductVariant) | (null));
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
+             * default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+             * (Value): null.
+             */
+            "default_variant_id"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[1] (Value): string.
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the product shown to buyers. anyOf[1] (Value): string. Description of
+             * the product shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the product is active and has at least one active variant. anyOf[1] (Value):
+             * boolean. Whether the product is active and has at least one active variant. anyOf[2]
+             * (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the product. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * product. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of active options belonging to the product. anyOf[1] (Value): integer. Number
+             * of active options belonging to the product. Format: int32. anyOf[2] (Value): null.
+             */
+            "option_count"?: ((number) | (null));
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. anyOf[1] (Value): Array of {@link ProductOption}. Product options and their
+             * non-archived values. Empty when the product has no options. anyOf[1][] (Value):
+             * {@link ProductOption}. A choice that defines a product's variants. anyOf[2] (Value):
+             * null.
+             */
+            "options"?: ((Array<ProductOption>) | (null));
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ.
+             * anyOf[1] (Value): {@link ProductPriceRange}. Lowest and highest base unit prices
+             * among active variants, before any quantity price breaks. Omitted when there are no
+             * active variants or their currencies differ. anyOf[2] (Value): null.
+             */
+            "price_range"?: ((ProductPriceRange) | (null));
+            /**
+             * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
+             * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             * anyOf[1] (Value): string. Kind of goods or service this product represents. New
+             * variants of digital products store digital_goods when line_item_tax_category is
+             * omitted; explicit categories are preserved. Value enum: "physical", "service",
+             * "fee", "digital", "gift_card". anyOf[2] (Value): null.
+             */
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Product
+             * lifecycle status. Archived products remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of non-archived variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of non-archived variants belonging to the product. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "variant_count"?: ((number) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -897,6 +2055,114 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_variant_count (Optional): integer or null. Number of active
+     * variants belonging to the product. previous_attributes.active_variant_count.anyOf[1]
+     * (Value): integer. Number of active variants belonging to the product. Format: int32.
+     * previous_attributes.active_variant_count.anyOf[2] (Value): null.
+     * previous_attributes.categories (Optional): Array of {@link CategoryReference} or null.
+     * Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always
+     * present. Empty collections are returned as []. previous_attributes.categories.anyOf[1][]
+     * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name. previous_attributes.categories.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. When this resource was created, as an RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When this resource was created, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.default_variant
+     * (Optional): {@link ProductVariant} or null. The product's default variant, when one is set.
+     * previous_attributes.default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's
+     * default variant, when one is set. previous_attributes.default_variant.anyOf[2] (Value):
+     * null. previous_attributes.default_variant_id (Optional): string or null. Identifier of the
+     * variant chosen as this product's default, when one is set.
+     * previous_attributes.default_variant_id.anyOf[1] (Value): string. Identifier of the variant
+     * chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX". previous_attributes.default_variant_id.anyOf[2] (Value):
+     * null. previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the product shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * product shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachment} or null. Images attached to this resource, in
+     * display order. The first image is primary. previous_attributes.images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the product
+     * is active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is
+     * active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the product. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the product. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Product name shown to buyers.
+     * previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link ProductOption} or null.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1] (Value): Array of {@link ProductOption}. Product
+     * options and their non-archived values. Empty when the product has no options.
+     * previous_attributes.options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+     * a product's variants. previous_attributes.options.anyOf[2] (Value): null.
+     * previous_attributes.price_range (Optional): {@link ProductPriceRange} or null. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+     * highest base unit prices among active variants, before any quantity price breaks. Omitted
+     * when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[2] (Value): null. previous_attributes.product_id
+     * (Optional): string or null. Stable identifier of the product.
+     * previous_attributes.product_id.anyOf[1] (Value): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2] (Value):
+     * null. previous_attributes.product_type (Optional): string or null. Kind of goods or service
+     * this product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[1] (Value): string. Kind of goods or service this
+     * product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Product lifecycle status. Archived products remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Product lifecycle status. Archived
+     * products remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When this resource last changed, as an RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When this resource last changed, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_count
+     * (Optional): integer or null. Number of non-archived variants belonging to the product.
+     * previous_attributes.variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+     * belonging to the product. Format: int32. previous_attributes.variant_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current resource version.
+     * Send it as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -908,9 +2174,251 @@ export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. active_variant_count (Optional): integer or
+         * null. Number of active variants belonging to the product. active_variant_count.anyOf[1]
+         * (Value): integer. Number of active variants belonging to the product. Format: int32.
+         * active_variant_count.anyOf[2] (Value): null. categories (Optional): Array of {@link
+         * CategoryReference} or null. Always present. Empty collections are returned as [].
+         * categories.anyOf[1] (Value): Array of {@link CategoryReference}. Always present. Empty
+         * collections are returned as []. categories.anyOf[1][] (Value): {@link
+         * CategoryReference}. A reference to a product category by ID, handle, and name.
+         * categories.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. default_variant (Optional):
+         * {@link ProductVariant} or null. The product's default variant, when one is set.
+         * default_variant.anyOf[1] (Value): {@link ProductVariant}. The product's default variant,
+         * when one is set. default_variant.anyOf[2] (Value): null. default_variant_id (Optional):
+         * string or null. Identifier of the variant chosen as this product's default, when one is
+         * set. default_variant_id.anyOf[1] (Value): string. Identifier of the variant chosen as
+         * this product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * default_variant_id.anyOf[2] (Value): null. delivery_configuration_status (Optional):
+         * string or null. Delivery readiness aggregated across the product's non-archived
+         * variants. Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the product's non-archived variants. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[2] (Value): null. description
+         * (Optional): string or null. Description of the product shown to buyers.
+         * description.anyOf[1] (Value): string. Description of the product shown to buyers.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. Images attached to this resource, in display order. The first
+         * image is primary. images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary.
+         * images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a resource,
+         * with its display properties and attachment metadata. images.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the product is active and has
+         * at least one active variant. is_available_for_sale.anyOf[1] (Value): boolean. Whether
+         * the product is active and has at least one active variant.
+         * is_available_for_sale.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this resource. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or null or
+         * null. ID of the modifier set attached to the product. `null` when no modifier set is
+         * attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
+         * Product name shown to buyers. name.anyOf[2] (Value): null. option_count (Optional):
+         * integer or null. Number of active options belonging to the product.
+         * option_count.anyOf[1] (Value): integer. Number of active options belonging to the
+         * product. Format: int32. option_count.anyOf[2] (Value): null. options (Optional): Array
+         * of {@link ProductOption} or null. Product options and their non-archived values. Empty
+         * when the product has no options. options.anyOf[1] (Value): Array of {@link
+         * ProductOption}. Product options and their non-archived values. Empty when the product
+         * has no options. options.anyOf[1][] (Value): {@link ProductOption}. A choice that defines
+         * a product's variants. options.anyOf[2] (Value): null. price_range (Optional): {@link
+         * ProductPriceRange} or null. Lowest and highest base unit prices among active variants,
+         * before any quantity price breaks. Omitted when there are no active variants or their
+         * currencies differ. price_range.anyOf[1] (Value): {@link ProductPriceRange}. Lowest and
+         * highest base unit prices among active variants, before any quantity price breaks.
+         * Omitted when there are no active variants or their currencies differ.
+         * price_range.anyOf[2] (Value): null. product_id (Optional): string or null. Stable
+         * identifier of the product. product_id.anyOf[1] (Value): string. Stable identifier of the
+         * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * product_type (Optional): string or null. Kind of goods or service this product
+         * represents. New variants of digital products store digital_goods when
+         * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". product_type.anyOf[1] (Value):
+         * string. Kind of goods or service this product represents. New variants of digital
+         * products store digital_goods when line_item_tax_category is omitted; explicit categories
+         * are preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+         * product_type.anyOf[2] (Value): null. status (Optional): string or null. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Product lifecycle
+         * status. Archived products remain readable and cannot be edited. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When this resource last changed, as an RFC3339 timestamp. updated_at.anyOf[1]
+         * (Value): string. When this resource last changed, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         * variant_count (Optional): integer or null. Number of non-archived variants belonging to
+         * the product. variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+         * belonging to the product. Format: int32. variant_count.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. version.anyOf[1] (Value): integer. Current
+         * resource version. Send it as expected_version to reject a write if the resource has
+         * changed. Format: uint64. minimum: 0. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProduct>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of active variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of active variants belonging to the product. Format: int32. anyOf[2] (Value):
+             * null.
+             */
+            "active_variant_count"?: ((number) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReference}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link CategoryReference}. A reference to a product category by
+             * ID, handle, and name. anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReference>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The product's default variant, when one is set. anyOf[1] (Value): {@link
+             * ProductVariant}. The product's default variant, when one is set. anyOf[2] (Value):
+             * null.
+             */
+            "default_variant"?: ((ProductVariant) | (null));
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
+             * default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+             * (Value): null.
+             */
+            "default_variant_id"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[1] (Value): string.
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the product shown to buyers. anyOf[1] (Value): string. Description of
+             * the product shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachment}. Images attached to this
+             * resource, in display order. The first image is primary. anyOf[1][] (Value): {@link
+             * ImageAttachment}. An image attached to a resource, with its display properties and
+             * attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Whether the product is active and has at least one active variant. anyOf[1] (Value):
+             * boolean. Whether the product is active and has at least one active variant. anyOf[2]
+             * (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the product. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * product. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of active options belonging to the product. anyOf[1] (Value): integer. Number
+             * of active options belonging to the product. Format: int32. anyOf[2] (Value): null.
+             */
+            "option_count"?: ((number) | (null));
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. anyOf[1] (Value): Array of {@link ProductOption}. Product options and their
+             * non-archived values. Empty when the product has no options. anyOf[1][] (Value):
+             * {@link ProductOption}. A choice that defines a product's variants. anyOf[2] (Value):
+             * null.
+             */
+            "options"?: ((Array<ProductOption>) | (null));
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ.
+             * anyOf[1] (Value): {@link ProductPriceRange}. Lowest and highest base unit prices
+             * among active variants, before any quantity price breaks. Omitted when there are no
+             * active variants or their currencies differ. anyOf[2] (Value): null.
+             */
+            "price_range"?: ((ProductPriceRange) | (null));
+            /**
+             * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
+             * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             * anyOf[1] (Value): string. Kind of goods or service this product represents. New
+             * variants of digital products store digital_goods when line_item_tax_category is
+             * omitted; explicit categories are preserved. Value enum: "physical", "service",
+             * "fee", "digital", "gift_card". anyOf[2] (Value): null.
+             */
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Product
+             * lifecycle status. Archived products remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of non-archived variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of non-archived variants belonging to the product. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "variant_count"?: ((number) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1114,7 +2622,56 @@ export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
     & ({
     "data"?: {
         "object": WebhookProductVariant;
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "position"?: ((number) | (null));
+            "product_id"?: ((string) | (null));
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            "release_date"?: ((string | null) | (null) | (unknown));
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "taxable"?: ((boolean) | (null));
+            "unit_dimensions"?: ((Dimensions) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "unit_weight"?: ((Weight) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_id"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "product_variant.archived";
@@ -1123,7 +2680,56 @@ export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
     & ({
     "data"?: {
         "object": WebhookProductVariant;
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "position"?: ((number) | (null));
+            "product_id"?: ((string) | (null));
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            "release_date"?: ((string | null) | (null) | (unknown));
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "taxable"?: ((boolean) | (null));
+            "unit_dimensions"?: ((Dimensions) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "unit_weight"?: ((Weight) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_id"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "product_variant.archived";
@@ -1151,6 +2757,176 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.barcode (Optional): string or null. Barcode assigned to this sellable
+     * item. previous_attributes.barcode.anyOf[1] (Value): string. Barcode assigned to this
+     * sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_reason (Optional): string or null. Reason the
+     * variant's delivery configuration needs attention. Value enum: "delivery_profile_missing",
+     * "delivery_profile_inactive". previous_attributes.delivery_configuration_reason.anyOf[1]
+     * (Value): string. Reason the variant's delivery configuration needs attention. Value enum:
+     * "delivery_profile_missing", "delivery_profile_inactive".
+     * previous_attributes.delivery_configuration_reason.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Identifier of the
+     * assigned delivery profile. Digital and service variants opt in to manual delivery with a
+     * required manual profile whose allowed_types is exactly [digital] or [service], matching the
+     * product type. Without a profile, delivery does not apply.
+     * previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+     * delivery profile. Digital and service variants opt in to manual delivery with a required
+     * manual profile whose allowed_types is exactly [digital] or [service], matching the product
+     * type. Without a profile, delivery does not apply. Example:
+     * "dprof_01KEZF7C0020J13FQYNY9854R0". previous_attributes.delivery_profile_id.anyOf[2]
+     * (Value): null. previous_attributes.effective_images (Optional): Array of {@link
+     * ImageAttachment} or null. Images shown for the variant: its own gallery when nonempty,
+     * otherwise the product's gallery. previous_attributes.effective_images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images shown for the variant: its own gallery when
+     * nonempty, otherwise the product's gallery. previous_attributes.effective_images.anyOf[1][]
+     * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * properties and attachment metadata. previous_attributes.effective_images.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_configuration (Optional): {@link GiftCardProductConfiguration}
+     * or null. Gift card issuance terms. face_value_money is the reference denomination;
+     * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the
+     * nearest cent with ties up. previous_attributes.gift_card_configuration.anyOf[1] (Value):
+     * {@link GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+     * reference denomination; unit_price_money is its price. Custom amounts use that
+     * price-to-value ratio, rounded to the nearest cent with ties up.
+     * previous_attributes.gift_card_configuration.anyOf[2] (Value): null.
+     * previous_attributes.images (Optional): Array of {@link ImageAttachment} or null. The
+     * variant's own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's
+     * own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to
+     * a resource, with its display properties and attachment metadata.
+     * previous_attributes.images.anyOf[2] (Value): null. previous_attributes.inventory_item_id
+     * (Optional): string or null. The inventory item this variant consumes. Present exactly when
+     * inventory_tracking is tracked. Several variants may share one inventory item.
+     * previous_attributes.inventory_item_id.anyOf[1] (Value): string. The inventory item this
+     * variant consumes. Present exactly when inventory_tracking is tracked. Several variants may
+     * share one inventory item. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_tracking (Optional): string or null. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[1] (Value): string. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the variant
+     * and its product are both active. Stock isn't considered; `inventory_availability` reports it
+     * on reads. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the
+     * variant and its product are both active. Stock isn't considered; `inventory_availability`
+     * reports it on reads. previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.is_inheriting_product_images (Optional): boolean or null. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[1] (Value): boolean. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[2] (Value): null.
+     * previous_attributes.line_item_tax_category (Optional): string or null. Stored Flint
+     * line-item tax category. New digital-product variants default to digital_goods when omitted.
+     * The stored value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[1] (Value): string. Stored Flint line-item
+     * tax category. New digital-product variants default to digital_goods when omitted. The stored
+     * value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the variant. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the variant. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Variant name that distinguishes it from
+     * the product's other variants. previous_attributes.name.anyOf[1] (Value): string. Variant
+     * name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * previous_attributes.product_id.anyOf[2] (Value): null.
+     * previous_attributes.quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or
+     * null. Net unit prices in ascending minimum_quantity order. The largest minimum not above the
+     * line quantity applies; otherwise the base unit price applies. Empty when no breaks are
+     * configured. Gift card variants have no breaks.
+     * previous_attributes.quantity_price_breaks.anyOf[1] (Value): Array of {@link
+     * QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The largest
+     * minimum not above the line quantity applies; otherwise the base unit price applies. Empty
+     * when no breaks are configured. Gift card variants have no breaks. maxItems: 10.
+     * previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+     * net unit price that applies when one catalog line reaches minimum_quantity.
+     * previous_attributes.quantity_price_breaks.anyOf[2] (Value): null.
+     * previous_attributes.release_date (Optional): string or null or null. Calendar release date
+     * in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
+     * after today in the merchant timezone are pre-orders. Existing order lines keep their release
+     * date. previous_attributes.release_date.anyOf[1] (Value): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
+     * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
+     * SelectedProductOption}. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1][] (Value): {@link SelectedProductOption}. An
+     * option and value chosen for a product variant, such as size Large.
+     * previous_attributes.selected_options.anyOf[2] (Value): null. previous_attributes.sku
+     * (Optional): string or null. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit assigned to this
+     * sellable item. previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Variant lifecycle status. Archived variants remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Variant lifecycle status. Archived
+     * variants remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.taxable (Optional):
+     * boolean or null. Whether this item is subject to tax. previous_attributes.taxable.anyOf[1]
+     * (Value): boolean. Whether this item is subject to tax. previous_attributes.taxable.anyOf[2]
+     * (Value): null. previous_attributes.unit_dimensions (Optional): {@link Dimensions} or null.
+     * Per-unit measurement. Omitted when unknown. previous_attributes.unit_dimensions.anyOf[1]
+     * (Value): {@link Dimensions}. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_dimensions.anyOf[2] (Value): null.
+     * previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[2] (Value): null. previous_attributes.unit_weight
+     * (Optional): {@link Weight} or null. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_weight.anyOf[1] (Value): {@link Weight}. Per-unit measurement.
+     * Omitted when unknown. previous_attributes.unit_weight.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
+     * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
+     * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.variant_id (Optional): string or null. Stable identifier of the product
+     * variant. previous_attributes.variant_id.anyOf[1] (Value): string. Stable identifier of the
+     * product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * previous_attributes.variant_id.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current resource version. Send it as expected_version to reject
+     * a write if the resource has changed. previous_attributes.version.anyOf[1] (Value): integer.
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1162,9 +2938,397 @@ export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_reason (Optional): string or null. Reason the variant's delivery
+         * configuration needs attention. Value enum: "delivery_profile_missing",
+         * "delivery_profile_inactive". delivery_configuration_reason.anyOf[1] (Value): string.
+         * Reason the variant's delivery configuration needs attention. Value enum:
+         * "delivery_profile_missing", "delivery_profile_inactive".
+         * delivery_configuration_reason.anyOf[2] (Value): null. delivery_configuration_status
+         * (Optional): string or null. Whether the variant's delivery configuration is ready, needs
+         * attention, or does not apply. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[1] (Value): string. Whether the
+         * variant's delivery configuration is ready, needs attention, or does not apply. Value
+         * enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. delivery_profile_id (Optional):
+         * string or null. Identifier of the assigned delivery profile. Digital and service
+         * variants opt in to manual delivery with a required manual profile whose allowed_types is
+         * exactly [digital] or [service], matching the product type. Without a profile, delivery
+         * does not apply. delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+         * delivery profile. Digital and service variants opt in to manual delivery with a required
+         * manual profile whose allowed_types is exactly [digital] or [service], matching the
+         * product type. Without a profile, delivery does not apply. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * effective_images (Optional): Array of {@link ImageAttachment} or null. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. effective_images.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_configuration (Optional): {@link GiftCardProductConfiguration} or null. Gift
+         * card issuance terms. face_value_money is the reference denomination; unit_price_money is
+         * its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent
+         * with ties up. gift_card_configuration.anyOf[1] (Value): {@link
+         * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+         * reference denomination; unit_price_money is its price. Custom amounts use that
+         * price-to-value ratio, rounded to the nearest cent with ties up.
+         * gift_card_configuration.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. The variant's own images in display order. An empty gallery
+         * inherits the product's images. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. The variant's own images in display order. An empty gallery inherits
+         * the product's images. images.anyOf[1][] (Value): {@link ImageAttachment}. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * images.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. The
+         * inventory item this variant consumes. Present exactly when inventory_tracking is
+         * tracked. Several variants may share one inventory item. inventory_item_id.anyOf[1]
+         * (Value): string. The inventory item this variant consumes. Present exactly when
+         * inventory_tracking is tracked. Several variants may share one inventory item. Example:
+         * "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_item_id.anyOf[2] (Value): null.
+         * inventory_tracking (Optional): string or null. Whether sales of this variant consume an
+         * inventory item. Value enum: "not_tracked", "tracked". inventory_tracking.anyOf[1]
+         * (Value): string. Whether sales of this variant consume an inventory item. Value enum:
+         * "not_tracked", "tracked". inventory_tracking.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the variant and its product
+         * are both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[1] (Value): boolean. Whether the variant and its product are
+         * both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[2] (Value): null. is_inheriting_product_images (Optional):
+         * boolean or null. Whether effective_images comes from the product's gallery because this
+         * variant's gallery is empty. is_inheriting_product_images.anyOf[1] (Value): boolean.
+         * Whether effective_images comes from the product's gallery because this variant's gallery
+         * is empty. is_inheriting_product_images.anyOf[2] (Value): null. line_item_tax_category
+         * (Optional): string or null. Stored Flint line-item tax category. New digital-product
+         * variants default to digital_goods when omitted. The stored value remains editable. Unset
+         * uses the merchant default. Value enum: "general", "physical_goods", "digital_goods",
+         * "software", "saas", "services", "professional_services", "food", "prepared_food",
+         * "clothing", "medical_goods", "admission". line_item_tax_category.anyOf[1] (Value):
+         * string. Stored Flint line-item tax category. New digital-product variants default to
+         * digital_goods when omitted. The stored value remains editable. Unset uses the merchant
+         * default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+         * "services", "professional_services", "food", "prepared_food", "clothing",
+         * "medical_goods", "admission". line_item_tax_category.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. Identifier of the merchant that owns this resource.
+         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
+         * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored
+         * on this resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or
+         * null or null. ID of the modifier set attached to the variant. `null` when no modifier
+         * set is attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier
+         * set attached to the variant. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Variant name that distinguishes it from the product's other
+         * variants. name.anyOf[1] (Value): string. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[2] (Value): null. position (Optional): integer or
+         * null. Display order among the product's variants, starting at zero. position.anyOf[1]
+         * (Value): integer. Display order among the product's variants, starting at zero. Format:
+         * int32. position.anyOf[2] (Value): null. product_id (Optional): string or null.
+         * Identifier of the product this variant belongs to. product_id.anyOf[1] (Value): string.
+         * Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or null. Net unit
+         * prices in ascending minimum_quantity order. The largest minimum not above the line
+         * quantity applies; otherwise the base unit price applies. Empty when no breaks are
+         * configured. Gift card variants have no breaks. quantity_price_breaks.anyOf[1] (Value):
+         * Array of {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity
+         * order. The largest minimum not above the line quantity applies; otherwise the base unit
+         * price applies. Empty when no breaks are configured. Gift card variants have no breaks.
+         * maxItems: 10. quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+         * net unit price that applies when one catalog line reaches minimum_quantity.
+         * quantity_price_breaks.anyOf[2] (Value): null. release_date (Optional): string or null or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. release_date.anyOf[1] (Value): string or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+         * release_date.anyOf[2] (Value): null. selected_options (Optional): Array of {@link
+         * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+         * selected_options.anyOf[1] (Value): Array of {@link SelectedProductOption}. Always
+         * present. Empty collections are returned as []. selected_options.anyOf[1][] (Value):
+         * {@link SelectedProductOption}. An option and value chosen for a product variant, such as
+         * size Large. selected_options.anyOf[2] (Value): null. sku (Optional): string or null.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string. Stock
+         * keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Variant lifecycle status. Archived variants remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Variant lifecycle status. Archived variants remain readable and cannot
+         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * taxable (Optional): boolean or null. Whether this item is subject to tax.
+         * taxable.anyOf[1] (Value): boolean. Whether this item is subject to tax. taxable.anyOf[2]
+         * (Value): null. unit_dimensions (Optional): {@link Dimensions} or null. Per-unit
+         * measurement. Omitted when unknown. unit_dimensions.anyOf[1] (Value): {@link Dimensions}.
+         * Per-unit measurement. Omitted when unknown. unit_dimensions.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Base unit price before quantity
+         * price breaks, in the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Base unit price before quantity price breaks, in the currency's smallest
+         * unit. unit_price_money.anyOf[2] (Value): null. unit_weight (Optional): {@link Weight} or
+         * null. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[1] (Value): {@link
+         * Weight}. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. When this resource last changed, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When this resource last changed, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. variant_id (Optional): string or null. Stable
+         * identifier of the product variant. variant_id.anyOf[1] (Value): string. Stable
+         * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * variant_id.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[1] (Value): string.
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            /**
+             * Whether the variant's delivery configuration is ready, needs attention, or does not
+             * apply. Value enum: "configured", "action_required", "not_applicable". anyOf[1]
+             * (Value): string. Whether the variant's delivery configuration is ready, needs
+             * attention, or does not apply. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Identifier of the assigned delivery profile. Digital and service variants opt in to
+             * manual delivery with a required manual profile whose allowed_types is exactly
+             * [digital] or [service], matching the product type. Without a profile, delivery does
+             * not apply. anyOf[1] (Value): string. Identifier of the assigned delivery profile.
+             * Digital and service variants opt in to manual delivery with a required manual
+             * profile whose allowed_types is exactly [digital] or [service], matching the product
+             * type. Without a profile, delivery does not apply. Example:
+             * "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Images shown for the variant: its own gallery when nonempty, otherwise the product's
+             * gallery. anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for the
+             * variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Gift card issuance terms. face_value_money is the reference denomination;
+             * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded
+             * to the nearest cent with ties up. anyOf[1] (Value): {@link
+             * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+             * reference denomination; unit_price_money is its price. Custom amounts use that
+             * price-to-value ratio, rounded to the nearest cent with ties up. anyOf[2] (Value):
+             * null.
+             */
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            /**
+             * The variant's own images in display order. An empty gallery inherits the product's
+             * images. anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's own images
+             * in display order. An empty gallery inherits the product's images. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. anyOf[1] (Value): string.
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. Example:
+             * "invi_01KEZF7C00A6YEM25MTHW2MPZY". anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Whether sales of this variant consume an inventory item. Value enum: "not_tracked",
+             * "tracked". anyOf[1] (Value): string. Whether sales of this variant consume an
+             * inventory item. Value enum: "not_tracked", "tracked". anyOf[2] (Value): null.
+             */
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            /**
+             * Whether the variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[1] (Value): boolean. Whether the
+             * variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Whether effective_images comes from the product's gallery because this variant's
+             * gallery is empty. anyOf[1] (Value): boolean. Whether effective_images comes from the
+             * product's gallery because this variant's gallery is empty. anyOf[2] (Value): null.
+             */
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            /**
+             * Stored Flint line-item tax category. New digital-product variants default to
+             * digital_goods when omitted. The stored value remains editable. Unset uses the
+             * merchant default. Value enum: "general", "physical_goods", "digital_goods",
+             * "software", "saas", "services", "professional_services", "food", "prepared_food",
+             * "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Stored Flint
+             * line-item tax category. New digital-product variants default to digital_goods when
+             * omitted. The stored value remains editable. Unset uses the merchant default. Value
+             * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
+             * "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+             * "admission". anyOf[2] (Value): null.
+             */
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the variant. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * variant. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Variant name that distinguishes it from the product's other variants. anyOf[1]
+             * (Value): string. Variant name that distinguishes it from the product's other
+             * variants. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Display order among the product's variants, starting at zero. anyOf[1] (Value):
+             * integer. Display order among the product's variants, starting at zero. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "position"?: ((number) | (null));
+            /**
+             * Identifier of the product this variant belongs to. anyOf[1] (Value): string.
+             * Identifier of the product this variant belongs to. Example:
+             * "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Net unit prices in ascending minimum_quantity order. The largest minimum not above
+             * the line quantity applies; otherwise the base unit price applies. Empty when no
+             * breaks are configured. Gift card variants have no breaks. anyOf[1] (Value): Array of
+             * {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The
+             * largest minimum not above the line quantity applies; otherwise the base unit price
+             * applies. Empty when no breaks are configured. Gift card variants have no breaks.
+             * maxItems: 10. anyOf[1][] (Value): {@link QuantityPriceBreak}. A net unit price that
+             * applies when one catalog line reaches minimum_quantity. anyOf[2] (Value): null.
+             */
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            /**
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+             * anyOf[2] (Value): null.
+             */
+            "release_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link SelectedProductOption}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link SelectedProductOption}. An option and value chosen for a
+             * product variant, such as size Large. anyOf[2] (Value): null.
+             */
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Variant lifecycle status. Archived variants remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Variant
+             * lifecycle status. Archived variants remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Whether this item is subject to tax. anyOf[1] (Value): boolean. Whether this item is
+             * subject to tax. anyOf[2] (Value): null.
+             */
+            "taxable"?: ((boolean) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Dimensions}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_dimensions"?: ((Dimensions) | (null));
+            /**
+             * Base unit price before quantity price breaks, in the currency's smallest unit.
+             * anyOf[1] (Value): {@link MoneyValue}. Base unit price before quantity price breaks,
+             * in the currency's smallest unit. anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Weight}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_weight"?: ((Weight) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Stable identifier of the product variant. anyOf[1] (Value): string. Stable
+             * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             * anyOf[2] (Value): null.
+             */
+            "variant_id"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1218,6 +3382,176 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.barcode (Optional): string or null. Barcode assigned to this sellable
+     * item. previous_attributes.barcode.anyOf[1] (Value): string. Barcode assigned to this
+     * sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_reason (Optional): string or null. Reason the
+     * variant's delivery configuration needs attention. Value enum: "delivery_profile_missing",
+     * "delivery_profile_inactive". previous_attributes.delivery_configuration_reason.anyOf[1]
+     * (Value): string. Reason the variant's delivery configuration needs attention. Value enum:
+     * "delivery_profile_missing", "delivery_profile_inactive".
+     * previous_attributes.delivery_configuration_reason.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Identifier of the
+     * assigned delivery profile. Digital and service variants opt in to manual delivery with a
+     * required manual profile whose allowed_types is exactly [digital] or [service], matching the
+     * product type. Without a profile, delivery does not apply.
+     * previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+     * delivery profile. Digital and service variants opt in to manual delivery with a required
+     * manual profile whose allowed_types is exactly [digital] or [service], matching the product
+     * type. Without a profile, delivery does not apply. Example:
+     * "dprof_01KEZF7C0020J13FQYNY9854R0". previous_attributes.delivery_profile_id.anyOf[2]
+     * (Value): null. previous_attributes.effective_images (Optional): Array of {@link
+     * ImageAttachment} or null. Images shown for the variant: its own gallery when nonempty,
+     * otherwise the product's gallery. previous_attributes.effective_images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images shown for the variant: its own gallery when
+     * nonempty, otherwise the product's gallery. previous_attributes.effective_images.anyOf[1][]
+     * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * properties and attachment metadata. previous_attributes.effective_images.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_configuration (Optional): {@link GiftCardProductConfiguration}
+     * or null. Gift card issuance terms. face_value_money is the reference denomination;
+     * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the
+     * nearest cent with ties up. previous_attributes.gift_card_configuration.anyOf[1] (Value):
+     * {@link GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+     * reference denomination; unit_price_money is its price. Custom amounts use that
+     * price-to-value ratio, rounded to the nearest cent with ties up.
+     * previous_attributes.gift_card_configuration.anyOf[2] (Value): null.
+     * previous_attributes.images (Optional): Array of {@link ImageAttachment} or null. The
+     * variant's own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's
+     * own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to
+     * a resource, with its display properties and attachment metadata.
+     * previous_attributes.images.anyOf[2] (Value): null. previous_attributes.inventory_item_id
+     * (Optional): string or null. The inventory item this variant consumes. Present exactly when
+     * inventory_tracking is tracked. Several variants may share one inventory item.
+     * previous_attributes.inventory_item_id.anyOf[1] (Value): string. The inventory item this
+     * variant consumes. Present exactly when inventory_tracking is tracked. Several variants may
+     * share one inventory item. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_tracking (Optional): string or null. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[1] (Value): string. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the variant
+     * and its product are both active. Stock isn't considered; `inventory_availability` reports it
+     * on reads. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the
+     * variant and its product are both active. Stock isn't considered; `inventory_availability`
+     * reports it on reads. previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.is_inheriting_product_images (Optional): boolean or null. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[1] (Value): boolean. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[2] (Value): null.
+     * previous_attributes.line_item_tax_category (Optional): string or null. Stored Flint
+     * line-item tax category. New digital-product variants default to digital_goods when omitted.
+     * The stored value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[1] (Value): string. Stored Flint line-item
+     * tax category. New digital-product variants default to digital_goods when omitted. The stored
+     * value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the variant. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the variant. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Variant name that distinguishes it from
+     * the product's other variants. previous_attributes.name.anyOf[1] (Value): string. Variant
+     * name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * previous_attributes.product_id.anyOf[2] (Value): null.
+     * previous_attributes.quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or
+     * null. Net unit prices in ascending minimum_quantity order. The largest minimum not above the
+     * line quantity applies; otherwise the base unit price applies. Empty when no breaks are
+     * configured. Gift card variants have no breaks.
+     * previous_attributes.quantity_price_breaks.anyOf[1] (Value): Array of {@link
+     * QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The largest
+     * minimum not above the line quantity applies; otherwise the base unit price applies. Empty
+     * when no breaks are configured. Gift card variants have no breaks. maxItems: 10.
+     * previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+     * net unit price that applies when one catalog line reaches minimum_quantity.
+     * previous_attributes.quantity_price_breaks.anyOf[2] (Value): null.
+     * previous_attributes.release_date (Optional): string or null or null. Calendar release date
+     * in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
+     * after today in the merchant timezone are pre-orders. Existing order lines keep their release
+     * date. previous_attributes.release_date.anyOf[1] (Value): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
+     * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
+     * SelectedProductOption}. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1][] (Value): {@link SelectedProductOption}. An
+     * option and value chosen for a product variant, such as size Large.
+     * previous_attributes.selected_options.anyOf[2] (Value): null. previous_attributes.sku
+     * (Optional): string or null. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit assigned to this
+     * sellable item. previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Variant lifecycle status. Archived variants remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Variant lifecycle status. Archived
+     * variants remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.taxable (Optional):
+     * boolean or null. Whether this item is subject to tax. previous_attributes.taxable.anyOf[1]
+     * (Value): boolean. Whether this item is subject to tax. previous_attributes.taxable.anyOf[2]
+     * (Value): null. previous_attributes.unit_dimensions (Optional): {@link Dimensions} or null.
+     * Per-unit measurement. Omitted when unknown. previous_attributes.unit_dimensions.anyOf[1]
+     * (Value): {@link Dimensions}. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_dimensions.anyOf[2] (Value): null.
+     * previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[2] (Value): null. previous_attributes.unit_weight
+     * (Optional): {@link Weight} or null. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_weight.anyOf[1] (Value): {@link Weight}. Per-unit measurement.
+     * Omitted when unknown. previous_attributes.unit_weight.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
+     * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
+     * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.variant_id (Optional): string or null. Stable identifier of the product
+     * variant. previous_attributes.variant_id.anyOf[1] (Value): string. Stable identifier of the
+     * product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * previous_attributes.variant_id.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current resource version. Send it as expected_version to reject
+     * a write if the resource has changed. previous_attributes.version.anyOf[1] (Value): integer.
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1229,9 +3563,397 @@ export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_reason (Optional): string or null. Reason the variant's delivery
+         * configuration needs attention. Value enum: "delivery_profile_missing",
+         * "delivery_profile_inactive". delivery_configuration_reason.anyOf[1] (Value): string.
+         * Reason the variant's delivery configuration needs attention. Value enum:
+         * "delivery_profile_missing", "delivery_profile_inactive".
+         * delivery_configuration_reason.anyOf[2] (Value): null. delivery_configuration_status
+         * (Optional): string or null. Whether the variant's delivery configuration is ready, needs
+         * attention, or does not apply. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[1] (Value): string. Whether the
+         * variant's delivery configuration is ready, needs attention, or does not apply. Value
+         * enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. delivery_profile_id (Optional):
+         * string or null. Identifier of the assigned delivery profile. Digital and service
+         * variants opt in to manual delivery with a required manual profile whose allowed_types is
+         * exactly [digital] or [service], matching the product type. Without a profile, delivery
+         * does not apply. delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+         * delivery profile. Digital and service variants opt in to manual delivery with a required
+         * manual profile whose allowed_types is exactly [digital] or [service], matching the
+         * product type. Without a profile, delivery does not apply. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * effective_images (Optional): Array of {@link ImageAttachment} or null. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. effective_images.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_configuration (Optional): {@link GiftCardProductConfiguration} or null. Gift
+         * card issuance terms. face_value_money is the reference denomination; unit_price_money is
+         * its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent
+         * with ties up. gift_card_configuration.anyOf[1] (Value): {@link
+         * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+         * reference denomination; unit_price_money is its price. Custom amounts use that
+         * price-to-value ratio, rounded to the nearest cent with ties up.
+         * gift_card_configuration.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. The variant's own images in display order. An empty gallery
+         * inherits the product's images. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. The variant's own images in display order. An empty gallery inherits
+         * the product's images. images.anyOf[1][] (Value): {@link ImageAttachment}. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * images.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. The
+         * inventory item this variant consumes. Present exactly when inventory_tracking is
+         * tracked. Several variants may share one inventory item. inventory_item_id.anyOf[1]
+         * (Value): string. The inventory item this variant consumes. Present exactly when
+         * inventory_tracking is tracked. Several variants may share one inventory item. Example:
+         * "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_item_id.anyOf[2] (Value): null.
+         * inventory_tracking (Optional): string or null. Whether sales of this variant consume an
+         * inventory item. Value enum: "not_tracked", "tracked". inventory_tracking.anyOf[1]
+         * (Value): string. Whether sales of this variant consume an inventory item. Value enum:
+         * "not_tracked", "tracked". inventory_tracking.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the variant and its product
+         * are both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[1] (Value): boolean. Whether the variant and its product are
+         * both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[2] (Value): null. is_inheriting_product_images (Optional):
+         * boolean or null. Whether effective_images comes from the product's gallery because this
+         * variant's gallery is empty. is_inheriting_product_images.anyOf[1] (Value): boolean.
+         * Whether effective_images comes from the product's gallery because this variant's gallery
+         * is empty. is_inheriting_product_images.anyOf[2] (Value): null. line_item_tax_category
+         * (Optional): string or null. Stored Flint line-item tax category. New digital-product
+         * variants default to digital_goods when omitted. The stored value remains editable. Unset
+         * uses the merchant default. Value enum: "general", "physical_goods", "digital_goods",
+         * "software", "saas", "services", "professional_services", "food", "prepared_food",
+         * "clothing", "medical_goods", "admission". line_item_tax_category.anyOf[1] (Value):
+         * string. Stored Flint line-item tax category. New digital-product variants default to
+         * digital_goods when omitted. The stored value remains editable. Unset uses the merchant
+         * default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+         * "services", "professional_services", "food", "prepared_food", "clothing",
+         * "medical_goods", "admission". line_item_tax_category.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. Identifier of the merchant that owns this resource.
+         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
+         * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored
+         * on this resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or
+         * null or null. ID of the modifier set attached to the variant. `null` when no modifier
+         * set is attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier
+         * set attached to the variant. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Variant name that distinguishes it from the product's other
+         * variants. name.anyOf[1] (Value): string. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[2] (Value): null. position (Optional): integer or
+         * null. Display order among the product's variants, starting at zero. position.anyOf[1]
+         * (Value): integer. Display order among the product's variants, starting at zero. Format:
+         * int32. position.anyOf[2] (Value): null. product_id (Optional): string or null.
+         * Identifier of the product this variant belongs to. product_id.anyOf[1] (Value): string.
+         * Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or null. Net unit
+         * prices in ascending minimum_quantity order. The largest minimum not above the line
+         * quantity applies; otherwise the base unit price applies. Empty when no breaks are
+         * configured. Gift card variants have no breaks. quantity_price_breaks.anyOf[1] (Value):
+         * Array of {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity
+         * order. The largest minimum not above the line quantity applies; otherwise the base unit
+         * price applies. Empty when no breaks are configured. Gift card variants have no breaks.
+         * maxItems: 10. quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+         * net unit price that applies when one catalog line reaches minimum_quantity.
+         * quantity_price_breaks.anyOf[2] (Value): null. release_date (Optional): string or null or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. release_date.anyOf[1] (Value): string or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+         * release_date.anyOf[2] (Value): null. selected_options (Optional): Array of {@link
+         * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+         * selected_options.anyOf[1] (Value): Array of {@link SelectedProductOption}. Always
+         * present. Empty collections are returned as []. selected_options.anyOf[1][] (Value):
+         * {@link SelectedProductOption}. An option and value chosen for a product variant, such as
+         * size Large. selected_options.anyOf[2] (Value): null. sku (Optional): string or null.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string. Stock
+         * keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Variant lifecycle status. Archived variants remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Variant lifecycle status. Archived variants remain readable and cannot
+         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * taxable (Optional): boolean or null. Whether this item is subject to tax.
+         * taxable.anyOf[1] (Value): boolean. Whether this item is subject to tax. taxable.anyOf[2]
+         * (Value): null. unit_dimensions (Optional): {@link Dimensions} or null. Per-unit
+         * measurement. Omitted when unknown. unit_dimensions.anyOf[1] (Value): {@link Dimensions}.
+         * Per-unit measurement. Omitted when unknown. unit_dimensions.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Base unit price before quantity
+         * price breaks, in the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Base unit price before quantity price breaks, in the currency's smallest
+         * unit. unit_price_money.anyOf[2] (Value): null. unit_weight (Optional): {@link Weight} or
+         * null. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[1] (Value): {@link
+         * Weight}. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. When this resource last changed, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When this resource last changed, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. variant_id (Optional): string or null. Stable
+         * identifier of the product variant. variant_id.anyOf[1] (Value): string. Stable
+         * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * variant_id.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[1] (Value): string.
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            /**
+             * Whether the variant's delivery configuration is ready, needs attention, or does not
+             * apply. Value enum: "configured", "action_required", "not_applicable". anyOf[1]
+             * (Value): string. Whether the variant's delivery configuration is ready, needs
+             * attention, or does not apply. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Identifier of the assigned delivery profile. Digital and service variants opt in to
+             * manual delivery with a required manual profile whose allowed_types is exactly
+             * [digital] or [service], matching the product type. Without a profile, delivery does
+             * not apply. anyOf[1] (Value): string. Identifier of the assigned delivery profile.
+             * Digital and service variants opt in to manual delivery with a required manual
+             * profile whose allowed_types is exactly [digital] or [service], matching the product
+             * type. Without a profile, delivery does not apply. Example:
+             * "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Images shown for the variant: its own gallery when nonempty, otherwise the product's
+             * gallery. anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for the
+             * variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Gift card issuance terms. face_value_money is the reference denomination;
+             * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded
+             * to the nearest cent with ties up. anyOf[1] (Value): {@link
+             * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+             * reference denomination; unit_price_money is its price. Custom amounts use that
+             * price-to-value ratio, rounded to the nearest cent with ties up. anyOf[2] (Value):
+             * null.
+             */
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            /**
+             * The variant's own images in display order. An empty gallery inherits the product's
+             * images. anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's own images
+             * in display order. An empty gallery inherits the product's images. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. anyOf[1] (Value): string.
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. Example:
+             * "invi_01KEZF7C00A6YEM25MTHW2MPZY". anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Whether sales of this variant consume an inventory item. Value enum: "not_tracked",
+             * "tracked". anyOf[1] (Value): string. Whether sales of this variant consume an
+             * inventory item. Value enum: "not_tracked", "tracked". anyOf[2] (Value): null.
+             */
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            /**
+             * Whether the variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[1] (Value): boolean. Whether the
+             * variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Whether effective_images comes from the product's gallery because this variant's
+             * gallery is empty. anyOf[1] (Value): boolean. Whether effective_images comes from the
+             * product's gallery because this variant's gallery is empty. anyOf[2] (Value): null.
+             */
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            /**
+             * Stored Flint line-item tax category. New digital-product variants default to
+             * digital_goods when omitted. The stored value remains editable. Unset uses the
+             * merchant default. Value enum: "general", "physical_goods", "digital_goods",
+             * "software", "saas", "services", "professional_services", "food", "prepared_food",
+             * "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Stored Flint
+             * line-item tax category. New digital-product variants default to digital_goods when
+             * omitted. The stored value remains editable. Unset uses the merchant default. Value
+             * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
+             * "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+             * "admission". anyOf[2] (Value): null.
+             */
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the variant. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * variant. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Variant name that distinguishes it from the product's other variants. anyOf[1]
+             * (Value): string. Variant name that distinguishes it from the product's other
+             * variants. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Display order among the product's variants, starting at zero. anyOf[1] (Value):
+             * integer. Display order among the product's variants, starting at zero. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "position"?: ((number) | (null));
+            /**
+             * Identifier of the product this variant belongs to. anyOf[1] (Value): string.
+             * Identifier of the product this variant belongs to. Example:
+             * "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Net unit prices in ascending minimum_quantity order. The largest minimum not above
+             * the line quantity applies; otherwise the base unit price applies. Empty when no
+             * breaks are configured. Gift card variants have no breaks. anyOf[1] (Value): Array of
+             * {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The
+             * largest minimum not above the line quantity applies; otherwise the base unit price
+             * applies. Empty when no breaks are configured. Gift card variants have no breaks.
+             * maxItems: 10. anyOf[1][] (Value): {@link QuantityPriceBreak}. A net unit price that
+             * applies when one catalog line reaches minimum_quantity. anyOf[2] (Value): null.
+             */
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            /**
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+             * anyOf[2] (Value): null.
+             */
+            "release_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link SelectedProductOption}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link SelectedProductOption}. An option and value chosen for a
+             * product variant, such as size Large. anyOf[2] (Value): null.
+             */
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Variant lifecycle status. Archived variants remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Variant
+             * lifecycle status. Archived variants remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Whether this item is subject to tax. anyOf[1] (Value): boolean. Whether this item is
+             * subject to tax. anyOf[2] (Value): null.
+             */
+            "taxable"?: ((boolean) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Dimensions}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_dimensions"?: ((Dimensions) | (null));
+            /**
+             * Base unit price before quantity price breaks, in the currency's smallest unit.
+             * anyOf[1] (Value): {@link MoneyValue}. Base unit price before quantity price breaks,
+             * in the currency's smallest unit. anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Weight}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_weight"?: ((Weight) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Stable identifier of the product variant. anyOf[1] (Value): string. Stable
+             * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             * anyOf[2] (Value): null.
+             */
+            "variant_id"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1726,7 +4448,56 @@ export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
     & ({
     "data"?: {
         "object": WebhookProductVariant;
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "position"?: ((number) | (null));
+            "product_id"?: ((string) | (null));
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            "release_date"?: ((string | null) | (null) | (unknown));
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "taxable"?: ((boolean) | (null));
+            "unit_dimensions"?: ((Dimensions) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "unit_weight"?: ((Weight) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_id"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "product_variant.updated";
@@ -1735,7 +4506,56 @@ export type ProductVariantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
     & ({
     "data"?: {
         "object": WebhookProductVariant;
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "barcode"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "delivery_profile_id"?: ((string) | (null));
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            "images"?: ((Array<ImageAttachment>) | (null));
+            "inventory_item_id"?: ((string) | (null));
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            "name"?: ((string) | (null));
+            "position"?: ((number) | (null));
+            "product_id"?: ((string) | (null));
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            "release_date"?: ((string | null) | (null) | (unknown));
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            "sku"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "taxable"?: ((boolean) | (null));
+            "unit_dimensions"?: ((Dimensions) | (null));
+            "unit_price_money"?: ((MoneyValue) | (null));
+            "unit_weight"?: ((Weight) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_id"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "product_variant.updated";
@@ -1763,6 +4583,176 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.barcode (Optional): string or null. Barcode assigned to this sellable
+     * item. previous_attributes.barcode.anyOf[1] (Value): string. Barcode assigned to this
+     * sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_reason (Optional): string or null. Reason the
+     * variant's delivery configuration needs attention. Value enum: "delivery_profile_missing",
+     * "delivery_profile_inactive". previous_attributes.delivery_configuration_reason.anyOf[1]
+     * (Value): string. Reason the variant's delivery configuration needs attention. Value enum:
+     * "delivery_profile_missing", "delivery_profile_inactive".
+     * previous_attributes.delivery_configuration_reason.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Identifier of the
+     * assigned delivery profile. Digital and service variants opt in to manual delivery with a
+     * required manual profile whose allowed_types is exactly [digital] or [service], matching the
+     * product type. Without a profile, delivery does not apply.
+     * previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+     * delivery profile. Digital and service variants opt in to manual delivery with a required
+     * manual profile whose allowed_types is exactly [digital] or [service], matching the product
+     * type. Without a profile, delivery does not apply. Example:
+     * "dprof_01KEZF7C0020J13FQYNY9854R0". previous_attributes.delivery_profile_id.anyOf[2]
+     * (Value): null. previous_attributes.effective_images (Optional): Array of {@link
+     * ImageAttachment} or null. Images shown for the variant: its own gallery when nonempty,
+     * otherwise the product's gallery. previous_attributes.effective_images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images shown for the variant: its own gallery when
+     * nonempty, otherwise the product's gallery. previous_attributes.effective_images.anyOf[1][]
+     * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * properties and attachment metadata. previous_attributes.effective_images.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_configuration (Optional): {@link GiftCardProductConfiguration}
+     * or null. Gift card issuance terms. face_value_money is the reference denomination;
+     * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the
+     * nearest cent with ties up. previous_attributes.gift_card_configuration.anyOf[1] (Value):
+     * {@link GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+     * reference denomination; unit_price_money is its price. Custom amounts use that
+     * price-to-value ratio, rounded to the nearest cent with ties up.
+     * previous_attributes.gift_card_configuration.anyOf[2] (Value): null.
+     * previous_attributes.images (Optional): Array of {@link ImageAttachment} or null. The
+     * variant's own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's
+     * own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to
+     * a resource, with its display properties and attachment metadata.
+     * previous_attributes.images.anyOf[2] (Value): null. previous_attributes.inventory_item_id
+     * (Optional): string or null. The inventory item this variant consumes. Present exactly when
+     * inventory_tracking is tracked. Several variants may share one inventory item.
+     * previous_attributes.inventory_item_id.anyOf[1] (Value): string. The inventory item this
+     * variant consumes. Present exactly when inventory_tracking is tracked. Several variants may
+     * share one inventory item. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_tracking (Optional): string or null. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[1] (Value): string. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the variant
+     * and its product are both active. Stock isn't considered; `inventory_availability` reports it
+     * on reads. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the
+     * variant and its product are both active. Stock isn't considered; `inventory_availability`
+     * reports it on reads. previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.is_inheriting_product_images (Optional): boolean or null. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[1] (Value): boolean. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[2] (Value): null.
+     * previous_attributes.line_item_tax_category (Optional): string or null. Stored Flint
+     * line-item tax category. New digital-product variants default to digital_goods when omitted.
+     * The stored value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[1] (Value): string. Stored Flint line-item
+     * tax category. New digital-product variants default to digital_goods when omitted. The stored
+     * value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the variant. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the variant. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Variant name that distinguishes it from
+     * the product's other variants. previous_attributes.name.anyOf[1] (Value): string. Variant
+     * name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * previous_attributes.product_id.anyOf[2] (Value): null.
+     * previous_attributes.quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or
+     * null. Net unit prices in ascending minimum_quantity order. The largest minimum not above the
+     * line quantity applies; otherwise the base unit price applies. Empty when no breaks are
+     * configured. Gift card variants have no breaks.
+     * previous_attributes.quantity_price_breaks.anyOf[1] (Value): Array of {@link
+     * QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The largest
+     * minimum not above the line quantity applies; otherwise the base unit price applies. Empty
+     * when no breaks are configured. Gift card variants have no breaks. maxItems: 10.
+     * previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+     * net unit price that applies when one catalog line reaches minimum_quantity.
+     * previous_attributes.quantity_price_breaks.anyOf[2] (Value): null.
+     * previous_attributes.release_date (Optional): string or null or null. Calendar release date
+     * in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
+     * after today in the merchant timezone are pre-orders. Existing order lines keep their release
+     * date. previous_attributes.release_date.anyOf[1] (Value): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
+     * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
+     * SelectedProductOption}. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1][] (Value): {@link SelectedProductOption}. An
+     * option and value chosen for a product variant, such as size Large.
+     * previous_attributes.selected_options.anyOf[2] (Value): null. previous_attributes.sku
+     * (Optional): string or null. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit assigned to this
+     * sellable item. previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Variant lifecycle status. Archived variants remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Variant lifecycle status. Archived
+     * variants remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.taxable (Optional):
+     * boolean or null. Whether this item is subject to tax. previous_attributes.taxable.anyOf[1]
+     * (Value): boolean. Whether this item is subject to tax. previous_attributes.taxable.anyOf[2]
+     * (Value): null. previous_attributes.unit_dimensions (Optional): {@link Dimensions} or null.
+     * Per-unit measurement. Omitted when unknown. previous_attributes.unit_dimensions.anyOf[1]
+     * (Value): {@link Dimensions}. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_dimensions.anyOf[2] (Value): null.
+     * previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[2] (Value): null. previous_attributes.unit_weight
+     * (Optional): {@link Weight} or null. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_weight.anyOf[1] (Value): {@link Weight}. Per-unit measurement.
+     * Omitted when unknown. previous_attributes.unit_weight.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
+     * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
+     * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.variant_id (Optional): string or null. Stable identifier of the product
+     * variant. previous_attributes.variant_id.anyOf[1] (Value): string. Stable identifier of the
+     * product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * previous_attributes.variant_id.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current resource version. Send it as expected_version to reject
+     * a write if the resource has changed. previous_attributes.version.anyOf[1] (Value): integer.
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1774,9 +4764,397 @@ export type ProductVariantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_reason (Optional): string or null. Reason the variant's delivery
+         * configuration needs attention. Value enum: "delivery_profile_missing",
+         * "delivery_profile_inactive". delivery_configuration_reason.anyOf[1] (Value): string.
+         * Reason the variant's delivery configuration needs attention. Value enum:
+         * "delivery_profile_missing", "delivery_profile_inactive".
+         * delivery_configuration_reason.anyOf[2] (Value): null. delivery_configuration_status
+         * (Optional): string or null. Whether the variant's delivery configuration is ready, needs
+         * attention, or does not apply. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[1] (Value): string. Whether the
+         * variant's delivery configuration is ready, needs attention, or does not apply. Value
+         * enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. delivery_profile_id (Optional):
+         * string or null. Identifier of the assigned delivery profile. Digital and service
+         * variants opt in to manual delivery with a required manual profile whose allowed_types is
+         * exactly [digital] or [service], matching the product type. Without a profile, delivery
+         * does not apply. delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+         * delivery profile. Digital and service variants opt in to manual delivery with a required
+         * manual profile whose allowed_types is exactly [digital] or [service], matching the
+         * product type. Without a profile, delivery does not apply. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * effective_images (Optional): Array of {@link ImageAttachment} or null. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. effective_images.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_configuration (Optional): {@link GiftCardProductConfiguration} or null. Gift
+         * card issuance terms. face_value_money is the reference denomination; unit_price_money is
+         * its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent
+         * with ties up. gift_card_configuration.anyOf[1] (Value): {@link
+         * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+         * reference denomination; unit_price_money is its price. Custom amounts use that
+         * price-to-value ratio, rounded to the nearest cent with ties up.
+         * gift_card_configuration.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. The variant's own images in display order. An empty gallery
+         * inherits the product's images. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. The variant's own images in display order. An empty gallery inherits
+         * the product's images. images.anyOf[1][] (Value): {@link ImageAttachment}. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * images.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. The
+         * inventory item this variant consumes. Present exactly when inventory_tracking is
+         * tracked. Several variants may share one inventory item. inventory_item_id.anyOf[1]
+         * (Value): string. The inventory item this variant consumes. Present exactly when
+         * inventory_tracking is tracked. Several variants may share one inventory item. Example:
+         * "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_item_id.anyOf[2] (Value): null.
+         * inventory_tracking (Optional): string or null. Whether sales of this variant consume an
+         * inventory item. Value enum: "not_tracked", "tracked". inventory_tracking.anyOf[1]
+         * (Value): string. Whether sales of this variant consume an inventory item. Value enum:
+         * "not_tracked", "tracked". inventory_tracking.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the variant and its product
+         * are both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[1] (Value): boolean. Whether the variant and its product are
+         * both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[2] (Value): null. is_inheriting_product_images (Optional):
+         * boolean or null. Whether effective_images comes from the product's gallery because this
+         * variant's gallery is empty. is_inheriting_product_images.anyOf[1] (Value): boolean.
+         * Whether effective_images comes from the product's gallery because this variant's gallery
+         * is empty. is_inheriting_product_images.anyOf[2] (Value): null. line_item_tax_category
+         * (Optional): string or null. Stored Flint line-item tax category. New digital-product
+         * variants default to digital_goods when omitted. The stored value remains editable. Unset
+         * uses the merchant default. Value enum: "general", "physical_goods", "digital_goods",
+         * "software", "saas", "services", "professional_services", "food", "prepared_food",
+         * "clothing", "medical_goods", "admission". line_item_tax_category.anyOf[1] (Value):
+         * string. Stored Flint line-item tax category. New digital-product variants default to
+         * digital_goods when omitted. The stored value remains editable. Unset uses the merchant
+         * default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+         * "services", "professional_services", "food", "prepared_food", "clothing",
+         * "medical_goods", "admission". line_item_tax_category.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. Identifier of the merchant that owns this resource.
+         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
+         * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored
+         * on this resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or
+         * null or null. ID of the modifier set attached to the variant. `null` when no modifier
+         * set is attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier
+         * set attached to the variant. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Variant name that distinguishes it from the product's other
+         * variants. name.anyOf[1] (Value): string. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[2] (Value): null. position (Optional): integer or
+         * null. Display order among the product's variants, starting at zero. position.anyOf[1]
+         * (Value): integer. Display order among the product's variants, starting at zero. Format:
+         * int32. position.anyOf[2] (Value): null. product_id (Optional): string or null.
+         * Identifier of the product this variant belongs to. product_id.anyOf[1] (Value): string.
+         * Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or null. Net unit
+         * prices in ascending minimum_quantity order. The largest minimum not above the line
+         * quantity applies; otherwise the base unit price applies. Empty when no breaks are
+         * configured. Gift card variants have no breaks. quantity_price_breaks.anyOf[1] (Value):
+         * Array of {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity
+         * order. The largest minimum not above the line quantity applies; otherwise the base unit
+         * price applies. Empty when no breaks are configured. Gift card variants have no breaks.
+         * maxItems: 10. quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+         * net unit price that applies when one catalog line reaches minimum_quantity.
+         * quantity_price_breaks.anyOf[2] (Value): null. release_date (Optional): string or null or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. release_date.anyOf[1] (Value): string or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+         * release_date.anyOf[2] (Value): null. selected_options (Optional): Array of {@link
+         * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+         * selected_options.anyOf[1] (Value): Array of {@link SelectedProductOption}. Always
+         * present. Empty collections are returned as []. selected_options.anyOf[1][] (Value):
+         * {@link SelectedProductOption}. An option and value chosen for a product variant, such as
+         * size Large. selected_options.anyOf[2] (Value): null. sku (Optional): string or null.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string. Stock
+         * keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Variant lifecycle status. Archived variants remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Variant lifecycle status. Archived variants remain readable and cannot
+         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * taxable (Optional): boolean or null. Whether this item is subject to tax.
+         * taxable.anyOf[1] (Value): boolean. Whether this item is subject to tax. taxable.anyOf[2]
+         * (Value): null. unit_dimensions (Optional): {@link Dimensions} or null. Per-unit
+         * measurement. Omitted when unknown. unit_dimensions.anyOf[1] (Value): {@link Dimensions}.
+         * Per-unit measurement. Omitted when unknown. unit_dimensions.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Base unit price before quantity
+         * price breaks, in the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Base unit price before quantity price breaks, in the currency's smallest
+         * unit. unit_price_money.anyOf[2] (Value): null. unit_weight (Optional): {@link Weight} or
+         * null. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[1] (Value): {@link
+         * Weight}. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. When this resource last changed, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When this resource last changed, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. variant_id (Optional): string or null. Stable
+         * identifier of the product variant. variant_id.anyOf[1] (Value): string. Stable
+         * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * variant_id.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[1] (Value): string.
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            /**
+             * Whether the variant's delivery configuration is ready, needs attention, or does not
+             * apply. Value enum: "configured", "action_required", "not_applicable". anyOf[1]
+             * (Value): string. Whether the variant's delivery configuration is ready, needs
+             * attention, or does not apply. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Identifier of the assigned delivery profile. Digital and service variants opt in to
+             * manual delivery with a required manual profile whose allowed_types is exactly
+             * [digital] or [service], matching the product type. Without a profile, delivery does
+             * not apply. anyOf[1] (Value): string. Identifier of the assigned delivery profile.
+             * Digital and service variants opt in to manual delivery with a required manual
+             * profile whose allowed_types is exactly [digital] or [service], matching the product
+             * type. Without a profile, delivery does not apply. Example:
+             * "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Images shown for the variant: its own gallery when nonempty, otherwise the product's
+             * gallery. anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for the
+             * variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Gift card issuance terms. face_value_money is the reference denomination;
+             * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded
+             * to the nearest cent with ties up. anyOf[1] (Value): {@link
+             * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+             * reference denomination; unit_price_money is its price. Custom amounts use that
+             * price-to-value ratio, rounded to the nearest cent with ties up. anyOf[2] (Value):
+             * null.
+             */
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            /**
+             * The variant's own images in display order. An empty gallery inherits the product's
+             * images. anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's own images
+             * in display order. An empty gallery inherits the product's images. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. anyOf[1] (Value): string.
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. Example:
+             * "invi_01KEZF7C00A6YEM25MTHW2MPZY". anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Whether sales of this variant consume an inventory item. Value enum: "not_tracked",
+             * "tracked". anyOf[1] (Value): string. Whether sales of this variant consume an
+             * inventory item. Value enum: "not_tracked", "tracked". anyOf[2] (Value): null.
+             */
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            /**
+             * Whether the variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[1] (Value): boolean. Whether the
+             * variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Whether effective_images comes from the product's gallery because this variant's
+             * gallery is empty. anyOf[1] (Value): boolean. Whether effective_images comes from the
+             * product's gallery because this variant's gallery is empty. anyOf[2] (Value): null.
+             */
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            /**
+             * Stored Flint line-item tax category. New digital-product variants default to
+             * digital_goods when omitted. The stored value remains editable. Unset uses the
+             * merchant default. Value enum: "general", "physical_goods", "digital_goods",
+             * "software", "saas", "services", "professional_services", "food", "prepared_food",
+             * "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Stored Flint
+             * line-item tax category. New digital-product variants default to digital_goods when
+             * omitted. The stored value remains editable. Unset uses the merchant default. Value
+             * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
+             * "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+             * "admission". anyOf[2] (Value): null.
+             */
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the variant. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * variant. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Variant name that distinguishes it from the product's other variants. anyOf[1]
+             * (Value): string. Variant name that distinguishes it from the product's other
+             * variants. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Display order among the product's variants, starting at zero. anyOf[1] (Value):
+             * integer. Display order among the product's variants, starting at zero. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "position"?: ((number) | (null));
+            /**
+             * Identifier of the product this variant belongs to. anyOf[1] (Value): string.
+             * Identifier of the product this variant belongs to. Example:
+             * "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Net unit prices in ascending minimum_quantity order. The largest minimum not above
+             * the line quantity applies; otherwise the base unit price applies. Empty when no
+             * breaks are configured. Gift card variants have no breaks. anyOf[1] (Value): Array of
+             * {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The
+             * largest minimum not above the line quantity applies; otherwise the base unit price
+             * applies. Empty when no breaks are configured. Gift card variants have no breaks.
+             * maxItems: 10. anyOf[1][] (Value): {@link QuantityPriceBreak}. A net unit price that
+             * applies when one catalog line reaches minimum_quantity. anyOf[2] (Value): null.
+             */
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            /**
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+             * anyOf[2] (Value): null.
+             */
+            "release_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link SelectedProductOption}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link SelectedProductOption}. An option and value chosen for a
+             * product variant, such as size Large. anyOf[2] (Value): null.
+             */
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Variant lifecycle status. Archived variants remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Variant
+             * lifecycle status. Archived variants remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Whether this item is subject to tax. anyOf[1] (Value): boolean. Whether this item is
+             * subject to tax. anyOf[2] (Value): null.
+             */
+            "taxable"?: ((boolean) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Dimensions}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_dimensions"?: ((Dimensions) | (null));
+            /**
+             * Base unit price before quantity price breaks, in the currency's smallest unit.
+             * anyOf[1] (Value): {@link MoneyValue}. Base unit price before quantity price breaks,
+             * in the currency's smallest unit. anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Weight}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_weight"?: ((Weight) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Stable identifier of the product variant. anyOf[1] (Value): string. Stable
+             * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             * anyOf[2] (Value): null.
+             */
+            "variant_id"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1830,6 +5208,176 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * data.object, at this delivery's API version. Nested changes include the whole previous
      * top-level value. A value is null when the field was absent before the change. Omitted when
      * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.barcode (Optional): string or null. Barcode assigned to this sellable
+     * item. previous_attributes.barcode.anyOf[1] (Value): string. Barcode assigned to this
+     * sellable item. previous_attributes.barcode.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_reason (Optional): string or null. Reason the
+     * variant's delivery configuration needs attention. Value enum: "delivery_profile_missing",
+     * "delivery_profile_inactive". previous_attributes.delivery_configuration_reason.anyOf[1]
+     * (Value): string. Reason the variant's delivery configuration needs attention. Value enum:
+     * "delivery_profile_missing", "delivery_profile_inactive".
+     * previous_attributes.delivery_configuration_reason.anyOf[2] (Value): null.
+     * previous_attributes.delivery_configuration_status (Optional): string or null. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Whether the
+     * variant's delivery configuration is ready, needs attention, or does not apply. Value enum:
+     * "configured", "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.delivery_profile_id (Optional): string or null. Identifier of the
+     * assigned delivery profile. Digital and service variants opt in to manual delivery with a
+     * required manual profile whose allowed_types is exactly [digital] or [service], matching the
+     * product type. Without a profile, delivery does not apply.
+     * previous_attributes.delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+     * delivery profile. Digital and service variants opt in to manual delivery with a required
+     * manual profile whose allowed_types is exactly [digital] or [service], matching the product
+     * type. Without a profile, delivery does not apply. Example:
+     * "dprof_01KEZF7C0020J13FQYNY9854R0". previous_attributes.delivery_profile_id.anyOf[2]
+     * (Value): null. previous_attributes.effective_images (Optional): Array of {@link
+     * ImageAttachment} or null. Images shown for the variant: its own gallery when nonempty,
+     * otherwise the product's gallery. previous_attributes.effective_images.anyOf[1] (Value):
+     * Array of {@link ImageAttachment}. Images shown for the variant: its own gallery when
+     * nonempty, otherwise the product's gallery. previous_attributes.effective_images.anyOf[1][]
+     * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * properties and attachment metadata. previous_attributes.effective_images.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.gift_card_configuration (Optional): {@link GiftCardProductConfiguration}
+     * or null. Gift card issuance terms. face_value_money is the reference denomination;
+     * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the
+     * nearest cent with ties up. previous_attributes.gift_card_configuration.anyOf[1] (Value):
+     * {@link GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+     * reference denomination; unit_price_money is its price. Custom amounts use that
+     * price-to-value ratio, rounded to the nearest cent with ties up.
+     * previous_attributes.gift_card_configuration.anyOf[2] (Value): null.
+     * previous_attributes.images (Optional): Array of {@link ImageAttachment} or null. The
+     * variant's own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's
+     * own images in display order. An empty gallery inherits the product's images.
+     * previous_attributes.images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to
+     * a resource, with its display properties and attachment metadata.
+     * previous_attributes.images.anyOf[2] (Value): null. previous_attributes.inventory_item_id
+     * (Optional): string or null. The inventory item this variant consumes. Present exactly when
+     * inventory_tracking is tracked. Several variants may share one inventory item.
+     * previous_attributes.inventory_item_id.anyOf[1] (Value): string. The inventory item this
+     * variant consumes. Present exactly when inventory_tracking is tracked. Several variants may
+     * share one inventory item. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     * previous_attributes.inventory_item_id.anyOf[2] (Value): null.
+     * previous_attributes.inventory_tracking (Optional): string or null. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[1] (Value): string. Whether sales of this
+     * variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * previous_attributes.inventory_tracking.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the variant
+     * and its product are both active. Stock isn't considered; `inventory_availability` reports it
+     * on reads. previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the
+     * variant and its product are both active. Stock isn't considered; `inventory_availability`
+     * reports it on reads. previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.is_inheriting_product_images (Optional): boolean or null. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[1] (Value): boolean. Whether
+     * effective_images comes from the product's gallery because this variant's gallery is empty.
+     * previous_attributes.is_inheriting_product_images.anyOf[2] (Value): null.
+     * previous_attributes.line_item_tax_category (Optional): string or null. Stored Flint
+     * line-item tax category. New digital-product variants default to digital_goods when omitted.
+     * The stored value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[1] (Value): string. Stored Flint line-item
+     * tax category. New digital-product variants default to digital_goods when omitted. The stored
+     * value remains editable. Unset uses the merchant default. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * previous_attributes.line_item_tax_category.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata
+     * stored on this resource. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_set_id (Optional): string or null or null. ID of the modifier
+     * set attached to the variant. `null` when no modifier set is attached.
+     * previous_attributes.modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier set
+     * attached to the variant. `null` when no modifier set is attached. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Variant name that distinguishes it from
+     * the product's other variants. previous_attributes.name.anyOf[1] (Value): string. Variant
+     * name that distinguishes it from the product's other variants.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.position (Optional):
+     * integer or null. Display order among the product's variants, starting at zero.
+     * previous_attributes.position.anyOf[1] (Value): integer. Display order among the product's
+     * variants, starting at zero. Format: int32. previous_attributes.position.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Identifier of the product
+     * this variant belongs to. previous_attributes.product_id.anyOf[1] (Value): string. Identifier
+     * of the product this variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * previous_attributes.product_id.anyOf[2] (Value): null.
+     * previous_attributes.quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or
+     * null. Net unit prices in ascending minimum_quantity order. The largest minimum not above the
+     * line quantity applies; otherwise the base unit price applies. Empty when no breaks are
+     * configured. Gift card variants have no breaks.
+     * previous_attributes.quantity_price_breaks.anyOf[1] (Value): Array of {@link
+     * QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The largest
+     * minimum not above the line quantity applies; otherwise the base unit price applies. Empty
+     * when no breaks are configured. Gift card variants have no breaks. maxItems: 10.
+     * previous_attributes.quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+     * net unit price that applies when one catalog line reaches minimum_quantity.
+     * previous_attributes.quantity_price_breaks.anyOf[2] (Value): null.
+     * previous_attributes.release_date (Optional): string or null or null. Calendar release date
+     * in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is
+     * after today in the merchant timezone are pre-orders. Existing order lines keep their release
+     * date. previous_attributes.release_date.anyOf[1] (Value): string or null. Calendar release
+     * date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date
+     * is after today in the merchant timezone are pre-orders. Existing order lines keep their
+     * release date. Format: date. Example: "2026-08-02". previous_attributes.release_date.anyOf[2]
+     * (Value): null. previous_attributes.selected_options (Optional): Array of {@link
+     * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1] (Value): Array of {@link
+     * SelectedProductOption}. Always present. Empty collections are returned as [].
+     * previous_attributes.selected_options.anyOf[1][] (Value): {@link SelectedProductOption}. An
+     * option and value chosen for a product variant, such as size Large.
+     * previous_attributes.selected_options.anyOf[2] (Value): null. previous_attributes.sku
+     * (Optional): string or null. Stock keeping unit assigned to this sellable item.
+     * previous_attributes.sku.anyOf[1] (Value): string. Stock keeping unit assigned to this
+     * sellable item. previous_attributes.sku.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Variant lifecycle status. Archived variants remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Variant lifecycle status. Archived
+     * variants remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.taxable (Optional):
+     * boolean or null. Whether this item is subject to tax. previous_attributes.taxable.anyOf[1]
+     * (Value): boolean. Whether this item is subject to tax. previous_attributes.taxable.anyOf[2]
+     * (Value): null. previous_attributes.unit_dimensions (Optional): {@link Dimensions} or null.
+     * Per-unit measurement. Omitted when unknown. previous_attributes.unit_dimensions.anyOf[1]
+     * (Value): {@link Dimensions}. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_dimensions.anyOf[2] (Value): null.
+     * previous_attributes.unit_price_money (Optional): {@link MoneyValue} or null. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[1] (Value): {@link MoneyValue}. Base unit price
+     * before quantity price breaks, in the currency's smallest unit.
+     * previous_attributes.unit_price_money.anyOf[2] (Value): null. previous_attributes.unit_weight
+     * (Optional): {@link Weight} or null. Per-unit measurement. Omitted when unknown.
+     * previous_attributes.unit_weight.anyOf[1] (Value): {@link Weight}. Per-unit measurement.
+     * Omitted when unknown. previous_attributes.unit_weight.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When this resource last changed,
+     * as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When this
+     * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.variant_id (Optional): string or null. Stable identifier of the product
+     * variant. previous_attributes.variant_id.anyOf[1] (Value): string. Stable identifier of the
+     * product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * previous_attributes.variant_id.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Current resource version. Send it as expected_version to reject
+     * a write if the resource has changed. previous_attributes.version.anyOf[1] (Value): integer.
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -1841,9 +5389,397 @@ export type ProductVariantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. barcode (Optional): string or null. Barcode
+         * assigned to this sellable item. barcode.anyOf[1] (Value): string. Barcode assigned to
+         * this sellable item. barcode.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. When this resource was created, as an RFC3339 timestamp. created_at.anyOf[1]
+         * (Value): string. When this resource was created, as an RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * delivery_configuration_reason (Optional): string or null. Reason the variant's delivery
+         * configuration needs attention. Value enum: "delivery_profile_missing",
+         * "delivery_profile_inactive". delivery_configuration_reason.anyOf[1] (Value): string.
+         * Reason the variant's delivery configuration needs attention. Value enum:
+         * "delivery_profile_missing", "delivery_profile_inactive".
+         * delivery_configuration_reason.anyOf[2] (Value): null. delivery_configuration_status
+         * (Optional): string or null. Whether the variant's delivery configuration is ready, needs
+         * attention, or does not apply. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[1] (Value): string. Whether the
+         * variant's delivery configuration is ready, needs attention, or does not apply. Value
+         * enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[2] (Value): null. delivery_profile_id (Optional):
+         * string or null. Identifier of the assigned delivery profile. Digital and service
+         * variants opt in to manual delivery with a required manual profile whose allowed_types is
+         * exactly [digital] or [service], matching the product type. Without a profile, delivery
+         * does not apply. delivery_profile_id.anyOf[1] (Value): string. Identifier of the assigned
+         * delivery profile. Digital and service variants opt in to manual delivery with a required
+         * manual profile whose allowed_types is exactly [digital] or [service], matching the
+         * product type. Without a profile, delivery does not apply. Example:
+         * "dprof_01KEZF7C0020J13FQYNY9854R0". delivery_profile_id.anyOf[2] (Value): null.
+         * effective_images (Optional): Array of {@link ImageAttachment} or null. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for
+         * the variant: its own gallery when nonempty, otherwise the product's gallery.
+         * effective_images.anyOf[1][] (Value): {@link ImageAttachment}. An image attached to a
+         * resource, with its display properties and attachment metadata. effective_images.anyOf[2]
+         * (Value): null. external_reference_id (Optional): string or null. Caller-owned identifier
+         * for this resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * gift_card_configuration (Optional): {@link GiftCardProductConfiguration} or null. Gift
+         * card issuance terms. face_value_money is the reference denomination; unit_price_money is
+         * its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent
+         * with ties up. gift_card_configuration.anyOf[1] (Value): {@link
+         * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+         * reference denomination; unit_price_money is its price. Custom amounts use that
+         * price-to-value ratio, rounded to the nearest cent with ties up.
+         * gift_card_configuration.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachment} or null. The variant's own images in display order. An empty gallery
+         * inherits the product's images. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachment}. The variant's own images in display order. An empty gallery inherits
+         * the product's images. images.anyOf[1][] (Value): {@link ImageAttachment}. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * images.anyOf[2] (Value): null. inventory_item_id (Optional): string or null. The
+         * inventory item this variant consumes. Present exactly when inventory_tracking is
+         * tracked. Several variants may share one inventory item. inventory_item_id.anyOf[1]
+         * (Value): string. The inventory item this variant consumes. Present exactly when
+         * inventory_tracking is tracked. Several variants may share one inventory item. Example:
+         * "invi_01KEZF7C00A6YEM25MTHW2MPZY". inventory_item_id.anyOf[2] (Value): null.
+         * inventory_tracking (Optional): string or null. Whether sales of this variant consume an
+         * inventory item. Value enum: "not_tracked", "tracked". inventory_tracking.anyOf[1]
+         * (Value): string. Whether sales of this variant consume an inventory item. Value enum:
+         * "not_tracked", "tracked". inventory_tracking.anyOf[2] (Value): null.
+         * is_available_for_sale (Optional): boolean or null. Whether the variant and its product
+         * are both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[1] (Value): boolean. Whether the variant and its product are
+         * both active. Stock isn't considered; `inventory_availability` reports it on reads.
+         * is_available_for_sale.anyOf[2] (Value): null. is_inheriting_product_images (Optional):
+         * boolean or null. Whether effective_images comes from the product's gallery because this
+         * variant's gallery is empty. is_inheriting_product_images.anyOf[1] (Value): boolean.
+         * Whether effective_images comes from the product's gallery because this variant's gallery
+         * is empty. is_inheriting_product_images.anyOf[2] (Value): null. line_item_tax_category
+         * (Optional): string or null. Stored Flint line-item tax category. New digital-product
+         * variants default to digital_goods when omitted. The stored value remains editable. Unset
+         * uses the merchant default. Value enum: "general", "physical_goods", "digital_goods",
+         * "software", "saas", "services", "professional_services", "food", "prepared_food",
+         * "clothing", "medical_goods", "admission". line_item_tax_category.anyOf[1] (Value):
+         * string. Stored Flint line-item tax category. New digital-product variants default to
+         * digital_goods when omitted. The stored value remains editable. Unset uses the merchant
+         * default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
+         * "services", "professional_services", "food", "prepared_food", "clothing",
+         * "medical_goods", "admission". line_item_tax_category.anyOf[2] (Value): null. merchant_id
+         * (Optional): string or null. Identifier of the merchant that owns this resource.
+         * merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns this
+         * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null.
+         * metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this
+         * resource. metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata stored
+         * on this resource. metadata.anyOf[2] (Value): null. modifier_set_id (Optional): string or
+         * null or null. ID of the modifier set attached to the variant. `null` when no modifier
+         * set is attached. modifier_set_id.anyOf[1] (Value): string or null. ID of the modifier
+         * set attached to the variant. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Variant name that distinguishes it from the product's other
+         * variants. name.anyOf[1] (Value): string. Variant name that distinguishes it from the
+         * product's other variants. name.anyOf[2] (Value): null. position (Optional): integer or
+         * null. Display order among the product's variants, starting at zero. position.anyOf[1]
+         * (Value): integer. Display order among the product's variants, starting at zero. Format:
+         * int32. position.anyOf[2] (Value): null. product_id (Optional): string or null.
+         * Identifier of the product this variant belongs to. product_id.anyOf[1] (Value): string.
+         * Identifier of the product this variant belongs to. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null.
+         * quantity_price_breaks (Optional): Array of {@link QuantityPriceBreak} or null. Net unit
+         * prices in ascending minimum_quantity order. The largest minimum not above the line
+         * quantity applies; otherwise the base unit price applies. Empty when no breaks are
+         * configured. Gift card variants have no breaks. quantity_price_breaks.anyOf[1] (Value):
+         * Array of {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity
+         * order. The largest minimum not above the line quantity applies; otherwise the base unit
+         * price applies. Empty when no breaks are configured. Gift card variants have no breaks.
+         * maxItems: 10. quantity_price_breaks.anyOf[1][] (Value): {@link QuantityPriceBreak}. A
+         * net unit price that applies when one catalog line reaches minimum_quantity.
+         * quantity_price_breaks.anyOf[2] (Value): null. release_date (Optional): string or null or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. release_date.anyOf[1] (Value): string or
+         * null. Calendar release date in YYYY-MM-DD format. Null when no release date is set.
+         * Lines created while this date is after today in the merchant timezone are pre-orders.
+         * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+         * release_date.anyOf[2] (Value): null. selected_options (Optional): Array of {@link
+         * SelectedProductOption} or null. Always present. Empty collections are returned as [].
+         * selected_options.anyOf[1] (Value): Array of {@link SelectedProductOption}. Always
+         * present. Empty collections are returned as []. selected_options.anyOf[1][] (Value):
+         * {@link SelectedProductOption}. An option and value chosen for a product variant, such as
+         * size Large. selected_options.anyOf[2] (Value): null. sku (Optional): string or null.
+         * Stock keeping unit assigned to this sellable item. sku.anyOf[1] (Value): string. Stock
+         * keeping unit assigned to this sellable item. sku.anyOf[2] (Value): null. status
+         * (Optional): string or null. Variant lifecycle status. Archived variants remain readable
+         * and cannot be edited. Value enum: "active", "inactive", "archived". status.anyOf[1]
+         * (Value): string. Variant lifecycle status. Archived variants remain readable and cannot
+         * be edited. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null.
+         * taxable (Optional): boolean or null. Whether this item is subject to tax.
+         * taxable.anyOf[1] (Value): boolean. Whether this item is subject to tax. taxable.anyOf[2]
+         * (Value): null. unit_dimensions (Optional): {@link Dimensions} or null. Per-unit
+         * measurement. Omitted when unknown. unit_dimensions.anyOf[1] (Value): {@link Dimensions}.
+         * Per-unit measurement. Omitted when unknown. unit_dimensions.anyOf[2] (Value): null.
+         * unit_price_money (Optional): {@link MoneyValue} or null. Base unit price before quantity
+         * price breaks, in the currency's smallest unit. unit_price_money.anyOf[1] (Value): {@link
+         * MoneyValue}. Base unit price before quantity price breaks, in the currency's smallest
+         * unit. unit_price_money.anyOf[2] (Value): null. unit_weight (Optional): {@link Weight} or
+         * null. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[1] (Value): {@link
+         * Weight}. Per-unit measurement. Omitted when unknown. unit_weight.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. When this resource last changed, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When this resource last changed, as an
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. variant_id (Optional): string or null. Stable
+         * identifier of the product variant. variant_id.anyOf[1] (Value): string. Stable
+         * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * variant_id.anyOf[2] (Value): null. version (Optional): integer or null. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * version.anyOf[1] (Value): integer. Current resource version. Send it as expected_version
+         * to reject a write if the resource has changed. Format: uint64. minimum: 0.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookProductVariant>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Barcode assigned to this sellable item. anyOf[1] (Value): string. Barcode assigned
+             * to this sellable item. anyOf[2] (Value): null.
+             */
+            "barcode"?: ((string) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[1] (Value): string.
+             * Reason the variant's delivery configuration needs attention. Value enum:
+             * "delivery_profile_missing", "delivery_profile_inactive". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_reason"?: (("delivery_profile_missing" | "delivery_profile_inactive" | (string & {})) | (null));
+            /**
+             * Whether the variant's delivery configuration is ready, needs attention, or does not
+             * apply. Value enum: "configured", "action_required", "not_applicable". anyOf[1]
+             * (Value): string. Whether the variant's delivery configuration is ready, needs
+             * attention, or does not apply. Value enum: "configured", "action_required",
+             * "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Identifier of the assigned delivery profile. Digital and service variants opt in to
+             * manual delivery with a required manual profile whose allowed_types is exactly
+             * [digital] or [service], matching the product type. Without a profile, delivery does
+             * not apply. anyOf[1] (Value): string. Identifier of the assigned delivery profile.
+             * Digital and service variants opt in to manual delivery with a required manual
+             * profile whose allowed_types is exactly [digital] or [service], matching the product
+             * type. Without a profile, delivery does not apply. Example:
+             * "dprof_01KEZF7C0020J13FQYNY9854R0". anyOf[2] (Value): null.
+             */
+            "delivery_profile_id"?: ((string) | (null));
+            /**
+             * Images shown for the variant: its own gallery when nonempty, otherwise the product's
+             * gallery. anyOf[1] (Value): Array of {@link ImageAttachment}. Images shown for the
+             * variant: its own gallery when nonempty, otherwise the product's gallery. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "effective_images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Gift card issuance terms. face_value_money is the reference denomination;
+             * unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded
+             * to the nearest cent with ties up. anyOf[1] (Value): {@link
+             * GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the
+             * reference denomination; unit_price_money is its price. Custom amounts use that
+             * price-to-value ratio, rounded to the nearest cent with ties up. anyOf[2] (Value):
+             * null.
+             */
+            "gift_card_configuration"?: ((GiftCardProductConfiguration) | (null));
+            /**
+             * The variant's own images in display order. An empty gallery inherits the product's
+             * images. anyOf[1] (Value): Array of {@link ImageAttachment}. The variant's own images
+             * in display order. An empty gallery inherits the product's images. anyOf[1][]
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachment>) | (null));
+            /**
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. anyOf[1] (Value): string.
+             * The inventory item this variant consumes. Present exactly when inventory_tracking is
+             * tracked. Several variants may share one inventory item. Example:
+             * "invi_01KEZF7C00A6YEM25MTHW2MPZY". anyOf[2] (Value): null.
+             */
+            "inventory_item_id"?: ((string) | (null));
+            /**
+             * Whether sales of this variant consume an inventory item. Value enum: "not_tracked",
+             * "tracked". anyOf[1] (Value): string. Whether sales of this variant consume an
+             * inventory item. Value enum: "not_tracked", "tracked". anyOf[2] (Value): null.
+             */
+            "inventory_tracking"?: (("not_tracked" | "tracked" | (string & {})) | (null));
+            /**
+             * Whether the variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[1] (Value): boolean. Whether the
+             * variant and its product are both active. Stock isn't considered;
+             * `inventory_availability` reports it on reads. anyOf[2] (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Whether effective_images comes from the product's gallery because this variant's
+             * gallery is empty. anyOf[1] (Value): boolean. Whether effective_images comes from the
+             * product's gallery because this variant's gallery is empty. anyOf[2] (Value): null.
+             */
+            "is_inheriting_product_images"?: ((boolean) | (null));
+            /**
+             * Stored Flint line-item tax category. New digital-product variants default to
+             * digital_goods when omitted. The stored value remains editable. Unset uses the
+             * merchant default. Value enum: "general", "physical_goods", "digital_goods",
+             * "software", "saas", "services", "professional_services", "food", "prepared_food",
+             * "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Stored Flint
+             * line-item tax category. New digital-product variants default to digital_goods when
+             * omitted. The stored value remains editable. Unset uses the merchant default. Value
+             * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
+             * "professional_services", "food", "prepared_food", "clothing", "medical_goods",
+             * "admission". anyOf[2] (Value): null.
+             */
+            "line_item_tax_category"?: (("general"
+                | "physical_goods"
+                | "digital_goods"
+                | "software"
+                | "saas"
+                | "services"
+                | "professional_services"
+                | "food"
+                | "prepared_food"
+                | "clothing"
+                | "medical_goods"
+                | "admission"
+                | (string & {}))
+                | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. Caller-owned metadata stored on this resource. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the variant. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string or null. ID of the modifier set attached to the
+             * variant. `null` when no modifier set is attached. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Variant name that distinguishes it from the product's other variants. anyOf[1]
+             * (Value): string. Variant name that distinguishes it from the product's other
+             * variants. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Display order among the product's variants, starting at zero. anyOf[1] (Value):
+             * integer. Display order among the product's variants, starting at zero. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "position"?: ((number) | (null));
+            /**
+             * Identifier of the product this variant belongs to. anyOf[1] (Value): string.
+             * Identifier of the product this variant belongs to. Example:
+             * "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Net unit prices in ascending minimum_quantity order. The largest minimum not above
+             * the line quantity applies; otherwise the base unit price applies. Empty when no
+             * breaks are configured. Gift card variants have no breaks. anyOf[1] (Value): Array of
+             * {@link QuantityPriceBreak}. Net unit prices in ascending minimum_quantity order. The
+             * largest minimum not above the line quantity applies; otherwise the base unit price
+             * applies. Empty when no breaks are configured. Gift card variants have no breaks.
+             * maxItems: 10. anyOf[1][] (Value): {@link QuantityPriceBreak}. A net unit price that
+             * applies when one catalog line reaches minimum_quantity. anyOf[2] (Value): null.
+             */
+            "quantity_price_breaks"?: ((Array<QuantityPriceBreak>) | (null));
+            /**
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. anyOf[1] (Value): string or null.
+             * Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines
+             * created while this date is after today in the merchant timezone are pre-orders.
+             * Existing order lines keep their release date. Format: date. Example: "2026-08-02".
+             * anyOf[2] (Value): null.
+             */
+            "release_date"?: ((string | null) | (null) | (unknown));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link SelectedProductOption}. Always present. Empty collections are returned as [].
+             * anyOf[1][] (Value): {@link SelectedProductOption}. An option and value chosen for a
+             * product variant, such as size Large. anyOf[2] (Value): null.
+             */
+            "selected_options"?: ((Array<SelectedProductOption>) | (null));
+            /**
+             * Stock keeping unit assigned to this sellable item. anyOf[1] (Value): string. Stock
+             * keeping unit assigned to this sellable item. anyOf[2] (Value): null.
+             */
+            "sku"?: ((string) | (null));
+            /**
+             * Variant lifecycle status. Archived variants remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Variant
+             * lifecycle status. Archived variants remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Whether this item is subject to tax. anyOf[1] (Value): boolean. Whether this item is
+             * subject to tax. anyOf[2] (Value): null.
+             */
+            "taxable"?: ((boolean) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Dimensions}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_dimensions"?: ((Dimensions) | (null));
+            /**
+             * Base unit price before quantity price breaks, in the currency's smallest unit.
+             * anyOf[1] (Value): {@link MoneyValue}. Base unit price before quantity price breaks,
+             * in the currency's smallest unit. anyOf[2] (Value): null.
+             */
+            "unit_price_money"?: ((MoneyValue) | (null));
+            /**
+             * Per-unit measurement. Omitted when unknown. anyOf[1] (Value): {@link Weight}.
+             * Per-unit measurement. Omitted when unknown. anyOf[2] (Value): null.
+             */
+            "unit_weight"?: ((Weight) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Stable identifier of the product variant. anyOf[1] (Value): string. Stable
+             * identifier of the product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             * anyOf[2] (Value): null.
+             */
+            "variant_id"?: ((string) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2871,7 +6807,42 @@ export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
     & ({
     "data"?: {
         "object": WebhookPromotion;
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            "available"?: ((boolean) | (null));
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            "created_at"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            "display_name"?: ((string) | (null));
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "max_uses"?: ((number) | (null));
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "promotion_id"?: ((string) | (null));
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            "schedule"?: ((PromotionSchedule) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "uses_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "promotion.archived";
@@ -2880,7 +6851,42 @@ export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
     & ({
     "data"?: {
         "object": WebhookPromotion;
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            "available"?: ((boolean) | (null));
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            "created_at"?: ((string) | (null));
+            "description"?: ((string) | (null));
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            "display_name"?: ((string) | (null));
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "max_uses"?: ((number) | (null));
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "promotion_id"?: ((string) | (null));
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            "schedule"?: ((PromotionSchedule) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            "updated_at"?: ((string) | (null));
+            "uses_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "promotion.archived";
@@ -2907,7 +6913,130 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * of changed top-level fields in data.object, at this delivery's API version. Nested changes
      * include the whole previous top-level value. A value is null when the field was absent before
      * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
+     * events. previous_attributes.application_method (Optional): {@link
+     * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible items or
+     * charges. previous_attributes.application_method.anyOf[1] (Value): {@link
+     * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
+     * charges. previous_attributes.application_method.anyOf[2] (Value): null.
+     * previous_attributes.available (Optional): boolean or null. Whether the promotion can apply
+     * right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has
+     * at least one redeemable code. previous_attributes.available.anyOf[1] (Value): boolean.
+     * Whether the promotion can apply right now: it is active, inside its schedule, under its
+     * max_uses, and, when code-gated, has at least one redeemable code.
+     * previous_attributes.available.anyOf[2] (Value): null. previous_attributes.codes_summary
+     * (Optional): {@link PromotionCodesSummary} or null. Read-only rollup of this promotion's
+     * codes. Present only on code-gated promotions; automatic promotions omit it.
+     * previous_attributes.codes_summary.anyOf[1] (Value): {@link PromotionCodesSummary}. Read-only
+     * rollup of this promotion's codes. Present only on code-gated promotions; automatic
+     * promotions omit it. previous_attributes.codes_summary.anyOf[2] (Value): null.
+     * previous_attributes.combines_with (Optional): {@link PromotionCombinesWith} or null. Which
+     * promotion discount classes this promotion may share an order with. Both promotions must
+     * allow each other's class. Manual discounts are ignored. See Promotion for the evaluation
+     * order. previous_attributes.combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}.
+     * Which promotion discount classes this promotion may share an order with. Both promotions
+     * must allow each other's class. Manual discounts are ignored. See Promotion for the
+     * evaluation order. previous_attributes.combines_with.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the promotion was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When the
+     * promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Optional description of the
+     * promotion for your own records. previous_attributes.description.anyOf[1] (Value): string.
+     * Optional description of the promotion for your own records.
+     * previous_attributes.description.anyOf[2] (Value): null. previous_attributes.discount_class
+     * (Optional): string or null. Whether the promotion discounts the order, individual line
+     * items, or service charges. Value enum: "order", "line_item", "service_charge".
+     * previous_attributes.discount_class.anyOf[1] (Value): string. Whether the promotion discounts
+     * the order, individual line items, or service charges. Value enum: "order", "line_item",
+     * "service_charge". previous_attributes.discount_class.anyOf[2] (Value): null.
+     * previous_attributes.display_name (Optional): string or null. Buyer-facing promotion name
+     * shown in checkout and order discount surfaces. previous_attributes.display_name.anyOf[1]
+     * (Value): string. Buyer-facing promotion name shown in checkout and order discount surfaces.
+     * previous_attributes.display_name.anyOf[2] (Value): null.
+     * previous_attributes.eligibility_rules (Optional): {@link PromotionRuleGroup} or null.
+     * Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has
+     * no eligibility conditions. previous_attributes.eligibility_rules.anyOf[1] (Value): {@link
+     * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply. Omitted
+     * when the promotion has no eligibility conditions.
+     * previous_attributes.eligibility_rules.anyOf[2] (Value): null.
+     * previous_attributes.exclusivity (Optional): {@link PromotionExclusivity} or null. Optional
+     * group and priority used to choose one promotion from competing promotions in the same group.
+     * See Promotion for the evaluation order. previous_attributes.exclusivity.anyOf[1] (Value):
+     * {@link PromotionExclusivity}. Optional group and priority used to choose one promotion from
+     * competing promotions in the same group. See Promotion for the evaluation order.
+     * previous_attributes.exclusivity.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.max_uses (Optional): integer or null. Maximum number of redemptions
+     * across all codes and automatic applications. Omitted when there is no redemption limit.
+     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
+     * all codes and automatic applications. Omitted when there is no redemption limit. Format:
+     * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
+     * previous_attributes.max_uses_per_customer (Optional): integer or null or null. Maximum
+     * reserved and redeemed uses per identified customer across every code and automatic or
+     * ID-based application. Checked atomically when payment starts. Failed, canceled, or expired
+     * attempts release their reservation; refunds do not restore uses. Counts only within the same
+     * merchant and environment; live and test mode are separate. Without an identified customer,
+     * returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no
+     * per-customer limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer or
+     * null. Maximum reserved and redeemed uses per identified customer across every code and
+     * automatic or ID-based application. Checked atomically when payment starts. Failed, canceled,
+     * or expired attempts release their reservation; refunds do not restore uses. Counts only
+     * within the same merchant and environment; live and test mode are separate. Without an
+     * identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when
+     * there is no per-customer limit. Format: int64. minimum: 1.
+     * previous_attributes.max_uses_per_customer.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Key-value data you attach to the promotion.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data you
+     * attach to the promotion. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Internal promotion name for dashboards,
+     * searching, and reporting. previous_attributes.name.anyOf[1] (Value): string. Internal
+     * promotion name for dashboards, searching, and reporting. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.promotion_id (Optional): string or null. Unique
+     * identifier for the promotion. previous_attributes.promotion_id.anyOf[1] (Value): string.
+     * Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.redemption_type
+     * (Optional): string or null. Whether the promotion applies automatically when its rules match
+     * or requires a promotion code. Value enum: "automatic", "code".
+     * previous_attributes.redemption_type.anyOf[1] (Value): string. Whether the promotion applies
+     * automatically when its rules match or requires a promotion code. Value enum: "automatic",
+     * "code". previous_attributes.redemption_type.anyOf[2] (Value): null.
+     * previous_attributes.schedule (Optional): {@link PromotionSchedule} or null. Optional start
+     * and end times that limit when the promotion can apply. previous_attributes.schedule.anyOf[1]
+     * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+     * promotion can apply. previous_attributes.schedule.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Lifecycle status. Set active or
+     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
+     * read available. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Lifecycle status. Set active or
+     * inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable:
+     * read available. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unavailable_reason
+     * (Optional): string or null. Why available is false. Present only when available is false.
+     * Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted",
+     * "no_active_codes". previous_attributes.unavailable_reason.anyOf[1] (Value): string. Why
+     * available is false. Present only when available is false. Value enum: "inactive",
+     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. When the promotion was last
+     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
+     * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.uses_count (Optional): integer or null. Number of times the promotion
+     * has been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
+     * the promotion has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted
+     * owned-state version. Clock-based availability and expanded resources do not advance this
+     * counter. previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state
+     * version. Clock-based availability and expanded resources do not advance this counter.
+     * Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
@@ -2916,9 +7045,295 @@ export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. application_method (Optional): {@link
+         * PromotionApplicationMethod} or null. Discount effect and how it applies to eligible
+         * items or charges. application_method.anyOf[1] (Value): {@link
+         * PromotionApplicationMethod}. Discount effect and how it applies to eligible items or
+         * charges. application_method.anyOf[2] (Value): null. available (Optional): boolean or
+         * null. Whether the promotion can apply right now: it is active, inside its schedule,
+         * under its max_uses, and, when code-gated, has at least one redeemable code.
+         * available.anyOf[1] (Value): boolean. Whether the promotion can apply right now: it is
+         * active, inside its schedule, under its max_uses, and, when code-gated, has at least one
+         * redeemable code. available.anyOf[2] (Value): null. codes_summary (Optional): {@link
+         * PromotionCodesSummary} or null. Read-only rollup of this promotion's codes. Present only
+         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[1] (Value):
+         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
+         * on code-gated promotions; automatic promotions omit it. codes_summary.anyOf[2] (Value):
+         * null. combines_with (Optional): {@link PromotionCombinesWith} or null. Which promotion
+         * discount classes this promotion may share an order with. Both promotions must allow each
+         * other's class. Manual discounts are ignored. See Promotion for the evaluation order.
+         * combines_with.anyOf[1] (Value): {@link PromotionCombinesWith}. Which promotion discount
+         * classes this promotion may share an order with. Both promotions must allow each other's
+         * class. Manual discounts are ignored. See Promotion for the evaluation order.
+         * combines_with.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * promotion was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. description (Optional):
+         * string or null. Optional description of the promotion for your own records.
+         * description.anyOf[1] (Value): string. Optional description of the promotion for your own
+         * records. description.anyOf[2] (Value): null. discount_class (Optional): string or null.
+         * Whether the promotion discounts the order, individual line items, or service charges.
+         * Value enum: "order", "line_item", "service_charge". discount_class.anyOf[1] (Value):
+         * string. Whether the promotion discounts the order, individual line items, or service
+         * charges. Value enum: "order", "line_item", "service_charge". discount_class.anyOf[2]
+         * (Value): null. display_name (Optional): string or null. Buyer-facing promotion name
+         * shown in checkout and order discount surfaces. display_name.anyOf[1] (Value): string.
+         * Buyer-facing promotion name shown in checkout and order discount surfaces.
+         * display_name.anyOf[2] (Value): null. eligibility_rules (Optional): {@link
+         * PromotionRuleGroup} or null. Conditions an order must satisfy for the promotion to
+         * apply. Omitted when the promotion has no eligibility conditions.
+         * eligibility_rules.anyOf[1] (Value): {@link PromotionRuleGroup}. Conditions an order must
+         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
+         * conditions. eligibility_rules.anyOf[2] (Value): null. exclusivity (Optional): {@link
+         * PromotionExclusivity} or null. Optional group and priority used to choose one promotion
+         * from competing promotions in the same group. See Promotion for the evaluation order.
+         * exclusivity.anyOf[1] (Value): {@link PromotionExclusivity}. Optional group and priority
+         * used to choose one promotion from competing promotions in the same group. See Promotion
+         * for the evaluation order. exclusivity.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. max_uses (Optional): integer or null.
+         * Maximum number of redemptions across all codes and automatic applications. Omitted when
+         * there is no redemption limit. max_uses.anyOf[1] (Value): integer. Maximum number of
+         * redemptions across all codes and automatic applications. Omitted when there is no
+         * redemption limit. Format: int64. max_uses.anyOf[2] (Value): null. max_uses_per_customer
+         * (Optional): integer or null or null. Maximum reserved and redeemed uses per identified
+         * customer across every code and automatic or ID-based application. Checked atomically
+         * when payment starts. Failed, canceled, or expired attempts release their reservation;
+         * refunds do not restore uses. Counts only within the same merchant and environment; live
+         * and test mode are separate. Without an identified customer, returns 409
+         * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+         * limit. max_uses_per_customer.anyOf[1] (Value): integer or null. Maximum reserved and
+         * redeemed uses per identified customer across every code and automatic or ID-based
+         * application. Checked atomically when payment starts. Failed, canceled, or expired
+         * attempts release their reservation; refunds do not restore uses. Counts only within the
+         * same merchant and environment; live and test mode are separate. Without an identified
+         * customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there
+         * is no per-customer limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2]
+         * (Value): null. merchant_id (Optional): string or null. Identifier of the merchant that
+         * owns the promotion. merchant_id.anyOf[1] (Value): string. Identifier of the merchant
+         * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2]
+         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Key-value data you
+         * attach to the promotion. metadata.anyOf[1] (Value): {@link MetadataMap}. Key-value data
+         * you attach to the promotion. metadata.anyOf[2] (Value): null. name (Optional): string or
+         * null. Internal promotion name for dashboards, searching, and reporting. name.anyOf[1]
+         * (Value): string. Internal promotion name for dashboards, searching, and reporting.
+         * name.anyOf[2] (Value): null. promotion_id (Optional): string or null. Unique identifier
+         * for the promotion. promotion_id.anyOf[1] (Value): string. Unique identifier for the
+         * promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value):
+         * null. redemption_type (Optional): string or null. Whether the promotion applies
+         * automatically when its rules match or requires a promotion code. Value enum:
+         * "automatic", "code". redemption_type.anyOf[1] (Value): string. Whether the promotion
+         * applies automatically when its rules match or requires a promotion code. Value enum:
+         * "automatic", "code". redemption_type.anyOf[2] (Value): null. schedule (Optional): {@link
+         * PromotionSchedule} or null. Optional start and end times that limit when the promotion
+         * can apply. schedule.anyOf[1] (Value): {@link PromotionSchedule}. Optional start and end
+         * times that limit when the promotion can apply. schedule.anyOf[2] (Value): null. status
+         * (Optional): string or null. Lifecycle status. Set active or inactive with PATCH; DELETE
+         * sets archived. An active promotion can still be unavailable: read available. Value enum:
+         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Lifecycle status. Set
+         * active or inactive with PATCH; DELETE sets archived. An active promotion can still be
+         * unavailable: read available. Value enum: "active", "inactive", "archived".
+         * status.anyOf[2] (Value): null. unavailable_reason (Optional): string or null. Why
+         * available is false. Present only when available is false. Value enum: "inactive",
+         * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
+         * unavailable_reason.anyOf[1] (Value): string. Why available is false. Present only when
+         * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
+         * "exhausted", "no_active_codes". unavailable_reason.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the promotion was last updated, as an RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. When the promotion was last updated, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. uses_count (Optional): integer or null. Number of
+         * times the promotion has been redeemed. uses_count.anyOf[1] (Value): integer. Number of
+         * times the promotion has been redeemed. Format: int64. uses_count.anyOf[2] (Value): null.
+         * version (Optional): integer or null. Persisted owned-state version. Clock-based
+         * availability and expanded resources do not advance this counter. version.anyOf[1]
+         * (Value): integer. Persisted owned-state version. Clock-based availability and expanded
+         * resources do not advance this counter. Format: uint64. minimum: 1. version.anyOf[2]
+         * (Value): null.
          */
-        "previous_attributes"?: Partial<WebhookPromotion>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Discount effect and how it applies to eligible items or charges. anyOf[1] (Value):
+             * {@link PromotionApplicationMethod}. Discount effect and how it applies to eligible
+             * items or charges. anyOf[2] (Value): null.
+             */
+            "application_method"?: ((PromotionApplicationMethod) | (null) | (unknown));
+            /**
+             * Whether the promotion can apply right now: it is active, inside its schedule, under
+             * its max_uses, and, when code-gated, has at least one redeemable code. anyOf[1]
+             * (Value): boolean. Whether the promotion can apply right now: it is active, inside
+             * its schedule, under its max_uses, and, when code-gated, has at least one redeemable
+             * code. anyOf[2] (Value): null.
+             */
+            "available"?: ((boolean) | (null));
+            /**
+             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
+             * automatic promotions omit it. anyOf[1] (Value): {@link PromotionCodesSummary}.
+             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
+             * automatic promotions omit it. anyOf[2] (Value): null.
+             */
+            "codes_summary"?: ((PromotionCodesSummary) | (null));
+            /**
+             * Which promotion discount classes this promotion may share an order with. Both
+             * promotions must allow each other's class. Manual discounts are ignored. See
+             * Promotion for the evaluation order. anyOf[1] (Value): {@link PromotionCombinesWith}.
+             * Which promotion discount classes this promotion may share an order with. Both
+             * promotions must allow each other's class. Manual discounts are ignored. See
+             * Promotion for the evaluation order. anyOf[2] (Value): null.
+             */
+            "combines_with"?: ((PromotionCombinesWith) | (null));
+            /**
+             * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Optional description of the promotion for your own records. anyOf[1] (Value):
+             * string. Optional description of the promotion for your own records. anyOf[2]
+             * (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Whether the promotion discounts the order, individual line items, or service
+             * charges. Value enum: "order", "line_item", "service_charge". anyOf[1] (Value):
+             * string. Whether the promotion discounts the order, individual line items, or service
+             * charges. Value enum: "order", "line_item", "service_charge". anyOf[2] (Value): null.
+             */
+            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
+            /**
+             * Buyer-facing promotion name shown in checkout and order discount surfaces. anyOf[1]
+             * (Value): string. Buyer-facing promotion name shown in checkout and order discount
+             * surfaces. anyOf[2] (Value): null.
+             */
+            "display_name"?: ((string) | (null));
+            /**
+             * Conditions an order must satisfy for the promotion to apply. Omitted when the
+             * promotion has no eligibility conditions. anyOf[1] (Value): {@link
+             * PromotionRuleGroup}. Conditions an order must satisfy for the promotion to apply.
+             * Omitted when the promotion has no eligibility conditions. anyOf[2] (Value): null.
+             */
+            "eligibility_rules"?: ((PromotionRuleGroup) | (null) | (unknown));
+            /**
+             * Optional group and priority used to choose one promotion from competing promotions
+             * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
+             * PromotionExclusivity}. Optional group and priority used to choose one promotion from
+             * competing promotions in the same group. See Promotion for the evaluation order.
+             * anyOf[2] (Value): null.
+             */
+            "exclusivity"?: ((PromotionExclusivity) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Maximum number of redemptions across all codes and automatic applications. Omitted
+             * when there is no redemption limit. anyOf[1] (Value): integer. Maximum number of
+             * redemptions across all codes and automatic applications. Omitted when there is no
+             * redemption limit. Format: int64. anyOf[2] (Value): null.
+             */
+            "max_uses"?: ((number) | (null));
+            /**
+             * Maximum reserved and redeemed uses per identified customer across every code and
+             * automatic or ID-based application. Checked atomically when payment starts. Failed,
+             * canceled, or expired attempts release their reservation; refunds do not restore
+             * uses. Counts only within the same merchant and environment; live and test mode are
+             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
+             * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
+             * integer or null. Maximum reserved and redeemed uses per identified customer across
+             * every code and automatic or ID-based application. Checked atomically when payment
+             * starts. Failed, canceled, or expired attempts release their reservation; refunds do
+             * not restore uses. Counts only within the same merchant and environment; live and
+             * test mode are separate. Without an identified customer, returns 409
+             * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
+             * limit. Format: int64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "max_uses_per_customer"?: ((number | null) | (null) | (unknown));
+            /**
+             * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns the promotion. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
+             * Key-value data you attach to the promotion. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
+             * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
+             * (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Unique identifier for the promotion. anyOf[1] (Value): string. Unique identifier for
+             * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". anyOf[2] (Value): null.
+             */
+            "promotion_id"?: ((string) | (null));
+            /**
+             * Whether the promotion applies automatically when its rules match or requires a
+             * promotion code. Value enum: "automatic", "code". anyOf[1] (Value): string. Whether
+             * the promotion applies automatically when its rules match or requires a promotion
+             * code. Value enum: "automatic", "code". anyOf[2] (Value): null.
+             */
+            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
+            /**
+             * Optional start and end times that limit when the promotion can apply. anyOf[1]
+             * (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+             * promotion can apply. anyOf[2] (Value): null.
+             */
+            "schedule"?: ((PromotionSchedule) | (null));
+            /**
+             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
+             * promotion can still be unavailable: read available. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or
+             * inactive with PATCH; DELETE sets archived. An active promotion can still be
+             * unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2]
+             * (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Why available is false. Present only when available is false. Value enum:
+             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
+             * "no_active_codes". anyOf[1] (Value): string. Why available is false. Present only
+             * when available is false. Value enum: "inactive", "archived", "not_yet_started",
+             * "expired", "exhausted", "no_active_codes". anyOf[2] (Value): null.
+             */
+            "unavailable_reason"?: (("inactive"
+                | "archived"
+                | "not_yet_started"
+                | "expired"
+                | "exhausted"
+                | "no_active_codes"
+                | (string & {}))
+                | (null));
+            /**
+             * When the promotion was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the promotion was last updated, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of times the promotion has been redeemed. anyOf[1] (Value): integer. Number
+             * of times the promotion has been redeemed. Format: int64. anyOf[2] (Value): null.
+             */
+            "uses_count"?: ((number) | (null));
+            /**
+             * Persisted owned-state version. Clock-based availability and expanded resources do
+             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
+             * Clock-based availability and expanded resources do not advance this counter. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});

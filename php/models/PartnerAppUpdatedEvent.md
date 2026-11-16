@@ -33,3 +33,7 @@ Field definitions: [shared fields](PartnerAppPlatformApprovedEvent.md#partnerapp
 
 Field definitions: [PartnerAppPlatformApprovedEvent.data fields 1.object](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1object).
 
+### PartnerAppUpdatedEvent.data fields 1.previous_attributes
+
+Field definitions: [PartnerAppPlatformApprovedEvent.data fields 1.previous_attributes](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1previous_attributes).
+

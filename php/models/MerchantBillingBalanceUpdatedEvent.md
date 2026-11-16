@@ -30,11 +30,87 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/MerchantBillingBalanceUpdatedEvent.md#merchantbillingbalanceupdatedeventdata-fields-1previous_attributes). |
 
 ### MerchantBillingBalanceUpdatedEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](MerchantBillingBalanceUpdatedEventDataObject.md#merchantbillingbalanceupdatedeventdataobject).
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](MerchantBillingBalanceUpdatedEventDataPreviousAttributes.md#merchantbillingbalanceupdatedeventdatapreviousattributes).
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.currency
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.currency variant 1
+
+anyOf variant 1: ISO 4217 currency code..
+
+- Value shape: string. ISO 4217 currency code. ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.currency variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ISO 4217 currency code. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.merchant_billing_balance_id
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.merchant_billing_balance_id variant 1
+
+anyOf variant 1: Stable identifier for this billing account and currency balance projection..
+
+- Value shape: string. Stable identifier for this billing account and currency balance projection. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.merchant_billing_balance_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Stable identifier for this billing account and currency balance projection. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.observed_at
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.observed_at variant 1
+
+anyOf variant 1: RFC3339 timestamp for the balance snapshot..
+
+- Value shape: string. RFC3339 timestamp for the balance snapshot. RFC3339 timestamp for the balance snapshot. Format: `date-time`. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.observed_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. RFC3339 timestamp for the balance snapshot. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.past_due_at
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.past_due_at variant 1
+
+anyOf variant 1: Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due..
+
+- Value shape: string. Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due. Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due. Format: `date-time`. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.past_due_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when nothing is past due. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.payout_hold_at
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.payout_hold_at variant 1
+
+anyOf variant 1: Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts..
+
+- Value shape: string. Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. Format: `date-time`. 
+
+### MerchantBillingBalanceUpdatedEvent.data fields 1.previous_attributes.payout_hold_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC timestamp. The hold can begin later than this while a collection is in progress. Payouts are actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`. Omitted when no hold is scheduled, for example when the only past-due amounts never hold payouts. 
 

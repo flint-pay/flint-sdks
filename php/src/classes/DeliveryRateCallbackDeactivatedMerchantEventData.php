@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read DeliveryRateCallbackDeactivatedMerchantEventDataObject $object
- * @property-read ?array<array-key, mixed> $previous_attributes
+ * @property-read ?DeliveryRateCallbackDeactivatedMerchantEventDataPreviousAttributes $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryRateCallbackDeactivatedMerchantEventData extends Model {
-    /** @param array{'object': object{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'name': string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': object{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'name': string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: object{'circuit_failure_count'?: mixed, 'circuit_state'?: mixed, 'configuration'?: mixed, 'created_at'?: mixed, 'current_delivery_rate_callback_revision_id'?: mixed, 'delivery_rate_callback_id'?: mixed, 'delivery_revocation_id'?: mixed, 'external_reference_id'?: mixed, 'name'?: mixed, 'signing_methods'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackDeactivatedMerchantEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return DeliveryRateCallbackDeactivatedMerchantEventDataObject
@@ -14,8 +14,8 @@ final class DeliveryRateCallbackDeactivatedMerchantEventData extends Model {
     public function getObject(): DeliveryRateCallbackDeactivatedMerchantEventDataObject { return $this->get('object'); }
     public function hasObject(): bool { return $this->has('object'); }
     /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
-     * @return ?array<array-key, mixed>
+     * @return ?DeliveryRateCallbackDeactivatedMerchantEventDataPreviousAttributes
      */
-    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function getPreviousAttributes(): ?DeliveryRateCallbackDeactivatedMerchantEventDataPreviousAttributes { return $this->get('previous_attributes'); }
     public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
 }

@@ -1,7 +1,7 @@
-import { d5553 as c0 } from '../descriptors/data/242.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
-import { d5553 as d5553 } from '../descriptors/data/242.js?sdk=05421896ae8c65a817376929cd993713654de9690307609677ba6b62f76c9668';
+import { d6356 as c0 } from '../descriptors/data/276.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
+import { d6356 as d6356 } from '../descriptors/data/276.js?sdk=4ceba083539c6de410fd495acca2f9af0ffb67bc987bd45ca56e9c5bf41d22d1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5553;
+const read = d6356;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SubscriptionGiftRecipientRequest"]:c0()}); }
 export { codec as _validate };

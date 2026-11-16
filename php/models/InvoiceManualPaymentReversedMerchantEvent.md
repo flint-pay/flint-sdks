@@ -27,9 +27,54 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](InvoiceManualPaymentCreatedMerchantEvent.md#invoicemanualpaymentcreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InvoiceManualPaymentCreatedMerchantEvent.md#invoicemanualpaymentcreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InvoiceManualPaymentReversedMerchantEvent.md#invoicemanualpaymentreversedmerchanteventdata-fields-1previous_attributes). |
 
 ### InvoiceManualPaymentReversedMerchantEvent.data fields 1.object
 
 Field definitions: [InvoiceManualPaymentCreatedMerchantEvent.data fields 1.object](../models/InvoiceManualPaymentCreatedMerchantEvent.md#invoicemanualpaymentcreatedmerchanteventdata-fields-1object).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributes).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.invoice_id
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.invoice_id](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesinvoice_id).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.invoice_manual_payment_id
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.invoice_manual_payment_id](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesinvoice_manual_payment_id).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.note
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.note](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesnote).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.payment_reference
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.payment_reference](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributespayment_reference).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.received_at
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.received_at](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesreceived_at).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.reversal_note
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.reversal_note](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesreversal_note).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.reversed_at
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.reversed_at](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesreversed_at).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.status](../models/InvoiceManualPaymentReversedMerchantEventDataPreviousAttributes.md#invoicemanualpaymentreversedmerchanteventdatapreviousattributesstatus).
+
+### InvoiceManualPaymentReversedMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.supported_actions](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributessupported_actions).
 

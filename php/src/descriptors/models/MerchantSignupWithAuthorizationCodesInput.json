@@ -1,1 +1,1 @@
-{"shared":"MerchantSignupWithAuthorizationCodes","dependencies":["MerchantSignupOwner","MerchantSignupPermission","MerchantSignupTerms","MerchantSignupTermsAcceptance","MerchantSignupWithAuthorizationCodes","MoneyValue","PlatformFeeCap","SharedCodec1016","SharedCodec1017"]}
+{"shared":"MerchantSignupWithAuthorizationCodes","dependencies":["MerchantSignupOwner","MerchantSignupPermission","MerchantSignupTerms","MerchantSignupTermsAcceptance","MerchantSignupWithAuthorizationCodes","MoneyValue","PlatformFeeCap","SharedCodec1351","SharedCodec1352"]}

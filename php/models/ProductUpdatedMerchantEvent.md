@@ -33,3 +33,7 @@ Field definitions: [shared fields](ProductArchivedMerchantEvent.md#productarchiv
 
 Field definitions: [ProductArchivedMerchantEvent.data fields 1.object](../models/ProductArchivedMerchantEvent.md#productarchivedmerchanteventdata-fields-1object).
 
+### ProductUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Field definitions: [ProductArchivedMerchantEvent.data fields 1.previous_attributes](../models/ProductArchivedMerchantEvent.md#productarchivedmerchanteventdata-fields-1previous_attributes).
+

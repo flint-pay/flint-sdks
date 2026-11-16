@@ -83,7 +83,7 @@ final class DeliverySelectionOrder extends Model {
      */
     public function getActivePaymentAttempt(): ?OrderPaymentAttempt { return $this->get('active_payment_attempt'); }
     public function hasActivePaymentAttempt(): bool { return $this->has('active_payment_attempt'); }
-    /** The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials.
+    /** The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Always present with merchant credentials.
      * @return string|null
      */
     public function getActivePaymentReviewId(): string|null { return $this->get('active_payment_review_id'); }
@@ -118,7 +118,7 @@ final class DeliverySelectionOrder extends Model {
      */
     public function getCheckoutSessionIds(): array { return $this->get('checkout_session_ids'); }
     public function hasCheckoutSessionIds(): bool { return $this->has('checkout_session_ids'); }
-    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. minLength: 1. maxLength: 255.
+    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * @return string|null
      */
     public function getClientReference(): string|null { return $this->get('client_reference'); }
@@ -143,7 +143,7 @@ final class DeliverySelectionOrder extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
+    /** The buyer's answers to the payment link's custom fields, recorded when checkout started, in the order the link showed the fields. Each answer keeps the field's key, label, and type from that moment, so later changes to the link don't change it. Optional fields the buyer left blank are left out. Read-only. Empty when the order didn't come from a payment link, the link had no custom fields, or the buyer answered none. Orders created before Flint recorded answers here also return an empty list and keep their answers in `metadata` as `custom_field_<key>`. Deleting the customer removes the answers. Returned only to merchant credentials; omitted for buyer credentials. Always present with merchant credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
      * @return list<DeliverySelectionOrderCustomFieldAnswersItemText|DeliverySelectionOrderCustomFieldAnswersItemTextarea|DeliverySelectionOrderCustomFieldAnswersItemDropdown|DeliverySelectionOrderCustomFieldAnswersItemCheckbox|\stdClass>|null
      */
     public function getCustomFieldAnswers(): ?array { return $this->get('custom_field_answers'); }
@@ -178,7 +178,7 @@ final class DeliverySelectionOrder extends Model {
      */
     public function getDiscounts(): array { return $this->get('discounts'); }
     public function hasDiscounts(): bool { return $this->has('discounts'); }
-    /** Aggregate dispute state across the order's counted payment intents, excluding payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open states take precedence in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+    /** Aggregate dispute state across the order's counted payment intents, excluding payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open states take precedence in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Always present with merchant credentials. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return ?string
      */
     public function getDisputeStatus(): ?string { return $this->get('dispute_status'); }
@@ -323,7 +323,7 @@ final class DeliverySelectionOrder extends Model {
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
     public function hasPaymentStatus(): bool { return $this->has('payment_status'); }
-    /** The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials.
+    /** The order edit waiting for its balance payment. While it is set, the units that edit removes can't join a fulfillment and the order refuses another edit. `null` when there is none. Omitted for buyer credentials. Always present with merchant credentials.
      * @return string|null
      */
     public function getPendingOrderEditId(): string|null { return $this->get('pending_order_edit_id'); }
@@ -408,7 +408,7 @@ final class DeliverySelectionOrder extends Model {
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure is allowed, and pay while open without an active attempt and with an outstanding balance or payment-method setup available. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
+    /** Lifecycle actions Flint accepts now, independent of permissions. Includes close when closure is allowed, and pay while open without an active attempt and with an outstanding balance or payment-method setup available. Always present with merchant credentials. [] enum: "close", "pay", "resolve_inventory_exception". [] (Value): string.  Value enum: "close", "pay", "resolve_inventory_exception".
      * @return ?list<string>
      */
     public function getSupportedActions(): ?array { return $this->get('supported_actions'); }

@@ -367,7 +367,21 @@ export type DeliveryLocationSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            "delivery_location_set_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_location_set.updated";
@@ -387,7 +401,21 @@ export type DeliveryLocationSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            "delivery_location_set_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_location_set.updated";
@@ -431,7 +459,44 @@ export type DeliveryLocationSetUpdatedInstalledMerchantsEvent = (Exclude<Partner
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryLocationSetConfiguration} or null. Current member Locations.
+     * previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryLocationSetConfiguration}. Current member Locations.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the location set was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the location set was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_location_set_revision_id (Optional):
+     * string or null. Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[1] (Value): string.
+     * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_location_set_id (Optional): string or null. Stable delivery
+     * location set ID. previous_attributes.delivery_location_set_id.anyOf[1] (Value): string.
+     * Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     * previous_attributes.delivery_location_set_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing location set name. previous_attributes.name.anyOf[1]
+     * (Value): string. Merchant-facing location set name. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current location set
+     * lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Current location set lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the location set last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the location set last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for location set writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for location set writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -498,9 +563,99 @@ export type DeliveryLocationSetUpdatedInstalledMerchantsEvent = (Exclude<Partner
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryLocationSetConfiguration} or null. Current member Locations.
+         * configuration.anyOf[1] (Value): {@link DeliveryLocationSetConfiguration}. Current member
+         * Locations. configuration.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * Time the location set was created. created_at.anyOf[1] (Value): string. Time the
+         * location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_location_set_revision_id (Optional):
+         * string or null. Immutable revision used for new quotes.
+         * current_delivery_location_set_revision_id.anyOf[1] (Value): string. Immutable revision
+         * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+         * current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+         * delivery_location_set_id (Optional): string or null. Stable delivery location set ID.
+         * delivery_location_set_id.anyOf[1] (Value): string. Stable delivery location set ID.
+         * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". delivery_location_set_id.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing location set name. name.anyOf[1]
+         * (Value): string. Merchant-facing location set name. name.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current location set lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Current location set lifecycle status.
+         * Value enum: "active", "archived". status.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. Time the location set last changed. updated_at.anyOf[1] (Value): string.
+         * Time the location set last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null.
+         * Optimistic-concurrency version for location set writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for location set writes. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current member Locations. anyOf[1] (Value): {@link
+             * DeliveryLocationSetConfiguration}. Current member Locations. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            /**
+             * Time the location set was created. anyOf[1] (Value): string. Time the location set
+             * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery location set ID. anyOf[1] (Value): string. Stable delivery location
+             * set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". anyOf[2] (Value): null.
+             */
+            "delivery_location_set_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
+             * location set name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current location set lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current location set lifecycle status. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the location set last changed. anyOf[1] (Value): string. Time the location set
+             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for location set writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -570,7 +725,44 @@ export type DeliveryLocationSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEn
      * Previous values of changed top-level fields in data.object, at this delivery's API version.
      * Nested changes include the whole previous top-level value. A value is null when the field
      * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryLocationSetConfiguration} or null. Current member Locations.
+     * previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryLocationSetConfiguration}. Current member Locations.
+     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
+     * (Optional): string or null. Time the location set was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the location set was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_location_set_revision_id (Optional):
+     * string or null. Immutable revision used for new quotes.
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[1] (Value): string.
+     * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+     * previous_attributes.current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_location_set_id (Optional): string or null. Stable delivery
+     * location set ID. previous_attributes.delivery_location_set_id.anyOf[1] (Value): string.
+     * Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     * previous_attributes.delivery_location_set_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing location set name. previous_attributes.name.anyOf[1]
+     * (Value): string. Merchant-facing location set name. previous_attributes.name.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Current location set
+     * lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[1]
+     * (Value): string. Current location set lifecycle status. Value enum: "active", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. Time the location set last changed.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. Time the location set last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2]
+     * (Value): null. previous_attributes.version (Optional): integer or null.
+     * Optimistic-concurrency version for location set writes. previous_attributes.version.anyOf[1]
+     * (Value): integer. Optimistic-concurrency version for location set writes. Format: uint64.
+     * minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
      */
     "data"?: {
         /**
@@ -637,9 +829,99 @@ export type DeliveryLocationSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEn
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryLocationSetConfiguration} or null. Current member Locations.
+         * configuration.anyOf[1] (Value): {@link DeliveryLocationSetConfiguration}. Current member
+         * Locations. configuration.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * Time the location set was created. created_at.anyOf[1] (Value): string. Time the
+         * location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. current_delivery_location_set_revision_id (Optional):
+         * string or null. Immutable revision used for new quotes.
+         * current_delivery_location_set_revision_id.anyOf[1] (Value): string. Immutable revision
+         * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+         * current_delivery_location_set_revision_id.anyOf[2] (Value): null.
+         * delivery_location_set_id (Optional): string or null. Stable delivery location set ID.
+         * delivery_location_set_id.anyOf[1] (Value): string. Stable delivery location set ID.
+         * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". delivery_location_set_id.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing location set name. name.anyOf[1]
+         * (Value): string. Merchant-facing location set name. name.anyOf[2] (Value): null. status
+         * (Optional): string or null. Current location set lifecycle status. Value enum: "active",
+         * "archived". status.anyOf[1] (Value): string. Current location set lifecycle status.
+         * Value enum: "active", "archived". status.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. Time the location set last changed. updated_at.anyOf[1] (Value): string.
+         * Time the location set last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null.
+         * Optimistic-concurrency version for location set writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for location set writes. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current member Locations. anyOf[1] (Value): {@link
+             * DeliveryLocationSetConfiguration}. Current member Locations. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryLocationSetConfiguration) | (null));
+            /**
+             * Time the location set was created. anyOf[1] (Value): string. Time the location set
+             * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
+             * used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". anyOf[2] (Value):
+             * null.
+             */
+            "current_delivery_location_set_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery location set ID. anyOf[1] (Value): string. Stable delivery location
+             * set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". anyOf[2] (Value): null.
+             */
+            "delivery_location_set_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing location set name. anyOf[1] (Value): string. Merchant-facing
+             * location set name. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Current location set lifecycle status. Value enum: "active", "archived". anyOf[1]
+             * (Value): string. Current location set lifecycle status. Value enum: "active",
+             * "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            /**
+             * Time the location set last changed. anyOf[1] (Value): string. Time the location set
+             * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for location set writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -938,7 +1220,27 @@ export type DeliveryMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope &
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_method.activated";
@@ -964,7 +1266,27 @@ export type DeliveryMethodActivatedEvent = ((((Exclude<MerchantWebhookEnvelope &
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_method.activated";
@@ -1022,7 +1344,77 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -1130,9 +1522,173 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1216,7 +1772,77 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -1324,9 +1950,173 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1354,7 +2144,27 @@ export type DeliveryMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_method.archived";
@@ -1380,7 +2190,27 @@ export type DeliveryMethodArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_method.archived";
@@ -1438,7 +2268,77 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -1546,9 +2446,173 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1632,7 +2696,77 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -1740,9 +2874,173 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3355,7 +4653,27 @@ export type DeliveryMethodDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_method.deactivated";
@@ -3381,7 +4699,27 @@ export type DeliveryMethodDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_method.deactivated";
@@ -3439,7 +4777,77 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -3547,9 +4955,173 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3633,7 +5205,77 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -3741,9 +5383,173 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -4457,7 +6263,27 @@ export type DeliveryMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "delivery_method.updated";
@@ -4483,7 +6309,27 @@ export type DeliveryMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            "created_at"?: ((string) | (null));
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            "delivery_method_id"?: ((string) | (null));
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            "description"?: ((string) | (null));
+            "display_position"?: ((number) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "recommendation_priority"?: ((number) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "delivery_method.updated";
@@ -4541,7 +6387,77 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -4649,9 +6565,173 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -4735,7 +6815,77 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * object. Previous values of changed top-level fields in data.object, at this delivery's API
      * version. Nested changes include the whole previous top-level value. A value is null when the
      * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate, and
+     * tax configuration. previous_attributes.configuration.anyOf[1] (Value): {@link
+     * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+     * configuration. previous_attributes.configuration.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. Time the method was created.
+     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
+     * null. Immutable revision currently used for new quotes.
+     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
+     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
+     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
+     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
+     * previous_attributes.delivery_revocation_id (Optional): string or null or null. The
+     * revocation fencing this resource's own current revision. `null` when the current revision
+     * isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it.
+     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string or null. The revocation
+     * fencing this resource's own current revision. `null` when the current revision isn't
+     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
+     * because its rate callback revision, signing key, or a Location's address is revoked. A
+     * revocation doesn't change `status`; publish a new revision to clear it. Example:
+     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
+     * (Value): null. previous_attributes.description (Optional): string or null. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
+     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.display_position (Optional): integer or null. Ascending display order
+     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
+     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
+     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
+     * Caller-owned identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
+     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
+     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
+     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
+     * as recommended. Within each choice group, the available method with the lowest value is
+     * recommended and listed first. Ties go to the lower display_position, then the method ID.
+     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
+     * (Value): integer. Marks this method as recommended. Within each choice group, the available
+     * method with the lowest value is recommended and listed first. Ties go to the lower
+     * display_position, then the method ID. Null never recommends the method. Format: int32.
+     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
+     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
+     * (Optional): {@link SubscriptionCounts} or null. How many subscriptions use this method, by
+     * status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status.
+     * previous_attributes.subscription_counts.anyOf[2] (Value): null. previous_attributes.type
+     * (Optional): string or null. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". previous_attributes.type.anyOf[1] (Value): string. Delivery mode
+     * this method offers. Value enum: "shipment", "local_delivery", "pickup".
+     * previous_attributes.type.anyOf[2] (Value): null. previous_attributes.updated_at (Optional):
+     * string or null. Time the method last changed. previous_attributes.updated_at.anyOf[1]
+     * (Value): string. Time the method last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
+     * previous_attributes.version (Optional): integer or null. Optimistic-concurrency version for
+     * method writes. previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency
+     * version for method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2]
+     * (Value): null.
      */
     "data"?: {
         /**
@@ -4843,9 +6993,173 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
+         * state, including synthetic test events. configuration (Optional): {@link
+         * DeliveryMethodConfiguration} or null. Current eligibility, pricing, origin, estimate,
+         * and tax configuration. configuration.anyOf[1] (Value): {@link
+         * DeliveryMethodConfiguration}. Current eligibility, pricing, origin, estimate, and tax
+         * configuration. configuration.anyOf[2] (Value): null. created_at (Optional): string or
+         * null. Time the method was created. created_at.anyOf[1] (Value): string. Time the method
+         * was created. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2]
+         * (Value): null. current_delivery_method_revision_id (Optional): string or null. Immutable
+         * revision currently used for new quotes. current_delivery_method_revision_id.anyOf[1]
+         * (Value): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
+         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
+         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
+         * delivery_revocation_id (Optional): string or null or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it.
+         * delivery_revocation_id.anyOf[1] (Value): string or null. The revocation fencing this
+         * resource's own current revision. `null` when the current revision isn't revoked. It
+         * doesn't cover dependencies: a method can be unusable while this is `null` because its
+         * rate callback revision, signing key, or a Location's address is revoked. A revocation
+         * doesn't change `status`; publish a new revision to clear it. Example:
+         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
+         * description (Optional): string or null. Optional buyer-facing description.
+         * description.anyOf[1] (Value): string. Optional buyer-facing description.
+         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
+         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
+         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
+         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
+         * (Value): {@link MetadataMap}. Caller-owned metadata. metadata.anyOf[2] (Value): null.
+         * name (Optional): string or null. Merchant-facing method name. name.anyOf[1] (Value):
+         * string. Merchant-facing method name. name.anyOf[2] (Value): null.
+         * recommendation_priority (Optional): integer or null. Marks this method as recommended.
+         * Within each choice group, the available method with the lowest value is recommended and
+         * listed first. Ties go to the lower display_position, then the method ID. Null never
+         * recommends the method. recommendation_priority.anyOf[1] (Value): integer. Marks this
+         * method as recommended. Within each choice group, the available method with the lowest
+         * value is recommended and listed first. Ties go to the lower display_position, then the
+         * method ID. Null never recommends the method. Format: int32.
+         * recommendation_priority.anyOf[2] (Value): null. status (Optional): string or null.
+         * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[2] (Value): null. subscription_counts (Optional):
+         * {@link SubscriptionCounts} or null. How many subscriptions use this method, by status.
+         * subscription_counts.anyOf[1] (Value): {@link SubscriptionCounts}. How many subscriptions
+         * use this method, by status. subscription_counts.anyOf[2] (Value): null. type (Optional):
+         * string or null. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery mode this method
+         * offers. Value enum: "shipment", "local_delivery", "pickup". type.anyOf[2] (Value): null.
+         * updated_at (Optional): string or null. Time the method last changed. updated_at.anyOf[1]
+         * (Value): string. Time the method last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Optimistic-concurrency version for method writes. version.anyOf[1] (Value):
+         * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         * version.anyOf[2] (Value): null.
          */
-        "previous_attributes"?: Partial<DeliveryMethod>;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
+             * (Value): {@link DeliveryMethodConfiguration}. Current eligibility, pricing, origin,
+             * estimate, and tax configuration. anyOf[2] (Value): null.
+             */
+            "configuration"?: ((DeliveryMethodConfiguration) | (null));
+            /**
+             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
+             */
+            "current_delivery_method_revision_id"?: ((string) | (null));
+            /**
+             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
+             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_id"?: ((string) | (null));
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. anyOf[1] (Value): string or null. The revocation fencing this
+             * resource's own current revision. `null` when the current revision isn't revoked. It
+             * doesn't cover dependencies: a method can be unusable while this is `null` because
+             * its rate callback revision, signing key, or a Location's address is revoked. A
+             * revocation doesn't change `status`; publish a new revision to clear it. Example:
+             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
+             */
+            "delivery_revocation_id"?: ((string | null) | (null) | (unknown));
+            /**
+             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
+             * description. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
+             * order among methods. Format: int32. anyOf[2] (Value): null.
+             */
+            "display_position"?: ((number) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. Caller-owned metadata.
+             * anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
+             * anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. anyOf[1]
+             * (Value): integer. Marks this method as recommended. Within each choice group, the
+             * available method with the lowest value is recommended and listed first. Ties go to
+             * the lower display_position, then the method ID. Null never recommends the method.
+             * Format: int32. anyOf[2] (Value): null.
+             */
+            "recommendation_priority"?: ((number) | (null));
+            /**
+             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
+             * SubscriptionCounts}. How many subscriptions use this method, by status. anyOf[2]
+             * (Value): null.
+             */
+            "subscription_counts"?: ((SubscriptionCounts) | (null));
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
+             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
+             */
+            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
+            /**
+             * Time the method last changed. anyOf[1] (Value): string. Time the method last
+             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
+             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+             * anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});

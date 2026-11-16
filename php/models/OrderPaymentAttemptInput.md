@@ -22,7 +22,7 @@ Request input.
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `status` | Required | string | Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Values: [10 declared values](#orderpaymentattemptinput-status-values). |
 | `status_reason` | Optional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [30 declared values](BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput-status_reason-values). |
-| `supported_actions` | Required | Array of string | Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Items values: `"cancel"`. |
+| `supported_actions` | Optional | Array of string | Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Always present with merchant credentials. Items values: `"cancel"`. |
 
 #### OrderPaymentAttemptInput status values
 

@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](ReturnInspectionAcceptanceDecidedMerchantEvent.md#returninspectionacceptancedecidedmerchanteventdata-fields-1).
+Field definitions: [shared fields](ReturnInspectionCreatedMerchantEvent.md#returninspectioncreatedmerchanteventdata-fields-1).
 
 ### ReturnInspectionCreatedInstalledMerchantsEvent.data fields 1.object
 

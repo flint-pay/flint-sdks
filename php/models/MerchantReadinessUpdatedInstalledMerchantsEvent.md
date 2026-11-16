@@ -31,6 +31,10 @@ Field definitions: [shared fields](MerchantReadinessUpdatedMerchantEvent.md#merc
 
 Field definitions: [MerchantReadinessUpdatedMerchantEvent.data fields 1.object](../models/MerchantReadinessUpdatedMerchantEvent.md#merchantreadinessupdatedmerchanteventdata-fields-1object).
 
+### MerchantReadinessUpdatedInstalledMerchantsEvent.data fields 1.previous_attributes
+
+Field definitions: [MerchantReadinessUpdatedMerchantEvent.data fields 1.previous_attributes](../models/MerchantReadinessUpdatedMerchantEvent.md#merchantreadinessupdatedmerchanteventdata-fields-1previous_attributes).
+
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

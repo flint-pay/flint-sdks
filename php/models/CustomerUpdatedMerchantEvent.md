@@ -27,9 +27,94 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](CustomerCreatedMerchantEvent.md#customercreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/CustomerCreatedMerchantEvent.md#customercreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/CustomerUpdatedMerchantEvent.md#customerupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### CustomerUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [CustomerCreatedMerchantEvent.data fields 1.object](../models/CustomerCreatedMerchantEvent.md#customercreatedmerchanteventdata-fields-1object).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](CustomerUpdatedMerchantEventData.md#customerupdatedmerchanteventdataprevious_attributes).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.customer_id
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.customer_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributescustomer_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.default_invoice_payment_term_id
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.default_invoice_payment_term_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_invoice_payment_term_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.default_payment_method_id
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.default_payment_method_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesdefault_payment_method_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.email
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.email](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesemail).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.external_reference_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesexternal_reference_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.internal_note
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.internal_note](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesinternal_note).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.is_merchant_verified
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.is_merchant_verified](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesis_merchant_verified).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.merchant_id
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.merchant_id](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.metadata](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.name
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.name](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesname).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.phone
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.phone](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesphone).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.price_list_id
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.price_list_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesprice_list_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.segment
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.segment](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributessegment).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.status](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributesstatus).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.tax_exempt
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.tax_exempt](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributestax_exempt).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.test_clock_id
+
+Declared alternatives: [CustomerUpdatedMerchantEventDataPreviousAttributes.test_clock_id](../models/CustomerUpdatedMerchantEventDataPreviousAttributes.md#customerupdatedmerchanteventdatapreviousattributestest_clock_id).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### CustomerUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.version](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesversion).
 

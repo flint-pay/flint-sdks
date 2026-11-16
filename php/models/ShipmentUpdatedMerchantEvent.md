@@ -27,9 +27,94 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](ShipmentCreatedMerchantEvent.md#shipmentcreatedmerchanteventdata-fields-1).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/ShipmentCreatedMerchantEvent.md#shipmentcreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/ShipmentUpdatedMerchantEvent.md#shipmentupdatedmerchanteventdata-fields-1previous_attributes). |
 
 ### ShipmentUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [ShipmentCreatedMerchantEvent.data fields 1.object](../models/ShipmentCreatedMerchantEvent.md#shipmentcreatedmerchanteventdata-fields-1object).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributes).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.created_at](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributescreated_at).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.delivered_at
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.delivered_at](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesdelivered_at).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.direction
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.direction](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesdirection).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.external_reference_id
+
+Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.external_reference_id](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesexternal_reference_id).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.external_system
+
+Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.external_system](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesexternal_system).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.fulfillment_id
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.fulfillment_id](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesfulfillment_id).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.handed_off_at
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.handed_off_at](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributeshanded_off_at).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.metadata
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.metadata](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesmetadata).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.order_id
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.order_id](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesorder_id).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.package_count
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.package_count](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributespackage_count).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.packages
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.packages](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributespackages).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.return_id
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.return_id](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesreturn_id).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.return_line_items
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.return_line_items](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesreturn_line_items).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.shipment_id
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.shipment_id](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesshipment_id).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.shipped_at
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.shipped_at](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesshipped_at).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.status](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesstatus).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.supported_actions](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributessupported_actions).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [PackageUpdatedMerchantEventDataPreviousAttributes.updated_at](../models/PackageUpdatedMerchantEventDataPreviousAttributes.md#packageupdatedmerchanteventdatapreviousattributesupdated_at).
+
+### ShipmentUpdatedMerchantEvent.data fields 1.previous_attributes.version
+
+Declared alternatives: [ShipmentUpdatedMerchantEventDataPreviousAttributes.version](../models/ShipmentUpdatedMerchantEventDataPreviousAttributes.md#shipmentupdatedmerchanteventdatapreviousattributesversion).
 

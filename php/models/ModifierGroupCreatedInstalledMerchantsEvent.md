@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](ModifierGroupArchivedMerchantEvent.md#modifiergrouparchivedmerchanteventdata-fields-1).
+Field definitions: [shared fields](ModifierGroupCreatedMerchantEvent.md#modifiergroupcreatedmerchanteventdata-fields-1).
 
 ### ModifierGroupCreatedInstalledMerchantsEvent.data fields 1.object
 

@@ -33,3 +33,7 @@ Field definitions: [shared fields](CustomDomainArchivedEvent.md#customdomainarch
 
 Field definitions: [CustomDomainArchivedEvent.data fields 1.object](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdata-fields-1object).
 
+### CustomDomainUpdatedEvent.data fields 1.previous_attributes
+
+Field definitions: [CustomDomainArchivedEvent.data fields 1.previous_attributes](../models/CustomDomainArchivedEvent.md#customdomainarchivedeventdata-fields-1previous_attributes).
+

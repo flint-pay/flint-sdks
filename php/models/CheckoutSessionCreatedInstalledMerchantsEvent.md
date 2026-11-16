@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](CheckoutSessionClosedMerchantEvent.md#checkoutsessionclosedmerchanteventdata-fields-1).
+Field definitions: [shared fields](CheckoutSessionCreatedMerchantEvent.md#checkoutsessioncreatedmerchanteventdata-fields-1).
 
 ### CheckoutSessionCreatedInstalledMerchantsEvent.data fields 1.object
 

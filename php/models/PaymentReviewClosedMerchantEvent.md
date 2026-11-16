@@ -30,7 +30,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/PaymentReviewClosedMerchantEvent.md#paymentreviewclosedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/PaymentReviewClosedMerchantEvent.md#paymentreviewclosedmerchanteventdata-fields-1previous_attributes). |
 
 ### PaymentReviewClosedMerchantEvent.data fields 1.object
 
@@ -41,4 +41,78 @@ Field definitions: [shared fields](PaymentReview.md#paymentreview).
 ### PaymentReviewClosedMerchantEvent.data fields 1.object.payment_summary
 
 Field definitions: [PaymentReviewResponse.data.payment_summary](../models/PaymentReviewResponse.md#paymentreviewresponsedatapayment_summary).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributes).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.closed_at
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.closed_at](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesclosed_at).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.closed_reason
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.closed_reason](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesclosed_reason).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.customer_id
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.customer_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributescustomer_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.ip_address
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.ip_address](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesip_address).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.matched_risk_rule_id
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.matched_risk_rule_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesmatched_risk_rule_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.opened_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.opened_reason
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.opened_reason](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesopened_reason).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.order_id
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.order_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesorder_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_flow
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_flow](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_flow).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_intent_id
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_intent_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_intent_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.payment_review_id
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.payment_review_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespayment_review_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.pending_action
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.pending_action](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributespending_action).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.refund_id
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.refund_id](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesrefund_id).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.resolution_started_at
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.resolution_started_at](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesresolution_started_at).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.status](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributesstatus).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.supported_actions
+
+Declared alternatives: [PaymentReviewClosedMerchantEventDataPreviousAttributes.supported_actions](../models/PaymentReviewClosedMerchantEventDataPreviousAttributes.md#paymentreviewclosedmerchanteventdatapreviousattributessupported_actions).
+
+### PaymentReviewClosedMerchantEvent.data fields 1.previous_attributes.updated_at
+
+Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).
 

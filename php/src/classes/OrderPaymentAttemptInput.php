@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderPaymentAttemptInput extends Model {
-    /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_redemptions': list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>, 'is_resumable': bool, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'mode': string, 'order_id': string, 'order_payment_attempt_id': string, 'payment_intents': list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'payment_method_save'?: OrderPaymentAttemptPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'pending_actions': list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_redemptions': list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>, 'is_resumable': bool, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'mode': string, 'order_id': string, 'order_payment_attempt_id': string, 'payment_intents': list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'payment_method_save'?: OrderPaymentAttemptPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'pending_actions': list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'supported_actions'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttemptInput')); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -105,7 +105,7 @@ final class OrderPaymentAttemptInput extends Model {
      */
     public function getStatusReason(): string { return $this->get('status_reason'); }
     public function hasStatusReason(): bool { return $this->has('status_reason'); }
-    /** Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+    /** Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Always present with merchant credentials. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */

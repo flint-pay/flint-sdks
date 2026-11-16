@@ -30,11 +30,61 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/InvoiceDeliveryAttemptFailedMerchantEvent.md#invoicedeliveryattemptfailedmerchanteventdata-fields-1object). |
-| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/InvoiceDeliveryAttemptFailedMerchantEvent.md#invoicedeliveryattemptfailedmerchanteventdata-fields-1previous_attributes). |
 
 ### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](InvoiceDeliveryAttemptFailedMerchantEventDataObject.md#invoicedeliveryattemptfailedmerchanteventdataobject).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes
+
+Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+
+Field definitions: [shared fields](InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributes).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.cc_emails
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.cc_emails](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributescc_emails).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.channel
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.channel](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributeschannel).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.created_at
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.created_at](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributescreated_at).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.delivery_type
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.delivery_type](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributesdelivery_type).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.failure_reason
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.failure_reason](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributesfailure_reason).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.invoice_delivery_attempt_id
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.invoice_delivery_attempt_id](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributesinvoice_delivery_attempt_id).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.invoice_id
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.invoice_id](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributesinvoice_id).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.sent_at
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.sent_at](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributessent_at).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.status
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.status](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributesstatus).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.suppression_reason
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.suppression_reason](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributessuppression_reason).
+
+### InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.previous_attributes.to_email
+
+Declared alternatives: [InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.to_email](../models/InvoiceDeliveryAttemptFailedMerchantEventDataPreviousAttributes.md#invoicedeliveryattemptfailedmerchanteventdatapreviousattributesto_email).
 

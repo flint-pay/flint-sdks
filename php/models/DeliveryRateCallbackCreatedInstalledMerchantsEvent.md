@@ -25,7 +25,7 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DeliveryRateCallbackActivatedMerchantEvent.md#deliveryratecallbackactivatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](DeliveryRateCallbackCreatedMerchantEvent.md#deliveryratecallbackcreatedmerchanteventdata-fields-1).
 
 ### DeliveryRateCallbackCreatedInstalledMerchantsEvent.data fields 1.object
 
